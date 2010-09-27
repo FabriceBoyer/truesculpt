@@ -20,7 +20,9 @@ zoom multitouche
 recentrage sur appui long
 filtrage des vibrations
 gestion historique et undo/points de passage
-
+tests unitaires intégrés/robot de compilation?
+color picker pour matériau
+integration à fond avec l'esprit android (pile backstack, parametre, dump paramètres, options,)
 
 -technos:
 opengl pur pour 3d et perfo (GLSurfaceView)
@@ -34,16 +36,20 @@ streaming vers disque
 vibration pour retour haptique
 geottagage avec GPS standard
 
-
 -questions:
 Combien de polygones max pour galaxy S?
-lib 3D android pour le moteur 3D
-integration à fond avec l'esprit android (pile backstack, parametre, dump paramètres, options,)
-projet google code public
-video de démo sur youtube, projet collaboratif
+lib 3D android pour le moteur 3D?
 
+-à faire:
+projet google code public
+
+-commerce :
+video de démo sur youtube
+projet collaboratif
+tuto flash
+données de démo
 
 -requirements:
 android sdk 2.1 et 2.2
 eclipse latest
-plugin android pour Eclipse
+plugin android pour Eclipse ADT
