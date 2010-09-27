@@ -17,7 +17,7 @@ menu options standard
 geotagger les sculpture
 coupler avecmodeleur de terrain pour batiments?
 zoom multitouche
-recentrage sur appui long
+recentrage sur position courante sur appui long
 filtrage des vibrations
 gestion historique et undo/points de passage
 tests unitaires intégrés/robot de compilation?
@@ -42,6 +42,7 @@ lib 3D android pour le moteur 3D?
 
 -à faire:
 projet google code public
+versionner le sdk android et eclipse pour être completement autonome
 
 -commerce :
 video de démo sur youtube

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.apis.graphics;
+package com.TrueSculpt;
 
 import android.os.Bundle;
 import android.app.Dialog;
