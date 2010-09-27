@@ -1,0 +1,42 @@
+zbrush sculpture 3D augmentée
+holotoy pour 3d holo, face tracking avec opencv, sculptris pour doigt et outils
+interface de dessin, outils,doigt ou fin, application de motifs, pinceaux
+zoom, pan, rotation (si pas compas)
+suivi avec compas et accéléromètre pour impression de 3D (total ou juste décalage vis lat shake)
+streaming données 3d suivant zone zoomée pour pas casser la ram
+Texture avec appareil photo
+dessin sur matériau façon glaise avec rotation réelle physique autour d'un objet virtuel, pas de texture pour moins mémoire
+pouvoir modéliser des visage ou des batiments suivant le zoom
+sculpture de terrain pour aller dehors et tourner rellement autour des objets
+rotation ou dessin via touch sur otpions
+mode symétrique pour visage ou objets biologique
+pouvoir exporter normale map ou fichier 3D dans format standard (3DS)
+retour haptique lors sculpture via vibration (désactivable)
+menu options standard
+geotagger les sculpture
+coupler avecmodeleur de terrain pour batiments?
+zoom multitouche
+recentrage sur appui long
+filtrage des vibrations
+
+
+opengl pur pour 3d et perfo (GLSurfaceView)
+photo pour texture ou pour fond animé suivant axe (pour inspiration dans vraie vie)
+sensor compas et accéléro pour rotation autour et vue perçu (voir API Demo)+ filtrage pour supprimer perturbation et mouvement fluide
+visioconf pour facetrack
+multitouch pour sculpture
+gui toolkit pour interface et configuration cumulée avec 3D (superposé)
+commutation auto écran à gérer correctement suivant mécanisme standard android
+streaming vers disque
+vibration pour retour haptique
+geottagage avec GPS standard
+
+
+
+Combien de polygones max pour galaxy S?
+lib 3D android pour le moteur 3D
+integration à fond avec l'esprit android (pile backstack, parametre, dump paramètres, options,)
+projet google code public
+video de démo sur youtube, projet collaboratif
+
+
