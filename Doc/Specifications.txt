@@ -1,3 +1,4 @@
+-fonctionnalités:
 zbrush sculpture 3D augmentée
 holotoy pour 3d holo, face tracking avec opencv, sculptris pour doigt et outils
 interface de dessin, outils,doigt ou fin, application de motifs, pinceaux
@@ -18,8 +19,10 @@ coupler avecmodeleur de terrain pour batiments?
 zoom multitouche
 recentrage sur appui long
 filtrage des vibrations
+gestion historique et undo/points de passage
 
 
+-technos:
 opengl pur pour 3d et perfo (GLSurfaceView)
 photo pour texture ou pour fond animé suivant axe (pour inspiration dans vraie vie)
 sensor compas et accéléro pour rotation autour et vue perçu (voir API Demo)+ filtrage pour supprimer perturbation et mouvement fluide
@@ -32,7 +35,7 @@ vibration pour retour haptique
 geottagage avec GPS standard
 
 
-
+-questions:
 Combien de polygones max pour galaxy S?
 lib 3D android pour le moteur 3D
 integration à fond avec l'esprit android (pile backstack, parametre, dump paramètres, options,)
@@ -40,3 +43,7 @@ projet google code public
 video de démo sur youtube, projet collaboratif
 
 
+-requirements:
+android sdk 2.1 et 2.2
+eclipse latest
+plugin android pour Eclipse
