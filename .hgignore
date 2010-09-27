@@ -21,3 +21,5 @@ Copie de secours *.wbk
 *.exe.manifest
 *.application
 *.deploy
+Dev/Gen/*
+Dev/bin/*
