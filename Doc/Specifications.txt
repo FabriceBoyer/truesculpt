@@ -23,6 +23,9 @@ gestion historique et undo/points de passage
 tests unitaires intégrés/robot de compilation?
 color picker pour matériau
 integration à fond avec l'esprit android (pile backstack, parametre, dump paramètres, options,)
+possibilité enregistrer vidéo et snapshots de la sculpture
+rendu allégé pendant rotation autour sculpture puis affichage détaillé si stable ou sculpture en cours
+possbilité de sculpter en tournant ou rotation bloquée au choix
 
 -technos:
 opengl pur pour 3d et perfo (GLSurfaceView)
