@@ -1,25 +1,3 @@
 syntax: glob
-*.suo
-*.pdb
-*.exe
-*.dll
-*.resources
-*.tlog
-*.baml
-*.g.cs
-*.cache
-*.FileListAbsolute.txt
-*.ilk
-*.tmp
-license.txt
-*.vshost.exe.manifest
-~$*.docx
-Copie de secours *.wbk
-*.obj
-*.force
-*.exe.config
-*.exe.manifest
-*.application
-*.deploy
 Dev/gen/*
 Dev/bin/*
