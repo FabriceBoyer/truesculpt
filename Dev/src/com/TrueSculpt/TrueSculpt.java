@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,9 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 				new ColorPickerDialog(TrueSculpt.this, TrueSculpt.this, 0).show();
 			}
 		});
+		
+        mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);//new GLSurfaceView(this);
+        mGLSurfaceView.setRenderer(new CubeRenderer(false));
 	}
 
 	public void colorChanged(int color) {
@@ -53,15 +57,26 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 				SensorManager.SENSOR_MAGNETIC_FIELD | 
 				SensorManager.SENSOR_ORIENTATION,
 				SensorManager.SENSOR_DELAY_FASTEST);
+		 mGLSurfaceView.onResume();
 	}
 
 	@Override
 	protected void onStop() {
 		mSensorManager.unregisterListener(TrueSculpt.this);
-		super.onStop();
+		super.onStop();	
 	}
-
+	
+    @Override
+    protected void onPause() {
+        // Ideally a game should implement onResume() and onPause()
+        // to take appropriate action when the activity looses focus
+        super.onPause();
+        mGLSurfaceView.onPause();
+    }
+	
+	private GLSurfaceView mGLSurfaceView;
 	private SensorManager mSensorManager;
+	//Temp for test debug
 	private String[] sensorvalues=new String[10];
 	private DecimalFormat twoPlaces = new DecimalFormat("000.00");
 	private TextView text;
