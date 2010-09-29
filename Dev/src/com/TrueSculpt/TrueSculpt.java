@@ -63,7 +63,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 
 	private SensorManager mSensorManager;
 	private String[] sensorvalues=new String[10];
-	private DecimalFormat twoPlaces = new DecimalFormat("00.00");
+	private DecimalFormat twoPlaces = new DecimalFormat("0v0.00");
 	private TextView text;
 	private String msg;
 	private String fullmsg;
