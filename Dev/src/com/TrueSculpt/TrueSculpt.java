@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 @SuppressWarnings("deprecation")
 public class TrueSculpt extends Activity implements OnColorChangedListener, SensorListener {
 
-	private SensorManager mSensorManager;
+	
 
 	/** Called when the activity is first created. */
 	@Override
@@ -28,6 +28,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);        
 
+		text = (TextView) findViewById(R.id.text);
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
 		final Button button = (Button) findViewById(R.id.button);
@@ -60,26 +61,30 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		super.onStop();
 	}
 
+	private SensorManager mSensorManager;
 	private String[] sensorvalues=new String[10];
+	private DecimalFormat twoPlaces = new DecimalFormat("00.00");
+	private TextView text;
+	private String msg;
+	private String fullmsg;
 
 	public void onSensorChanged(int sensor, float[] values) {        
 		synchronized (this) {        	 
-			DecimalFormat twoPlaces = new DecimalFormat("0.00");
-			String msg= 
+			
+			msg= 
 				"sensor: " + sensor + 
 				", x: " + twoPlaces.format(values[0]) +
 				", y: " +  twoPlaces.format(values[1]) +
 				", z: " +  twoPlaces.format(values[2]);        	 
 			sensorvalues[sensor]=msg;
 
-			String fullmsg="";
+			fullmsg="";
 			int n=sensorvalues.length;
 			for (int i=0;i<n;i++)
 			{
 				fullmsg+=sensorvalues[i]+"\n";
 			}
-
-			TextView text = (TextView) findViewById(R.id.text);
+			
 			text.setText(fullmsg);           
 		}
 	}
