@@ -26,6 +26,13 @@ integration à fond avec l'esprit android (pile backstack, parametre, dump paramè
 possibilité enregistrer vidéo et snapshots de la sculpture
 rendu allégé pendant rotation autour sculpture puis affichage détaillé si stable ou sculpture en cours
 possbilité de sculpter en tournant ou rotation bloquée au choix
+mode démo type holotoy juste for fun
+face tracking avec caméra avant
+Site iternet avec publication des sculptures (anonyme ou non) et classement,... directement intégré au bazar
+Importation depuis le site vers l'appli (site adapté pour écran android)
+modèles de démo jolis intégré
+
+
 
 -technos:
 opengl pur pour 3d et perfo (GLSurfaceView)
@@ -38,6 +45,7 @@ commutation auto écran à gérer correctement suivant mécanisme standard android
 streaming vers disque
 vibration pour retour haptique
 geottagage avec GPS standard
+text to speech
 
 -questions:
 Combien de polygones max pour galaxy S?

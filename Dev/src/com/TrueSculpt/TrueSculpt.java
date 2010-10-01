@@ -6,6 +6,7 @@ import com.TrueSculpt.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.hardware.Sensor;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
@@ -30,7 +31,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		setContentView(R.layout.main);        
 
 		text = (TextView) findViewById(R.id.text);
-		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		mSensorManager = (Sensor) getSystemService(SENSOR_SERVICE);
 
 		final Button button = (Button) findViewById(R.id.button);
 		button.setOnClickListener(new View.OnClickListener() {
@@ -53,9 +54,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	protected void onResume() {
 		super.onResume();
 		mSensorManager.registerListener(TrueSculpt.this, 
-				SensorManager.SENSOR_ACCELEROMETER | 
-				SensorManager.SENSOR_MAGNETIC_FIELD | 
-				SensorManager.SENSOR_ORIENTATION,
+				SensorManager.SENSOR_ALL ,
 				SensorManager.SENSOR_DELAY_FASTEST);
 		 mGLSurfaceView.onResume();
 	}
@@ -75,7 +74,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
     }
 	
 	private GLSurfaceView mGLSurfaceView;
-	private SensorManager mSensorManager;
+	private Sensor mSensorManager;
 	//Temp for test debug
 	private String[] sensorvalues=new String[10];
 	private DecimalFormat twoPlaces = new DecimalFormat("000.00");
