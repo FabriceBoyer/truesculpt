@@ -104,7 +104,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 			int n=event.values.length;
 			for (int i=0;i<n;i++)
 			{
-				msg= "sensor: " + i + " : " + twoPlaces.format(event.values[i]) ; 				
+				msg= "sensor: " + event.sensor.getName() + " : " + twoPlaces.format(event.values[i]) ; 				
 				fullmsg+=msg+"\n";
 			}
 			text.setText(fullmsg);           
