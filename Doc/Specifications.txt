@@ -31,7 +31,8 @@ face tracking avec caméra avant
 Site iternet avec publication des sculptures (anonyme ou non) et classement,... directement intégré au bazar
 Importation depuis le site vers l'appli (site adapté pour écran android)
 modèles de démo jolis intégré
-
+test to speech, utilisation de jolies fontes
+sculpture sensible à la force de la pression du doigt et à la largeur de la zone
 
 
 -technos:
