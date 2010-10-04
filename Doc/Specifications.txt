@@ -45,6 +45,7 @@ stocker les modifications sur serveur pour travail collaboratif
 recherche de version sur internet et suggestion d'upgrade via market, maj obligatoire pour publier sur site
 compatibilité ascendante du format interne et des mesh
 possibilité d'avoir plusieurs formes mesh de départ (ou vectorielle même avec recalcul des actions)
+travail sur formes fermées uniquement mais concaves (araignées )
 
 -technos:
 opengl pur pour 3d et perfo (GLSurfaceView)
