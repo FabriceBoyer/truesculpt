@@ -69,6 +69,7 @@ projet google code public
 versionner le sdk android et eclipse pour être completement autonome
 enregistrement sur le market avec nom commercial
 créer un logo qui poutre
+script compilation et déploiement automatique avec numéro de version
 
 -commerce :
 video de démonstration sur youtube
