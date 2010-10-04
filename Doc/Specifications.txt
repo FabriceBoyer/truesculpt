@@ -67,10 +67,11 @@ lib 3D android pour le moteur 3D?
 projet google code public
 versionner le sdk android et eclipse pour être completement autonome
 enregistrement sur le market avec nom commercial
+créer un logo qui poutre
 
 -commerce :
 video de démonstration sur youtube
-projet collaboratif
+projet collaboratif en édition pour modification par tout le monde (même anonymes)
 tuto flash
 données de démo
 
