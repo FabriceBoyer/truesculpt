@@ -42,6 +42,9 @@ affichage de fps sur la 3D
 superposition caméra pour sculpture plus facile
 modifications vectorielle, stocker les coups de doigts sur la surface avec l'outil adapté, pas le mesh pour recalcul aisé
 stocker les modifications sur serveur pour travail collaboratif
+recherche de version sur internet et suggestion d'upgrade via market, maj obligatoire pour publier sur site
+compatibilité ascendante du format interne et des mesh
+possibilité d'avoir plusieurs formes mesh de départ (ou vectorielle même avec recalcul des actions)
 
 -technos:
 opengl pur pour 3d et perfo (GLSurfaceView)
@@ -63,6 +66,7 @@ lib 3D android pour le moteur 3D?
 -à faire:
 projet google code public
 versionner le sdk android et eclipse pour être completement autonome
+enregistrement sur le market avec nom commercial
 
 -commerce :
 video de démonstration sur youtube
