@@ -1,1 +1,3 @@
+License for this software is : Gnu Public Licence Version 3
+
 http://www.gnu.org/licenses/gpl.html
