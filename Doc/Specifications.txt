@@ -33,7 +33,15 @@ Importation depuis le site vers l'appli (site adapté pour écran android)
 modèles de démo jolis intégré
 test to speech, utilisation de jolies fontes
 sculpture sensible à la force de la pression du doigt et à la largeur de la zone
-
+mode peinture sur sculpture uniquement en mode matériau
+benchmark pour performance 3D
+mode rotation simplifié en polygones pour être fluide
+minimiser temps de traitement des modifications quitte à recalcule lors du zoom
+utilisation de lod précalculés
+affichage de fps sur la 3D
+superposition caméra pour sculpture plus facile
+modifications vectorielle, stocker les coups de doigts sur la surface avec l'outil adapté, pas le mesh pour recalcul aisé
+stocker les modifications sur serveur pour travail collaboratif
 
 -technos:
 opengl pur pour 3d et perfo (GLSurfaceView)
@@ -57,7 +65,7 @@ projet google code public
 versionner le sdk android et eclipse pour être completement autonome
 
 -commerce :
-video de démo sur youtube
+video de démonstration sur youtube
 projet collaboratif
 tuto flash
 données de démo
