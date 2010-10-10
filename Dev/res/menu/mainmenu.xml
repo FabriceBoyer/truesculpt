@@ -3,4 +3,5 @@
     <item android:id="@+id/show_sensors" android:title="@string/showSensors"/>
     <item android:id="@+id/quit"
           android:title="@string/quit" />
+<item android:title="@string/checkVersion" android:id="@+id/check_version"></item>
 </menu>
