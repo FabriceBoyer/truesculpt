@@ -205,11 +205,53 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	private void IsUpdateNeeded()
 	{
 		String strCurrVersion=GetCurrentVersion();
+		String[] tempVer=strCurrVersion.split(".");
+		int majCurr=Integer.parseInt(tempVer[0]);
+		int minCurr=Integer.parseInt(tempVer[1]);
 		
 		String strLatestVersion=GetLatestVersion();	
+		tempVer=strLatestVersion.split(".");
+		int majLat=Integer.parseInt(tempVer[0]);
+		int minLat=Integer.parseInt(tempVer[1]);
 		
-		String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion;
-		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_SHORT).show();
+		boolean bUpdateNeeded=false;
+		boolean bIsBeta=false;
+		if (majLat>majCurr)
+		{
+			bUpdateNeeded=true;
+		}
+		else if (majLat==majCurr)
+		{
+			if (minLat>minCurr)
+			{
+				bUpdateNeeded=true;
+			}
+			else if (minLat<minCurr)
+			{
+				bIsBeta=true;			
+			}
+		}	
+		else if (majLat<majCurr) 
+		{
+			bIsBeta=true;
+		}
+		
+		
+		String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion+".";
+		if (bIsBeta)
+		{
+			msg+="This version is a beta";
+		}
+		if (bUpdateNeeded)
+		{
+			msg+="An update is needed.";
+		}
+		else
+		{
+			msg+="No update is needed.";
+		}
+
+		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
 	}
 
 	private String GetLatestVersion()
@@ -242,6 +284,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 				String elem=m.group();
 				elem=elem.replace("<p>LATEST_STABLE_VERSION=", "");
 				elem=elem.replace("</p>", "");
+				elem=elem.replace("_", ".");
 				elem=elem.trim();
 				
 				strLatestVersion=elem;				
