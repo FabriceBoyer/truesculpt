@@ -13,6 +13,9 @@ import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -137,5 +140,27 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 			fullmsg+=msg+"\n";
 		}
 		text.setText(fullmsg);  	
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.mainmenu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.show_sensors:
+	        //newGame();
+	        return true;
+	    case R.id.quit:
+	        //quit();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
 	}
 }
