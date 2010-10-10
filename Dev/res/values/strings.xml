@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="sdkmin">2.1-update1</string>
     <string name="hello">Hello World, TrueSculpt!</string>
     <string name="app_name">TrueSculpt</string>
 </resources>
