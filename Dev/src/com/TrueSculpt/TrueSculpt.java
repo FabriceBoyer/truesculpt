@@ -13,10 +13,13 @@ import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		setContentView(R.layout.main);        
 
 		text = (TextView) findViewById(R.id.text);
+		registerForContextMenu(text); 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
 		final Button button = (Button) findViewById(R.id.button);
@@ -157,10 +161,31 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	        //newGame();
 	        return true;
 	    case R.id.quit:
-	        //quit();
+	    	this.finish();	        
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+	                                ContextMenuInfo menuInfo) {
+	  super.onCreateContextMenu(menu, v, menuInfo);
+	  MenuInflater inflater = getMenuInflater();
+	  inflater.inflate(R.menu.context_menu, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+	  switch (item.getItemId()) {
+	  case R.id.edit:
+	    //editNote(info.id);
+	    return true;
+	  default:
+	    return super.onContextItemSelected(item);
+	  }
 	}
 }
