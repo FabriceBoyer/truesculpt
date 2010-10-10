@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -27,12 +26,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @SuppressWarnings("deprecation")
@@ -197,8 +204,69 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	
 	private void IsUpdateNeeded()
 	{
-		PackageManager pm = getPackageManager();
-		String strCurrVersion="";
+		String strCurrVersion=GetCurrentVersion();
+		
+		String strLatestVersion=GetLatestVersion();	
+		
+		String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion;
+		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_SHORT).show();
+	}
+
+	private String GetLatestVersion()
+	{
+		String strLatestVersion="0.0";
+		
+		try {
+			URL url=new URL("http://code.google.com/p/truesculpt/wiki/Version");
+			InputStream stream=url.openStream();
+			InputStreamReader reader=new InputStreamReader(stream);
+			BufferedReader buffReader= new BufferedReader(reader);
+			String strTemp=buffReader.readLine();
+			String strFileVersion="";
+			while (strTemp!=null)
+			{					
+				strFileVersion+=strTemp;
+				strTemp=buffReader.readLine();
+			}
+			buffReader.close();
+						
+			// <p>LATEST_STABLE_VERSION=0_1 </p>
+			// LATEST_BETA_VERSION=0_1 
+			// UPDATE_BASE_URL=http://truesculpt.googlecode.com/files/TrueSculpt_
+						
+			Pattern p = Pattern.compile("<p>LATEST_STABLE_VERSION=[0-9]+_[0-9]+ </p>",Pattern.CASE_INSENSITIVE);
+			  
+			Matcher m = p.matcher(strFileVersion);
+			if (m.find())
+			{
+				String elem=m.group();
+				elem=elem.replace("<p>LATEST_STABLE_VERSION=", "");
+				elem=elem.replace("</p>", "");
+				elem=elem.trim();
+				
+				strLatestVersion=elem;				
+			}			
+		} 
+		catch (MalformedURLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return strLatestVersion;		
+	}
+	
+	
+	private String GetCurrentVersion() 
+	{		
+		String strCurrVersion="0.0";
+		
+		PackageManager pm = getPackageManager();		
 		try {
 			PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
 			strCurrVersion=info.versionName;
@@ -206,10 +274,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String msg="Current version is "+ strCurrVersion;
-		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_SHORT).show();
 		
-		
-	}
-	 
+		return strCurrVersion;
+	}	 
 }
