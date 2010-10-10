@@ -1,3 +1,4 @@
 syntax: glob
 Dev/gen/*
 Dev/bin/*
+*.lnk
