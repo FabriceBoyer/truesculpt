@@ -19,7 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 @SuppressWarnings("deprecation")
@@ -43,6 +47,8 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
 		mGLSurfaceView.setRenderer(new CubeRenderer(false));
+		
+		keys=m_sensorsValues.keySet();	
 	}
 
 	public void colorChanged(int color) {
@@ -58,7 +64,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		{
         mSensorManager.registerListener((SensorEventListener) TrueSculpt.this,
         		sensorList.get(i),
-                SensorManager.SENSOR_DELAY_FASTEST);
+                SensorManager.SENSOR_DELAY_GAME);
 		}        		
 
 		mGLSurfaceView.onResume();
@@ -68,6 +74,8 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	protected void onStop() {
 		super.onStop();	
 		 mSensorManager.unregisterListener(TrueSculpt.this);
+		 
+		 mGLSurfaceView.onPause();
 		
 	}
 
@@ -76,6 +84,9 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		// Ideally a game should implement onResume() and onPause()
 		// to take appropriate action when the activity looses focus
 		super.onPause();
+		
+		mSensorManager.unregisterListener(TrueSculpt.this);
+		
 		mGLSurfaceView.onPause();
 	}
 
@@ -87,9 +98,11 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	private DecimalFormat twoPlaces = new DecimalFormat("000.00");
 	private TextView text;
 	private String msg;
+	private String Tempkey;
 	private String fullmsg;
-
-
+	private Set<String> keys;
+	private Iterator<String> iter;
+	private String Tempname;
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -97,17 +110,32 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 
 	}
 
+	private HashMap<String,Float> m_sensorsValues=new HashMap<String,Float>();
+	
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		synchronized (this) {  
-			fullmsg="";
+			
 			int n=event.values.length;
 			for (int i=0;i<n;i++)
 			{
-				msg= "sensor: " + event.sensor.getName() + " : " + twoPlaces.format(event.values[i]) ; 				
-				fullmsg+=msg+"\n";
+				Tempname=event.sensor.getName()+"_"+i;
+				m_sensorsValues.put(Tempname,event.values[i]);				
 			}
-			text.setText(fullmsg);           
+			UpdateSensorText();           
 		}
+	}
+	
+	private void UpdateSensorText()
+	{		
+		fullmsg="";		
+		iter= keys.iterator();
+		while (iter.hasNext())
+		{		
+			Tempkey=iter.next();
+			msg= Tempkey + " : " + twoPlaces.format(m_sensorsValues.get(Tempkey)) ; 				
+			fullmsg+=msg+"\n";
+		}
+		text.setText(fullmsg);  	
 	}
 }
