@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="checkVersion">Check Version</string>
     <string name="edit">Edit</string>
     <string name="quit">Quit</string>
     <string name="showSensors">Sensors</string>

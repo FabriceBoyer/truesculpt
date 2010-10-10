@@ -4,6 +4,9 @@ import com.TrueSculpt.ColorPickerDialog;
 import com.TrueSculpt.ColorPickerDialog.OnColorChangedListener;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.hardware.Sensor;
@@ -160,6 +163,9 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	    case R.id.show_sensors:
 	        //newGame();
 	        return true;
+	    case R.id.check_version:
+	    	IsUpdateNeeded();
+	    	return true;
 	    case R.id.quit:
 	    	this.finish();	        
 	        return true;
@@ -188,4 +194,22 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	    return super.onContextItemSelected(item);
 	  }
 	}
+	
+	private void IsUpdateNeeded()
+	{
+		PackageManager pm = getPackageManager();
+		String strCurrVersion="";
+		try {
+			PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
+			strCurrVersion=info.versionName;
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String msg="Current version is "+ strCurrVersion;
+		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_SHORT).show();
+		
+		
+	}
+	 
 }
