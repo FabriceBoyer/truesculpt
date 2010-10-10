@@ -205,14 +205,26 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	private void IsUpdateNeeded()
 	{
 		String strCurrVersion=GetCurrentVersion();
-		String[] tempVer=strCurrVersion.split(".");
-		int majCurr=Integer.parseInt(tempVer[0]);
-		int minCurr=Integer.parseInt(tempVer[1]);
+		String[] tempVer=strCurrVersion.split("\\.");
+		int nLen=tempVer.length;
+		int majCurr=-1;		
+		int minCurr=-1;
+		if (tempVer.length==2)
+		{
+			majCurr=Integer.parseInt(tempVer[0]);
+			minCurr=Integer.parseInt(tempVer[1]);
+		}
 		
 		String strLatestVersion=GetLatestVersion();	
-		tempVer=strLatestVersion.split(".");
-		int majLat=Integer.parseInt(tempVer[0]);
-		int minLat=Integer.parseInt(tempVer[1]);
+		tempVer=strLatestVersion.split("\\.");
+		nLen=tempVer.length;
+		int majLat=-1;
+		int minLat=-1;
+		if (tempVer.length==2)
+		{
+			majLat=Integer.parseInt(tempVer[0]);
+			minLat=Integer.parseInt(tempVer[1]);
+		}
 		
 		boolean bUpdateNeeded=false;
 		boolean bIsBeta=false;
@@ -237,18 +249,23 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		}
 		
 		
-		String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion+".";
+		String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion+". ";
 		if (bIsBeta)
 		{
-			msg+="This version is a beta";
-		}
-		if (bUpdateNeeded)
-		{
-			msg+="An update is needed.";
+			msg+="This version is a beta. ";
 		}
 		else
 		{
-			msg+="No update is needed.";
+			msg+="This version is NOT a beta. ";
+		}
+		
+		if (bUpdateNeeded)
+		{
+			msg+="An update is needed. ";
+		}
+		else
+		{
+			msg+="NO update is needed. ";
 		}
 
 		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
