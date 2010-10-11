@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.os.Debug.MemoryInfo;
 import android.telephony.TelephonyManager;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -93,7 +94,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	protected void onResume() 
 	{
 		super.onResume();
-		List<Sensor> sensorList = mSensorManager.getSensorList( Sensor.TYPE_ALL );
+		List<Sensor> sensorList = mSensorManager.getSensorList( Sensor.TYPE_ORIENTATION );
 		for (int i=0;i<sensorList.size();i++)
 		{
         mSensorManager.registerListener((SensorEventListener) TrueSculpt.this,
@@ -158,7 +159,16 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 				Tempname=event.sensor.getName()+"_"+i;
 				m_sensorsValues.put(Tempname,event.values[i]);				
 			}
-			UpdateSensorText();           
+			UpdateSensorText();    
+			
+			float norm=FloatMath.sqrt(event.values[0]*event.values[0]+
+									  event.values[1]*event.values[1]+
+									  event.values[2]*event.values[2]); 
+			
+			mRenderer.SetOrientation(event.values[0],
+					event.values[0]/norm,
+					event.values[1]/norm,
+					event.values[2]/norm);
 		}
 	}
 	

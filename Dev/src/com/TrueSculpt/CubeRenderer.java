@@ -32,38 +32,42 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         mCube = new Cube();
     }
 
-    public void SetColor(int color) {mCube.SetColor(color);}
+    public void SetColor(int color) 
+    {
+    	//mCube.SetColor(color);
+    }
+    
+    public void SetOrientation(float angle, float vx, float vy, float vz)
+    {
+    	this.mAngle=angle;
+    	this.vx=vx;
+    	this.vy=vy;
+    	this.vz=vz;    	
+    }
+    
+    public void SetCameraPosition(float x, float y, float z, float head, float pitch, float roll)
+    {
+    	
+    }
+    
+    public void GetPickedTriangle (float x_screen, float y_screen)
+    {
+    	
+    }
     
     public void onDrawFrame(GL10 gl) {
-        /*
-         * Usually, the first thing one might want to do is to clear
-         * the screen. The most efficient way of doing this is to use
-         * glClear().
-         */
-
-        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
-        /*
-         * Now we're ready to draw some 3D objects
-         */
-
+    	
+    	gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+    	 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
         gl.glTranslatef(0, 0, -3.0f);
-        gl.glRotatef(mAngle,        0, 1, 0);
-        gl.glRotatef(mAngle*0.25f,  1, 0, 0);
+        gl.glRotatef(mAngle,        vx, vy, vz);
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
-        mCube.draw(gl);
-
-        gl.glRotatef(mAngle*2.0f, 0, 1, 1);
-        gl.glTranslatef(0.5f, 0.5f, 0.5f);
-
-        mCube.draw(gl);
-
-        mAngle += 1.2f;
+         mCube.draw(gl);             
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -107,5 +111,8 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     }
     private boolean mTranslucentBackground;
     private Cube mCube;
-    private float mAngle;
+    private float mAngle=0.0f;
+    private float vx=0.0f;
+    private float vy=0.0f;
+    private float vz=0.0f;
 }
