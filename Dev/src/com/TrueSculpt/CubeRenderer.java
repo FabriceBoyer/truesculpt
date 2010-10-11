@@ -32,6 +32,8 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         mCube = new Cube();
     }
 
+    public void SetColor(int color) {mCube.SetColor(color);}
+    
     public void onDrawFrame(GL10 gl) {
         /*
          * Usually, the first thing one might want to do is to clear
