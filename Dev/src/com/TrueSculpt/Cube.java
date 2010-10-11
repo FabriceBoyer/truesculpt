@@ -22,38 +22,11 @@ import java.nio.IntBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.Color;
-
 /**
  * A vertex shaded cube.
  */
 class Cube
 {
-    public void SetColor(int color) {
-    	mColor=color; 
-    	int n=colors.length;
-    	for (int i=0;i<n;i++)
-    	{    		
-    		colors[i]=mColor;    		
-    	}    	
-    	mColorBuffer.position(0);
-        mColorBuffer.put(colors);
-        mColorBuffer.position(0);
-    }
-    
-    private int mColor=0;
-    int two = 0x01000;
-    private int colors[] = {
-            two,    two,    two,  two,
-            two,    two,    two,  two,
-            two,  two,    two,  two,
-            two,  two,    two,  two,
-            two,    two,  two,  two,
-            two,    two,  two,  two,
-            two,  two,  two,  two,
-            two,  two,  two,  two,
-    };
-    
     public Cube()
     {
         int one = 0x10000;
@@ -67,8 +40,18 @@ class Cube
                 one,  one,  one,
                 -one,  one,  one,
         };
-        
-       
+
+        int colors[] = {
+                0,    0,    0,  one,
+                one,    0,    0,  one,
+                one,  one,    0,  one,
+                0,  one,    0,  one,
+                0,    0,  one,  one,
+                one,    0,  one,  one,
+                one,  one,  one,  one,
+                0,  one,  one,  one,
+        };
+
         byte indices[] = {
                 0, 4, 5,    0, 5, 1,
                 1, 5, 6,    1, 6, 2,
