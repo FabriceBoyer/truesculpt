@@ -62,7 +62,7 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
         gl.glTranslatef(0, 0, -3.0f);
-        gl.glRotatef(mAngle,        vx, vy, vz);
+        gl.glRotatef(mAngle, 0, 0, 1);
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);

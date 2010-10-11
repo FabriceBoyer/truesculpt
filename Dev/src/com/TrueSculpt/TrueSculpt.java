@@ -165,7 +165,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 									  event.values[1]*event.values[1]+
 									  event.values[2]*event.values[2]); 
 			
-			mRenderer.SetOrientation(event.values[0],
+			mRenderer.SetOrientation(-event.values[0],
 					event.values[0]/norm,
 					event.values[1]/norm,
 					event.values[2]/norm);
