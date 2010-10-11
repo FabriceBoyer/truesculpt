@@ -4,6 +4,8 @@ import com.TrueSculpt.ColorPickerDialog;
 import com.TrueSculpt.ColorPickerDialog.OnColorChangedListener;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -13,8 +15,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.wifi.WifiManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Debug;
+import android.os.Debug.MemoryInfo;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -34,10 +41,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,18 +73,25 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		});
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
-		mGLSurfaceView.setRenderer(new CubeRenderer(false));
+		mRenderer=new CubeRenderer(false);
+		mGLSurfaceView.setRenderer(mRenderer);
 		
 		keys=m_sensorsValues.keySet();	
 	}
+	
+	private CubeRenderer mRenderer=null;
 
-	public void colorChanged(int color) {
-		String msg="color is" + color;
+	public void colorChanged(int color) 
+	{		
+		mColor=color;		
+		mRenderer.SetColor(mColor);		
+		String msg="color is " + Integer.toString(mColor);
 		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 		List<Sensor> sensorList = mSensorManager.getSensorList( Sensor.TYPE_ALL );
 		for (int i=0;i<sensorList.size();i++)
@@ -107,9 +124,11 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		mGLSurfaceView.onPause();
 	}
 
-
+	public int GetColor(){return mColor;}
+	
 	private GLSurfaceView mGLSurfaceView;
 	private SensorManager mSensorManager;
+	private int mColor=0;;
 	//Temp for test debug
 
 	private DecimalFormat twoPlaces = new DecimalFormat("000.00");
@@ -168,7 +187,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.show_sensors:
-	        //newGame();
+	    	ShowSensor();
 	        return true;
 	    case R.id.check_version:
 	    	IsUpdateNeeded();
@@ -179,6 +198,21 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	private void ShowSensor()
+	{
+		WifiManager wm = (WifiManager)getSystemService(WIFI_SERVICE);
+		String macAddr=wm.getConnectionInfo().getMacAddress();
+		
+		final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(TELEPHONY_SERVICE);
+	
+	    String  tmDevice = tm.getDeviceId();
+	    String tmSerial = tm.getSimSerialNumber();
+	    String androidId = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+
+	    String msg=macAddr+"\n"+tmDevice+"\n"+tmSerial+"\n"+androidId+"\n";
+		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
 	}
 	
 	
@@ -195,13 +229,65 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	  switch (item.getItemId()) {
 	  case R.id.edit:
-	    //editNote(info.id);
+		  GetMemoryInfo();
 	    return true;
 	  default:
 	    return super.onContextItemSelected(item);
 	  }
 	}
 	
+	private static final String TAG = "TrueSculptMain";
+	
+	private void GetMemoryInfoForAllProcesses()
+	{		
+		ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+		activityManager.getMemoryInfo(memoryInfo);
+
+		Log.i(TAG, " memoryInfo.availMem " + memoryInfo.availMem + "\n" );
+		Log.i(TAG, " memoryInfo.lowMemory " + memoryInfo.lowMemory + "\n" );
+		Log.i(TAG, " memoryInfo.threshold " + memoryInfo.threshold + "\n" );
+
+		List<RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
+
+		Map<Integer, String> pidMap = new TreeMap<Integer, String>();
+		for (RunningAppProcessInfo runningAppProcessInfo : runningAppProcesses)
+		{
+		    pidMap.put(runningAppProcessInfo.pid, runningAppProcessInfo.processName);
+		}
+
+		Collection<Integer> keys = pidMap.keySet();
+
+		for(int key : keys)
+		{
+		    int pids[] = new int[1];
+		    pids[0] = key;
+		    android.os.Debug.MemoryInfo[] memoryInfoArray = activityManager.getProcessMemoryInfo(pids);
+		    for(android.os.Debug.MemoryInfo pidMemoryInfo: memoryInfoArray)
+		    {
+		        Log.i(TAG, String.format("** MEMINFO in pid %d [%s] **\n",pids[0],pidMap.get(pids[0])));
+		        Log.i(TAG, " pidMemoryInfo.getTotalPrivateDirty(): " + pidMemoryInfo.getTotalPrivateDirty() + "\n");
+		        Log.i(TAG, " pidMemoryInfo.getTotalPss(): " + pidMemoryInfo.getTotalPss() + "\n");
+		        Log.i(TAG, " pidMemoryInfo.getTotalSharedDirty(): " + pidMemoryInfo.getTotalSharedDirty() + "\n");
+		    }
+		}
+	}
+	
+	private void GetMemoryInfo()
+	{
+		String msg="";
+		
+		ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+		activityManager.getMemoryInfo(memoryInfo);
+
+		msg= " memoryInfo.availMem " + memoryInfo.availMem + "\n";
+		msg+= " memoryInfo.lowMemory " + memoryInfo.lowMemory + "\n" ;
+		msg+= " memoryInfo.threshold " + memoryInfo.threshold + "\n" ;
+		 
+		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
+	}
+ 	
 	private void IsUpdateNeeded()
 	{
 		String strCurrVersion=GetCurrentVersion();
