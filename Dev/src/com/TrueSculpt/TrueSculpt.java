@@ -6,6 +6,7 @@ import com.TrueSculpt.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -15,6 +16,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -365,6 +367,13 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		}
 
 		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
+		
+		//Launch associated web page
+		String lastestURL=strLatestVersion.replace(".", "_");
+		lastestURL="https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"+lastestURL+".apk";
+		Intent myIntent = new Intent(Intent.ACTION_VIEW,Uri.parse(lastestURL));
+		startActivity(myIntent);
+		
 	}
 
 	private String GetLatestVersion()
@@ -423,10 +432,13 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		String strCurrVersion="0.0";
 		
 		PackageManager pm = getPackageManager();		
-		try {
+		try
+		{
 			PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
 			strCurrVersion=info.versionName;
-		} catch (NameNotFoundException e) {
+		} 
+		catch (NameNotFoundException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
