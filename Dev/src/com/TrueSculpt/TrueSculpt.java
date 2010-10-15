@@ -304,7 +304,6 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	{
 		String strCurrVersion=GetCurrentVersion();
 		String[] tempVer=strCurrVersion.split("\\.");
-		int nLen=tempVer.length;
 		int majCurr=-1;		
 		int minCurr=-1;
 		if (tempVer.length==2)
@@ -315,7 +314,6 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		
 		String strLatestVersion=GetLatestVersion();	
 		tempVer=strLatestVersion.split("\\.");
-		nLen=tempVer.length;
 		int majLat=-1;
 		int minLat=-1;
 		if (tempVer.length==2)
@@ -345,8 +343,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		{
 			bIsBeta=true;
 		}
-		
-		
+				
 		String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion+". ";
 		if (bIsBeta)
 		{
@@ -380,7 +377,8 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	{
 		String strLatestVersion="0.0";
 		
-		try {
+		try 
+		{
 			URL url=new URL("http://code.google.com/p/truesculpt/wiki/Version");
 			InputStream stream=url.openStream();
 			InputStreamReader reader=new InputStreamReader(stream);
