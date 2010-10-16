@@ -80,9 +80,11 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         mWorld.generate();
     }
     
-    public void SetOrientation(float angle, float vx, float vy, float vz)
+    public void SetOrientation(float angleX, float angleY, float angleZ, float vx, float vy, float vz)
     {
-    	this.mAngle=angle;
+    	this.mAngleX=angleX;
+    	this.mAngleY=angleY;
+    	this.mAngleZ=angleZ;
     	this.vx=vx;
     	this.vy=vy;
     	this.vz=vz;    	
@@ -92,22 +94,18 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     {
     	
     }
-    
-    public void GetPickedTriangle (float x_screen, float y_screen)
-    {
-    	
-    }
-    
+
     public void onDrawFrame(GL10 gl) {
     
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glTranslatef(0, 0, -5.0f);        
-        gl.glRotatef(mAngle,        0, 1, 0);   
-        gl.glRotatef(0.25f,        1, 0, 0); 
-
+        gl.glTranslatef(0, 0, -6.0f);        
+        gl.glRotatef(mAngleX,        1, 0, 0);
+        gl.glRotatef(mAngleY,        0, 1, 0);
+        gl.glRotatef(mAngleZ,        0, 0, 1);
+        
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
@@ -161,7 +159,9 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     private boolean mTranslucentBackground;
     private  GLWorld mWorld;
     private Cube mCube; 
-    private float mAngle=0.0f;
+    private float mAngleX=0.0f;
+    private float mAngleY=0.0f;
+    private float mAngleZ=0.0f;
     private float vx=0.0f;
     private float vy=0.0f;
     private float vz=0.0f;
