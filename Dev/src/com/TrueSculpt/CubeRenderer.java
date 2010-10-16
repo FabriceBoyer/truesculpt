@@ -33,7 +33,12 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         mTranslucentBackground = useTranslucentBackground;
         mWorld = new GLWorld();      
 
-        int one = 0x10000;
+        PopulateWorld();
+    }
+
+
+	private void PopulateWorld() {
+		int one = 0x10000;
         int half = 0x08000;
         GLColor red = new GLColor(one, 0, 0);
         GLColor green = new GLColor(0, one, 0);
@@ -55,7 +60,7 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         mWorld.addShape(mCube);
         
         mWorld.generate();
-    }
+	}
 
     
     public void SetColor(int color) 
