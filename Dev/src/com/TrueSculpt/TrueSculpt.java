@@ -379,6 +379,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		
 		try 
 		{
+			//TODO check alternative url list (register url)
 			URL url=new URL("http://code.google.com/p/truesculpt/wiki/Version");
 			InputStream stream=url.openStream();
 			InputStreamReader reader=new InputStreamReader(stream);
