@@ -152,6 +152,8 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	float origY=0.0f;
 	float origZ=0.0f;
 	
+	float tCurr=0.0f;
+	
 	boolean bOrigSet=false;
 	
 	@Override
@@ -174,26 +176,39 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 			}
 			UpdateSensorText(); 
 			
-			lastX=event.values[1];
-			lastY=event.values[2];
-			lastZ=event.values[0];
+			float currX=event.values[1];
+			float currY=event.values[2];
+			float currZ=event.values[0];
 			
 			if (!bOrigSet)
 			{
-				origX=lastX;
-				origY=lastY;
-				origZ=lastZ;	
+				origX=currX;
+				origY=currY;
+				origZ=currZ;	
 				
 				bOrigSet=true;
 			}
 			
+			float dObjX=currX- origX;
+			float dObjY=currY- origY;
+			float dObjZ=currZ- origZ;
+			
+			float tau=0.5f;
+			float dValX=dObjX;
+			float dValY=dObjY;
+			float dValZ=dObjZ;
+			
 			mRenderer.SetOrientation(
-					lastX- origX,
-					lastY- origY,
-					lastZ- origZ,
+					dValX,
+					dValY,
+					dValZ,
 					0,
 					0,
 					0);
+			
+			lastX=currX;
+			lastY=currY;
+			lastZ=currZ;	
 		}
 	}
 	
