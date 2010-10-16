@@ -21,6 +21,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 
 /**
@@ -43,14 +44,15 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         GLColor black = new GLColor(0, 0, 0);
 
         // top back, left to right
-        Cube cube  = new Cube(mWorld, -1,-1,-1,1,1,1);
+        mCube  = new Cube(mWorld, -1,-1,-1,1,1,1);
 
-        for (int j = 0; j < 6; j++)
+        for (int j = 0; j < 6; j=j+2)
         {
-           cube.setFaceColor(j, blue);
+        	mCube.setFaceColor(j, blue);
+        	mCube.setFaceColor(j+1, orange);
         }
         
-        mWorld.addShape(cube);
+        mWorld.addShape(mCube);
         
         mWorld.generate();
     }
@@ -58,7 +60,19 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     
     public void SetColor(int color) 
     {
-    	//mCube.SetColor(color);
+    	float r= Color.red(color)/255*65536;
+    	float g= Color.green(color)/255*65536;
+    	float b= Color.blue(color)/255*65536;
+    	GLColor col = new GLColor(
+    			(int)(r),
+    			(int)(g),
+    			(int)(b));
+        for (int j = 0; j < 6; j++)
+        {
+        	mCube.setFaceColor(j, col);        	
+        }   
+        
+        mWorld.generate();
     }
     
     public void SetOrientation(float angle, float vx, float vy, float vz)
@@ -80,36 +94,17 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     }
     
     public void onDrawFrame(GL10 gl) {
-    	
-
-        /*
-         * Usually, the first thing one might want to do is to clear
-         * the screen. The most efficient way of doing this is to use
-         * glClear(). However we must make sure to set the scissor
-         * correctly first. The scissor is always specified in window
-         * coordinates:
-         */
-
-        gl.glClearColor(0.5f,0.5f,0.5f,1);
+    
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
-        /*
-         * Now we're ready to draw some 3D object
-         */
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glTranslatef(0, 0, -3.0f);
-        gl.glScalef(0.5f, 0.5f, 0.5f);
-        gl.glRotatef(mAngle,        0, 1, 0);
-        gl.glRotatef(mAngle*0.25f,  1, 0, 0);
+        gl.glTranslatef(0, 0, -5.0f);        
+        gl.glRotatef(mAngle,        0, 1, 0);   
+        gl.glRotatef(0.25f,        1, 0, 0); 
 
-        gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-        gl.glEnable(GL10.GL_CULL_FACE);
-        gl.glShadeModel(GL10.GL_SMOOTH);
-        gl.glEnable(GL10.GL_DEPTH_TEST);
 
         mWorld.draw(gl);           
     }
@@ -138,17 +133,29 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+  	
         /*
          * Some one-time OpenGL initialization can be made here
          * probably based on features of this particular context
          */
-       //  gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,
-       //          GL10.GL_FASTEST);
+         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,
+                 GL10.GL_FASTEST);
+
+         if (mTranslucentBackground) {
+             gl.glClearColor(0,0,0,0);
+         } else {
+             gl.glClearColor(1,1,1,1);
+         }
+         
+         gl.glEnable(GL10.GL_CULL_FACE);
+         gl.glShadeModel(GL10.GL_SMOOTH);
+         gl.glEnable(GL10.GL_DEPTH_TEST);
 
     }
     
     private boolean mTranslucentBackground;
     private  GLWorld mWorld;
+    private Cube mCube; 
     private float mAngle=0.0f;
     private float vx=0.0f;
     private float vy=0.0f;
