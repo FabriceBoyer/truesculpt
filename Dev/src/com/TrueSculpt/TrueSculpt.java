@@ -55,7 +55,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@SuppressWarnings("deprecation")
 public class TrueSculpt extends Activity implements OnColorChangedListener, SensorEventListener {
 
 	/** Called when the activity is first created. */
@@ -82,8 +81,6 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		keys=m_sensorsValues.keySet();	
 	}
 	
-	private CubeRenderer mRenderer=null;
-
 	public void colorChanged(int color) 
 	{		
 		mColor=color;		
@@ -127,13 +124,15 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		mGLSurfaceView.onPause();
 	}
 
+	private CubeRenderer mRenderer=null;
+	
 	public int GetColor(){return mColor;}
 	
 	private GLSurfaceView mGLSurfaceView;
 	private SensorManager mSensorManager;
-	private int mColor=0;;
+	private int mColor=0;
+	
 	//Temp for test debug
-
 	private DecimalFormat twoPlaces = new DecimalFormat("000.00");
 	private TextView text;
 	private String msg;
@@ -142,7 +141,19 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	private Set<String> keys;
 	private Iterator<String> iter;
 	private String Tempname;
-
+	
+	
+	//sesor data
+	float lastX=0.0f;
+	float lastY=0.0f;
+	float lastZ=0.0f;
+	
+	float origX=0.0f;
+	float origY=0.0f;
+	float origZ=0.0f;
+	
+	boolean bOrigSet=false;
+	
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Auto-generated method stub
@@ -161,16 +172,28 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 				Tempname=event.sensor.getName()+"_"+i;
 				m_sensorsValues.put(Tempname,event.values[i]);				
 			}
-			UpdateSensorText();    
+			UpdateSensorText(); 
 			
-			float norm=FloatMath.sqrt(event.values[0]*event.values[0]+
-									  event.values[1]*event.values[1]+
-									  event.values[2]*event.values[2]); 
+			lastX=event.values[0];
+			lastY=event.values[1];
+			lastZ=event.values[2];
 			
-			mRenderer.SetOrientation(-event.values[0],
-					event.values[0]/norm,
-					event.values[1]/norm,
-					event.values[2]/norm);
+			if (!bOrigSet)
+			{
+				origX=lastX;
+				origY=lastY;
+				origZ=lastZ;	
+				
+				bOrigSet=true;
+			}
+			
+			mRenderer.SetOrientation(
+					lastX- origX,
+					lastY- origY,
+					lastZ- origZ,
+					0,
+					0,
+					0);
 		}
 	}
 	
