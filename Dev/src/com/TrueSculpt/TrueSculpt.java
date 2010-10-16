@@ -174,9 +174,9 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 			}
 			UpdateSensorText(); 
 			
-			lastX=event.values[0];
-			lastY=event.values[1];
-			lastZ=event.values[2];
+			lastX=event.values[1];
+			lastY=event.values[2];
+			lastZ=event.values[0];
 			
 			if (!bOrigSet)
 			{
