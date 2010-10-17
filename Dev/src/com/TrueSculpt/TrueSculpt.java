@@ -143,7 +143,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	private String Tempname;
 	
 	
-	//sesor data
+	//sensor data
 	float lastX=0.0f;
 	float lastY=0.0f;
 	float lastZ=0.0f;
@@ -151,8 +151,6 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 	float origX=0.0f;
 	float origY=0.0f;
 	float origZ=0.0f;
-	
-	float tCurr=0.0f;
 	
 	boolean bOrigSet=false;
 	
@@ -193,15 +191,10 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 			float dObjY=currY- origY;
 			float dObjZ=currZ- origZ;
 			
-			float tau=0.5f;
-			float dValX=dObjX;
-			float dValY=dObjY;
-			float dValZ=dObjZ;
-			
 			mRenderer.SetOrientation(
-					dValX,
-					dValY,
-					dValZ,
+					dObjX,
+					dObjY,
+					dObjZ,
 					0,
 					0,
 					0);
