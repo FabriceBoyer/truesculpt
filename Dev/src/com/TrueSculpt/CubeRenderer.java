@@ -16,6 +16,9 @@
 
 package com.TrueSculpt;
 
+import java.util.Currency;
+import java.util.Date;
+
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -35,8 +38,7 @@ class CubeRenderer implements GLSurfaceView.Renderer {
 
         PopulateWorld();
     }
-
-
+    
 	private void PopulateWorld() {
 		int one = 0x10000;
         int half = 0x08000;
@@ -61,7 +63,6 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         
         mWorld.generate();
 	}
-
     
     public void SetColor(int color) 
     {
@@ -80,6 +81,7 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         mWorld.generate();
     }
     
+    //set target orientation
     public void SetOrientation(float angleX, float angleY, float angleZ, float vx, float vy, float vz)
     {
     	this.mAngleX=angleX;
@@ -88,23 +90,51 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     	this.vx=vx;
     	this.vy=vy;
     	this.vz=vz;    	
-    }
-    
-    public void SetCameraPosition(float x, float y, float z, float head, float pitch, float roll)
-    {
     	
+    	tLast=System.currentTimeMillis();
     }
-
-    public void onDrawFrame(GL10 gl) {
     
+    private float tTau=500.0f;
+    private long tLast=0;
+        
+    private void UpdateAngle()
+    {   	
+    	mAngleCurrX=FirstOrderAngle(mAngleCurrX,mAngleX);
+    	mAngleCurrY=FirstOrderAngle(mAngleCurrY,mAngleY);
+    	mAngleCurrZ=FirstOrderAngle(mAngleCurrZ,mAngleZ);    		 
+    }
+    
+    private float FirstOrderAngle(float angleLast,float angleObj)
+    {
+    	long tCurr=System.currentTimeMillis();
+    	float tDelta=tCurr-tLast;
+    	float angleDelta=angleObj-angleLast;
+    	float slope=angleDelta/tTau;
+    	float angleCurr=0;
+    	if (tDelta<tTau)
+    	{
+    		angleCurr=angleLast+slope*tDelta;	
+    	}
+    	else
+    	{
+    		angleCurr=angleObj;
+    	}
+    	return angleCurr;    	
+    }
+    
+    
+    public void onDrawFrame(GL10 gl)
+    {    
+    	UpdateAngle();
+    	 
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glTranslatef(0, 0, -6.0f);        
-        gl.glRotatef(mAngleX,        1, 0, 0);
-        gl.glRotatef(mAngleY,        0, 1, 0);
-        gl.glRotatef(mAngleZ,        0, 0, 1);
+        gl.glTranslatef(0, 0, -7.0f);        
+        gl.glRotatef(mAngleCurrX,        1, 0, 0);
+        gl.glRotatef(mAngleCurrY,        0, 1, 0);
+        gl.glRotatef(mAngleCurrZ,        0, 0, 1);
         
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
@@ -162,6 +192,9 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     private float mAngleX=0.0f;
     private float mAngleY=0.0f;
     private float mAngleZ=0.0f;
+    private float mAngleCurrX=0.0f;
+    private float mAngleCurrY=0.0f;
+    private float mAngleCurrZ=0.0f;
     private float vx=0.0f;
     private float vy=0.0f;
     private float vz=0.0f;
