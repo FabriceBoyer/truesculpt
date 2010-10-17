@@ -34,6 +34,10 @@ public class GLShape {
 		mFaceList.get(face).setColor(color);
 	}
 			
+	public int getFaceCount()
+	{
+		return mFaceList.size();
+	}
 	public void putIndices(ShortBuffer buffer) {
 		Iterator<GLFace> iter = mFaceList.iterator();
 		while (iter.hasNext()) {
@@ -55,13 +59,13 @@ public class GLShape {
 	public GLVertex addVertex(float x, float y, float z) {
 		
 		// look for an existing GLVertex first
-		Iterator<GLVertex> iter = mVertexList.iterator();
-		while (iter.hasNext()) {
-			GLVertex vertex = iter.next();
-			if (vertex.x == x && vertex.y == y && vertex.z == z) {
-				return vertex;
-			}
-		}
+		//Iterator<GLVertex> iter = mVertexList.iterator();
+		//while (iter.hasNext()) {
+		//	GLVertex vertex = iter.next();
+		//	if (vertex.x == x && vertex.y == y && vertex.z == z) {
+		//		return vertex;
+		//	}
+		//}
 		
 		// doesn't exist, so create new vertex
 		GLVertex vertex = mWorld.addVertex(x, y, z);

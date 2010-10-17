@@ -18,6 +18,7 @@ package com.TrueSculpt;
 
 import java.util.Currency;
 import java.util.Date;
+import java.util.Random;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -39,6 +40,11 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         PopulateWorld();
     }
     
+    float DegToRad(float deg)
+    {
+    	return deg*3.141516f/180.0f;
+    }
+    
 	private void PopulateWorld() {
 		int one = 0x10000;
         int half = 0x08000;
@@ -51,17 +57,55 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         GLColor black = new GLColor(0, 0, 0);
 
         // top back, left to right
-        mCube  = new Cube(mWorld, -1,-1,-1,1,1,1);
-
-        for (int j = 0; j < 6; j=j+2)
+        mShape  = new GLShape(mWorld);
+        
+        int nTheta=50;
+        int nPhi=50;        
+        float deltaTheta=360.0f/nTheta;
+        float deltaPhi=180.0f/nPhi;
+        float R=1.0f;       
+        
+        for (float theta = 0; theta < 360.0f; theta+=deltaTheta )
         {
-        	mCube.setFaceColor(j, blue);
-        	mCube.setFaceColor(j+1, orange);
+        	for  (float phi=-90;phi<90;phi+=deltaPhi)
+        	{
+	        	float x=(float) (R*Math.cos(DegToRad(theta))*Math.cos(DegToRad(phi)));
+	        	float y=(float) (R*Math.sin(DegToRad(theta))*Math.cos(DegToRad(phi)));
+	        	float z=(float) (R*Math.sin(DegToRad(phi)));
+	        	
+	        	float xDelt=(float) (R*Math.cos(DegToRad(theta+deltaTheta))*Math.cos(DegToRad(phi+deltaPhi)));
+	        	float yDelt=(float) (R*Math.sin(DegToRad(theta+deltaTheta))*Math.cos(DegToRad(phi+deltaPhi)));	        	
+	        	float zDelt=(float) (R*Math.sin(DegToRad(phi+deltaPhi)));
+	        	
+	           	GLVertex vert1 = mShape.addVertex(x, y, z);       
+	        	GLVertex vert2 = mShape.addVertex(xDelt, yDelt, z);         	 
+	        	GLVertex vert3 = mShape.addVertex(xDelt, yDelt, zDelt);  
+	        	GLVertex vert4 = mShape.addVertex(x, y, zDelt); 
+	
+	            // vertices are added in a clockwise orientation (when viewed from the outside)            
+	           	mShape.addFace(new GLFace(vert4, vert3, vert2, vert1));   
+        	}
         }
         
-        mWorld.addShape(mCube);
+        mWorld.addShape(mShape);
         
-        mWorld.generate();
+        Random rand=new Random();
+    	int n=mShape.getFaceCount();
+        for (int j = 0; j < n; j++)
+        {
+            float r= rand.nextInt(65536);
+        	float g= rand.nextInt(65536);
+        	float b= rand.nextInt(65536);
+        	GLColor col = new GLColor(
+        			(int)(r),
+        			(int)(g),
+        			(int)(b));
+        	
+        	mShape.setFaceColor(j, col);        	
+        }   
+        
+        mWorld.generate(); 
+        
 	}
     
     public void SetColor(int color) 
@@ -73,9 +117,10 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     			(int)(r),
     			(int)(g),
     			(int)(b));
-        for (int j = 0; j < 6; j++)
+    	int n=mShape.getFaceCount();
+        for (int j = 0; j < n; j++)
         {
-        	mCube.setFaceColor(j, col);        	
+        	mShape.setFaceColor(j, col);        	
         }   
         
         mWorld.generate();
@@ -188,7 +233,7 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     
     private boolean mTranslucentBackground;
     private  GLWorld mWorld;
-    private Cube mCube; 
+    private GLShape mShape; 
     private float mAngleX=0.0f;
     private float mAngleY=0.0f;
     private float mAngleZ=0.0f;
