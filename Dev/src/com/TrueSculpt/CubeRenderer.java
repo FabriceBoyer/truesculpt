@@ -73,14 +73,20 @@ class CubeRenderer implements GLSurfaceView.Renderer {
 	        	float y=(float) (R*Math.sin(DegToRad(theta))*Math.cos(DegToRad(phi)));
 	        	float z=(float) (R*Math.sin(DegToRad(phi)));
 	        	
+	        	float x2=(float) (R*Math.cos(DegToRad(theta+deltaTheta))*Math.cos(DegToRad(phi)));
+	        	float y2=(float) (R*Math.sin(DegToRad(theta+deltaTheta))*Math.cos(DegToRad(phi)));
+	        	
 	        	float xDelt=(float) (R*Math.cos(DegToRad(theta+deltaTheta))*Math.cos(DegToRad(phi+deltaPhi)));
 	        	float yDelt=(float) (R*Math.sin(DegToRad(theta+deltaTheta))*Math.cos(DegToRad(phi+deltaPhi)));	        	
 	        	float zDelt=(float) (R*Math.sin(DegToRad(phi+deltaPhi)));
 	        	
+	        	float x4=(float) (R*Math.cos(DegToRad(theta))*Math.cos(DegToRad(phi+deltaPhi)));
+	        	float y4=(float) (R*Math.sin(DegToRad(theta))*Math.cos(DegToRad(phi+deltaPhi)));	
+	        	
 	           	GLVertex vert1 = mShape.addVertex(x, y, z);       
-	        	GLVertex vert2 = mShape.addVertex(xDelt, yDelt, z);         	 
+	        	GLVertex vert2 = mShape.addVertex(x2, y2, z);         	 
 	        	GLVertex vert3 = mShape.addVertex(xDelt, yDelt, zDelt);  
-	        	GLVertex vert4 = mShape.addVertex(x, y, zDelt); 
+	        	GLVertex vert4 = mShape.addVertex(x4, y4, zDelt); 
 	
 	            // vertices are added in a clockwise orientation (when viewed from the outside)            
 	           	mShape.addFace(new GLFace(vert4, vert3, vert2, vert1));   
@@ -176,7 +182,7 @@ class CubeRenderer implements GLSurfaceView.Renderer {
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glTranslatef(0, 0, -7.0f);        
+        gl.glTranslatef(0, 0, -5.0f);        
         gl.glRotatef(mAngleCurrX,        1, 0, 0);
         gl.glRotatef(mAngleCurrY,        0, 1, 0);
         gl.glRotatef(mAngleCurrZ,        0, 0, 1);
