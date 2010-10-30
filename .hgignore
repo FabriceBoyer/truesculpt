@@ -1,4 +1,5 @@
 syntax: glob
 Dev/gen/*
 Dev/bin/*
+Dev/.settings
 *.lnk
