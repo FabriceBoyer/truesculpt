@@ -19,7 +19,6 @@ package com.TrueSculpt;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 import java.util.Iterator;
 import java.util.ArrayList;
 
@@ -43,7 +42,7 @@ public class GLWorld {
 
 	    bb = ByteBuffer.allocateDirect(mIndexCount*2);
 	    bb.order(ByteOrder.nativeOrder());
-	    mIndexBuffer = bb.asShortBuffer();
+	    mIndexBuffer = bb.asIntBuffer();
 
 		Iterator<GLVertex> iter2 = mVertexList.iterator();
 		while (iter2.hasNext()) {
@@ -79,7 +78,7 @@ public class GLWorld {
         gl.glShadeModel(GL10.GL_FLAT);
         gl.glVertexPointer(3, GL10.GL_FIXED, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FIXED, 0, mColorBuffer);
-        gl.glDrawElements(GL10.GL_TRIANGLES, mIndexCount, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, mIndexCount, GL10.GL_FIXED, mIndexBuffer);
         count++;
     }
    
@@ -94,5 +93,5 @@ public class GLWorld {
 
     private IntBuffer   mVertexBuffer;
     private IntBuffer   mColorBuffer;
-    private ShortBuffer mIndexBuffer;
+    private IntBuffer   mIndexBuffer;
 }

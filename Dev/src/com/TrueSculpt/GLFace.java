@@ -18,7 +18,7 @@ package com.TrueSculpt;
 
 import android.util.Log;
 
-import java.nio.ShortBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 public class GLFace {
@@ -73,7 +73,7 @@ public class GLFace {
 		return (mVertexList.size() - 2) * 3;
 	}
 	
-	public void putIndices(ShortBuffer buffer) {
+	public void putIndices(IntBuffer buffer) {
 		int last = mVertexList.size() - 1;
 
 		GLVertex v0 = mVertexList.get(0);
@@ -82,9 +82,9 @@ public class GLFace {
 		// push triangles into the buffer
 		for (int i = 1; i < last; i++) {
 			GLVertex v1 = mVertexList.get(i);
-			buffer.put(v0.index);
-			buffer.put(v1.index);
-			buffer.put(vn.index);
+			buffer.put((int)v0.index);
+			buffer.put((int)v1.index);
+			buffer.put((int)vn.index);
 			v0 = v1;
 		}
 	}

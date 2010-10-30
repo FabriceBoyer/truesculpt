@@ -59,8 +59,8 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         // top back, left to right
         mShape  = new GLShape(mWorld);
         
-        int nTheta=50;
-        int nPhi=50;        
+        int nTheta=200;
+        int nPhi=100;        
         float deltaTheta=360.0f/nTheta;
         float deltaPhi=180.0f/nPhi;
         float R=1.0f;       
@@ -143,6 +143,8 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     	this.vz=vz;    	
     	
     	tLast=System.currentTimeMillis();
+    	
+    	UpdateAngle();
     }
     
     private float tTau=500.0f;
@@ -150,9 +152,9 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         
     private void UpdateAngle()
     {   	
-    	mAngleCurrX=FirstOrderAngle(mAngleCurrX,mAngleX);
-    	mAngleCurrY=FirstOrderAngle(mAngleCurrY,mAngleY);
-    	mAngleCurrZ=FirstOrderAngle(mAngleCurrZ,mAngleZ);    		 
+    	mAngleCurrX=mAngleX;//FirstOrderAngle(mAngleCurrX,mAngleX);
+    	mAngleCurrY=mAngleY;//FirstOrderAngle(mAngleCurrY,mAngleY);
+    	mAngleCurrZ=mAngleZ;//FirstOrderAngle(mAngleCurrZ,mAngleZ);    		 
     }
     
     private float FirstOrderAngle(float angleLast,float angleObj)
@@ -176,7 +178,7 @@ class CubeRenderer implements GLSurfaceView.Renderer {
     
     public void onDrawFrame(GL10 gl)
     {    
-    	UpdateAngle();
+    	//UpdateAngle();
     	 
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
