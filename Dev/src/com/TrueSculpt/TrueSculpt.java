@@ -353,60 +353,65 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 			minLat=Integer.parseInt(tempVer[1]);
 		}
 		
-		boolean bUpdateNeeded=false;
-		boolean bIsBeta=false;
-		if (majLat>majCurr)
-		{
-			bUpdateNeeded=true;
-		}
-		else if (majLat==majCurr)
-		{
-			if (minLat>minCurr)
+		if (majCurr>=0 &&
+			minCurr>=0 &&
+			majLat >=0 && 
+			minLat>=0)
+		{				
+			boolean bUpdateNeeded=false;
+			boolean bIsBeta=false;
+			if (majLat>majCurr)
 			{
 				bUpdateNeeded=true;
 			}
-			else if (minLat<minCurr)
+			else if (majLat==majCurr)
 			{
-				bIsBeta=true;			
+				if (minLat>minCurr)
+				{
+					bUpdateNeeded=true;
+				}
+				else if (minLat<minCurr)
+				{
+					bIsBeta=true;			
+				}
+			}	
+			else if (majLat<majCurr) 
+			{
+				bIsBeta=true;
 			}
-		}	
-		else if (majLat<majCurr) 
-		{
-			bIsBeta=true;
-		}
-				
-		String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion+". ";
-		if (bIsBeta)
-		{
-			msg+="This version is a beta. ";
-		}
-		else
-		{
-			msg+="This version is NOT a beta. ";
-		}
-		
-		if (bUpdateNeeded)
-		{
-			msg+="An update is needed. ";
-		}
-		else
-		{
-			msg+="NO update is needed. ";
-		}
-
-		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
-		
-		//Launch associated web page
-		String lastestURL=strLatestVersion.replace(".", "_");
-		lastestURL="https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"+lastestURL+".apk";
-		Intent myIntent = new Intent(Intent.ACTION_VIEW,Uri.parse(lastestURL));
-		startActivity(myIntent);
-		
+					
+			String msg="Current version is "+ strCurrVersion +". Latest version is "+strLatestVersion+". ";
+			if (bIsBeta)
+			{
+				msg+="This version is a beta. ";
+			}
+			else
+			{
+				msg+="This version is NOT a beta. ";
+			}
+			
+			if (bUpdateNeeded)
+			{
+				msg+="An update is needed. ";
+			}
+			else
+			{
+				msg+="NO update is needed. ";
+			}
+	
+			Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
+			
+			//Launch associated web page
+			String lastestURL=strLatestVersion.replace(".", "_");
+			lastestURL="https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"+lastestURL+".apk";
+			Intent myIntent = new Intent(Intent.ACTION_VIEW,Uri.parse(lastestURL));
+			startActivity(myIntent);
+		}		
 	}
 
 	private String GetLatestVersion()
 	{
-		String strLatestVersion="0.0";
+		String strLatestVersion="-1.0";
 		
 		try 
 		{
