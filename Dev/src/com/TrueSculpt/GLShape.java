@@ -16,7 +16,7 @@
 
 package com.TrueSculpt;
 
-import java.nio.ShortBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -38,7 +38,7 @@ public class GLShape {
 	{
 		return mFaceList.size();
 	}
-	public void putIndices(ShortBuffer buffer) {
+	public void putIndices(IntBuffer buffer) {
 		Iterator<GLFace> iter = mFaceList.iterator();
 		while (iter.hasNext()) {
 			GLFace face = iter.next();

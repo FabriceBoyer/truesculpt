@@ -23,7 +23,7 @@ public class GLVertex {
     public float x;
     public float y;
     public float z;
-    final short index; // index in vertex table
+    final int index; // index in vertex table
     GLColor color;
 
     GLVertex() {
@@ -37,7 +37,7 @@ public class GLVertex {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.index = (short)index;
+        this.index = (int)index;
     }
 
     @Override
