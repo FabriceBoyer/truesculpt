@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,10 +18,7 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Debug.MemoryInfo;
 import android.telephony.TelephonyManager;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -40,7 +35,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -69,6 +63,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 
 		final Button button = (Button) findViewById(R.id.button);
 		button.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				new ColorPickerDialog(TrueSculpt.this, TrueSculpt.this, 0).show();
 			}
@@ -81,6 +76,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		keys=m_sensorsValues.keySet();	
 	}
 	
+	@Override
 	public void colorChanged(int color) 
 	{		
 		mColor=color;		
@@ -96,7 +92,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener, Sens
 		List<Sensor> sensorList = mSensorManager.getSensorList( Sensor.TYPE_ORIENTATION );
 		for (int i=0;i<sensorList.size();i++)
 		{
-        mSensorManager.registerListener((SensorEventListener) TrueSculpt.this,
+        mSensorManager.registerListener(TrueSculpt.this,
         		sensorList.get(i),
                 SensorManager.SENSOR_DELAY_GAME);
 		}        		
