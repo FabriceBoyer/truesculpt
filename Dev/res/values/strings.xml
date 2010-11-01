@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="_latest_version_is_">. Latest version is </string>
+    <string name="current_version_is_">Current version is </string>
+    <string name="this_version_is_not_a_beta_">This version is NOT a beta. </string>
+    <string name="this_version_is_a_beta_">This version is a beta. </string>
+    <string name="no_update_is_needed_">NO update is needed. </string>
+    <string name="an_update_is_needed_">An update is needed. </string>
     <string name="checkVersion">Check Version</string>
     <string name="edit">Edit</string>
     <string name="quit">Quit</string>
