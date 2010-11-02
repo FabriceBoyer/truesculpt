@@ -337,6 +337,8 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		switch (item.getItemId()) {
 		case R.id.show_sensors:
 			ShowSensor();
+			Intent myIntent = new Intent("com.TrueSculpt.TutorialWizard");
+			startActivity(myIntent);
 			return true;
 		case R.id.check_version:
 			IsUpdateNeeded();
