@@ -2,6 +2,7 @@ package com.TrueSculpt;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.webkit.WebView;
 
 public class TutorialWizard extends Activity {
 
@@ -10,7 +11,12 @@ public class TutorialWizard extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.tutorialwizard);
+		 WebView webview = new WebView(this);
+		 setContentView(webview);
+		 
+		 webview.loadUrl("http://slashdot.org/");
+
+
 	}
 
 	@Override
