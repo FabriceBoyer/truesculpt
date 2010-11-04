@@ -54,9 +54,9 @@ public class GLVertex {
     }
 
     public void put(IntBuffer vertexBuffer, IntBuffer colorBuffer) {
-        vertexBuffer.put(toFixed(x));
-        vertexBuffer.put(toFixed(y));
-        vertexBuffer.put(toFixed(z));
+        vertexBuffer.put((int)(x));
+        vertexBuffer.put((int)(y));
+        vertexBuffer.put((int)(z));
         if (color == null) {
             colorBuffer.put(0);
             colorBuffer.put(0);
@@ -75,15 +75,15 @@ public class GLVertex {
         vertexBuffer.position(index * 3);
 
         if (transform == null) {
-            vertexBuffer.put(toFixed(x));
-            vertexBuffer.put(toFixed(y));
-            vertexBuffer.put(toFixed(z));
+            vertexBuffer.put((int)(x));
+            vertexBuffer.put((int)(y));
+            vertexBuffer.put((int)(z));
         } else {
             GLVertex temp = new GLVertex();
             transform.multiply(this, temp);
-            vertexBuffer.put(toFixed(temp.x));
-            vertexBuffer.put(toFixed(temp.y));
-            vertexBuffer.put(toFixed(temp.z));
+            vertexBuffer.put((int)(temp.x));
+            vertexBuffer.put((int)(temp.y));
+            vertexBuffer.put((int)(temp.z));
         }
     }
 }

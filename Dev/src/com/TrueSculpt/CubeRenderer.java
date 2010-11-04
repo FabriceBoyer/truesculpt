@@ -59,8 +59,8 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         // top back, left to right
         mShape  = new GLShape(mWorld);
         
-        int nTheta=200;
-        int nPhi=100;        
+        int nTheta=50;
+        int nPhi=50;        
         float deltaTheta=360.0f/nTheta;
         float deltaPhi=180.0f/nPhi;
         float R=1.0f;       

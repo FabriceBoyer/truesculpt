@@ -15,8 +15,6 @@ public class TutorialWizard extends Activity {
 		 setContentView(webview);
 		 
 		 webview.loadUrl("http://slashdot.org/");
-
-
 	}
 
 	@Override
