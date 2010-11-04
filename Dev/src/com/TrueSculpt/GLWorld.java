@@ -40,7 +40,7 @@ public class GLWorld {
 	    bb.order(ByteOrder.nativeOrder());
 	    mVertexBuffer = bb.asIntBuffer();
 
-	    bb = ByteBuffer.allocateDirect(mIndexCount*2);
+	    bb = ByteBuffer.allocateDirect(mIndexCount*4);
 	    bb.order(ByteOrder.nativeOrder());
 	    mIndexBuffer = bb.asIntBuffer();
 

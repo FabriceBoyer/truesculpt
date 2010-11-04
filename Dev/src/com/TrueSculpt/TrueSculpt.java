@@ -311,7 +311,9 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
 		mRenderer = new CubeRenderer(false);
+		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		mGLSurfaceView.setRenderer(mRenderer);
+		
 
 		keys = m_sensorsValues.keySet();
 	}
