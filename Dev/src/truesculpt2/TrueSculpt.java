@@ -17,9 +17,9 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import truesculpt2.Renderer.CubeRenderer;
 import truesculpt2.UI.ColorPickerDialog;
 import truesculpt2.UI.ColorPickerDialog.OnColorChangedListener;
+import truesculpt2.renderer.CubeRenderer;
 
 import android.app.Activity;
 import android.app.ActivityManager;
