@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package TrueSculpt.UI;
+package truesculpt2.UI;
 
 import android.app.Activity;
 import android.content.Context;
