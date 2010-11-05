@@ -173,7 +173,8 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
     }
     
     
-    public void onDrawFrame(GL10 gl)
+    @Override
+	public void onDrawFrame(GL10 gl)
     {    
     	//UpdateAngle();
     	 
@@ -192,7 +193,8 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
         mWorld.draw(gl);           
     }
 
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
+    @Override
+	public void onSurfaceChanged(GL10 gl, int width, int height) {
          gl.glViewport(0, 0, width, height);
 
          /*
@@ -215,7 +217,8 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
          gl.glActiveTexture(GL10.GL_TEXTURE0);
     }
 
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+    @Override
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
   	
         /*
          * Some one-time OpenGL initialization can be made here

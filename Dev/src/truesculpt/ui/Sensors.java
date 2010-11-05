@@ -171,7 +171,8 @@ public class Sensors extends Activity {
             }
         }
 
-        public void onSensorChanged(int sensor, float[] values) {
+        @Override
+		public void onSensorChanged(int sensor, float[] values) {
             //Log.d(TAG, "sensor: " + sensor + ", x: " + values[0] + ", y: " + values[1] + ", z: " + values[2]);
             synchronized (this) {
                 if (mBitmap != null) {
@@ -201,7 +202,8 @@ public class Sensors extends Activity {
             }
         }
 
-        public void onAccuracyChanged(int sensor, int accuracy) {
+        @Override
+		public void onAccuracyChanged(int sensor, int accuracy) {
             // TODO Auto-generated method stub
             
         }

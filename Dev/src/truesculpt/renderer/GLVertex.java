@@ -37,7 +37,7 @@ public class GLVertex {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.index = (int)index;
+        this.index = index;
     }
 
     @Override

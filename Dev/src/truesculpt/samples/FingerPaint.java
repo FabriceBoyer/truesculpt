@@ -54,7 +54,8 @@ public class FingerPaint extends GraphicsActivity
     private MaskFilter  mEmboss;
     private MaskFilter  mBlur;
     
-    public void colorChanged(int color) {
+    @Override
+	public void colorChanged(int color) {
         mPaint.setColor(color);
     }
 
