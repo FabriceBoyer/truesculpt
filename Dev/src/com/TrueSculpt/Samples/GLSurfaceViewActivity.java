@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.TrueSculpt.Renderer;
+package com.TrueSculpt.Samples;
+
+import com.TrueSculpt.Renderer.CubeRenderer;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;

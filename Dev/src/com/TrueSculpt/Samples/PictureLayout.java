@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.TrueSculpt;
+package com.TrueSculpt.Samples;
 
 import android.content.Context;
 import android.graphics.Canvas;
