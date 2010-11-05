@@ -59,7 +59,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 		mTranslucentBackground = useTranslucentBackground;
 		mWorld = new GLWorld();
 
-		PopulateWorld();
+		populateWorld();
 	}
 
 	float DegToRad(float deg) {
@@ -144,7 +144,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
 	}
 
-	private void PopulateWorld() {
+	private void populateWorld() {
 		int one = 0x10000;
 		int half = 0x08000;
 		GLColor red = new GLColor(one, 0, 0);
@@ -218,7 +218,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
 	}
 
-	public void SetColor(int color) {
+	public void setColor(int color) {
 		float r = Color.red(color) / 255 * 65536;
 		float g = Color.green(color) / 255 * 65536;
 		float b = Color.blue(color) / 255 * 65536;
@@ -232,7 +232,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 	}
 
 	// set target orientation
-	public void SetOrientation(float angleX, float angleY, float angleZ,
+	public void setOrientation(float angleX, float angleY, float angleZ,
 			float vx, float vy, float vz) {
 		this.mAngleX = angleX;
 		this.mAngleY = angleY;
@@ -243,10 +243,10 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
 		tLast = System.currentTimeMillis();
 
-		UpdateAngle();
+		updateAngle();
 	}
 
-	private void UpdateAngle() {
+	private void updateAngle() {
 		mAngleCurrX = mAngleX;// FirstOrderAngle(mAngleCurrX,mAngleX);
 		mAngleCurrY = mAngleY;// FirstOrderAngle(mAngleCurrY,mAngleY);
 		mAngleCurrZ = mAngleZ;// FirstOrderAngle(mAngleCurrZ,mAngleZ);
