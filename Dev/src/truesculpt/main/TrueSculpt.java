@@ -1,4 +1,4 @@
-package truesculpt;
+package truesculpt.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,7 +49,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.truesculpt.R;
+import truesculpt.main.R;
 
 public class TrueSculpt extends Activity implements OnColorChangedListener,
 		SensorEventListener {
