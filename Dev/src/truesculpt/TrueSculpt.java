@@ -1,4 +1,4 @@
-package truesculpt2;
+package truesculpt;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,9 +17,9 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import truesculpt2.UI.ColorPickerDialog;
-import truesculpt2.UI.ColorPickerDialog.OnColorChangedListener;
-import truesculpt2.renderer.CubeRenderer;
+import truesculpt.renderer.CubeRenderer;
+import truesculpt.ui.ColorPickerDialog;
+import truesculpt.ui.ColorPickerDialog.OnColorChangedListener;
 
 import android.app.Activity;
 import android.app.ActivityManager;
