@@ -1,4 +1,4 @@
-package com.TrueSculpt;
+package TrueSculpt;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +17,9 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import TrueSculpt.Renderer.CubeRenderer;
+import TrueSculpt.UI.ColorPickerDialog;
+import TrueSculpt.UI.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -46,9 +49,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TrueSculpt.R;
-import com.TrueSculpt.Renderer.CubeRenderer;
-import com.TrueSculpt.UI.ColorPickerDialog;
-import com.TrueSculpt.UI.ColorPickerDialog.OnColorChangedListener;
 
 public class TrueSculpt extends Activity implements OnColorChangedListener,
 		SensorEventListener {
