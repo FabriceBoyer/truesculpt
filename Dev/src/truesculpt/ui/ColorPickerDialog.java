@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package truesculpt2.UI;
+package truesculpt.ui;
 
 import android.os.Bundle;
 import android.app.Dialog;
