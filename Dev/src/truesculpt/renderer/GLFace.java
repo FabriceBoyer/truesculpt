@@ -82,9 +82,9 @@ public class GLFace {
 		// push triangles into the buffer
 		for (int i = 1; i < last; i++) {
 			GLVertex v1 = mVertexList.get(i);
-			buffer.put((int)v0.index);
-			buffer.put((int)v1.index);
-			buffer.put((int)vn.index);
+			buffer.put(v0.index);
+			buffer.put(v1.index);
+			buffer.put(vn.index);
 			v0 = v1;
 		}
 	}
