@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package truesculpt2.Samples;
+package truesculpt2.samples;
 
 
 import android.app.Activity;
