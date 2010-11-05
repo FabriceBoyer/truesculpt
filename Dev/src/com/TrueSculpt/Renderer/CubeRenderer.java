@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.TrueSculpt;
+package com.TrueSculpt.Renderer;
 
 import java.util.Currency;
 import java.util.Date;
@@ -32,7 +32,7 @@ import android.opengl.GLSurfaceView;
  * Render a pair of tumbling cubes.
  */
 
-class CubeRenderer implements GLSurfaceView.Renderer {
+public class CubeRenderer implements GLSurfaceView.Renderer {
     public CubeRenderer(boolean useTranslucentBackground) {
         mTranslucentBackground = useTranslucentBackground;
         mWorld = new GLWorld();      

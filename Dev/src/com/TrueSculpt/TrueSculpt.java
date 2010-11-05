@@ -46,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TrueSculpt.ColorPickerDialog.OnColorChangedListener;
+import com.TrueSculpt.Renderer.CubeRenderer;
 
 public class TrueSculpt extends Activity implements OnColorChangedListener,
 		SensorEventListener {
