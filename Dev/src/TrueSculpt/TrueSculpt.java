@@ -48,7 +48,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.TrueSculpt.R;
+import TrueSculpt.Main.R;
 
 public class TrueSculpt extends Activity implements OnColorChangedListener,
 		SensorEventListener {
