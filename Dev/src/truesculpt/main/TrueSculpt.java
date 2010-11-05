@@ -87,16 +87,16 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 	@Override
 	public void colorChanged(int color) {
 		mColor = color;
-		mRenderer.SetColor(mColor);
+		mRenderer.setColor(mColor);
 		String msg = "color is " + Integer.toString(mColor);
 		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_SHORT).show();
 	}
 
-	public int GetColor() {
+	public int getColor() {
 		return mColor;
 	}
 
-	private String GetCurrentVersion() {
+	private String getCurrentVersion() {
 		String strCurrVersion = "0.0";
 
 		PackageManager pm = getPackageManager();
@@ -111,7 +111,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		return strCurrVersion;
 	}
 
-	private String GetLatestVersion() {
+	private String getLatestVersion() {
 		String strLatestVersion = "-1.0";
 
 		try {
@@ -158,7 +158,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		return strLatestVersion;
 	}
 
-	private void GetMemoryInfo() {
+	private void getMemoryInfo() {
 		String msg = "";
 
 		ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -211,8 +211,8 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		}
 	}
 
-	private void IsUpdateNeeded() {
-		String strCurrVersion = GetCurrentVersion();
+	private void isUpdateNeeded() {
+		String strCurrVersion = getCurrentVersion();
 		String[] tempVer = strCurrVersion.split("\\.");
 		int majCurr = -1;
 		int minCurr = -1;
@@ -221,7 +221,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 			minCurr = Integer.parseInt(tempVer[1]);
 		}
 
-		String strLatestVersion = GetLatestVersion();
+		String strLatestVersion = getLatestVersion();
 		tempVer = strLatestVersion.split("\\.");
 		int majLat = -1;
 		int minLat = -1;
@@ -284,7 +284,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 				.getMenuInfo();
 		switch (item.getItemId()) {
 		case R.id.edit:
-			GetMemoryInfo();
+			getMemoryInfo();
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -338,12 +338,12 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.show_sensors:
-			ShowSensor();
+			showSensor();
 			Intent myIntent = new Intent("com.TrueSculpt.TutorialWizard");
 			startActivity(myIntent);
 			return true;
 		case R.id.check_version:
-			IsUpdateNeeded();
+			isUpdateNeeded();
 			return true;
 		case R.id.quit:
 			this.finish();
@@ -386,7 +386,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 				Tempname = event.sensor.getName() + "_" + i;
 				m_sensorsValues.put(Tempname, event.values[i]);
 			}
-			UpdateSensorText();
+			updateSensorText();
 
 			float currX = event.values[1];
 			float currY = event.values[2];
@@ -404,7 +404,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 			float dObjY = currY - origY;
 			float dObjZ = currZ - origZ;
 
-			mRenderer.SetOrientation(dObjX, dObjY, dObjZ, 0, 0, 0);
+			mRenderer.setOrientation(dObjX, dObjY, dObjZ, 0, 0, 0);
 
 			lastX = currX;
 			lastY = currY;
@@ -421,7 +421,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 
 	}
 
-	private void ShowSensor() {
+	private void showSensor() {
 		WifiManager wm = (WifiManager) getSystemService(WIFI_SERVICE);
 		String macAddr = wm.getConnectionInfo().getMacAddress();
 
@@ -439,7 +439,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
 	}
 
-	private void UpdateSensorText() {
+	private void updateSensorText() {
 		fullmsg = "";
 		iter = keys.iterator();
 		while (iter.hasNext()) {
