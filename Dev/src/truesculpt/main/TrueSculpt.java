@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 import truesculpt.renderer.CubeRenderer;
 import truesculpt.ui.ColorPickerDialog;
 import truesculpt.ui.ColorPickerDialog.OnColorChangedListener;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -48,8 +47,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import truesculpt.main.R;
 
 public class TrueSculpt extends Activity implements OnColorChangedListener,
 		SensorEventListener {
@@ -317,7 +314,6 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		mRenderer = new CubeRenderer(false);
 		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		mGLSurfaceView.setRenderer(mRenderer);
-		
 
 		keys = m_sensorsValues.keySet();
 	}

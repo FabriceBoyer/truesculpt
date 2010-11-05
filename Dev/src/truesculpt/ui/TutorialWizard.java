@@ -10,11 +10,11 @@ public class TutorialWizard extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		 WebView webview = new WebView(this);
-		 setContentView(webview);
-		 
-		 webview.loadUrl("http://slashdot.org/");
+
+		WebView webview = new WebView(this);
+		setContentView(webview);
+
+		webview.loadUrl("http://slashdot.org/");
 	}
 
 	@Override
