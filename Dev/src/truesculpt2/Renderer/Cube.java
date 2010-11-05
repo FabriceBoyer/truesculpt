@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package TrueSculpt.Renderer;
+package truesculpt2.Renderer;
 
 
 public class Cube extends GLShape {

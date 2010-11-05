@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package TrueSculpt.Renderer;
+package truesculpt2.Renderer;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;

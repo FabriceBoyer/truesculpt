@@ -1,4 +1,4 @@
-package TrueSculpt.UI;
+package truesculpt2.UI;
 
 import android.app.Activity;
 import android.os.Bundle;
