@@ -1,4 +1,4 @@
-package com.TrueSculpt.UI;
+package com.TrueSculpt;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,6 +47,7 @@ import android.widget.Toast;
 
 import com.TrueSculpt.R;
 import com.TrueSculpt.Renderer.CubeRenderer;
+import com.TrueSculpt.UI.ColorPickerDialog;
 import com.TrueSculpt.UI.ColorPickerDialog.OnColorChangedListener;
 
 public class TrueSculpt extends Activity implements OnColorChangedListener,
