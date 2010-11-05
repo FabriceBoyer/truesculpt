@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.TrueSculpt.Renderer;
+package TrueSculpt.Renderer;
 
 /** 
  * 

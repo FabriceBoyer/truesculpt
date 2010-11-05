@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.TrueSculpt.Samples;
+package TrueSculpt.Samples;
 
 
-import com.TrueSculpt.UI.ColorPickerDialog;
-import com.TrueSculpt.UI.ColorPickerDialog.OnColorChangedListener;
 
+import TrueSculpt.UI.ColorPickerDialog;
+import TrueSculpt.UI.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;

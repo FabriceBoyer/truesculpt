@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.TrueSculpt.Samples;
+package TrueSculpt.Samples;
 
-import com.TrueSculpt.Renderer.CubeRenderer;
 
+import TrueSculpt.Renderer.CubeRenderer;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
