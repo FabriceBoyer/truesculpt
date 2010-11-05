@@ -19,8 +19,6 @@ package truesculpt.samples;
 
 
 import truesculpt.ui.ColorPickerDialog;
-import truesculpt.ui.ColorPickerDialog.OnColorChangedListener;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.os.Bundle;

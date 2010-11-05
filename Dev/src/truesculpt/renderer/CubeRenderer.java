@@ -16,11 +16,8 @@
 
 package truesculpt.renderer;
 
-import java.util.Currency;
-import java.util.Date;
 import java.util.Random;
 
-import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 

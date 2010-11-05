@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.hardware.SensorManager;
 import android.hardware.SensorListener;
-import android.util.Log;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
