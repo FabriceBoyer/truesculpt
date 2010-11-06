@@ -1,5 +1,6 @@
 package truesculpt.managers;
 
+import truesculpt.main.TrueSculpt;
 import android.app.Activity;
 
 public class BaseManager {
@@ -17,5 +18,10 @@ public class BaseManager {
 	public Activity getBaseActivity() {
 		return mBaseActivity;
 	}
-
+	
+	public ManagersManager getManagers()
+	{
+		TrueSculpt parent=(TrueSculpt)mBaseActivity;
+		return parent.getManagers();		
+	}
 }
