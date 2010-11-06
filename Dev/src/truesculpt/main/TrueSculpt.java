@@ -47,7 +47,6 @@ public class TrueSculpt extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.show_tools_panel: {
 			Utils.StartMyActivity(this, "truesculpt.ui.panels.ToolsPanel");
@@ -80,8 +79,6 @@ public class TrueSculpt extends Activity {
 
 	@Override
 	protected void onPause() {
-		// Ideally a game should implement onResume() and onPause()
-		// to take appropriate action when the activity looses focus
 		super.onPause();
 
 		if (mGLSurfaceView!=null) mGLSurfaceView.onPause();

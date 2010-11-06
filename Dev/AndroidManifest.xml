@@ -22,6 +22,8 @@
 <activity android:name="truesculpt.ui.debug.DebugPanel" android:label="@string/debug_panel"></activity>
 <activity android:name="truesculpt.ui.panels.UpdatePanel" android:label="@string/update_version_panel"></activity>
 <activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard"></activity>
+<activity android:name="truesculpt.ui.debug.DebugSensorsPanel" android:screenOrientation="portrait"></activity>
+<activity android:name="truesculpt.ui.debug.DebugTestPanel"></activity>
 </application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>
