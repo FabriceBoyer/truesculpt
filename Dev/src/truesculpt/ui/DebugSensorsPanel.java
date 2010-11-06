@@ -48,7 +48,7 @@ import android.view.View;
  * </tr>
  * </table>
  */
-public class DebugSensors extends Activity {
+public class DebugSensorsPanel extends Activity {
 	private class GraphView extends View implements SensorListener {
 		private Bitmap mBitmap;
 		private Canvas mCanvas = new Canvas();
