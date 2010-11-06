@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-public class TutorialWizard extends Activity {
+public class TutorialWizardPanel extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
