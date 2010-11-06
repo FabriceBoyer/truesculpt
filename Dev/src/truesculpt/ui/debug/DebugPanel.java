@@ -22,6 +22,15 @@ public class DebugPanel extends Activity {
 				Utils.StartMyActivity(DebugPanel.this, "truesculpt.ui.debug.DebugSensorsPanel");						
 			}
 		});
+		
+		final Button button2 = (Button) findViewById(R.id.show_test);
+		button2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Utils.StartMyActivity(DebugPanel.this, "truesculpt.ui.debug.DebugTestPanel");						
+			}
+		});
+		
 	}
 
 	@Override

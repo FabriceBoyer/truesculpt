@@ -25,7 +25,7 @@ public class UpdateManager extends BaseManager {
 		// TODO Auto-generated constructor stub
 	}
 
-	private String getCurrentVersion() {
+	public String getCurrentVersion() {
 		String strCurrVersion = "0.0";
 
 		PackageManager pm = getBaseActivity().getPackageManager();
@@ -41,7 +41,7 @@ public class UpdateManager extends BaseManager {
 		return strCurrVersion;
 	}
 
-	private String getLatestVersion() {
+	public String getLatestVersion() {
 		String strLatestVersion = "-1.0";
 
 		try {
@@ -88,7 +88,10 @@ public class UpdateManager extends BaseManager {
 		return strLatestVersion;
 	}
 
-	private void isUpdateNeeded() {
+	public String getUpdateStatus() {
+		
+		String msg="";
+		
 		String strCurrVersion = getCurrentVersion();
 		String[] tempVer = strCurrVersion.split("\\.");
 		int majCurr = -1;
@@ -122,7 +125,7 @@ public class UpdateManager extends BaseManager {
 				bIsBeta = true;
 			}
 
-			String msg = getBaseActivity().getString(
+			msg = getBaseActivity().getString(
 					R.string.current_version_is_)
 					+ strCurrVersion
 					+ getBaseActivity().getString(R.string._latest_version_is_)
@@ -138,17 +141,9 @@ public class UpdateManager extends BaseManager {
 			} else {
 				msg += R.string.no_update_is_needed_;
 			}
-
-			Toast.makeText(getBaseActivity(), msg, Toast.LENGTH_LONG).show();
-
-			// Launch associated web page
-			String lastestURL = strLatestVersion.replace(".", "_");
-			lastestURL = "https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"
-					+ lastestURL + ".apk";
-			Intent myIntent = new Intent(Intent.ACTION_VIEW,
-					Uri.parse(lastestURL));
-			getBaseActivity().startActivity(myIntent);
 		}
+		
+		return msg;
 	}
 
 }

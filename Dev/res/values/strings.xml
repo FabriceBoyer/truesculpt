@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="show_options">Options</string>
     <string name="tutorial_wizard">Tutorial</string>
     <string name="update_version_panel">Check version</string>
     <string name="debug_panel">Debug</string>
@@ -21,4 +22,5 @@
 <string name="show_tutorial_wizard_panel">Tutorial</string>
 <string name="color_picker">Choose color</string>
 <string name="show_sensors">Sensors</string>
+<string name="show_test">Test</string>
 </resources>
