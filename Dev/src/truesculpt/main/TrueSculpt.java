@@ -16,7 +16,7 @@ public class TrueSculpt extends Activity {
 
 	private static final String TAG = "TrueSculptMain";
 
-	private GLSurfaceView mGLSurfaceView;
+	private GLSurfaceView mGLSurfaceView=null;
 
 
 	/** Called when the activity is first created. */
@@ -25,9 +25,8 @@ public class TrueSculpt extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
-		
-		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
+		//mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);		
+		//mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		//mGLSurfaceView.setRenderer(mRenderer);
 
 	}
@@ -43,18 +42,28 @@ public class TrueSculpt extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
+		case R.id.show_tools_panel: {
+			Intent myIntent = new Intent("truesculpt.ui.panels.ToolsPanel");
+			startActivity(myIntent);
+			return true;
+		}
+		case R.id.show_point_of_view_panel: {
+			Intent myIntent = new Intent("truesculpt.ui.panels.PointOfViewPanel");
+			startActivity(myIntent);
+			return true;
+		}
 		case R.id.show_debug_panel: {
-			Intent myIntent = new Intent("truesculpt.debug.DebugPanel");
+			Intent myIntent = new Intent("truesculpt.ui.debug.DebugPanel");
 			startActivity(myIntent);
 			return true;
 		}
 		case R.id.show_check_version_panel: {
-			Intent myIntent = new Intent("truesculpt.ui.UpdatePanel");
+			Intent myIntent = new Intent("truesculpt.ui.panels.UpdatePanel");
 			startActivity(myIntent);
 			return true;
 		}
 		case R.id.show_tutorial_wizard_panel: {
-			Intent myIntent = new Intent("truesculpt.ui.TutorialWizard");
+			Intent myIntent = new Intent("truesculpt.ui.panels.TutorialWizard");
 			startActivity(myIntent);
 			return true;
 		}
@@ -73,21 +82,21 @@ public class TrueSculpt extends Activity {
 		// to take appropriate action when the activity looses focus
 		super.onPause();
 
-		mGLSurfaceView.onPause();
+		if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		mGLSurfaceView.onResume();
+		if (mGLSurfaceView!=null) mGLSurfaceView.onResume();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 
-		mGLSurfaceView.onPause();
+		if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
 	}
 	
 	@Override
@@ -100,8 +109,7 @@ public class TrueSculpt extends Activity {
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		default:
 			return super.onContextItemSelected(item);

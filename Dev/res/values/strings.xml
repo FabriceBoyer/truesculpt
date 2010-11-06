@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="show_point_of_view_panel">Point of view</string>
+    <string name="show_tools_panel">Tools</string>
     <string name="_latest_version_is_">. Latest version is </string>
     <string name="current_version_is_">Current version is </string>
     <string name="this_version_is_not_a_beta_">This version is NOT a beta. </string>
     <string name="this_version_is_a_beta_">This version is a beta. </string>
     <string name="no_update_is_needed_">NO update is needed. </string>
     <string name="an_update_is_needed_">An update is needed. </string>
-    <string name="show_check_version_panel">Check Version</string>
+    <string name="show_check_version_panel">Check version</string>
     <string name="edit">Edit</string>
     <string name="quit">Quit</string>
     <string name="show_debug_panel">Debug</string>
     <string name="app_name">TrueSculpt</string>
 <string name="show_tutorial_wizard_panel">Tutorial</string>
-<string name="color_picker">Color picker</string>
+<string name="color_picker">Choose color</string>
 </resources>
