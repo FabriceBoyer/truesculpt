@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="tutorial_wizard">Tutorial</string>
+    <string name="update_version_panel">Update version</string>
+    <string name="debug_panel">Debug</string>
+    <string name="point_of_view">Point of view</string>
     <string name="tools_panel">Tools</string>
     <string name="show_point_of_view_panel">Point of view</string>
     <string name="show_tools_panel">Tools</string>

@@ -16,9 +16,12 @@
 </intent-filter>
 </activity>
 
-    <activity android:name="truesculpt.ui.panels.ToolsPanel" android:label="@string/tools_panel"><intent-filter><action android:name="android.intent.action.MAIN"></action>
-</intent-filter>
+    <activity android:name="truesculpt.ui.panels.ToolsPanel" android:label="@string/tools_panel">
 </activity>
+<activity android:name="truesculpt.ui.panels.PointOfViewPanel" android:label="@string/point_of_view"></activity>
+<activity android:name="truesculpt.ui.debug.DebugPanel" android:label="@string/debug_panel"></activity>
+<activity android:name="truesculpt.ui.panels.UpdatePanel" android:label="@string/update_version_panel"></activity>
+<activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard"></activity>
 </application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>
