@@ -1,7 +1,6 @@
 package truesculpt.main;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -11,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.Toast;
 
 import truesculpt.utils.*;
 
@@ -19,7 +17,7 @@ public class TrueSculpt extends Activity {
 
 	private static final String TAG = "TrueSculptMain";
 
-	//private GLSurfaceView mGLSurfaceView=null;
+	private GLSurfaceView mGLSurfaceView=null;
 
 
 	/** Called when the activity is first created. */
@@ -80,21 +78,21 @@ public class TrueSculpt extends Activity {
 		// to take appropriate action when the activity looses focus
 		super.onPause();
 
-		//if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
+		if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		//if (mGLSurfaceView!=null) mGLSurfaceView.onResume();
+		if (mGLSurfaceView!=null) mGLSurfaceView.onResume();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 
-		//if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
+		if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
 	}
 	
 	@Override
