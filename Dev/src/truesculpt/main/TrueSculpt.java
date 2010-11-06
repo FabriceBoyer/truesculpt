@@ -1,6 +1,5 @@
 package truesculpt.main;
 
-import truesculpt.renderer.SphereRenderer;
 import android.app.Activity;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
@@ -18,17 +17,7 @@ public class TrueSculpt extends Activity {
 	private static final String TAG = "TrueSculptMain";
 
 	private GLSurfaceView mGLSurfaceView;
-	private SphereRenderer mRenderer = null;
 
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
-		switch (item.getItemId()) {
-		default:
-			return super.onContextItemSelected(item);
-		}
-	}
 
 	/** Called when the activity is first created. */
 	@Override
@@ -37,18 +26,10 @@ public class TrueSculpt extends Activity {
 		setContentView(R.layout.main);
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
-		mRenderer = new SphereRenderer(false);
+		
 		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
-		mGLSurfaceView.setRenderer(mRenderer);
+		//mGLSurfaceView.setRenderer(mRenderer);
 
-	}
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getMenuInflater();
-		// inflater.inflate(R.menu.context_menu, menu);
 	}
 
 	@Override
@@ -107,7 +88,24 @@ public class TrueSculpt extends Activity {
 		super.onStop();
 
 		mGLSurfaceView.onPause();
-
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		// inflater.inflate(R.menu.context_menu, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		switch (item.getItemId()) {
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 
 }

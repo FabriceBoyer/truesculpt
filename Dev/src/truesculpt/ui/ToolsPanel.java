@@ -12,6 +12,17 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 	private int mColor = 0;
 
 	@Override
+	public void colorChanged(int color) {
+		mColor = color;
+		String msg = "color is " + Integer.toString(mColor);
+		Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
+	}
+
+	public int getmColor() {
+		return mColor;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tools);
@@ -27,26 +38,13 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 	}
 
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
+	protected void onDestroy() {		
 		super.onDestroy();
 	}
 
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
+	protected void onPause() {		
 		super.onPause();
-	}
-
-	@Override
-	public void colorChanged(int color) {
-		mColor = color;
-		String msg = "color is " + Integer.toString(mColor);
-		Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
-	}
-
-	public int getColor() {
-		return mColor;
 	}
 
 }
