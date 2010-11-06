@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package truesculpt.ui;
+package truesculpt.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;

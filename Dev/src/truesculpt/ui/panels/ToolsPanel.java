@@ -1,7 +1,8 @@
-package truesculpt.ui;
+package truesculpt.ui.panels;
 
 import truesculpt.main.R;
-import truesculpt.ui.ColorPickerDialog.OnColorChangedListener;
+import truesculpt.ui.dialogs.ColorPickerDialog;
+import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

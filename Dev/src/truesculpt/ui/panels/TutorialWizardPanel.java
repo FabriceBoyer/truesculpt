@@ -1,4 +1,4 @@
-package truesculpt.ui;
+package truesculpt.ui.panels;
 
 import truesculpt.main.R;
 import android.app.Activity;

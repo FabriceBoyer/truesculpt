@@ -16,7 +16,7 @@
 
 package truesculpt.samples;
 
-import truesculpt.ui.ColorPickerDialog;
+import truesculpt.ui.dialogs.ColorPickerDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
