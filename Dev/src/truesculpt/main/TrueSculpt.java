@@ -68,6 +68,10 @@ public class TrueSculpt extends Activity {
 			Utils.StartMyActivity(this, "truesculpt.ui.panels.TutorialWizardPanel");
 			return true;
 		}
+		case R.id.show_options: {
+			getManagers().getmOptionsManager().Show();
+			return true;
+		}			
 		case R.id.quit: {
 			this.finish();
 			return true;

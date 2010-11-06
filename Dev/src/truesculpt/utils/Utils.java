@@ -2,7 +2,6 @@ package truesculpt.utils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.InputFilter.LengthFilter;
 import android.widget.Toast;
 
 public class Utils {
@@ -14,6 +13,9 @@ public class Utils {
 			boolean bSuccess=true;
 			String msg="";
 			
+			//Intent startIntent = new Intent(callingACtivity, ChildActivity.class);
+			//getLocalActivityManager().startActivity("and.mypackage.ChildActivity", startIntent);
+
 			Intent myIntent = new Intent();
 			myIntent.setClassName(callingACtivity, strClassName );			
 			try {
