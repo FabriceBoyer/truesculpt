@@ -25,69 +25,6 @@ public class UpdateManager extends BaseManager {
 		// TODO Auto-generated constructor stub
 	}
 
-	private void isUpdateNeeded() {
-		String strCurrVersion = getCurrentVersion();
-		String[] tempVer = strCurrVersion.split("\\.");
-		int majCurr = -1;
-		int minCurr = -1;
-		if (tempVer.length == 2) {
-			majCurr = Integer.parseInt(tempVer[0]);
-			minCurr = Integer.parseInt(tempVer[1]);
-		}
-
-		String strLatestVersion = getLatestVersion();
-		tempVer = strLatestVersion.split("\\.");
-		int majLat = -1;
-		int minLat = -1;
-		if (tempVer.length == 2) {
-			majLat = Integer.parseInt(tempVer[0]);
-			minLat = Integer.parseInt(tempVer[1]);
-		}
-
-		if (majCurr >= 0 && minCurr >= 0 && majLat >= 0 && minLat >= 0) {
-			boolean bUpdateNeeded = false;
-			boolean bIsBeta = false;
-			if (majLat > majCurr) {
-				bUpdateNeeded = true;
-			} else if (majLat == majCurr) {
-				if (minLat > minCurr) {
-					bUpdateNeeded = true;
-				} else if (minLat < minCurr) {
-					bIsBeta = true;
-				}
-			} else if (majLat < majCurr) {
-				bIsBeta = true;
-			}
-
-			String msg = getBaseActivity().getString(
-					R.string.current_version_is_)
-					+ strCurrVersion
-					+ getBaseActivity().getString(R.string._latest_version_is_)
-					+ strLatestVersion + ". ";
-			if (bIsBeta) {
-				msg += R.string.this_version_is_a_beta_;
-			} else {
-				msg += R.string.this_version_is_not_a_beta_;
-			}
-
-			if (bUpdateNeeded) {
-				msg += R.string.an_update_is_needed_;
-			} else {
-				msg += R.string.no_update_is_needed_;
-			}
-
-			Toast.makeText(getBaseActivity(), msg, Toast.LENGTH_LONG).show();
-
-			// Launch associated web page
-			String lastestURL = strLatestVersion.replace(".", "_");
-			lastestURL = "https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"
-					+ lastestURL + ".apk";
-			Intent myIntent = new Intent(Intent.ACTION_VIEW,
-					Uri.parse(lastestURL));
-			getBaseActivity().startActivity(myIntent);
-		}
-	}
-
 	private String getCurrentVersion() {
 		String strCurrVersion = "0.0";
 
@@ -149,6 +86,69 @@ public class UpdateManager extends BaseManager {
 		}
 
 		return strLatestVersion;
+	}
+
+	private void isUpdateNeeded() {
+		String strCurrVersion = getCurrentVersion();
+		String[] tempVer = strCurrVersion.split("\\.");
+		int majCurr = -1;
+		int minCurr = -1;
+		if (tempVer.length == 2) {
+			majCurr = Integer.parseInt(tempVer[0]);
+			minCurr = Integer.parseInt(tempVer[1]);
+		}
+
+		String strLatestVersion = getLatestVersion();
+		tempVer = strLatestVersion.split("\\.");
+		int majLat = -1;
+		int minLat = -1;
+		if (tempVer.length == 2) {
+			majLat = Integer.parseInt(tempVer[0]);
+			minLat = Integer.parseInt(tempVer[1]);
+		}
+
+		if (majCurr >= 0 && minCurr >= 0 && majLat >= 0 && minLat >= 0) {
+			boolean bUpdateNeeded = false;
+			boolean bIsBeta = false;
+			if (majLat > majCurr) {
+				bUpdateNeeded = true;
+			} else if (majLat == majCurr) {
+				if (minLat > minCurr) {
+					bUpdateNeeded = true;
+				} else if (minLat < minCurr) {
+					bIsBeta = true;
+				}
+			} else if (majLat < majCurr) {
+				bIsBeta = true;
+			}
+
+			String msg = getBaseActivity().getString(
+					R.string.current_version_is_)
+					+ strCurrVersion
+					+ getBaseActivity().getString(R.string._latest_version_is_)
+					+ strLatestVersion + ". ";
+			if (bIsBeta) {
+				msg += R.string.this_version_is_a_beta_;
+			} else {
+				msg += R.string.this_version_is_not_a_beta_;
+			}
+
+			if (bUpdateNeeded) {
+				msg += R.string.an_update_is_needed_;
+			} else {
+				msg += R.string.no_update_is_needed_;
+			}
+
+			Toast.makeText(getBaseActivity(), msg, Toast.LENGTH_LONG).show();
+
+			// Launch associated web page
+			String lastestURL = strLatestVersion.replace(".", "_");
+			lastestURL = "https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"
+					+ lastestURL + ".apk";
+			Intent myIntent = new Intent(Intent.ACTION_VIEW,
+					Uri.parse(lastestURL));
+			getBaseActivity().startActivity(myIntent);
+		}
 	}
 
 }

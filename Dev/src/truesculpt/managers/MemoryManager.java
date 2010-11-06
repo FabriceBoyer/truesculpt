@@ -13,12 +13,12 @@ import android.util.Log;
 
 public class MemoryManager extends BaseManager {
 
+	private static final String TAG = "TrueSculptMemory";
+
 	public MemoryManager(Activity mBaseActivity) {
 		super(mBaseActivity);
 		// TODO Auto-generated constructor stub
 	}
-
-	private static final String TAG = "TrueSculptMemory";
 
 	private void getMemoryInfo() {
 		String msg = "";

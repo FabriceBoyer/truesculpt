@@ -82,7 +82,7 @@ public class DebugSensorsPanel extends Activity {
 
 		@Override
 		public void onAccuracyChanged(int sensor, int accuracy) {
-			// TODO Auto-generated method stub
+			
 
 		}
 

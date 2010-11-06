@@ -17,70 +17,39 @@ import android.telephony.TelephonyManager;
 
 public class SensorsManager extends BaseManager implements SensorEventListener {
 
-	public SensorsManager(Activity mBaseActivity) {
-		super(mBaseActivity);
-		// TODO Auto-generated constructor stub
-	}
+	boolean bOrigSet = false;
 
-	private SensorManager mSensorManager;
+	private String fullmsg;
+	private Iterator<String> iter;
+	private Set<String> keys;
 	// sensor data
 	float lastX = 0.0f;
 	float lastY = 0.0f;
 	float lastZ = 0.0f;
 	private HashMap<String, Float> m_sensorsValues = new HashMap<String, Float>();
+	private SensorManager mSensorManager;
 	private String msg;
 	float origX = 0.0f;
+
 	float origY = 0.0f;
+
 	float origZ = 0.0f;
+
 	private String Tempkey;
 
 	private String Tempname;
 
-	boolean bOrigSet = false;
-
-	private String fullmsg;
-
-	private Iterator<String> iter;
-
-	private Set<String> keys;
-
 	// Temp for test debug
 	private DecimalFormat twoPlaces = new DecimalFormat("000.00");
 
-	private void showSensor() {
-		WifiManager wm = (WifiManager) getBaseActivity().getSystemService(
-				Context.WIFI_SERVICE);
-		String macAddr = wm.getConnectionInfo().getMacAddress();
-
-		final TelephonyManager tm = (TelephonyManager) getBaseActivity()
-				.getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-
-		String tmDevice = tm.getDeviceId();
-		String tmSerial = tm.getSimSerialNumber();
-		String androidId = android.provider.Settings.Secure.getString(
-				getBaseActivity().getContentResolver(),
-				android.provider.Settings.Secure.ANDROID_ID);
-
-		String msg = macAddr + "\n" + tmDevice + "\n" + tmSerial + "\n"
-				+ androidId + "\n";
-		// Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
-	}
-
-	private void updateSensorText() {
-		fullmsg = "";
-		iter = keys.iterator();
-		while (iter.hasNext()) {
-			Tempkey = iter.next();
-			msg = Tempkey + " : "
-					+ twoPlaces.format(m_sensorsValues.get(Tempkey));
-			fullmsg += msg + "\n";
-		}
-		// text.setText(fullmsg);
+	public SensorsManager(Activity mBaseActivity) {
+		super(mBaseActivity);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -119,6 +88,25 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 		}
 	}
 
+	private void showSensor() {
+		WifiManager wm = (WifiManager) getBaseActivity().getSystemService(
+				Context.WIFI_SERVICE);
+		String macAddr = wm.getConnectionInfo().getMacAddress();
+
+		final TelephonyManager tm = (TelephonyManager) getBaseActivity()
+				.getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+
+		String tmDevice = tm.getDeviceId();
+		String tmSerial = tm.getSimSerialNumber();
+		String androidId = android.provider.Settings.Secure.getString(
+				getBaseActivity().getContentResolver(),
+				android.provider.Settings.Secure.ANDROID_ID);
+
+		String msg = macAddr + "\n" + tmDevice + "\n" + tmSerial + "\n"
+				+ androidId + "\n";
+		// Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
+	}
+
 	public void Start() {
 		mSensorManager = (SensorManager) getBaseActivity().getSystemService(
 				Context.SENSOR_SERVICE);
@@ -135,6 +123,18 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	public void Stop() {
 		mSensorManager.unregisterListener(SensorsManager.this);
 
+	}
+
+	private void updateSensorText() {
+		fullmsg = "";
+		iter = keys.iterator();
+		while (iter.hasNext()) {
+			Tempkey = iter.next();
+			msg = Tempkey + " : "
+					+ twoPlaces.format(m_sensorsValues.get(Tempkey));
+			fullmsg += msg + "\n";
+		}
+		// text.setText(fullmsg);
 	}
 
 }
