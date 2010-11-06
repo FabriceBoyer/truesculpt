@@ -1,4 +1,5 @@
 package truesculpt.managers;
+
 import android.app.Activity;
 
 public class BaseManager {
@@ -16,7 +17,5 @@ public class BaseManager {
 		super();
 		this.mBaseActivity = baseActivity;
 	}
-	
-	
-	
+
 }

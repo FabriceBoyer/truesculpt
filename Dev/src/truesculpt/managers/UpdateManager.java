@@ -10,66 +10,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import truesculpt.main.R;
-import truesculpt.main.TrueSculpt;
-
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
-import android.widget.Toast;
-
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import truesculpt.renderer.SphereRenderer;
-import truesculpt.ui.ColorPickerDialog;
-import truesculpt.ui.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
-import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class UpdateManager extends BaseManager {
-	
+
 	public UpdateManager(Activity mBaseActivity) {
 		super(mBaseActivity);
 		// TODO Auto-generated constructor stub
@@ -109,8 +59,10 @@ public class UpdateManager extends BaseManager {
 				bIsBeta = true;
 			}
 
-			String msg = getBaseActivity().getString(R.string.current_version_is_)
-					+ strCurrVersion + getBaseActivity().getString(R.string._latest_version_is_)
+			String msg = getBaseActivity().getString(
+					R.string.current_version_is_)
+					+ strCurrVersion
+					+ getBaseActivity().getString(R.string._latest_version_is_)
 					+ strLatestVersion + ". ";
 			if (bIsBeta) {
 				msg += R.string.this_version_is_a_beta_;
@@ -141,7 +93,8 @@ public class UpdateManager extends BaseManager {
 
 		PackageManager pm = getBaseActivity().getPackageManager();
 		try {
-			PackageInfo info = pm.getPackageInfo(getBaseActivity().getPackageName(), 0);
+			PackageInfo info = pm.getPackageInfo(getBaseActivity()
+					.getPackageName(), 0);
 			strCurrVersion = info.versionName;
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -197,5 +150,5 @@ public class UpdateManager extends BaseManager {
 
 		return strLatestVersion;
 	}
-	
+
 }

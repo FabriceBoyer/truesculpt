@@ -8,11 +8,11 @@ import android.webkit.WebView;
 public class TutorialWizardPanel extends Activity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {		
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.tutorialwizard);	
-		
+		setContentView(R.layout.tutorialwizard);
+
 		WebView webview = new WebView(this);
 		setContentView(webview);
 
