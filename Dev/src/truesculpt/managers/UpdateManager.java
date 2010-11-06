@@ -11,12 +11,9 @@ import java.util.regex.Pattern;
 
 import truesculpt.main.R;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
-import android.widget.Toast;
 
 public class UpdateManager extends BaseManager {
 
@@ -89,9 +86,9 @@ public class UpdateManager extends BaseManager {
 	}
 
 	public String getUpdateStatus() {
-		
-		String msg="";
-		
+
+		String msg = "";
+
 		String strCurrVersion = getCurrentVersion();
 		String[] tempVer = strCurrVersion.split("\\.");
 		int majCurr = -1;
@@ -125,8 +122,7 @@ public class UpdateManager extends BaseManager {
 				bIsBeta = true;
 			}
 
-			msg = getBaseActivity().getString(
-					R.string.current_version_is_)
+			msg = getBaseActivity().getString(R.string.current_version_is_)
 					+ strCurrVersion
 					+ getBaseActivity().getString(R.string._latest_version_is_)
 					+ strLatestVersion + ". ";
@@ -142,7 +138,7 @@ public class UpdateManager extends BaseManager {
 				msg += R.string.no_update_is_needed_;
 			}
 		}
-		
+
 		return msg;
 	}
 

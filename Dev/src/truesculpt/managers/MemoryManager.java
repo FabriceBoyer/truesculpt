@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import android.app.*;
-import android.app.ActivityManager.*;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.util.Log;
 

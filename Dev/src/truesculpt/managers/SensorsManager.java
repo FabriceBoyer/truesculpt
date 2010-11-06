@@ -8,7 +8,10 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
-import android.hardware.*;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 
@@ -46,7 +49,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		
 
 	}
 

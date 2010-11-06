@@ -6,7 +6,7 @@ import android.app.Activity;
 public class RendererManager extends BaseManager {
 
 	private SphereRenderer mRenderer = null;
-	
+
 	public RendererManager(Activity baseActivity) {
 		super(baseActivity);
 
