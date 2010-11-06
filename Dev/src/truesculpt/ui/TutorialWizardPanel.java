@@ -1,5 +1,6 @@
 package truesculpt.ui;
 
+import truesculpt.main.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -7,10 +8,11 @@ import android.webkit.WebView;
 public class TutorialWizardPanel extends Activity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.tutorialwizard);	
+		
 		WebView webview = new WebView(this);
 		setContentView(webview);
 

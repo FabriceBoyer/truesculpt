@@ -6,10 +6,11 @@
     <string name="this_version_is_a_beta_">This version is a beta. </string>
     <string name="no_update_is_needed_">NO update is needed. </string>
     <string name="an_update_is_needed_">An update is needed. </string>
-    <string name="checkVersion">Check Version</string>
+    <string name="show_check_version_panel">Check Version</string>
     <string name="edit">Edit</string>
     <string name="quit">Quit</string>
-    <string name="showSensors">Sensors</string>
-    <string name="hello">Hello World, TrueSculpt!</string>
+    <string name="show_debug_panel">Debug</string>
     <string name="app_name">TrueSculpt</string>
+<string name="show_tutorial_wizard_panel">Tutorial</string>
+<string name="color_picker">Color picker</string>
 </resources>

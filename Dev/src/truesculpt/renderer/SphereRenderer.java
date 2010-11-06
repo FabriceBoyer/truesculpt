@@ -28,7 +28,7 @@ import android.opengl.GLSurfaceView;
  * Render a pair of tumbling cubes.
  */
 
-public class CubeRenderer implements GLSurfaceView.Renderer {
+public class SphereRenderer implements GLSurfaceView.Renderer {
 	private float mAngleCurrX = 0.0f;
 
 	private float mAngleCurrY = 0.0f;
@@ -55,7 +55,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 	private float vy = 0.0f;
 	private float vz = 0.0f;
 
-	public CubeRenderer(boolean useTranslucentBackground) {
+	public SphereRenderer(boolean useTranslucentBackground) {
 		mTranslucentBackground = useTranslucentBackground;
 		mWorld = new GLWorld();
 
