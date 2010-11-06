@@ -172,7 +172,7 @@ public class TrueSculpt extends Activity implements OnColorChangedListener,
 		Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
 	}
 
-	private void GetMemoryInfoForAllProcesses() {
+	private void getMemoryInfoForAllProcesses() {
 		ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
 		activityManager.getMemoryInfo(memoryInfo);
