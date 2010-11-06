@@ -1,4 +1,4 @@
-package truesculpt.ui;
+package truesculpt.debug;
 
 import android.app.Activity;
 
