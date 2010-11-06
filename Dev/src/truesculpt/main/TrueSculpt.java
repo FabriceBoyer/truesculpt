@@ -44,7 +44,8 @@ public class TrueSculpt extends Activity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.show_tools_panel: {
-			Intent myIntent = new Intent("truesculpt.ui.panels.ToolsPanel");			
+			Intent myIntent = new Intent();
+			myIntent.setClassName(this, "truesculpt.ui.panels.ToolsPanel");			
 			try {
 				startActivity(myIntent);
 			} catch (Exception e) {
