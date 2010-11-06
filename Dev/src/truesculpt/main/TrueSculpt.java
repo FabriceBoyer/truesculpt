@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Toast;
 
+import truesculpt.utils.*;
+
 public class TrueSculpt extends Activity {
 
 	private static final String TAG = "TrueSculptMain";
@@ -44,38 +46,23 @@ public class TrueSculpt extends Activity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.show_tools_panel: {
-			Intent myIntent = new Intent();
-			myIntent.setClassName(this, "truesculpt.ui.panels.ToolsPanel");			
-			try {
-				startActivity(myIntent);
-			} catch (Exception e) {
-				String msg=e.getMessage(); 
-				Toast.makeText(this, msg,5);
-			}
+			Utils.StartMyActivity(this, "truesculpt.ui.panels.ToolsPanel");
 			return true;
 		}
 		case R.id.show_point_of_view_panel: {
-			Intent myIntent = new Intent();
-			myIntent.setClassName(this, "truesculpt.ui.panels.PointOfViewPanel");
-			startActivity(myIntent);
+			Utils.StartMyActivity(this, "truesculpt.ui.panels.PointOfViewPanel");
 			return true;
 		}
 		case R.id.show_debug_panel: {
-			Intent myIntent = new Intent();
-			myIntent.setClassName(this, "truesculpt.ui.debug.DebugPanel");
-			startActivity(myIntent);
+			Utils.StartMyActivity(this, "truesculpt.ui.debug.DebugPanel");
 			return true;
 		}
 		case R.id.show_check_version_panel: {
-			Intent myIntent = new Intent();
-			myIntent.setClassName(this, "truesculpt.ui.panels.UpdatePanel");
-			startActivity(myIntent);
+			Utils.StartMyActivity(this, "truesculpt.ui.panels.UpdatePanel");
 			return true;
 		}
 		case R.id.show_tutorial_wizard_panel: {
-			Intent myIntent = new Intent();
-			myIntent.setClassName(this, "truesculpt.ui.panels.TutorialWizard");
-			startActivity(myIntent);
+			Utils.StartMyActivity(this, "truesculpt.ui.panels.TutorialWizardPanel");
 			return true;
 		}
 		case R.id.quit: {
