@@ -3,14 +3,12 @@ package truesculpt.main;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.ContextMenu;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
+
+import truesculpt.managers.ManagersManager;
 import truesculpt.utils.*;
 
 public class TrueSculpt extends Activity {
@@ -19,6 +17,14 @@ public class TrueSculpt extends Activity {
 
 	private GLSurfaceView mGLSurfaceView=null;
 
+	private ManagersManager mManagers=new ManagersManager(this);
+
+	/**
+	 * @return the mManagers
+	 */
+	public ManagersManager getManagers() {
+		return mManagers;
+	}
 
 	/** Called when the activity is first created. */
 	@Override
