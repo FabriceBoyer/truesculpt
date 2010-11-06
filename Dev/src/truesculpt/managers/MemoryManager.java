@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import truesculpt.main.TrueSculpt;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-public class MemoryManager  extends BaseManager {
+public class MemoryManager extends BaseManager {
 
 	public MemoryManager(Activity mBaseActivity) {
 		super(mBaseActivity);
@@ -24,7 +23,8 @@ public class MemoryManager  extends BaseManager {
 	private void getMemoryInfo() {
 		String msg = "";
 
-		ActivityManager activityManager = (ActivityManager) getBaseActivity().getSystemService(Activity.ACTIVITY_SERVICE);
+		ActivityManager activityManager = (ActivityManager) getBaseActivity()
+				.getSystemService(Context.ACTIVITY_SERVICE);
 		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
 		activityManager.getMemoryInfo(memoryInfo);
 
@@ -32,11 +32,12 @@ public class MemoryManager  extends BaseManager {
 		msg += " memoryInfo.lowMemory " + memoryInfo.lowMemory + "\n";
 		msg += " memoryInfo.threshold " + memoryInfo.threshold + "\n";
 
-		//Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
+		// Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
 	}
 
 	private void getMemoryInfoForAllProcesses() {
-		ActivityManager activityManager = (ActivityManager)  getBaseActivity().getSystemService(Activity.ACTIVITY_SERVICE);
+		ActivityManager activityManager = (ActivityManager) getBaseActivity()
+				.getSystemService(Context.ACTIVITY_SERVICE);
 		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
 		activityManager.getMemoryInfo(memoryInfo);
 
@@ -73,5 +74,5 @@ public class MemoryManager  extends BaseManager {
 			}
 		}
 	}
-	
+
 }
