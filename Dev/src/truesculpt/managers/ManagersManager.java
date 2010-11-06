@@ -86,16 +86,21 @@ public class ManagersManager extends BaseManager {
 		return mWebManager;
 	}
 
-	private ActionsManager mActionsManager=new ActionsManager(getBaseActivity());
-	private MemoryManager mMemoryManager=new MemoryManager(getBaseActivity());
-	private MeshManager mMeshManager=new MeshManager(getBaseActivity());
-	private OptionsManager mOptionsManager=new OptionsManager(getBaseActivity());
-	private PointOfViewManager mPointOfViewManager=new PointOfViewManager(getBaseActivity());
-	private RendererManager mRendererManager=new RendererManager(getBaseActivity());
-	private SensorsManager mSensorsManager=new SensorsManager(getBaseActivity());
-	private ToolsManager mToolsManager=new ToolsManager(getBaseActivity());
-	private TouchManager mTouchManager=new TouchManager(getBaseActivity());
-	private UpdateManager mUpdateManager=new UpdateManager(getBaseActivity());
-	private WebManager mWebManager=new WebManager(getBaseActivity());
-	
+	private ActionsManager mActionsManager = new ActionsManager(
+			getBaseActivity());
+	private MemoryManager mMemoryManager = new MemoryManager(getBaseActivity());
+	private MeshManager mMeshManager = new MeshManager(getBaseActivity());
+	private OptionsManager mOptionsManager = new OptionsManager(
+			getBaseActivity());
+	private PointOfViewManager mPointOfViewManager = new PointOfViewManager(
+			getBaseActivity());
+	private RendererManager mRendererManager = new RendererManager(
+			getBaseActivity());
+	private SensorsManager mSensorsManager = new SensorsManager(
+			getBaseActivity());
+	private ToolsManager mToolsManager = new ToolsManager(getBaseActivity());
+	private TouchManager mTouchManager = new TouchManager(getBaseActivity());
+	private UpdateManager mUpdateManager = new UpdateManager(getBaseActivity());
+	private WebManager mWebManager = new WebManager(getBaseActivity());
+
 }

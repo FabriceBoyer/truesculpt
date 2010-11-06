@@ -1,23 +1,26 @@
 package truesculpt.main;
 
+import truesculpt.managers.ManagersManager;
+import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.*;
+import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-
-
-import truesculpt.managers.ManagersManager;
-import truesculpt.utils.*;
 
 public class TrueSculpt extends Activity {
 
 	private static final String TAG = "TrueSculptMain";
 
-	private GLSurfaceView mGLSurfaceView=null;
+	private GLSurfaceView mGLSurfaceView = null;
 
-	private ManagersManager mManagers=new ManagersManager(this);
+	private ManagersManager mManagers = new ManagersManager(this);
 
 	/**
 	 * @return the mManagers
@@ -32,9 +35,9 @@ public class TrueSculpt extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		//mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);		
-		//mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
-		//mGLSurfaceView.setRenderer(mRenderer);
+		// mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
+		// mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
+		// mGLSurfaceView.setRenderer(mRenderer);
 
 	}
 
@@ -65,13 +68,14 @@ public class TrueSculpt extends Activity {
 			return true;
 		}
 		case R.id.show_tutorial_wizard_panel: {
-			Utils.StartMyActivity(this, "truesculpt.ui.panels.TutorialWizardPanel");
+			Utils.StartMyActivity(this,
+					"truesculpt.ui.panels.TutorialWizardPanel");
 			return true;
 		}
 		case R.id.show_options: {
 			getManagers().getmOptionsManager().Show();
 			return true;
-		}			
+		}
 		case R.id.quit: {
 			this.finish();
 			return true;
@@ -81,7 +85,9 @@ public class TrueSculpt extends Activity {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onDestroy()
 	 */
 	@Override
@@ -90,7 +96,9 @@ public class TrueSculpt extends Activity {
 		super.onDestroy();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onTouchEvent(android.view.MotionEvent)
 	 */
 	@Override
@@ -103,23 +111,26 @@ public class TrueSculpt extends Activity {
 	protected void onPause() {
 		super.onPause();
 
-		if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
+		if (mGLSurfaceView != null)
+			mGLSurfaceView.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		if (mGLSurfaceView!=null) mGLSurfaceView.onResume();
+		if (mGLSurfaceView != null)
+			mGLSurfaceView.onResume();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 
-		if (mGLSurfaceView!=null) mGLSurfaceView.onPause();
+		if (mGLSurfaceView != null)
+			mGLSurfaceView.onPause();
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -127,10 +138,11 @@ public class TrueSculpt extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		// inflater.inflate(R.menu.context_menu, menu);
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		switch (item.getItemId()) {
 		default:
 			return super.onContextItemSelected(item);

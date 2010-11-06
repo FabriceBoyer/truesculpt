@@ -18,10 +18,9 @@ public class BaseManager {
 	public Activity getBaseActivity() {
 		return mBaseActivity;
 	}
-	
-	public ManagersManager getManagers()
-	{
-		TrueSculpt parent=(TrueSculpt)mBaseActivity;
-		return parent.getManagers();		
+
+	public ManagersManager getManagers() {
+		TrueSculpt parent = (TrueSculpt) mBaseActivity;
+		return parent.getManagers();
 	}
 }
