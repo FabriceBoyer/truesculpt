@@ -55,7 +55,10 @@ public class TrueSculpt extends Activity {
 	
 	public void NotifyStartupStat()
 	{
-		getManagers().getmUsageStatisticsManager().incrementStartupCount();
+		if (getManagers().getmOptionsManager().getGatherUsageData()==true)
+		{
+			getManagers().getmUsageStatisticsManager().incrementStartupCount();
+		}
 	}
 	
 	/** Called when the activity is first created. */
