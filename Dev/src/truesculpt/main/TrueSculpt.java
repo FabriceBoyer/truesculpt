@@ -32,8 +32,7 @@ public class TrueSculpt extends Activity {
 
 	public void ShowSplashScreen()
 	{		
-		SplashDialog splash= new SplashDialog(this);
-		splash.show();
+		Utils.StartMyActivity(this, "truesculpt.ui.panels.SplashPanel");
 	}
 	
 	/** Called when the activity is first created. */
@@ -41,7 +40,7 @@ public class TrueSculpt extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Utils.StartMyActivity(this, "truesculpt.ui.panels.SplashPanel");
+		ShowSplashScreen();
 		
 		setContentView(R.layout.main);
 		
