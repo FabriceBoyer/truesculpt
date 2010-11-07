@@ -20,12 +20,12 @@ public class TrueSculpt extends Activity {
 
 	private GLSurfaceView mGLSurfaceView = null;
 
-	private ManagersManager mManagers = new ManagersManager(this);
-
+	private static ManagersManager mManagers = new ManagersManager();
+	
 	/**
-	 * @return the mManagers
+	 * @return the mManagers singleton
 	 */
-	public ManagersManager getManagers() {
+	public static ManagersManager getManagers() {
 		return mManagers;
 	}
 
@@ -40,6 +40,8 @@ public class TrueSculpt extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		ShowSplashScreen();
+		
+		getManagers().Init(this);
 		
 		setContentView(R.layout.main);
 		

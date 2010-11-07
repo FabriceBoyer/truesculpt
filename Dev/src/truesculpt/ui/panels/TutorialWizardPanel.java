@@ -144,32 +144,12 @@ public class TutorialWizardPanel extends Activity {
 
 	public void setSeeAgainOption(boolean bSeeAgain)
 	{
-		TrueSculpt parent = (TrueSculpt) getParent();		
-		if (parent!=null)
-		{
-			parent.getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);			
-		}
-		else
-		{
-			assert(false);
-		}
+		TrueSculpt.getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);		
 	}
 	
 	public boolean getSeeAgainOption()
 	{
-		boolean bRes=true;
-		
-		TrueSculpt parent = (TrueSculpt) getParent();		
-		if (parent!=null)
-		{
-			bRes= parent.getManagers().getmOptionsManager().getViewTutorialAtStartup();			
-		}
-		else
-		{
-			assert(false);
-		}
-		
-		return bRes;
+		return TrueSculpt.getManagers().getmOptionsManager().getViewTutorialAtStartup();
 	}
 	
 	private void RefreshView()
