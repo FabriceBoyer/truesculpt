@@ -41,8 +41,6 @@ public class TutorialWizardPanel extends Activity {
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.setWebViewClient(new MyWebViewClient());
 		
-		RefreshView();		
-		
 		prevBtn= (Button) findViewById(R.id.prevBtn);
 		prevBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -58,6 +56,8 @@ public class TutorialWizardPanel extends Activity {
 				GoToNextStep();
 			}
 		});
+		
+		RefreshView();	
 	}
 	
 	private void GoToNextStep()
