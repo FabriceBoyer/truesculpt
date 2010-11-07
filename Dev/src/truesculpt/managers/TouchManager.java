@@ -1,6 +1,7 @@
 package truesculpt.managers;
 
 import android.app.Activity;
+import android.view.MotionEvent;
 
 public class TouchManager extends BaseManager {
 
@@ -9,4 +10,8 @@ public class TouchManager extends BaseManager {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void onTouchEvent(MotionEvent event)
+	{
+		
+	}
 }
