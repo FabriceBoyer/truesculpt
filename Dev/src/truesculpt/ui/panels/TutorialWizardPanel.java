@@ -154,30 +154,27 @@ public class TutorialWizardPanel extends Activity {
 	
 	private void RefreshView()
 	{		
-		  mWebView.loadUrl("file:///android_asset/tutorial1.html");
+		String strUrl="file:///android_asset/tutorial"+Integer.toString(mStepCurrentIndex)+".html";
+		mWebView.loadUrl(strUrl);
 	}
 
 	@Override
 	protected void onDestroy() {
-
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
-
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-
 		super.onStop();
 	}
 
