@@ -34,3 +34,4 @@ public class SplashDialog extends Dialog {
 		mHandler.postDelayed(mCloseDlgTask, 1500);
 	}
 }
+

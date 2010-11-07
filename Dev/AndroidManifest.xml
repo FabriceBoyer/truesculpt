@@ -24,6 +24,7 @@
 <activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard"></activity>
 <activity android:name="truesculpt.ui.debug.DebugSensorsPanel" android:screenOrientation="portrait" android:label="@string/show_sensors"></activity>
 <activity android:name="truesculpt.ui.debug.DebugTestPanel" android:label="@string/show_test"></activity>
+<activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash"></activity>
 </application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>
