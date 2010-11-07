@@ -32,6 +32,6 @@
 <string name="show_test">Test</string>
 <string name="prevBtn">Previous</string>
 <string name="nextBtn">Next</string>
-<string name="about_text">Written by Fabrice Boyer (fabrice.boyer@gmail.com)</string>
+<string name="about_text">Written by Fabrice Boyer\nfabrice.boyer@gmail.com</string>
 <string name="ok_btn">Ok</string>
 </resources>
