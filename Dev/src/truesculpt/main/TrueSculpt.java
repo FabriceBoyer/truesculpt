@@ -35,6 +35,8 @@ public class TrueSculpt extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		getManagers().getmOptionsManager().onCreate();
+		
 		// mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
 		// mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		// mGLSurfaceView.setRenderer(mRenderer);
