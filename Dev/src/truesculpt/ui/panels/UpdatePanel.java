@@ -2,10 +2,11 @@ package truesculpt.ui.panels;
 
 import truesculpt.main.R;
 import truesculpt.main.TrueSculpt;
+import truesculpt.utils.Utils;
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class UpdatePanel extends Activity {
@@ -17,8 +18,14 @@ public class UpdatePanel extends Activity {
 		setContentView(R.layout.update);
 
 		TrueSculpt parent = (TrueSculpt) getParent();// .getClass().cast(Class.forName("TrueSculpt"));
-		String msg = parent.getManagers().getmUpdateManager().getUpdateStatus();
-		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+		String msg ="";
+		if (parent!=null)
+		{
+			parent.getManagers().getmUpdateManager().getUpdateStatus();			
+		}
+
+		final TextView text = (Button) findViewById(R.id.UpdateStatusText);
+		text.setText(msg);	//Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
 		// Launch associated web page
 		// String lastestURL = strLatestVersion.replace(".", "_");
@@ -26,10 +33,9 @@ public class UpdatePanel extends Activity {
 		// "https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"
 		// + lastestURL + ".apk";
 
-		String UpdateUrl = "http://code.google.com/p/truesculpt/downloads/list?can=3";// featured
-																						// download
-		Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(UpdateUrl));
-		startActivity(myIntent);
+		//featured download
+		String strUpdateUrl = "http://code.google.com/p/truesculpt/downloads/list?can=3";
+		Utils.ShowURLInBrowser(this,strUpdateUrl);
 	}
 
 	@Override
