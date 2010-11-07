@@ -1,7 +1,6 @@
 package truesculpt.main;
 
 import truesculpt.managers.ManagersManager;
-import truesculpt.ui.dialogs.SplashDialog;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
