@@ -2,15 +2,21 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
   
-   <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-   <Button android:text="@string/nextBtn" android:id="@+id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-   <WebView
+     <WebView
  	 android:id="@+id/webview" 
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
     />
-   
+     
+
+	<TableLayout android:id="@+id/TableLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<TableRow>	
+			 <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+			  <Button android:text="@string/nextBtn" android:id="@+id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		</TableRow>
+	</TableLayout>
 
 </LinearLayout>
