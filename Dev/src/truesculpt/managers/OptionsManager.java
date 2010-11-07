@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+
+//is a local cache really necessary ? direct call to manager better?
 public class OptionsManager extends BaseManager {
 
 	SharedPreferences settings = null;
@@ -18,18 +20,12 @@ public class OptionsManager extends BaseManager {
 	public OptionsManager(Activity mBaseActivity) {
 		super(mBaseActivity);
 
-		//PreferenceManager.setDefaultValues(getBaseActivity(),
-
-	}
-		
-	public void onCreate()
-	{		
 		// Restore preferences
 		settings = PreferenceManager.getDefaultSharedPreferences(getBaseActivity());		//settings = getBaseActivity().getSharedPreferences(PREFS_NAME, 0);
 		
 		updateAllOptions();
 	}
-	
+		
 	public void updateAllOptions()
 	{
 		mCheckUpdateAtStartup = settings.getBoolean("CheckUpdateAtStartup", true);
