@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="show_splash">Splash</string>
     <string name="show_options">Options</string>
     <string name="tutorial_wizard">Tutorial</string>
     <string name="update_version_panel">Check version</string>
