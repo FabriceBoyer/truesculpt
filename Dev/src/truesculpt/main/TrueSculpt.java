@@ -1,6 +1,7 @@
 package truesculpt.main;
 
 import truesculpt.managers.ManagersManager;
+import truesculpt.ui.dialogs.SplashDialog;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
@@ -29,12 +30,21 @@ public class TrueSculpt extends Activity {
 		return mManagers;
 	}
 
+	public void ShowSplashScreen()
+	{		
+		SplashDialog splash= new SplashDialog(this);
+		splash.show();
+	}
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		ShowSplashScreen();
+		
 		setContentView(R.layout.main);
-
+		
 		getManagers().getmOptionsManager().onCreate();
 		
 		// mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
