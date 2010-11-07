@@ -1,6 +1,7 @@
 package truesculpt.ui.panels;
 
 import truesculpt.main.R;
+import truesculpt.utils.ResourceUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -101,7 +102,7 @@ public class TutorialWizardPanel extends Activity {
 			case DIALOG_SEE_WIZARD_AGAIN_ID:
 			{
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(R.string.this_tutorial_is_over_dow_you_want_to_see_it_again_next_time_)
+				builder.setMessage(R.string.this_tutorial_is_over_do_you_want_to_see_it_again_next_time_)
 				       .setCancelable(false)
 				       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 				           public void onClick(DialogInterface dialog, int id) {
@@ -137,8 +138,21 @@ public class TutorialWizardPanel extends Activity {
 			nextBtn.setText(R.string.nextBtn);
 		}
 		
-		String url="http://www.google.fr/"+Integer.toString(mStepCurrentIndex);
-		//mWebView
+		
+		  final String mimetype = "text/html";
+		  final String encoding = "UTF-8";
+		  String htmldata = "<html><body>boo</body></html>";
+
+		  {
+		    String data = ResourceUtils.loadResToString(R.raw.tutorial1, this);
+		    if (data != null) htmldata = data;
+		  }
+
+		  mWebView.loadData(htmldata,
+		               mimetype,
+		               encoding);
+
+
 	}
 
 	@Override
