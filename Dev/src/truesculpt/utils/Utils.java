@@ -2,6 +2,7 @@ package truesculpt.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.Toast;
 
 public class Utils {
@@ -29,6 +30,17 @@ public class Utils {
 			if (!bSuccess) {
 				Toast.makeText(callingACtivity, msg, Toast.LENGTH_LONG);
 			}
+		}
+	}
+	
+	
+	public static void ShowURLInBrowser(Activity callingACtivity,
+			String strURL)
+	{
+		if (callingACtivity != null) 
+		{
+			Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strURL));
+			callingACtivity.startActivity(myIntent);
 		}
 	}
 }
