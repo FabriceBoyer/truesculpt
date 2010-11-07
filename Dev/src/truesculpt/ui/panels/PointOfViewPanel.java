@@ -4,6 +4,7 @@ import truesculpt.main.R;
 import android.app.Activity;
 import android.os.Bundle;
 
+//TODO transparent to view result immediatly on lower activity
 public class PointOfViewPanel extends Activity {
 
 	@Override

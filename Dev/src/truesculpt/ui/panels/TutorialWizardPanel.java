@@ -1,6 +1,7 @@
 package truesculpt.ui.panels;
 
 import truesculpt.main.R;
+import truesculpt.main.TrueSculpt;
 import truesculpt.utils.ResourceUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,6 +28,7 @@ public class TutorialWizardPanel extends Activity {
 	private WebView mWebView=null;
 	private Button prevBtn;
 	private Button nextBtn;
+	private Button finishBtn;
 	
 	private int mStepsCount=5;
 	private int mStepCurrentIndex=0;
@@ -55,6 +57,14 @@ public class TutorialWizardPanel extends Activity {
 			@Override
 			public void onClick(View v) {
 				GoToNextStep();
+			}
+		});
+		
+		finishBtn= (Button) findViewById(R.id.finishBtn);
+		finishBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ExitConfirmation();
 			}
 		});
 		
@@ -88,7 +98,14 @@ public class TutorialWizardPanel extends Activity {
 	
 	private void ExitConfirmation()
 	{		
-		showDialog(DIALOG_SEE_WIZARD_AGAIN_ID);		
+		if (getSeeAgainOption()==true)
+		{
+			showDialog(DIALOG_SEE_WIZARD_AGAIN_ID);
+		}
+		else
+		{
+			finish();
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -105,14 +122,14 @@ public class TutorialWizardPanel extends Activity {
 				builder.setMessage(R.string.this_tutorial_is_over_do_you_want_to_see_it_again_next_time_)
 				       .setCancelable(false)
 				       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				              
+				           public void onClick(DialogInterface dialog, int id) {	
+				        	   setSeeAgainOption(true);
 				        	   finish();
 				           }
 				       })
 				       .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 				           public void onClick(DialogInterface dialog, int id) {
-				        	   
+				        	   setSeeAgainOption(false);
 				        	   finish();
 				           }
 				       });
@@ -125,20 +142,38 @@ public class TutorialWizardPanel extends Activity {
 		return dialog;
 	}
 
-	
-	
-	private void RefreshView()
+	public void setSeeAgainOption(boolean bSeeAgain)
 	{
-		if (mStepCurrentIndex>=(mStepsCount-1)) 
+		TrueSculpt parent = (TrueSculpt) getParent();		
+		if (parent!=null)
 		{
-			nextBtn.setText(R.string.finishBtn);			
+			parent.getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);			
 		}
 		else
 		{
-			nextBtn.setText(R.string.nextBtn);
+			assert(false);
+		}
+	}
+	
+	public boolean getSeeAgainOption()
+	{
+		boolean bRes=true;
+		
+		TrueSculpt parent = (TrueSculpt) getParent();		
+		if (parent!=null)
+		{
+			bRes= parent.getManagers().getmOptionsManager().getViewTutorialAtStartup();			
+		}
+		else
+		{
+			assert(false);
 		}
 		
-		
+		return bRes;
+	}
+	
+	private void RefreshView()
+	{		
 		  final String mimetype = "text/html";
 		  final String encoding = "UTF-8";
 		  String htmldata = "<html><body>boo</body></html>";
