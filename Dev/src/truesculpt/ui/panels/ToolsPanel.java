@@ -4,6 +4,7 @@ import truesculpt.main.R;
 import truesculpt.ui.dialogs.ColorPickerDialog;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 public class ToolsPanel extends Activity implements OnColorChangedListener {
 	private int mColor = 0;
 
+	private final int DIALOG_COLOR_PICKER_ID=0;
+	
 	@Override
 	public void colorChanged(int color) {
 		mColor = color;
@@ -32,10 +35,26 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new ColorPickerDialog(ToolsPanel.this, ToolsPanel.this, 0)
-						.show();
+				showDialog(DIALOG_COLOR_PICKER_ID);
+				
 			}
 		});
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateDialog(int)
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog=null;
+		switch (id) {
+		case DIALOG_COLOR_PICKER_ID:
+			dialog = new ColorPickerDialog(ToolsPanel.this, ToolsPanel.this, 0);
+			break;
+		default:
+			dialog = null;
+		}
+		return dialog;
 	}
 
 	@Override
