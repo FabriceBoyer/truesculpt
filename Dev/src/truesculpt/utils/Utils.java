@@ -7,9 +7,9 @@ import android.widget.Toast;
 
 public class Utils {
 
-	public static void StartMyActivity(Activity callingACtivity,
+	public static void StartMyActivity(Activity callingActivity,
 			Class<?> cls) {
-		if (callingACtivity != null) {
+		if (callingActivity != null) {
 			boolean bSuccess = true;
 			String msg = "";
 
@@ -18,16 +18,16 @@ public class Utils {
 			// getLocalActivityManager().startActivity("and.mypackage.ChildActivity",
 			// startIntent);
 
-			Intent myIntent = new Intent(callingACtivity,cls);
+			Intent myIntent = new Intent(callingActivity,cls);			
 			try {
-				callingACtivity.startActivity(myIntent);
+				callingActivity.startActivity(myIntent);
 			} catch (Exception e) {
 				msg = e.getMessage();
 				bSuccess = false;
 			}
 
 			if (!bSuccess) {
-				Toast.makeText(callingACtivity, msg, Toast.LENGTH_LONG);
+				Toast.makeText(callingActivity, msg, Toast.LENGTH_LONG);
 			}
 		}
 	}

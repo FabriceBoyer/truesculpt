@@ -2,7 +2,9 @@
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android" android:key="options">
 
-<PreferenceCategory android:title="Startup"><CheckBoxPreference android:key="CheckUpdateAtStartup" android:title="Check update at startup"></CheckBoxPreference><CheckBoxPreference android:title="View tutorial at startup" android:key="ViewTutorialAtStartup"></CheckBoxPreference>
-<CheckBoxPreference android:title="Display splash screen at startup" android:key="DisplaySplashScreenAtStartup"></CheckBoxPreference>
+<PreferenceCategory android:title="Startup" android:key="startup"><CheckBoxPreference android:key="CheckUpdateAtStartup" android:title="Check update"></CheckBoxPreference><CheckBoxPreference android:key="ViewTutorialAtStartup" android:title="Show tutorial"></CheckBoxPreference>
+<CheckBoxPreference android:key="DisplaySplashScreenAtStartup" android:title="Show splash screen"></CheckBoxPreference>
+
 </PreferenceCategory>
+<PreferenceCategory android:title="General" android:key="general"><CheckBoxPreference android:title="Gather usage data" android:key="GatherUsageData"></CheckBoxPreference></PreferenceCategory>
 </PreferenceScreen>

@@ -12,7 +12,7 @@ public class OptionsManager extends BaseManager {
 	private boolean mCheckUpdateAtStartup = true;
 	private boolean mViewTutorialAtStartup = true;
 	private boolean mDisplaySplashScreenAtStartup = true;
-
+	private boolean mGatherUsageData=true;
 	
 
 	public OptionsManager(Activity mBaseActivity) {
@@ -30,20 +30,21 @@ public class OptionsManager extends BaseManager {
 		mCheckUpdateAtStartup = settings.getBoolean("CheckUpdateAtStartup", true);
 		mViewTutorialAtStartup = settings.getBoolean("ViewTutorialAtStartup", true);
 		mDisplaySplashScreenAtStartup = settings.getBoolean("DisplaySplashScreenAtStartup", true);
+		mGatherUsageData = settings.getBoolean("GatherUsageData", true);
 	}
 
 	public void showOptionsPanel() {
 		Utils.StartMyActivity(getBaseActivity(), truesculpt.ui.panels.OptionsPanel.class);
 	}
 	
-	private void updateOptions()
+	private void saveAllOptions()
 	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("CheckUpdateAtStartup", mCheckUpdateAtStartup);
 		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
 		editor.putBoolean("DisplaySplashScreenAtStartup", mDisplaySplashScreenAtStartup);
+		editor.putBoolean("GatherUsageData", mGatherUsageData);
 
-		// Commit the edits!
 		editor.commit();
 	}
 	
@@ -54,7 +55,7 @@ public class OptionsManager extends BaseManager {
 
 	public void setCheckUpdateAtStartup(boolean mCheckUpdateAtStartup) {
 		this.mCheckUpdateAtStartup = mCheckUpdateAtStartup;		
-		updateOptions();
+		saveAllOptions();
 	}
 	
 	public boolean getViewTutorialAtStartup() {
@@ -63,17 +64,25 @@ public class OptionsManager extends BaseManager {
 
 	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup) {
 		this.mViewTutorialAtStartup = mViewTutorialAtStartup;
-		updateOptions();
+		saveAllOptions();
 	}
 
 	public void setDisplaySplashScreenAtStartup(
 			boolean mDisplaySplashScreenAtStartup) {
 		this.mDisplaySplashScreenAtStartup = mDisplaySplashScreenAtStartup;
-		updateOptions();
+		saveAllOptions();
 	}
 
 	public boolean getDisplaySplashScreenAtStartup() {
 		return mDisplaySplashScreenAtStartup;
+	}
+
+	public void setGatherUsageData(boolean mGatherUsageData) {
+		this.mGatherUsageData = mGatherUsageData;
+	}
+
+	public boolean getGatherUsageData() {
+		return mGatherUsageData;
 	}
 
 }

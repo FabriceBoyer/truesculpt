@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:orientation="vertical">
-  
-     <WebView
+
+<TableLayout 
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ android:id="@+id/TableLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent"
+ android:stretchColumns="*">
+	
+	<WebView
  	 android:id="@+id/webview" 
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
     />
-     
 
-	<TableLayout android:id="@+id/TableLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
-		<TableRow>	
-			 <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			  <Button android:text="@string/nextBtn" android:id="@+id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-		</TableRow>
-	</TableLayout>
+	<TableRow>	
+		 <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+		  <Button android:text="@string/nextBtn" android:id="@+id/nextBtn" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+		  <Button android:text="@string/finishBtn" android:id="@+id/finishBtn" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+	</TableRow>
+</TableLayout>
 
-</LinearLayout>
+
