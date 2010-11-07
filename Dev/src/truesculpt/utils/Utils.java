@@ -8,7 +8,7 @@ import android.widget.Toast;
 public class Utils {
 
 	public static void StartMyActivity(Activity callingACtivity,
-			String strClassName) {
+			Class<?> cls) {
 		if (callingACtivity != null) {
 			boolean bSuccess = true;
 			String msg = "";
@@ -18,8 +18,7 @@ public class Utils {
 			// getLocalActivityManager().startActivity("and.mypackage.ChildActivity",
 			// startIntent);
 
-			Intent myIntent = new Intent();
-			myIntent.setClassName(callingACtivity, strClassName);
+			Intent myIntent = new Intent(callingACtivity,cls);
 			try {
 				callingACtivity.startActivity(myIntent);
 			} catch (Exception e) {

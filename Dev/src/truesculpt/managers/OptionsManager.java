@@ -1,11 +1,12 @@
 package truesculpt.managers;
 
+import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class OptionsManager extends BaseManager {
 
-	public static final String PREFS_NAME = "MyPrefsFile";
 	SharedPreferences settings = null;
 
 	private boolean mCheckUpdateAtStartup = true;
@@ -24,15 +25,15 @@ public class OptionsManager extends BaseManager {
 	public void onCreate()
 	{		
 		// Restore preferences
-		settings = getBaseActivity().getSharedPreferences(PREFS_NAME, 0);
+		settings = PreferenceManager.getDefaultSharedPreferences(getBaseActivity());		//settings = getBaseActivity().getSharedPreferences(PREFS_NAME, 0);
 	
 		mCheckUpdateAtStartup = settings.getBoolean("CheckUpdateAtStartup", true);
 		mViewTutorialAtStartup = settings.getBoolean("ViewTutorialAtStartup", true);
 		mDisplaySplashScreenAtStartup = settings.getBoolean("DisplaySplashScreenAtStartup", true);
 	}
 
-	public void showOptions() {
-		
+	public void showOptionsPanel() {
+		Utils.StartMyActivity(getBaseActivity(), truesculpt.ui.panels.OptionsPanel.class);
 	}
 	
 	private void updateOptions()
