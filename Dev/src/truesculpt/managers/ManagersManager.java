@@ -2,11 +2,10 @@ package truesculpt.managers;
 
 import android.app.Activity;
 
-public class ManagersManager extends BaseManager {
+public class ManagersManager {
 
-	public ManagersManager(Activity baseActivity) {
-		super(baseActivity);
-		// TODO Auto-generated constructor stub
+	public ManagersManager() {
+
 	}
 
 	/**
@@ -86,21 +85,30 @@ public class ManagersManager extends BaseManager {
 		return mWebManager;
 	}
 
-	private ActionsManager mActionsManager = new ActionsManager(
-			getBaseActivity());
-	private MemoryManager mMemoryManager = new MemoryManager(getBaseActivity());
-	private MeshManager mMeshManager = new MeshManager(getBaseActivity());
-	private OptionsManager mOptionsManager = new OptionsManager(
-			getBaseActivity());
-	private PointOfViewManager mPointOfViewManager = new PointOfViewManager(
-			getBaseActivity());
-	private RendererManager mRendererManager = new RendererManager(
-			getBaseActivity());
-	private SensorsManager mSensorsManager = new SensorsManager(
-			getBaseActivity());
-	private ToolsManager mToolsManager = new ToolsManager(getBaseActivity());
-	private TouchManager mTouchManager = new TouchManager(getBaseActivity());
-	private UpdateManager mUpdateManager = new UpdateManager(getBaseActivity());
-	private WebManager mWebManager = new WebManager(getBaseActivity());
+	private ActionsManager mActionsManager = null;
+	private MemoryManager mMemoryManager = null;
+	private MeshManager mMeshManager = null;
+	private OptionsManager mOptionsManager = null;
+	private PointOfViewManager mPointOfViewManager = null;
+	private RendererManager mRendererManager = null;
+	private SensorsManager mSensorsManager = null;
+	private ToolsManager mToolsManager = null;
+	private TouchManager mTouchManager = null;
+	private UpdateManager mUpdateManager = null;
+	private WebManager mWebManager = null;
+
+	public void Init(Activity baseActivity) {
+		mActionsManager = new ActionsManager(baseActivity);
+		mMemoryManager = new MemoryManager(baseActivity);
+		mMeshManager = new MeshManager(baseActivity);
+		mOptionsManager = new OptionsManager(baseActivity);
+		mPointOfViewManager = new PointOfViewManager(baseActivity);
+		mRendererManager = new RendererManager(baseActivity);
+		mSensorsManager = new SensorsManager(baseActivity);
+		mToolsManager = new ToolsManager(baseActivity);
+		mTouchManager = new TouchManager(baseActivity);
+		mUpdateManager = new UpdateManager(baseActivity);
+		mWebManager = new WebManager(baseActivity);
+	}
 
 }

@@ -17,12 +17,7 @@ public class UpdatePanel extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
 
-		TrueSculpt parent = (TrueSculpt) getParent();// .getClass().cast(Class.forName("TrueSculpt"));
-		String msg ="";
-		if (parent!=null)
-		{
-			parent.getManagers().getmUpdateManager().getUpdateStatus();			
-		}
+		String msg= TrueSculpt.getManagers().getmUpdateManager().getUpdateStatus();			
 
 		final TextView text = (Button) findViewById(R.id.UpdateStatusText);
 		text.setText(msg);	//Toast.makeText(this, msg, Toast.LENGTH_LONG).show();

@@ -14,6 +14,7 @@ public class OptionsPanel extends PreferenceActivity {
 		
 		super.onCreate(savedInstanceState);
 		
+		//must be in same package than manager ?
 		addPreferencesFromResource(R.xml.options);
 	}
 
