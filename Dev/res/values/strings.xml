@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="show_about_panel">About</string>
     <string name="show_options_panel">Options</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
@@ -31,4 +32,6 @@
 <string name="show_test">Test</string>
 <string name="prevBtn">Previous</string>
 <string name="nextBtn">Next</string>
+<string name="about_text">Written by Fabrice Boyer (fabrice.boyer@gmail.com)</string>
+<string name="ok_btn">Ok</string>
 </resources>
