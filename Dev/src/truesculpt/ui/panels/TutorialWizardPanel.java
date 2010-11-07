@@ -30,7 +30,7 @@ public class TutorialWizardPanel extends Activity {
 	private Button nextBtn;
 	private Button finishBtn;
 	
-	private int mStepsCount=5;
+	private int mStepsCount=4;
 	private int mStepCurrentIndex=0;
 	
 	private final int DIALOG_SEE_WIZARD_AGAIN_ID=0;
@@ -154,6 +154,15 @@ public class TutorialWizardPanel extends Activity {
 	
 	private void RefreshView()
 	{		
+		if (mStepCurrentIndex==(mStepsCount-1))
+		{
+			nextBtn.setEnabled(false);
+		}
+		else
+		{
+			nextBtn.setEnabled(true);
+		}
+		
 		String strUrl="file:///android_asset/tutorial"+Integer.toString(mStepCurrentIndex)+".html";
 		mWebView.loadUrl(strUrl);
 	}
