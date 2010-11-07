@@ -5,6 +5,7 @@ import truesculpt.main.TrueSculpt;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,14 @@ public class UpdatePanel extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
+		
+		final Button button = (Button) findViewById(R.id.Ok_btn);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();				
+			}
+		});
 
 		String strCurrVersion = TrueSculpt.getManagers().getmUpdateManager().getCurrentVersion();
 		String strLatestVersion = TrueSculpt.getManagers().getmUpdateManager().getLatestVersion();

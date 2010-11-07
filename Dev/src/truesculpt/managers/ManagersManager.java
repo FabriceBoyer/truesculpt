@@ -85,6 +85,14 @@ public class ManagersManager {
 		return mWebManager;
 	}
 
+	/**
+	 * @return the mUsageStatisticsManager
+	 */
+	public UsageStatisticsManager getmUsageStatisticsManager() {
+		return mUsageStatisticsManager;
+	}
+
+	
 	private ActionsManager mActionsManager = null;
 	private MemoryManager mMemoryManager = null;
 	private MeshManager mMeshManager = null;
@@ -96,7 +104,9 @@ public class ManagersManager {
 	private TouchManager mTouchManager = null;
 	private UpdateManager mUpdateManager = null;
 	private WebManager mWebManager = null;
+	private UsageStatisticsManager mUsageStatisticsManager = null;
 
+	
 	public void Init(Activity baseActivity) {
 		mActionsManager = new ActionsManager(baseActivity);
 		mMemoryManager = new MemoryManager(baseActivity);
@@ -109,6 +119,7 @@ public class ManagersManager {
 		mTouchManager = new TouchManager(baseActivity);
 		mUpdateManager = new UpdateManager(baseActivity);
 		mWebManager = new WebManager(baseActivity);
+		mUsageStatisticsManager= new UsageStatisticsManager(baseActivity);
 	}
 
 }
