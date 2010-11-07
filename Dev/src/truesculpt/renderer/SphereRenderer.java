@@ -21,6 +21,9 @@ import java.util.Random;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.utils.Utils;
+
+
 import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 
@@ -62,9 +65,7 @@ public class SphereRenderer implements GLSurfaceView.Renderer {
 		populateWorld();
 	}
 
-	float DegToRad(float deg) {
-		return deg * 3.141516f / 180.0f;
-	}
+
 
 	private float FirstOrderAngle(float angleLast, float angleObj) {
 		long tCurr = System.currentTimeMillis();
@@ -166,29 +167,29 @@ public class SphereRenderer implements GLSurfaceView.Renderer {
 
 		for (float theta = 0; theta < 360.0f; theta += deltaTheta) {
 			for (float phi = -90; phi < 90; phi += deltaPhi) {
-				float x = (float) (R * Math.cos(DegToRad(theta)) * Math
-						.cos(DegToRad(phi)));
-				float y = (float) (R * Math.sin(DegToRad(theta)) * Math
-						.cos(DegToRad(phi)));
-				float z = (float) (R * Math.sin(DegToRad(phi)));
+				float x = (float) (R * Math.cos(Utils.DegToRad(theta)) * Math
+						.cos(Utils.DegToRad(phi)));
+				float y = (float) (R * Math.sin(Utils.DegToRad(theta)) * Math
+						.cos(Utils.DegToRad(phi)));
+				float z = (float) (R * Math.sin(Utils.DegToRad(phi)));
 
-				float x2 = (float) (R * Math.cos(DegToRad(theta + deltaTheta)) * Math
-						.cos(DegToRad(phi)));
-				float y2 = (float) (R * Math.sin(DegToRad(theta + deltaTheta)) * Math
-						.cos(DegToRad(phi)));
+				float x2 = (float) (R * Math.cos(Utils.DegToRad(theta + deltaTheta)) * Math
+						.cos(Utils.DegToRad(phi)));
+				float y2 = (float) (R * Math.sin(Utils.DegToRad(theta + deltaTheta)) * Math
+						.cos(Utils.DegToRad(phi)));
 
 				float xDelt = (float) (R
-						* Math.cos(DegToRad(theta + deltaTheta)) * Math
-						.cos(DegToRad(phi + deltaPhi)));
+						* Math.cos(Utils.DegToRad(theta + deltaTheta)) * Math
+						.cos(Utils.DegToRad(phi + deltaPhi)));
 				float yDelt = (float) (R
-						* Math.sin(DegToRad(theta + deltaTheta)) * Math
-						.cos(DegToRad(phi + deltaPhi)));
-				float zDelt = (float) (R * Math.sin(DegToRad(phi + deltaPhi)));
+						* Math.sin(Utils.DegToRad(theta + deltaTheta)) * Math
+						.cos(Utils.DegToRad(phi + deltaPhi)));
+				float zDelt = (float) (R * Math.sin(Utils.DegToRad(phi + deltaPhi)));
 
-				float x4 = (float) (R * Math.cos(DegToRad(theta)) * Math
-						.cos(DegToRad(phi + deltaPhi)));
-				float y4 = (float) (R * Math.sin(DegToRad(theta)) * Math
-						.cos(DegToRad(phi + deltaPhi)));
+				float x4 = (float) (R * Math.cos(Utils.DegToRad(theta)) * Math
+						.cos(Utils.DegToRad(phi + deltaPhi)));
+				float y4 = (float) (R * Math.sin(Utils.DegToRad(theta)) * Math
+						.cos(Utils.DegToRad(phi + deltaPhi)));
 
 				GLVertex vert1 = mShape.addVertex(x, y, z);
 				GLVertex vert2 = mShape.addVertex(x2, y2, z);
