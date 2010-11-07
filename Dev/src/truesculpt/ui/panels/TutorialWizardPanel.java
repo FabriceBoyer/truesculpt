@@ -154,20 +154,7 @@ public class TutorialWizardPanel extends Activity {
 	
 	private void RefreshView()
 	{		
-		  final String mimetype = "text/html";
-		  final String encoding = "UTF-8";
-		  String htmldata = "<html><body>boo</body></html>";
-
-		  {
-		    String data = ResourceUtils.loadResToString(R.raw.tutorial1, this);
-		    if (data != null) htmldata = data;
-		  }
-
-		  mWebView.loadData(htmldata,
-		               mimetype,
-		               encoding);
-
-
+		  mWebView.loadUrl("file:///android_asset/tutorial1.html");
 	}
 
 	@Override
