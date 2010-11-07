@@ -85,11 +85,11 @@ public class UpdateManager extends BaseManager {
 		return strLatestVersion;
 	}
 
-	public String getUpdateStatus() {
-
-		String msg = "";
-
-		String strCurrVersion = getCurrentVersion();
+	public boolean getIsUpdateNeeded(String strCurrVersion, String strLatestVersion ) {
+		
+		boolean bUpdateNeeded = false;
+		boolean bIsBeta = false;
+		
 		String[] tempVer = strCurrVersion.split("\\.");
 		int majCurr = -1;
 		int minCurr = -1;
@@ -97,8 +97,7 @@ public class UpdateManager extends BaseManager {
 			majCurr = Integer.parseInt(tempVer[0]);
 			minCurr = Integer.parseInt(tempVer[1]);
 		}
-
-		String strLatestVersion = getLatestVersion();
+		
 		tempVer = strLatestVersion.split("\\.");
 		int majLat = -1;
 		int minLat = -1;
@@ -108,8 +107,7 @@ public class UpdateManager extends BaseManager {
 		}
 
 		if (majCurr >= 0 && minCurr >= 0 && majLat >= 0 && minLat >= 0) {
-			boolean bUpdateNeeded = false;
-			boolean bIsBeta = false;
+
 			if (majLat > majCurr) {
 				bUpdateNeeded = true;
 			} else if (majLat == majCurr) {
@@ -120,26 +118,10 @@ public class UpdateManager extends BaseManager {
 				}
 			} else if (majLat < majCurr) {
 				bIsBeta = true;
-			}
-
-			msg = getBaseActivity().getString(R.string.current_version_is_)
-					+ strCurrVersion
-					+ getBaseActivity().getString(R.string._latest_version_is_)
-					+ strLatestVersion + ". ";
-			if (bIsBeta) {
-				msg += R.string.this_version_is_a_beta_;
-			} else {
-				msg += R.string.this_version_is_not_a_beta_;
-			}
-
-			if (bUpdateNeeded) {
-				msg += R.string.an_update_is_needed_;
-			} else {
-				msg += R.string.no_update_is_needed_;
-			}
+			}		
 		}
 
-		return msg;
+		return bUpdateNeeded;
 	}
 
 }

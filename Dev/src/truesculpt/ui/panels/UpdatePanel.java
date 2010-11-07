@@ -17,20 +17,41 @@ public class UpdatePanel extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
 
-		String msg= TrueSculpt.getManagers().getmUpdateManager().getUpdateStatus();			
+		String strCurrVersion = TrueSculpt.getManagers().getmUpdateManager().getCurrentVersion();
+		String strLatestVersion = TrueSculpt.getManagers().getmUpdateManager().getLatestVersion();
+		
+		boolean bIsUpdateNeeded= TrueSculpt.getManagers().getmUpdateManager().getIsUpdateNeeded(strCurrVersion,strLatestVersion);			
 
-		final TextView text = (Button) findViewById(R.id.UpdateStatusText);
-		text.setText(msg);	//Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n" 
+		+ getString(R.string.latest_version_is_) + " "	+ strLatestVersion + " \n";
+		
+		//if (bIsBeta) {
+		//	msg += getString(R.string.this_version_is_a_beta_);
+		//} else {
+		//	msg += getString(R.string.this_version_is_not_a_beta_);
+		//}
+		
+		if (bIsUpdateNeeded) {
+			msg += getString(R.string.an_update_is_needed_);
+		} else {
+			msg += getString(R.string.no_update_is_needed_);
+		}
 
-		// Launch associated web page
-		// String lastestURL = strLatestVersion.replace(".", "_");
-		// lastestURL =
-		// "https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"
-		// + lastestURL + ".apk";
+		final TextView text = (TextView) findViewById(R.id.UpdateStatusText);
+		text.setText(msg);
 
-		//featured download
-		String strUpdateUrl = "http://code.google.com/p/truesculpt/downloads/list?can=3";
-		Utils.ShowURLInBrowser(this,strUpdateUrl);
+		if (bIsUpdateNeeded)
+		{
+			// Launch associated web page
+			 String strLastestURL = strLatestVersion.replace(".", "_");
+			 strLastestURL = "https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_"
+			 + strLastestURL + ".apk";
+	
+			//featured download
+			//String strUpdateUrl = "http://code.google.com/p/truesculpt/downloads/list?can=3";
+			 
+			Utils.ShowURLInBrowser(this,strLastestURL);
+		}
 	}
 
 	@Override
