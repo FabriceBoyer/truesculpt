@@ -31,7 +31,7 @@ public class TrueSculpt extends Activity {
 
 	public void ShowSplashScreen()
 	{		
-		Utils.StartMyActivity(this, "truesculpt.ui.panels.SplashPanel");
+		Utils.StartMyActivity(this, truesculpt.ui.panels.SplashPanel.class);
 	}
 	
 	/** Called when the activity is first created. */
@@ -62,28 +62,28 @@ public class TrueSculpt extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.show_tools_panel: {
-			Utils.StartMyActivity(this, "truesculpt.ui.panels.ToolsPanel");
+			Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class);
 			return true;
 		}
 		case R.id.show_point_of_view_panel: {
-			Utils.StartMyActivity(this, "truesculpt.ui.panels.PointOfViewPanel");
+			Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class);
 			return true;
 		}
 		case R.id.show_debug_panel: {
-			Utils.StartMyActivity(this, "truesculpt.ui.debug.DebugPanel");
+			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class);
 			return true;
 		}
 		case R.id.show_check_version_panel: {
-			Utils.StartMyActivity(this, "truesculpt.ui.panels.UpdatePanel");
+			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class);
 			return true;
 		}
 		case R.id.show_tutorial_wizard_panel: {
 			Utils.StartMyActivity(this,
-					"truesculpt.ui.panels.TutorialWizardPanel");
+					truesculpt.ui.panels.TutorialWizardPanel.class);
 			return true;
 		}
 		case R.id.show_options: {
-			getManagers().getmOptionsManager().showOptions();
+			getManagers().getmOptionsManager().showOptionsPanel();
 			return true;
 		}
 		case R.id.quit: {

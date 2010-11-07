@@ -4,12 +4,11 @@
   android:layout_width="wrap_content"
   android:layout_height="wrap_content">
   
-   <ImageButton
+   <Button
  	 android:id="@+id/color_button" 
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
-     android:text="@string/color_picker"
-   android:src="@drawable/colorpicker"
+     android:text="@string/color_picker"  
   />
      
 </LinearLayout>

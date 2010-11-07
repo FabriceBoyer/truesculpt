@@ -1,6 +1,6 @@
 package truesculpt.ui.panels;
 
-import android.R;
+import truesculpt.main.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
@@ -14,7 +14,7 @@ public class OptionsPanel extends PreferenceActivity {
 		
 		super.onCreate(savedInstanceState);
 		
-		//addPreferencesFromResource(R.xml.)
+		addPreferencesFromResource(R.xml.options);
 	}
 
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" android:key="options">
+
+<PreferenceCategory android:title="Startup"><CheckBoxPreference android:key="CheckUpdateAtStartup" android:title="Check update at startup"></CheckBoxPreference><CheckBoxPreference android:title="View tutorial at startup" android:key="ViewTutorialAtStartup"></CheckBoxPreference>
+<CheckBoxPreference android:title="Display splash screen at startup" android:key="DisplaySplashScreenAtStartup"></CheckBoxPreference>
+</PreferenceCategory>
+</PreferenceScreen>

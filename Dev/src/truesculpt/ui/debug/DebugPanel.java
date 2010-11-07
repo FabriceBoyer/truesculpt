@@ -18,7 +18,7 @@ public class DebugPanel extends Activity {
 			@Override
 			public void onClick(View v) {
 				Utils.StartMyActivity(DebugPanel.this,
-						"truesculpt.ui.debug.DebugSensorsPanel");
+						truesculpt.ui.debug.DebugSensorsPanel.class);
 			}
 		});
 
@@ -27,7 +27,7 @@ public class DebugPanel extends Activity {
 			@Override
 			public void onClick(View v) {
 				Utils.StartMyActivity(DebugPanel.this,
-						"truesculpt.ui.debug.DebugTestPanel");
+						truesculpt.ui.debug.DebugTestPanel.class);
 			}
 		});
 

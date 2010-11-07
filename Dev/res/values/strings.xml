@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="show_options_panel">Options</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="this_tutorial_is_over_dow_you_want_to_see_it_again_next_time_">This tutorial is over. Dow you want to see it again next time ?</string>
