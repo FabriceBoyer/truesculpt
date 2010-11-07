@@ -26,6 +26,7 @@
 <activity android:name="truesculpt.ui.debug.DebugTestPanel" android:label="@string/show_test"></activity>
 <activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash"></activity>
 <activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel"></activity>
+<activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel"></activity>
 </application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>

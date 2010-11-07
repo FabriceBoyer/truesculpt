@@ -6,6 +6,7 @@
     <item android:id="@+id/show_debug_panel" android:title="@string/show_debug_panel" android:icon="@drawable/flag"></item>    
     <item android:id="@+id/show_check_version_panel" android:title="@string/show_check_version_panel" android:icon="@drawable/globe"></item>
     <item android:id="@+id/show_options" android:title="@string/show_options" android:icon="@drawable/settings"></item>
-    <item android:id="@+id/quit" android:title="@string/quit" android:icon="@drawable/exit"></item>
+    <item android:id="@+id/show_about_panel" android:title="@string/show_about_panel" android:icon="@drawable/happy"></item><item android:id="@+id/quit" android:title="@string/quit" android:icon="@drawable/exit"></item>
+
 
 </menu>

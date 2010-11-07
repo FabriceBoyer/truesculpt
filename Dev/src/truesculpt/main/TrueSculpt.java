@@ -86,6 +86,10 @@ public class TrueSculpt extends Activity {
 			getManagers().getmOptionsManager().showOptionsPanel();
 			return true;
 		}
+		case R.id.show_about_panel: {
+			Utils.StartMyActivity(this,	truesculpt.ui.panels.AboutPanel.class);
+			return true;
+		}
 		case R.id.quit: {
 			this.finish();
 			return true;
