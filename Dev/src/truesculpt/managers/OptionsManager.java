@@ -26,7 +26,12 @@ public class OptionsManager extends BaseManager {
 	{		
 		// Restore preferences
 		settings = PreferenceManager.getDefaultSharedPreferences(getBaseActivity());		//settings = getBaseActivity().getSharedPreferences(PREFS_NAME, 0);
+		
+		updateAllOptions();
+	}
 	
+	public void updateAllOptions()
+	{
 		mCheckUpdateAtStartup = settings.getBoolean("CheckUpdateAtStartup", true);
 		mViewTutorialAtStartup = settings.getBoolean("ViewTutorialAtStartup", true);
 		mDisplaySplashScreenAtStartup = settings.getBoolean("DisplaySplashScreenAtStartup", true);

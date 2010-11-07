@@ -1,6 +1,7 @@
 package truesculpt.ui.panels;
 
 import truesculpt.main.R;
+import truesculpt.main.TrueSculpt;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
@@ -16,6 +17,16 @@ public class OptionsPanel extends PreferenceActivity {
 		
 		//must be in same package than manager ?
 		addPreferencesFromResource(R.xml.options);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.preference.PreferenceActivity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {		
+		super.onDestroy();
+		
+		TrueSculpt.getManagers().getmOptionsManager().updateAllOptions();
 	}
 
 }
