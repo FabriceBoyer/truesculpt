@@ -11,7 +11,7 @@ public class OptionsManager extends BaseManager {
 		// R.xml.default_values, false);
 	}
 
-	public void Show() {
+	public void showOptions() {
 
 	}
 

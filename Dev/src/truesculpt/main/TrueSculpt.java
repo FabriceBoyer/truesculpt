@@ -73,7 +73,7 @@ public class TrueSculpt extends Activity {
 			return true;
 		}
 		case R.id.show_options: {
-			getManagers().getmOptionsManager().Show();
+			getManagers().getmOptionsManager().showOptions();
 			return true;
 		}
 		case R.id.quit: {
@@ -103,7 +103,7 @@ public class TrueSculpt extends Activity {
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
+		getManagers().getmTouchManager().onTouchEvent(event);
 		return super.onTouchEvent(event);
 	}
 
