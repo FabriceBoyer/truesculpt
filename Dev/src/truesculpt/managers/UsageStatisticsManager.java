@@ -9,4 +9,8 @@ public class UsageStatisticsManager extends BaseManager {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void incrementStartupCount()
+	{
+		
+	}
 }

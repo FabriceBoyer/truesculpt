@@ -37,6 +37,27 @@ public class TrueSculpt extends Activity {
 		}
 	}
 	
+	public void CheckUpdate()
+	{
+		if (getManagers().getmOptionsManager().getCheckUpdateAtStartup()==true)
+		{
+			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class);
+		}
+	}
+	
+	public void ShowTutorial()
+	{
+		if (getManagers().getmOptionsManager().getViewTutorialAtStartup()==true)
+		{
+			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class);
+		}
+	}
+	
+	public void NotifyStartupStat()
+	{
+		getManagers().getmUsageStatisticsManager().incrementStartupCount();
+	}
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +66,9 @@ public class TrueSculpt extends Activity {
 		getManagers().Init(this);		
 		
 		ShowSplashScreen();		
+		CheckUpdate();
+		ShowTutorial();
+		NotifyStartupStat();
 		
 		setContentView(R.layout.main);		
 		
