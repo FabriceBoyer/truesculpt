@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
+//TODO : callback notification to dismiss only when the rest of the app is ready
+
 public class SplashPanel extends Activity {
 
 	// time in milliseconds

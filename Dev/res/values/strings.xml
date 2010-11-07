@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="this_tutorial_is_over_dow_you_want_to_see_it_again_next_time_">This tutorial is over. Dow you want to see it again next time ?</string>
+    <string name="finishBtn">Finish</string>
     <string name="show_splash">Splash</string>
     <string name="show_options">Options</string>
     <string name="tutorial_wizard">Tutorial</string>
@@ -24,4 +28,6 @@
 <string name="color_picker">Choose color</string>
 <string name="show_sensors">Sensors</string>
 <string name="show_test">Test</string>
+<string name="prevBtn">Previous</string>
+<string name="nextBtn">Next</string>
 </resources>
