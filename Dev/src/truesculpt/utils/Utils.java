@@ -60,7 +60,7 @@ public class Utils {
 				float val1=pt1.get(i);
 				float val2=pt2.get(i);
 				
-				res.set(i, val2-val1);
+				res.set(i, val1-val2);
 			}			
 		}
 		return res;	
@@ -96,7 +96,7 @@ public class Utils {
 	{
 		float dRes=0.0f;
 		
-		dRes=Dot(pt,pt);
+		dRes=(float)Math.sqrt(Dot(pt,pt));
 		
 		return dRes;
 	}
