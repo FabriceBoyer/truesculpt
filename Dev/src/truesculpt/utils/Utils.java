@@ -15,7 +15,7 @@ public class Utils {
 	}
 	
 	//in degrees, return x,y,z in vector
-	public static Vector<Float> PolToCart(float theta, float phi, float psi, float R)
+	public static Vector<Float> PolToCart( float R, float theta, float phi)
 	{
 		Vector<Float> res= new Vector<Float>(3);
 	
@@ -26,6 +26,26 @@ public class Utils {
 		res.add(x);
 		res.add(y);
 		res.add(z);
+		
+		return res;
+	}
+	
+	//returns R, theta, phi in degrees
+	public static Vector<Float> CartToPol(float x, float y, float z)
+	{
+		Vector<Float> res= new Vector<Float>(3);
+	
+		Vector<Float> vec= new Vector<Float>(3);
+		vec.add(x);
+		vec.add(y);
+		vec.add(z);
+		float R = Length(vec);
+		float theta = (float) ( Math.asin(x/R) );
+		float phi = (float) ( Math.acos(y/R) );		
+		
+		res.add(R);
+		res.add(theta);
+		res.add(phi);
 		
 		return res;
 	}
