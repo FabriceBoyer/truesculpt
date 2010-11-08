@@ -17,7 +17,7 @@
 
     <activity android:name="truesculpt.ui.panels.ToolsPanel" android:label="@string/tools_panel">
 </activity>
-<activity android:name="truesculpt.ui.panels.PointOfViewPanel" android:label="@string/point_of_view"></activity>
+<activity android:name="truesculpt.ui.panels.PointOfViewPanel" android:label="@string/point_of_view" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 <activity android:name="truesculpt.ui.debug.DebugPanel" android:label="@string/debug_panel"></activity>
 <activity android:name="truesculpt.ui.panels.UpdatePanel" android:label="@string/update_version_panel"></activity>
 <activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard"></activity>
