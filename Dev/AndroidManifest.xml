@@ -5,11 +5,10 @@
     <application 
 	    android:icon="@drawable/icon" 
 	    android:label="@string/app_name" 
-	    android:debuggable="true" android:name="@string/app_name">
-        <activity android:name="TrueSculpt"
-                  android:label="@string/app_name" 
+	    android:debuggable="true" android:name="TrueSculptApp">
+        <activity android:label="@string/app_name" 
                   android:screenOrientation="portrait" 
-                  android:launchMode="singleInstance">
+                  android:launchMode="singleInstance" android:name="truesculpt.ui.panels.RendererMainPanel">
             
         <intent-filter><action android:name="android.intent.action.MAIN"></action>
 <category android:name="android.intent.category.LAUNCHER"></category>

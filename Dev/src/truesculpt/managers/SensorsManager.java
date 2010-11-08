@@ -42,8 +42,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	// Temp for test debug
 	private DecimalFormat twoPlaces = new DecimalFormat("000.00");
 
-	public SensorsManager(Activity mBaseActivity) {
-		super(mBaseActivity);
+	public SensorsManager(Context baseContext) {
+		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -88,17 +88,16 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	}
 
 	private void showSensor() {
-		WifiManager wm = (WifiManager) getBaseActivity().getSystemService(
+		WifiManager wm = (WifiManager) getbaseContext().getSystemService(
 				Context.WIFI_SERVICE);
 		String macAddr = wm.getConnectionInfo().getMacAddress();
 
-		final TelephonyManager tm = (TelephonyManager) getBaseActivity()
-				.getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+		final TelephonyManager tm = (TelephonyManager) getbaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 
 		String tmDevice = tm.getDeviceId();
 		String tmSerial = tm.getSimSerialNumber();
 		String androidId = android.provider.Settings.Secure.getString(
-				getBaseActivity().getContentResolver(),
+				getbaseContext().getContentResolver(),
 				android.provider.Settings.Secure.ANDROID_ID);
 
 		String msg = macAddr + "\n" + tmDevice + "\n" + tmSerial + "\n"
@@ -107,7 +106,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	}
 
 	public void Start() {
-		mSensorManager = (SensorManager) getBaseActivity().getSystemService(
+		mSensorManager = (SensorManager) getbaseContext().getSystemService(
 				Context.SENSOR_SERVICE);
 		keys = m_sensorsValues.keySet();
 		List<Sensor> sensorList = mSensorManager

@@ -11,23 +11,24 @@ import java.util.regex.Pattern;
 
 import truesculpt.main.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
 public class UpdateManager extends BaseManager {
 
-	public UpdateManager(Activity mBaseActivity) {
-		super(mBaseActivity);
+	public UpdateManager(Context baseContext) {
+		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 
 	public String getCurrentVersion() {
 		String strCurrVersion = "0.0";
 
-		PackageManager pm = getBaseActivity().getPackageManager();
+		PackageManager pm = getbaseContext().getPackageManager();
 		try {
-			PackageInfo info = pm.getPackageInfo(getBaseActivity()
+			PackageInfo info = pm.getPackageInfo(getbaseContext()
 					.getPackageName(), 0);
 			strCurrVersion = info.versionName;
 		} catch (NameNotFoundException e) {

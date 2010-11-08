@@ -2,6 +2,7 @@ package truesculpt.managers;
 
 import truesculpt.utils.Utils;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -17,11 +18,11 @@ public class OptionsManager extends BaseManager {
 	private boolean mGatherUsageData=true;
 	
 
-	public OptionsManager(Activity mBaseActivity) {
-		super(mBaseActivity);
+	public OptionsManager(Context baseContext) {
+		super(baseContext);
 
 		// Restore preferences
-		settings = PreferenceManager.getDefaultSharedPreferences(getBaseActivity());		//settings = getBaseActivity().getSharedPreferences(PREFS_NAME, 0);
+		settings = PreferenceManager.getDefaultSharedPreferences(getbaseContext());		//settings = getbaseContext().getSharedPreferences(PREFS_NAME, 0);
 		
 		updateAllOptions();
 	}
@@ -35,7 +36,7 @@ public class OptionsManager extends BaseManager {
 	}
 
 	public void showOptionsPanel() {
-		Utils.StartMyActivity(getBaseActivity(), truesculpt.ui.panels.OptionsPanel.class);
+		Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.OptionsPanel.class);
 	}
 	
 	private void saveAllOptions()

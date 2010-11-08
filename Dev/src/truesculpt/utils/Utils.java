@@ -3,6 +3,7 @@ package truesculpt.utils;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
@@ -125,9 +126,9 @@ public class Utils {
 		return dRes;		
 	}
 	
-	public static void StartMyActivity(Activity callingActivity,
+	public static void StartMyActivity(Context callingContext,
 			Class<?> cls) {
-		if (callingActivity != null) {
+		if (callingContext != null) {
 			boolean bSuccess = true;
 			String msg = "";
 
@@ -136,16 +137,16 @@ public class Utils {
 			// getLocalActivityManager().startActivity("and.mypackage.ChildActivity",
 			// startIntent);
 
-			Intent myIntent = new Intent(callingActivity,cls);			
+			Intent myIntent = new Intent(callingContext,cls);			
 			try {
-				callingActivity.startActivity(myIntent);
+				callingContext.startActivity(myIntent);
 			} catch (Exception e) {
 				msg = e.getMessage();
 				bSuccess = false;
 			}
 
 			if (!bSuccess) {
-				Toast.makeText(callingActivity, msg, Toast.LENGTH_LONG);
+				Toast.makeText(callingContext, msg, Toast.LENGTH_LONG);
 			}
 		}
 	}
