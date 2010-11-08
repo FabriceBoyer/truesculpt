@@ -1,5 +1,10 @@
-package truesculpt.main;
+package truesculpt.ui.panels;
 
+import truesculpt.main.R;
+import truesculpt.main.TrueSculptApp;
+import truesculpt.main.R.id;
+import truesculpt.main.R.layout;
+import truesculpt.main.R.menu;
 import truesculpt.managers.ManagersManager;
 import truesculpt.utils.Utils;
 import android.app.Activity;
@@ -14,20 +19,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class TrueSculpt extends Activity {
+public class RendererMainPanel extends Activity {
 
 	private static final String TAG = "TrueSculptMain";
 
 	private GLSurfaceView mGLSurfaceView = null;
 
-	private static ManagersManager mManagers = new ManagersManager();
-	
-	/**
-	 * @return the mManagers singleton
-	 */
-	public static ManagersManager getManagers() {
-		return mManagers;
+	public ManagersManager getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
+	
 
 	public void ShowSplashScreen()
 	{	

@@ -1,6 +1,7 @@
 package truesculpt.managers;
 
 import android.app.Activity;
+import android.content.Context;
 
 public class ManagersManager {
 
@@ -107,19 +108,19 @@ public class ManagersManager {
 	private UsageStatisticsManager mUsageStatisticsManager = null;
 
 	
-	public void Init(Activity baseActivity) {
-		mActionsManager = new ActionsManager(baseActivity);
-		mMemoryManager = new MemoryManager(baseActivity);
-		mMeshManager = new MeshManager(baseActivity);
-		mOptionsManager = new OptionsManager(baseActivity);
-		mPointOfViewManager = new PointOfViewManager(baseActivity);
-		mRendererManager = new RendererManager(baseActivity);
-		mSensorsManager = new SensorsManager(baseActivity);
-		mToolsManager = new ToolsManager(baseActivity);
-		mTouchManager = new TouchManager(baseActivity);
-		mUpdateManager = new UpdateManager(baseActivity);
-		mWebManager = new WebManager(baseActivity);
-		mUsageStatisticsManager= new UsageStatisticsManager(baseActivity);
+	public void Init(Context baseContext) {
+		mActionsManager = new ActionsManager(baseContext);
+		mMemoryManager = new MemoryManager(baseContext);
+		mMeshManager = new MeshManager(baseContext);
+		mOptionsManager = new OptionsManager(baseContext);
+		mPointOfViewManager = new PointOfViewManager(baseContext);
+		mRendererManager = new RendererManager(baseContext);
+		mSensorsManager = new SensorsManager(baseContext);
+		mToolsManager = new ToolsManager(baseContext);
+		mTouchManager = new TouchManager(baseContext);
+		mUpdateManager = new UpdateManager(baseContext);
+		mWebManager = new WebManager(baseContext);
+		mUsageStatisticsManager= new UsageStatisticsManager(baseContext);
 	}
 
 }

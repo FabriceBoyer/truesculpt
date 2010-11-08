@@ -2,15 +2,15 @@ package truesculpt.managers;
 
 import truesculpt.utils.Global;
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.*;
 
 //To detect sculpture action, zoom and pan actions based on gesture
 public class TouchManager extends BaseManager {
 
-	public TouchManager(Activity mBaseActivity) {
-		super(mBaseActivity);
+	public TouchManager(Context baseContext) {
+		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 

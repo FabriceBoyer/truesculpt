@@ -1,26 +1,27 @@
 package truesculpt.managers;
 
-import truesculpt.main.TrueSculpt;
+import truesculpt.main.TrueSculptApp;
+import truesculpt.ui.panels.RendererMainPanel;
 import android.app.Activity;
+import android.content.Context;
 
 public class BaseManager {
 
-	private Activity mBaseActivity;
+	private Context mbaseContext;
 
-	public BaseManager(Activity baseActivity) {
+	public BaseManager(Context baseContext) {
 		super();
-		this.mBaseActivity = baseActivity;
+		this.mbaseContext = baseContext;
 	}
 
 	/**
-	 * @return the mBaseActivity
+	 * @return the mbaseContext
 	 */
-	public Activity getBaseActivity() {
-		return mBaseActivity;
+	public Context getbaseContext() {
+		return mbaseContext;
 	}
 
-	public ManagersManager getManagers() {
-		TrueSculpt parent = (TrueSculpt) mBaseActivity;
-		return parent.getManagers();
+	public ManagersManager getManagers() {	
+		return ((TrueSculptApp)getbaseContext().getApplicationContext()).getManagers();
 	}
 }

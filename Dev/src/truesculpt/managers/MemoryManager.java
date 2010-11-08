@@ -15,15 +15,15 @@ public class MemoryManager extends BaseManager {
 
 	private static final String TAG = "TrueSculptMemory";
 
-	public MemoryManager(Activity mBaseActivity) {
-		super(mBaseActivity);
+	public MemoryManager(Context baseContext) {
+		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 
 	private void getMemoryInfo() {
 		String msg = "";
 
-		ActivityManager activityManager = (ActivityManager) getBaseActivity()
+		ActivityManager activityManager = (ActivityManager) getbaseContext()
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
 		activityManager.getMemoryInfo(memoryInfo);
@@ -36,7 +36,7 @@ public class MemoryManager extends BaseManager {
 	}
 
 	private void getMemoryInfoForAllProcesses() {
-		ActivityManager activityManager = (ActivityManager) getBaseActivity()
+		ActivityManager activityManager = (ActivityManager) getbaseContext()
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
 		activityManager.getMemoryInfo(memoryInfo);

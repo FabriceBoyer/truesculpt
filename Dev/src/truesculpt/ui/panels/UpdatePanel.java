@@ -1,7 +1,8 @@
 package truesculpt.ui.panels;
 
 import truesculpt.main.R;
-import truesculpt.main.TrueSculpt;
+import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.ManagersManager;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.os.Bundle;
@@ -26,10 +27,10 @@ public class UpdatePanel extends Activity {
 			}
 		});
 
-		String strCurrVersion = TrueSculpt.getManagers().getmUpdateManager().getCurrentVersion();
-		String strLatestVersion = TrueSculpt.getManagers().getmUpdateManager().getLatestVersion();
+		String strCurrVersion = getManagers().getmUpdateManager().getCurrentVersion();
+		String strLatestVersion = getManagers().getmUpdateManager().getLatestVersion();
 		
-		boolean bIsUpdateNeeded= TrueSculpt.getManagers().getmUpdateManager().getIsUpdateNeeded(strCurrVersion,strLatestVersion);			
+		boolean bIsUpdateNeeded= getManagers().getmUpdateManager().getIsUpdateNeeded(strCurrVersion,strLatestVersion);			
 
 		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n" 
 		+ getString(R.string.latest_version_is_) + " "	+ strLatestVersion + " \n";
@@ -76,6 +77,10 @@ public class UpdatePanel extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+	
+	public ManagersManager getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 
 }

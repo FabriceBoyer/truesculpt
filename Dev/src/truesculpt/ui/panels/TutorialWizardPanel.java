@@ -1,7 +1,8 @@
 package truesculpt.ui.panels;
 
 import truesculpt.main.R;
-import truesculpt.main.TrueSculpt;
+import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.ManagersManager;
 import truesculpt.utils.ResourceUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -144,12 +145,12 @@ public class TutorialWizardPanel extends Activity {
 
 	public void setSeeAgainOption(boolean bSeeAgain)
 	{
-		TrueSculpt.getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);		
+		getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);		
 	}
 	
 	public boolean getSeeAgainOption()
 	{
-		return TrueSculpt.getManagers().getmOptionsManager().getViewTutorialAtStartup();
+		return getManagers().getmOptionsManager().getViewTutorialAtStartup();
 	}
 	
 	private void RefreshView()
@@ -185,6 +186,10 @@ public class TutorialWizardPanel extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+	}
+	
+	public ManagersManager getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 
 }

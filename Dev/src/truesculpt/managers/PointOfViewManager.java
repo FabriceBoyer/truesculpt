@@ -1,6 +1,7 @@
 package truesculpt.managers;
 
 import android.app.Activity;
+import android.content.Context;
 
 public class PointOfViewManager extends BaseManager {
 
@@ -14,8 +15,8 @@ public class PointOfViewManager extends BaseManager {
 	private float mYOrig=0.0f;
 	private float mZOrig=0.0f;
 	
-	public PointOfViewManager(Activity mBaseActivity) {
-		super(mBaseActivity);
+	public PointOfViewManager(Context baseContext) {
+		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 	
