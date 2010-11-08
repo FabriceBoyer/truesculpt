@@ -28,5 +28,12 @@ public class PointOfViewManager extends BaseManager {
 	{
 		
 	}
+	
+	public void addElevationAngle(float angle)
+	{
+		
+	}
+	
+	
 
 }

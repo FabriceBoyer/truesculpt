@@ -10,7 +10,8 @@ import android.widget.Toast;
 public class Utils {
 
 	public static float DegToRad(float deg) {
-		return (float) (deg * Math.PI / 180.0f);
+		return deg * (float)Math.PI / 180.0f;
+		//return (float) Math.toRadians(deg);
 	}
 	
 	//in degrees, return x,y,z in vector
@@ -29,7 +30,66 @@ public class Utils {
 		return res;
 	}
 	
+	public static Vector<Float> Substract(Vector<Float> pt1, Vector<Float> pt2) 
+	{
+		Vector<Float> res=new Vector<Float>(pt2);
+		int n=pt1.size();
+		if (n==pt2.size())
+		{
+			for (int i = 0; i < n; i++) {
+				float val1=pt1.get(i);
+				float val2=pt2.get(i);
+				
+				res.set(i, val2-val1);
+			}			
+		}
+		return res;	
+	}
+	
+	public static Vector<Float> DivideBy(Vector<Float> pt, float value) 
+	{
+		Vector<Float> res=new Vector<Float>(pt);
+		int n=pt.size();
+		
+		if( value!=0.0f)
+		{
+			for (int i = 0; i < n; i++) {
+				float val=pt.get(i);				
+				
+				res.set(i,val/value);
+			}			
+		}
+		return res;	
+	}
+	
 	public static float Distance(Vector<Float> pt1, Vector<Float> pt2)
+	{		
+		float dRes=0.0f;
+		
+		Vector<Float> diff=Substract(pt1,pt2);
+		dRes=Length(diff);
+		
+		return dRes;		
+	}
+	
+	public static float Length(Vector<Float> pt)
+	{
+		float dRes=0.0f;
+		
+		dRes=Dot(pt,pt);
+		
+		return dRes;
+	}
+	
+	public static Vector<Float> Normalize(Vector<Float> pt)
+	{
+		float dLength=Length(pt);
+		
+		Vector<Float> res=DivideBy(pt,dLength);
+		return res;
+	}
+	
+	public static float Dot(Vector<Float> pt1, Vector<Float> pt2)
 	{
 		float dRes=0.0f;
 		int n=pt1.size();
@@ -39,7 +99,7 @@ public class Utils {
 				float val1=pt1.get(i);
 				float val2=pt2.get(i);
 				
-				dRes+=Math.pow((val2-val1),2);
+				dRes+=val2*val1;
 			}			
 		}
 		return dRes;		
