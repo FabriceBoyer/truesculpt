@@ -1,6 +1,6 @@
 package truesculpt.ui.panels;
 
-import truesculpt.main.ManagersManager;
+import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.main.R.id;
@@ -25,7 +25,7 @@ public class RendererMainPanel extends Activity {
 
 	private GLSurfaceView mGLSurfaceView = null;
 
-	public ManagersManager getManagers() {	
+	public Managers getManagers() {	
 		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 	

@@ -1,6 +1,6 @@
 package truesculpt.managers;
 
-import truesculpt.main.ManagersManager;
+import truesculpt.main.Managers;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.panels.RendererMainPanel;
 import android.app.Activity;
@@ -22,7 +22,7 @@ public class BaseManager {
 		return mbaseContext;
 	}
 
-	public ManagersManager getManagers() {	
+	public Managers getManagers() {	
 		return ((TrueSculptApp)getbaseContext().getApplicationContext()).getManagers();
 	}
 }

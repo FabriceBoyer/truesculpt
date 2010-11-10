@@ -1,6 +1,6 @@
 package truesculpt.ui.panels;
 
-import truesculpt.main.ManagersManager;
+import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.utils.Utils;
@@ -79,7 +79,7 @@ public class UpdatePanel extends Activity {
 		super.onResume();
 	}
 	
-	public ManagersManager getManagers() {	
+	public Managers getManagers() {	
 		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 

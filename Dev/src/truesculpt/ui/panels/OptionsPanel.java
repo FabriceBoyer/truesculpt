@@ -1,6 +1,6 @@
 package truesculpt.ui.panels;
 
-import truesculpt.main.ManagersManager;
+import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ public class OptionsPanel extends PreferenceActivity {
 		
 	}
 	
-	public ManagersManager getManagers() {	
+	public Managers getManagers() {	
 		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 
