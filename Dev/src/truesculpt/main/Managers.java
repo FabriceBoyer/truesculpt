@@ -15,9 +15,9 @@ import truesculpt.managers.UsageStatisticsManager;
 import truesculpt.managers.WebManager;
 import android.content.Context;
 
-public class ManagersManager {
+public class Managers {
 
-	public ManagersManager() {
+	public Managers() {
 
 	}
 
