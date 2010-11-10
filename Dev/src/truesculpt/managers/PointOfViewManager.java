@@ -1,5 +1,7 @@
 package truesculpt.managers;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 
@@ -22,19 +24,37 @@ public class PointOfViewManager extends BaseManager {
 	
 	public void addZoomDistance(float dist)
 	{
-		
+		NotifyListeners();
 	}
 	
 	public void addRotationAngle(float angle)
 	{
-		
+		NotifyListeners();
 	}
 	
 	public void addElevationAngle(float angle)
 	{
-		
+		NotifyListeners();
 	}
 	
+	private void NotifyListeners()
+	{
+		for (OnPointOfViewChangeListener listener : mListeners) 
+		{
+			listener.onPointOfViewChange();		
+		}	
+	}
 	
+	public interface OnPointOfViewChangeListener
+	{
+		void onPointOfViewChange();
+	}
+	
+	private List<OnPointOfViewChangeListener> mListeners;
+	
+	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
+	{
+		mListeners.add(listener);	
+	}	
 
 }
