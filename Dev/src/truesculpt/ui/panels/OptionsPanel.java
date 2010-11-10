@@ -27,7 +27,6 @@ public class OptionsPanel extends PreferenceActivity {
 	protected void onDestroy() {		
 		super.onDestroy();
 		
-		getManagers().getmOptionsManager().updateAllOptions();
 	}
 	
 	public ManagersManager getManagers() {	
