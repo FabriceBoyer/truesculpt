@@ -6,6 +6,7 @@ import truesculpt.main.TrueSculptApp;
 import truesculpt.main.R.id;
 import truesculpt.main.R.layout;
 import truesculpt.main.R.menu;
+import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
@@ -19,7 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class RendererMainPanel extends Activity {
+public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener {
 
 	private static final String TAG = "TrueSculptMain";
 
@@ -74,7 +75,9 @@ public class RendererMainPanel extends Activity {
 		ShowTutorial();
 		NotifyStartupStat();
 		
-		setContentView(R.layout.main);		
+		setContentView(R.layout.main);	
+		
+		getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(this);
 		
 		// mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
 		// mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
@@ -192,6 +195,13 @@ public class RendererMainPanel extends Activity {
 		default:
 			return super.onContextItemSelected(item);
 		}
+	}
+
+
+	@Override
+	public void onPointOfViewChange() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
