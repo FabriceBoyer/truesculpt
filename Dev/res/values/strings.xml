@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="Gather_usage_data">Gather usage data</string>
+    <string name="Load_last_used_file">Load last used file</string>
+    <string name="Show_splash_screen">Show splash screen</string>
+    <string name="Show_tutorial">Show tutorial</string>
+    <string name="check_update">Check update</string>
     <string name="show_about_panel">About</string>
     <string name="show_options_panel">Options</string>
     <string name="no">No</string>

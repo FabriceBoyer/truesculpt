@@ -6,85 +6,72 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-
 //is a local cache really necessary ? direct call to manager better?
 public class OptionsManager extends BaseManager {
 
 	SharedPreferences settings = null;
 
-	private boolean mCheckUpdateAtStartup = true;
-	private boolean mViewTutorialAtStartup = true;
-	private boolean mDisplaySplashScreenAtStartup = true;
-	private boolean mGatherUsageData=true;
-	
-
 	public OptionsManager(Context baseContext) {
 		super(baseContext);
 
 		// Restore preferences
-		settings = PreferenceManager.getDefaultSharedPreferences(getbaseContext());		//settings = getbaseContext().getSharedPreferences(PREFS_NAME, 0);
-		
-		updateAllOptions();
-	}
-		
-	public void updateAllOptions()
-	{
-		mCheckUpdateAtStartup = settings.getBoolean("CheckUpdateAtStartup", true);
-		mViewTutorialAtStartup = settings.getBoolean("ViewTutorialAtStartup", true);
-		mDisplaySplashScreenAtStartup = settings.getBoolean("DisplaySplashScreenAtStartup", true);
-		mGatherUsageData = settings.getBoolean("GatherUsageData", true);
+		settings = PreferenceManager.getDefaultSharedPreferences(getbaseContext()); 
+
 	}
 
 	public void showOptionsPanel() {
 		Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.OptionsPanel.class);
 	}
-	
-	private void saveAllOptions()
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("CheckUpdateAtStartup", mCheckUpdateAtStartup);
-		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
-		editor.putBoolean("DisplaySplashScreenAtStartup", mDisplaySplashScreenAtStartup);
-		editor.putBoolean("GatherUsageData", mGatherUsageData);
-
-		editor.commit();
-	}
-	
 
 	public boolean getCheckUpdateAtStartup() {
-		return mCheckUpdateAtStartup;
+		return settings.getBoolean("CheckUpdateAtStartup", true);
 	}
 
 	public void setCheckUpdateAtStartup(boolean mCheckUpdateAtStartup) {
-		this.mCheckUpdateAtStartup = mCheckUpdateAtStartup;		
-		saveAllOptions();
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("CheckUpdateAtStartup", mCheckUpdateAtStartup);
+		editor.commit();
 	}
-	
+
 	public boolean getViewTutorialAtStartup() {
-		return mViewTutorialAtStartup;
+		return settings.getBoolean("ViewTutorialAtStartup", true);
 	}
 
 	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup) {
-		this.mViewTutorialAtStartup = mViewTutorialAtStartup;
-		saveAllOptions();
-	}
-
-	public void setDisplaySplashScreenAtStartup(
-			boolean mDisplaySplashScreenAtStartup) {
-		this.mDisplaySplashScreenAtStartup = mDisplaySplashScreenAtStartup;
-		saveAllOptions();
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
+		editor.commit();
 	}
 
 	public boolean getDisplaySplashScreenAtStartup() {
-		return mDisplaySplashScreenAtStartup;
+		return settings.getBoolean("DisplaySplashScreenAtStartup", true);
 	}
 
-	public void setGatherUsageData(boolean mGatherUsageData) {
-		this.mGatherUsageData = mGatherUsageData;
+	public void setDisplaySplashScreenAtStartup(boolean mDisplaySplashScreenAtStartup) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("DisplaySplashScreenAtStartup", mDisplaySplashScreenAtStartup);
+		editor.commit();
 	}
 
 	public boolean getGatherUsageData() {
-		return mGatherUsageData;
+		return settings.getBoolean("GatherUsageData", true);
+	}
+
+	public void setGatherUsageData(boolean mGatherUsageData) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("GatherUsageData", mGatherUsageData);
+		editor.commit();
+	}
+	
+	
+	public boolean getLoadLastUsedFileAtStartup() {
+		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
+	}
+
+	public void seLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("LoaLastdUsedFileAtStartup", mLoadLastUsedFileAtStartup);
+		editor.commit();
 	}
 
 }
