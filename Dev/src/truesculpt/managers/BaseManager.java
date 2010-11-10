@@ -1,5 +1,6 @@
 package truesculpt.managers;
 
+import truesculpt.main.ManagersManager;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.panels.RendererMainPanel;
 import android.app.Activity;

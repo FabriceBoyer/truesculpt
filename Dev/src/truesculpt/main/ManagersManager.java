@@ -1,6 +1,18 @@
-package truesculpt.managers;
+package truesculpt.main;
 
-import android.app.Activity;
+import truesculpt.managers.ActionsManager;
+import truesculpt.managers.FileManager;
+import truesculpt.managers.MemoryManager;
+import truesculpt.managers.MeshManager;
+import truesculpt.managers.OptionsManager;
+import truesculpt.managers.PointOfViewManager;
+import truesculpt.managers.RendererManager;
+import truesculpt.managers.SensorsManager;
+import truesculpt.managers.ToolsManager;
+import truesculpt.managers.TouchManager;
+import truesculpt.managers.UpdateManager;
+import truesculpt.managers.UsageStatisticsManager;
+import truesculpt.managers.WebManager;
 import android.content.Context;
 
 public class ManagersManager {
@@ -92,6 +104,13 @@ public class ManagersManager {
 	public UsageStatisticsManager getmUsageStatisticsManager() {
 		return mUsageStatisticsManager;
 	}
+	
+	/**
+	 * @return the mFileManager
+	 */
+	public FileManager getmFileManager() {
+		return mFileManager;
+	}
 
 	
 	private ActionsManager mActionsManager = null;
@@ -106,8 +125,9 @@ public class ManagersManager {
 	private UpdateManager mUpdateManager = null;
 	private WebManager mWebManager = null;
 	private UsageStatisticsManager mUsageStatisticsManager = null;
-
+	private FileManager mFileManager = null;
 	
+
 	public void Init(Context baseContext) {
 		mActionsManager = new ActionsManager(baseContext);
 		mMemoryManager = new MemoryManager(baseContext);
@@ -121,6 +141,7 @@ public class ManagersManager {
 		mUpdateManager = new UpdateManager(baseContext);
 		mWebManager = new WebManager(baseContext);
 		mUsageStatisticsManager= new UsageStatisticsManager(baseContext);
+		mFileManager= new FileManager(baseContext);
 	}
 
 }
