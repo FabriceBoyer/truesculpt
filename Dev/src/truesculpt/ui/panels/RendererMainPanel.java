@@ -1,11 +1,11 @@
 package truesculpt.ui.panels;
 
+import truesculpt.main.ManagersManager;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.main.R.id;
 import truesculpt.main.R.layout;
 import truesculpt.main.R.menu;
-import truesculpt.managers.ManagersManager;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;

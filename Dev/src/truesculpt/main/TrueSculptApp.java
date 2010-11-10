@@ -1,6 +1,5 @@
 package truesculpt.main;
 
-import truesculpt.managers.ManagersManager;
 import android.app.Application;
 
 public class TrueSculptApp extends Application {

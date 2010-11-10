@@ -1,8 +1,8 @@
 package truesculpt.ui.panels;
 
+import truesculpt.main.ManagersManager;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.ManagersManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
