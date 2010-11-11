@@ -82,10 +82,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		
 		getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(this);
 		
-		// mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
-		// mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
-		// mGLSurfaceView.setRenderer(mRenderer);
-
+		 mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
+		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
+		 mGLSurfaceView.setRenderer(getManagers().getmRendererManager().getmRenderer());
 	}
 
 	@Override

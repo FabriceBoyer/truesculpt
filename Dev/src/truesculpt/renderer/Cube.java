@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2007 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,49 +16,85 @@
 
 package truesculpt.renderer;
 
-public class Cube extends GLShape {
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
 
-	public static final int kBack = 4;
+import javax.microedition.khronos.opengles.GL10;
 
-	public static final int kBottom = 0;
-	public static final int kFront = 1;
-	public static final int kLeft = 2;
-	public static final int kRight = 3;
-	public static final int kTop = 5;
+/**
+ * A vertex shaded cube.
+ */
+class Cube
+{
+    public Cube()
+    {
+        int one = 0x10000;
+        int vertices[] = {
+                -one, -one, -one,
+                one, -one, -one,
+                one,  one, -one,
+                -one,  one, -one,
+                -one, -one,  one,
+                one, -one,  one,
+                one,  one,  one,
+                -one,  one,  one,
+        };
 
-	public Cube(GLWorld world, float left, float bottom, float back,
-			float right, float top, float front) {
-		super(world);
-		GLVertex leftBottomBack = addVertex(left, bottom, back);
-		GLVertex rightBottomBack = addVertex(right, bottom, back);
-		GLVertex leftTopBack = addVertex(left, top, back);
-		GLVertex rightTopBack = addVertex(right, top, back);
-		GLVertex leftBottomFront = addVertex(left, bottom, front);
-		GLVertex rightBottomFront = addVertex(right, bottom, front);
-		GLVertex leftTopFront = addVertex(left, top, front);
-		GLVertex rightTopFront = addVertex(right, top, front);
+        int colors[] = {
+                0,    0,    0,  one,
+                one,    0,    0,  one,
+                one,  one,    0,  one,
+                0,  one,    0,  one,
+                0,    0,  one,  one,
+                one,    0,  one,  one,
+                one,  one,  one,  one,
+                0,  one,  one,  one,
+        };
 
-		// vertices are added in a clockwise orientation (when viewed from the
-		// outside)
-		// bottom
-		addFace(new GLFace(leftBottomBack, leftBottomFront, rightBottomFront,
-				rightBottomBack));
-		// front
-		addFace(new GLFace(leftBottomFront, leftTopFront, rightTopFront,
-				rightBottomFront));
-		// left
-		addFace(new GLFace(leftBottomBack, leftTopBack, leftTopFront,
-				leftBottomFront));
-		// right
-		addFace(new GLFace(rightBottomBack, rightBottomFront, rightTopFront,
-				rightTopBack));
-		// back
-		addFace(new GLFace(leftBottomBack, rightBottomBack, rightTopBack,
-				leftTopBack));
-		// top
-		addFace(new GLFace(leftTopBack, rightTopBack, rightTopFront,
-				leftTopFront));
+        byte indices[] = {
+                0, 4, 5,    0, 5, 1,
+                1, 5, 6,    1, 6, 2,
+                2, 6, 7,    2, 7, 3,
+                3, 7, 4,    3, 4, 0,
+                4, 7, 6,    4, 6, 5,
+                3, 0, 1,    3, 1, 2
+        };
 
-	}
+        // Buffers to be passed to gl*Pointer() functions
+        // must be direct, i.e., they must be placed on the
+        // native heap where the garbage collector cannot
+        // move them.
+        //
+        // Buffers with multi-byte datatypes (e.g., short, int, float)
+        // must have their byte order set to native order
 
+        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length*4);
+        vbb.order(ByteOrder.nativeOrder());
+        mVertexBuffer = vbb.asIntBuffer();
+        mVertexBuffer.put(vertices);
+        mVertexBuffer.position(0);
+
+        ByteBuffer cbb = ByteBuffer.allocateDirect(colors.length*4);
+        cbb.order(ByteOrder.nativeOrder());
+        mColorBuffer = cbb.asIntBuffer();
+        mColorBuffer.put(colors);
+        mColorBuffer.position(0);
+
+        mIndexBuffer = ByteBuffer.allocateDirect(indices.length);
+        mIndexBuffer.put(indices);
+        mIndexBuffer.position(0);
+    }
+
+    public void draw(GL10 gl)
+    {
+        gl.glFrontFace(gl.GL_CW);
+        gl.glVertexPointer(3, gl.GL_FIXED, 0, mVertexBuffer);
+        gl.glColorPointer(4, gl.GL_FIXED, 0, mColorBuffer);
+        gl.glDrawElements(gl.GL_TRIANGLES, 36, gl.GL_UNSIGNED_BYTE, mIndexBuffer);
+    }
+
+    private IntBuffer   mVertexBuffer;
+    private IntBuffer   mColorBuffer;
+    private ByteBuffer  mIndexBuffer;
 }
