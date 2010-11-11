@@ -23,4 +23,15 @@ public class BaseManager {
 	public Managers getManagers() {	
 		return ((TrueSculptApp)getbaseContext().getApplicationContext()).getManagers();
 	}
+	
+	
+	public void onCreate()
+	{
+		
+	}
+	
+	public void onDestroy()
+	{
+		
+	}
 }

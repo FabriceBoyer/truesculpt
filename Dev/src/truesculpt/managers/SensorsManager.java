@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
+
+import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -22,7 +25,19 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	
 	public SensorsManager(Context baseContext) {
 		super(baseContext);
-		// TODO Auto-generated constructor stub
+		
+	}
+	@Override
+	public void onCreate()
+	{
+		super.onCreate();
+		Start();
+	}
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		Stop();
 	}
 
 	@Override
@@ -33,7 +48,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		synchronized (this) {
-			
+			NotifyListeners();
 		}
 	}
 		
@@ -66,6 +81,26 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	public void Stop() {
 		mSensorManager.unregisterListener(SensorsManager.this);
+	}	
+	
+	
+	public interface OnSensorChangeListener
+	{
+		void onSensorChanged();
+	}
+	private Vector<OnSensorChangeListener> mListeners= new Vector<OnSensorChangeListener>();
+	
+	private void NotifyListeners()
+	{
+		for (OnSensorChangeListener listener : mListeners) 
+		{
+			listener.onSensorChanged();		
+		}	
+	}
+	
+	public void registerOnSensorChangeListener(OnSensorChangeListener listener)
+	{
+		mListeners.add(listener);	
 	}	
 
 }

@@ -2,9 +2,11 @@ package truesculpt.managers;
 
 import java.util.Vector;
 
+import truesculpt.managers.SensorsManager.OnSensorChangeListener;
+
 import android.content.Context;
 
-public class PointOfViewManager extends BaseManager {
+public class PointOfViewManager extends BaseManager implements OnSensorChangeListener {
 
 	public interface OnPointOfViewChangeListener
 	{
@@ -25,9 +27,23 @@ public class PointOfViewManager extends BaseManager {
 	
 	public PointOfViewManager(Context baseContext) {
 		super(baseContext);
-		// TODO Auto-generated constructor stub
+
+		
+	}		
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		getManagers().getmSensorsManager().registerOnSensorChangeListener(this);
+		
 	}
 	
+	@Override
+	public void onDestroy() {
+		
+		super.onDestroy();
+	}
+
 	public void addElevationAngle(float angle)
 	{
 		NotifyListeners();
@@ -53,6 +69,11 @@ public class PointOfViewManager extends BaseManager {
 	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
 	{
 		mListeners.add(listener);	
+	}
+
+	@Override
+	public void onSensorChanged() {
+		NotifyListeners();		
 	}	
 
 
