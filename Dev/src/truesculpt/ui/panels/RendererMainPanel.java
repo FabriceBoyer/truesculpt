@@ -9,10 +9,13 @@ import truesculpt.main.R.menu;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -196,6 +199,34 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			return super.onContextItemSelected(item);
 		}
 	}
+
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    //Handle the back button
+	    if(keyCode == KeyEvent.KEYCODE_BACK) {
+	        //Ask the user if they want to quit
+	        new AlertDialog.Builder(this)
+	        .setIcon(android.R.drawable.ic_dialog_alert)
+	        .setTitle(R.string.quit)
+	        .setMessage(R.string.really_quit)
+	        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) {
+	                //Stop the activity
+	                finish();    
+	            }
+	        })
+	        .setNegativeButton(R.string.no, null)
+	        .show();
+
+	        return true;
+	    }
+	    else {
+	        return super.onKeyDown(keyCode, event);
+	    }
+	}
+
 
 
 	@Override
