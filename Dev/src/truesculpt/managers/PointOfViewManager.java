@@ -3,31 +3,28 @@ package truesculpt.managers;
 import java.util.Vector;
 
 import truesculpt.managers.SensorsManager.OnSensorChangeListener;
+import truesculpt.utils.Utils;
 
 import android.content.Context;
 
 public class PointOfViewManager extends BaseManager implements OnSensorChangeListener {
 
-	public interface OnPointOfViewChangeListener
-	{
-		void onPointOfViewChange();
-	}
-	private Vector<OnPointOfViewChangeListener> mListeners= new Vector<OnPointOfViewChangeListener>();
 	//camera pos
 	private float mX=0.0f;
 	
 	//looked at point
 	private float mXOrig=0.0f;
 	private float mY=0.0f;
-	private float mYOrig=0.0f;
-	
-	private float mZ=10.0f;
-	
+	private float mYOrig=0.0f;	
+	private float mZ=10.0f;	
 	private float mZOrig=0.0f;
+	
+	private float mR=10.0f;
+	private float mTheta=0.0f;
+	private float mPhi=0.0f;
 	
 	public PointOfViewManager(Context baseContext) {
 		super(baseContext);
-
 		
 	}		
 
@@ -39,23 +36,40 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 	}
 	
 	@Override
-	public void onDestroy() {
-		
+	public void onDestroy() {		
 		super.onDestroy();
 	}
 
-	public void addElevationAngle(float angle)
+	public void setElevationAngle(float angle)
 	{
+		mPhi=angle;
 		NotifyListeners();
 	}
 	
-	public void addRotationAngle(float angle)
+	public void setRotationAngle(float angle)
 	{
+		mTheta=angle;
 		NotifyListeners();
 	}	
-	public void addZoomDistance(float dist)
+	public void setZoomDistance(float dist)
 	{
+		mR=dist;
 		NotifyListeners();
+	}
+	
+	public float getElevationAngle()
+	{		
+		return mPhi;
+	}
+	
+	public float getRotationAngle()
+	{
+		return mTheta;
+	}
+	
+	public float getZoomDistance()
+	{
+		return mR;
 	}
 	
 	private void NotifyListeners()
@@ -71,6 +85,12 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 		mListeners.add(listener);	
 	}
 
+	public interface OnPointOfViewChangeListener
+	{
+		void onPointOfViewChange();
+	}
+	private Vector<OnPointOfViewChangeListener> mListeners= new Vector<OnPointOfViewChangeListener>();
+	
 	@Override
 	public void onSensorChanged() {
 		NotifyListeners();		

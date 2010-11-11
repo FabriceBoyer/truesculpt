@@ -6,7 +6,7 @@ import android.opengl.GLSurfaceView.Renderer;
 
 public class RendererManager extends BaseManager {
 
-	private Renderer mRenderer = null;
+	private CubeRenderer mRenderer = null;
 
 	public RendererManager(Context baseContext) {
 		super(baseContext);
@@ -19,6 +19,14 @@ public class RendererManager extends BaseManager {
 	 */
 	public Renderer getmRenderer() {
 		return mRenderer;
+	}
+	
+	public void onPointOfViewChange()
+	{
+		mRenderer.onPointOfViewChange(
+				getManagers().getmPointOfViewManager().getRotationAngle(),
+				getManagers().getmPointOfViewManager().getZoomDistance(),
+				getManagers().getmPointOfViewManager().getElevationAngle());
 	}
 
 }

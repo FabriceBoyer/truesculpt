@@ -47,10 +47,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		synchronized (this) {
 			NotifyListeners();
 		}
-	}
 		
 	private String getUniqueDeviceID() {
 		WifiManager wm = (WifiManager) getbaseContext().getSystemService(
