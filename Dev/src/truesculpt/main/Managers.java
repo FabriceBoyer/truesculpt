@@ -1,6 +1,9 @@
 package truesculpt.main;
 
+import java.util.Vector;
+
 import truesculpt.managers.ActionsManager;
+import truesculpt.managers.BaseManager;
 import truesculpt.managers.FileManager;
 import truesculpt.managers.MemoryManager;
 import truesculpt.managers.MeshManager;
@@ -18,35 +21,24 @@ import android.content.Context;
 public class Managers {
 
 	private ActionsManager mActionsManager = null;
-
 	private FileManager mFileManager = null;
-
 	private MemoryManager mMemoryManager = null;
-
 	private MeshManager mMeshManager = null;
-
 	private OptionsManager mOptionsManager = null;
-
 	private PointOfViewManager mPointOfViewManager = null;
-
 	private RendererManager mRendererManager = null;
-
 	private SensorsManager mSensorsManager = null;
-
 	private ToolsManager mToolsManager = null;
-
 	private TouchManager mTouchManager = null;
-
 	private UpdateManager mUpdateManager = null;
-
 	private UsageStatisticsManager mUsageStatisticsManager = null;
-
 	private WebManager mWebManager = null;
+	
+	private Vector<BaseManager> mManagersList=new Vector<BaseManager>();
 	
 	public Managers() {
 
 	}
-
 	
 	/**
 	 * @return the mActionsManager
@@ -145,20 +137,37 @@ public class Managers {
 		mUsageStatisticsManager= new UsageStatisticsManager(baseContext);
 		mFileManager= new FileManager(baseContext);
 		
-		//on create
-		 mActionsManager.onCreate();
-		 mFileManager.onCreate();
-		 mMemoryManager.onCreate();
-		 mMeshManager.onCreate();
-		 mOptionsManager.onCreate();
-		 mPointOfViewManager.onCreate();
-		 mRendererManager.onCreate();
-		 mSensorsManager.onCreate();
-		 mToolsManager.onCreate();
-		 mTouchManager.onCreate();
-		 mUpdateManager.onCreate();
-		 mUsageStatisticsManager.onCreate();
-		 mWebManager.onCreate();
+		
+		mManagersList.add(mActionsManager);
+		mManagersList.add(mFileManager);
+		mManagersList.add(mMemoryManager);
+		mManagersList.add(mMeshManager);
+		mManagersList.add(mOptionsManager);
+		mManagersList.add(mPointOfViewManager);
+		mManagersList.add(mRendererManager);
+		mManagersList.add(mSensorsManager);
+		mManagersList.add(mToolsManager);
+		mManagersList.add(mTouchManager);
+		mManagersList.add(mUpdateManager);
+		mManagersList.add(mUsageStatisticsManager);
+		mManagersList.add(mWebManager);
+		
+	}
+	
+	public void Create()
+	{		
+		for (BaseManager manager : mManagersList)
+		{
+			manager.onCreate();
+		}	
+	}
+	
+	public void Destroy()
+	{		
+		for (BaseManager manager : mManagersList)
+		{
+			manager.onDestroy();
+		}	
 	}
 
 }
