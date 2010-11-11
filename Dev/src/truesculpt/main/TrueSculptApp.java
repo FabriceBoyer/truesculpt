@@ -18,5 +18,16 @@ public class TrueSculptApp extends Application {
 		super.onCreate();
 		
 		mManagers.Init(getBaseContext());
+		mManagers.Create();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Application#onTerminate()
+	 */
+	@Override
+	public void onTerminate() {		
+		super.onTerminate();
+		
+		mManagers.Destroy();
 	}
 }
