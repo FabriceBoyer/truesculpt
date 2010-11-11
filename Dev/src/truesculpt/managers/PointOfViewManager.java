@@ -42,8 +42,7 @@ public class PointOfViewManager extends BaseManager {
 		{
 			listener.onPointOfViewChange();		
 		}	
-	}
-	
+	}	
 	public interface OnPointOfViewChangeListener
 	{
 		void onPointOfViewChange();
