@@ -21,5 +21,16 @@ public class TouchManager extends BaseManager {
 
 		Log.i(Global.TAG,msg);
 		
+		if (event.getAction()==MotionEvent.ACTION_MOVE)
+		{
+			float fRot=getManagers().getmPointOfViewManager().getRotationAngle();
+			fRot+=(event.getX()-event.getHistoricalX(0));
+			getManagers().getmPointOfViewManager().setRotationAngle(fRot);
+			
+			float fElev=getManagers().getmPointOfViewManager().getElevationAngle();
+			fElev+=(event.getY()-event.getHistoricalY(0));
+			getManagers().getmPointOfViewManager().setElevationAngle(fElev);
+		}
+		
 	}
 }

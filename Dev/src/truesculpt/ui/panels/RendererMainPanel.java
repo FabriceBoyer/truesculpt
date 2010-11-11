@@ -69,14 +69,14 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		ShowTutorial();
 		NotifyStartupStat();
 		
-		setContentView(R.layout.main);	
-		
-		getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(this);
+		setContentView(R.layout.main);		
 		
 		 mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
 		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		 mGLSurfaceView.setRenderer(getManagers().getmRendererManager().getmRenderer());
 		 mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		 
+		 getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(this);
 	}
 	
 	@Override
@@ -182,6 +182,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 	@Override
 	public void onPointOfViewChange() {
+		getManagers().getmRendererManager().onPointOfViewChange();
 		mGLSurfaceView.requestRender();		
 	}
 
@@ -191,6 +192,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 		if (mGLSurfaceView != null)
 			mGLSurfaceView.onResume();
+				 
 	}
 
 	@Override
