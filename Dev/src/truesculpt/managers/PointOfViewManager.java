@@ -1,8 +1,7 @@
 package truesculpt.managers;
 
-import java.util.List;
+import java.util.Vector;
 
-import android.app.Activity;
 import android.content.Context;
 
 public class PointOfViewManager extends BaseManager {
@@ -50,11 +49,12 @@ public class PointOfViewManager extends BaseManager {
 		void onPointOfViewChange();
 	}
 	
-	private List<OnPointOfViewChangeListener> mListeners;
+	private Vector<OnPointOfViewChangeListener> mListeners= new Vector<OnPointOfViewChangeListener>();
 	
 	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
 	{
 		mListeners.add(listener);	
 	}	
+
 
 }
