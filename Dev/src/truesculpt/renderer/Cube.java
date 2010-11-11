@@ -27,6 +27,11 @@ import javax.microedition.khronos.opengles.GL10;
  */
 class Cube
 {
+    private IntBuffer   mColorBuffer;
+
+    private ByteBuffer  mIndexBuffer;
+
+    private IntBuffer   mVertexBuffer;
     public Cube()
     {
         int one = 0x10000;
@@ -85,16 +90,11 @@ class Cube
         mIndexBuffer.put(indices);
         mIndexBuffer.position(0);
     }
-
     public void draw(GL10 gl)
     {
-        gl.glFrontFace(gl.GL_CW);
-        gl.glVertexPointer(3, gl.GL_FIXED, 0, mVertexBuffer);
-        gl.glColorPointer(4, gl.GL_FIXED, 0, mColorBuffer);
-        gl.glDrawElements(gl.GL_TRIANGLES, 36, gl.GL_UNSIGNED_BYTE, mIndexBuffer);
+        gl.glFrontFace(GL10.GL_CW);
+        gl.glVertexPointer(3, GL10.GL_FIXED, 0, mVertexBuffer);
+        gl.glColorPointer(4, GL10.GL_FIXED, 0, mColorBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_BYTE, mIndexBuffer);
     }
-
-    private IntBuffer   mVertexBuffer;
-    private IntBuffer   mColorBuffer;
-    private ByteBuffer  mIndexBuffer;
 }

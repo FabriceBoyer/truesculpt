@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class UpdatePanel extends Activity {
+
+	public Managers getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +76,10 @@ public class UpdatePanel extends Activity {
 	protected void onPause() {
 		super.onPause();
 	}
-
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
-	}
-	
-	public Managers getManagers() {	
-		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 
 }

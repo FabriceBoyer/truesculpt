@@ -3,9 +3,6 @@ package truesculpt.ui.panels;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.main.R.id;
-import truesculpt.main.R.layout;
-import truesculpt.main.R.menu;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
@@ -29,19 +26,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 	private GLSurfaceView mGLSurfaceView = null;
 
-	public Managers getManagers() {	
-		return ((TrueSculptApp)getApplicationContext()).getManagers();
-	}
-	
-
-	public void ShowSplashScreen()
-	{	
-		if (getManagers().getmOptionsManager().getDisplaySplashScreenAtStartup()==true)
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.SplashPanel.class);
-		}
-	}
-	
 	public void CheckUpdate()
 	{
 		if (getManagers().getmOptionsManager().getCheckUpdateAtStartup()==true)
@@ -50,12 +34,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		}
 	}
 	
-	public void ShowTutorial()
-	{
-		if (getManagers().getmOptionsManager().getViewTutorialAtStartup()==true)
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class);
-		}
+
+	public Managers getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 	
 	public void NotifyStartupStat()
@@ -63,6 +44,16 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		if (getManagers().getmOptionsManager().getGatherUsageData()==true)
 		{
 			getManagers().getmUsageStatisticsManager().incrementStartupCount();
+		}
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		switch (item.getItemId()) {
+		default:
+			return super.onContextItemSelected(item);
 		}
 	}
 	
@@ -86,12 +77,57 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		 mGLSurfaceView.setRenderer(getManagers().getmRendererManager().getmRenderer());
 	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		// inflater.inflate(R.menu.context_menu, menu);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    //Handle the back button
+	    if(keyCode == KeyEvent.KEYCODE_BACK) {
+	        //Ask the user if they want to quit
+	        new AlertDialog.Builder(this)
+	        .setIcon(android.R.drawable.ic_dialog_alert)
+	        .setTitle(R.string.quit)
+	        .setMessage(R.string.really_quit)
+	        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) {
+	                //Stop the activity
+	                finish();    
+	            }
+	        })
+	        .setNegativeButton(R.string.no, null)
+	        .show();
+
+	        return true;
+	    }
+	    else {
+	        return super.onKeyDown(keyCode, event);
+	    }
 	}
 
 	@Override
@@ -135,34 +171,18 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onDestroy()
-	 */
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onTouchEvent(android.view.MotionEvent)
-	 */
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		getManagers().getmTouchManager().onTouchEvent(event);
-		return super.onTouchEvent(event);
-	}
-
 	@Override
 	protected void onPause() {
 		super.onPause();
 
 		if (mGLSurfaceView != null)
 			mGLSurfaceView.onPause();
+	}
+
+	@Override
+	public void onPointOfViewChange() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -181,57 +201,34 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			mGLSurfaceView.onPause();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onTouchEvent(android.view.MotionEvent)
+	 */
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getMenuInflater();
-		// inflater.inflate(R.menu.context_menu, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
-		switch (item.getItemId()) {
-		default:
-			return super.onContextItemSelected(item);
-		}
+	public boolean onTouchEvent(MotionEvent event) {
+		getManagers().getmTouchManager().onTouchEvent(event);
+		return super.onTouchEvent(event);
 	}
 
 	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	    //Handle the back button
-	    if(keyCode == KeyEvent.KEYCODE_BACK) {
-	        //Ask the user if they want to quit
-	        new AlertDialog.Builder(this)
-	        .setIcon(android.R.drawable.ic_dialog_alert)
-	        .setTitle(R.string.quit)
-	        .setMessage(R.string.really_quit)
-	        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-	            @Override
-	            public void onClick(DialogInterface dialog, int which) {
-	                //Stop the activity
-	                finish();    
-	            }
-	        })
-	        .setNegativeButton(R.string.no, null)
-	        .show();
-
-	        return true;
-	    }
-	    else {
-	        return super.onKeyDown(keyCode, event);
-	    }
+	public void ShowSplashScreen()
+	{	
+		if (getManagers().getmOptionsManager().getDisplaySplashScreenAtStartup()==true)
+		{
+			Utils.StartMyActivity(this, truesculpt.ui.panels.SplashPanel.class);
+		}
 	}
 
 
 
-	@Override
-	public void onPointOfViewChange() {
-		// TODO Auto-generated method stub
-		
+	public void ShowTutorial()
+	{
+		if (getManagers().getmOptionsManager().getViewTutorialAtStartup()==true)
+		{
+			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class);
+		}
 	}
 
 }

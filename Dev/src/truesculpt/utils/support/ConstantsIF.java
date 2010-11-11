@@ -15,12 +15,12 @@ public interface ConstantsIF extends MIMETypeConstantsIF {
 // jvm constants for string encoding
 //
 public static final String ASCII = "US-ASCII";
-public static final String UTF8 = "UTF-8";
-
 //
 // Constants
 //
 public static final String DEFAULT_CHAR_ENCODING = ASCII;
+
+public static final String UTF8 = "UTF-8";
 
 //
 // Methods

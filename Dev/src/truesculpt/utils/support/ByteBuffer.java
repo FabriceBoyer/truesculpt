@@ -1,6 +1,10 @@
 package truesculpt.utils.support;
 
-import java.io.*;                  //Network classes
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 /**
  * <B>ByteBuffer</B> is a container for bytes. A ByteBuffer is to bytes, what a StringBuffer is to
@@ -16,17 +20,40 @@ public class ByteBuffer
     implements truesculpt.utils.support.ConstantsIF, Serializable
 {
 
-static final long serialVersionUID = 7401588019652180668L;
-
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // constants
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 public static final int BUFFER_SIZE = 4096;
 
+static final long serialVersionUID = 7401588019652180668L;
+
+//
+// self test method
+//
+public static void main(String args[]) {
+  byte[] br1 = {(byte) '0', (byte) '1'};
+  byte[] br2 = {(byte) '<', (byte) 'T', (byte) '>'};
+
+  System.out.println("::bb1.append( br1 )");
+  ByteBuffer bb1 = new ByteBuffer().append(br1, 0, 2);
+  bb1.setEncoding(UTF8);
+  System.out.println();
+
+  System.out.println("::bb1.toString():" + bb1.toString());
+  System.out.println();
+
+  System.out.println("::bb1.append( br2 )");
+  bb1.append(br2, 0, 3);
+  System.out.println();
+
+  System.out.println("::bb1.toString():" + bb1.toString());
+  System.out.println();
+}
 //
 // Data Members
 //
 protected byte[] byteRay = null;
+
 protected String enc = DEFAULT_CHAR_ENCODING;
 
 //
@@ -54,6 +81,13 @@ public ByteBuffer(InputStream is) throws IOException {
     if (read == -1) break;
     append(readBuf, 0, read);
   }
+}
+
+//
+// convenience methods
+//
+public void append(byte[] srcBuf) {
+  append(srcBuf, 0, srcBuf.length);
 }
 
 //
@@ -95,20 +129,6 @@ public ByteBuffer append(
   return this;
 }
 
-public byte[] toByteArray() {
-  return getBytes();
-}
-
-public String toString() {
-  if (byteRay != null && byteRay.length > 0) {
-    float sizeInKB = byteRay.length / 1000f;
-    return sizeInKB + " KB";
-  }
-  else {
-    return "0 KB";
-  }
-}
-
 /*
 public String toString() {
   if (byteRay == null) {
@@ -127,22 +147,8 @@ public String toString() {
 }
 */
 
-public void setEncoding(String enc) {
-  if (enc == null) {
-    return;
-  }
-  else {
-    //test this encoding string to be valid
-    try {
-      byte[] bytes = {(byte) '0', (byte) '1'};
-      new String(bytes, enc);
-      this.enc = enc;
-    }
-    catch (UnsupportedEncodingException e) {
-      //don't override the default encoding
-      System.out.println("unsupported encoding");
-    }
-  }
+public void append(ByteBuffer buf) {
+  append(buf.getBytes(), 0, buf.getSize());
 }
 
 protected final void arrayCopy(byte[] srcBuf, int srcStartIndex,
@@ -160,6 +166,12 @@ protected final void arrayCopy(byte[] srcBuf, int srcStartIndex,
   }
   System.out.println( "arrayCopy end" );
   */
+}
+
+public void clear() {
+  if (byteRay != null) {
+    byteRay = null;
+  }
 }
 
 //
@@ -185,44 +197,37 @@ public int getSize() {
   }
 }
 
-//
-// convenience methods
-//
-public void append(byte[] srcBuf) {
-  append(srcBuf, 0, srcBuf.length);
-}
-
-public void append(ByteBuffer buf) {
-  append(buf.getBytes(), 0, buf.getSize());
-}
-
-public void clear() {
-  if (byteRay != null) {
-    byteRay = null;
+public void setEncoding(String enc) {
+  if (enc == null) {
+    return;
+  }
+  else {
+    //test this encoding string to be valid
+    try {
+      byte[] bytes = {(byte) '0', (byte) '1'};
+      new String(bytes, enc);
+      this.enc = enc;
+    }
+    catch (UnsupportedEncodingException e) {
+      //don't override the default encoding
+      System.out.println("unsupported encoding");
+    }
   }
 }
 
-//
-// self test method
-//
-public static void main(String args[]) {
-  byte[] br1 = {(byte) '0', (byte) '1'};
-  byte[] br2 = {(byte) '<', (byte) 'T', (byte) '>'};
+public byte[] toByteArray() {
+  return getBytes();
+}
 
-  System.out.println("::bb1.append( br1 )");
-  ByteBuffer bb1 = new ByteBuffer().append(br1, 0, 2);
-  bb1.setEncoding(UTF8);
-  System.out.println();
-
-  System.out.println("::bb1.toString():" + bb1.toString());
-  System.out.println();
-
-  System.out.println("::bb1.append( br2 )");
-  bb1.append(br2, 0, 3);
-  System.out.println();
-
-  System.out.println("::bb1.toString():" + bb1.toString());
-  System.out.println();
+@Override
+public String toString() {
+  if (byteRay != null && byteRay.length > 0) {
+    float sizeInKB = byteRay.length / 1000f;
+    return sizeInKB + " KB";
+  }
+  else {
+    return "0 KB";
+  }
 }
 
 }//end of ByteBuffer class

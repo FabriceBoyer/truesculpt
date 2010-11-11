@@ -1,6 +1,5 @@
 package truesculpt.managers;
 
-import android.app.Activity;
 import android.content.Context;
 
 public class WebManager extends BaseManager {

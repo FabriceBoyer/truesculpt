@@ -8,6 +8,10 @@ import android.preference.PreferenceActivity;
 
 public class OptionsPanel extends PreferenceActivity {
 
+	public Managers getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	}
+
 	/* (non-Javadoc)
 	 * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
 	 */
@@ -19,7 +23,7 @@ public class OptionsPanel extends PreferenceActivity {
 		//must be in same package than manager ?
 		addPreferencesFromResource(R.xml.options);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see android.preference.PreferenceActivity#onDestroy()
 	 */
@@ -27,10 +31,6 @@ public class OptionsPanel extends PreferenceActivity {
 	protected void onDestroy() {		
 		super.onDestroy();
 		
-	}
-	
-	public Managers getManagers() {	
-		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 
 }

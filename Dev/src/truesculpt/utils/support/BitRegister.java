@@ -16,20 +16,20 @@ public BitRegister(boolean initValue) {
   value = initValue;
 }
 
-public synchronized void set() {
-  value = true;
-}
-
-public synchronized boolean isSet() {
-  return value;
+public synchronized void clear() {
+  value = false;
 }
 
 public synchronized boolean isNotSet() {
   return !value;
 }
 
-public synchronized void clear() {
-  value = false;
+public synchronized boolean isSet() {
+  return value;
+}
+
+public synchronized void set() {
+  value = true;
 }
 
 }//end class BitRegister

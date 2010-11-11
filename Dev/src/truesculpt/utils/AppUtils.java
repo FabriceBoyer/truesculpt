@@ -1,10 +1,14 @@
 package truesculpt.utils;
 
-import android.app.*;
-import android.content.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
-import android.widget.*;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * AppUtils is a helper class that makes it easy to perform frequently used tasks in Android development.
@@ -17,20 +21,6 @@ public class AppUtils {
 
 /** 127.0.0.1 in the emulator points back to itself. Use this if you want to access your host OS */
 public static String EmulatorLocalhost = "10.0.2.2";
-
-/** shows a short message on top of your app... it goes away automatically after a short delay */
-public static void showToastShort(Activity a, String msg) {
-  Toast.makeText(a,
-                 msg,
-                 Toast.LENGTH_SHORT).show();
-}
-
-/** shows a short message on top of your app... it goes away automatically after a long delay */
-public static void showToastLong(Activity a, String msg) {
-  Toast.makeText(a,
-                 msg,
-                 Toast.LENGTH_LONG).show();
-}
 
 /**
  * create an image view, given a drawable. you can set the max size of this imageview as well.
@@ -87,6 +77,20 @@ public static Drawable resizeImage(Context ctx,
   // to the ImageView, ImageButton or what ever
   return new BitmapDrawable(resizedBitmap);
 
+}
+
+/** shows a short message on top of your app... it goes away automatically after a long delay */
+public static void showToastLong(Activity a, String msg) {
+  Toast.makeText(a,
+                 msg,
+                 Toast.LENGTH_LONG).show();
+}
+
+/** shows a short message on top of your app... it goes away automatically after a short delay */
+public static void showToastShort(Activity a, String msg) {
+  Toast.makeText(a,
+                 msg,
+                 Toast.LENGTH_SHORT).show();
 }
 
 }//end class AppUtils

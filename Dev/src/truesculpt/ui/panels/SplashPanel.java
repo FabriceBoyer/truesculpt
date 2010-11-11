@@ -13,16 +13,17 @@ public class SplashPanel extends Activity {
 	// time in milliseconds
 	private static final long SPLASHTIME = 2000;
 
-	private ImageView mSplash;
-
-	// handler for splash screen
-	private Handler mHandler = new Handler();
-
 	private Runnable mCloseActivityTask = new Runnable() {
+		@Override
 		public void run() {
 			finish();
 		}
 	};
+
+	// handler for splash screen
+	private Handler mHandler = new Handler();
+
+	private ImageView mSplash;
 
 	/** Called when the activity is first created. */
 	@Override

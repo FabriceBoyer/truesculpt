@@ -1,6 +1,6 @@
 package truesculpt.utils.support;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * <B>ZipObjectException</B> is thrown by ZipObject during zip and unzip operations if something

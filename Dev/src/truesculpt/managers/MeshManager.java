@@ -1,6 +1,5 @@
 package truesculpt.managers;
 
-import android.app.Activity;
 import android.content.Context;
 
 //for mesh storage, computation and transformation application
