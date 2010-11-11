@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class ToolsPanel extends Activity implements OnColorChangedListener {
-	private int mColor = 0;
-
 	private final int DIALOG_COLOR_PICKER_ID=0;
+
+	private int mColor = 0;
 	
 	@Override
 	public void colorChanged(int color) {

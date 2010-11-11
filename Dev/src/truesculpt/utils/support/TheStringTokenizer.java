@@ -1,7 +1,6 @@
 package truesculpt.utils.support;
 
-import java.util.*;                 //Vectors, etc
-//Network classes
+import java.util.ArrayList;
 
 /**
  * <B>TheStringTokenizer</B> is a replacement for java.util.TheStringTokenizer (because it sucks!).
@@ -15,50 +14,6 @@ import java.util.*;                 //Vectors, etc
  * @since 2/26/2000,4:09pm
  */
 public class TheStringTokenizer {
-
-//
-// Data Members
-//
-protected String s;
-protected String delim;
-
-//
-
-// Methods
-//
-public TheStringTokenizer(String s, String delim) {
-  this.s = s;
-  this.delim = delim;
-}
-
-public String[] getTokens() {
-  Tokenizer t = new Tokenizer();
-  t.set(s, delim);
-
-  String[] strRay = t.getTokens();
-
-  if (t.hasRemainder()) {
-
-    String[] strRay2 = new String[strRay.length + 1];
-
-    System.arraycopy(strRay, 0, strRay2, 0, strRay.length);
-
-    strRay2[strRay2.length - 1] = new String(t.getRemainderOfInput());
-
-    return strRay2;
-
-  }//endif (t.hasRemainder())
-
-  return strRay;
-
-}
-
-//
-// Inner Class : Tokenizer
-// this class was taken from ch.plugin.core.channel and copied
-// here in order to limit dependencies.
-//
-
 
 /**
  * This class simply takes an input String or StringBuffer and tokenizes the input based on a
@@ -110,9 +65,9 @@ public String[] getTokens() {
  */
 public class Tokenizer {
 
+  protected String delim = null;
   //data
   protected String input = null;
-  protected String delim = null;
   protected String remainder = null;
 
 
@@ -122,45 +77,19 @@ public class Tokenizer {
 
 
   /**
-   * This method sets up the Tokenizer to process the given message buffer and delim (delimiter)
-   * string. The internal state of the Tokenizer object is reset and setup to work with all the
-   * accessor methods available to this class.
+   * This method returns an empty StringBuffer if there is no remainder in this Tokenizer object.
+   * Otherwise, it simply returns a StringBuffer with the data in it.
+   * <p/>
+   * This behavior is different as it does not return null if there is no remainder.
+   * <p/>
+   * The remainder is defined as data left in the buffer trailing the last delim string.
+   * <p/>
    *
-   * @param input message buffer that contains the untokenized data received from the socket
-   * @param delim delimiter string used to delimit the tokens in the message buffer.
-   *
-   * @return returns a reference to this object (just as a convenience) to invoke other methods on
-   *         it.
+   * @return StringBuffer containing remainder text (is never null)
    */
-  public Tokenizer set(String input, String delim) {
-    this.input = input;
-    this.delim = delim;
-    remainder = null;   //reset remainder data to initial state
-    return this;
-  }
-
-
-  /**
-   * same as set( String , String ), only it converts the StringBuffer to a String before calling
-   * the other set()
-   */
-  public Tokenizer set(StringBuffer sb, String delim) {
-    return set(new String(sb), delim);
-  }
-
-
-  /**
-   * Returns true if there tokens exist in the message buffer.
-   *
-   * @return true if there are any tokens (delimted by delim), else returns false
-   */
-  public boolean hasTokens() {
-    if (input.indexOf(delim) == -1) {
-      return false;
-    }
-    else {
-      return true;
-    }
+  public StringBuffer getRemainderOfInput() {
+    return
+        (remainder != null) ? new StringBuffer(remainder) : new StringBuffer();
   }
 
 
@@ -237,19 +166,45 @@ public class Tokenizer {
 
 
   /**
-   * This method returns an empty StringBuffer if there is no remainder in this Tokenizer object.
-   * Otherwise, it simply returns a StringBuffer with the data in it.
-   * <p/>
-   * This behavior is different as it does not return null if there is no remainder.
-   * <p/>
-   * The remainder is defined as data left in the buffer trailing the last delim string.
-   * <p/>
+   * Returns true if there tokens exist in the message buffer.
    *
-   * @return StringBuffer containing remainder text (is never null)
+   * @return true if there are any tokens (delimted by delim), else returns false
    */
-  public StringBuffer getRemainderOfInput() {
-    return
-        (remainder != null) ? new StringBuffer(remainder) : new StringBuffer();
+  public boolean hasTokens() {
+    if (input.indexOf(delim) == -1) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+
+  /**
+   * This method sets up the Tokenizer to process the given message buffer and delim (delimiter)
+   * string. The internal state of the Tokenizer object is reset and setup to work with all the
+   * accessor methods available to this class.
+   *
+   * @param input message buffer that contains the untokenized data received from the socket
+   * @param delim delimiter string used to delimit the tokens in the message buffer.
+   *
+   * @return returns a reference to this object (just as a convenience) to invoke other methods on
+   *         it.
+   */
+  public Tokenizer set(String input, String delim) {
+    this.input = input;
+    this.delim = delim;
+    remainder = null;   //reset remainder data to initial state
+    return this;
+  }
+
+
+  /**
+   * same as set( String , String ), only it converts the StringBuffer to a String before calling
+   * the other set()
+   */
+  public Tokenizer set(StringBuffer sb, String delim) {
+    return set(new String(sb), delim);
   }
 
 /**
@@ -312,6 +267,50 @@ public static void main( String[] args ){
 */
 
 }//end Tokenizer
+protected String delim;
+
+//
+
+//
+// Data Members
+//
+protected String s;
+
+// Methods
+//
+public TheStringTokenizer(String s, String delim) {
+  this.s = s;
+  this.delim = delim;
+}
+
+//
+// Inner Class : Tokenizer
+// this class was taken from ch.plugin.core.channel and copied
+// here in order to limit dependencies.
+//
+
+
+public String[] getTokens() {
+  Tokenizer t = new Tokenizer();
+  t.set(s, delim);
+
+  String[] strRay = t.getTokens();
+
+  if (t.hasRemainder()) {
+
+    String[] strRay2 = new String[strRay.length + 1];
+
+    System.arraycopy(strRay, 0, strRay2, 0, strRay.length);
+
+    strRay2[strRay2.length - 1] = new String(t.getRemainderOfInput());
+
+    return strRay2;
+
+  }//endif (t.hasRemainder())
+
+  return strRay;
+
+}
 
 
 }//end of TheStringTokenizer class

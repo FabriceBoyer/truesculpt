@@ -6,14 +6,21 @@ import android.content.Context;
 
 public class PointOfViewManager extends BaseManager {
 
+	public interface OnPointOfViewChangeListener
+	{
+		void onPointOfViewChange();
+	}
+	private Vector<OnPointOfViewChangeListener> mListeners= new Vector<OnPointOfViewChangeListener>();
 	//camera pos
 	private float mX=0.0f;
-	private float mY=0.0f;
-	private float mZ=10.0f;
 	
 	//looked at point
 	private float mXOrig=0.0f;
+	private float mY=0.0f;
 	private float mYOrig=0.0f;
+	
+	private float mZ=10.0f;
+	
 	private float mZOrig=0.0f;
 	
 	public PointOfViewManager(Context baseContext) {
@@ -21,7 +28,7 @@ public class PointOfViewManager extends BaseManager {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void addZoomDistance(float dist)
+	public void addElevationAngle(float angle)
 	{
 		NotifyListeners();
 	}
@@ -29,9 +36,8 @@ public class PointOfViewManager extends BaseManager {
 	public void addRotationAngle(float angle)
 	{
 		NotifyListeners();
-	}
-	
-	public void addElevationAngle(float angle)
+	}	
+	public void addZoomDistance(float dist)
 	{
 		NotifyListeners();
 	}
@@ -42,13 +48,7 @@ public class PointOfViewManager extends BaseManager {
 		{
 			listener.onPointOfViewChange();		
 		}	
-	}	
-	public interface OnPointOfViewChangeListener
-	{
-		void onPointOfViewChange();
 	}
-	
-	private Vector<OnPointOfViewChangeListener> mListeners= new Vector<OnPointOfViewChangeListener>();
 	
 	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
 	{

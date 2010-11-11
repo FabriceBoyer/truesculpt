@@ -1,10 +1,11 @@
 package truesculpt.utils;
 
-import android.app.*;
-import android.content.*;
-import android.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
-import java.io.*;
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 
 /**
  * ResourceUtils makes it easier to access compiled resources.
@@ -14,6 +15,14 @@ import java.io.*;
  * @since Jun 24, 2008, 6:45:15 PM
  */
 public class ResourceUtils {
+
+public static int getResourceIdForDrawable(Context _context, String resPackage, String resName) {
+  return _context.getResources().getIdentifier(
+      resName,
+      "drawable",
+      resPackage
+  );
+}
 
 public static String loadResToString(int resId, Activity ctx) {
 
@@ -47,14 +56,6 @@ public static String loadResToString(int resId, Activity ctx) {
     return null;
   }
 
-}
-
-public static int getResourceIdForDrawable(Context _context, String resPackage, String resName) {
-  return _context.getResources().getIdentifier(
-      resName,
-      "drawable",
-      resPackage
-  );
 }
 
 }//end class ResourceUtils

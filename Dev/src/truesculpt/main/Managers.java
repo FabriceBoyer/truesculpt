@@ -17,115 +17,115 @@ import android.content.Context;
 
 public class Managers {
 
+	private ActionsManager mActionsManager = null;
+
+	private FileManager mFileManager = null;
+
+	private MemoryManager mMemoryManager = null;
+
+	private MeshManager mMeshManager = null;
+
+	private OptionsManager mOptionsManager = null;
+
+	private PointOfViewManager mPointOfViewManager = null;
+
+	private RendererManager mRendererManager = null;
+
+	private SensorsManager mSensorsManager = null;
+
+	private ToolsManager mToolsManager = null;
+
+	private TouchManager mTouchManager = null;
+
+	private UpdateManager mUpdateManager = null;
+
+	private UsageStatisticsManager mUsageStatisticsManager = null;
+
+	private WebManager mWebManager = null;
+	
 	public Managers() {
 
 	}
 
+	
 	/**
 	 * @return the mActionsManager
 	 */
 	public ActionsManager getmActionsManager() {
 		return mActionsManager;
 	}
-
-	/**
-	 * @return the mMemoryManager
-	 */
-	public MemoryManager getmMemoryManager() {
-		return mMemoryManager;
-	}
-
-	/**
-	 * @return the mMeshManager
-	 */
-	public MeshManager getmMeshManager() {
-		return mMeshManager;
-	}
-
-	/**
-	 * @return the mOptionsManager
-	 */
-	public OptionsManager getmOptionsManager() {
-		return mOptionsManager;
-	}
-
-	/**
-	 * @return the mPointOfViewManager
-	 */
-	public PointOfViewManager getmPointOfViewManager() {
-		return mPointOfViewManager;
-	}
-
-	/**
-	 * @return the mRendererManager
-	 */
-	public RendererManager getmRendererManager() {
-		return mRendererManager;
-	}
-
-	/**
-	 * @return the mSensorsManager
-	 */
-	public SensorsManager getmSensorsManager() {
-		return mSensorsManager;
-	}
-
-	/**
-	 * @return the mToolsManager
-	 */
-	public ToolsManager getmToolsManager() {
-		return mToolsManager;
-	}
-
-	/**
-	 * @return the mTouchManager
-	 */
-	public TouchManager getmTouchManager() {
-		return mTouchManager;
-	}
-
-	/**
-	 * @return the mUpdateManager
-	 */
-	public UpdateManager getmUpdateManager() {
-		return mUpdateManager;
-	}
-
-	/**
-	 * @return the mWebManager
-	 */
-	public WebManager getmWebManager() {
-		return mWebManager;
-	}
-
-	/**
-	 * @return the mUsageStatisticsManager
-	 */
-	public UsageStatisticsManager getmUsageStatisticsManager() {
-		return mUsageStatisticsManager;
-	}
-	
 	/**
 	 * @return the mFileManager
 	 */
 	public FileManager getmFileManager() {
 		return mFileManager;
 	}
-
-	
-	private ActionsManager mActionsManager = null;
-	private MemoryManager mMemoryManager = null;
-	private MeshManager mMeshManager = null;
-	private OptionsManager mOptionsManager = null;
-	private PointOfViewManager mPointOfViewManager = null;
-	private RendererManager mRendererManager = null;
-	private SensorsManager mSensorsManager = null;
-	private ToolsManager mToolsManager = null;
-	private TouchManager mTouchManager = null;
-	private UpdateManager mUpdateManager = null;
-	private WebManager mWebManager = null;
-	private UsageStatisticsManager mUsageStatisticsManager = null;
-	private FileManager mFileManager = null;
+	/**
+	 * @return the mMemoryManager
+	 */
+	public MemoryManager getmMemoryManager() {
+		return mMemoryManager;
+	}
+	/**
+	 * @return the mMeshManager
+	 */
+	public MeshManager getmMeshManager() {
+		return mMeshManager;
+	}
+	/**
+	 * @return the mOptionsManager
+	 */
+	public OptionsManager getmOptionsManager() {
+		return mOptionsManager;
+	}
+	/**
+	 * @return the mPointOfViewManager
+	 */
+	public PointOfViewManager getmPointOfViewManager() {
+		return mPointOfViewManager;
+	}
+	/**
+	 * @return the mRendererManager
+	 */
+	public RendererManager getmRendererManager() {
+		return mRendererManager;
+	}
+	/**
+	 * @return the mSensorsManager
+	 */
+	public SensorsManager getmSensorsManager() {
+		return mSensorsManager;
+	}
+	/**
+	 * @return the mToolsManager
+	 */
+	public ToolsManager getmToolsManager() {
+		return mToolsManager;
+	}
+	/**
+	 * @return the mTouchManager
+	 */
+	public TouchManager getmTouchManager() {
+		return mTouchManager;
+	}
+	/**
+	 * @return the mUpdateManager
+	 */
+	public UpdateManager getmUpdateManager() {
+		return mUpdateManager;
+	}
+	/**
+	 * @return the mUsageStatisticsManager
+	 */
+	public UsageStatisticsManager getmUsageStatisticsManager() {
+		return mUsageStatisticsManager;
+	}
+	/**
+	 * @return the mWebManager
+	 */
+	public WebManager getmWebManager() {
+		return mWebManager;
+	}
 	
 
 	public void Init(Context baseContext) {

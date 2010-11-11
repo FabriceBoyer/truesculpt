@@ -10,27 +10,6 @@ import android.widget.Toast;
 
 public class Utils {
 
-	public static float DegToRad(float deg) {
-		return deg * (float)Math.PI / 180.0f;
-		//return (float) Math.toRadians(deg);
-	}
-	
-	//in degrees, return x,y,z in vector
-	public static Vector<Float> PolToCart( float R, float theta, float phi)
-	{
-		Vector<Float> res= new Vector<Float>(3);
-	
-		float x = (float) (R * Math.cos(DegToRad(theta)) * Math.cos(DegToRad(phi)));
-		float y = (float) (R * Math.sin(DegToRad(theta)) * Math.cos(DegToRad(phi)));
-		float z = (float) (R * Math.sin(DegToRad(phi)));
-		
-		res.add(x);
-		res.add(y);
-		res.add(z);
-		
-		return res;
-	}
-	
 	//returns R, theta, phi in degrees
 	public static Vector<Float> CartToPol(float x, float y, float z)
 	{
@@ -51,20 +30,19 @@ public class Utils {
 		return res;
 	}
 	
-	public static Vector<Float> Substract(Vector<Float> pt1, Vector<Float> pt2) 
-	{
-		Vector<Float> res=new Vector<Float>(pt2);
-		int n=pt1.size();
-		if (n==pt2.size())
-		{
-			for (int i = 0; i < n; i++) {
-				float val1=pt1.get(i);
-				float val2=pt2.get(i);
-				
-				res.set(i, val1-val2);
-			}			
-		}
-		return res;	
+	public static float DegToRad(float deg) {
+		return deg * (float)Math.PI / 180.0f;
+		//return (float) Math.toRadians(deg);
+	}
+	
+	public static float Distance(Vector<Float> pt1, Vector<Float> pt2)
+	{		
+		float dRes=0.0f;
+		
+		Vector<Float> diff=Substract(pt1,pt2);
+		dRes=Length(diff);
+		
+		return dRes;		
 	}
 	
 	public static Vector<Float> DivideBy(Vector<Float> pt, float value) 
@@ -83,13 +61,19 @@ public class Utils {
 		return res;	
 	}
 	
-	public static float Distance(Vector<Float> pt1, Vector<Float> pt2)
-	{		
+	public static float Dot(Vector<Float> pt1, Vector<Float> pt2)
+	{
 		float dRes=0.0f;
-		
-		Vector<Float> diff=Substract(pt1,pt2);
-		dRes=Length(diff);
-		
+		int n=pt1.size();
+		if (n==pt2.size())
+		{
+			for (int i = 0; i < n; i++) {
+				float val1=pt1.get(i);
+				float val2=pt2.get(i);
+				
+				dRes+=val2*val1;
+			}			
+		}
 		return dRes;		
 	}
 	
@@ -110,20 +94,30 @@ public class Utils {
 		return res;
 	}
 	
-	public static float Dot(Vector<Float> pt1, Vector<Float> pt2)
+	//in degrees, return x,y,z in vector
+	public static Vector<Float> PolToCart( float R, float theta, float phi)
 	{
-		float dRes=0.0f;
-		int n=pt1.size();
-		if (n==pt2.size())
+		Vector<Float> res= new Vector<Float>(3);
+	
+		float x = (float) (R * Math.cos(DegToRad(theta)) * Math.cos(DegToRad(phi)));
+		float y = (float) (R * Math.sin(DegToRad(theta)) * Math.cos(DegToRad(phi)));
+		float z = (float) (R * Math.sin(DegToRad(phi)));
+		
+		res.add(x);
+		res.add(y);
+		res.add(z);
+		
+		return res;
+	}
+	
+	public static void ShowURLInBrowser(Activity callingACtivity,
+			String strURL)
+	{
+		if (callingACtivity != null) 
 		{
-			for (int i = 0; i < n; i++) {
-				float val1=pt1.get(i);
-				float val2=pt2.get(i);
-				
-				dRes+=val2*val1;
-			}			
+			Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strURL));
+			callingACtivity.startActivity(myIntent);
 		}
-		return dRes;		
 	}
 	
 	public static void StartMyActivity(Context callingContext,
@@ -152,13 +146,19 @@ public class Utils {
 	}
 	
 	
-	public static void ShowURLInBrowser(Activity callingACtivity,
-			String strURL)
+	public static Vector<Float> Substract(Vector<Float> pt1, Vector<Float> pt2) 
 	{
-		if (callingACtivity != null) 
+		Vector<Float> res=new Vector<Float>(pt2);
+		int n=pt1.size();
+		if (n==pt2.size())
 		{
-			Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strURL));
-			callingACtivity.startActivity(myIntent);
+			for (int i = 0; i < n; i++) {
+				float val1=pt1.get(i);
+				float val2=pt2.get(i);
+				
+				res.set(i, val1-val2);
+			}			
 		}
+		return res;	
 	}
 }

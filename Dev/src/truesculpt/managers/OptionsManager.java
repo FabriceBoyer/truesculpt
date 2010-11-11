@@ -1,7 +1,6 @@
 package truesculpt.managers;
 
 import truesculpt.utils.Utils;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -19,12 +18,30 @@ public class OptionsManager extends BaseManager {
 
 	}
 
-	public void showOptionsPanel() {
-		Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.OptionsPanel.class);
-	}
-
 	public boolean getCheckUpdateAtStartup() {
 		return settings.getBoolean("CheckUpdateAtStartup", true);
+	}
+
+	public boolean getDisplaySplashScreenAtStartup() {
+		return settings.getBoolean("DisplaySplashScreenAtStartup", true);
+	}
+
+	public boolean getGatherUsageData() {
+		return settings.getBoolean("GatherUsageData", true);
+	}
+
+	public boolean getLoadLastUsedFileAtStartup() {
+		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
+	}
+
+	public boolean getViewTutorialAtStartup() {
+		return settings.getBoolean("ViewTutorialAtStartup", true);
+	}
+
+	public void seLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("LoaLastdUsedFileAtStartup", mLoadLastUsedFileAtStartup);
+		editor.commit();
 	}
 
 	public void setCheckUpdateAtStartup(boolean mCheckUpdateAtStartup) {
@@ -33,28 +50,10 @@ public class OptionsManager extends BaseManager {
 		editor.commit();
 	}
 
-	public boolean getViewTutorialAtStartup() {
-		return settings.getBoolean("ViewTutorialAtStartup", true);
-	}
-
-	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup) {
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
-		editor.commit();
-	}
-
-	public boolean getDisplaySplashScreenAtStartup() {
-		return settings.getBoolean("DisplaySplashScreenAtStartup", true);
-	}
-
 	public void setDisplaySplashScreenAtStartup(boolean mDisplaySplashScreenAtStartup) {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("DisplaySplashScreenAtStartup", mDisplaySplashScreenAtStartup);
 		editor.commit();
-	}
-
-	public boolean getGatherUsageData() {
-		return settings.getBoolean("GatherUsageData", true);
 	}
 
 	public void setGatherUsageData(boolean mGatherUsageData) {
@@ -64,14 +63,14 @@ public class OptionsManager extends BaseManager {
 	}
 	
 	
-	public boolean getLoadLastUsedFileAtStartup() {
-		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
+	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
+		editor.commit();
 	}
 
-	public void seLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup) {
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("LoaLastdUsedFileAtStartup", mLoadLastUsedFileAtStartup);
-		editor.commit();
+	public void showOptionsPanel() {
+		Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.OptionsPanel.class);
 	}
 
 }

@@ -10,6 +10,10 @@ import android.os.Bundle;
 //TODO transparent to view result immediatly on lower activity
 public class PointOfViewPanel extends Activity implements OnPointOfViewChangeListener {
 
+	public Managers getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,17 +32,13 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
-	@Override
 	public void onPointOfViewChange() {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	public Managers getManagers() {	
-		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 }

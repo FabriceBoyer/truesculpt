@@ -26,11 +26,16 @@ import android.opengl.GLSurfaceView;
  */
 
 public class CubeRenderer implements GLSurfaceView.Renderer {
+    private float mAngle;
+
+    private Cube mCube;
+
+    private boolean mTranslucentBackground;
+
     public CubeRenderer(boolean useTranslucentBackground) {
         mTranslucentBackground = useTranslucentBackground;
         mCube = new Cube();
     }
-
     @Override
 	public void onDrawFrame(GL10 gl) {
         /*
@@ -63,7 +68,6 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
         mAngle += 1.2f;
     }
-
     @Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
          gl.glViewport(0, 0, width, height);
@@ -79,7 +83,6 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
          gl.glLoadIdentity();
          gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
     }
-
     @Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         /*
@@ -105,7 +108,4 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
          gl.glShadeModel(GL10.GL_SMOOTH);
          gl.glEnable(GL10.GL_DEPTH_TEST);
     }
-    private boolean mTranslucentBackground;
-    private Cube mCube;
-    private float mAngle;
 }

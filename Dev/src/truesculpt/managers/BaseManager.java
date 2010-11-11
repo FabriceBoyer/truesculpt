@@ -2,8 +2,6 @@ package truesculpt.managers;
 
 import truesculpt.main.Managers;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.ui.panels.RendererMainPanel;
-import android.app.Activity;
 import android.content.Context;
 
 public class BaseManager {

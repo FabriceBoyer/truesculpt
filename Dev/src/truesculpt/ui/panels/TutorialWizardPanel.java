@@ -3,18 +3,15 @@ package truesculpt.ui.panels;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.utils.ResourceUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewDebug.IntToString;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.SeekBar;
 
 public class TutorialWizardPanel extends Activity {
 
@@ -26,16 +23,62 @@ public class TutorialWizardPanel extends Activity {
 	    }	 
 	}
 	
-	private WebView mWebView=null;
-	private Button prevBtn;
-	private Button nextBtn;
-	private Button finishBtn;
-	
-	private int mStepsCount=4;
-	private int mStepCurrentIndex=0;
-	
 	private final int DIALOG_SEE_WIZARD_AGAIN_ID=0;
+	private Button finishBtn;
+	private int mStepCurrentIndex=0;
+	private int mStepsCount=4;
 	
+	private WebView mWebView=null;
+	private Button nextBtn;
+	
+	private Button prevBtn;
+	
+	private void ExitConfirmation()
+	{		
+		if (getSeeAgainOption()==true)
+		{
+			showDialog(DIALOG_SEE_WIZARD_AGAIN_ID);
+		}
+		else
+		{
+			finish();
+		}
+	}
+	
+	public Managers getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	}
+	
+	public boolean getSeeAgainOption()
+	{
+		return getManagers().getmOptionsManager().getViewTutorialAtStartup();
+	}
+	
+	private void GoToNextStep()
+	{
+		mStepCurrentIndex++;
+
+		if (mStepCurrentIndex>=mStepsCount) 
+		{
+			mStepCurrentIndex=mStepsCount;
+			
+			ExitConfirmation();
+		}
+		
+		RefreshView();
+	}
+	
+	private void GoToPreviousStep()
+	{
+		mStepCurrentIndex--;
+		if (mStepCurrentIndex<0) 
+		{
+			mStepCurrentIndex=0;
+		}
+		
+		RefreshView();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,43 +115,6 @@ public class TutorialWizardPanel extends Activity {
 		RefreshView();	
 	}
 	
-	private void GoToNextStep()
-	{
-		mStepCurrentIndex++;
-
-		if (mStepCurrentIndex>=mStepsCount) 
-		{
-			mStepCurrentIndex=mStepsCount;
-			
-			ExitConfirmation();
-		}
-		
-		RefreshView();
-	}
-	
-	private void GoToPreviousStep()
-	{
-		mStepCurrentIndex--;
-		if (mStepCurrentIndex<0) 
-		{
-			mStepCurrentIndex=0;
-		}
-		
-		RefreshView();
-	}
-	
-	private void ExitConfirmation()
-	{		
-		if (getSeeAgainOption()==true)
-		{
-			showDialog(DIALOG_SEE_WIZARD_AGAIN_ID);
-		}
-		else
-		{
-			finish();
-		}
-	}
-	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreateDialog(int)
 	 */
@@ -123,13 +129,15 @@ public class TutorialWizardPanel extends Activity {
 				builder.setMessage(R.string.this_tutorial_is_over_do_you_want_to_see_it_again_next_time_)
 				       .setCancelable(false)
 				       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {	
+				           @Override
+						public void onClick(DialogInterface dialog, int id) {	
 				        	   setSeeAgainOption(true);
 				        	   finish();
 				           }
 				       })
 				       .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
+				           @Override
+						public void onClick(DialogInterface dialog, int id) {
 				        	   setSeeAgainOption(false);
 				        	   finish();
 				           }
@@ -142,32 +150,7 @@ public class TutorialWizardPanel extends Activity {
 		}
 		return dialog;
 	}
-
-	public void setSeeAgainOption(boolean bSeeAgain)
-	{
-		getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);		
-	}
 	
-	public boolean getSeeAgainOption()
-	{
-		return getManagers().getmOptionsManager().getViewTutorialAtStartup();
-	}
-	
-	private void RefreshView()
-	{		
-		if (mStepCurrentIndex==(mStepsCount-1))
-		{
-			nextBtn.setEnabled(false);
-		}
-		else
-		{
-			nextBtn.setEnabled(true);
-		}
-		
-		String strUrl="file:///android_asset/tutorial"+Integer.toString(mStepCurrentIndex)+".html";
-		mWebView.loadUrl(strUrl);
-	}
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -187,9 +170,25 @@ public class TutorialWizardPanel extends Activity {
 	protected void onStop() {
 		super.onStop();
 	}
+
+	private void RefreshView()
+	{		
+		if (mStepCurrentIndex==(mStepsCount-1))
+		{
+			nextBtn.setEnabled(false);
+		}
+		else
+		{
+			nextBtn.setEnabled(true);
+		}
+		
+		String strUrl="file:///android_asset/tutorial"+Integer.toString(mStepCurrentIndex)+".html";
+		mWebView.loadUrl(strUrl);
+	}
 	
-	public Managers getManagers() {	
-		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	public void setSeeAgainOption(boolean bSeeAgain)
+	{
+		getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);		
 	}
 
 }

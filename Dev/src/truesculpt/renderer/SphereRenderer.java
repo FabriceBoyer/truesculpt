@@ -22,8 +22,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import truesculpt.utils.Utils;
-
-
 import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 

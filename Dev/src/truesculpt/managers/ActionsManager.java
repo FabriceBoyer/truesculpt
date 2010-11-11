@@ -1,6 +1,5 @@
 package truesculpt.managers;
 
-import android.app.Activity;
 import android.content.Context;
 
 //For undo redo and analytical descitption of sculpture

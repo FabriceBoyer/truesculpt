@@ -6,6 +6,10 @@ public class TrueSculptApp extends Application {
 
 	private Managers mManagers = new Managers();
 		
+	public Managers getManagers() {
+		return mManagers;
+	}
+
 	/* (non-Javadoc)
 	 * @see android.app.Application#onCreate()
 	 */
@@ -14,9 +18,5 @@ public class TrueSculptApp extends Application {
 		super.onCreate();
 		
 		mManagers.Init(getBaseContext());
-	}
-
-	public Managers getManagers() {
-		return mManagers;
 	}
 }
