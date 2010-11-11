@@ -129,6 +129,8 @@ public class Managers {
 	
 
 	public void Init(Context baseContext) {
+		
+		//init
 		mActionsManager = new ActionsManager(baseContext);
 		mMemoryManager = new MemoryManager(baseContext);
 		mMeshManager = new MeshManager(baseContext);
@@ -142,6 +144,21 @@ public class Managers {
 		mWebManager = new WebManager(baseContext);
 		mUsageStatisticsManager= new UsageStatisticsManager(baseContext);
 		mFileManager= new FileManager(baseContext);
+		
+		//on create
+		 mActionsManager.onCreate();
+		 mFileManager.onCreate();
+		 mMemoryManager.onCreate();
+		 mMeshManager.onCreate();
+		 mOptionsManager.onCreate();
+		 mPointOfViewManager.onCreate();
+		 mRendererManager.onCreate();
+		 mSensorsManager.onCreate();
+		 mToolsManager.onCreate();
+		 mTouchManager.onCreate();
+		 mUpdateManager.onCreate();
+		 mUsageStatisticsManager.onCreate();
+		 mWebManager.onCreate();
 	}
 
 }
