@@ -155,7 +155,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			return true;
 		}
 		case R.id.show_options: {
-			getManagers().getmOptionsManager().showOptionsPanel();
+			getManagers().getmOptionsManager().showOptionsPanel(this);
 			return true;
 		}
 		case R.id.show_about_panel: {

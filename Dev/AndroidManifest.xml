@@ -24,7 +24,7 @@
 <activity android:name="truesculpt.ui.debug.DebugSensorsPanel" android:screenOrientation="portrait" android:label="@string/show_sensors" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 <activity android:name="truesculpt.ui.debug.DebugTestPanel" android:label="@string/show_test" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 <activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
-<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 <activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
 </application>
 
