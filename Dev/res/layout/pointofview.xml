@@ -5,10 +5,13 @@
   android:layout_height="fill_parent"
   android:orientation="vertical">
 
+<TextView android:text="" android:id="@+id/DistanceText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 <SeekBar android:id="@+id/Distance"  android:layout_width="fill_parent" android:layout_height="wrap_content">
 </SeekBar>
+<TextView android:text="" android:id="@+id/ElevationText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 <SeekBar android:id="@+id/Elevation" android:layout_width="fill_parent" android:layout_height="wrap_content">
 </SeekBar>
+<TextView android:text="" android:id="@+id/RotationText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 <SeekBar android:id="@+id/Rotation" android:layout_width="fill_parent" android:layout_height="wrap_content">
 </SeekBar>
 

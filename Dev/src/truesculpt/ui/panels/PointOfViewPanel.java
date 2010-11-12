@@ -7,6 +7,7 @@ import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 //TODO transparent to view result immediately on lower activity
@@ -16,17 +17,21 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
 
-	private SeekBar elevation;
-	private SeekBar rotation;
-	private SeekBar distance;
+	private SeekBar mElevationSeekBar;
+	private SeekBar mRotationSeekBar;
+	private SeekBar mDistanceSeekBar;
+	
+	private TextView mElevationText;
+	private TextView mRotationText;
+	private TextView mDistanceText;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pointofview);
 		
 		
-		elevation=(SeekBar)findViewById(R.id.Elevation);
-		elevation.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+		mElevationSeekBar=(SeekBar)findViewById(R.id.Elevation);
+		mElevationSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				getManagers().getmPointOfViewManager().setElevationAngle(progress);				
@@ -36,10 +41,11 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
-		
+		mElevationText=(TextView)findViewById(R.id.ElevationText);
+				
 
-		rotation=(SeekBar)findViewById(R.id.Rotation);
-		rotation.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+		mRotationSeekBar=(SeekBar)findViewById(R.id.Rotation);
+		mRotationSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				getManagers().getmPointOfViewManager().setRotationAngle(progress);				
@@ -49,10 +55,11 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
+		mRotationText=(TextView)findViewById(R.id.RotationText);		
 		
 		
-		distance=(SeekBar)findViewById(R.id.Distance);
-		distance.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+		mDistanceSeekBar=(SeekBar)findViewById(R.id.Distance);
+		mDistanceSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				getManagers().getmPointOfViewManager().setZoomDistance(progress);				
@@ -62,6 +69,7 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
+		mDistanceText=(TextView)findViewById(R.id.DistanceText);		
 		
 		UpdateUI();
 		
@@ -86,10 +94,14 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 	
 	private void UpdateUI()
 	{		
-		elevation.setProgress((int) getManagers().getmPointOfViewManager().getElevationAngle());
-		rotation.setProgress((int) getManagers().getmPointOfViewManager().getRotationAngle());
-		distance.setProgress((int) getManagers().getmPointOfViewManager().getZoomDistance());		
-	
+		mElevationSeekBar.setProgress((int) getManagers().getmPointOfViewManager().getElevationAngle());
+		mElevationText.setText("Elevation="+Integer.toString((int) getManagers().getmPointOfViewManager().getElevationAngle())+" °");
+		
+		mRotationSeekBar.setProgress((int) getManagers().getmPointOfViewManager().getRotationAngle());
+		mRotationText.setText("Rotation="+Integer.toString((int) getManagers().getmPointOfViewManager().getRotationAngle())+" °");
+		
+		mDistanceSeekBar.setProgress((int) getManagers().getmPointOfViewManager().getZoomDistance());	
+		mDistanceText.setText("Distance="+Integer.toString((int) getManagers().getmPointOfViewManager().getZoomDistance())+" m");
 	}
 	
 	@Override
