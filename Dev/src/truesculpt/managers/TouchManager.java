@@ -18,6 +18,8 @@ public class TouchManager extends BaseManager {
 	private float fRot=0.0f;
 	private float fElev=0.0f;
 	
+	private float fDemultFactor=5.0f;
+	
 	//ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
 	public void onTouchEvent(MotionEvent event)
 	{
@@ -39,11 +41,11 @@ public class TouchManager extends BaseManager {
 			case MotionEvent.ACTION_MOVE:
 			{				
 				float x=event.getX();
-				float angleRot =fRot + (x-mLastX)/10;				
+				float angleRot =fRot + (x-mLastX)/fDemultFactor;				
 				getManagers().getmPointOfViewManager().setRotationAngle(angleRot);
 								
 				float y=event.getY();
-				float angleElev= fElev + (y-mLastY)/10;
+				float angleElev= fElev + (y-mLastY)/fDemultFactor;
 				getManagers().getmPointOfViewManager().setElevationAngle(angleElev);
 				break;
 			}

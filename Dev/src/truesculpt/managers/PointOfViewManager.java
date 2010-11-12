@@ -7,7 +7,7 @@ import truesculpt.utils.Utils;
 
 import android.content.Context;
 
-public class PointOfViewManager extends BaseManager implements OnSensorChangeListener {
+public class PointOfViewManager extends BaseManager {
 
 	//camera pos
 	private float mX=0.0f;
@@ -31,14 +31,14 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		getManagers().getmSensorsManager().registerOnSensorChangeListener(PointOfViewManager.this);
+		
 		
 	}
 	
 	@Override
 	public void onDestroy() {		
 		super.onDestroy();
-		getManagers().getmSensorsManager().unRegisterOnSensorChangeListener(PointOfViewManager.this);
+		
 	}
 
 	public void setElevationAngle(float angle)
@@ -75,6 +75,8 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 	
 	private void NotifyListeners()
 	{
+		getManagers().getmRendererManager().onPointOfViewChange();
+		
 		for (OnPointOfViewChangeListener listener : mListeners) 
 		{
 			listener.onPointOfViewChange();		
@@ -97,9 +99,9 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 	}
 	private Vector<OnPointOfViewChangeListener> mListeners= new Vector<OnPointOfViewChangeListener>();
 	
-	@Override
+	
 	public void onSensorChanged() {
-		NotifyListeners();		
+		//NotifyListeners();		
 	}	
 
 
