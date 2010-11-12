@@ -43,19 +43,27 @@ public class PointOfViewManager extends BaseManager {
 	}
 
 	public void setElevationAngle(float angle)
-	{
-		mPhi=angle;
+	{		 
+		mPhi=angle%90;//+90 to -90
 		NotifyListeners();
 	}
 	
 	public void setRotationAngle(float angle)
 	{
-		mTheta=angle;
+		mTheta=angle%180;//-180 to 180		
 		NotifyListeners();
 	}	
 	public void setZoomDistance(float dist)
 	{
-		mR=dist;
+		float RMax=getManagers().getmPointOfViewManager().getRmax();
+		if (dist>RMax)
+		{
+			mR=RMax;
+		}
+		else
+		{
+			mR=dist;
+		}
 		NotifyListeners();
 	}
 	
@@ -113,5 +121,13 @@ public class PointOfViewManager extends BaseManager {
 		return mRmin;
 	}	
 
+	public void ResetPOV()
+	{
+		mR=6.0f;
+		mTheta=0.0f;
+		mPhi=0.0f;
+		
+		NotifyListeners();
+	}
 
 }

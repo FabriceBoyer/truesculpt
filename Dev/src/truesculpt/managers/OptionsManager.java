@@ -1,6 +1,7 @@
 package truesculpt.managers;
 
 import truesculpt.utils.Utils;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -69,8 +70,8 @@ public class OptionsManager extends BaseManager {
 		editor.commit();
 	}
 
-	public void showOptionsPanel() {
-		Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.OptionsPanel.class);
+	public void showOptionsPanel(Activity callingActivity) {
+		Utils.StartMyActivity(callingActivity, truesculpt.ui.panels.OptionsPanel.class);
 	}
 
 }
