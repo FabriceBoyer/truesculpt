@@ -150,7 +150,7 @@ public class Managers {
 		mManagersList.add(mTouchManager);
 		mManagersList.add(mUpdateManager);
 		mManagersList.add(mUsageStatisticsManager);
-		mManagersList.add(mWebManager);
+		mManagersList.add(mWebManager);		
 		
 	}
 	
