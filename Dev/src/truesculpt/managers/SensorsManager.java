@@ -100,5 +100,9 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	{
 		mListeners.add(listener);	
 	}	
+	public void unRegisterOnSensorChangeListener(OnSensorChangeListener listener)
+	{
+		mListeners.remove(listener);	
+	}	
 
 }

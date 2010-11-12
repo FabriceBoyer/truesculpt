@@ -12,6 +12,7 @@ public class RendererManager extends BaseManager {
 		super(baseContext);
 
 		mRenderer = new CubeRenderer(false);
+		onPointOfViewChange();
 	}
 
 	/**
