@@ -8,24 +8,24 @@
 	    android:debuggable="true" android:name="TrueSculptApp">
         <activity android:label="@string/app_name" 
                   android:screenOrientation="portrait" 
-                  android:launchMode="singleInstance" android:name="truesculpt.ui.panels.RendererMainPanel">
+                  android:launchMode="singleInstance" android:name="truesculpt.ui.panels.RendererMainPanel" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             
         <intent-filter><action android:name="android.intent.action.MAIN"></action>
 <category android:name="android.intent.category.LAUNCHER"></category>
 </intent-filter>
 </activity>
 
-    <activity android:name="truesculpt.ui.panels.ToolsPanel" android:label="@string/tools_panel">
+    <activity android:name="truesculpt.ui.panels.ToolsPanel" android:label="@string/tools_panel" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
 </activity>
-<activity android:name="truesculpt.ui.panels.PointOfViewPanel" android:label="@string/point_of_view" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
-<activity android:name="truesculpt.ui.debug.DebugPanel" android:label="@string/debug_panel"></activity>
-<activity android:name="truesculpt.ui.panels.UpdatePanel" android:label="@string/update_version_panel"></activity>
-<activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard"></activity>
-<activity android:name="truesculpt.ui.debug.DebugSensorsPanel" android:screenOrientation="portrait" android:label="@string/show_sensors"></activity>
-<activity android:name="truesculpt.ui.debug.DebugTestPanel" android:label="@string/show_test"></activity>
-<activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash"></activity>
-<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel"></activity>
-<activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel"></activity>
+<activity android:name="truesculpt.ui.panels.PointOfViewPanel" android:label="@string/point_of_view" android:theme="@android:style/@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.debug.DebugPanel" android:label="@string/debug_panel" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.panels.UpdatePanel" android:label="@string/update_version_panel" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.debug.DebugSensorsPanel" android:screenOrientation="portrait" android:label="@string/show_sensors" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.debug.DebugTestPanel" android:label="@string/show_test" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
+<activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
 </application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>

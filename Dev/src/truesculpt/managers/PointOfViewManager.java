@@ -9,10 +9,9 @@ import android.content.Context;
 
 public class PointOfViewManager extends BaseManager {
 
-	//camera pos
-	private float mX=0.0f;
-	
+
 	//looked at point
+	private float mX=0.0f;
 	private float mXOrig=0.0f;
 	private float mY=0.0f;
 	private float mYOrig=0.0f;	
@@ -23,6 +22,9 @@ public class PointOfViewManager extends BaseManager {
 	private float mTheta=0.0f;
 	private float mPhi=0.0f;
 	
+	private float mRmax=10.0f;
+	private float mRmin=1.0f;//to be recomputed to adapt to max size of object
+	
 	public PointOfViewManager(Context baseContext) {
 		super(baseContext);
 		
@@ -30,8 +32,7 @@ public class PointOfViewManager extends BaseManager {
 
 	@Override
 	public void onCreate() {
-		super.onCreate();
-		
+		super.onCreate();	
 		
 	}
 	
@@ -102,6 +103,14 @@ public class PointOfViewManager extends BaseManager {
 	
 	public void onSensorChanged() {
 		//NotifyListeners();		
+	}
+
+	public float getRmax() {
+		return mRmax;
+	}	
+
+	public float getRmin() {
+		return mRmin;
 	}	
 
 
