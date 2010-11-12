@@ -180,8 +180,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 	@Override
-	public void onPointOfViewChange() {
-		getManagers().getmRendererManager().onPointOfViewChange();
+	public void onPointOfViewChange() {		
 		mGLSurfaceView.requestRender();		
 	}
 
