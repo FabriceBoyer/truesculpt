@@ -61,9 +61,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		getManagers().Init(this);		
-		
+				
 		ShowSplashScreen();		
 		CheckUpdate();
 		ShowTutorial();
@@ -75,8 +73,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		 mGLSurfaceView.setRenderer(getManagers().getmRendererManager().getmRenderer());
 		 mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		 mGLSurfaceView.requestRender();
 		 
-		 getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(this);
+		 getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
 	}
 	
 	@Override
@@ -100,9 +99,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	 * @see android.app.Activity#onDestroy()
 	 */
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
+	protected void onDestroy() {		
 		super.onDestroy();
+		 getManagers().getmPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
 	}
 
 	@Override

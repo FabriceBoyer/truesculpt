@@ -65,12 +65,13 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		
 		UpdateUI();
 		
-		getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(this);
+		getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(PointOfViewPanel.this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		getManagers().getmPointOfViewManager().unRegisterPointOfViewChangeListener(PointOfViewPanel.this);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 	private float mZ=10.0f;	
 	private float mZOrig=0.0f;
 	
-	private float mR=10.0f;
+	private float mR=6.0f;
 	private float mTheta=0.0f;
 	private float mPhi=0.0f;
 	
@@ -31,13 +31,14 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		getManagers().getmSensorsManager().registerOnSensorChangeListener(this);
+		getManagers().getmSensorsManager().registerOnSensorChangeListener(PointOfViewManager.this);
 		
 	}
 	
 	@Override
 	public void onDestroy() {		
 		super.onDestroy();
+		getManagers().getmSensorsManager().unRegisterOnSensorChangeListener(PointOfViewManager.this);
 	}
 
 	public void setElevationAngle(float angle)
@@ -83,6 +84,11 @@ public class PointOfViewManager extends BaseManager implements OnSensorChangeLis
 	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
 	{
 		mListeners.add(listener);	
+	}
+	
+	public void unRegisterPointOfViewChangeListener(OnPointOfViewChangeListener listener)
+	{
+		mListeners.remove(listener);	
 	}
 
 	public interface OnPointOfViewChangeListener
