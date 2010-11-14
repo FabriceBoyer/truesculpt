@@ -1,17 +1,18 @@
 package truesculpt.managers;
 
 import truesculpt.renderer.CubeRenderer;
+import truesculpt.renderer.MainRenderer;
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 
 public class RendererManager extends BaseManager {
 
-	private CubeRenderer mRenderer = null;
+	private MainRenderer mRenderer = null;
 
 	public RendererManager(Context baseContext) {
 		super(baseContext);
 
-		mRenderer = new CubeRenderer(false);
+		mRenderer = new MainRenderer(false);
 		onPointOfViewChange();
 	}
 
