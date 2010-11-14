@@ -62,6 +62,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 				
+		getManagers().Init(getBaseContext());
+		getManagers().Create();
+		
 		ShowSplashScreen();		
 		CheckUpdate();
 		ShowTutorial();
@@ -101,7 +104,10 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	@Override
 	protected void onDestroy() {		
 		super.onDestroy();
-		 getManagers().getmPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
+						
+		getManagers().getmPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
+		
+		getManagers().Destroy();
 	}
 
 	@Override
