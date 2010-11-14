@@ -3,6 +3,7 @@ package truesculpt.ui.panels;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.UpdateManager.EUpdateStatus;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,27 +34,36 @@ public class UpdatePanel extends Activity {
 		String strCurrVersion = getManagers().getmUpdateManager().getCurrentVersion();
 		String strLatestVersion = getManagers().getmUpdateManager().getLatestVersion();
 		
-		boolean bIsUpdateNeeded= getManagers().getmUpdateManager().getIsUpdateNeeded(strCurrVersion,strLatestVersion);			
+		EUpdateStatus status= getManagers().getmUpdateManager().getUpdateStatus(strCurrVersion,strLatestVersion);			
 
-		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n" 
-		+ getString(R.string.latest_version_is_) + " "	+ strLatestVersion + " \n";
-		
-		//if (bIsBeta) {
-		//	msg += getString(R.string.this_version_is_a_beta_);
-		//} else {
-		//	msg += getString(R.string.this_version_is_not_a_beta_);
-		//}
-		
-		if (bIsUpdateNeeded) {
-			msg += getString(R.string.an_update_is_needed_);
-		} else {
-			msg += getString(R.string.no_update_is_needed_);
+		String msg="";
+		if (status!=EUpdateStatus.UNDEFINED)
+		{		
+			msg += getString(R.string.current_version_is_) + " " + strCurrVersion + " \n";
+			msg += getString(R.string.latest_version_is_) + " "	+ strLatestVersion + " \n";		
+						
+			if (status==EUpdateStatus.IS_A_BETA) {
+				msg += getString(R.string.this_version_is_a_beta_)+ " \n";
+			} 
+			
+			if (status==EUpdateStatus.UPDATE_NEEDED) {
+				msg += getString(R.string.an_update_is_needed_)+ " \n";
+			} 
+			if (status==EUpdateStatus.UP_TO_DATE ||
+				status==EUpdateStatus.IS_A_BETA)
+			{
+				msg += getString(R.string.no_update_is_needed_)+ " \n";
+			}
 		}
-
+		else
+		{
+			msg += getString(R.string.unable_to_get_update_status)+ " \n";
+		}
+	
 		final TextView text = (TextView) findViewById(R.id.UpdateStatusText);
 		text.setText(msg);
 
-		if (bIsUpdateNeeded)
+		if (status==EUpdateStatus.UPDATE_NEEDED)
 		{
 			// Launch associated web page
 			 String strLastestURL = strLatestVersion.replace(".", "_");
@@ -64,7 +74,8 @@ public class UpdatePanel extends Activity {
 			//String strUpdateUrl = "http://code.google.com/p/truesculpt/downloads/list?can=3";
 			 
 			Utils.ShowURLInBrowser(this,strLastestURL);
-		}
+		}		
+		
 	}
 
 	@Override
