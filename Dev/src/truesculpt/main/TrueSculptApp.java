@@ -17,8 +17,7 @@ public class TrueSculptApp extends Application {
 	public void onCreate() {		
 		super.onCreate();
 		
-		mManagers.Init(getBaseContext());
-		mManagers.Create();
+
 	}
 
 	/* (non-Javadoc)
@@ -28,6 +27,6 @@ public class TrueSculptApp extends Application {
 	public void onTerminate() {		
 		super.onTerminate();
 		
-		mManagers.Destroy();
+		
 	}
 }
