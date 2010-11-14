@@ -31,7 +31,11 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	public void onCreate()
 	{
 		super.onCreate();
-		Start();
+		
+		if (getManagers().getmOptionsManager().getUseSensorsToChangePOV())
+		{
+			Start();
+		}
 	}
 	@Override
 	public void onDestroy()

@@ -189,6 +189,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	public void onPointOfViewChange() {		
 		mGLSurfaceView.requestRender();		
 	}
+	
+	//TODO onGeometryChange from meshManager
 
 	@Override
 	protected void onResume() {
