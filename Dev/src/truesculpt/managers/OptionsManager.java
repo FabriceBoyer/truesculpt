@@ -39,7 +39,11 @@ public class OptionsManager extends BaseManager {
 		return settings.getBoolean("ViewTutorialAtStartup", true);
 	}
 
-	public void seLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup) {
+	public boolean getUseSensorsToChangePOV() {
+		return settings.getBoolean("UseSensorsToChangePOV", true);
+	}
+	
+	public void setLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup) {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("LoaLastdUsedFileAtStartup", mLoadLastUsedFileAtStartup);
 		editor.commit();
@@ -62,11 +66,16 @@ public class OptionsManager extends BaseManager {
 		editor.putBoolean("GatherUsageData", mGatherUsageData);
 		editor.commit();
 	}
-	
-	
+		
 	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup) {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
+		editor.commit();
+	}
+	
+	public void setUseSensorsToChangePOV(boolean mUseSensorsToChangePOV) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("UseSensorsToChangePOV", mUseSensorsToChangePOV);
 		editor.commit();
 	}
 

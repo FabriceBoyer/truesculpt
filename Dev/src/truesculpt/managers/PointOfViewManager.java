@@ -28,6 +28,7 @@ public class PointOfViewManager extends BaseManager {
 	public PointOfViewManager(Context baseContext) {
 		super(baseContext);
 		
+		ResetPOV();		
 	}		
 
 	@Override
@@ -42,27 +43,36 @@ public class PointOfViewManager extends BaseManager {
 		
 	}
 
+	//+90 to -90
 	public void setElevationAngle(float angle)
 	{		 
-		mPhi=angle%90;//+90 to -90
+		if (angle>90)
+		{
+			mPhi=90;
+		}
+		
+		if (angle<-90)
+		{
+			mPhi=-90;
+		}
 		NotifyListeners();
 	}
 	
 	public void setRotationAngle(float angle)
 	{
-		mTheta=angle%180;//-180 to 180		
+		mTheta=angle%180;	
 		NotifyListeners();
 	}	
+	
 	public void setZoomDistance(float dist)
-	{
-		float RMax=getManagers().getmPointOfViewManager().getRmax();
-		if (dist>RMax)
+	{		
+		if (dist>mRmax)
 		{
-			mR=RMax;
+			mR=mRmax;
 		}
-		else
+		if (dist < mRmin)
 		{
-			mR=dist;
+			mR=mRmin;
 		}
 		NotifyListeners();
 	}
@@ -110,7 +120,7 @@ public class PointOfViewManager extends BaseManager {
 	
 	
 	public void onSensorChanged() {
-		//NotifyListeners();		
+		NotifyListeners();		
 	}
 
 	public float getRmax() {

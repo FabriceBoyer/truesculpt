@@ -7,5 +7,6 @@
 
 <CheckBoxPreference android:key="LoadLastUsedFileAtStartup" android:title="@string/Load_last_used_file"></CheckBoxPreference>
 </PreferenceCategory>
-<PreferenceCategory android:title="General" android:key="general"><CheckBoxPreference android:key="GatherUsageData" android:title="@string/Gather_usage_data"></CheckBoxPreference></PreferenceCategory>
+<PreferenceCategory android:title="General" android:key="general"><CheckBoxPreference android:key="GatherUsageData" android:title="@string/Gather_usage_data"></CheckBoxPreference><CheckBoxPreference android:key="UseSensorsToChangePOV" android:title="@string/UseSensorsToChangePOV"></CheckBoxPreference></PreferenceCategory>
+
 </PreferenceScreen>
