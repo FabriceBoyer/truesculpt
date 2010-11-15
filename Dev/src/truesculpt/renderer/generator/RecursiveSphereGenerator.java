@@ -1,4 +1,4 @@
-package truesculpt.renderer;
+package truesculpt.renderer.generator;
 
 import java.util.Arrays;
 import java.util.Vector;

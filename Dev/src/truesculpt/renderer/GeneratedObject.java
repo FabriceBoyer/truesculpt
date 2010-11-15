@@ -26,18 +26,19 @@ import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.renderer.generator.RecursiveSphereGenerator;
 import truesculpt.renderer.old.GLColor;
 
 /**
  * A vertex shaded cube.
  */
-class Sphere
+class GeneratedObject
 {
     private FloatBuffer   mColorBuffer;
     private ShortBuffer  mIndexBuffer;
     private FloatBuffer   mVertexBuffer;
         
-    public Sphere()
+    public GeneratedObject()
     {    	
     	RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator();
     	
