@@ -18,7 +18,9 @@ package truesculpt.renderer;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -27,15 +29,15 @@ import javax.microedition.khronos.opengles.GL10;
  */
 class Cube
 {
-    private IntBuffer   mColorBuffer;
+    private FloatBuffer   mColorBuffer;
 
-    private ByteBuffer  mIndexBuffer;
+    private ShortBuffer  mIndexBuffer;
 
-    private IntBuffer   mVertexBuffer;
+    private FloatBuffer   mVertexBuffer;
     public Cube()
     {
-        int one = 0x10000;
-        int vertices[] = {
+        float one = 1.0f;
+        float vertices[] = {
                 -one, -one, -one,
                 one, -one, -one,
                 one,  one, -one,
@@ -46,7 +48,7 @@ class Cube
                 -one,  one,  one,
         };
 
-        int colors[] = {
+        float colors[] = {
                 0,    0,    0,  one,
                 one,    0,    0,  one,
                 one,  one,    0,  one,
@@ -57,7 +59,7 @@ class Cube
                 0,  one,  one,  one,
         };
 
-        byte indices[] = {
+        short indices[] = {
                 0, 4, 5,    0, 5, 1,
                 1, 5, 6,    1, 6, 2,
                 2, 6, 7,    2, 7, 3,
@@ -76,25 +78,27 @@ class Cube
 
         ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length*4);
         vbb.order(ByteOrder.nativeOrder());
-        mVertexBuffer = vbb.asIntBuffer();
+        mVertexBuffer = vbb.asFloatBuffer();
         mVertexBuffer.put(vertices);
         mVertexBuffer.position(0);
 
         ByteBuffer cbb = ByteBuffer.allocateDirect(colors.length*4);
         cbb.order(ByteOrder.nativeOrder());
-        mColorBuffer = cbb.asIntBuffer();
+        mColorBuffer = cbb.asFloatBuffer();
         mColorBuffer.put(colors);
         mColorBuffer.position(0);
 
-        mIndexBuffer = ByteBuffer.allocateDirect(indices.length);
+        ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length*2);
+        ibb.order(ByteOrder.nativeOrder());
+        mIndexBuffer = ibb.asShortBuffer();
         mIndexBuffer.put(indices);
         mIndexBuffer.position(0);
     }
     public void draw(GL10 gl)
     {
         gl.glFrontFace(GL10.GL_CW);
-        gl.glVertexPointer(3, GL10.GL_FIXED, 0, mVertexBuffer);
-        gl.glColorPointer(4, GL10.GL_FIXED, 0, mColorBuffer);
-        gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_BYTE, mIndexBuffer);
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
+        gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
 }
