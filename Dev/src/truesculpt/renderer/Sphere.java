@@ -27,14 +27,14 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * A vertex shaded cube.
  */
-public class Cube
+class Sphere
 {
     private FloatBuffer   mColorBuffer;
 
     private ShortBuffer  mIndexBuffer;
 
     private FloatBuffer   mVertexBuffer;
-    public Cube()
+    public Sphere()
     {
         float one = 1.0f;
         float vertices[] = {

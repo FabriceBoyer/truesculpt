@@ -31,12 +31,14 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	private float mElevation;
 
 	private Cube mCube;
+	private Sphere mSphere;
 
 	private boolean mTranslucentBackground;
 
 	public MainRenderer(boolean useTranslucentBackground) {
 		mTranslucentBackground = useTranslucentBackground;
 		mCube = new Cube();
+		mSphere= new Sphere();
 	}
 
 	public void onPointOfViewChange(float fRot, float fDistance, float fElevation) {
@@ -68,7 +70,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
-		mCube.draw(gl);
+		//mCube.draw(gl);
+		mSphere.draw(gl);
 
 	}
 
