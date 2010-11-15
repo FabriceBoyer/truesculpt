@@ -30,9 +30,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	private float mRot;
 	private float mDistance;
 	private float mElevation;
-
-	private Cube mCube;
-	private Sphere mSphere;
+	
+	private GeneratedObject mObject;
 
 	private boolean mTranslucentBackground;
 	
@@ -43,9 +42,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	}
 
 	public MainRenderer(boolean useTranslucentBackground) {
-		mTranslucentBackground = useTranslucentBackground;
-		mCube = new Cube();
-		mSphere= new Sphere();
+		mTranslucentBackground = useTranslucentBackground;		
+		mObject= new GeneratedObject();
 	}
 
 	public void onPointOfViewChange(float fRot, float fDistance, float fElevation) {
@@ -80,7 +78,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
 		//mCube.draw(gl);
-		mSphere.draw(gl);
+		mObject.draw(gl);
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
