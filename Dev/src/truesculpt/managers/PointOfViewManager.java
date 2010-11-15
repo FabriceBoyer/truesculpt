@@ -60,9 +60,18 @@ public class PointOfViewManager extends BaseManager {
 		NotifyListeners();
 	}
 	
+	//180 to 180
 	public void setRotationAngle(float angle)
 	{
 		mTheta=angle%180;	
+		if (angle>180.0f)
+		{
+			mTheta-=180.0f;
+		}		
+		if (angle<-180.0f)
+		{
+			mTheta+=180.0f;
+		}
 		NotifyListeners();
 	}	
 	
