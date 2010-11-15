@@ -18,7 +18,7 @@ public class RendererManager extends BaseManager {
 	/**
 	 * @return the mRenderer
 	 */
-	public Renderer getmRenderer() {
+	public MainRenderer getmRenderer() {
 		return mRenderer;
 	}
 	

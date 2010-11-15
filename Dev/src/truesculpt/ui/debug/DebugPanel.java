@@ -1,13 +1,20 @@
 package truesculpt.ui.debug;
 
+import truesculpt.main.Managers;
 import truesculpt.main.R;
+import truesculpt.main.TrueSculptApp;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class DebugPanel extends Activity {
+	public Managers getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,9 +37,17 @@ public class DebugPanel extends Activity {
 						truesculpt.ui.debug.DebugTestPanel.class);
 			}
 		});
-
+		
+		
+		//TODO update on timer
+		TextView lastFrameText= (TextView) findViewById(R.id.lastFrameDurationText);
+		long lLastDuration=getManagers().getmRendererManager().getmRenderer().getLastFrameDurationMs();
+		String msg="Last frame duration = " + Long.toString(lLastDuration ) + " ms\n";
+		msg+="Equivalent FPS is " + Float.toString(1.0f/lLastDuration*1000.0f) + " image/s\n";
+		lastFrameText.setText(msg);
 	}
 
+	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

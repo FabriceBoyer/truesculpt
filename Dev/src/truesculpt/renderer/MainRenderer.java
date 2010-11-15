@@ -20,6 +20,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLSurfaceView;
+import android.os.SystemClock;
 
 /**
  * Render a pair of tumbling cubes.
@@ -34,6 +35,12 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	private Sphere mSphere;
 
 	private boolean mTranslucentBackground;
+	
+	private long mLastFrameDurationMs=0;
+
+	public long getLastFrameDurationMs() {
+		return mLastFrameDurationMs;
+	}
 
 	public MainRenderer(boolean useTranslucentBackground) {
 		mTranslucentBackground = useTranslucentBackground;
@@ -49,6 +56,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
+		
+		long tStart = SystemClock.uptimeMillis();
 		/*
 		 * Usually, the first thing one might want to do is to clear the screen.
 		 * The most efficient way of doing this is to use glClear().
@@ -72,7 +81,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 		//mCube.draw(gl);
 		mSphere.draw(gl);
-
+		
+		long tStop = SystemClock.uptimeMillis();
+		mLastFrameDurationMs=tStop-tStart;		
 	}
 
 	@Override
