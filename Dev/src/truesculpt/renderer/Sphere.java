@@ -21,8 +21,12 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import java.util.Random;
+import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
+
+import truesculpt.renderer.old.GLColor;
 
 /**
  * A vertex shaded cube.
@@ -30,75 +34,72 @@ import javax.microedition.khronos.opengles.GL10;
 class Sphere
 {
     private FloatBuffer   mColorBuffer;
-
     private ShortBuffer  mIndexBuffer;
-
     private FloatBuffer   mVertexBuffer;
+        
     public Sphere()
-    {
-        float one = 1.0f;
-        float vertices[] = {
-                -one, -one, -one,
-                one, -one, -one,
-                one,  one, -one,
-                -one,  one, -one,
-                -one, -one,  one,
-                one, -one,  one,
-                one,  one,  one,
-                -one,  one,  one,
-        };
-
-        float colors[] = {
-                0,    0,    0,  one,
-                one,    0,    0,  one,
-                one,  one,    0,  one,
-                0,  one,    0,  one,
-                0,    0,  one,  one,
-                one,    0,  one,  one,
-                one,  one,  one,  one,
-                0,  one,  one,  one,
-        };
-
-        short indices[] = {
-                0, 4, 5,    0, 5, 1,
-                1, 5, 6,    1, 6, 2,
-                2, 6, 7,    2, 7, 3,
-                3, 7, 4,    3, 4, 0,
-                4, 7, 6,    4, 6, 5,
-                3, 0, 1,    3, 1, 2
-        };
-
-        // Buffers to be passed to gl*Pointer() functions
-        // must be direct, i.e., they must be placed on the
-        // native heap where the garbage collector cannot
-        // move them.
-        //
-        // Buffers with multi-byte datatypes (e.g., short, int, float)
-        // must have their byte order set to native order
-
-        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length*4);
+    {    	
+    	RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator();
+    	
+    	Vector<Float> vertices= mGenerator.getVertices();
+    	Vector<Integer> faces=mGenerator.getFaces();
+    	
+        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.size()*4);//float is 4 bytes, vertices contains x,y,z in seq
         vbb.order(ByteOrder.nativeOrder());
         mVertexBuffer = vbb.asFloatBuffer();
-        mVertexBuffer.put(vertices);
+        putFloatVectorToBuffer(mVertexBuffer,vertices);
         mVertexBuffer.position(0);
 
-        ByteBuffer cbb = ByteBuffer.allocateDirect(colors.length*4);
+        int nTriCount=vertices.size()/3;
+        ByteBuffer cbb = ByteBuffer.allocateDirect(nTriCount*4*4); //4 color in float (4 bytes)
         cbb.order(ByteOrder.nativeOrder());
         mColorBuffer = cbb.asFloatBuffer();
-        mColorBuffer.put(colors);
+        putRandomColorsInFloatBuffer(mColorBuffer,nTriCount);
         mColorBuffer.position(0);
 
-        ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length*2);
+        ByteBuffer ibb = ByteBuffer.allocateDirect(faces.size()*2);//short is 2 bytes
         ibb.order(ByteOrder.nativeOrder());
         mIndexBuffer = ibb.asShortBuffer();
-        mIndexBuffer.put(indices);
+        putIntVectorToShortBuffer( mIndexBuffer,faces);
         mIndexBuffer.position(0);
+    }
+    
+    private void  putRandomColorsInFloatBuffer(FloatBuffer buff, int nCount)
+    {
+    	Random rand = new Random();
+		for (int j = 0; j < nCount; j++) 
+		{
+			float r = rand.nextFloat();
+			float g = rand.nextFloat();
+			float b = rand.nextFloat();
+			
+			float[] col={r,g,b,1};
+			buff.put(col);			
+		}    	
+    }
+    private void putFloatVectorToBuffer(FloatBuffer buff, Vector<Float> vec)
+    {
+    	int n=vec.size();
+    	for (int i=0;i<n;i++)
+    	{
+    		buff.put((float)vec.get(i));
+    	}    	
+    }
+    
+    private void putIntVectorToShortBuffer(ShortBuffer buff, Vector<Integer> vec)
+    {
+    	int n=vec.size();
+    	for (int i=0;i<n;i++)
+    	{
+    		buff.put((short)(int)vec.get(i));
+    	}
+    	
     }
     public void draw(GL10 gl)
     {
         gl.glFrontFace(GL10.GL_CW);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-        gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, mIndexBuffer.capacity()/2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
 }
