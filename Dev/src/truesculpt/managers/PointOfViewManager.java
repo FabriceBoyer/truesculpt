@@ -34,8 +34,7 @@ public class PointOfViewManager extends BaseManager {
 	public void onCreate() {
 		super.onCreate();	
 		
-		ResetPOV();		
-		
+		ResetPOV();				
 	}
 	
 	@Override
@@ -46,15 +45,17 @@ public class PointOfViewManager extends BaseManager {
 
 	//+90 to -90
 	public void setElevationAngle(float angle)
-	{		 
-		if (angle>90)
+	{		
+		mPhi=angle;
+		
+		if (angle>90.0f)
 		{
-			mPhi=90;
+			mPhi=90.0f;
 		}
 		
-		if (angle<-90)
+		if (angle<-90.0f)
 		{
-			mPhi=-90;
+			mPhi=-90.0f;
 		}
 		NotifyListeners();
 	}
@@ -67,6 +68,8 @@ public class PointOfViewManager extends BaseManager {
 	
 	public void setZoomDistance(float dist)
 	{		
+		mR=dist;
+		
 		if (dist>mRmax)
 		{
 			mR=mRmax;
