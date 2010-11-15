@@ -21,7 +21,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	boolean bOrigSet = false;
 	
-	private SensorManager mSensorManager;
+	private SensorManager mSensorManager=null;
 	
 	public SensorsManager(Context baseContext) {
 		super(baseContext);
@@ -82,7 +82,10 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	}
 
 	public void stop() {
-		mSensorManager.unregisterListener(SensorsManager.this);
+		if (mSensorManager!=null)
+		{
+			mSensorManager.unregisterListener(SensorsManager.this);
+		}
 	}	
 	
 	
