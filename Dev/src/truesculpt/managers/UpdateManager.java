@@ -21,11 +21,9 @@ public class UpdateManager extends BaseManager {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private String mCurrentVersion; 
-	private String mLatestVersion;
+	private String mCurrentVersion=""; 
+	private String mLatestVersion="";
 	
-
-
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
