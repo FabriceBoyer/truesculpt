@@ -34,14 +34,14 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 		
 		if (getManagers().getmOptionsManager().getUseSensorsToChangePOV())
 		{
-			Start();
+			restart();
 		}
 	}
 	@Override
 	public void onDestroy()
 	{
 		super.onDestroy();
-		Stop();
+		stop();
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-			NotifyListeners();
-		}
+		NotifyListeners();
+	}
 		
 	private String getUniqueDeviceID() {
 		WifiManager wm = (WifiManager) getbaseContext().getSystemService(
@@ -73,7 +73,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 		return msg;	
 	}
 
-	public void Start() {
+	public void start() {
 		mSensorManager = (SensorManager) getbaseContext().getSystemService(	Context.SENSOR_SERVICE);		
 		List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ORIENTATION);
 		for (int i = 0; i < sensorList.size(); i++) {
@@ -81,7 +81,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 		}
 	}
 
-	public void Stop() {
+	public void stop() {
 		mSensorManager.unregisterListener(SensorsManager.this);
 	}	
 	
@@ -109,6 +109,10 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	public void unRegisterOnSensorChangeListener(OnSensorChangeListener listener)
 	{
 		mListeners.remove(listener);	
+	}
+	public void restart() {
+		stop();
+		start();
 	}	
 
 }

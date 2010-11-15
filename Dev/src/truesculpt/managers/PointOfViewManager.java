@@ -27,13 +27,14 @@ public class PointOfViewManager extends BaseManager {
 	
 	public PointOfViewManager(Context baseContext) {
 		super(baseContext);
-		
-		ResetPOV();		
+				
 	}		
 
 	@Override
 	public void onCreate() {
 		super.onCreate();	
+		
+		ResetPOV();		
 		
 	}
 	

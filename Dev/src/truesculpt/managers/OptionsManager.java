@@ -77,10 +77,14 @@ public class OptionsManager extends BaseManager {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("UseSensorsToChangePOV", mUseSensorsToChangePOV);
 		editor.commit();
+		
+		getManagers().getmSensorsManager().restart();
 	}
 
 	public void showOptionsPanel(Activity callingActivity) {
 		Utils.StartMyActivity(callingActivity, truesculpt.ui.panels.OptionsPanel.class);
+		
+		getManagers().getmSensorsManager().restart();//to ensure updated, should be better to implement listener on activity
 	}
 
 }
