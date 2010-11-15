@@ -1,7 +1,7 @@
 package truesculpt.managers;
 
-import truesculpt.renderer.CubeRenderer;
 import truesculpt.renderer.MainRenderer;
+import truesculpt.renderer.old.CubeRenderer;
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 

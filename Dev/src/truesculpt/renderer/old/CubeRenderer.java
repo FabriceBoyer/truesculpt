@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package truesculpt.renderer;
+package truesculpt.renderer.old;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import truesculpt.renderer.Cube;
 
 import android.opengl.GLSurfaceView;
 
