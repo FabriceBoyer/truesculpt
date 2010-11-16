@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="looking_for_updates_">Looking for updates...</string>
     <string name="UseSensorsToChangePOV">Use sensors</string>
     <string name="Gather_usage_data">Gather usage data</string>
     <string name="Load_last_used_file">Load last used file</string>

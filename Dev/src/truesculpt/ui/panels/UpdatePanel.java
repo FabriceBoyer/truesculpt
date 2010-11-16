@@ -7,6 +7,7 @@ import truesculpt.managers.UpdateManager.EUpdateStatus;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +17,10 @@ public class UpdatePanel extends Activity {
 	public Managers getManagers() {	
 		return ((TrueSculptApp)getApplicationContext()).getManagers();
 	}
+	
+	private String strCurrVersion="";
+	private String strLatestVersion="";
+	TextView text=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +36,34 @@ public class UpdatePanel extends Activity {
 			}
 		});
 
-		String strCurrVersion = getManagers().getmUpdateManager().getCurrentVersion();
-		String strLatestVersion = getManagers().getmUpdateManager().getLatestVersion();
+		text = (TextView) findViewById(R.id.UpdateStatusText);
+		text.setText(R.string.looking_for_updates_);
 		
+		Thread thr= new Thread(null,mLookUpTask,"Update_Lookup");// network access can be long
+		thr.start();		
+	}
+	
+	private Handler mHandler = new Handler();
+	
+	Runnable mLookUpTask= new Runnable() {
+		@Override
+		public void run() {
+			strCurrVersion = getManagers().getmUpdateManager().getCurrentVersion();
+			strLatestVersion = getManagers().getmUpdateManager().getLatestVersion();
+			
+			mHandler.post(mUpdateViewTask);	//to come back in UI thread		
+		}
+	};	
+	
+	Runnable mUpdateViewTask= new Runnable() {
+		@Override
+		public void run() {
+			UpdateView();
+		}
+	};		
+
+	public void UpdateView()
+	{
 		EUpdateStatus status= getManagers().getmUpdateManager().getUpdateStatus(strCurrVersion,strLatestVersion);			
 
 		String msg="";
@@ -59,8 +89,7 @@ public class UpdatePanel extends Activity {
 		{
 			msg += getString(R.string.unable_to_get_update_status)+ " \n";
 		}
-	
-		final TextView text = (TextView) findViewById(R.id.UpdateStatusText);
+			
 		text.setText(msg);
 
 		if (status==EUpdateStatus.UPDATE_NEEDED)
@@ -75,9 +104,7 @@ public class UpdatePanel extends Activity {
 			 
 			Utils.ShowURLInBrowser(this,strLastestURL);
 		}		
-		
 	}
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
