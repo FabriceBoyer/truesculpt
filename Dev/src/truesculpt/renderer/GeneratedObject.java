@@ -38,6 +38,8 @@ class GeneratedObject
     private ShortBuffer  mIndexBuffer;
     private FloatBuffer   mVertexBuffer;
         
+    int nFacesCount=0;
+    
     public GeneratedObject()
     {    	
     	RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator();
@@ -51,13 +53,14 @@ class GeneratedObject
         putFloatVectorToBuffer(mVertexBuffer,vertices);
         mVertexBuffer.position(0);
 
-        int nTriCount=vertices.size()/3;
-        ByteBuffer cbb = ByteBuffer.allocateDirect(nTriCount*4*4); //4 color in float (4 bytes)
+        int nVertCount=vertices.size()/3;
+        ByteBuffer cbb = ByteBuffer.allocateDirect(nVertCount*4*4); //4 color in float (4 bytes)
         cbb.order(ByteOrder.nativeOrder());
         mColorBuffer = cbb.asFloatBuffer();
-        putRandomColorsInFloatBuffer(mColorBuffer,nTriCount);
+        putRandomColorsInFloatBuffer(mColorBuffer,nVertCount);
         mColorBuffer.position(0);
 
+        nFacesCount=faces.size();
         ByteBuffer ibb = ByteBuffer.allocateDirect(faces.size()*2);//short is 2 bytes
         ibb.order(ByteOrder.nativeOrder());
         mIndexBuffer = ibb.asShortBuffer();
@@ -101,6 +104,6 @@ class GeneratedObject
         gl.glFrontFace(GL10.GL_CW);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-        gl.glDrawElements(GL10.GL_TRIANGLES, mIndexBuffer.capacity()/2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, nFacesCount, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
 }
