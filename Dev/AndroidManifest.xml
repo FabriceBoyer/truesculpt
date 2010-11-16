@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="truesculpt.main" android:versionCode="2" android:versionName="0.5">
+      package="truesculpt.main" android:versionName="0.5" android:versionCode="3">
             
     <application 
 	    android:icon="@drawable/icon" 
