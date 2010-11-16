@@ -26,6 +26,8 @@ import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.os.Handler;
+
 import truesculpt.renderer.generator.RecursiveSphereGenerator;
 import truesculpt.renderer.old.GLColor;
 
@@ -34,9 +36,9 @@ import truesculpt.renderer.old.GLColor;
  */
 public class GeneratedObject
 {
-    private FloatBuffer   mColorBuffer;
-    private ShortBuffer  mIndexBuffer;
-    private FloatBuffer   mVertexBuffer;
+    private FloatBuffer   mColorBuffer=null;
+    private ShortBuffer  mIndexBuffer=null;
+    private FloatBuffer   mVertexBuffer=null;
         
     private int mFacesCount=0;
 	private int mVertexCount=0;
@@ -51,7 +53,7 @@ public class GeneratedObject
 
 	public GeneratedObject()
     {    	
-    	RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(5);
+		RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(5);
     	
     	Vector<Float> vertices= mGenerator.getVertices();
     	Vector<Integer> faces=mGenerator.getFaces();
@@ -75,8 +77,8 @@ public class GeneratedObject
         ibb.order(ByteOrder.nativeOrder());
         mIndexBuffer = ibb.asShortBuffer();
         putIntVectorToShortBuffer( mIndexBuffer,faces);
-        mIndexBuffer.position(0);
-    }
+        mIndexBuffer.position(0);		
+    } 
     
     private void  putRandomColorsInFloatBuffer(FloatBuffer buff, int nCount)
     {
@@ -126,10 +128,10 @@ public class GeneratedObject
     	
     }
     public void draw(GL10 gl)
-    {
+    {    	
         gl.glFrontFace(GL10.GL_CW);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-        gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);    
     }
 }

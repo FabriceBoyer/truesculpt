@@ -3,6 +3,7 @@ package truesculpt.ui.panels;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.MeshManager.OnMeshChangeListener;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
@@ -20,7 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener {
+public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener {
 
 	private static final String TAG = "TrueSculptMain";
 
@@ -76,9 +77,15 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		 mGLSurfaceView.setRenderer(getManagers().getmRendererManager().getmRenderer());
 		 mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-		 mGLSurfaceView.requestRender();
+		 UpdateView();
 		 
 		 getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
+		 getManagers().getmMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
+	}
+	
+	private void UpdateView()
+	{
+		mGLSurfaceView.requestRender();
 	}
 	
 	@Override
@@ -106,6 +113,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		super.onDestroy();
 						
 		getManagers().getmPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
+		getManagers().getmMeshManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
 		
 		getManagers().Destroy();
 	}
@@ -181,24 +189,32 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	protected void onPause() {
 		super.onPause();
 
+		//not needed for glsurfaceView since render is on request
+		//TODO pause sensors
 		//if (mGLSurfaceView != null)
 		//	mGLSurfaceView.onPause();
 	}
 
 	@Override
 	public void onPointOfViewChange() {		
-		mGLSurfaceView.requestRender();		
+		UpdateView();		
 	}
 	
-	//TODO onGeometryChange from meshManager
+	@Override
+	public void onMeshChange() {
+		UpdateView();			
+	}
+
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
 		if (mGLSurfaceView != null)
+		{
 			mGLSurfaceView.onResume();
-				 
+			UpdateView();
+		}				 
 	}
 
 	@Override
@@ -236,5 +252,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class);
 		}
 	}
+
+
+	
 
 }
