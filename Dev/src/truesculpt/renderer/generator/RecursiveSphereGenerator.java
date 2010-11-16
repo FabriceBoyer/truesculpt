@@ -21,7 +21,7 @@ public class RecursiveSphereGenerator {
 		init_icosahedron ();
 		//init_octahedron();
 
-		int n_subdivisions = 0;
+		int n_subdivisions = 4;
 		for (int i=0; i<n_subdivisions; i++) 
 		{
 			subdivide (); 
@@ -38,17 +38,17 @@ public class RecursiveSphereGenerator {
 	  n_edges = 2*n_vertices + 3*n_faces; 
 	  
 	  start.removeAllElements();
-	  start.ensureCapacity(n_edges); 	  
+	  start.setSize(n_edges); 	  
 	  end.removeAllElements();
-	  end.ensureCapacity(n_edges);	  
+	  end.setSize(n_edges);	  
 	  midpoint.removeAllElements();
-	  midpoint.ensureCapacity(n_edges); 
+	  midpoint.setSize(n_edges); 
 
 	  Vector<Integer> faces_old = new Vector<Integer>();
 	  faces_old.addAll(faces);
 	 
-	  vertices.ensureCapacity(3*n_vertices_new); 
-	  faces.ensureCapacity(3*n_faces_new); 
+	  vertices.setSize(3*n_vertices_new); 
+	  faces.setSize(3*n_faces_new); 
 	  n_faces_new = 0; 
 
 	  for (i=0; i<n_faces; i++) 
@@ -85,19 +85,21 @@ public class RecursiveSphereGenerator {
 	{ 
 	  int i;
 	  for (i=0; i<edge_walk; i++) 
+	  {
 	    if ((start.get(i) == index_start && end.get(i) == index_end) || 
 	    	(start.get(i) == index_end && end.get(i) == index_start)) 
 	      {
-		int res = midpoint.get(i);
-
-		/* update the arrays */
-		start.set(i,start.get(edge_walk-1));
-		end.set(i,end.get(edge_walk-1));
-		midpoint.set(i,midpoint.get(edge_walk-1));
-		edge_walk--;
-		
-		return res; 
+			int res = midpoint.get(i);
+	
+			/* update the arrays */
+			start.set(i,start.get(edge_walk-1));
+			end.set(i,end.get(edge_walk-1));
+			midpoint.set(i,midpoint.get(edge_walk-1));
+			edge_walk--;
+			
+			return res; 
 	      }
+	  }
 
 	  /* vertex not in the list, so we add it */
 	  start.set(edge_walk,index_start);
@@ -113,7 +115,7 @@ public class RecursiveSphereGenerator {
 	  float length = (float) Math.sqrt (vertices.get(3*n_vertices) * vertices.get(3*n_vertices) +
 			       vertices.get(3*n_vertices+1) * vertices.get(3*n_vertices+1) +
 			       vertices.get(3*n_vertices+2) * vertices.get(3*n_vertices+2));
-	  length = 1/length;
+	  length = 1.0f /length;
 	  vertices.set(3*n_vertices, vertices.get(3*n_vertices)* length);
 	  vertices.set(3*n_vertices+1,vertices.get(3*n_vertices+1) * length);
 	  vertices.set(3*n_vertices+2,vertices.get(3*n_vertices+2) * length);
@@ -135,9 +137,7 @@ public class RecursiveSphereGenerator {
 	  n_vertices = 4; 
 	  n_faces = 4; 
 	  n_edges = 6; 
-	  vertices.ensureCapacity(3*n_vertices);
 	  vertices.addAll(Arrays.asList(tetrahedron_vertices)); 
-	  faces.ensureCapacity(3*n_faces);
 	  faces.addAll(Arrays.asList(tetrahedron_faces));
 	} 
 
@@ -154,9 +154,7 @@ public class RecursiveSphereGenerator {
 	  n_vertices = 6; 
 	  n_faces = 8;
 	  n_edges = 12; 
-	  vertices.ensureCapacity(3*n_vertices);
 	  vertices.addAll(Arrays.asList(octahedron_vertices)); 
-	  faces.ensureCapacity(3*n_faces);
 	  faces.addAll(Arrays.asList(octahedron_faces));
 	} 
 
@@ -201,10 +199,8 @@ public class RecursiveSphereGenerator {
 	 
 	  n_vertices = 12; 
 	  n_faces = 20;
-	  n_edges = 30;
-	  vertices.ensureCapacity(3*n_vertices);
-	  vertices.addAll(Arrays.asList(icosahedron_vertices)); 
-	  faces.ensureCapacity(3*n_faces);
+	  n_edges = 30;	 
+	  vertices.addAll(Arrays.asList(icosahedron_vertices));	 
 	  faces.addAll(Arrays.asList(icosahedron_faces));
 	} 
 	

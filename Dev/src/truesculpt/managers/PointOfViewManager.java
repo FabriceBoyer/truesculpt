@@ -18,7 +18,7 @@ public class PointOfViewManager extends BaseManager {
 	private float mZ=10.0f;	
 	private float mZOrig=0.0f;
 	
-	private float mR=6.0f;
+	private float mR=0.0f;
 	private float mTheta=0.0f;
 	private float mPhi=0.0f;
 	
@@ -146,7 +146,7 @@ public class PointOfViewManager extends BaseManager {
 
 	public void ResetPOV()
 	{
-		mR=6.0f;
+		mR=3.0f;
 		mTheta=0.0f;
 		mPhi=0.0f;
 		
