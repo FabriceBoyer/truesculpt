@@ -27,13 +27,11 @@ public class UpdateManager extends BaseManager {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		super.onCreate();
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
-		super.onDestroy();
 	}
 
 	public String getCurrentVersion() {

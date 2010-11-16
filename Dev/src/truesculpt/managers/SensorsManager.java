@@ -30,8 +30,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	@Override
 	public void onCreate()
 	{
-		super.onCreate();
-		
 		if (getManagers().getmOptionsManager().getUseSensorsToChangePOV())
 		{
 			restart();
@@ -40,7 +38,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	@Override
 	public void onDestroy()
 	{
-		super.onDestroy();
 		stop();
 	}
 

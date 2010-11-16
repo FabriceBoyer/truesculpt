@@ -31,15 +31,14 @@ public class PointOfViewManager extends BaseManager {
 	}		
 
 	@Override
-	public void onCreate() {
-		super.onCreate();	
+	public void onCreate() {		
 		
 		ResetPOV();				
 	}
 	
 	@Override
-	public void onDestroy() {		
-		super.onDestroy();
+	public void onDestroy() {	
+		
 		
 	}
 

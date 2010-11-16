@@ -10,9 +10,6 @@ public class TrueSculptApp extends Application {
 		return mManagers;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Application#onCreate()
-	 */
 	@Override
 	public void onCreate() {		
 		super.onCreate();
@@ -20,9 +17,6 @@ public class TrueSculptApp extends Application {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Application#onTerminate()
-	 */
 	@Override
 	public void onTerminate() {		
 		super.onTerminate();

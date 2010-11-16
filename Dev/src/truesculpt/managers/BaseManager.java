@@ -4,7 +4,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.TrueSculptApp;
 import android.content.Context;
 
-public class BaseManager {
+public abstract class BaseManager {
 
 	private Context mbaseContext;
 
@@ -16,22 +16,17 @@ public class BaseManager {
 	/**
 	 * @return the mbaseContext
 	 */
-	public Context getbaseContext() {
+	protected Context getbaseContext() {
 		return mbaseContext;
 	}
 
-	public Managers getManagers() {	
+	protected Managers getManagers() {	
 		return ((TrueSculptApp)getbaseContext().getApplicationContext()).getManagers();
 	}
 	
 	
-	public void onCreate()
-	{
-		
-	}
+	public abstract void onCreate();	
 	
-	public void onDestroy()
-	{
-		
-	}
+	public abstract void onDestroy();
+
 }
