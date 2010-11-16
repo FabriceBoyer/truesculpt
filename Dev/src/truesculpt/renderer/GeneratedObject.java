@@ -129,7 +129,7 @@ public class GeneratedObject
     }
     public void draw(GL10 gl)
     {    	
-        gl.glFrontFace(GL10.GL_CW);
+        gl.glFrontFace(GL10.GL_CCW);//counter clock wise is specific to previous format
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
         gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);    
