@@ -16,12 +16,12 @@ public class RecursiveSphereGenerator {
 	Vector<Integer>  end = new Vector<Integer>(); 
 	Vector<Integer>  midpoint = new Vector<Integer>(); 
 
-	public RecursiveSphereGenerator()
+	public RecursiveSphereGenerator(int subdivideCount)
 	{	
 		init_icosahedron ();
 		//init_octahedron();
 
-		int n_subdivisions = 4;
+		int n_subdivisions = subdivideCount;
 		for (int i=0; i<n_subdivisions; i++) 
 		{
 			subdivide (); 
