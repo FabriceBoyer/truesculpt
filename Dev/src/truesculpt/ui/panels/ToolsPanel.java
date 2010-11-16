@@ -30,7 +30,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tools);
-
+				
 		final Button button = (Button) findViewById(R.id.color_button);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
