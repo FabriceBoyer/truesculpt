@@ -33,6 +33,10 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	
 	private GeneratedObject mObject;
 
+	public GeneratedObject getGeneratedObject() {
+		return mObject;
+	}
+
 	private boolean mTranslucentBackground;
 	
 	private long mLastFrameDurationMs=0;

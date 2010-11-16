@@ -43,8 +43,15 @@ public class DebugPanel extends Activity {
 		TextView lastFrameText= (TextView) findViewById(R.id.lastFrameDurationText);
 		long lLastDuration=getManagers().getmRendererManager().getmRenderer().getLastFrameDurationMs();
 		String msg="Last frame duration = " + Long.toString(lLastDuration ) + " ms\n";
-		msg+="Equivalent FPS is " + Float.toString(1.0f/lLastDuration*1000.0f) + " image/s\n";
+		msg+="Equivalent FPS is " + Float.toString(1.0f/lLastDuration*1000.0f) + " image/s\n";		
 		lastFrameText.setText(msg);
+		
+		TextView meshStatText= (TextView) findViewById(R.id.MeshStatsText);
+		int nVertex=getManagers().getmRendererManager().getmRenderer().getGeneratedObject().getVertexCount();
+		int nFaces=getManagers().getmRendererManager().getmRenderer().getGeneratedObject().getFacesCount();
+		msg="Number of vertex = " + Integer.toString(nVertex ) + "\n";
+		msg+="Number of faces = " + Integer.toString(nFaces ) + "\n";		
+		meshStatText.setText(msg);
 	}
 
 	

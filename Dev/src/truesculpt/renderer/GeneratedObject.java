@@ -32,36 +32,46 @@ import truesculpt.renderer.old.GLColor;
 /**
  * A vertex shaded cube.
  */
-class GeneratedObject
+public class GeneratedObject
 {
     private FloatBuffer   mColorBuffer;
     private ShortBuffer  mIndexBuffer;
     private FloatBuffer   mVertexBuffer;
         
-    int nFacesCount=0;
+    private int mFacesCount=0;
+	private int mVertexCount=0;
     
-    public GeneratedObject()
+    public int getFacesCount() {
+		return mFacesCount;
+	}
+    
+    public int getVertexCount() {
+		return mVertexCount;
+	}
+
+	public GeneratedObject()
     {    	
     	RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator();
     	
     	Vector<Float> vertices= mGenerator.getVertices();
     	Vector<Integer> faces=mGenerator.getFaces();
     	
-        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.size()*4);//float is 4 bytes, vertices contains x,y,z in seq
+    	mVertexCount=vertices.size()/3;
+        ByteBuffer vbb = ByteBuffer.allocateDirect(mVertexCount*3*4);//float is 4 bytes, vertices contains x,y,z in seq
         vbb.order(ByteOrder.nativeOrder());
         mVertexBuffer = vbb.asFloatBuffer();
         putFloatVectorToBuffer(mVertexBuffer,vertices);
         mVertexBuffer.position(0);
 
-        int nVertCount=vertices.size()/3;
-        ByteBuffer cbb = ByteBuffer.allocateDirect(nVertCount*4*4); //4 color in float (4 bytes)
+       
+        ByteBuffer cbb = ByteBuffer.allocateDirect(mVertexCount*4*4); //4 color elem (RGBA) in float (4 bytes)
         cbb.order(ByteOrder.nativeOrder());
         mColorBuffer = cbb.asFloatBuffer();
-        putRandomColorsInFloatBuffer(mColorBuffer,nVertCount);
+        putRandomColorsInFloatBuffer(mColorBuffer,mVertexCount);
         mColorBuffer.position(0);
 
-        nFacesCount=faces.size();
-        ByteBuffer ibb = ByteBuffer.allocateDirect(faces.size()*2);//short is 2 bytes
+        mFacesCount=faces.size()/3;
+        ByteBuffer ibb = ByteBuffer.allocateDirect(mFacesCount*3*2);//faces are 3 elements in short ( 2 bytes )
         ibb.order(ByteOrder.nativeOrder());
         mIndexBuffer = ibb.asShortBuffer();
         putIntVectorToShortBuffer( mIndexBuffer,faces);
@@ -86,7 +96,15 @@ class GeneratedObject
     	int n=vec.size();
     	for (int i=0;i<n;i++)
     	{
-    		buff.put((float)vec.get(i));
+    		Float val=vec.get(i);
+    		if (val!=null)
+    		{
+    			buff.put((float)val);
+    		}
+    		else
+    		{
+    			assert(false);
+    		}
     	}    	
     }
     
@@ -95,7 +113,15 @@ class GeneratedObject
     	int n=vec.size();
     	for (int i=0;i<n;i++)
     	{
-    		buff.put((short)(int)vec.get(i));
+    		Integer val=vec.get(i);
+    		if (val!=null)
+    		{
+    			buff.put((short)(int)val);
+    		}
+    		else
+    		{
+    			assert(false);
+    		}
     	}
     	
     }
@@ -104,6 +130,6 @@ class GeneratedObject
         gl.glFrontFace(GL10.GL_CW);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-        gl.glDrawElements(GL10.GL_TRIANGLES, nFacesCount, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
 }

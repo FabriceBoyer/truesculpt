@@ -7,4 +7,5 @@
 <Button android:text="@string/show_sensors" android:id="@+id/show_sensors" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 <Button android:text="@string/show_test" android:id="@+id/show_test" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 <TextView android:text="" android:id="@+id/lastFrameDurationText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+<TextView android:text="" android:id="@+id/MeshStatsText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 </LinearLayout>
