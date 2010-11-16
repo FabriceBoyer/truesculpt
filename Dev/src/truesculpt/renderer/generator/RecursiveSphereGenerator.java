@@ -18,7 +18,8 @@ public class RecursiveSphereGenerator {
 
 	public RecursiveSphereGenerator()
 	{	
-		init_icosahedron ();	
+		init_icosahedron ();
+		//init_octahedron();
 
 		int n_subdivisions = 0;
 		for (int i=0; i<n_subdivisions; i++) 
