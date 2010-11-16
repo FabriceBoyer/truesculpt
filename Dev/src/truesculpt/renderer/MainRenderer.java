@@ -19,6 +19,8 @@ package truesculpt.renderer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.managers.MeshManager;
+
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 
@@ -30,11 +32,12 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	private float mRot;
 	private float mDistance;
 	private float mElevation;
-	
-	private GeneratedObject mObject;
 
-	public GeneratedObject getGeneratedObject() {
-		return mObject;
+	private MeshManager mMeshManager=null;
+
+	public MainRenderer(MeshManager mMeshManager) {
+		super();
+		this.mMeshManager = mMeshManager;
 	}
 
 	private long mLastFrameDurationMs=0;
@@ -43,11 +46,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		return mLastFrameDurationMs;
 	}
 
-	public MainRenderer() {
-			
-		mObject= new GeneratedObject();
-	}
-
+	
 	public void onPointOfViewChange(float fRot, float fDistance, float fElevation) {
 		mRot = fRot;
 		mDistance = fDistance;
@@ -79,8 +78,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
-		//mCube.draw(gl);
-		mObject.draw(gl);
+		//main draw call
+		mMeshManager.draw(gl);
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
@@ -117,6 +116,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		 */
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 		
+		//TODO configuration in options
 		gl.glClearColor(0, 0, 0, 0);
 		
 		gl.glEnable(GL10.GL_CULL_FACE);
