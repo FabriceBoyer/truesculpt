@@ -11,7 +11,7 @@ public class RendererManager extends BaseManager {
 	public RendererManager(Context baseContext) {
 		super(baseContext);
 
-		mRenderer = new MainRenderer(false);
+		mRenderer = new MainRenderer();
 		onPointOfViewChange();
 	}
 

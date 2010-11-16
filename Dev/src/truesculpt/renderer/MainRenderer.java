@@ -37,16 +37,14 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		return mObject;
 	}
 
-	private boolean mTranslucentBackground;
-	
 	private long mLastFrameDurationMs=0;
 
 	public long getLastFrameDurationMs() {
 		return mLastFrameDurationMs;
 	}
 
-	public MainRenderer(boolean useTranslucentBackground) {
-		mTranslucentBackground = useTranslucentBackground;		
+	public MainRenderer() {
+			
 		mObject= new GeneratedObject();
 	}
 
@@ -118,12 +116,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		 * on features of this particular context
 		 */
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-
-		if (mTranslucentBackground) {
-			gl.glClearColor(0, 0, 0, 0);
-		} else {
-			gl.glClearColor(1, 1, 1, 1);
-		}
+		
+		gl.glClearColor(0, 0, 0, 0);
+		
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glEnable(GL10.GL_DEPTH_TEST);
