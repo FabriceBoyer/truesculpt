@@ -87,4 +87,16 @@ public class OptionsManager extends BaseManager {
 		getManagers().getmSensorsManager().restart();//to ensure updated, should be better to implement listener on activity
 	}
 
+	@Override
+	public void onCreate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
