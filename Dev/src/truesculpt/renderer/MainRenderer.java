@@ -34,6 +34,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	private float mElevation;
 
 	private MeshManager mMeshManager=null;
+	private ReferenceAxis mAxis= new ReferenceAxis();
 
 	public MainRenderer(MeshManager mMeshManager) {
 		super();
@@ -81,9 +82,13 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		//main draw call
 		mMeshManager.draw(gl);
 		
+		mAxis.draw(gl);
+		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
 	}
+	
+
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
