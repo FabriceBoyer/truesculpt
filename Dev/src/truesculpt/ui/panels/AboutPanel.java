@@ -15,6 +15,7 @@ public class AboutPanel extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
+		getWindow().setBackgroundDrawableResource(R.drawable.transparentbackground);
 		
 
 		final Button button = (Button) findViewById(R.id.Ok_btn);
