@@ -30,8 +30,7 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pointofview);
-		getWindow().setBackgroundDrawableResource(R.drawable.transparentbackground);
-		
+				
 		mElevationSeekBar=(SeekBar)findViewById(R.id.Elevation);
 		mElevationSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override

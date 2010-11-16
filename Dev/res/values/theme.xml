@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TrueSculpt.Translucent.FullScreen" parent="android:Theme.Translucent.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/transparentbackground</item>              
+    </style>
+</resources>
