@@ -24,10 +24,11 @@ public class RendererManager extends BaseManager {
 	
 	public void onPointOfViewChange()
 	{
+		PointOfViewManager povManager=getManagers().getmPointOfViewManager();
 		mRenderer.onPointOfViewChange(
-				getManagers().getmPointOfViewManager().getRotationAngle(),
-				getManagers().getmPointOfViewManager().getZoomDistance(),
-				getManagers().getmPointOfViewManager().getElevationAngle());
+				povManager.getRotationAngle(),
+				povManager.getZoomDistance(),
+				povManager.getElevationAngle());
 	}
 
 	@Override

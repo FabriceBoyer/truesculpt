@@ -12,19 +12,13 @@ public class MeshManager extends BaseManager {
 
 	public MeshManager(Context baseContext) {
 		super(baseContext);
-
-		
-	}
-	
-	public void Init()
-	{
-		mObject= new GeneratedObject();
+		 
+			
 	}
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
-		
+		mObject= new GeneratedObject();	
 	}
 
 	@Override
@@ -35,7 +29,10 @@ public class MeshManager extends BaseManager {
 	
 	public void draw(GL10 gl)
 	{
-		mObject.draw(gl);
+		if (mObject!=null)
+		{
+			mObject.draw(gl);
+		}
 	}
 
     public int getFacesCount() {
