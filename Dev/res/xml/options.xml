@@ -2,7 +2,7 @@
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android" android:key="options">
 
-<PreferenceCategory android:title="Startup" android:key="startup"><CheckBoxPreference android:key="CheckUpdateAtStartup" android:title="@string/check_update" android:defaultValue="true"></CheckBoxPreference><CheckBoxPreference android:key="ViewTutorialAtStartup" android:title="@string/Show_tutorial" android:defaultValue="true"></CheckBoxPreference>
+<PreferenceCategory android:title="Startup" android:key="startup"><CheckBoxPreference android:key="CheckUpdateAtStartup" android:title="@string/check_update" android:defaultValue="false"></CheckBoxPreference><CheckBoxPreference android:key="ViewTutorialAtStartup" android:title="@string/Show_tutorial" android:defaultValue="true"></CheckBoxPreference>
 <CheckBoxPreference android:key="DisplaySplashScreenAtStartup" android:title="@string/Show_splash_screen" android:defaultValue="true"></CheckBoxPreference>
 
 <CheckBoxPreference android:key="LoadLastUsedFileAtStartup" android:title="@string/Load_last_used_file" android:defaultValue="true"></CheckBoxPreference>

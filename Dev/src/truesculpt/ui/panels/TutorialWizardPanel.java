@@ -173,13 +173,22 @@ public class TutorialWizardPanel extends Activity {
 
 	private void RefreshView()
 	{		
-		if (mStepCurrentIndex==(mStepsCount-1))
+		if (mStepCurrentIndex>=(mStepsCount-1))
 		{
 			nextBtn.setEnabled(false);
 		}
 		else
 		{
 			nextBtn.setEnabled(true);
+		}
+		
+		if (mStepCurrentIndex<=0)
+		{
+			prevBtn.setEnabled(false);
+		}
+		else
+		{
+			prevBtn.setEnabled(true);
 		}
 		
 		String strUrl="file:///android_asset/tutorial"+Integer.toString(mStepCurrentIndex)+".html";
