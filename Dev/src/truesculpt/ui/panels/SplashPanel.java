@@ -33,7 +33,7 @@ public class SplashPanel extends Activity {
 		mSplash = new ImageView(this);
 		setContentView(mSplash);
 
-		mSplash.setImageResource(R.drawable.flash);
+		mSplash.setImageResource(R.drawable.splash);
 
 		mHandler.postDelayed(mCloseActivityTask, SPLASHTIME);
 	}
