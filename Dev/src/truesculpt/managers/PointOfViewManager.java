@@ -42,9 +42,21 @@ public class PointOfViewManager extends BaseManager {
 		
 	}
 
+	public void SetAllAngles(float rotation, float elevation, float zoomDistance)
+	{
+		setElevationAngleInternal(elevation);
+		setRotationAngleInternal(rotation);
+		setZoomDistanceInternal(zoomDistance);
+		NotifyListeners();
+	}
 	//+90 to -90
 	public void setElevationAngle(float angle)
 	{		
+		setElevationAngleInternal(angle);
+		NotifyListeners();
+	}
+
+	private void setElevationAngleInternal(float angle) {
 		mPhi=angle;
 		
 		if (angle>90.0f)
@@ -56,12 +68,16 @@ public class PointOfViewManager extends BaseManager {
 		{
 			mPhi=-90.0f;
 		}
-		NotifyListeners();
 	}
 	
 	//180 to 180
 	public void setRotationAngle(float angle)
 	{
+		setRotationAngleInternal(angle);
+		NotifyListeners();
+	}
+
+	private void setRotationAngleInternal(float angle) {
 		mTheta=angle%180;	
 		if (angle>180.0f)
 		{
@@ -71,11 +87,15 @@ public class PointOfViewManager extends BaseManager {
 		{
 			mTheta+=180.0f;
 		}
-		NotifyListeners();
 	}	
 	
 	public void setZoomDistance(float dist)
 	{		
+		setZoomDistanceInternal(dist);
+		NotifyListeners();
+	}
+
+	private void setZoomDistanceInternal(float dist) {
 		mR=dist;
 		
 		if (dist>mRmax)
@@ -86,7 +106,6 @@ public class PointOfViewManager extends BaseManager {
 		{
 			mR=mRmin;
 		}
-		NotifyListeners();
 	}
 	
 	public float getElevationAngle()
