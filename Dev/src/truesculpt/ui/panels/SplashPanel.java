@@ -4,6 +4,7 @@ import truesculpt.main.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 
 //TODO : callback notification to dismiss only when the rest of the app is ready
@@ -37,4 +38,11 @@ public class SplashPanel extends Activity {
 
 		mHandler.postDelayed(mCloseActivityTask, SPLASHTIME);
 	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		finish();
+		return super.onTouchEvent(event);
+	}
+
 }

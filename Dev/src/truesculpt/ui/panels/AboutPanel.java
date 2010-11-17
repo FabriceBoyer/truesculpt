@@ -3,6 +3,7 @@ package truesculpt.ui.panels;
 import truesculpt.main.R;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,6 +25,12 @@ public class AboutPanel extends Activity {
 				finish();				
 			}
 		});
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		finish();
+		return super.onTouchEvent(event);
 	}
 
 }
