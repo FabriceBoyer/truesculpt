@@ -2,14 +2,18 @@ package truesculpt.managers;
 
 import android.content.Context;
 
-public class ToolsManager extends BaseManager {
-
-	enum EToolMode { POV, SCULPT};
+public class ToolsManager extends BaseManager {	
+	
+	public enum EToolMode { POV, SCULPT};
 	
 	private EToolMode mMode=EToolMode.POV;
+	private int mColor=0;
 	
 	public EToolMode getToolMode() {
 		return mMode;
+	}
+	public void setToolMode(EToolMode mMode) {
+		this.mMode = mMode;
 	}
 
 	public ToolsManager(Context baseContext) {
@@ -28,5 +32,15 @@ public class ToolsManager extends BaseManager {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public int getColor() {
+		return mColor;
+	}
+
+	public void setColor(int mColor) {
+		this.mColor = mColor;
+	}
+
+	
 
 }

@@ -2,13 +2,19 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
   
-   <Button
+  
+     
+<ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+<ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+
+ <Button
  	 android:id="@+id/color_button" 
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
      android:text="@string/color_picker"  
   />
-     
+  
 </LinearLayout>
