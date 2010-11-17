@@ -95,6 +95,10 @@ public class MeshManager extends BaseManager {
 		}
     	return nCount;
 	}
-
+    
+    public void Pick(float screenX,float screenY)
+    {
+    	
+    }
     
 }

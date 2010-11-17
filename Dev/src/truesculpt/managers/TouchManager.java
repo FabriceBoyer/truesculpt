@@ -15,8 +15,8 @@ public class TouchManager extends BaseManager {
 
 	private float mLastX=0.0f;
 	private float mLastY=0.0f;
-	private float fRot=0.0f;
-	private float fElev=0.0f;
+	private float mRotInit=0.0f;
+	private float mElevInit=0.0f;
 	
 	private float fDemultFactor=5.0f;
 	
@@ -28,6 +28,9 @@ public class TouchManager extends BaseManager {
 
 		Log.i(Global.TAG,msg);
 		
+		float x=event.getX();
+		float y=event.getY();
+		
 		switch (getManagers().getToolsManager().getToolMode())
 		{
 			case POV:
@@ -36,20 +39,16 @@ public class TouchManager extends BaseManager {
 				{
 					case MotionEvent.ACTION_DOWN:
 					{
-						mLastX=event.getX();
-						mLastY=event.getY();
-						fRot=getManagers().getPointOfViewManager().getRotationAngle();
-						fElev=getManagers().getPointOfViewManager().getElevationAngle();
+						mLastX=x;
+						mLastY=y;
+						mRotInit=getManagers().getPointOfViewManager().getRotationAngle();
+						mElevInit=getManagers().getPointOfViewManager().getElevationAngle();
 						break;
 					}
 					case MotionEvent.ACTION_MOVE:
-					{				
-						float x=event.getX();
-						float angleRot =fRot + (x-mLastX)/fDemultFactor;				
-										
-						float y=event.getY();
-						float angleElev= fElev + (y-mLastY)/fDemultFactor;
-										
+					{						
+						float angleRot =mRotInit + (x-mLastX)/fDemultFactor;
+						float angleElev= mElevInit + (y-mLastY)/fDemultFactor;										
 						float dist =getManagers().getPointOfViewManager().getZoomDistance();
 						
 						getManagers().getPointOfViewManager().SetAllAngles(angleRot,angleElev,dist);
@@ -57,6 +56,17 @@ public class TouchManager extends BaseManager {
 						break;
 					}
 				}
+			}
+			case SCULPT:
+			{
+				switch(event.getAction())		
+				{
+					case MotionEvent.ACTION_DOWN:
+					{
+						getManagers().getMeshManager().Pick(x, y);
+					}					
+				}
+				
 			}
 		}
 		
