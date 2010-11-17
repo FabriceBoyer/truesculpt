@@ -119,6 +119,11 @@ public class UpdateManager extends BaseManager {
 			}
 		}
 		
+		if (res!=EUpdateStatus.UNDEFINED)
+		{
+			getManagers().getOptionsManager().updateLastSoftwareUpdateCheckDate();
+		}
+		
 		return res;
 	}
 

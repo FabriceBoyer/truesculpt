@@ -29,9 +29,25 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 	public void CheckUpdate()
 	{
+		boolean bStartUpdateActivity=false;
 		if (getManagers().getOptionsManager().getCheckUpdateAtStartup()==true)
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class);
+			bStartUpdateActivity=true;			
+		}
+				
+		long timeOfLastUpdate=getManagers().getOptionsManager().getLastSoftwareUpdateCheckDate();
+		long today= System.currentTimeMillis();
+		long timeSinceLastUpdate=today-timeOfLastUpdate;
+			
+		long timeThresold=31*24*3600*1000;//one month in millis
+		if (timeSinceLastUpdate>timeThresold)
+		{
+			bStartUpdateActivity=true;//mandatory updates
+		}
+		
+		if (bStartUpdateActivity)
+		{
+			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class);	
 		}
 	}
 	
