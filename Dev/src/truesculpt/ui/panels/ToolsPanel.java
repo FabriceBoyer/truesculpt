@@ -1,6 +1,9 @@
 package truesculpt.ui.panels;
 
+import truesculpt.managers.ToolsManager.EToolMode;
+import truesculpt.main.Managers;
 import truesculpt.main.R;
+import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.dialogs.ColorPickerDialog;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
@@ -8,42 +11,67 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class ToolsPanel extends Activity implements OnColorChangedListener {
 	private final int DIALOG_COLOR_PICKER_ID=0;
 
-	private int mColor = 0;
+	
+	public Managers getManagers() {	
+		return ((TrueSculptApp)getApplicationContext()).getManagers();
+	}
 	
 	@Override
 	public void colorChanged(int color) {
-		mColor = color;
-		String msg = "color is " + Integer.toString(mColor);
-		Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
+		getManagers().getToolsManager().setColor(color);
+		//String msg = "color is " + Integer.toString(color);
+		//Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
 	}
 
-	public int getmColor() {
-		return mColor;
-	}
-
+	private ToggleButton viewToggle;
+	private ToggleButton sculptToggle;
+	private  Button colorButton;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tools);
 				
-		final Button button = (Button) findViewById(R.id.color_button);
-		button.setOnClickListener(new View.OnClickListener() {
+		colorButton = (Button) findViewById(R.id.color_button);
+		colorButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showDialog(DIALOG_COLOR_PICKER_ID);
-				
+				showDialog(DIALOG_COLOR_PICKER_ID);				
 			}
 		});
+		
+		viewToggle = (ToggleButton) findViewById(R.id.View);
+		viewToggle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {				
+				getManagers().getToolsManager().setToolMode( EToolMode.POV);
+				UpdateView();
+			}
+		});
+		
+		sculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
+		sculptToggle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {				
+				getManagers().getToolsManager().setToolMode( EToolMode.SCULPT);
+				UpdateView();
+			}
+		});
+		
+		UpdateView();
 	}
-
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreateDialog(int)
-	 */
+	
+	private void UpdateView()
+	{
+		viewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
+		sculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog=null;

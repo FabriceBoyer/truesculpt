@@ -28,29 +28,35 @@ public class TouchManager extends BaseManager {
 
 		Log.i(Global.TAG,msg);
 		
-		switch(event.getAction())		
+		switch (getManagers().getToolsManager().getToolMode())
 		{
-			case MotionEvent.ACTION_DOWN:
+			case POV:
 			{
-				mLastX=event.getX();
-				mLastY=event.getY();
-				fRot=getManagers().getPointOfViewManager().getRotationAngle();
-				fElev=getManagers().getPointOfViewManager().getElevationAngle();
-				break;
-			}
-			case MotionEvent.ACTION_MOVE:
-			{				
-				float x=event.getX();
-				float angleRot =fRot + (x-mLastX)/fDemultFactor;				
-								
-				float y=event.getY();
-				float angleElev= fElev + (y-mLastY)/fDemultFactor;
-								
-				float dist =getManagers().getPointOfViewManager().getZoomDistance();
-				
-				getManagers().getPointOfViewManager().SetAllAngles(angleRot,angleElev,dist);
-				
-				break;
+				switch(event.getAction())		
+				{
+					case MotionEvent.ACTION_DOWN:
+					{
+						mLastX=event.getX();
+						mLastY=event.getY();
+						fRot=getManagers().getPointOfViewManager().getRotationAngle();
+						fElev=getManagers().getPointOfViewManager().getElevationAngle();
+						break;
+					}
+					case MotionEvent.ACTION_MOVE:
+					{				
+						float x=event.getX();
+						float angleRot =fRot + (x-mLastX)/fDemultFactor;				
+										
+						float y=event.getY();
+						float angleElev= fElev + (y-mLastY)/fDemultFactor;
+										
+						float dist =getManagers().getPointOfViewManager().getZoomDistance();
+						
+						getManagers().getPointOfViewManager().SetAllAngles(angleRot,angleElev,dist);
+						
+						break;
+					}
+				}
 			}
 		}
 		
