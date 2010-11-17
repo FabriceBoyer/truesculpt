@@ -92,6 +92,10 @@ public class OptionsManager extends BaseManager {
 	}
 	
 	public long getLastSoftwareUpdateCheckDate() {
+		if (settings.contains("LastSoftwareUpdateCheckDate")==false) //init default values
+		{
+			updateLastSoftwareUpdateCheckDate();
+		}		
 		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
 	}
 
