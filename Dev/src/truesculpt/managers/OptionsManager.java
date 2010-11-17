@@ -4,6 +4,7 @@ import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
 //is a local cache really necessary ? direct call to manager better?
@@ -79,6 +80,19 @@ public class OptionsManager extends BaseManager {
 		editor.commit();
 		
 		getManagers().getSensorsManager().restart();
+	}
+	
+	public void updateLastSoftwareUpdateCheckDate()
+	{
+		long today= System.currentTimeMillis();
+		
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putLong("LastSoftwareUpdateCheckDate", today);
+		editor.commit();		
+	}
+	
+	public long getLastSoftwareUpdateCheckDate() {
+		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
 	}
 
 	public void showOptionsPanel(Activity callingActivity) {
