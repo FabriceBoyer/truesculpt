@@ -41,14 +41,14 @@ public class DebugPanel extends Activity {
 		
 		//TODO update on timer
 		TextView lastFrameText= (TextView) findViewById(R.id.lastFrameDurationText);
-		long lLastDuration=getManagers().getmRendererManager().getmRenderer().getLastFrameDurationMs();
+		long lLastDuration=getManagers().getRendererManager().getmRenderer().getLastFrameDurationMs();
 		String msg="Last frame duration = " + Long.toString(lLastDuration ) + " ms\n";
 		msg+="Equivalent FPS is " + Float.toString(1.0f/lLastDuration*1000.0f) + " image/s\n";		
 		lastFrameText.setText(msg);
 		
 		TextView meshStatText= (TextView) findViewById(R.id.MeshStatsText);
-		int nVertex=getManagers().getmMeshManager().getVertexCount();
-		int nFaces=getManagers().getmMeshManager().getFacesCount();
+		int nVertex=getManagers().getMeshManager().getVertexCount();
+		int nFaces=getManagers().getMeshManager().getFacesCount();
 		msg="Number of vertex = " + Integer.toString(nVertex ) + "\n";
 		msg+="Number of faces = " + Integer.toString(nFaces ) + "\n";		
 		meshStatText.setText(msg);

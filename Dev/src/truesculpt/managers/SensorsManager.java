@@ -30,7 +30,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	@Override
 	public void onCreate()
 	{
-		if (getManagers().getmOptionsManager().getUseSensorsToChangePOV())
+		if (getManagers().getOptionsManager().getUseSensorsToChangePOV())
 		{
 			restart();
 		}
@@ -94,7 +94,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	
 	private void NotifyListeners()
 	{
-		getManagers().getmPointOfViewManager().onSensorChanged();
+		getManagers().getPointOfViewManager().onSensorChanged();
 		
 		for (OnSensorChangeListener listener : mListeners) 
 		{

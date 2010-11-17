@@ -34,8 +34,8 @@ public class TouchManager extends BaseManager {
 			{
 				mLastX=event.getX();
 				mLastY=event.getY();
-				fRot=getManagers().getmPointOfViewManager().getRotationAngle();
-				fElev=getManagers().getmPointOfViewManager().getElevationAngle();
+				fRot=getManagers().getPointOfViewManager().getRotationAngle();
+				fElev=getManagers().getPointOfViewManager().getElevationAngle();
 				break;
 			}
 			case MotionEvent.ACTION_MOVE:
@@ -46,9 +46,9 @@ public class TouchManager extends BaseManager {
 				float y=event.getY();
 				float angleElev= fElev + (y-mLastY)/fDemultFactor;
 								
-				float dist =getManagers().getmPointOfViewManager().getZoomDistance();
+				float dist =getManagers().getPointOfViewManager().getZoomDistance();
 				
-				getManagers().getmPointOfViewManager().SetAllAngles(angleRot,angleElev,dist);
+				getManagers().getPointOfViewManager().SetAllAngles(angleRot,angleElev,dist);
 				
 				break;
 			}

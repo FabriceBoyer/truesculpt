@@ -35,7 +35,7 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		mElevationSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				getManagers().getmPointOfViewManager().setElevationAngle(progress-90);				
+				getManagers().getPointOfViewManager().setElevationAngle(progress-90);				
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}			
@@ -50,7 +50,7 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		mRotationSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				getManagers().getmPointOfViewManager().setRotationAngle(progress-180);				
+				getManagers().getPointOfViewManager().setRotationAngle(progress-180);				
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}			
@@ -65,14 +65,14 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		mDistanceSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				getManagers().getmPointOfViewManager().setZoomDistance(progress);				
+				getManagers().getPointOfViewManager().setZoomDistance(progress);				
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
-		mDistanceSeekBar.setMax((int) getManagers().getmPointOfViewManager().getRmax());
+		mDistanceSeekBar.setMax((int) getManagers().getPointOfViewManager().getRmax());
 		mDistanceText=(TextView)findViewById(R.id.DistanceText);		
 		
 		Button button = (Button) findViewById(R.id.Reset);
@@ -85,13 +85,13 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		
 		UpdateUI();
 		
-		getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(PointOfViewPanel.this);
+		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(PointOfViewPanel.this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		getManagers().getmPointOfViewManager().unRegisterPointOfViewChangeListener(PointOfViewPanel.this);
+		getManagers().getPointOfViewManager().unRegisterPointOfViewChangeListener(PointOfViewPanel.this);
 	}
 
 	@Override
@@ -106,22 +106,22 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 	
 	private void UpdateUI()
 	{		
-		float elevation=getManagers().getmPointOfViewManager().getElevationAngle();
+		float elevation=getManagers().getPointOfViewManager().getElevationAngle();
 		mElevationSeekBar.setProgress((int)elevation+90 );//90° offset to center
 		mElevationText.setText("Elevation="+Integer.toString((int)elevation)+" °");
 		
-		float rotation=getManagers().getmPointOfViewManager().getRotationAngle();
+		float rotation=getManagers().getPointOfViewManager().getRotationAngle();
 		mRotationSeekBar.setProgress((int)rotation+180 );//180° offset to center
 		mRotationText.setText("Rotation="+Integer.toString((int) rotation)+" °");
 		
-		float distance=getManagers().getmPointOfViewManager().getZoomDistance();
+		float distance=getManagers().getPointOfViewManager().getZoomDistance();
 		mDistanceSeekBar.setProgress((int)distance );	
 		mDistanceText.setText("Distance="+Integer.toString((int)distance)+" m");
 	}
 	
 	private void ResetPOV()
 	{
-		getManagers().getmPointOfViewManager().ResetPOV();		
+		getManagers().getPointOfViewManager().ResetPOV();		
 	}
 	
 	@Override

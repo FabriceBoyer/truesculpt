@@ -29,7 +29,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 	public void CheckUpdate()
 	{
-		if (getManagers().getmOptionsManager().getCheckUpdateAtStartup()==true)
+		if (getManagers().getOptionsManager().getCheckUpdateAtStartup()==true)
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class);
 		}
@@ -42,9 +42,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	
 	public void NotifyStartupStat()
 	{
-		if (getManagers().getmOptionsManager().getGatherUsageData()==true)
+		if (getManagers().getOptionsManager().getGatherUsageData()==true)
 		{
-			getManagers().getmUsageStatisticsManager().incrementStartupCount();
+			getManagers().getUsageStatisticsManager().incrementStartupCount();
 		}
 	}
 	
@@ -75,12 +75,12 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		
 		 mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
 		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
-		 mGLSurfaceView.setRenderer(getManagers().getmRendererManager().getmRenderer());
+		 mGLSurfaceView.setRenderer(getManagers().getRendererManager().getmRenderer());
 		 mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 		 UpdateView();
 		 
-		 getManagers().getmPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
-		 getManagers().getmMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
+		 getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
+		 getManagers().getMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
 	}
 	
 	private void UpdateView()
@@ -112,8 +112,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	protected void onDestroy() {		
 		super.onDestroy();
 						
-		getManagers().getmPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
-		getManagers().getmMeshManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
+		getManagers().getPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
+		getManagers().getMeshManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
 		
 		getManagers().Destroy();
 	}
@@ -169,7 +169,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			return true;
 		}
 		case R.id.show_options: {
-			getManagers().getmOptionsManager().showOptionsPanel(this);
+			getManagers().getOptionsManager().showOptionsPanel(this);
 			return true;
 		}
 		case R.id.show_about_panel: {
@@ -230,14 +230,14 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		getManagers().getmTouchManager().onTouchEvent(event);
+		getManagers().getTouchManager().onTouchEvent(event);
 		return super.onTouchEvent(event);
 	}
 
 	
 	public void ShowSplashScreen()
 	{	
-		if (getManagers().getmOptionsManager().getDisplaySplashScreenAtStartup()==true)
+		if (getManagers().getOptionsManager().getDisplaySplashScreenAtStartup()==true)
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.SplashPanel.class);
 		}
@@ -247,7 +247,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 	public void ShowTutorial()
 	{
-		if (getManagers().getmOptionsManager().getViewTutorialAtStartup()==true)
+		if (getManagers().getOptionsManager().getViewTutorialAtStartup()==true)
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class);
 		}

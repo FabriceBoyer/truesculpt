@@ -43,79 +43,79 @@ public class Managers {
 	/**
 	 * @return the mActionsManager
 	 */
-	public ActionsManager getmActionsManager() {
+	public ActionsManager getActionsManager() {
 		return mActionsManager;
 	}
 	/**
 	 * @return the mFileManager
 	 */
-	public FileManager getmFileManager() {
+	public FileManager getFileManager() {
 		return mFileManager;
 	}
 	/**
 	 * @return the mMemoryManager
 	 */
-	public MemoryManager getmMemoryManager() {
+	public MemoryManager getMemoryManager() {
 		return mMemoryManager;
 	}
 	/**
 	 * @return the mMeshManager
 	 */
-	public MeshManager getmMeshManager() {
+	public MeshManager getMeshManager() {
 		return mMeshManager;
 	}
 	/**
 	 * @return the mOptionsManager
 	 */
-	public OptionsManager getmOptionsManager() {
+	public OptionsManager getOptionsManager() {
 		return mOptionsManager;
 	}
 	/**
 	 * @return the mPointOfViewManager
 	 */
-	public PointOfViewManager getmPointOfViewManager() {
+	public PointOfViewManager getPointOfViewManager() {
 		return mPointOfViewManager;
 	}
 	/**
 	 * @return the mRendererManager
 	 */
-	public RendererManager getmRendererManager() {
+	public RendererManager getRendererManager() {
 		return mRendererManager;
 	}
 	/**
 	 * @return the mSensorsManager
 	 */
-	public SensorsManager getmSensorsManager() {
+	public SensorsManager getSensorsManager() {
 		return mSensorsManager;
 	}
 	/**
 	 * @return the mToolsManager
 	 */
-	public ToolsManager getmToolsManager() {
+	public ToolsManager getToolsManager() {
 		return mToolsManager;
 	}
 	/**
 	 * @return the mTouchManager
 	 */
-	public TouchManager getmTouchManager() {
+	public TouchManager getTouchManager() {
 		return mTouchManager;
 	}
 	/**
 	 * @return the mUpdateManager
 	 */
-	public UpdateManager getmUpdateManager() {
+	public UpdateManager getUpdateManager() {
 		return mUpdateManager;
 	}
 	/**
 	 * @return the mUsageStatisticsManager
 	 */
-	public UsageStatisticsManager getmUsageStatisticsManager() {
+	public UsageStatisticsManager getUsageStatisticsManager() {
 		return mUsageStatisticsManager;
 	}
 	/**
 	 * @return the mWebManager
 	 */
-	public WebManager getmWebManager() {
+	public WebManager getWebManager() {
 		return mWebManager;
 	}
 	
