@@ -39,7 +39,10 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		long today= System.currentTimeMillis();
 		long timeSinceLastUpdate=today-timeOfLastUpdate;
 			
-		long timeThresold=31*24*3600*1000;//one month in millis
+		long timeThresold=31;
+		timeThresold*=24;
+		timeThresold*=3600;
+		timeThresold*=1000;//one month in millis
 		if (timeSinceLastUpdate>timeThresold)
 		{
 			bStartUpdateActivity=true;//mandatory updates
