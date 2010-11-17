@@ -11,7 +11,7 @@ public class RendererManager extends BaseManager {
 	public RendererManager(Context baseContext) {
 		super(baseContext);
 
-		mRenderer = new MainRenderer(getManagers().getmMeshManager());
+		mRenderer = new MainRenderer(getManagers().getMeshManager());
 		onPointOfViewChange();
 	}
 
@@ -24,7 +24,7 @@ public class RendererManager extends BaseManager {
 	
 	public void onPointOfViewChange()
 	{
-		PointOfViewManager povManager=getManagers().getmPointOfViewManager();
+		PointOfViewManager povManager=getManagers().getPointOfViewManager();
 		mRenderer.onPointOfViewChange(
 				povManager.getRotationAngle(),
 				povManager.getZoomDistance(),

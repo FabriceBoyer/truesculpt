@@ -4,6 +4,14 @@ import android.content.Context;
 
 public class ToolsManager extends BaseManager {
 
+	enum EToolMode { POV, SCULPT};
+	
+	private EToolMode mMode=EToolMode.POV;
+	
+	public EToolMode getToolMode() {
+		return mMode;
+	}
+
 	public ToolsManager(Context baseContext) {
 		super(baseContext);
 		// TODO Auto-generated constructor stub

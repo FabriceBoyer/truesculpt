@@ -125,7 +125,7 @@ public class PointOfViewManager extends BaseManager {
 	
 	private void NotifyListeners()
 	{
-		getManagers().getmRendererManager().onPointOfViewChange();
+		getManagers().getRendererManager().onPointOfViewChange();
 		
 		for (OnPointOfViewChangeListener listener : mListeners) 
 		{

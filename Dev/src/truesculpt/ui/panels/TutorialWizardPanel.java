@@ -51,7 +51,7 @@ public class TutorialWizardPanel extends Activity {
 	
 	public boolean getSeeAgainOption()
 	{
-		return getManagers().getmOptionsManager().getViewTutorialAtStartup();
+		return getManagers().getOptionsManager().getViewTutorialAtStartup();
 	}
 	
 	private void GoToNextStep()
@@ -197,7 +197,7 @@ public class TutorialWizardPanel extends Activity {
 	
 	public void setSeeAgainOption(boolean bSeeAgain)
 	{
-		getManagers().getmOptionsManager().setViewTutorialAtStartup(bSeeAgain);		
+		getManagers().getOptionsManager().setViewTutorialAtStartup(bSeeAgain);		
 	}
 
 }

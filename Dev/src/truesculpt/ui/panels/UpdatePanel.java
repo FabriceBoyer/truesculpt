@@ -48,8 +48,8 @@ public class UpdatePanel extends Activity {
 	Runnable mLookUpTask= new Runnable() {
 		@Override
 		public void run() {
-			strCurrVersion = getManagers().getmUpdateManager().getCurrentVersion();
-			strLatestVersion = getManagers().getmUpdateManager().getLatestVersion();
+			strCurrVersion = getManagers().getUpdateManager().getCurrentVersion();
+			strLatestVersion = getManagers().getUpdateManager().getLatestVersion();
 			
 			mHandler.post(mUpdateViewTask);	//to come back in UI thread		
 		}
@@ -64,7 +64,7 @@ public class UpdatePanel extends Activity {
 
 	public void UpdateView()
 	{
-		EUpdateStatus status= getManagers().getmUpdateManager().getUpdateStatus(strCurrVersion,strLatestVersion);			
+		EUpdateStatus status= getManagers().getUpdateManager().getUpdateStatus(strCurrVersion,strLatestVersion);			
 
 		String msg="";
 		if (status!=EUpdateStatus.UNDEFINED)
