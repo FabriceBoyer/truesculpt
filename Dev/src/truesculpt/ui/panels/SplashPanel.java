@@ -11,7 +11,7 @@ import android.widget.ImageView;
 public class SplashPanel extends Activity {
 
 	// time in milliseconds
-	private static final long SPLASHTIME = 3000;
+	private static final long SPLASHTIME = 5000;
 
 	private Runnable mCloseActivityTask = new Runnable() {
 		@Override
