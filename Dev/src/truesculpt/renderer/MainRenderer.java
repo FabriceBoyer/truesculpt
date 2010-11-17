@@ -35,6 +35,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 	private MeshManager mMeshManager=null;
 	private ReferenceAxis mAxis= new ReferenceAxis();
+	private PickHighlight mPickHighlight= new PickHighlight();
 
 	public MainRenderer(MeshManager mMeshManager) {
 		super();
@@ -46,12 +47,16 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	public long getLastFrameDurationMs() {
 		return mLastFrameDurationMs;
 	}
-
 	
 	public void onPointOfViewChange(float fRot, float fDistance, float fElevation) {
 		mRot = fRot;
 		mDistance = fDistance;
 		mElevation = fElevation;
+	}
+	
+	public void setPickHighlightPosition(float x, float y, float z)
+	{
+		mPickHighlight.setPickHighlightPosition(x,y,z);
 	}
 
 	@Override
@@ -83,6 +88,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		mMeshManager.draw(gl);
 		
 		mAxis.draw(gl);
+		
+		mPickHighlight.draw(gl);
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
