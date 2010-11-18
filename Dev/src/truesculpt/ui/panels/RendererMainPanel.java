@@ -1,11 +1,14 @@
 package truesculpt.ui.panels;
 
+import javax.microedition.khronos.opengles.GL;
+
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.MeshManager.OnMeshChangeListener;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.utils.Utils;
+import truesculpt.renderer.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -96,6 +99,17 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		 mGLSurfaceView.setRenderer(getManagers().getRendererManager().getmRenderer());
 		 mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		   // Wrapper set so the renderer can
+		      //access the gl transformation matrixes.
+		 mGLSurfaceView.setGLWrapper(
+		      new GLSurfaceView.GLWrapper()
+		      {
+		          @Override
+		          public GL wrap(GL gl)
+		          {
+		              return new MatrixTrackingGL(gl);
+		          }
+		      });  
 		 UpdateView();
 		 
 		 getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
