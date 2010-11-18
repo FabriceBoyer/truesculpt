@@ -19,17 +19,11 @@ package truesculpt.renderer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.Random;
 import java.util.Vector;
-
 import javax.microedition.khronos.opengles.GL10;
-
-import android.os.Handler;
-
 import truesculpt.renderer.generator.RecursiveSphereGenerator;
-import truesculpt.renderer.old.GLColor;
 
 /**
  * A vertex shaded cube.

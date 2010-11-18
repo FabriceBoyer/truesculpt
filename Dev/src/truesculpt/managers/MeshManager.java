@@ -1,17 +1,17 @@
 package truesculpt.managers;
 
 import java.util.Vector;
-
 import javax.microedition.khronos.opengles.GL10;
-
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.renderer.GeneratedObject;
 import android.content.Context;
 import android.opengl.GLU;
+import truesculpt.renderer.*;
 
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager {
 
+	
 	private GeneratedObject mObject=null;
 
 	public MeshManager(Context baseContext) {
@@ -99,6 +99,7 @@ public class MeshManager extends BaseManager {
     
     public void Pick(float screenX,float screenY)
     {
+    	//mGrabber.
     	//GLU.gluUnProject(winX, winY, winZ, model, modelOffset, project, projectOffset, view, viewOffset, obj, objOffset)
     }
     

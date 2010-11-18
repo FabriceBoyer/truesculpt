@@ -18,7 +18,7 @@ package truesculpt.renderer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-class MatrixGrabber {
+public class MatrixGrabber {
     public MatrixGrabber() {
         mModelView = new float[16];
         mProjection = new float[16];
