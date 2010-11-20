@@ -91,6 +91,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		
 		mPickHighlight.draw(gl);
 		
+		//mGrabber.getCurrentProjection(gl);
+		//mGrabber.getCurrentModelView(gl);
+		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
 	}
@@ -135,8 +138,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glEnable(GL10.GL_DEPTH_TEST);
 		
-		mGrabber.getCurrentProjection(gl);
-		mGrabber.getCurrentModelView(gl);
+
 	}
 		
 	private MatrixGrabber mGrabber= new MatrixGrabber();
