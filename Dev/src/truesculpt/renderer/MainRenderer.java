@@ -39,7 +39,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 	public MainRenderer(MeshManager mMeshManager) {
 		super();
-		this.mMeshManager = mMeshManager;
+		this.mMeshManager = mMeshManager;		
 	}
 
 	private long mLastFrameDurationMs=0;
@@ -91,8 +91,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		
 		mPickHighlight.draw(gl);
 		
-		//mGrabber.getCurrentProjection(gl);
-		//mGrabber.getCurrentModelView(gl);
+		//TODO only if point of view changed
+		//mMeshManager.getGrabber().getCurrentProjection(gl);
+		//mMeshManager.getGrabber().getCurrentModelView(gl);
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
@@ -137,13 +138,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glEnable(GL10.GL_DEPTH_TEST);
-		
-
-	}
-		
-	private MatrixGrabber mGrabber= new MatrixGrabber();
-
-	public MatrixGrabber getGrabber() {
-		return mGrabber;
-	}
+	}	
+	
 }

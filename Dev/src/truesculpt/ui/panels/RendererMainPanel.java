@@ -72,8 +72,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		default:
 			return super.onContextItemSelected(item);
@@ -93,15 +92,13 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		ShowTutorial();
 		NotifyStartupStat();
 		
-		setContentView(R.layout.main);		
+		setContentView(R.layout.main);	
 		
-		 mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
-		 mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
-		 mGLSurfaceView.setRenderer(getManagers().getRendererManager().getmRenderer());
-		 mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-		   // Wrapper set so the renderer can
-		      //access the gl transformation matrixes.
-		 mGLSurfaceView.setGLWrapper(
+		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
+		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
+		mGLSurfaceView.setRenderer(getManagers().getRendererManager().getmRenderer());
+		mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		mGLSurfaceView.setGLWrapper(
 		      new GLSurfaceView.GLWrapper()
 		      {
 		          @Override
@@ -110,10 +107,12 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		              return new MatrixTrackingGL(gl);
 		          }
 		      });  
-		 UpdateView();
+		UpdateView();
+		
+		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
+		getManagers().getMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
 		 
-		 getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
-		 getManagers().getMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
+		
 	}
 	
 	private void UpdateView()
@@ -122,8 +121,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 	
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		// inflater.inflate(R.menu.context_menu, menu);
