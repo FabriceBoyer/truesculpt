@@ -4,6 +4,7 @@ import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.renderer.GeneratedObject;
+import truesculpt.renderer.MatrixGrabber;
 import android.content.Context;
 import android.opengl.GLU;
 import truesculpt.renderer.*;
@@ -99,8 +100,14 @@ public class MeshManager extends BaseManager {
     
     public void Pick(float screenX,float screenY)
     {
-    	//mGrabber.
+    	
     	//GLU.gluUnProject(winX, winY, winZ, model, modelOffset, project, projectOffset, view, viewOffset, obj, objOffset)
     }
+    
+    private MatrixGrabber mGrabber= new MatrixGrabber();;
+
+	public MatrixGrabber getGrabber() {
+		return mGrabber;
+	}
     
 }
