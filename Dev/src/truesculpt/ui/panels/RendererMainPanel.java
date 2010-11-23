@@ -7,6 +7,7 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.MeshManager.OnMeshChangeListener;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
+import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.utils.Utils;
 import truesculpt.renderer.*;
 import android.app.Activity;
@@ -22,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ToggleButton;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener {
@@ -79,6 +81,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		}
 	}
 	
+	private ToggleButton viewToggle;
+	private ToggleButton sculptToggle;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,8 +108,33 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		
 		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
 		getManagers().getMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
-		 
 		
+
+		viewToggle = (ToggleButton) findViewById(R.id.View);
+		viewToggle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {				
+				getManagers().getToolsManager().setToolMode( EToolMode.POV);
+				UpdateButtonsView();
+			}
+		});
+		
+		sculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
+		sculptToggle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {				
+				getManagers().getToolsManager().setToolMode( EToolMode.SCULPT);
+				UpdateButtonsView();
+			}
+		});
+		
+		UpdateButtonsView();		
+	}
+	
+	private void UpdateButtonsView()
+	{
+		viewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
+		sculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
 	}
 	
 	private void UpdateView()
