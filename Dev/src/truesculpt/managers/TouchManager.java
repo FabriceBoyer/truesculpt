@@ -56,6 +56,7 @@ public class TouchManager extends BaseManager {
 						break;
 					}
 				}
+				break;
 			}
 			case SCULPT:
 			{
@@ -66,7 +67,7 @@ public class TouchManager extends BaseManager {
 						getManagers().getMeshManager().Pick(x, y);
 					}					
 				}
-				
+				break;
 			}
 		}
 		

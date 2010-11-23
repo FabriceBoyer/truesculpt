@@ -2,11 +2,16 @@ package truesculpt.managers;
 
 import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
+
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.renderer.GeneratedObject;
 import truesculpt.renderer.MatrixGrabber;
 import android.content.Context;
+import android.opengl.GLES11;
 import android.opengl.GLU;
+import android.opengl.Matrix;
+import android.util.Log;
 import truesculpt.renderer.*;
 
 //for mesh storage, computation and transformation application
@@ -16,11 +21,14 @@ public class MeshManager extends BaseManager {
 	private GeneratedObject mObject=null;
 
 	public MeshManager(Context baseContext) {
-		super(baseContext);
-		 
+		super(baseContext);	 
 			
 	}
 
+    private float [] mModelView = new float[16];
+    private float [] mProjection = new float[16];
+    private int[] mViewPort=new int[4];
+    
 	private boolean bInitOver=false;
 	
 	@Override
@@ -99,15 +107,109 @@ public class MeshManager extends BaseManager {
 	}
     
     public void Pick(float screenX,float screenY)
-    {
+    {    	
+    	float[] obj = new float[4];
     	
-    	//GLU.gluUnProject(winX, winY, winZ, model, modelOffset, project, projectOffset, view, viewOffset, obj, objOffset)
+    	screenY = mViewPort[3] - screenY;			
+		int nRes = GLU.gluUnProject(screenX, screenY, 0.0f, mModelView, 0, mProjection, 0, mViewPort, 0, obj, 0);
+		assert (GL10.GL_TRUE == nRes);
+		
+    	//float[] res=GetWorldCoords(screenX,screenY);
     }
     
-    private MatrixGrabber mGrabber= new MatrixGrabber();;
+    /**
+     * Calculates the transform from screen coordinate
+     * system to world coordinate system coordinates
+     * for a specific point, given a camera position.
+     *
+     * @return position in WCS.
+     */
+    public float[] GetWorldCoords( float touchX, float touchY)
+    {  
+        // Initialize auxiliary variables.
+    	float[] worldPos = new float[3];
+        
+        // SCREEN height & width (ej: 320 x 480)
+        float screenW = mViewPort[2];
+        float screenH = mViewPort[3];
+               
+        // Auxiliary matrix and vectors
+        // to deal with ogl.
+        float[] invertedMatrix, transformMatrix,
+            normalizedInPoint, outPoint;
+        invertedMatrix = new float[16];
+        transformMatrix = new float[16];
+        normalizedInPoint = new float[4];
+        outPoint = new float[4];
+  
+        // Invert y coordinate, as android uses
+        // top-left, and ogl bottom-left.
+        int oglTouchY = (int) (screenH - touchY);
+        
+        /* Transform the screen point to clip
+        space in ogl (-1,1) */       
+        normalizedInPoint[0] =
+         (float) ((touchX) * 2.0f / screenW - 1.0);
+        normalizedInPoint[1] =
+         (float) ((oglTouchY) * 2.0f / screenH - 1.0);
+        normalizedInPoint[2] = - 1.0f;
+        normalizedInPoint[3] = 1.0f;
+  
+        /* Obtain the transform matrix and
+        then the inverse. */
+        //Print("Proj", mProjection);
+        //Print("Model", mModelView);
+        Matrix.multiplyMM(
+            transformMatrix, 0,
+            mProjection, 0,
+            mModelView, 0);
+        Matrix.invertM(invertedMatrix, 0,
+            transformMatrix, 0);       
+  
+        /* Apply the inverse to the point
+        in clip space */
+        Matrix.multiplyMV(
+            outPoint, 0,
+            invertedMatrix, 0,
+            normalizedInPoint, 0);
+        
+        if (outPoint[3] == 0.0)
+        {
+            // Avoid /0 error.
+            Log.e("World coords", "ERROR!");
+            return worldPos;
+        }
+        
+        // Divide by the 3rd component to find
+        // out the real position.
+        worldPos[0]= (outPoint[0] / outPoint[3]);
+        worldPos[1]= (outPoint[1] / outPoint[3]);
+        worldPos[2]= (outPoint[2] / outPoint[3]);
+          
+        return worldPos;       
+    }
 
-	public MatrixGrabber getGrabber() {
-		return mGrabber;
-	}
+
+   
+    //TODO test for GL11 instanceof to handle not GL11 devices
+    //TODO use GL11ES calls indepedent of redraw with gl param
+    public void getCurrentModelView(GL10 gl) {
+    	GL11 gl2=(GL11)gl;
+    	gl2.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelView,0);       
+    }
+
+  
+    public void getCurrentProjection(GL10 gl) {
+    	GL11 gl2=(GL11)gl;
+    	gl2.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjection,0);
+    }
+    
+    
+    public void getViewport(GL10 gl) {
+    	GL11 gl2=(GL11)gl;
+    	gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort,0);
+    }
+    
+   
     
 }

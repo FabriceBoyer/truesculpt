@@ -98,15 +98,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		mGLSurfaceView.setRenderer(getManagers().getRendererManager().getmRenderer());
 		mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-		mGLSurfaceView.setGLWrapper(
-		      new GLSurfaceView.GLWrapper()
-		      {
-		          @Override
-		          public GL wrap(GL gl)
-		          {
-		              return new MatrixTrackingGL(gl);
-		          }
-		      });  
+		
 		UpdateView();
 		
 		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
