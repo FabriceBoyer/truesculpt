@@ -9,15 +9,7 @@ import android.content.Context;
 
 public class PointOfViewManager extends BaseManager {
 
-
-	//looked at point
-	private float mX=0.0f;
-	private float mXOrig=0.0f;
-	private float mY=0.0f;
-	private float mYOrig=0.0f;	
-	private float mZ=10.0f;	
-	private float mZOrig=0.0f;
-	
+	//looked from point
 	private float mR=0.0f;
 	private float mTheta=0.0f;
 	private float mPhi=0.0f;
@@ -42,6 +34,11 @@ public class PointOfViewManager extends BaseManager {
 		
 	}
 
+	public void SetAllAngles(float [] angles)
+	{		
+		SetAllAngles(angles[0],angles[1],angles[2]);
+	}
+	
 	public void SetAllAngles(float rotation, float elevation, float zoomDistance)
 	{
 		setElevationAngleInternal(elevation);
@@ -164,7 +161,7 @@ public class PointOfViewManager extends BaseManager {
 
 	public void ResetPOV()
 	{
-		mR=3.0f;
+		mR=4.0f;
 		mTheta=0.0f;
 		mPhi=0.0f;
 		
