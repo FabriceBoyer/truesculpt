@@ -7,6 +7,7 @@ import javax.microedition.khronos.opengles.GL11;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.renderer.GeneratedObject;
 import truesculpt.renderer.MatrixGrabber;
+import truesculpt.renderer.PickHighlight;
 import android.content.Context;
 import android.opengl.GLES11;
 import android.opengl.GLU;
@@ -19,6 +20,7 @@ public class MeshManager extends BaseManager {
 
 	
 	private GeneratedObject mObject=null;
+	private PickHighlight mPickHighlight= new PickHighlight();
 
 	public MeshManager(Context baseContext) {
 		super(baseContext);	 
@@ -86,6 +88,8 @@ public class MeshManager extends BaseManager {
 		{
 			mObject.draw(gl);
 		}
+		
+		mPickHighlight.draw(gl);
 	}
 
     public int getFacesCount() {
@@ -108,15 +112,40 @@ public class MeshManager extends BaseManager {
     
     public void Pick(float screenX,float screenY)
     {    	
+    	/*
     	float[] obj = new float[4];
     	
     	screenY = mViewPort[3] - screenY;			
 		int nRes = GLU.gluUnProject(screenX, screenY, 0.0f, mModelView, 0, mProjection, 0, mViewPort, 0, obj, 0);
 		assert (GL10.GL_TRUE == nRes);
 		
-    	//float[] res=GetWorldCoords(screenX,screenY);
+		nRes = GLU.gluUnProject(screenX, screenY, 1.0f, mModelView, 0, mProjection, 0, mViewPort, 0, obj, 0);
+		assert (GL10.GL_TRUE == nRes);
+		*/
+		
+    	float[] obj=GetWorldCoords(screenX,screenY);
+		
+		mPickHighlight.setPickHighlightPosition(obj[0],obj[1],obj[2]);
+		
+		String msg="x="+Float.toString(obj[0])+"; y="+Float.toString(obj[1])+"; z="+Float.toString(obj[2]);
+		Log.i("Pick",msg);
+		NotifyListeners();
     }
     
+    void PrintMat(String logID,float[] mat)
+    {
+    	String msg="";	
+    	int n=mat.length;
+    	for (int i=0;i<n;i++)
+    	{
+    		msg+=Float.toString(mat[i])+ " ";
+    		if (i%4==0)
+    		{
+    			msg+="\n";
+    		}
+    	}
+    	Log.i(logID,msg);
+    }
     /**
      * Calculates the transform from screen coordinate
      * system to world coordinate system coordinates
@@ -157,8 +186,8 @@ public class MeshManager extends BaseManager {
   
         /* Obtain the transform matrix and
         then the inverse. */
-        //Print("Proj", mProjection);
-        //Print("Model", mModelView);
+        PrintMat("Proj", mProjection);
+        PrintMat("Model", mModelView);
         Matrix.multiplyMM(
             transformMatrix, 0,
             mProjection, 0,
