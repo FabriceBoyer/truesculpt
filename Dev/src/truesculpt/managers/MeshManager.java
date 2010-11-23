@@ -25,13 +25,15 @@ public class MeshManager extends BaseManager {
 	private RayPickDebug mRay= new RayPickDebug();
 
 	public MeshManager(Context baseContext) {
-		super(baseContext);	 
-			
+		super(baseContext);	 			
 	}
 
     private float [] mModelView = new float[16];
     private float [] mProjection = new float[16];
     private int[] mViewPort=new int[4];
+    
+    float[] rayPt1=new float[3];
+	float[] rayPt2=new float[3];
     
 	private boolean bInitOver=false;
 	
@@ -115,27 +117,16 @@ public class MeshManager extends BaseManager {
     
     public void Pick(float screenX,float screenY)
     {    	
-    	/*
-    	float[] obj = new float[4];
     	
-    	screenY = mViewPort[3] - screenY;			
-		int nRes = GLU.gluUnProject(screenX, screenY, 0.0f, mModelView, 0, mProjection, 0, mViewPort, 0, obj, 0);
-		assert (GL10.GL_TRUE == nRes);
+    	GetWorldCoords(rayPt1,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
+    	GetWorldCoords(rayPt2,screenX,screenY, -1.0f);
 		
-		nRes = GLU.gluUnProject(screenX, screenY, 1.0f, mModelView, 0, mProjection, 0, mViewPort, 0, obj, 0);
-		assert (GL10.GL_TRUE == nRes);
-		*/
-		
-    	float[] pt1=GetWorldCoords(screenX,screenY, 1.0f);
-    	float[] pt2=GetWorldCoords(screenX,screenY, -1.0f);
-		
-		mPickHighlight.setPickHighlightPosition(pt1);
+		mPickHighlight.setPickHighlightPosition(rayPt1);
 
-		mRay.setRayPos(pt1,pt2);
-		
+		mRay.setRayPos(rayPt1,rayPt2);		
 
-		String msg="Pt1 : x="+Float.toString(pt1[0])+"; y="+Float.toString(pt1[1])+"; z="+Float.toString(pt1[2])+"\n";
-		msg+=	   "Pt2 : x="+Float.toString(pt2[0])+"; y="+Float.toString(pt2[1])+"; z="+Float.toString(pt2[2])+"\n";
+		String msg="Pt1 : x="+Float.toString(rayPt1[0])+"; y="+Float.toString(rayPt1[1])+"; z="+Float.toString(rayPt1[2])+"\n";
+		msg+=	   "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
 		Log.i("Pick",msg);
 		
 		NotifyListeners();
@@ -162,10 +153,8 @@ public class MeshManager extends BaseManager {
      *
      * @return position in WCS.
      */
-    public float[] GetWorldCoords( float touchX, float touchY, float z)
+    public void GetWorldCoords( float[] worldPos, float touchX, float touchY, float z)
     {  
-        // Initialize auxiliary variables.
-    	float[] worldPos = new float[3];
         
         // SCREEN height & width (ej: 320 x 480)
         float screenW = mViewPort[2];
@@ -215,16 +204,14 @@ public class MeshManager extends BaseManager {
         {
             // Avoid /0 error.
             Log.e("World coords", "ERROR!");
-            return worldPos;
+           return;
         }
         
         // Divide by the 3rd component to find
         // out the real position.
         worldPos[0]= (outPoint[0] / outPoint[3]);
         worldPos[1]= (outPoint[1] / outPoint[3]);
-        worldPos[2]= (outPoint[2] / outPoint[3]);
-          
-        return worldPos;       
+        worldPos[2]= (outPoint[2] / outPoint[3]);     
     }
 
 
