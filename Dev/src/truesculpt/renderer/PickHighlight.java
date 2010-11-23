@@ -107,10 +107,10 @@ public class PickHighlight
         gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
     
-    public void setPickHighlightPosition(float x, float y, float z)
+    public void setPickHighlightPosition(float[] pt)
     {
-    	mX=x;
-    	mY=y;
-    	mZ=z;
+    	mX=pt[0];
+    	mY=pt[1];
+    	mZ=pt[2];
     }
 }

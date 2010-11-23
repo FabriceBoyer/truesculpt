@@ -37,14 +37,15 @@ public class RayPickDebug
     {
         float zero = 0.0f;
         float one=1.0f;
+        float two=2.0f;
         float vertices[] = {
-        		zero, zero, one,
-        		zero, zero, -one 
+        		zero, zero, two,
+        		zero, zero, -two 
         };
 
         float colors[] = {
-        		one,  0,  0,  one,
-                one,  0,  0,  one              
+        		one,  one,  one,  one,
+                one,  one,  one,  one              
         };
 
         short indices[] = {
@@ -85,9 +86,12 @@ public class RayPickDebug
         gl.glDrawElements(GL10.GL_LINE_STRIP, 2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
     
-    public void setRayPos(float x1, float y1, float z1,
-    					  float x2, float y2, float z2)
+    public void setRayPos(float[] pt1,
+    					  float[] pt2)
     {
-
+    	mVertexBuffer.position(0);
+    	mVertexBuffer.put(pt1);    	
+    	mVertexBuffer.put(pt2);
+    	mVertexBuffer.position(0);
     }
 }
