@@ -126,13 +126,18 @@ public class MeshManager extends BaseManager {
 		assert (GL10.GL_TRUE == nRes);
 		*/
 		
-    	float z=1.0f;
-    	float[] obj=GetWorldCoords(screenX,screenY, z);
+    	float[] pt1=GetWorldCoords(screenX,screenY, 1.0f);
+    	float[] pt2=GetWorldCoords(screenX,screenY, -1.0f);
 		
-		mPickHighlight.setPickHighlightPosition(obj[0],obj[1],obj[2]);
+		mPickHighlight.setPickHighlightPosition(pt1);
+
+		mRay.setRayPos(pt1,pt2);
 		
-		String msg="x="+Float.toString(obj[0])+"; y="+Float.toString(obj[1])+"; z="+Float.toString(obj[2]);
+
+		String msg="Pt1 : x="+Float.toString(pt1[0])+"; y="+Float.toString(pt1[1])+"; z="+Float.toString(pt1[2])+"\n";
+		msg+=	   "Pt2 : x="+Float.toString(pt2[0])+"; y="+Float.toString(pt2[1])+"; z="+Float.toString(pt2[2])+"\n";
 		Log.i("Pick",msg);
+		
 		NotifyListeners();
     }
     
