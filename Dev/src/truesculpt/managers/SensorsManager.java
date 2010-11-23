@@ -1,5 +1,6 @@
 package truesculpt.managers;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +21,7 @@ import android.telephony.TelephonyManager;
 public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	boolean bOrigSet = false;
+	float [] origAngles= new float[3];
 	
 	private SensorManager mSensorManager=null;
 	
@@ -48,28 +50,25 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		NotifyListeners();
-	}
 		
-	private String getUniqueDeviceID() {
-		WifiManager wm = (WifiManager) getbaseContext().getSystemService(
-				Context.WIFI_SERVICE);
-		String macAddr = wm.getConnectionInfo().getMacAddress();
-
-		final TelephonyManager tm = (TelephonyManager) getbaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-
-		String tmDevice = tm.getDeviceId();
-		String tmSerial = tm.getSimSerialNumber();
-		String androidId = android.provider.Settings.Secure.getString(
-				getbaseContext().getContentResolver(),
-				android.provider.Settings.Secure.ANDROID_ID);
-
-		String msg = macAddr + "\n" + tmDevice + "\n" + tmSerial + "\n"
-				+ androidId + "\n";
-		
-		return msg;	
+		if (event.sensor.getType()==Sensor.TYPE_ORIENTATION)
+		{
+			if (!bOrigSet)
+			{
+				origAngles=event.values;
+				bOrigSet=true;
+			}
+			
+			float rotation=event.values[0]-origAngles[0];
+			float elevation=event.values[1]-origAngles[1];
+			float zoomDistance=event.values[2]-origAngles[2];
+			
+			getManagers().getPointOfViewManager().SetAllAngles(rotation, elevation, zoomDistance);
+			
+			NotifyListeners();
+		}
 	}
-
+			
 	public void start() {
 		mSensorManager = (SensorManager) getbaseContext().getSystemService(	Context.SENSOR_SERVICE);		
 		List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ORIENTATION);

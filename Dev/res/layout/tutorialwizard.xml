@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TableLayout 
- xmlns:android="http://schemas.android.com/apk/res/android"
- android:id="@+id/TableLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent"
- android:stretchColumns="*">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 	
-	<WebView
- 	 android:id="@+id/webview" 
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-    />
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_gravity="top"
+        android:layout_weight=".9">
+		<WebView
+	 	 android:id="@+id/webview" 
+	     android:layout_height="fill_parent"
+	     android:layout_width="fill_parent"
+	    />
+    </LinearLayout>
 
-	<TableRow>	
-		 <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-		  <Button android:text="@string/nextBtn" android:id="@+id/nextBtn" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-		  <Button android:text="@string/finishBtn" android:id="@+id/finishBtn" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-	</TableRow>
-</TableLayout>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_gravity="bottom"
+        android:layout_weight=".1">
+                
+		 <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		 <Button android:text="@string/nextBtn" android:id="@+id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		 <Button android:text="@string/finishBtn" android:id="@+id/finishBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	</LinearLayout>
+
+</LinearLayout>
 
 
