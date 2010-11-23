@@ -251,20 +251,23 @@ public class MeshManager extends BaseManager {
     	float[] Ires=new float[3];
     	
     	int n=mIndexBuffer.capacity();
-    	int nVertex=mVertexBuffer.capacity();
+    	int nVertex=mVertexBuffer.capacity();    	
     	for (int i=0;i<n;i=i+3)
     	{
     		MatrixUtils.copy(rayPt1, R0);
     		MatrixUtils.copy(rayPt2, R1);
     		
-    		int nIndex=mIndexBuffer.get(i)*3; assert(nIndex<nVertex);
-    		mVertexBuffer.get(V0,nIndex,3);
+    		int nIndex=3*mIndexBuffer.get(i); assert(nIndex<nVertex);
+    		mVertexBuffer.position(nIndex);
+    		mVertexBuffer.get(V0,0,3);
     		
-    		nIndex=mIndexBuffer.get(i+1)*3;assert(nIndex<nVertex);
-    		mVertexBuffer.get(V1,nIndex,3);
+    		nIndex=3*mIndexBuffer.get(i+1);assert(nIndex<nVertex);
+    		mVertexBuffer.position(nIndex);
+    		mVertexBuffer.get(V1,0,3);
     		
-    		nIndex=mIndexBuffer.get(i+2)*3;assert(nIndex<nVertex);
-    		mVertexBuffer.get(V2,nIndex,3);    		
+    		nIndex=3*mIndexBuffer.get(i+2);assert(nIndex<nVertex);
+    		mVertexBuffer.position(nIndex);
+    		mVertexBuffer.get(V2,0,3);    		
     		
     		int nCollide=intersect_RayTriangle( R0,  R1, V0,  V1,  V2, Ires );
     		
@@ -275,6 +278,9 @@ public class MeshManager extends BaseManager {
     			break;
     		}
     	}
+    	
+    	mIndexBuffer.position(0);
+    	mVertexBuffer.position(0);
     	
     	return nRes;    	
     }
