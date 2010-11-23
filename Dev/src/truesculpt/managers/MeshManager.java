@@ -15,6 +15,7 @@ import android.opengl.GLU;
 import android.opengl.Matrix;
 import android.util.Log;
 import truesculpt.renderer.*;
+import truesculpt.utils.MatrixUtils;
 
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager {
@@ -116,8 +117,7 @@ public class MeshManager extends BaseManager {
 	}
     
     public void Pick(float screenX,float screenY)
-    {    	
-    	
+    {        	
     	GetWorldCoords(rayPt1,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
     	GetWorldCoords(rayPt2,screenX,screenY, -1.0f);
 		
@@ -132,20 +132,7 @@ public class MeshManager extends BaseManager {
 		NotifyListeners();
     }
     
-    void PrintMat(String logID,float[] mat)
-    {
-    	String msg="";	
-    	int n=mat.length;
-    	for (int i=0;i<n;i++)
-    	{
-    		msg+=Float.toString(mat[i])+ " ";
-    		if (i%4==0)
-    		{
-    			msg+="\n";
-    		}
-    	}
-    	Log.i(logID,msg);
-    }
+   
     /**
      * Calculates the transform from screen coordinate
      * system to world coordinate system coordinates
@@ -184,8 +171,8 @@ public class MeshManager extends BaseManager {
   
         /* Obtain the transform matrix and
         then the inverse. */
-        PrintMat("Proj", mProjection);
-        PrintMat("Model", mModelView);
+        MatrixUtils.PrintMat("Proj", mProjection);
+        MatrixUtils.PrintMat("Model", mModelView);
         Matrix.multiplyMM(
             transformMatrix, 0,
             mProjection, 0,
@@ -234,7 +221,78 @@ public class MeshManager extends BaseManager {
     	GL11 gl2=(GL11)gl;
     	gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort,0);
     }
-    
-   
+
+	
+	float SMALL_NUM=  0.00000001f; // anything that avoids division overflow 
+	
+	 // intersect_RayTriangle(): intersect a ray with a 3D triangle
+	//     Input:  a ray R (R0 and R1), and a triangle T (V0,V1)
+	//     Output: *I = intersection point (when it exists)
+	//     Return: -1 = triangle is degenerate (a segment or point)
+	//              0 = disjoint (no intersect)
+	//              1 = intersect in unique point I1
+	//              2 = are in the same plane
+	 int intersect_RayTriangle( float[] R0, float[] R1, float[] V0, float[] V1, float[] V2, float[] Ires )
+	 {
+		// triangle vectors
+	     float[] u=new float[3];
+	     float[] v=new float[3];
+	     float[] n=new float[3];
+	     
+	     // ray vectors
+	     float[] dir=new float[3];
+	     float[] w0=new float[3];
+	     float[] w=new float[3];          
+	     float[] zero={0,0,0};
+	     float     r, a, b;             // params to calc ray-plane intersect
+	
+	     // get triangle edge vectors and plane normal
+	     MatrixUtils.minus(V1,V0,u);
+	     MatrixUtils.minus(V2,V0,v);
+	     
+	     MatrixUtils.cross(u, v, n);             // cross product
+	     if (n == zero)            // triangle is degenerate
+	         return -1;                 // do not deal with this case
+	  
+	     MatrixUtils.minus(R1,R0,dir);             // ray direction vector
+	     MatrixUtils.minus(R0,V0,w0);
+	     a = -MatrixUtils.dot(n,w0);
+	     b = MatrixUtils.dot(n,dir);
+	     if (Math.abs(b) < SMALL_NUM) {     // ray is parallel to triangle plane
+	         if (a == 0)                // ray lies in triangle plane
+	             return 2;
+	         else return 0;             // ray disjoint from plane
+	     }
+	
+	     // get intersect point of ray with triangle plane
+	     r = a / b;
+	     if (r < 0.0)                   // ray goes away from triangle
+	         return 0;                  // => no intersect
+	     // for a segment, also test if (r > 1.0) => no intersect
+		      
+	     MatrixUtils.scalarMultiply(dir,r);
+	     MatrixUtils.plus(R0, dir, Ires);	     
+	
+	     // is I inside T?
+	     float    uu, uv, vv, wu, wv, D;
+	     uu = MatrixUtils.dot(u,u);
+	     uv = MatrixUtils.dot(u,v);
+	     vv = MatrixUtils.dot(v,v);
+	     MatrixUtils.minus(Ires, V0, w);	     
+	     wu = MatrixUtils.dot(w,u);
+	     wv = MatrixUtils.dot(w,v);
+	     D = uv * uv - uu * vv;
+	
+	     // get and test parametric coords
+	     float s, t;
+	     s = (uv * wv - vv * wu) / D;
+	     if (s < 0.0 || s > 1.0)        // I is outside T
+	         return 0;
+	     t = (uv * wu - uu * wv) / D;
+	     if (t < 0.0 || (s + t) > 1.0)  // I is outside T
+	         return 0;
+	
+	     return 1;                      // I is in T
+	 }
     
 }

@@ -1,5 +1,7 @@
 package truesculpt.utils;
 
+import android.util.Log;
+
 public class MatrixUtils {
     
 
@@ -275,6 +277,21 @@ public class MatrixUtils {
 	int[] res = (result == null)?a:result;
 	for (int i=0;i<a.length;i++)
 	    res[i] = a[i]+b[i];
+    }
+    
+    public static void PrintMat(String logID,float[] mat)
+    {
+    	String msg="";	
+    	int n=mat.length;
+    	for (int i=0;i<n;i++)
+    	{
+    		msg+=Float.toString(mat[i])+ " ";
+    		if (i>0 && i%4==0)
+    		{
+    			msg+="\n";
+    		}
+    	}
+    	Log.i(logID,msg);
     }
 }
 
