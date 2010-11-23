@@ -8,6 +8,7 @@ import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.renderer.GeneratedObject;
 import truesculpt.renderer.MatrixGrabber;
 import truesculpt.renderer.PickHighlight;
+import truesculpt.renderer.RayPickDebug;
 import android.content.Context;
 import android.opengl.GLES11;
 import android.opengl.GLU;
@@ -21,6 +22,7 @@ public class MeshManager extends BaseManager {
 	
 	private GeneratedObject mObject=null;
 	private PickHighlight mPickHighlight= new PickHighlight();
+	private RayPickDebug mRay= new RayPickDebug();
 
 	public MeshManager(Context baseContext) {
 		super(baseContext);	 
@@ -89,6 +91,7 @@ public class MeshManager extends BaseManager {
 			mObject.draw(gl);
 		}
 		
+		mRay.draw(gl);
 		mPickHighlight.draw(gl);
 	}
 
@@ -123,7 +126,8 @@ public class MeshManager extends BaseManager {
 		assert (GL10.GL_TRUE == nRes);
 		*/
 		
-    	float[] obj=GetWorldCoords(screenX,screenY);
+    	float z=1.0f;
+    	float[] obj=GetWorldCoords(screenX,screenY, z);
 		
 		mPickHighlight.setPickHighlightPosition(obj[0],obj[1],obj[2]);
 		
@@ -153,7 +157,7 @@ public class MeshManager extends BaseManager {
      *
      * @return position in WCS.
      */
-    public float[] GetWorldCoords( float touchX, float touchY)
+    public float[] GetWorldCoords( float touchX, float touchY, float z)
     {  
         // Initialize auxiliary variables.
     	float[] worldPos = new float[3];
@@ -181,7 +185,7 @@ public class MeshManager extends BaseManager {
          (float) ((touchX) * 2.0f / screenW - 1.0);
         normalizedInPoint[1] =
          (float) ((oglTouchY) * 2.0f / screenH - 1.0);
-        normalizedInPoint[2] = - 1.0f;
+        normalizedInPoint[2] = z;
         normalizedInPoint[3] = 1.0f;
   
         /* Obtain the transform matrix and

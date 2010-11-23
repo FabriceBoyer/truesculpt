@@ -35,7 +35,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 	private MeshManager mMeshManager=null;
 	private ReferenceAxis mAxis= new ReferenceAxis();
-	
+
 
 	public MainRenderer(MeshManager mMeshManager) {
 		super();
