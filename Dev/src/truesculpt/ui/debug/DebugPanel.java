@@ -8,7 +8,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class DebugPanel extends Activity {
 	public Managers getManagers() {	
@@ -52,6 +54,19 @@ public class DebugPanel extends Activity {
 		msg="Number of vertex = " + Integer.toString(nVertex ) + "\n";
 		msg+="Number of faces = " + Integer.toString(nFaces ) + "\n";		
 		meshStatText.setText(msg);
+		
+		SeekBar mDebugSeekBar=(SeekBar)findViewById(R.id.debugBar);
+		mDebugSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				//getManagers().				
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+		});
+		mDebugSeekBar.setMax(0);	
 	}
 
 	
