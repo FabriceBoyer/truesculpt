@@ -91,9 +91,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		
 		mPickHighlight.draw(gl);
 		
-		//TODO only if point of view changed
-		//mMeshManager.getGrabber().getCurrentProjection(gl);
-		//mMeshManager.getGrabber().getCurrentModelView(gl);
+		//TODO only if point of view changed		
+		mMeshManager.getCurrentModelView(gl);
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
@@ -115,6 +114,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
+		
+		mMeshManager.getCurrentProjection(gl);
+		mMeshManager.getViewport(gl);
 	}
 
 	@Override
@@ -137,7 +139,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
-		gl.glEnable(GL10.GL_DEPTH_TEST);
+		gl.glEnable(GL10.GL_DEPTH_TEST);		
+
 	}	
 	
 }

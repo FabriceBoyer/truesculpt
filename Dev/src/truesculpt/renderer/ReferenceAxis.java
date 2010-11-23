@@ -98,7 +98,7 @@ public class ReferenceAxis
         gl.glFrontFace(GL10.GL_CW);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-        gl.glTranslatef(0.0f, 0.0f, 1.0f);
+        gl.glTranslatef(0.0f, 0.0f, 0.0f);
         gl.glDrawElements(GL10.GL_LINE_STRIP, 36, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
 }
