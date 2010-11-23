@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
+import truesculpt.utils.MatrixUtils;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -55,7 +56,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 		{
 			if (!bOrigSet)
 			{
-				origAngles=event.values;
+				MatrixUtils.copy(event.values,origAngles);
 				bOrigSet=true;
 			}
 			
