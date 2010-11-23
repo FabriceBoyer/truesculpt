@@ -38,7 +38,7 @@ public class PickHighlight
     
     public PickHighlight()
     {
-        float small = 0.05f;
+        float small = 0.1f;
         float one=1.0f;
         float vertices[] = {
                 -small, -small, -small,

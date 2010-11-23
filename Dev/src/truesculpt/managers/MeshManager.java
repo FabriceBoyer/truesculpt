@@ -1,20 +1,17 @@
 package truesculpt.managers;
 
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.renderer.GeneratedObject;
-import truesculpt.renderer.MatrixGrabber;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
 import android.content.Context;
-import android.opengl.GLES11;
-import android.opengl.GLU;
 import android.opengl.Matrix;
 import android.util.Log;
-import truesculpt.renderer.*;
 import truesculpt.utils.MatrixUtils;
 
 //for mesh storage, computation and transformation application
@@ -35,6 +32,7 @@ public class MeshManager extends BaseManager {
     
     float[] rayPt1=new float[3];
 	float[] rayPt2=new float[3];
+	float[] intersectPt=new float[3];
     
 	private boolean bInitOver=false;
 	
@@ -119,9 +117,7 @@ public class MeshManager extends BaseManager {
     public void Pick(float screenX,float screenY)
     {        	
     	GetWorldCoords(rayPt1,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
-    	GetWorldCoords(rayPt2,screenX,screenY, -1.0f);
-		
-		mPickHighlight.setPickHighlightPosition(rayPt1);
+    	GetWorldCoords(rayPt2,screenX,screenY, -1.0f);		
 
 		mRay.setRayPos(rayPt1,rayPt2);		
 
@@ -129,8 +125,26 @@ public class MeshManager extends BaseManager {
 		msg+=	   "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
 		Log.i("Pick",msg);
 		
+		if (bInitOver)
+		{
+			try {
+				int nIndex = GetPickedTriangleIndex();
+				if (nIndex >= 0) {
+					mPickHighlight.setPickHighlightPosition(intersectPt);
+
+					msg = "Index =" + Integer.toString(nIndex) + "\n";
+					msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
+					Log.i("PickedTriangle", msg);
+				}
+			} catch (Exception e) {
+				assert(false);
+			}
+		}
+		
 		NotifyListeners();
     }
+    
+  
     
    
     /**
@@ -222,8 +236,60 @@ public class MeshManager extends BaseManager {
     	gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort,0);
     }
 
+    int GetPickedTriangleIndex()
+    {
+    	int nRes=-1;
+    	
+    	FloatBuffer mVertexBuffer = mObject.getVertexBuffer();
+    	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
+    	
+    	float[] R0=new float[3];
+    	float[] R1=new float[3];
+    	float[] V0=new float[3];
+    	float[] V1=new float[3];
+    	float[] V2=new float[3];
+    	float[] Ires=new float[3];
+    	
+    	int n=mIndexBuffer.capacity();
+    	int nVertex=mVertexBuffer.capacity();
+    	for (int i=0;i<n;i=i+3)
+    	{
+    		MatrixUtils.copy(rayPt1, R0);
+    		MatrixUtils.copy(rayPt2, R1);
+    		
+    		int nIndex=mIndexBuffer.get(i)*3; assert(nIndex<nVertex);
+    		mVertexBuffer.get(V0,nIndex,3);
+    		
+    		nIndex=mIndexBuffer.get(i+1)*3;assert(nIndex<nVertex);
+    		mVertexBuffer.get(V1,nIndex,3);
+    		
+    		nIndex=mIndexBuffer.get(i+2)*3;assert(nIndex<nVertex);
+    		mVertexBuffer.get(V2,nIndex,3);    		
+    		
+    		int nCollide=intersect_RayTriangle( R0,  R1, V0,  V1,  V2, Ires );
+    		
+    		if (nCollide==1)
+    		{
+    			MatrixUtils.copy(Ires,intersectPt);
+    			nRes=i;
+    			break;
+    		}
+    	}
+    	
+    	return nRes;    	
+    }
+    
 	
-	float SMALL_NUM=  0.00000001f; // anything that avoids division overflow 
+	static float SMALL_NUM=  0.00000001f; // anything that avoids division overflow 
+	// triangle vectors
+	static float[] u=new float[3];
+	static float[] v=new float[3];
+    static float[] n=new float[3];    
+    // ray vectors
+    static float[] dir=new float[3];
+    static float[] w0=new float[3];
+    static float[] w=new float[3];          
+    static float[] zero={0,0,0};
 	
 	 // intersect_RayTriangle(): intersect a ray with a 3D triangle
 	//     Input:  a ray R (R0 and R1), and a triangle T (V0,V1)
@@ -232,18 +298,8 @@ public class MeshManager extends BaseManager {
 	//              0 = disjoint (no intersect)
 	//              1 = intersect in unique point I1
 	//              2 = are in the same plane
-	 int intersect_RayTriangle( float[] R0, float[] R1, float[] V0, float[] V1, float[] V2, float[] Ires )
+	 static int intersect_RayTriangle( float[] R0, float[] R1, float[] V0, float[] V1, float[] V2, float[] Ires )
 	 {
-		// triangle vectors
-	     float[] u=new float[3];
-	     float[] v=new float[3];
-	     float[] n=new float[3];
-	     
-	     // ray vectors
-	     float[] dir=new float[3];
-	     float[] w0=new float[3];
-	     float[] w=new float[3];          
-	     float[] zero={0,0,0};
 	     float     r, a, b;             // params to calc ray-plane intersect
 	
 	     // get triangle edge vectors and plane normal

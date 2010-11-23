@@ -47,7 +47,7 @@ public class GeneratedObject
 
 	public GeneratedObject()
     {    	
-		RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(5);
+		RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(3);
     	
     	Vector<Float> vertices= mGenerator.getVertices();
     	Vector<Integer> faces=mGenerator.getFaces();
@@ -128,4 +128,12 @@ public class GeneratedObject
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
         gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);    
     }
+
+	public FloatBuffer getVertexBuffer() {
+		return mVertexBuffer;
+	}
+
+	public ShortBuffer getIndexBuffer() {
+		return mIndexBuffer;
+	}
 }
