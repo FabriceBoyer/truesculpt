@@ -24,9 +24,8 @@ public class TouchManager extends BaseManager {
 	public void onTouchEvent(MotionEvent event)
 	{
 		//String msg="Pressure = " + Float.toString(event.getPressure());
-		String msg="(x,y) = (" + Float.toString(event.getX()) +"," +Float.toString(event.getY()) + ")";
-
-		Log.i(Global.TAG,msg);
+		//String msg="(x,y) = (" + Float.toString(event.getX()) +"," +Float.toString(event.getY()) + ")";
+		//Log.i(Global.TAG,msg);
 		
 		float x=event.getX();
 		float y=event.getY();
