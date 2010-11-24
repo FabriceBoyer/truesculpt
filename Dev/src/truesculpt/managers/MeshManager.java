@@ -138,6 +138,7 @@ public class MeshManager extends BaseManager {
 				if (nIndex >= 0) {
 					mPickHighlight.setPickHighlightPosition(intersectPt);
 
+					RiseUpTriangle(nIndex);
 					//msg = "Picked Triangle Index =" + Integer.toString(nIndex) + "\n";
 					//msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
 					//Log.i("Picking", msg);
@@ -160,7 +161,60 @@ public class MeshManager extends BaseManager {
     }
     
   
-    
+    private void RiseUpTriangle(int triangleIndex)
+    {
+    	if (triangleIndex>=0)
+    	{
+    		FloatBuffer mVertexBuffer = mObject.getVertexBuffer();
+        	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
+        	
+        	float[] V0=new float[3];
+        	float[] V1=new float[3];
+        	float[] V2=new float[3];
+        	    		         	
+        	int nIndexCount=mIndexBuffer.capacity();
+        	int nVertexCount=mVertexBuffer.capacity();    	
+        	  		
+    		int nIndex0=3*mIndexBuffer.get(triangleIndex); assert(nIndex0<nVertexCount);
+    		mVertexBuffer.position(nIndex0);
+    		mVertexBuffer.get(V0,0,3);
+    		
+    		int nIndex1=3*mIndexBuffer.get(triangleIndex+1);assert(nIndex1<nVertexCount);
+    		mVertexBuffer.position(nIndex1);
+    		mVertexBuffer.get(V1,0,3);
+    		
+    		int nIndex2=3*mIndexBuffer.get(triangleIndex+2);assert(nIndex2<nVertexCount);
+    		mVertexBuffer.position(nIndex2);
+    		mVertexBuffer.get(V2,0,3);   
+    		
+	    	 // get triangle edge vectors and plane normal
+	   	     MatrixUtils.minus(V1,V0,u);
+	   	     MatrixUtils.minus(V2,V0,v);
+	   	     
+	   	     MatrixUtils.cross(u, v, n);             // cross product
+	   	     if (n == zero)            // triangle is degenerate
+	   	         return ;                 // do not deal with this case
+	   	  
+	   	     MatrixUtils.normalize(n);
+	   	     MatrixUtils.scalarMultiply(n, 0.1f);
+	   	     
+	   	     MatrixUtils.plus(V0,n, V0);
+	   	     MatrixUtils.plus(V1,n, V1);
+	   	     MatrixUtils.plus(V2,n, V2);
+	   	     
+	    	 mVertexBuffer.position(nIndex0);
+	    	 mVertexBuffer.put(V0,0,3);
+	    		
+	    	 mVertexBuffer.position(nIndex1);
+	    	 mVertexBuffer.put(V1,0,3);
+	    		
+	    	 mVertexBuffer.position(nIndex2);
+	    	 mVertexBuffer.put(V2,0,3);    	     
+   	          	
+        	 mIndexBuffer.position(0);
+        	 mVertexBuffer.position(0);
+    	}
+    }
    
     /**
      * Calculates the transform from screen coordinate
@@ -271,20 +325,20 @@ public class MeshManager extends BaseManager {
     	MatrixUtils.minus(R1,R0,dir);           
     	float fSmallestDistanceToR0=MatrixUtils.magnitude(dir);//ray is R0 to R1
     	
-    	int n=mIndexBuffer.capacity();
-    	int nVertex=mVertexBuffer.capacity();    	
-    	for (int i=0;i<n;i=i+3)
+    	int nIndexCount=mIndexBuffer.capacity();
+    	int nVertexCount=mVertexBuffer.capacity();    	
+    	for (int i=0;i<nIndexCount;i=i+3)
     	{    		
-    		int nIndex=3*mIndexBuffer.get(i); assert(nIndex<nVertex);
-    		mVertexBuffer.position(nIndex);
+    		int nCurrIndex0=3*mIndexBuffer.get(i); assert(nCurrIndex0<nVertexCount);
+    		mVertexBuffer.position(nCurrIndex0);
     		mVertexBuffer.get(V0,0,3);
     		
-    		nIndex=3*mIndexBuffer.get(i+1);assert(nIndex<nVertex);
-    		mVertexBuffer.position(nIndex);
+    		int nCurrIndex1=3*mIndexBuffer.get(i+1);assert(nCurrIndex1<nVertexCount);
+    		mVertexBuffer.position(nCurrIndex1);
     		mVertexBuffer.get(V1,0,3);
     		
-    		nIndex=3*mIndexBuffer.get(i+2);assert(nIndex<nVertex);
-    		mVertexBuffer.position(nIndex);
+    		int nCurrIndex2=3*mIndexBuffer.get(i+2);assert(nCurrIndex2<nVertexCount);
+    		mVertexBuffer.position(nCurrIndex2);
     		mVertexBuffer.get(V2,0,3);    		
     		
     		int nCollide=intersect_RayTriangle( R0, R1, V0, V1, V2, Ires );
