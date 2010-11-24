@@ -47,7 +47,7 @@ public class GeneratedObject
 
 	public GeneratedObject()
     {    	
-		RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(5);
+		RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(4);
     	
     	Vector<Float> vertices= mGenerator.getVertices();
     	Vector<Integer> faces=mGenerator.getFaces();
