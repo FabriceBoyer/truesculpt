@@ -18,6 +18,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.widget.Toast;
 
 public class SensorsManager extends BaseManager implements SensorEventListener {
 
@@ -48,7 +50,16 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+		if (accuracy==SensorManager.SENSOR_STATUS_ACCURACY_LOW)
+		{
+			getManagers().getOptionsManager().setUseSensorsToChangePOV(false);
+			restart();
+			
+			// TODO queue event to come back in UI thread
+			String msg="Disabling sensors due to low accuracy";
+			Toast.makeText(getbaseContext(),msg , Toast.LENGTH_LONG);
+			Log.i("SensorManager",msg);
+		}
 	}
 
 	@Override
@@ -62,7 +73,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 				bOrigSet=true;
 			}
 			
-			float fAngleThresold=30.0f;
+			float fAngleThresold=90.0f;
 			MatrixUtils.minus(event.values, lastAngles, diffAngles);
 			
 			//eliminate bas points
@@ -127,5 +138,10 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 		stop();
 		start();
 	}	
+	
+	public void calibrate()
+	{
+		bOrigSet=false;
+	}
 
 }

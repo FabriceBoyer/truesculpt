@@ -8,11 +8,13 @@ import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.MeshManager.OnMeshChangeListener;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.managers.ToolsManager.EToolMode;
+import truesculpt.managers.ToolsManager.OnToolChangeListener;
 import truesculpt.utils.Utils;
 import truesculpt.renderer.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -26,7 +28,7 @@ import android.view.View;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener {
+public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener, OnToolChangeListener {
 
 	private static final String TAG = "TrueSculptMain";
 
@@ -108,6 +110,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		
 		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
 		getManagers().getMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
+		getManagers().getToolsManager().registerToolChangeListener(RendererMainPanel.this);
 		
 
 		viewToggle = (ToggleButton) findViewById(R.id.View);
@@ -167,6 +170,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 						
 		getManagers().getPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
 		getManagers().getMeshManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
+		getManagers().getToolsManager().unRegisterToolChangeListener(RendererMainPanel.this);
 		
 		getManagers().Destroy();
 	}
@@ -197,6 +201,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	    }
 	}
 
+	private final int SHOW_OPTIONS_PANEL_ACTIVITY_RESULT=0;
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -221,8 +227,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 					truesculpt.ui.panels.TutorialWizardPanel.class);
 			return true;
 		}
-		case R.id.show_options: {
-			getManagers().getOptionsManager().showOptionsPanel(this);
+		case R.id.show_options: {			
+			Intent myIntent = new Intent(this,truesculpt.ui.panels.OptionsPanel.class);		
+			startActivityForResult(myIntent,SHOW_OPTIONS_PANEL_ACTIVITY_RESULT);			
 			return true;
 		}
 		case R.id.show_about_panel: {
@@ -256,6 +263,12 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	@Override
 	public void onMeshChange() {
 		UpdateView();			
+	}
+	
+
+	@Override
+	public void onToolChange() {
+		UpdateButtonsView();		
 	}
 
 
@@ -305,6 +318,22 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class);
 		}
 	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		switch (requestCode)
+		{
+		case SHOW_OPTIONS_PANEL_ACTIVITY_RESULT:
+			getManagers().getSensorsManager().restart();//to take eventual change into account
+			break;
+		}	
+		
+	}
+
+
 
 
 	

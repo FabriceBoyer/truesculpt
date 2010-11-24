@@ -1,5 +1,6 @@
 package truesculpt.managers;
 
+import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.utils.Global;
 import android.content.Context;
 import android.util.Log;
@@ -38,10 +39,7 @@ public class TouchManager extends BaseManager {
 				{
 					case MotionEvent.ACTION_DOWN:
 					{
-						mLastX=x;
-						mLastY=y;
-						mRotInit=getManagers().getPointOfViewManager().getRotationAngle();
-						mElevInit=getManagers().getPointOfViewManager().getElevationAngle();
+						initPOVValues(x, y);
 						break;
 					}
 					case MotionEvent.ACTION_MOVE:
@@ -62,6 +60,14 @@ public class TouchManager extends BaseManager {
 				switch(event.getAction())		
 				{
 					case MotionEvent.ACTION_DOWN:
+					{
+						int nRes=getManagers().getMeshManager().Pick(x, y);
+						if (nRes<0)//picked empty zone, auto switch to view mode
+						{
+							getManagers().getToolsManager().setToolMode(EToolMode.POV);	
+							initPOVValues(x, y);
+						}
+					}
 					case MotionEvent.ACTION_MOVE:
 					{
 						getManagers().getMeshManager().Pick(x, y);
@@ -71,6 +77,13 @@ public class TouchManager extends BaseManager {
 			}
 		}
 		
+	}
+
+	private void initPOVValues(float x, float y) {
+		mLastX=x;
+		mLastY=y;
+		mRotInit=getManagers().getPointOfViewManager().getRotationAngle();
+		mElevInit=getManagers().getPointOfViewManager().getElevationAngle();
 	}
 
 	@Override

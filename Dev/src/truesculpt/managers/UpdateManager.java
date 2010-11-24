@@ -126,8 +126,7 @@ public class UpdateManager extends BaseManager {
 		
 		return res;
 	}
-
-	//TODO threading and at init only
+	
 	public String getLatestVersion() {
 		if (mLatestVersion.length()==0)
 		{
