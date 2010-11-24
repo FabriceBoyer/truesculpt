@@ -116,8 +116,8 @@ public class MeshManager extends BaseManager {
     
     public void Pick(float screenX,float screenY)
     {        	
-    	GetWorldCoords(rayPt1,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
-    	GetWorldCoords(rayPt2,screenX,screenY, -1.0f);		
+    	GetWorldCoords(rayPt2,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
+    	GetWorldCoords(rayPt1,screenX,screenY, -1.0f);		
 
 		mRay.setRayPos(rayPt1,rayPt2);		
 
@@ -137,8 +137,7 @@ public class MeshManager extends BaseManager {
 					Log.i("PickedTriangle", msg);
 				}
 				else
-				{
-					
+				{					
 					mPickHighlight.setPickHighlightPosition(zero);
 				}
 			} catch (Exception e) {
@@ -255,13 +254,16 @@ public class MeshManager extends BaseManager {
     	float[] V2=new float[3];
     	float[] Ires=new float[3];
     	
+		MatrixUtils.copy(rayPt1, R0);
+		MatrixUtils.copy(rayPt2, R1);
+		
+    	MatrixUtils.minus(R1,R0,dir);           
+    	float fSmallestDistanceToR0=MatrixUtils.magnitude(dir);//ray is R0 to R1
+    	
     	int n=mIndexBuffer.capacity();
     	int nVertex=mVertexBuffer.capacity();    	
     	for (int i=0;i<n;i=i+3)
-    	{
-    		MatrixUtils.copy(rayPt1, R0);
-    		MatrixUtils.copy(rayPt2, R1);
-    		
+    	{    		
     		int nIndex=3*mIndexBuffer.get(i); assert(nIndex<nVertex);
     		mVertexBuffer.position(nIndex);
     		mVertexBuffer.get(V0,0,3);
@@ -278,9 +280,14 @@ public class MeshManager extends BaseManager {
     		
     		if (nCollide==1)
     		{
-    			MatrixUtils.copy(Ires,intersectPt);
-    			nRes=i;
-    			break;
+    			MatrixUtils.minus(Ires,R0,dir); 
+    			float fDistanceToR0=MatrixUtils.magnitude(dir);
+    			if (fDistanceToR0<=fSmallestDistanceToR0)
+    			{
+    				MatrixUtils.copy(Ires,intersectPt);
+        			nRes=i;
+        			fSmallestDistanceToR0=fDistanceToR0;
+    			}    			
     		}
     	}
     	
