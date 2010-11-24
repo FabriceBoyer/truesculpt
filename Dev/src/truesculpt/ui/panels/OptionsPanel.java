@@ -4,7 +4,9 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 
 public class OptionsPanel extends PreferenceActivity {
 
@@ -31,6 +33,15 @@ public class OptionsPanel extends PreferenceActivity {
 	protected void onDestroy() {		
 		super.onDestroy();
 		
+			
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();		
+			
+	}
+
+
+	
 }

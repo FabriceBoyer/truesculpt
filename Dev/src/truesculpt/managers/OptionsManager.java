@@ -100,12 +100,6 @@ public class OptionsManager extends BaseManager {
 		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
 	}
 
-	private int SHOW_OPTIONS_PANEL=0;
-	public void showOptionsPanel(Activity callingActivity) {
-		Intent myIntent = new Intent(callingActivity,truesculpt.ui.panels.OptionsPanel.class);		
-		callingActivity.startActivityForResult(myIntent,SHOW_OPTIONS_PANEL);				
-	}
-
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
