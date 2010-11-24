@@ -62,6 +62,7 @@ public class TouchManager extends BaseManager {
 				switch(event.getAction())		
 				{
 					case MotionEvent.ACTION_DOWN:
+					case MotionEvent.ACTION_MOVE:
 					{
 						getManagers().getMeshManager().Pick(x, y);
 					}					

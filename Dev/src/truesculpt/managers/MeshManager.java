@@ -90,6 +90,7 @@ public class MeshManager extends BaseManager {
 	
 	public void draw(GL10 gl)
 	{
+		synchronized (this) {	
 		if (mObject!=null && bInitOver)
 		{
 			mObject.draw(gl);
@@ -97,6 +98,7 @@ public class MeshManager extends BaseManager {
 		
 		mRay.draw(gl);
 		mPickHighlight.draw(gl);
+		}
 	}
 
     public int getFacesCount() {
@@ -119,6 +121,8 @@ public class MeshManager extends BaseManager {
     
     public void Pick(float screenX,float screenY)
     {        	
+    	synchronized (this) {	
+    	
     	long tStart = SystemClock.uptimeMillis();
     	
     	GetWorldCoords(rayPt2,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
@@ -158,6 +162,7 @@ public class MeshManager extends BaseManager {
 		mLastPickDurationMs=tStop-tStart;
 		//msg="Picking duration = "+Float.toString(mLastPickDurationMs)+" ms\n";
 		//Log.i("Picking", msg);		
+    	}
     }
     
   

@@ -62,7 +62,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 				bOrigSet=true;
 			}
 			
-			float fAngleThresold=90.0f;
+			float fAngleThresold=30.0f;
 			MatrixUtils.minus(event.values, lastAngles, diffAngles);
 			
 			//eliminate bas points

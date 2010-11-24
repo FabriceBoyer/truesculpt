@@ -161,7 +161,7 @@ public class PointOfViewManager extends BaseManager {
 
 	public void ResetPOV()
 	{
-		mR=4.0f;
+		mR=3.0f;
 		mTheta=0.0f;
 		mPhi=0.0f;
 		
