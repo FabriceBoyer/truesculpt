@@ -276,7 +276,7 @@ public class MeshManager extends BaseManager {
     		mVertexBuffer.position(nIndex);
     		mVertexBuffer.get(V2,0,3);    		
     		
-    		int nCollide=intersect_RayTriangle( R0,  R1, V0,  V1,  V2, Ires );
+    		int nCollide=intersect_RayTriangle( R0, R1, V0, V1, V2, Ires );
     		
     		if (nCollide==1)
     		{
