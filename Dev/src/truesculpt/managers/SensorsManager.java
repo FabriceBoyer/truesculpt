@@ -52,7 +52,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		
-		if (event.sensor.getType()==Sensor.TYPE_ORIENTATION)
+		if (event.sensor.getType()==Sensor.TYPE_MAGNETIC_FIELD )
 		{
 			if (!bOrigSet)
 			{
@@ -60,11 +60,12 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 				bOrigSet=true;
 			}
 			
-			float rotation=event.values[0]-origAngles[0];
-			float elevation=event.values[1]-origAngles[1];
+			float rotation=-(event.values[0]-origAngles[0]);
+			float elevation=+(event.values[1]-origAngles[1]);
 			float zoomDistance=event.values[2]-origAngles[2];
 			
-			getManagers().getPointOfViewManager().SetAllAngles(rotation, elevation, zoomDistance);
+			getManagers().getPointOfViewManager().setRotationAngle(rotation);
+			getManagers().getPointOfViewManager().setElevationAngle(elevation);
 			
 			NotifyListeners();
 		}
@@ -72,7 +73,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 			
 	public void start() {
 		mSensorManager = (SensorManager) getbaseContext().getSystemService(	Context.SENSOR_SERVICE);		
-		List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ORIENTATION);
+		List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD );
 		for (int i = 0; i < sensorList.size(); i++) {
 			mSensorManager.registerListener(SensorsManager.this,sensorList.get(i), SensorManager.SENSOR_DELAY_GAME);
 		}

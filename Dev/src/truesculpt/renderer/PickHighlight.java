@@ -32,9 +32,9 @@ public class PickHighlight
     private ShortBuffer  mIndexBuffer;
     private FloatBuffer   mVertexBuffer;
     
-    private float mX=1.0f;
-    private float mY=1.0f;
-    private float mZ=1.0f;
+    private float mX=0.0f;
+    private float mY=0.0f;
+    private float mZ=0.0f;
     
     public PickHighlight()
     {
