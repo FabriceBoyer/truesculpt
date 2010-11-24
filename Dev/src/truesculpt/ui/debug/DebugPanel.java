@@ -43,9 +43,11 @@ public class DebugPanel extends Activity {
 		
 		//TODO update on timer
 		TextView lastFrameText= (TextView) findViewById(R.id.lastFrameDurationText);
-		long lLastDuration=getManagers().getRendererManager().getmRenderer().getLastFrameDurationMs();
-		String msg="Last frame duration = " + Long.toString(lLastDuration ) + " ms\n";
-		msg+="Equivalent FPS is " + Float.toString(1.0f/lLastDuration*1000.0f) + " image/s\n";		
+		long lLastRenderDuration=getManagers().getRendererManager().getmRenderer().getLastFrameDurationMs();
+		String msg="Last frame duration = " + Long.toString(lLastRenderDuration ) + " ms\n";
+		msg+="Equivalent FPS is " + Float.toString(1.0f/lLastRenderDuration*1000.0f) + " image/s\n\n";		
+		long lLastPickDuration=getManagers().getMeshManager().getLastPickDurationMs();
+		msg+="Last picking duration = " + Long.toString(lLastPickDuration ) + " ms\n";
 		lastFrameText.setText(msg);
 		
 		TextView meshStatText= (TextView) findViewById(R.id.MeshStatsText);
