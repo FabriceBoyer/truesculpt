@@ -200,8 +200,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	        return super.onKeyDown(keyCode, event);
 	    }
 	}
-
-	private final int SHOW_OPTIONS_PANEL_ACTIVITY_RESULT=0;
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -223,13 +221,11 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			return true;
 		}
 		case R.id.show_tutorial_wizard_panel: {
-			Utils.StartMyActivity(this,
-					truesculpt.ui.panels.TutorialWizardPanel.class);
+			Utils.StartMyActivity(this,	truesculpt.ui.panels.TutorialWizardPanel.class);
 			return true;
 		}
 		case R.id.show_options: {			
-			Intent myIntent = new Intent(this,truesculpt.ui.panels.OptionsPanel.class);		
-			startActivityForResult(myIntent,SHOW_OPTIONS_PANEL_ACTIVITY_RESULT);			
+			Utils.StartMyActivity(this,truesculpt.ui.panels.OptionsPanel.class);						
 			return true;
 		}
 		case R.id.show_about_panel: {
@@ -320,22 +316,5 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		switch (requestCode)
-		{
-		case SHOW_OPTIONS_PANEL_ACTIVITY_RESULT:
-			getManagers().getSensorsManager().restart();//to take eventual change into account
-			break;
-		}	
-		
-	}
-
-
-
-
-	
 
 }

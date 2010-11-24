@@ -52,8 +52,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		if (accuracy==SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 		{
-			getManagers().getOptionsManager().setUseSensorsToChangePOV(false);
-			restart();
+			//getManagers().getOptionsManager().setUseSensorsToChangePOV(false);
+			//restart();
 			
 			// TODO queue event to come back in UI thread
 			String msg="Disabling sensors due to low accuracy";
