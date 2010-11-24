@@ -155,8 +155,8 @@ public class MeshManager extends BaseManager {
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastPickDurationMs=tStop-tStart;
-		msg="Picking duration = "+Float.toString(mLastPickDurationMs)+" ms\n";
-		Log.i("Picking", msg);		
+		//msg="Picking duration = "+Float.toString(mLastPickDurationMs)+" ms\n";
+		//Log.i("Picking", msg);		
     }
     
   
@@ -340,6 +340,10 @@ public class MeshManager extends BaseManager {
 	         return -1;                 // do not deal with this case
 	  
 	     MatrixUtils.minus(R1,R0,dir);             // ray direction vector
+	     
+	     boolean bBackCullTriangle=MatrixUtils.dot(dir, n)>0;//ray dir and normal have same direction
+	     if (bBackCullTriangle) return 0;
+	     
 	     MatrixUtils.minus(R0,V0,w0);
 	     a = -MatrixUtils.dot(n,w0);
 	     b = MatrixUtils.dot(n,dir);
