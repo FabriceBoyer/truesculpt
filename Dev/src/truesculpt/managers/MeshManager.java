@@ -91,13 +91,13 @@ public class MeshManager extends BaseManager {
 	public void draw(GL10 gl)
 	{
 		synchronized (this) {	
-		if (mObject!=null && bInitOver)
-		{
-			mObject.draw(gl);
-		}
-		
-		mRay.draw(gl);
-		mPickHighlight.draw(gl);
+			if (mObject!=null && bInitOver)
+			{
+				mObject.draw(gl);
+			}
+			
+			mRay.draw(gl);
+			mPickHighlight.draw(gl);
 		}
 	}
 
@@ -119,50 +119,53 @@ public class MeshManager extends BaseManager {
     	return nCount;
 	}
     
-    public void Pick(float screenX,float screenY)
-    {        	
+    public int Pick(float screenX,float screenY)
+    {        
+    	int nIndex=-1;
     	synchronized (this) {	
     	
-    	long tStart = SystemClock.uptimeMillis();
-    	
-    	GetWorldCoords(rayPt2,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
-    	GetWorldCoords(rayPt1,screenX,screenY, -1.0f);		
-
-		mRay.setRayPos(rayPt1,rayPt2);		
-
-		String msg="";
-		//msg="Pt1 : x="+Float.toString(rayPt1[0])+"; y="+Float.toString(rayPt1[1])+"; z="+Float.toString(rayPt1[2])+"\n";
-		//msg+=	   "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
-		//Log.i("Picking",msg);
-		
-		if (bInitOver)
-		{
-			try {
-				int nIndex = GetPickedTriangleIndex();
-				if (nIndex >= 0) {
-					mPickHighlight.setPickHighlightPosition(intersectPt);
-
-					RiseUpTriangle(nIndex);
-					//msg = "Picked Triangle Index =" + Integer.toString(nIndex) + "\n";
-					//msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
-					//Log.i("Picking", msg);
+	    	long tStart = SystemClock.uptimeMillis();
+	    	
+	    	GetWorldCoords(rayPt2,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
+	    	GetWorldCoords(rayPt1,screenX,screenY, -1.0f);		
+	
+			mRay.setRayPos(rayPt1,rayPt2);		
+	
+			String msg="";
+			//msg="Pt1 : x="+Float.toString(rayPt1[0])+"; y="+Float.toString(rayPt1[1])+"; z="+Float.toString(rayPt1[2])+"\n";
+			//msg+=	   "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
+			//Log.i("Picking",msg);
+			
+			if (bInitOver)
+			{
+				try {
+					nIndex = GetPickedTriangleIndex();
+					if (nIndex >= 0) {
+						mPickHighlight.setPickHighlightPosition(intersectPt);
+	
+						RiseUpTriangle(nIndex);
+						//msg = "Picked Triangle Index =" + Integer.toString(nIndex) + "\n";
+						//msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
+						//Log.i("Picking", msg);
+					}
+					else
+					{					
+						mPickHighlight.setPickHighlightPosition(zero);
+					}
+				} catch (Exception e) {
+					assert(false);
 				}
-				else
-				{					
-					mPickHighlight.setPickHighlightPosition(zero);
-				}
-			} catch (Exception e) {
-				assert(false);
 			}
-		}
-		
-		NotifyListeners();
-		
-		long tStop = SystemClock.uptimeMillis();
-		mLastPickDurationMs=tStop-tStart;
-		//msg="Picking duration = "+Float.toString(mLastPickDurationMs)+" ms\n";
-		//Log.i("Picking", msg);		
+			
+			NotifyListeners();
+			
+			long tStop = SystemClock.uptimeMillis();
+			mLastPickDurationMs=tStop-tStart;
+			//msg="Picking duration = "+Float.toString(mLastPickDurationMs)+" ms\n";
+			//Log.i("Picking", msg);		
     	}
+    	
+    	return nIndex;
     }
     
   

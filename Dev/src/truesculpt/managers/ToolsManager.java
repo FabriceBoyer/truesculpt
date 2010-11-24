@@ -1,5 +1,8 @@
 package truesculpt.managers;
 
+import java.util.Vector;
+
+import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import android.content.Context;
 
 public class ToolsManager extends BaseManager {	
@@ -14,6 +17,8 @@ public class ToolsManager extends BaseManager {
 	}
 	public void setToolMode(EToolMode mMode) {
 		this.mMode = mMode;
+		
+		NotifyListeners();
 	}
 
 	public ToolsManager(Context baseContext) {
@@ -41,6 +46,29 @@ public class ToolsManager extends BaseManager {
 		this.mColor = mColor;
 	}
 
+	private void NotifyListeners()
+	{		
+		for (OnToolChangeListener listener : mListeners) 
+		{
+			listener.onToolChange();		
+		}	
+	}
+	
+	public void registerToolChangeListener(OnToolChangeListener listener)
+	{
+		mListeners.add(listener);	
+	}
+	
+	public void unRegisterToolChangeListener(OnToolChangeListener listener)
+	{
+		mListeners.remove(listener);	
+	}
+
+	public interface OnToolChangeListener
+	{
+		void onToolChange();
+	}
+	private Vector<OnToolChangeListener> mListeners= new Vector<OnToolChangeListener>();
 	
 
 }
