@@ -11,6 +11,7 @@ import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
 import android.content.Context;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 import android.util.Log;
 import truesculpt.utils.MatrixUtils;
 
@@ -33,6 +34,8 @@ public class MeshManager extends BaseManager {
     float[] rayPt1=new float[3];
 	float[] rayPt2=new float[3];
 	float[] intersectPt=new float[3];
+	
+	long mLastPickDurationMs=-1;
     
 	private boolean bInitOver=false;
 	
@@ -116,14 +119,17 @@ public class MeshManager extends BaseManager {
     
     public void Pick(float screenX,float screenY)
     {        	
+    	long tStart = SystemClock.uptimeMillis();
+    	
     	GetWorldCoords(rayPt2,screenX,screenY, 1.0f);//normalized z between -1 and 1    	
     	GetWorldCoords(rayPt1,screenX,screenY, -1.0f);		
 
 		mRay.setRayPos(rayPt1,rayPt2);		
 
-		String msg="Pt1 : x="+Float.toString(rayPt1[0])+"; y="+Float.toString(rayPt1[1])+"; z="+Float.toString(rayPt1[2])+"\n";
-		msg+=	   "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
-		Log.i("Pick",msg);
+		String msg="";
+		//msg="Pt1 : x="+Float.toString(rayPt1[0])+"; y="+Float.toString(rayPt1[1])+"; z="+Float.toString(rayPt1[2])+"\n";
+		//msg+=	   "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
+		//Log.i("Picking",msg);
 		
 		if (bInitOver)
 		{
@@ -132,9 +138,9 @@ public class MeshManager extends BaseManager {
 				if (nIndex >= 0) {
 					mPickHighlight.setPickHighlightPosition(intersectPt);
 
-					msg = "Index =" + Integer.toString(nIndex) + "\n";
-					msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
-					Log.i("PickedTriangle", msg);
+					//msg = "Picked Triangle Index =" + Integer.toString(nIndex) + "\n";
+					//msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
+					//Log.i("Picking", msg);
 				}
 				else
 				{					
@@ -146,6 +152,11 @@ public class MeshManager extends BaseManager {
 		}
 		
 		NotifyListeners();
+		
+		long tStop = SystemClock.uptimeMillis();
+		mLastPickDurationMs=tStop-tStart;
+		msg="Picking duration = "+Float.toString(mLastPickDurationMs)+" ms\n";
+		Log.i("Picking", msg);		
     }
     
   
@@ -189,8 +200,8 @@ public class MeshManager extends BaseManager {
   
         /* Obtain the transform matrix and
         then the inverse. */
-        MatrixUtils.PrintMat("Proj", mProjection);
-        MatrixUtils.PrintMat("Model", mModelView);
+        //MatrixUtils.PrintMat("Proj", mProjection);
+        //MatrixUtils.PrintMat("Model", mModelView);
         Matrix.multiplyMM(
             transformMatrix, 0,
             mProjection, 0,
@@ -368,5 +379,9 @@ public class MeshManager extends BaseManager {
 	
 	     return 1;                      // I is in T
 	 }
+
+	public long getLastPickDurationMs() {
+		return mLastPickDurationMs;
+	}
     
 }

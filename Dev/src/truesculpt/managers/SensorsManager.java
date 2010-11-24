@@ -23,6 +23,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	boolean bOrigSet = false;
 	float [] origAngles= new float[3];
+	float [] lastAngles= new float[3];
+	float [] diffAngles= new float[3];
 	
 	private SensorManager mSensorManager=null;
 	
@@ -60,14 +62,24 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 				bOrigSet=true;
 			}
 			
-			float rotation=-(event.values[0]-origAngles[0]);
-			float elevation=+(event.values[1]-origAngles[1]);
-			float zoomDistance=event.values[2]-origAngles[2];
+			float fAngleThresold=90.0f;
+			MatrixUtils.minus(event.values, lastAngles, diffAngles);
 			
-			getManagers().getPointOfViewManager().setRotationAngle(rotation);
-			getManagers().getPointOfViewManager().setElevationAngle(elevation);
-			
-			NotifyListeners();
+			//eliminate bas points
+			if (diffAngles[0]<fAngleThresold &&
+				diffAngles[1]<fAngleThresold)
+			{
+				float rotation=-(event.values[0]-origAngles[0]);
+				float elevation=+(event.values[1]-origAngles[1]);
+				float zoomDistance=event.values[2]-origAngles[2];
+				
+				MatrixUtils.copy(event.values,lastAngles);
+				
+				getManagers().getPointOfViewManager().setRotationAngle(rotation);
+				getManagers().getPointOfViewManager().setElevationAngle(elevation);
+				
+				NotifyListeners();
+			}
 		}
 	}
 			
