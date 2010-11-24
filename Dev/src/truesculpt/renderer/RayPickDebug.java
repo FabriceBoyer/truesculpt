@@ -39,8 +39,8 @@ public class RayPickDebug
         float one=1.0f;
         float two=2.0f;
         float vertices[] = {
-        		zero, zero, two,
-        		zero, zero, -two 
+        		zero, zero, one,
+        		zero, zero, -one 
         };
 
         float colors[] = {

@@ -136,6 +136,11 @@ public class MeshManager extends BaseManager {
 					msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
 					Log.i("PickedTriangle", msg);
 				}
+				else
+				{
+					
+					mPickHighlight.setPickHighlightPosition(zero);
+				}
 			} catch (Exception e) {
 				assert(false);
 			}
