@@ -1,10 +1,6 @@
 package truesculpt.managers;
 
 import java.util.Vector;
-
-import truesculpt.managers.SensorsManager.OnSensorChangeListener;
-import truesculpt.utils.Utils;
-
 import android.content.Context;
 
 public class PointOfViewManager extends BaseManager {
