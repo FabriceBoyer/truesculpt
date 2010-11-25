@@ -31,19 +31,31 @@ public class TouchManager extends BaseManager {
 		float x=event.getX();
 		float y=event.getY();
 		
-		switch (getManagers().getToolsManager().getToolMode())
+
+		switch(event.getAction())		
 		{
-			case POV:
+			case MotionEvent.ACTION_DOWN:
 			{
-				switch(event.getAction())		
+				int nRes=getManagers().getMeshManager().Pick(x, y);
+				if (nRes<0)//picked empty zone, auto switch to view mode
 				{
-					case MotionEvent.ACTION_DOWN:
-					{
-						initPOVValues(x, y);
-						break;
-					}
-					case MotionEvent.ACTION_MOVE:
-					{						
+					getManagers().getToolsManager().setToolMode(EToolMode.POV);	
+					initPOVValues(x, y);
+				}
+				else
+				{
+					getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);	
+				}
+				
+				break;
+			}
+					
+			case MotionEvent.ACTION_MOVE:
+			{
+				switch (getManagers().getToolsManager().getToolMode())
+				{
+					case POV:
+					{									
 						float angleRot =mRotInit + (x-mLastX)/fDemultFactor;
 						float angleElev= mElevInit + (y-mLastY)/fDemultFactor;										
 						float dist =getManagers().getPointOfViewManager().getZoomDistance();
@@ -52,31 +64,17 @@ public class TouchManager extends BaseManager {
 						
 						break;
 					}
-				}
-				break;
-			}
-			case SCULPT:
-			{
-				switch(event.getAction())		
-				{
-					case MotionEvent.ACTION_DOWN:
-					{
-						int nRes=getManagers().getMeshManager().Pick(x, y);
-						if (nRes<0)//picked empty zone, auto switch to view mode
-						{
-							getManagers().getToolsManager().setToolMode(EToolMode.POV);	
-							initPOVValues(x, y);
-						}
-					}
-					case MotionEvent.ACTION_MOVE:
-					{
+				
+					case SCULPT:
+					{				
 						getManagers().getMeshManager().Pick(x, y);
-					}					
+						break;										
+					}				
 				}
+				
 				break;
 			}
 		}
-		
 	}
 
 	private void initPOVValues(float x, float y) {
