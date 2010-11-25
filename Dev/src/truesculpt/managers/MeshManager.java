@@ -9,6 +9,7 @@ import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.renderer.GeneratedObject;
 import truesculpt.renderer.NodeRelation;
 import truesculpt.renderer.NodeRelationList;
@@ -155,7 +156,10 @@ public class MeshManager extends BaseManager {
 					if (nIndex >= 0) {
 						mPickHighlight.setPickHighlightPosition(intersectPt);
 	
-						RiseUpTriangle(nIndex);
+						if (getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT)
+						{
+							RiseUpTriangle(nIndex);
+						}
 						//msg = "Picked Triangle Index =" + Integer.toString(nIndex) + "\n";
 						//msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
 						//Log.i("Picking", msg);

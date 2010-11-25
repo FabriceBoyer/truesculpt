@@ -47,9 +47,22 @@ public class ToolsManager extends BaseManager {
 		return mMode;
 	}
 	public void setToolMode(EToolMode mMode) {
-		this.mMode = mMode;		
-		NotifyListeners();
+		if (mMode!=this.mMode)
+		{
+			if (getForcedMode()==false)
+			{
+				this.mMode = mMode;				
+				NotifyListeners();
+			}
+			else
+			{
+				//do nothing and unforce
+				setForcedMode(false);
+			}
+		}
 	}
+	
+	private boolean mForcedMode=false;
 
 	public float getStrength() {
 		return mStrength;
@@ -85,6 +98,14 @@ public class ToolsManager extends BaseManager {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean getForcedMode() {
+		return mForcedMode;
+	}
+
+	public void setForcedMode(boolean mForcedMode) {
+		this.mForcedMode = mForcedMode;
 	}	
 
 }
