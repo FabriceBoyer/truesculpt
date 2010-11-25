@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
   android:orientation="vertical">
-  
-  
-     
+       
 <ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
 <ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
 
+ <TextView android:text="@string/Strength" android:id="@+id/StrengthText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+ <SeekBar android:id="@+id/StrengthBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
+ <TextView android:text="@string/Radius" android:id="@+id/RadiusText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+ <SeekBar android:id="@+id/RadiusBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
  <Button
  	 android:id="@+id/color_button" 
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
      android:text="@string/color_picker"  
-  />
+ />
   
 </LinearLayout>
