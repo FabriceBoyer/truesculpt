@@ -46,4 +46,6 @@
 <string name="unable_to_get_update_status">Unable to get update status</string>
 <string name="view">View</string>
 <string name="sculpt">Sculpt</string>
+<string name="Strength">Strength</string>
+<string name="Radius">Radius</string>
 </resources>

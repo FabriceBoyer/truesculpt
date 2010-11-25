@@ -1,6 +1,7 @@
 package truesculpt.ui.panels;
 
 import truesculpt.managers.ToolsManager.EToolMode;
+import truesculpt.managers.ToolsManager.OnToolChangeListener;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
@@ -11,9 +12,12 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class ToolsPanel extends Activity implements OnColorChangedListener {
+public class ToolsPanel extends Activity implements OnColorChangedListener, OnToolChangeListener {
 	private final int DIALOG_COLOR_PICKER_ID=0;
 
 	
@@ -28,25 +32,33 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 		//Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
 	}
 
-	private ToggleButton viewToggle;
-	private ToggleButton sculptToggle;
-	private  Button colorButton;
+	private ToggleButton mViewToggle;
+	private ToggleButton mSculptToggle;
+	private Button mColorButton;
+	
+	private TextView mRadiusText;
+	private SeekBar mRadiusSeekBar;
+	
+	private TextView mStrengthText;
+	private SeekBar mStrengthSeekBar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tools);
+		
+		getManagers().getToolsManager().registerToolChangeListener(this);
 				
-		colorButton = (Button) findViewById(R.id.color_button);
-		colorButton.setOnClickListener(new View.OnClickListener() {
+		mColorButton = (Button) findViewById(R.id.color_button);
+		mColorButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showDialog(DIALOG_COLOR_PICKER_ID);				
 			}
 		});
 		
-		viewToggle = (ToggleButton) findViewById(R.id.View);
-		viewToggle.setOnClickListener(new View.OnClickListener() {
+		mViewToggle = (ToggleButton) findViewById(R.id.View);
+		mViewToggle.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.POV);
@@ -54,8 +66,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 			}
 		});
 		
-		sculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
-		sculptToggle.setOnClickListener(new View.OnClickListener() {
+		mSculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
+		mSculptToggle.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.SCULPT);
@@ -63,13 +75,50 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 			}
 		});
 		
+		mRadiusSeekBar=(SeekBar)findViewById(R.id.RadiusBar);
+		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				getManagers().getToolsManager().setRadius(progress);
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+		});
+		mRadiusSeekBar.setMax(100);//pct		
+		mRadiusText=(TextView)findViewById(R.id.RadiusText);
+		
+		
+		mStrengthSeekBar=(SeekBar)findViewById(R.id.StrengthBar);
+		mStrengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				getManagers().getToolsManager().setStrength(progress);			
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+		});
+		mStrengthSeekBar.setMax(100);//pct		
+		mStrengthText=(TextView)findViewById(R.id.StrengthText);
+		
 		UpdateView();
 	}
 	
 	private void UpdateView()
 	{
-		viewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
-		sculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
+		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
+		mSculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
+		
+		float fStrength=getManagers().getToolsManager().getStrength();
+		mStrengthSeekBar.setProgress((int)fStrength);
+		mStrengthText.setText("Strength = "+Integer.toString((int)fStrength)+" %");
+		
+		float fRadius=getManagers().getToolsManager().getRadius();
+		mRadiusSeekBar.setProgress((int)fRadius);
+		mRadiusText.setText("Radius = "+Integer.toString((int)fRadius)+" %");
 	}
 	
 	@Override
@@ -93,6 +142,11 @@ public class ToolsPanel extends Activity implements OnColorChangedListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
+	}
+
+	@Override
+	public void onToolChange() {
+		UpdateView();		
 	}
 
 }
