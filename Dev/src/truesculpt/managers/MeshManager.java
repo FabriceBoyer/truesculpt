@@ -3,17 +3,21 @@ package truesculpt.managers;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.renderer.GeneratedObject;
+import truesculpt.renderer.NodeRelation;
 import truesculpt.renderer.NodeRelationList;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
 import android.content.Context;
 import android.opengl.Matrix;
 import android.os.SystemClock;
+import android.provider.ContactsContract.CommonDataKinds.Relation;
 import android.util.Log;
 import truesculpt.utils.MatrixUtils;
 
@@ -187,6 +191,7 @@ public class MeshManager extends BaseManager {
         	float[] V0=new float[3];
         	float[] V1=new float[3];
         	float[] V2=new float[3];
+        	float[] VTemp=new float[3];
         	    		         	
         	int nIndex0=3*mIndexBuffer.get(triangleIndex);
     		mVertexBuffer.position(nIndex0);
@@ -211,19 +216,24 @@ public class MeshManager extends BaseManager {
 	   	     MatrixUtils.normalize(n);
 	   	     MatrixUtils.scalarMultiply(n, 0.1f);
 	   	     
-	   	     MatrixUtils.plus(V0,n, V0);
-	   	     MatrixUtils.plus(V1,n, V1);
-	   	     MatrixUtils.plus(V2,n, V2);
-	   	     
+	   	     //central point (should choose closest or retessalate)
+	   	     MatrixUtils.plus(V0,n, V0);	   	     
 	    	 mVertexBuffer.position(nIndex0);
 	    	 mVertexBuffer.put(V0,0,3);
-	    		
-	    	 mVertexBuffer.position(nIndex1);
-	    	 mVertexBuffer.put(V1,0,3);
-	    		
-	    	 mVertexBuffer.position(nIndex2);
-	    	 mVertexBuffer.put(V2,0,3);    	     
-   	          	
+	    	 
+	    	 //First couronne
+	   	     MatrixUtils.normalize(n);
+	   	     MatrixUtils.scalarMultiply(n, 0.05f);    	 
+	    	 NodeRelationList list= mNodeRelationMap.get(nIndex0);
+	    	 for (NodeRelation relation : list.mRelationList) {
+				int nOtherIndex =relation.mOtherIndex;
+		    	 mVertexBuffer.position(nOtherIndex);
+		    	 mVertexBuffer.get(VTemp, 0, 3);
+		    	 MatrixUtils.plus(VTemp,n, VTemp);	
+		    	 mVertexBuffer.position(nOtherIndex);
+		    	 mVertexBuffer.put(VTemp,0,3);
+			 }   	 
+	    	 
         	 mIndexBuffer.position(0);
         	 mVertexBuffer.position(0);
     	}
@@ -482,17 +492,17 @@ public class MeshManager extends BaseManager {
     		mVertexBuffer.get(V2,0,3); 
     		
     		//0 to 1
-    		MatrixUtils.minus(V0, V1, VDiff);
+    		MatrixUtils.minus(V1, V0, VDiff);
     		float fDist1=MatrixUtils.magnitude(VDiff);
     		AddRelationToMap(nIndex0,nIndex1,fDist1);
     		
     		//1 to 2
-    		MatrixUtils.minus(V1, V2, VDiff);
+    		MatrixUtils.minus(V2, V1, VDiff);
     		float fDist2=MatrixUtils.magnitude(VDiff);
     		AddRelationToMap(nIndex1,nIndex2,fDist2);
     		
     		//2 to 0
-    		MatrixUtils.minus(V2, V0, VDiff);
+    		MatrixUtils.minus(V0, V2, VDiff);
     		float fDist3=MatrixUtils.magnitude(VDiff);
     		AddRelationToMap(nIndex2,nIndex0,fDist3);
 		}
@@ -500,13 +510,15 @@ public class MeshManager extends BaseManager {
 		mIndexBuffer.position(0);
     	mVertexBuffer.position(0);
 	}
+		
 	
 	private void AddRelationToMap(int nIndexOrig,int nIndexOther, float fDistance)
 	{
 		NodeRelationList relationList= mNodeRelationMap.get(nIndexOrig);
 		if (relationList==null)
 		{
-			relationList=new NodeRelationList();			
+			relationList=new NodeRelationList();	
+			mNodeRelationMap.put(nIndexOrig, relationList);
 		}
 		relationList.AddRelation(nIndexOther,fDistance);
 	}
