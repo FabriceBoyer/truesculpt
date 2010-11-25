@@ -2,11 +2,13 @@ package truesculpt.managers;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.renderer.GeneratedObject;
+import truesculpt.renderer.NodeRelationList;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
 import android.content.Context;
@@ -50,9 +52,15 @@ public class MeshManager extends BaseManager {
 		@Override
 		public void run() {
 			
-			mObject= new GeneratedObject();	
-			
-	        bInitOver=true;	
+			try {
+				
+				mObject = new GeneratedObject();
+				BuildRelationMapFromMesh();
+				
+			} catch (Exception e) {
+				assert(false);
+			}
+			bInitOver=true;	
 	        
 	        NotifyListeners();
 		}
@@ -180,18 +188,15 @@ public class MeshManager extends BaseManager {
         	float[] V1=new float[3];
         	float[] V2=new float[3];
         	    		         	
-        	int nIndexCount=mIndexBuffer.capacity();
-        	int nVertexCount=mVertexBuffer.capacity();    	
-        	  		
-    		int nIndex0=3*mIndexBuffer.get(triangleIndex); assert(nIndex0<nVertexCount);
+        	int nIndex0=3*mIndexBuffer.get(triangleIndex);
     		mVertexBuffer.position(nIndex0);
     		mVertexBuffer.get(V0,0,3);
     		
-    		int nIndex1=3*mIndexBuffer.get(triangleIndex+1);assert(nIndex1<nVertexCount);
+    		int nIndex1=3*mIndexBuffer.get(triangleIndex+1);
     		mVertexBuffer.position(nIndex1);
     		mVertexBuffer.get(V1,0,3);
     		
-    		int nIndex2=3*mIndexBuffer.get(triangleIndex+2);assert(nIndex2<nVertexCount);
+    		int nIndex2=3*mIndexBuffer.get(triangleIndex+2);
     		mVertexBuffer.position(nIndex2);
     		mVertexBuffer.get(V2,0,3);   
     		
@@ -333,19 +338,18 @@ public class MeshManager extends BaseManager {
     	MatrixUtils.minus(R1,R0,dir);           
     	float fSmallestDistanceToR0=MatrixUtils.magnitude(dir);//ray is R0 to R1
     	
-    	int nIndexCount=mIndexBuffer.capacity();
-    	int nVertexCount=mVertexBuffer.capacity();    	
+    	int nIndexCount=mIndexBuffer.capacity();    	
     	for (int i=0;i<nIndexCount;i=i+3)
     	{    		
-    		int nCurrIndex0=3*mIndexBuffer.get(i); assert(nCurrIndex0<nVertexCount);
+    		int nCurrIndex0=3*mIndexBuffer.get(i);
     		mVertexBuffer.position(nCurrIndex0);
     		mVertexBuffer.get(V0,0,3);
     		
-    		int nCurrIndex1=3*mIndexBuffer.get(i+1);assert(nCurrIndex1<nVertexCount);
+    		int nCurrIndex1=3*mIndexBuffer.get(i+1);
     		mVertexBuffer.position(nCurrIndex1);
     		mVertexBuffer.get(V1,0,3);
     		
-    		int nCurrIndex2=3*mIndexBuffer.get(i+2);assert(nCurrIndex2<nVertexCount);
+    		int nCurrIndex2=3*mIndexBuffer.get(i+2);
     		mVertexBuffer.position(nCurrIndex2);
     		mVertexBuffer.get(V2,0,3);    		
     		
@@ -449,5 +453,62 @@ public class MeshManager extends BaseManager {
 	public long getLastPickDurationMs() {
 		return mLastPickDurationMs;
 	}
-    
+
+	private  HashMap<Integer,NodeRelationList> mNodeRelationMap= new HashMap<Integer,NodeRelationList> ();
+	
+	private void BuildRelationMapFromMesh()
+	{
+		FloatBuffer mVertexBuffer = mObject.getVertexBuffer();
+    	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
+    	
+    	float[] V0=new float[3];
+    	float[] V1=new float[3];
+    	float[] V2=new float[3];
+    	float[] VDiff= new float[3];
+    	    		         	
+    	int nIndexCount=mIndexBuffer.capacity();   		
+    	
+    	for (int i = 0; i < nIndexCount; i=i+3) {
+    		int nIndex0=3*mIndexBuffer.get(i); 
+    		mVertexBuffer.position(nIndex0);
+    		mVertexBuffer.get(V0,0,3);
+    		
+    		int nIndex1=3*mIndexBuffer.get(i+1);
+    		mVertexBuffer.position(nIndex1);
+    		mVertexBuffer.get(V1,0,3);
+    		
+    		int nIndex2=3*mIndexBuffer.get(i+2);
+    		mVertexBuffer.position(nIndex2);
+    		mVertexBuffer.get(V2,0,3); 
+    		
+    		//0 to 1
+    		MatrixUtils.minus(V0, V1, VDiff);
+    		float fDist1=MatrixUtils.magnitude(VDiff);
+    		AddRelationToMap(nIndex0,nIndex1,fDist1);
+    		
+    		//1 to 2
+    		MatrixUtils.minus(V1, V2, VDiff);
+    		float fDist2=MatrixUtils.magnitude(VDiff);
+    		AddRelationToMap(nIndex1,nIndex2,fDist2);
+    		
+    		//2 to 0
+    		MatrixUtils.minus(V2, V0, VDiff);
+    		float fDist3=MatrixUtils.magnitude(VDiff);
+    		AddRelationToMap(nIndex2,nIndex0,fDist3);
+		}
+		
+		mIndexBuffer.position(0);
+    	mVertexBuffer.position(0);
+	}
+	
+	private void AddRelationToMap(int nIndexOrig,int nIndexOther, float fDistance)
+	{
+		NodeRelationList relationList= mNodeRelationMap.get(nIndexOrig);
+		if (relationList==null)
+		{
+			relationList=new NodeRelationList();			
+		}
+		relationList.AddRelation(nIndexOther,fDistance);
+	}
+	
 }
