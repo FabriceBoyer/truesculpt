@@ -29,18 +29,18 @@ public class TouchManager extends BaseManager {
 		//Log.i(Global.TAG,msg);
 		
 		float x=event.getX();
-		float y=event.getY();
-		
+		float y=event.getY();		
 
 		switch(event.getAction())		
 		{
 			case MotionEvent.ACTION_DOWN:
 			{
+				initPOVValues(x, y);
+				
 				int nRes=getManagers().getMeshManager().Pick(x, y);
-				if (nRes<0)//picked empty zone, auto switch to view mode
+				if (nRes<0)// auto switch tool mode
 				{
-					getManagers().getToolsManager().setToolMode(EToolMode.POV);	
-					initPOVValues(x, y);
+					getManagers().getToolsManager().setToolMode(EToolMode.POV);						
 				}
 				else
 				{

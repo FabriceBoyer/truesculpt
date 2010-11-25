@@ -118,6 +118,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.POV);
+				getManagers().getToolsManager().setForcedMode(true);
+				
 				UpdateButtonsView();
 			}
 		});
@@ -127,6 +129,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.SCULPT);
+				getManagers().getToolsManager().setForcedMode(true);
+				
 				UpdateButtonsView();
 			}
 		});

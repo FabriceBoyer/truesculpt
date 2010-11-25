@@ -62,6 +62,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.POV);
+				getManagers().getToolsManager().setForcedMode(true);
+				
 				UpdateView();
 			}
 		});
@@ -71,6 +73,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.SCULPT);
+				getManagers().getToolsManager().setForcedMode(true);
+				
 				UpdateView();
 			}
 		});
