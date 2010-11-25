@@ -6,8 +6,10 @@
     android:layout_height="fill_parent">
 	
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:layout_gravity="top"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
         android:layout_weight=".9">
 		<WebView
 	 	 android:id="@+id/webview" 
@@ -17,8 +19,10 @@
     </LinearLayout>
 
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:layout_gravity="bottom"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="bottom"
         android:layout_weight=".1">
                 
 		 <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>

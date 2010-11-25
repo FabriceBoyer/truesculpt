@@ -82,7 +82,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		//TODO only if point of view changed		
 		mMeshManager.getCurrentModelView(gl);
 		
-		mAxis.draw(gl);
+		//mAxis.draw(gl);
 		
 		//main draw call
 		mMeshManager.draw(gl);

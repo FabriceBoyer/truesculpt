@@ -5,8 +5,10 @@
     android:layout_height="fill_parent">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:layout_gravity="top"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
         android:layout_weight=".9">
 
  <android.opengl.GLSurfaceView 
@@ -15,13 +17,20 @@
             android:layout_height="wrap_content"/> 
 </LinearLayout>
             
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:layout_gravity="bottom"
-        android:layout_weight=".1">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="bottom"
+        android:layout_weight=".1" android:stretchColumns="*">
+          
+    <TableRow>
                 
-	<ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
-	<ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
-</LinearLayout>      
+	  <ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
+	  <ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
+	
+	</TableRow>
+	
+</TableLayout>      
      
 </LinearLayout>
