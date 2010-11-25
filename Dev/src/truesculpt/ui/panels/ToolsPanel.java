@@ -137,6 +137,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		
+		getManagers().getToolsManager().unRegisterToolChangeListener(this);
 	}
 
 	@Override
