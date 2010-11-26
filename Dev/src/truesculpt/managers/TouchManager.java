@@ -73,6 +73,7 @@ public class TouchManager extends BaseManager {
 					}
 				
 					case SCULPT:
+					case PAINT:
 					{				
 						getManagers().getMeshManager().Pick(x, y);
 						break;										
