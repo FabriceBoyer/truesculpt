@@ -240,6 +240,7 @@ public class MeshManager extends BaseManager {
         	float[] V1=new float[3];
         	float[] V2=new float[3];
         	float[] VTemp=new float[3];
+        	float[] nOffset=new float[3];
         	    		         	
         	int nIndex0=3*mIndexBuffer.get(triangleIndex);
     		mVertexBuffer.position(nIndex0);
@@ -261,26 +262,29 @@ public class MeshManager extends BaseManager {
 	   	     if (n == zero)            // triangle is degenerate
 	   	         return ;                 // do not deal with this case
 	   	  
+	   	     MatrixUtils.normalize(n);	   	  
+	   	  	
 	   	     float fMaxDeformation=getManagers().getToolsManager().getStrength()/100.0f*0.2f;//strength is -100 to 100
-	   	     MatrixUtils.normalize(n);
-	   	     MatrixUtils.scalarMultiply(n, fMaxDeformation);
+	   	     
+	   	     MatrixUtils.copy(n, nOffset);
+	   	     MatrixUtils.scalarMultiply(nOffset, fMaxDeformation);
 	   	     
 	   	     //central point (should choose closest or retessalate)
-	   	     MatrixUtils.plus(V0,n, V0);	   	     
+	   	     MatrixUtils.plus(V0,nOffset, V0);	   	     
 	    	 mVertexBuffer.position(nIndex0);
 	    	 mVertexBuffer.put(V0,0,3);
 	    	 
 	    	 if (getManagers().getToolsManager().getRadius()>=50)
 	    	 {
-		    	 //First couronne
-		   	     MatrixUtils.normalize(n);
-		   	     MatrixUtils.scalarMultiply(n, fMaxDeformation/2.0f);    	 
+		    	 //First corona
+	    		 MatrixUtils.copy(n, nOffset);
+		   	     MatrixUtils.scalarMultiply(nOffset, fMaxDeformation/2.0f);    	 
 		    	 NodeRelationList list= mNodeRelationMap.get(nIndex0);
 		    	 for (NodeRelation relation : list.mRelationList) {
 					int nOtherIndex =relation.mOtherIndex;
 			    	 mVertexBuffer.position(nOtherIndex);
 			    	 mVertexBuffer.get(VTemp, 0, 3);
-			    	 MatrixUtils.plus(VTemp,n, VTemp);	
+			    	 MatrixUtils.plus(VTemp,nOffset, VTemp);	
 			    	 mVertexBuffer.position(nOtherIndex);
 			    	 mVertexBuffer.put(VTemp,0,3);
 				 }   	 
