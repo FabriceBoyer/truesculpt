@@ -48,17 +48,9 @@ public class ToolsManager extends BaseManager {
 	}
 	public void setToolMode(EToolMode mMode) {
 		if (mMode!=this.mMode)
-		{
-			if (getForcedMode()==false)
-			{
-				this.mMode = mMode;				
-				NotifyListeners();
-			}
-			else
-			{
-				//do nothing and unforce
-				setForcedMode(false);
-			}
+		{			
+			this.mMode = mMode;				
+			NotifyListeners();						
 		}
 	}
 	
