@@ -57,6 +57,16 @@ public class ToolsManager extends BaseManager {
 		}
 	}
 	
+	public void setLastToolMode()
+	{
+		if (mMode!=mLastMode)
+		{
+			mMode=mLastMode;
+			NotifyListeners();
+			//don't update mLastMode otherwise oscillate
+		}
+	}
+	
 	private boolean mForcedMode=false;
 
 	public float getStrength() {

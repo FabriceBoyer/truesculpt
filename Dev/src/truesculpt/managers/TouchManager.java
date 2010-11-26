@@ -46,24 +46,22 @@ public class TouchManager extends BaseManager {
 						if (getManagers().getToolsManager().getForcedMode()==false)
 						{
 							getManagers().getToolsManager().setToolMode(EToolMode.POV);
-						}
-						else
-						{
-							getManagers().getToolsManager().setForcedMode(false);
-						}						
+						}											
 					}
 				}
 				else
 				{
-					if (getManagers().getToolsManager().getForcedMode()==false)
+					EToolMode currMode = getManagers().getToolsManager().getToolMode();
+					if (currMode==EToolMode.POV)
 					{
-						getManagers().getToolsManager().setToolMode(getManagers().getToolsManager().getLastMode());	
-					}
-					else
-					{
-						getManagers().getToolsManager().setForcedMode(false);
+						if (getManagers().getToolsManager().getForcedMode()==false)
+						{
+							getManagers().getToolsManager().setLastToolMode();	
+						}						
 					}
 				}
+				
+				getManagers().getToolsManager().setForcedMode(false);
 				
 				break;
 			}
