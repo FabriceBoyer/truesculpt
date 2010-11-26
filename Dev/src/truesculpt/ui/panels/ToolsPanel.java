@@ -34,6 +34,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 
 	private ToggleButton mViewToggle;
 	private ToggleButton mSculptToggle;
+	private ToggleButton mPaintToggle;
 	private Button mColorButton;
 	
 	private TextView mRadiusText;
@@ -79,6 +80,17 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 			}
 		});
 		
+		mPaintToggle = (ToggleButton) findViewById(R.id.Paint);
+		mPaintToggle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {				
+				getManagers().getToolsManager().setToolMode( EToolMode.PAINT);
+				getManagers().getToolsManager().setForcedMode(true);
+				
+				UpdateView();
+			}
+		});
+		
 		mRadiusSeekBar=(SeekBar)findViewById(R.id.RadiusBar);
 		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
@@ -115,6 +127,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	{
 		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
 		mSculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
+		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.PAINT);	
 		
 		float fStrength=getManagers().getToolsManager().getStrength();
 		mStrengthSeekBar.setProgress((int)fStrength);

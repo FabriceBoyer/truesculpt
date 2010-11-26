@@ -15,6 +15,7 @@
     <TableRow>                
 	  <ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
 	  <ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>	
+	  <ToggleButton android:textOn="@string/paint"  android:textOff="@string/paint" android:id="@+id/Paint" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
 	</TableRow>
 	
 </TableLayout>    

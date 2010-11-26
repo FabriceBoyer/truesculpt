@@ -5,7 +5,7 @@ import android.content.Context;
 
 public class ToolsManager extends BaseManager {	
 	
-	public enum EToolMode { POV, SCULPT};
+	public enum EToolMode { POV, SCULPT, PAINT};
 	
 	private EToolMode mMode=EToolMode.POV;
 	private int mColor=0;

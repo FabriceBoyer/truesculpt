@@ -21,6 +21,8 @@ public class TouchManager extends BaseManager {
 	
 	private float fDemultFactor=5.0f;
 	
+	private EToolMode mLastMode;
+	
 	//ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
 	public void onTouchEvent(MotionEvent event)
 	{
@@ -40,11 +42,16 @@ public class TouchManager extends BaseManager {
 				int nRes=getManagers().getMeshManager().Pick(x, y);
 				if (nRes<0)// auto switch tool mode
 				{
-					getManagers().getToolsManager().setToolMode(EToolMode.POV);						
+					EToolMode currMode = getManagers().getToolsManager().getToolMode();
+					if (currMode!=EToolMode.POV)
+					{
+						mLastMode=currMode;
+						getManagers().getToolsManager().setToolMode(EToolMode.POV);
+					}
 				}
 				else
 				{
-					getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);	
+					getManagers().getToolsManager().setToolMode(mLastMode);	
 				}
 				
 				break;
@@ -86,7 +93,7 @@ public class TouchManager extends BaseManager {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
+		mLastMode=getManagers().getToolsManager().getToolMode();
 		
 	}
 
