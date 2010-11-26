@@ -16,6 +16,7 @@ import truesculpt.renderer.NodeRelationList;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
 import android.content.Context;
+import android.graphics.Color;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 import android.provider.ContactsContract.CommonDataKinds.Relation;
@@ -132,6 +133,7 @@ public class MeshManager extends BaseManager {
     	return nCount;
 	}
     
+    //TO be threaded to improve GUI reactivity
     public int Pick(float screenX,float screenY)
     {        
     	int nIndex=-1;
@@ -156,10 +158,21 @@ public class MeshManager extends BaseManager {
 					if (nIndex >= 0) {
 						mPickHighlight.setPickHighlightPosition(intersectPt);
 	
-						if (getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT)
+						//TODO place in actionManager
+						switch(getManagers().getToolsManager().getToolMode())
 						{
-							RiseUpTriangle(nIndex);
+							case SCULPT:						
+							{					
+								RiseUpTriangle(nIndex);
+								break;
+							}
+							case PAINT:						
+							{					
+								ColorTriangle(nIndex);
+								break;
+							}
 						}
+						
 						//msg = "Picked Triangle Index =" + Integer.toString(nIndex) + "\n";
 						//msg += "intersectPt : x=" + Float.toString(intersectPt[0]) + "; y=" + Float.toString(intersectPt[1]) + "; z=" + Float.toString(intersectPt[2]) + "\n";
 						//Log.i("Picking", msg);
@@ -183,8 +196,39 @@ public class MeshManager extends BaseManager {
     	
     	return nIndex;
     }
+        
+    private void ColorTriangle(int triangleIndex)
+    {
+    	if (triangleIndex>=0)
+    	{    		
+        	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
+        	FloatBuffer mColorBuffer= mObject.getColorBuffer();        	
+
+        	float[] VColor=new float[4];
+        	
+        	int color=getManagers().getToolsManager().getColor();
+        	VColor[0]=(float)Color.red(color)/255.0f;
+        	VColor[1]=(float)Color.green(color)/255.0f;
+        	VColor[2]=(float)Color.blue(color)/255.0f;
+        	VColor[3]=1.0f;//no alpha
+        	        	        	    		         	
+        	int nIndex0=4*mIndexBuffer.get(triangleIndex);
+        	mColorBuffer.position(nIndex0);
+        	mColorBuffer.put(VColor,0,4);
+    		
+    		int nIndex1=4*mIndexBuffer.get(triangleIndex+1);
+    		mColorBuffer.position(nIndex1);
+    		mColorBuffer.put(VColor,0,4);
+    		
+    		int nIndex2=4*mIndexBuffer.get(triangleIndex+2);
+    		mColorBuffer.position(nIndex2);
+    		mColorBuffer.put(VColor,0,4);     	
+	    	 
+        	mIndexBuffer.position(0);
+        	mColorBuffer.position(0);
+    	}
+    }
     
-  
     private void RiseUpTriangle(int triangleIndex)
     {
     	if (triangleIndex>=0)

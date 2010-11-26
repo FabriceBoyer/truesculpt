@@ -136,4 +136,8 @@ public class GeneratedObject
 	public ShortBuffer getIndexBuffer() {
 		return mIndexBuffer;
 	}
+
+	public FloatBuffer getColorBuffer() {
+		return mColorBuffer;
+	}
 }
