@@ -261,26 +261,30 @@ public class MeshManager extends BaseManager {
 	   	     if (n == zero)            // triangle is degenerate
 	   	         return ;                 // do not deal with this case
 	   	  
+	   	     float fMaxDeformation=getManagers().getToolsManager().getRadius()/100.0f*0.2f;//raidus is -100 to 100
 	   	     MatrixUtils.normalize(n);
-	   	     MatrixUtils.scalarMultiply(n, 0.1f);
+	   	     MatrixUtils.scalarMultiply(n, fMaxDeformation);
 	   	     
 	   	     //central point (should choose closest or retessalate)
 	   	     MatrixUtils.plus(V0,n, V0);	   	     
 	    	 mVertexBuffer.position(nIndex0);
 	    	 mVertexBuffer.put(V0,0,3);
 	    	 
-	    	 //First couronne
-	   	     MatrixUtils.normalize(n);
-	   	     MatrixUtils.scalarMultiply(n, 0.05f);    	 
-	    	 NodeRelationList list= mNodeRelationMap.get(nIndex0);
-	    	 for (NodeRelation relation : list.mRelationList) {
-				int nOtherIndex =relation.mOtherIndex;
-		    	 mVertexBuffer.position(nOtherIndex);
-		    	 mVertexBuffer.get(VTemp, 0, 3);
-		    	 MatrixUtils.plus(VTemp,n, VTemp);	
-		    	 mVertexBuffer.position(nOtherIndex);
-		    	 mVertexBuffer.put(VTemp,0,3);
-			 }   	 
+	    	 if (getManagers().getToolsManager().getRadius()>=50)
+	    	 {
+		    	 //First couronne
+		   	     MatrixUtils.normalize(n);
+		   	     MatrixUtils.scalarMultiply(n, fMaxDeformation/2.0f);    	 
+		    	 NodeRelationList list= mNodeRelationMap.get(nIndex0);
+		    	 for (NodeRelation relation : list.mRelationList) {
+					int nOtherIndex =relation.mOtherIndex;
+			    	 mVertexBuffer.position(nOtherIndex);
+			    	 mVertexBuffer.get(VTemp, 0, 3);
+			    	 MatrixUtils.plus(VTemp,n, VTemp);	
+			    	 mVertexBuffer.position(nOtherIndex);
+			    	 mVertexBuffer.put(VTemp,0,3);
+				 }   	 
+	    	 }
 	    	 
         	 mIndexBuffer.position(0);
         	 mVertexBuffer.position(0);
