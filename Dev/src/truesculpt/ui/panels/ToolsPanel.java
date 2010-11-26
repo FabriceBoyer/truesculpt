@@ -95,14 +95,14 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				getManagers().getToolsManager().setRadius(progress);
+				getManagers().getToolsManager().setRadius(progress-100);
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
-		mRadiusSeekBar.setMax(100);//pct		
+		mRadiusSeekBar.setMax(200);//-100 to 100 pct		
 		mRadiusText=(TextView)findViewById(R.id.RadiusText);
 		
 		
@@ -117,7 +117,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
-		mStrengthSeekBar.setMax(100);//pct		
+		mStrengthSeekBar.setMax(100);//0 to 100pct		
 		mStrengthText=(TextView)findViewById(R.id.StrengthText);
 		
 		UpdateView();
@@ -134,7 +134,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mStrengthText.setText("Strength = "+Integer.toString((int)fStrength)+" %");
 		
 		float fRadius=getManagers().getToolsManager().getRadius();
-		mRadiusSeekBar.setProgress((int)fRadius);
+		mRadiusSeekBar.setProgress((int)fRadius+100);
 		mRadiusText.setText("Radius = "+Integer.toString((int)fRadius)+" %");
 	}
 	

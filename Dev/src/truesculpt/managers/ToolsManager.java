@@ -67,24 +67,30 @@ public class ToolsManager extends BaseManager {
 	public float getStrength() {
 		return mStrength;
 	}
-	public void setStrength(float mStrength) {
-		this.mStrength = mStrength;
+	public void setStrength(float strength) {		
+		this.mStrength = strength;
+		
+		if (mStrength>100) mStrength=100;
+		if (mStrength<0) mStrength=0;
+		
 		NotifyListeners();
 	}
 	
 	public float getRadius() {
 		return mRadius;
 	}
-	public void setRadius(float mRadius) {
-		this.mRadius = mRadius;
+	public void setRadius(float radius) {
+		this.mRadius = radius;
+		if (mRadius>100) mRadius=100;
+		if (mRadius<-100) mRadius=-100;
 		NotifyListeners();
 	}
 	
 	public int getColor() {
 		return mColor;
 	}
-	public void setColor(int mColor) {
-		this.mColor = mColor;
+	public void setColor(int color) {
+		this.mColor = color;
 		NotifyListeners();
 	}
 
