@@ -83,8 +83,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		}
 	}
 	
-	private ToggleButton viewToggle;
-	private ToggleButton sculptToggle;
+	private ToggleButton mViewToggle;
+	private ToggleButton mSculptToggle;
+	private ToggleButton mPaintToggle;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -113,8 +114,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		getManagers().getToolsManager().registerToolChangeListener(RendererMainPanel.this);
 		
 
-		viewToggle = (ToggleButton) findViewById(R.id.View);
-		viewToggle.setOnClickListener(new View.OnClickListener() {
+		mViewToggle = (ToggleButton) findViewById(R.id.View);
+		mViewToggle.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.POV);
@@ -124,11 +125,22 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			}
 		});
 		
-		sculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
-		sculptToggle.setOnClickListener(new View.OnClickListener() {
+		mSculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
+		mSculptToggle.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {				
 				getManagers().getToolsManager().setToolMode( EToolMode.SCULPT);
+				getManagers().getToolsManager().setForcedMode(true);
+				
+				UpdateButtonsView();
+			}
+		});
+		
+		mPaintToggle = (ToggleButton) findViewById(R.id.Paint);
+		mPaintToggle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {				
+				getManagers().getToolsManager().setToolMode( EToolMode.PAINT);
 				getManagers().getToolsManager().setForcedMode(true);
 				
 				UpdateButtonsView();
@@ -140,8 +152,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	
 	private void UpdateButtonsView()
 	{
-		viewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
-		sculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
+		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
+		mSculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
+		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.PAINT);
 	}
 	
 	private void UpdateView()
