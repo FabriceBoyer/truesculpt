@@ -71,7 +71,7 @@ public class ToolsManager extends BaseManager {
 		this.mStrength = strength;
 		
 		if (mStrength>100) mStrength=100;
-		if (mStrength<0) mStrength=0;
+		if (mStrength<-100) mStrength=-100;
 		
 		NotifyListeners();
 	}
@@ -82,7 +82,7 @@ public class ToolsManager extends BaseManager {
 	public void setRadius(float radius) {
 		this.mRadius = radius;
 		if (mRadius>100) mRadius=100;
-		if (mRadius<-100) mRadius=-100;
+		if (mRadius<0) mRadius=0;
 		NotifyListeners();
 	}
 	

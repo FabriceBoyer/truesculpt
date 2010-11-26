@@ -261,7 +261,7 @@ public class MeshManager extends BaseManager {
 	   	     if (n == zero)            // triangle is degenerate
 	   	         return ;                 // do not deal with this case
 	   	  
-	   	     float fMaxDeformation=getManagers().getToolsManager().getRadius()/100.0f*0.2f;//raidus is -100 to 100
+	   	     float fMaxDeformation=getManagers().getToolsManager().getStrength()/100.0f*0.2f;//strength is -100 to 100
 	   	     MatrixUtils.normalize(n);
 	   	     MatrixUtils.scalarMultiply(n, fMaxDeformation);
 	   	     

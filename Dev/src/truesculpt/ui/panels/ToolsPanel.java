@@ -95,14 +95,14 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				getManagers().getToolsManager().setRadius(progress-100);
+				getManagers().getToolsManager().setRadius(progress);
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
-		mRadiusSeekBar.setMax(200);//-100 to 100 pct		
+		mRadiusSeekBar.setMax(100);//0 to 100 pct		
 		mRadiusText=(TextView)findViewById(R.id.RadiusText);
 		
 		
@@ -110,14 +110,14 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mStrengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				getManagers().getToolsManager().setStrength(progress);			
+				getManagers().getToolsManager().setStrength(progress-100);			
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 		});
-		mStrengthSeekBar.setMax(100);//0 to 100pct		
+		mStrengthSeekBar.setMax(200);//-100 to 100 pct		
 		mStrengthText=(TextView)findViewById(R.id.StrengthText);
 		
 		UpdateView();
@@ -130,11 +130,11 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.PAINT);	
 		
 		float fStrength=getManagers().getToolsManager().getStrength();
-		mStrengthSeekBar.setProgress((int)fStrength);
+		mStrengthSeekBar.setProgress((int)fStrength+100);
 		mStrengthText.setText("Strength = "+Integer.toString((int)fStrength)+" %");
 		
 		float fRadius=getManagers().getToolsManager().getRadius();
-		mRadiusSeekBar.setProgress((int)fRadius+100);
+		mRadiusSeekBar.setProgress((int)fRadius);
 		mRadiusText.setText("Radius = "+Integer.toString((int)fRadius)+" %");
 	}
 	
