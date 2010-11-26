@@ -12,6 +12,8 @@ public class ToolsManager extends BaseManager {
 	private float mStrength=50.0f;//pct
 	private float mRadius=50.0f;//pct
 
+	private EToolMode mLastMode=EToolMode.SCULPT;
+	
 	public ToolsManager(Context baseContext) {
 		super(baseContext);
 		// TODO Auto-generated constructor stub
@@ -46,10 +48,11 @@ public class ToolsManager extends BaseManager {
 	public EToolMode getToolMode() {
 		return mMode;
 	}
-	public void setToolMode(EToolMode mMode) {
-		if (mMode!=this.mMode)
+	public void setToolMode(EToolMode mode) {
+		if (mMode!=mode)
 		{			
-			this.mMode = mMode;				
+			mLastMode=mMode;
+			mMode = mode;				
 			NotifyListeners();						
 		}
 	}
@@ -104,6 +107,10 @@ public class ToolsManager extends BaseManager {
 
 	public void setForcedMode(boolean mForcedMode) {
 		this.mForcedMode = mForcedMode;
+	}
+
+	public EToolMode getLastMode() {
+		return mLastMode;
 	}	
 
 }
