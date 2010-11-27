@@ -106,7 +106,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		float ratio = (float) width / height;
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
-		gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
+		gl.glFrustumf(-ratio, ratio, -1, 1, .9f, 10);
 		
 		mMeshManager.getCurrentProjection(gl);
 		mMeshManager.getViewport(gl);

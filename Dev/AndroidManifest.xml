@@ -8,8 +8,6 @@
 	  		 android:debuggable="true">
 	    
 	<activity android:label="@string/app_name" 
-	          android:screenOrientation="portrait" 
-	          android:launchMode="singleInstance"
 	          android:name="truesculpt.ui.panels.RendererMainPanel"
 	          android:theme="@android:style/Theme.NoTitleBar.Fullscreen">            
 		<intent-filter>
