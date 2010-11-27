@@ -26,7 +26,6 @@ import truesculpt.utils.Utils;
 
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager {
-
 	
 	private GeneratedObject mObject=null;
 	private PickHighlight mPickHighlight= new PickHighlight();
@@ -46,6 +45,11 @@ public class MeshManager extends BaseManager {
 	
 	long mLastPickDurationMs=-1;
     
+	ShortBuffer mIndexBuffer= null;
+	FloatBuffer mColorBuffer= null;  
+	FloatBuffer mNormalBuffer =null;
+	FloatBuffer mVertexBuffer =null;
+	
 	private boolean bInitOver=false;
 	
 	@Override
@@ -62,7 +66,13 @@ public class MeshManager extends BaseManager {
 			try {
 				
 				mObject = new GeneratedObject(getManagers().getToolsManager().getColor(),4);
+				
 				BuildRelationMapFromMesh();
+				
+				mIndexBuffer= mObject.getIndexBuffer();
+				mColorBuffer= mObject.getColorBuffer(); 
+				mNormalBuffer= mObject.getNormalBuffer();
+				mVertexBuffer= mObject.getVertexBuffer(); 
 				
 			} catch (Exception e) {
 				assert(false);
@@ -203,10 +213,7 @@ public class MeshManager extends BaseManager {
     private void ColorTriangle(int triangleIndex)
     {
     	if (triangleIndex>=0)
-    	{    		
-        	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
-        	FloatBuffer mColorBuffer= mObject.getColorBuffer();        	
-
+    	{    
         	float[] VColor=new float[4];
         	
         	int color=getManagers().getToolsManager().getColor();
@@ -234,10 +241,7 @@ public class MeshManager extends BaseManager {
     private void RiseUpTriangle(int triangleIndex)
     {
     	if (triangleIndex>=0)
-    	{
-    		FloatBuffer mVertexBuffer = mObject.getVertexBuffer();
-        	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
-        	
+    	{	
         	float[] V0=new float[3];
         	float[] V1=new float[3];
         	float[] V2=new float[3];
@@ -302,9 +306,7 @@ public class MeshManager extends BaseManager {
     }
     
     private void UpdateVertexNormal(int nVertexIndex)
-    {    		
-    	FloatBuffer mNormalBuffer = mObject.getNormalBuffer();
-    	
+    {      	
     	float[] V0Normal=new float[3]; 
     	float[] VTempNormal=new float[3];	
 		
@@ -339,8 +341,7 @@ public class MeshManager extends BaseManager {
      * @return position in WCS.
      */
     public void GetWorldCoords( float[] worldPos, float touchX, float touchY, float z)
-    {  
-        
+    {          
         // SCREEN height & width (ej: 320 x 480)
         float screenW = mViewPort[2];
         float screenH = mViewPort[3];
@@ -423,10 +424,7 @@ public class MeshManager extends BaseManager {
     int GetPickedTriangleIndex()
     {
     	int nRes=-1;
-    	
-    	FloatBuffer mVertexBuffer = mObject.getVertexBuffer();
-    	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
-    	
+    	  	
     	float[] R0=new float[3];
     	float[] R1=new float[3];
     	float[] V0=new float[3];
@@ -559,10 +557,7 @@ public class MeshManager extends BaseManager {
 	private  HashMap<Integer,NodeRelationList> mNodeRelationMap= new HashMap<Integer,NodeRelationList> ();
 	
 	private void BuildRelationMapFromMesh()
-	{
-		FloatBuffer mVertexBuffer = mObject.getVertexBuffer();
-    	ShortBuffer mIndexBuffer= mObject.getIndexBuffer();
-    	
+	{   	
     	float[] V0=new float[3];
     	float[] V1=new float[3];
     	float[] V2=new float[3];
