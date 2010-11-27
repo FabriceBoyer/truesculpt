@@ -124,7 +124,7 @@ public class TouchManager extends BaseManager {
 						if (getManagers().getToolsManager().getPovSubMode()==EPovToolSubMode.ZOOM)
 						{
 							float fingersSpacing=getDistanceBetweenFingers(event);
-							float dist =mZoomInit + (fingersSpacing-mLastFingerSpacing)/fDemultZoomFactor;
+							float dist =mZoomInit - (fingersSpacing-mLastFingerSpacing)/fDemultZoomFactor;
 							
 							getManagers().getPointOfViewManager().setZoomDistance(dist);						
 						}

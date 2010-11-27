@@ -2,6 +2,7 @@ package truesculpt.managers;
 
 import java.util.Vector;
 import android.content.Context;
+import android.graphics.Color;
 
 public class ToolsManager extends BaseManager {	
 	
@@ -11,7 +12,7 @@ public class ToolsManager extends BaseManager {
 	
 	private EToolMode mMode=EToolMode.POV;
 	private EPovToolSubMode mPovSubMode=EPovToolSubMode.ROTATE;
-	private int mColor=0;
+	private int mColor=Color.rgb(0, 0, 200);
 	private float mStrength=50.0f;//pct
 	private float mRadius=50.0f;//pct
 

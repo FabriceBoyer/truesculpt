@@ -23,6 +23,8 @@ import java.nio.ShortBuffer;
 import java.util.Random;
 import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
+
+import android.graphics.Color;
 import truesculpt.renderer.generator.RecursiveSphereGenerator;
 
 /**
@@ -45,9 +47,9 @@ public class GeneratedObject
 		return mVertexCount;
 	}
 
-	public GeneratedObject()
+	public GeneratedObject(int color, int recursionLevel)
     {    	
-		RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(4);
+		RecursiveSphereGenerator mGenerator=new RecursiveSphereGenerator(recursionLevel);
     	
     	Vector<Float> vertices= mGenerator.getVertices();
     	Vector<Integer> faces=mGenerator.getFaces();
@@ -63,7 +65,14 @@ public class GeneratedObject
         ByteBuffer cbb = ByteBuffer.allocateDirect(mVertexCount*4*4); //4 color elem (RGBA) in float (4 bytes)
         cbb.order(ByteOrder.nativeOrder());
         mColorBuffer = cbb.asFloatBuffer();
-        putRandomColorsInFloatBuffer(mColorBuffer,mVertexCount);
+        if (color!=-1)
+        {
+        	putColorInFloatBuffer(mColorBuffer,mVertexCount,color);
+        }
+        else
+        {
+        	putRandomColorsInFloatBuffer(mColorBuffer,mVertexCount);
+        }
         mColorBuffer.position(0);
 
         mFacesCount=faces.size()/3;
@@ -74,16 +83,29 @@ public class GeneratedObject
         mIndexBuffer.position(0);		
     } 
     
-    private void  putRandomColorsInFloatBuffer(FloatBuffer buff, int nCount)
-    {
-    	Random rand = new Random();
+	 private void  putRandomColorsInFloatBuffer(FloatBuffer buff, int nCount)
+	    {
+	    	Random rand = new Random();
+			for (int j = 0; j < nCount; j++) 
+			{
+				float r = rand.nextFloat();
+				float g = rand.nextFloat();
+				float b = rand.nextFloat();
+				
+				float[] col={r,g,b,1};
+				buff.put(col);			
+			}    	
+	    }
+	 
+    private void  putColorInFloatBuffer(FloatBuffer buff, int nCount, int color)
+    {    	
+		float r = Color.red(color);
+		float g = Color.green(color);
+		float b = Color.blue(color);
+		float[] col={r,g,b,1};
+		
 		for (int j = 0; j < nCount; j++) 
-		{
-			float r = rand.nextFloat();
-			float g = rand.nextFloat();
-			float b = rand.nextFloat();
-			
-			float[] col={r,g,b,1};
+		{			
 			buff.put(col);			
 		}    	
     }
