@@ -22,6 +22,7 @@ import android.os.SystemClock;
 import android.provider.ContactsContract.CommonDataKinds.Relation;
 import android.util.Log;
 import truesculpt.utils.MatrixUtils;
+import truesculpt.utils.Utils;
 
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager {
@@ -207,9 +208,7 @@ public class MeshManager extends BaseManager {
         	float[] VColor=new float[4];
         	
         	int color=getManagers().getToolsManager().getColor();
-        	VColor[0]=(float)Color.red(color)/255.0f;
-        	VColor[1]=(float)Color.green(color)/255.0f;
-        	VColor[2]=(float)Color.blue(color)/255.0f;
+        	Utils.ColorIntToFloatVector(color, VColor);
         	VColor[3]=1.0f;//no alpha
         	        	        	    		         	
         	int nIndex0=4*mIndexBuffer.get(triangleIndex);

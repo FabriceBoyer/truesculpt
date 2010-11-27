@@ -5,6 +5,7 @@ import java.util.Vector;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -76,6 +77,13 @@ public class Utils {
 				Toast.makeText(callingContext, msg, Toast.LENGTH_LONG);
 			}
 		}
+	}
+	
+	public static void ColorIntToFloatVector(int color, float[] VColor)
+	{    	
+    	VColor[0]=(float)Color.red(color)/255.0f;
+    	VColor[1]=(float)Color.green(color)/255.0f;
+    	VColor[2]=(float)Color.blue(color)/255.0f;
 	}
 	
 	

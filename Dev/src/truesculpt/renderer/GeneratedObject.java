@@ -26,6 +26,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.Color;
 import truesculpt.renderer.generator.RecursiveSphereGenerator;
+import truesculpt.utils.Utils;
 
 /**
  * A vertex shaded cube.
@@ -109,14 +110,13 @@ public class GeneratedObject
 	 
     private void  putColorInFloatBuffer(FloatBuffer buff, int nCount, int color)
     {    	
-		float r = Color.red(color);
-		float g = Color.green(color);
-		float b = Color.blue(color);
-		float[] col={r,g,b,1};
+		float[] VCol=new float[3];
+		
+		Utils.ColorIntToFloatVector(color, VCol);
 		
 		for (int j = 0; j < nCount; j++) 
 		{			
-			buff.put(col);			
+			buff.put(VCol);			
 		}    	
     }
     private void putFloatVectorToBuffer(FloatBuffer buff, Vector<Float> vec)
