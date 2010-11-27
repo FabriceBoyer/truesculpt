@@ -71,13 +71,16 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
+				
 		gl.glTranslatef(0, 0, -mDistance);
 		
 		gl.glRotatef(mElevation, 1, 0, 0);
-		gl.glRotatef(mRot, 0, 1, 0);
-		
+		gl.glRotatef(mRot, 0, 1, 0);		
+	
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+		//gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
+
 
 		//TODO only if point of view changed		
 		mMeshManager.getCurrentModelView(gl);
@@ -112,27 +115,41 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		mMeshManager.getViewport(gl);
 	}
 
+	float lightAmbient[] = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
+	float lightDiffuse[] = new float[] { 1f, 1f, 1f, 1.0f };
+	float[] lightPos = new float[] {0,0,3,1};
+	
+	float matAmbient[] = new float[] { 1f, 1f, 1f, 1.0f };
+	float matDiffuse[] = new float[] { 1f, 1f, 1f, 1.0f };
+	
+	
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		/*
-		 * By default, OpenGL enables features that improve quality but reduce
-		 * performance. One might want to tweak that especially on software
-		 * renderer.
-		 */
-		gl.glDisable(GL10.GL_DITHER);
 
-		/*
-		 * Some one-time OpenGL initialization can be made here probably based
-		 * on features of this particular context
-		 */
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 		
 		//TODO configuration in options
 		gl.glClearColor(0, 0, 0, 0);
 		
+	
+		gl.glEnable(GL10.GL_LIGHTING);
+		gl.glEnable(GL10.GL_LIGHT0);
+				
+		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPos, 0);
+		
+		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, matAmbient, 0);
+		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, matDiffuse, 0);
+		
+		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, lightAmbient,	0);
+		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, lightDiffuse,	0);		
+		
+		gl.glEnable(GL10.GL_DEPTH_TEST);
+		gl.glDepthFunc(GL10.GL_LEQUAL);
+		
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
-		gl.glEnable(GL10.GL_DEPTH_TEST);		
+		
+		gl.glEnable(GL10.GL_COLOR_MATERIAL);
 
 	}	
 	
