@@ -10,8 +10,9 @@ public class PointOfViewManager extends BaseManager {
 	private float mTheta=0.0f;
 	private float mPhi=0.0f;
 	
-	private float mRmax=12.0f;
-	private float mRmin=2.0f;//to be recomputed to adapt to max size of object
+	//TODO to be recomputed to adapt to max size of object
+	private float mRmax=9.0f;
+	private float mRmin=2.0f;
 	
 	public PointOfViewManager(Context baseContext) {
 		super(baseContext);
