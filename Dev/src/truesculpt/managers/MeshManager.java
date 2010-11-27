@@ -67,12 +67,12 @@ public class MeshManager extends BaseManager {
 				
 				mObject = new GeneratedObject(getManagers().getToolsManager().getColor(),4);
 				
-				BuildRelationMapFromMesh();
-				
 				mIndexBuffer= mObject.getIndexBuffer();
 				mColorBuffer= mObject.getColorBuffer(); 
 				mNormalBuffer= mObject.getNormalBuffer();
 				mVertexBuffer= mObject.getVertexBuffer(); 
+				
+				BuildRelationMapFromMesh();
 				
 			} catch (Exception e) {
 				assert(false);
@@ -175,7 +175,7 @@ public class MeshManager extends BaseManager {
 						{
 							case SCULPT:						
 							{					
-								RiseUpTriangle(nIndex);
+								RiseTriangle(nIndex);
 								break;
 							}
 							case PAINT:						
@@ -238,44 +238,26 @@ public class MeshManager extends BaseManager {
     }
     
   //TODO place as an action
-    private void RiseUpTriangle(int triangleIndex)
+    private void RiseTriangle(int triangleIndex)
     {
     	if (triangleIndex>=0)
     	{	
         	float[] V0=new float[3];
-        	float[] V1=new float[3];
-        	float[] V2=new float[3];
         	float[] VTemp=new float[3];
         	float[] nOffset=new float[3];
         	    		         	
+        	//first triangle point arbitrarily chosen (should take closest or retessalate)
         	int nIndex0=3*mIndexBuffer.get(triangleIndex);
     		mVertexBuffer.position(nIndex0);
     		mVertexBuffer.get(V0,0,3);
     		
-    		int nIndex1=3*mIndexBuffer.get(triangleIndex+1);
-    		mVertexBuffer.position(nIndex1);
-    		mVertexBuffer.get(V1,0,3);
-    		
-    		int nIndex2=3*mIndexBuffer.get(triangleIndex+2);
-    		mVertexBuffer.position(nIndex2);
-    		mVertexBuffer.get(V2,0,3);   
-    		
-	    	 // get triangle edge vectors and plane normal
-	   	     MatrixUtils.minus(V1,V0,u);
-	   	     MatrixUtils.minus(V2,V0,v);
-	   	     
-	   	     MatrixUtils.cross(u, v, n);             // cross product
-	   	     if (n == zero)            // triangle is degenerate
-	   	         return ;                 // do not deal with this case
-	   	  
-	   	     MatrixUtils.normalize(n);	   	  
-	   	  	
-	   	     float fMaxDeformation=getManagers().getToolsManager().getStrength()/100.0f*0.2f;//strength is -100 to 100
-	   	     
-	   	     MatrixUtils.copy(n, nOffset);
-	   	     MatrixUtils.scalarMultiply(nOffset, fMaxDeformation);
-	   	     
-	   	     //central point (should choose closest or retessalate)
+    		float fMaxDeformation=getManagers().getToolsManager().getStrength()/100.0f*0.2f;//strength is -100 to 100
+    		 
+    		mNormalBuffer.position(nIndex0);
+    		mNormalBuffer.get(nOffset, 0, 3);	  	
+	   	    
+    		MatrixUtils.scalarMultiply(nOffset, fMaxDeformation);	   	     
+	   	    
 	   	     MatrixUtils.plus(V0,nOffset, V0);	   	     
 	    	 mVertexBuffer.position(nIndex0);
 	    	 mVertexBuffer.put(V0,0,3);
@@ -284,15 +266,20 @@ public class MeshManager extends BaseManager {
 	    	 
 	    	 if (getManagers().getToolsManager().getRadius()>=50)
 	    	 {
-		    	 //First corona
-	    		 MatrixUtils.copy(n, nOffset);
-		   	     MatrixUtils.scalarMultiply(nOffset, fMaxDeformation/2.0f);    	 
-		    	 NodeRelationList list= mNodeRelationMap.get(nIndex0);
+		    	 //First corona		   	     	 
+		    	 NodeRelationList list= mNodeRelationMap.get(nIndex0);		    	 
 		    	 for (NodeRelation relation : list.mRelationList) {
 					int nOtherIndex =relation.mOtherIndex;
+					
 			    	 mVertexBuffer.position(nOtherIndex);
 			    	 mVertexBuffer.get(VTemp, 0, 3);
+			    		
+			    	 mNormalBuffer.position(nOtherIndex);
+			    	 mNormalBuffer.get(nOffset, 0, 3);	
+			    	 MatrixUtils.scalarMultiply(nOffset, fMaxDeformation/2.0f);   
+			    	 
 			    	 MatrixUtils.plus(VTemp,nOffset, VTemp);	
+			    	 
 			    	 mVertexBuffer.position(nOtherIndex);
 			    	 mVertexBuffer.put(VTemp,0,3);
 			    	 
@@ -302,6 +289,7 @@ public class MeshManager extends BaseManager {
 	    	 
         	 mIndexBuffer.position(0);
         	 mVertexBuffer.position(0);
+        	 mNormalBuffer.position(0);
     	}
     }
     
@@ -313,8 +301,7 @@ public class MeshManager extends BaseManager {
 		mNormalBuffer.position(nVertexIndex);
 		mNormalBuffer.get(V0Normal,0,3);	
 		
-		//averaging normals
-		
+		//averaging normals		
 		 NodeRelationList list= mNodeRelationMap.get(nVertexIndex);
     	 for (NodeRelation relation : list.mRelationList) {
 		     int nOtherIndex =relation.mOtherIndex;
@@ -501,7 +488,7 @@ public class MeshManager extends BaseManager {
 	     MatrixUtils.minus(V1,V0,u);
 	     MatrixUtils.minus(V2,V0,v);
 	     
-	     MatrixUtils.cross(u, v, n);             // cross product
+	     MatrixUtils.cross(u, v, n);             // cross product	     
 	     if (n == zero)            // triangle is degenerate
 	         return -1;                 // do not deal with this case
 	  
