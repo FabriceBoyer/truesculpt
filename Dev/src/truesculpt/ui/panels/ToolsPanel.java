@@ -151,7 +151,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		Dialog dialog=null;
 		switch (id) {
 		case DIALOG_COLOR_PICKER_ID:
-			dialog = new ColorPickerDialog(ToolsPanel.this, ToolsPanel.this, 0);
+			dialog = new ColorPickerDialog(ToolsPanel.this, ToolsPanel.this, getManagers().getToolsManager().getColor());
 			break;
 		default:
 			dialog = null;
