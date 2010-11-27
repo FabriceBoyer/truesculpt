@@ -60,7 +60,7 @@ public class MeshManager extends BaseManager {
 			
 			try {
 				
-				mObject = new GeneratedObject();
+				mObject = new GeneratedObject(getManagers().getToolsManager().getColor(),4);
 				BuildRelationMapFromMesh();
 				
 			} catch (Exception e) {
