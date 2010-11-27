@@ -3,6 +3,7 @@ package truesculpt.managers;
 import truesculpt.managers.ToolsManager.EPovToolSubMode;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.utils.Global;
+import truesculpt.utils.Utils;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,8 +22,11 @@ public class TouchManager extends BaseManager {
 	private float mElevInit=0.0f;
 	private float mZoomInit=0.0f;
 	private float mLastFingerSpacing=0.0f;
+	private long mLastTapTapTime=0;
 	
-	private float fDemultFactor=2.5f;	
+	private float fDemultRotateFactor=2.5f;	
+	private float fDemultZoomFactor=fDemultRotateFactor/20.0f;
+	private float fTapTapThresold=1000.0f;//ms
 		
 	//ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
 	public void onTouchEvent(MotionEvent event)
@@ -42,7 +46,14 @@ public class TouchManager extends BaseManager {
 		switch(actionCode)		
 		{
 			case MotionEvent.ACTION_DOWN:
-			{
+			{				
+				long curTapTapTime=System.currentTimeMillis();
+				if ((curTapTapTime-mLastTapTapTime) < fTapTapThresold)
+				{
+					StartTapTapAction();
+				}
+				mLastTapTapTime=curTapTapTime;
+				
 				initPOVValues(x, y);
 				getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 				
@@ -108,8 +119,8 @@ public class TouchManager extends BaseManager {
 					{		
 						if (getManagers().getToolsManager().getPovSubMode()==EPovToolSubMode.ROTATE)
 						{
-							float angleRot =mRotInit + (x-mLastX)/fDemultFactor;
-							float angleElev= mElevInit + (y-mLastY)/fDemultFactor;										
+							float angleRot =mRotInit + (x-mLastX)/fDemultRotateFactor;
+							float angleElev= mElevInit + (y-mLastY)/fDemultRotateFactor;										
 							float dist =getManagers().getPointOfViewManager().getZoomDistance();
 							
 							getManagers().getPointOfViewManager().SetAllAngles(angleRot,angleElev,dist);
@@ -117,7 +128,7 @@ public class TouchManager extends BaseManager {
 						if (getManagers().getToolsManager().getPovSubMode()==EPovToolSubMode.ZOOM)
 						{
 							float fingersSpacing=getDistanceBetweenFingers(event);
-							float dist =mZoomInit + (fingersSpacing-mLastFingerSpacing)/fDemultFactor/20;
+							float dist =mZoomInit + (fingersSpacing-mLastFingerSpacing)/fDemultZoomFactor;
 							
 							getManagers().getPointOfViewManager().setZoomDistance(dist);						
 						}
@@ -133,6 +144,26 @@ public class TouchManager extends BaseManager {
 					}				
 				}
 				
+				break;
+			}
+		}
+	}
+	
+	private void StartTapTapAction()
+	{
+		switch (getManagers().getToolsManager().getToolMode())
+		{
+			case POV:
+			{		
+				//TODO queue or post to come back in UI thread 
+				Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.PointOfViewPanel.class);				
+				break;
+			}
+			case SCULPT:
+			case PAINT:
+			{	
+				//TODO queue or post to come back in UI thread
+				Utils.StartMyActivity(getbaseContext(),truesculpt.ui.panels.OptionsPanel.class);
 				break;
 			}
 		}
