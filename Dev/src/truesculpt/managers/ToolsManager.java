@@ -12,7 +12,7 @@ public class ToolsManager extends BaseManager {
 	
 	private EToolMode mMode=EToolMode.POV;
 	private EPovToolSubMode mPovSubMode=EPovToolSubMode.ROTATE;
-	private int mColor=Color.rgb(0, 0, 200);
+	private int mColor=Color.rgb(150, 150, 150);
 	private float mStrength=50.0f;//pct
 	private float mRadius=50.0f;//pct
 
