@@ -122,6 +122,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	
 	float matAmbient[] = new float[] { 1,1,1,1};
 	float matDiffuse[] = new float[] { 1,1,1,1};
+	float matSpecular[] = new float[] {0.3f, 0.3f, 0.3f, 1.0f};
+	float fShininess=25.0f;
 	
 	
 	@Override
@@ -137,7 +139,10 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glEnable(GL10.GL_LIGHT0);
 		
 		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, matAmbient, 0);
-		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, matDiffuse, 0);
+		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, matDiffuse, 0);		 
+		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, matSpecular, 0);
+		gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, fShininess );
+		    
 		//gl.glEnable(GL10.GL_COLOR_MATERIAL);
 		
 		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPos, 0);	
