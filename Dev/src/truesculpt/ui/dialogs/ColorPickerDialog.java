@@ -54,8 +54,7 @@ public class ColorPickerDialog extends Dialog {
 		OnColorChangedListener l = new OnColorChangedListener() {
 			@Override
 			public void colorChanged(int color) {
-				mListener.colorChanged(color);
-				dismiss();
+				mListener.colorChanged(color);				
 			}
 		};
 
