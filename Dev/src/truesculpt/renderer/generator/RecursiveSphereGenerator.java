@@ -3,6 +3,8 @@ package truesculpt.renderer.generator;
 import java.util.Arrays;
 import java.util.Vector;
 
+import truesculpt.utils.MatrixUtils;
+
 public class RecursiveSphereGenerator {
 	int n_vertices=0;
 	int n_faces=0;
@@ -10,6 +12,7 @@ public class RecursiveSphereGenerator {
 
 	Vector<Float> vertices = new Vector<Float>();
 	Vector<Integer> faces = new Vector<Integer>(); 
+	Vector<Float> normals = new Vector<Float>();
 
 	int edge_walk=0; 
 	Vector<Integer>  start = new Vector<Integer>(); 
@@ -26,6 +29,8 @@ public class RecursiveSphereGenerator {
 		{
 			subdivide (); 
 		}	 
+		
+		generateSphereNormals();
 	}
 
 	void subdivide () 
@@ -204,16 +209,44 @@ public class RecursiveSphereGenerator {
 	  faces.addAll(Arrays.asList(icosahedron_faces));
 	} 
 	
+	private void generateSphereNormals()
+	{
+		float [] V0=new float[3];
+		
+		int n=vertices.size();
+		for (int i = 0; i < n; i=i+3) {
+			Float x=vertices.get(i+0);
+			Float y=vertices.get(i+1);
+			Float z=vertices.get(i+2);
+			
+			if (x!=null &&
+				y!=null &&					
+				z!=null)
+			{			
+				V0[0]=(float)x;
+				V0[1]=(float)y;
+				V0[2]=(float)z;
+				
+				MatrixUtils.normalize(V0);
+				
+				normals.add(V0[0]);
+				normals.add(V0[1]);
+				normals.add(V0[2]);
+			}
+		}
+	}
+	
 	public Vector<Float> getVertices() {
 		return vertices;
 	}
 
-
 	public Vector<Integer> getFaces() {
 		return faces;
 	}
-
 	
+	public Vector<Float> getNormals() {
+		return normals;
+	}	
 }
 
 

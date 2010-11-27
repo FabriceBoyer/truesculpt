@@ -33,8 +33,9 @@ import truesculpt.renderer.generator.RecursiveSphereGenerator;
 public class GeneratedObject
 {
     private FloatBuffer   mColorBuffer=null;
-    private ShortBuffer  mIndexBuffer=null;
+    private ShortBuffer   mIndexBuffer=null;
     private FloatBuffer   mVertexBuffer=null;
+    private FloatBuffer   mNormalBuffer=null;
         
     private int mFacesCount=0;
 	private int mVertexCount=0;
@@ -53,6 +54,7 @@ public class GeneratedObject
     	
     	Vector<Float> vertices= mGenerator.getVertices();
     	Vector<Integer> faces=mGenerator.getFaces();
+    	Vector<Float> normals=mGenerator.getNormals();
     	
     	mVertexCount=vertices.size()/3;
         ByteBuffer vbb = ByteBuffer.allocateDirect(mVertexCount*3*4);//float is 4 bytes, vertices contains x,y,z in seq
@@ -80,7 +82,15 @@ public class GeneratedObject
         ibb.order(ByteOrder.nativeOrder());
         mIndexBuffer = ibb.asShortBuffer();
         putIntVectorToShortBuffer( mIndexBuffer,faces);
-        mIndexBuffer.position(0);		
+        mIndexBuffer.position(0);	
+                
+    	
+        ByteBuffer nbb = ByteBuffer.allocateDirect(mVertexCount*3*4);//float is 4 bytes, normals contains x,y,z in seq
+        nbb.order(ByteOrder.nativeOrder());
+        mNormalBuffer = nbb.asFloatBuffer();
+        putFloatVectorToBuffer(mNormalBuffer,normals);
+        mNormalBuffer.position(0);
+
     } 
     
 	 private void  putRandomColorsInFloatBuffer(FloatBuffer buff, int nCount)
@@ -145,10 +155,16 @@ public class GeneratedObject
     }
     public void draw(GL10 gl)
     {    	
+    	gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
+    	
         gl.glFrontFace(GL10.GL_CCW);//counter clock wise is specific to previous format
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-        gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);    
+        gl.glNormalPointer(GL10.GL_FLOAT, 0, mNormalBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);   
+        
+        gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
+        
     }
 
 	public FloatBuffer getVertexBuffer() {
@@ -162,4 +178,9 @@ public class GeneratedObject
 	public FloatBuffer getColorBuffer() {
 		return mColorBuffer;
 	}
+	
+	public FloatBuffer getNormalBuffer() {
+		return mNormalBuffer;
+	}
+	
 }
