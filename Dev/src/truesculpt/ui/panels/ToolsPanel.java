@@ -53,14 +53,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		setContentView(R.layout.tools);
 		
 		getManagers().getToolsManager().registerToolChangeListener(this);
-				
-		mColorButton = (Button) findViewById(R.id.color_button);
-		mColorButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showDialog(DIALOG_COLOR_PICKER_ID);				
-			}
-		});
 		
 		mViewToggle = (ToggleButton) findViewById(R.id.View);
 		mViewToggle.setOnClickListener(new View.OnClickListener() {
@@ -145,20 +137,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mRadiusSeekBar.setProgress((int)fRadius);
 		mRadiusText.setText("Radius = "+Integer.toString((int)fRadius)+" %");
 	}
-	
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog=null;
-		switch (id) {
-		case DIALOG_COLOR_PICKER_ID:
-			dialog = new ColorPickerDialog(ToolsPanel.this, ToolsPanel.this, getManagers().getToolsManager().getColor());
-			break;
-		default:
-			dialog = null;
-		}
-		return dialog;
-	}
-
+		
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
