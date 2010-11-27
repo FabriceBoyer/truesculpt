@@ -6,4 +6,4 @@ hg commit -m "AutoSave"
 hg push
 hg status
 
-pause
+REM pause
