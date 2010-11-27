@@ -26,7 +26,7 @@ public class TouchManager extends BaseManager {
 	
 	private float fDemultRotateFactor=2.5f;	
 	private float fDemultZoomFactor=fDemultRotateFactor*20.0f;
-	private float fTapTapThresold=1000.0f;//ms
+	private float fTapTapTimeThresold=500.0f;//ms
 		
 	//ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
 	public void onTouchEvent(MotionEvent event)
@@ -48,13 +48,13 @@ public class TouchManager extends BaseManager {
 			case MotionEvent.ACTION_DOWN:
 			{				
 				long curTapTapTime=System.currentTimeMillis();
-				if ((curTapTapTime-mLastTapTapTime) < fTapTapThresold)
+				if ((curTapTapTime-mLastTapTapTime) < fTapTapTimeThresold)
 				{
 					StartTapTapAction();
 				}
 				mLastTapTapTime=curTapTapTime;
 				
-				initPOVValues(event);
+				initPOVValues(event, false);
 				getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 				
 				// auto switch tool mode
@@ -97,7 +97,7 @@ public class TouchManager extends BaseManager {
 			}
 			case MotionEvent.ACTION_POINTER_UP:
 			{
-				initPOVValues(event);//reinit rotate values
+				initPOVValues(event, true);//reinit rotate values
 				
 				getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);				
 				break;
@@ -191,16 +191,17 @@ public class TouchManager extends BaseManager {
 	}
 
 	//handle correct main finger
-	private void initPOVValues(MotionEvent event) {	
+	private void initPOVValues(MotionEvent event, boolean bZoomGestureEnd) {	
 		int nIndex=0;
 		
 		int nCount=event.getPointerCount();
-		int action = event.getAction();
-		int actionCode = action & MotionEvent.ACTION_MASK;		
-	    if ( actionCode == MotionEvent.ACTION_POINTER_UP) {		    
+		
+		if (bZoomGestureEnd)
+		{
+			int action = event.getAction();    
 	    	nIndex= action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
-	    	nIndex++;//take another index (non risen up)
-		}		
+	    	nIndex++;//take another index (non risen up)		
+		}
 	    
 	    if (nIndex<0) nIndex=nCount-1;
 	    if (nIndex>=nCount) nIndex=0;
