@@ -110,7 +110,7 @@ public class GeneratedObject
 	 
     private void  putColorInFloatBuffer(FloatBuffer buff, int nCount, int color)
     {    	
-		float[] VCol=new float[3];
+		float[] VCol=new float[4];
 		
 		Utils.ColorIntToFloatVector(color, VCol);
 		

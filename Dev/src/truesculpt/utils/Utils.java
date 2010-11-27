@@ -84,6 +84,7 @@ public class Utils {
     	VColor[0]=(float)Color.red(color)/255.0f;
     	VColor[1]=(float)Color.green(color)/255.0f;
     	VColor[2]=(float)Color.blue(color)/255.0f;
+    	VColor[3]=1.0f;
 	}
 	
 	
