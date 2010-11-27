@@ -134,7 +134,8 @@ public class MeshManager extends BaseManager {
     	return nCount;
 	}
     
-    //TO be threaded to improve GUI reactivity
+    //TODO threaded to improve GUI reactivity
+    //pick is not an action
     public int Pick(float screenX,float screenY)
     {        
     	int nIndex=-1;
@@ -198,6 +199,7 @@ public class MeshManager extends BaseManager {
     	return nIndex;
     }
         
+    //TODO place as an action
     private void ColorTriangle(int triangleIndex)
     {
     	if (triangleIndex>=0)
@@ -228,6 +230,7 @@ public class MeshManager extends BaseManager {
     	}
     }
     
+  //TODO place as an action
     private void RiseUpTriangle(int triangleIndex)
     {
     	if (triangleIndex>=0)
@@ -273,6 +276,8 @@ public class MeshManager extends BaseManager {
 	    	 mVertexBuffer.position(nIndex0);
 	    	 mVertexBuffer.put(V0,0,3);
 	    	 
+	    	 UpdateVertexNormal(nIndex0);
+	    	 
 	    	 if (getManagers().getToolsManager().getRadius()>=50)
 	    	 {
 		    	 //First corona
@@ -286,12 +291,44 @@ public class MeshManager extends BaseManager {
 			    	 MatrixUtils.plus(VTemp,nOffset, VTemp);	
 			    	 mVertexBuffer.position(nOtherIndex);
 			    	 mVertexBuffer.put(VTemp,0,3);
+			    	 
+			    	 UpdateVertexNormal(nOtherIndex);
 				 }   	 
 	    	 }
 	    	 
         	 mIndexBuffer.position(0);
         	 mVertexBuffer.position(0);
     	}
+    }
+    
+    private void UpdateVertexNormal(int nVertexIndex)
+    {    		
+    	FloatBuffer mNormalBuffer = mObject.getNormalBuffer();
+    	
+    	float[] V0Normal=new float[3]; 
+    	float[] VTempNormal=new float[3];	
+		
+		mNormalBuffer.position(nVertexIndex);
+		mNormalBuffer.get(V0Normal,0,3);	
+		
+		//averaging normals
+		
+		 NodeRelationList list= mNodeRelationMap.get(nVertexIndex);
+    	 for (NodeRelation relation : list.mRelationList) {
+		     int nOtherIndex =relation.mOtherIndex;
+	    	 
+	 		 mNormalBuffer.position(nOtherIndex);
+			 mNormalBuffer.get(VTempNormal,0,3);	    	 
+			 
+			 MatrixUtils.plus(V0Normal,VTempNormal,V0Normal);    	 
+		 }   	 
+		
+    	 MatrixUtils.normalize(V0Normal);
+    	 
+    	 mNormalBuffer.position(nVertexIndex);
+    	 mNormalBuffer.put(V0Normal,0,3);
+		
+    	 mNormalBuffer.position(0);   	 	 
     }
    
     /**
@@ -550,16 +587,19 @@ public class MeshManager extends BaseManager {
     		MatrixUtils.minus(V1, V0, VDiff);
     		float fDist1=MatrixUtils.magnitude(VDiff);
     		AddRelationToMap(nIndex0,nIndex1,fDist1);
+    		AddRelationToMap(nIndex1,nIndex0,fDist1);
     		
     		//1 to 2
     		MatrixUtils.minus(V2, V1, VDiff);
     		float fDist2=MatrixUtils.magnitude(VDiff);
     		AddRelationToMap(nIndex1,nIndex2,fDist2);
+    		AddRelationToMap(nIndex2,nIndex1,fDist2);
     		
     		//2 to 0
     		MatrixUtils.minus(V0, V2, VDiff);
     		float fDist3=MatrixUtils.magnitude(VDiff);
     		AddRelationToMap(nIndex2,nIndex0,fDist3);
+    		AddRelationToMap(nIndex0,nIndex2,fDist3);
 		}
 		
 		mIndexBuffer.position(0);

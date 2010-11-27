@@ -143,6 +143,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, matSpecular, 0);
 		gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, fShininess );
 		    
+		//TODO use texture, not color at point
 		gl.glEnable(GL10.GL_COLOR_MATERIAL);
 		
 		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPos, 0);	
