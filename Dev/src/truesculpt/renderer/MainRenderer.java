@@ -116,13 +116,13 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 	float lightAmbient[] = new float[] {0.05f, 0.05f, 0.05f, 1.0f};
 	float lightDiffuse[] = new float[]	{0.5f, 0.5f, 0.5f, 1.0f};
-	float lightSpecular[] = new float[] {0.7f, 0.7f, 0.7f, 1.0f};
+	float lightSpecular[] = new float[] {0.1f, 0.1f, 0.1f, 1.0f};
 
 	float[] lightPos = new float[] {5,5,10,1};
 	
 	float matAmbient[] = new float[] { 1,1,1,1};
 	float matDiffuse[] = new float[] { 1,1,1,1};
-	float matSpecular[] = new float[] {0.3f, 0.3f, 0.3f, 1.0f};
+	float matSpecular[] = new float[] { 1,1,1,1};
 	float fShininess=25.0f;
 	
 	
@@ -134,7 +134,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		//TODO back screen color configuration in options
 		gl.glClearColor(0, 0, 0, 0);	
 		
-	
+		
 		gl.glEnable(GL10.GL_LIGHTING);
 		gl.glEnable(GL10.GL_LIGHT0);
 		
@@ -143,7 +143,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, matSpecular, 0);
 		gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, fShininess );
 		    
-		//gl.glEnable(GL10.GL_COLOR_MATERIAL);
+		gl.glEnable(GL10.GL_COLOR_MATERIAL);
 		
 		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPos, 0);	
 		
@@ -156,6 +156,5 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
-
 	}	
 }
