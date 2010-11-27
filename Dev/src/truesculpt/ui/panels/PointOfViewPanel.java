@@ -6,6 +6,7 @@ import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -127,5 +128,11 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		finish();
+		return super.onTouchEvent(event);
 	}
 }

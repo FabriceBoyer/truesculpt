@@ -10,6 +10,7 @@ import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -166,6 +167,12 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	@Override
 	public void onToolChange() {
 		UpdateView();		
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		finish();
+		return super.onTouchEvent(event);
 	}
 
 }

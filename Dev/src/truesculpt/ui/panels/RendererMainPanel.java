@@ -145,6 +145,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 				
 				UpdateButtonsView();
 			}
+			
+			
 		});
 		
 		UpdateButtonsView();		
