@@ -114,9 +114,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		mMeshManager.getViewport(gl);
 	}
 
-	float lightAmbient[] = new float[] {0.05f, 0.05f, 0.05f, 1.0f};
-	float lightDiffuse[] = new float[]	{0.5f, 0.5f, 0.5f, 1.0f};
-	float lightSpecular[] = new float[] {0.1f, 0.1f, 0.1f, 1.0f};
+	float lightAmbient[] = new float[] {0.1f, 0.1f, 0.1f, 1.0f};
+	float lightDiffuse[] = new float[]	{0.9f, 0.9f, 0.9f, 1.0f};
+	float lightSpecular[] = new float[] {0.2f, 0.2f, 0.2f, 1.0f};
 
 	float[] lightPos = new float[] {5,5,10,1};
 	
