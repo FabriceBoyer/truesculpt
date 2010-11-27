@@ -36,8 +36,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 
 	private ToggleButton mViewToggle;
 	private ToggleButton mSculptToggle;
-	private ToggleButton mPaintToggle;
-	private Button mColorButton;
+	private ToggleButton mPaintToggle;	
 	
 	private TextView mRadiusText;
 	private SeekBar mRadiusSeekBar;
