@@ -31,5 +31,7 @@
      android:layout_width="wrap_content"
      android:text="@string/color_picker"  
  />
+ 
+<truesculpt.ui.views.ColorPickerView android:id="@+id/ColorPickerView" android:layout_width="wrap_content" android:layout_height="wrap_content" />
   
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,17 +22,14 @@ public class ColorPickerView extends View {
 	private Paint mCenterPaint;
 
 	private final int[] mColors;
-	private boolean mHighlightCenter;
 
 	private OnColorChangedListener mListener;
 
 	private Paint mPaint;
 
-	private boolean mTrackingCenter;
+	public ColorPickerView(Context c, AttributeSet attrs) {
+		super(c, attrs);
 
-	public ColorPickerView(Context c, OnColorChangedListener l, int color) {
-		super(c);
-		mListener = l;
 		mColors = new int[] { 0xFFFF0000, 0xFFFF00FF, 0xFF0000FF,
 				0xFF00FFFF, 0xFF00FF00, 0xFFFFFF00, 0xFFFF0000 };
 		Shader s = new SweepGradient(0, 0, mColors, null);
@@ -42,9 +40,16 @@ public class ColorPickerView extends View {
 		mPaint.setStrokeWidth(32);
 
 		mCenterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		mCenterPaint.setColor(color);
+		mCenterPaint.setColor(0);
 		mCenterPaint.setStrokeWidth(5);
 	}
+	
+	public void SetColor(int color)
+	{
+		mCenterPaint.setColor(color);
+	}
+	
+	public void SetColorChangeListener(OnColorChangedListener listener) { mListener=listener;}
 
 	private int ave(int s, int d, float p) {
 		return s + java.lang.Math.round(p * (d - s));
@@ -86,23 +91,18 @@ public class ColorPickerView extends View {
 
 		canvas.drawOval(new RectF(-r, -r, r, r), mPaint);
 		canvas.drawCircle(0, 0, CENTER_RADIUS, mCenterPaint);
+		
+		int c = mCenterPaint.getColor();
+		mCenterPaint.setStyle(Paint.Style.STROKE);
+		
+		mCenterPaint.setAlpha(0xFF);
+		
+		canvas.drawCircle(0, 0,
+				CENTER_RADIUS + mCenterPaint.getStrokeWidth(),
+				mCenterPaint);
 
-		if (mTrackingCenter) {
-			int c = mCenterPaint.getColor();
-			mCenterPaint.setStyle(Paint.Style.STROKE);
-
-			if (mHighlightCenter) {
-				mCenterPaint.setAlpha(0xFF);
-			} else {
-				mCenterPaint.setAlpha(0x80);
-			}
-			canvas.drawCircle(0, 0,
-					CENTER_RADIUS + mCenterPaint.getStrokeWidth(),
-					mCenterPaint);
-
-			mCenterPaint.setStyle(Paint.Style.FILL);
-			mCenterPaint.setColor(c);
-		}
+		mCenterPaint.setStyle(Paint.Style.FILL);
+		mCenterPaint.setColor(c);		
 	}
 
 	@Override
@@ -116,40 +116,25 @@ public class ColorPickerView extends View {
 		float y = event.getY() - CENTER_Y;
 		boolean inCenter = java.lang.Math.sqrt(x * x + y * y) <= CENTER_RADIUS;
 
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			mTrackingCenter = inCenter;
-			if (inCenter) {
-				mHighlightCenter = true;
-				invalidate();
-				break;
-			}
-		case MotionEvent.ACTION_MOVE:
-			if (mTrackingCenter) {
-				if (mHighlightCenter != inCenter) {
-					mHighlightCenter = inCenter;
-					invalidate();
-				}
-			} else {
-				float angle = (float) java.lang.Math.atan2(y, x);
-				// need to turn angle [-PI ... PI] into unit [0....1]
-				float unit = angle / (2 * PI);
-				if (unit < 0) {
-					unit += 1;
-				}
-				mCenterPaint.setColor(interpColor(mColors, unit));
-				invalidate();
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-			if (mTrackingCenter) {
-				if (inCenter) {
+		if (!inCenter)
+		{
+			switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:				
+				case MotionEvent.ACTION_MOVE:
+				case MotionEvent.ACTION_UP:	
+				{
+					float angle = (float) java.lang.Math.atan2(y, x);
+					// need to turn angle [-PI ... PI] into unit [0....1]
+					float unit = angle / (2 * PI);
+					if (unit < 0) {
+						unit += 1;
+					}
+					mCenterPaint.setColor(interpColor(mColors, unit));
 					mListener.colorChanged(mCenterPaint.getColor());
+					invalidate();
+					break;			
 				}
-				mTrackingCenter = false; // so we draw w/o halo
-				invalidate();
 			}
-			break;
 		}
 		return true;
 	}
