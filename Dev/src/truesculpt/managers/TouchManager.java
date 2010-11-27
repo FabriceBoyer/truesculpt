@@ -25,7 +25,7 @@ public class TouchManager extends BaseManager {
 	private long mLastTapTapTime=0;
 	
 	private float fDemultRotateFactor=2.5f;	
-	private float fDemultZoomFactor=fDemultRotateFactor/20.0f;
+	private float fDemultZoomFactor=fDemultRotateFactor*20.0f;
 	private float fTapTapThresold=1000.0f;//ms
 		
 	//ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
@@ -156,14 +156,12 @@ public class TouchManager extends BaseManager {
 			case POV:
 			{		
 				//TODO queue or post to come back in UI thread 
-				Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.PointOfViewPanel.class);				
+				Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.ToolsPanel.class,true);				
 				break;
 			}
 			case SCULPT:
 			case PAINT:
-			{	
-				//TODO queue or post to come back in UI thread
-				Utils.StartMyActivity(getbaseContext(),truesculpt.ui.panels.OptionsPanel.class);
+			{					
 				break;
 			}
 		}

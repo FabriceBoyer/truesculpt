@@ -57,7 +57,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		
 		if (bStartUpdateActivity)
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class);	
+			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class,false);	
 		}
 	}
 	
@@ -224,31 +224,31 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.show_tools_panel: {
-			Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class,false);
 			return true;
 		}
 		case R.id.show_point_of_view_panel: {
-			Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class,false);
 			return true;
 		}
 		case R.id.show_debug_panel: {
-			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class);
+			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class,false);
 			return true;
 		}
 		case R.id.show_check_version_panel: {
-			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class,false);
 			return true;
 		}
 		case R.id.show_tutorial_wizard_panel: {
-			Utils.StartMyActivity(this,	truesculpt.ui.panels.TutorialWizardPanel.class);
+			Utils.StartMyActivity(this,	truesculpt.ui.panels.TutorialWizardPanel.class,false);
 			return true;
 		}
 		case R.id.show_options: {			
-			Utils.StartMyActivity(this,truesculpt.ui.panels.OptionsPanel.class);						
+			Utils.StartMyActivity(this,truesculpt.ui.panels.OptionsPanel.class,false);						
 			return true;
 		}
 		case R.id.show_about_panel: {
-			Utils.StartMyActivity(this,	truesculpt.ui.panels.AboutPanel.class);
+			Utils.StartMyActivity(this,	truesculpt.ui.panels.AboutPanel.class,false);
 			return true;
 		}
 		case R.id.quit: {
@@ -320,7 +320,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	{	
 		if (getManagers().getOptionsManager().getDisplaySplashScreenAtStartup()==true)
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.SplashPanel.class);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.SplashPanel.class,false);
 		}
 	}
 
@@ -330,7 +330,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	{
 		if (getManagers().getOptionsManager().getViewTutorialAtStartup()==true)
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class,false);
 		}
 	}
 

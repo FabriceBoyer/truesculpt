@@ -53,7 +53,7 @@ public class Utils {
 	}
 	
 	public static void StartMyActivity(Context callingContext,
-			Class<?> cls) {
+			Class<?> cls, boolean bNewTask) {
 		if (callingContext != null) {
 			boolean bSuccess = true;
 			String msg = "";
@@ -63,7 +63,8 @@ public class Utils {
 			// getLocalActivityManager().startActivity("and.mypackage.ChildActivity",
 			// startIntent);
 
-			Intent myIntent = new Intent(callingContext,cls);			
+			Intent myIntent = new Intent(callingContext,cls);		
+			if (bNewTask) { myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);}
 			try {
 				callingContext.startActivity(myIntent);
 			} catch (Exception e) {
