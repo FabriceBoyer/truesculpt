@@ -32,8 +32,6 @@ import android.view.View;
 
 public class ColorPickerDialog extends Dialog {
 
-
-
 	public interface OnColorChangedListener {
 		void colorChanged(int color);
 	}
@@ -61,7 +59,10 @@ public class ColorPickerDialog extends Dialog {
 			}
 		};
 
-		setContentView(new ColorPickerView(getContext(), l, mInitialColor));
+		ColorPickerView pickerView= new ColorPickerView(getContext(), null);
+		pickerView.SetColor(mInitialColor);
+		pickerView.SetColorChangeListener(l);
+		setContentView(pickerView);
 		setTitle("Pick a Color");
 	}
 }

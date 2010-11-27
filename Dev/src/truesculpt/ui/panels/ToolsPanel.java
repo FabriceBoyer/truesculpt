@@ -7,6 +7,7 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.dialogs.ColorPickerDialog;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
+import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	
 	private TextView mStrengthText;
 	private SeekBar mStrengthSeekBar;
+	
+	private ColorPickerView mColorPickerView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,10 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		});
 		mStrengthSeekBar.setMax(200);//-100 to 100 pct		
 		mStrengthText=(TextView)findViewById(R.id.StrengthText);
+		
+		mColorPickerView=(ColorPickerView) findViewById(R.id.ColorPickerView);
+		mColorPickerView.SetColorChangeListener(this);
+		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
 		
 		UpdateView();
 	}
