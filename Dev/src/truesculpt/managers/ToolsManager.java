@@ -6,8 +6,11 @@ import android.content.Context;
 public class ToolsManager extends BaseManager {	
 	
 	public enum EToolMode { POV, SCULPT, PAINT};
+	public enum EPovToolSubMode { ROTATE, ZOOM, PAN };
+	public enum ESculptToolSubMode { RISE, SUNK, REFINE };
 	
 	private EToolMode mMode=EToolMode.POV;
+	private EPovToolSubMode mPovSubMode=EPovToolSubMode.ROTATE;
 	private int mColor=0;
 	private float mStrength=50.0f;//pct
 	private float mRadius=50.0f;//pct
@@ -121,6 +124,14 @@ public class ToolsManager extends BaseManager {
 
 	public EToolMode getLastMode() {
 		return mLastMode;
+	}
+
+	public EPovToolSubMode getPovSubMode() {
+		return mPovSubMode;
+	}
+
+	public void setPovSubMode(EPovToolSubMode mPovSubMode) {
+		this.mPovSubMode = mPovSubMode;
 	}	
 
 }
