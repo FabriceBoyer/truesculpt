@@ -35,7 +35,7 @@ public class TouchManager extends BaseManager {
 		//String msg="(x,y) = (" + Float.toString(event.getX()) +"," +Float.toString(event.getY()) + ")";
 		//Log.i(Global.TAG,msg);
 		
-		//dumpEvent(event);
+		dumpEvent(event);
 		
 		float x=event.getX();
 		float y=event.getY();	
@@ -54,7 +54,7 @@ public class TouchManager extends BaseManager {
 				}
 				mLastTapTapTime=curTapTapTime;
 				
-				initPOVValues(x, y);
+				initPOVValues(event);
 				getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 				
 				// auto switch tool mode
@@ -88,9 +88,7 @@ public class TouchManager extends BaseManager {
 			}
 					
 			case MotionEvent.ACTION_POINTER_DOWN:
-			{				
-				initPOVValues(x, y);//reinit rotate values
-				
+			{					
 				mZoomInit=getManagers().getPointOfViewManager().getZoomDistance();	
 				mLastFingerSpacing=getDistanceBetweenFingers(event);;
 				
@@ -99,16 +97,14 @@ public class TouchManager extends BaseManager {
 			}
 			case MotionEvent.ACTION_POINTER_UP:
 			{
-				initPOVValues(x, y);//reinit rotate values
+				initPOVValues(event);//reinit rotate values
 				
 				getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);				
 				break;
 			}
 			case MotionEvent.ACTION_UP:
-			{
-				initPOVValues(x, y);//reinit rotate values
-				
-				getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);				
+			{		
+				getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);	
 				break;
 			}
 			case MotionEvent.ACTION_MOVE:
@@ -193,8 +189,26 @@ public class TouchManager extends BaseManager {
 	   sb.append("]" );
 	   Log.d("POINTER", sb.toString());
 	}
-	//TODO handle correct touched finger
-	private void initPOVValues(float x, float y) {		
+
+	//handle correct main finger
+	private void initPOVValues(MotionEvent event) {	
+		int nIndex=0;
+		
+		int nCount=event.getPointerCount();
+		int action = event.getAction();
+		int actionCode = action & MotionEvent.ACTION_MASK;		
+	    if ( actionCode == MotionEvent.ACTION_POINTER_UP) {		    
+	    	nIndex= action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
+	    	nIndex++;//take another index (non risen up)
+		}		
+	    
+	    if (nIndex<0) nIndex=nCount-1;
+	    if (nIndex>=nCount) nIndex=0;
+	    
+	    Log.i("POINTER","Init POV values with finger index="+Integer.toString(nIndex));
+		float x = event.getX(nIndex);
+	    float y = event.getY(nIndex);
+	    
 		mLastX=x;
 		mLastY=y;		
 		mRotInit=getManagers().getPointOfViewManager().getRotationAngle();
