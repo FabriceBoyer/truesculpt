@@ -32,19 +32,21 @@ import truesculpt.utils.Utils;
 /**
  * A vertex shaded cube.
  */
-public class GeneratedObject {
+public class GeneratedObject
+{
 	private FloatBuffer mColorBuffer = null;
-	private ShortBuffer mDrawNormalIndexBuffer = null;
-	private FloatBuffer mDrawNormalVertexBuffer = null;
-	private int mFacesCount = 0;
-
 	private ShortBuffer mIndexBuffer = null;
+	private FloatBuffer mVertexBuffer = null;
 	private FloatBuffer mNormalBuffer = null;
 
-	private FloatBuffer mVertexBuffer = null;
+	private ShortBuffer mDrawNormalIndexBuffer = null;
+	private FloatBuffer mDrawNormalVertexBuffer = null;
+
+	private int mFacesCount = 0;
 	private int mVertexCount = 0;
 
-	public GeneratedObject(int color, int recursionLevel) {
+	public GeneratedObject(int color, int recursionLevel)
+	{
 		RecursiveSphereGenerator mGenerator = new RecursiveSphereGenerator(recursionLevel);
 
 		Vector<Float> vertices = mGenerator.getVertices();
@@ -52,77 +54,43 @@ public class GeneratedObject {
 		Vector<Float> normals = mGenerator.getNormals();
 
 		mVertexCount = vertices.size() / 3;
-		ByteBuffer vbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// float
-																			// is
-																			// 4
-																			// bytes,
-																			// vertices
-																			// contains
-																			// x,y,z
-																			// in
-																			// seq
+		ByteBuffer vbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// float is 4 bytes, vertices contains x,y,z in seq
 		vbb.order(ByteOrder.nativeOrder());
 		mVertexBuffer = vbb.asFloatBuffer();
 		putFloatVectorToBuffer(mVertexBuffer, vertices);
 		mVertexBuffer.position(0);
 
-		ByteBuffer cbb = ByteBuffer.allocateDirect(mVertexCount * 4 * 4); // 4
-																			// color
-																			// elem
-																			// (RGBA)
-																			// in
-																			// float
-																			// (4
-																			// bytes)
+		ByteBuffer cbb = ByteBuffer.allocateDirect(mVertexCount * 4 * 4); // 4 color elem (RGBA) in float (4 bytes)
 		cbb.order(ByteOrder.nativeOrder());
 		mColorBuffer = cbb.asFloatBuffer();
-		if (color != -1) {
+		if (color != -1)
+		{
 			putColorInFloatBuffer(mColorBuffer, mVertexCount, color);
-		} else {
+		} else
+		{
 			putRandomColorsInFloatBuffer(mColorBuffer, mVertexCount);
 		}
 		mColorBuffer.position(0);
 
 		mFacesCount = faces.size() / 3;
-		ByteBuffer ibb = ByteBuffer.allocateDirect(mFacesCount * 3 * 2);// faces
-																		// are 3
-																		// elements
-																		// in
-																		// short
-																		// ( 2
-																		// bytes
-																		// )
+		ByteBuffer ibb = ByteBuffer.allocateDirect(mFacesCount * 3 * 2);// faces are 3 elements in short ( 2 bytes )
 		ibb.order(ByteOrder.nativeOrder());
 		mIndexBuffer = ibb.asShortBuffer();
 		putIntVectorToShortBuffer(mIndexBuffer, faces);
 		mIndexBuffer.position(0);
 
-		ByteBuffer nbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// float
-																			// is
-																			// 4
-																			// bytes,
-																			// normals
-																			// contains
-																			// x,y,z
-																			// in
-																			// seq
+		ByteBuffer nbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// float is 4 bytes, normals contains x,y,z in seq
 		nbb.order(ByteOrder.nativeOrder());
 		mNormalBuffer = nbb.asFloatBuffer();
 		putFloatVectorToBuffer(mNormalBuffer, normals);
 		mNormalBuffer.position(0);
 
-		ByteBuffer ndvbb = ByteBuffer.allocateDirect(2 * 3 * 4);// float is 4
-																// bytes,
-																// normals
-																// contains
-																// x,y,z in seq
+		ByteBuffer ndvbb = ByteBuffer.allocateDirect(2 * 3 * 4);// float is 4 bytes, normals contains x,y,z in seq
 		ndvbb.order(ByteOrder.nativeOrder());
 		mDrawNormalVertexBuffer = ndvbb.asFloatBuffer();
 		mDrawNormalVertexBuffer.position(0);
 
-		ByteBuffer ndibb = ByteBuffer.allocateDirect(2 * 2);// line are 3
-															// elements in short
-															// ( 2 bytes )
+		ByteBuffer ndibb = ByteBuffer.allocateDirect(2 * 2);// line are 3 elements in short ( 2 bytes )
 		ndibb.order(ByteOrder.nativeOrder());
 		mDrawNormalIndexBuffer = ndibb.asShortBuffer();
 		mDrawNormalIndexBuffer.position(0);
@@ -132,12 +100,12 @@ public class GeneratedObject {
 
 	}
 
-	public void draw(GL10 gl) {
+	public void draw(GL10 gl)
+	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 		gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
 
-		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to
-									// previous format
+		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
 		gl.glNormalPointer(GL10.GL_FLOAT, 0, mNormalBuffer);
@@ -147,16 +115,17 @@ public class GeneratedObject {
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 
-	public void drawNormals(GL10 gl) {
-		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to
-									// previous format
+	public void drawNormals(GL10 gl)
+	{
+		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawNormalVertexBuffer);
 
 		float[] V0 = new float[3];
 		float[] V1 = new float[3];
 
 		int nCount = mNormalBuffer.capacity();
-		for (int i = 0; i < nCount; i = i + 3) {
+		for (int i = 0; i < nCount; i = i + 3)
+		{
 			mVertexBuffer.position(i);
 			mVertexBuffer.get(V0, 0, 3);
 
@@ -180,68 +149,86 @@ public class GeneratedObject {
 
 	}
 
-	public FloatBuffer getColorBuffer() {
+	public FloatBuffer getColorBuffer()
+	{
 		return mColorBuffer;
 	}
 
-	public int getFacesCount() {
+	public int getFacesCount()
+	{
 		return mFacesCount;
 	}
 
-	public ShortBuffer getIndexBuffer() {
+	public ShortBuffer getIndexBuffer()
+	{
 		return mIndexBuffer;
 	}
 
-	public FloatBuffer getNormalBuffer() {
+	public FloatBuffer getNormalBuffer()
+	{
 		return mNormalBuffer;
 	}
 
-	public FloatBuffer getVertexBuffer() {
+	public FloatBuffer getVertexBuffer()
+	{
 		return mVertexBuffer;
 	}
 
-	public int getVertexCount() {
+	public int getVertexCount()
+	{
 		return mVertexCount;
 	}
 
-	private void putColorInFloatBuffer(FloatBuffer buff, int nCount, int color) {
+	private void putColorInFloatBuffer(FloatBuffer buff, int nCount, int color)
+	{
 		float[] VCol = new float[4];
 
 		Utils.ColorIntToFloatVector(color, VCol);
 
-		for (int j = 0; j < nCount; j++) {
+		for (int j = 0; j < nCount; j++)
+		{
 			buff.put(VCol);
 		}
 	}
 
-	private void putFloatVectorToBuffer(FloatBuffer buff, Vector<Float> vec) {
+	private void putFloatVectorToBuffer(FloatBuffer buff, Vector<Float> vec)
+	{
 		int n = vec.size();
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++)
+		{
 			Float val = vec.get(i);
-			if (val != null) {
+			if (val != null)
+			{
 				buff.put(val);
-			} else {
+			} else
+			{
 				assert false;
 			}
 		}
 	}
 
-	private void putIntVectorToShortBuffer(ShortBuffer buff, Vector<Integer> vec) {
+	private void putIntVectorToShortBuffer(ShortBuffer buff, Vector<Integer> vec)
+	{
 		int n = vec.size();
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++)
+		{
 			Integer val = vec.get(i);
-			if (val != null) {
+			if (val != null)
+			{
 				buff.put((short) (int) val);
-			} else {
+			} else
+			{
 				assert false;
 			}
 		}
 
 	}
 
-	private void putRandomColorsInFloatBuffer(FloatBuffer buff, int nCount) {
+	private void putRandomColorsInFloatBuffer(FloatBuffer buff, int nCount)
+	{
 		Random rand = new Random();
-		for (int j = 0; j < nCount; j++) {
+		for (int j = 0; j < nCount; j++)
+		{
 			float r = rand.nextFloat();
 			float g = rand.nextFloat();
 			float b = rand.nextFloat();

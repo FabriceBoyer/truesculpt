@@ -26,14 +26,16 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * A vertex shaded cube.
  */
-public class Cube {
+public class Cube
+{
 	private FloatBuffer mColorBuffer;
 
 	private ShortBuffer mIndexBuffer;
 
 	private FloatBuffer mVertexBuffer;
 
-	public Cube() {
+	public Cube()
+	{
 		float one = 1.0f;
 		float vertices[] = { -one, -one, -one, one, -one, -one, one, one, -one, -one, one, -one, -one, -one, one, one, -one, one, one, one, one, -one, one, one, };
 
@@ -68,7 +70,8 @@ public class Cube {
 		mIndexBuffer.position(0);
 	}
 
-	public void draw(GL10 gl) {
+	public void draw(GL10 gl)
+	{
 		gl.glFrontFace(GL10.GL_CW);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);

@@ -24,7 +24,8 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ToggleButton;
 
-public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener, OnToolChangeListener {
+public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener, OnToolChangeListener
+{
 
 	private static final String TAG = "TrueSculptMain";
 
@@ -36,9 +37,11 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 	private ToggleButton mViewToggle;
 
-	public void CheckUpdate() {
+	public void CheckUpdate()
+	{
 		boolean bStartUpdateActivity = false;
-		if (getManagers().getOptionsManager().getCheckUpdateAtStartup() == true) {
+		if (getManagers().getOptionsManager().getCheckUpdateAtStartup() == true)
+		{
 			bStartUpdateActivity = true;
 		}
 
@@ -50,29 +53,36 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		timeThresold *= 24;
 		timeThresold *= 3600;
 		timeThresold *= 1000;// one month in millis
-		if (timeSinceLastUpdate > timeThresold) {
+		if (timeSinceLastUpdate > timeThresold)
+		{
 			bStartUpdateActivity = true;// mandatory updates
 		}
 
-		if (bStartUpdateActivity) {
+		if (bStartUpdateActivity)
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
 		}
 	}
 
-	public Managers getManagers() {
+	public Managers getManagers()
+	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
-	public void NotifyStartupStat() {
-		if (getManagers().getOptionsManager().getGatherUsageData() == true) {
+	public void NotifyStartupStat()
+	{
+		if (getManagers().getOptionsManager().getGatherUsageData() == true)
+		{
 			getManagers().getUsageStatisticsManager().incrementStartupCount();
 		}
 	}
 
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(MenuItem item)
+	{
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		switch (item.getItemId()) {
+		switch (item.getItemId())
+		{
 		default:
 			return super.onContextItemSelected(item);
 		}
@@ -80,7 +90,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 
 		getManagers().Init(getBaseContext());
@@ -105,9 +116,11 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		getManagers().getToolsManager().registerToolChangeListener(RendererMainPanel.this);
 
 		mViewToggle = (ToggleButton) findViewById(R.id.View);
-		mViewToggle.setOnClickListener(new View.OnClickListener() {
+		mViewToggle.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				getManagers().getToolsManager().setToolMode(EToolMode.POV);
 				getManagers().getToolsManager().setForcedMode(true);
 
@@ -116,9 +129,11 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		});
 
 		mSculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
-		mSculptToggle.setOnClickListener(new View.OnClickListener() {
+		mSculptToggle.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);
 				getManagers().getToolsManager().setForcedMode(true);
 
@@ -127,9 +142,11 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		});
 
 		mPaintToggle = (ToggleButton) findViewById(R.id.Paint);
-		mPaintToggle.setOnClickListener(new View.OnClickListener() {
+		mPaintToggle.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				getManagers().getToolsManager().setToolMode(EToolMode.PAINT);
 				getManagers().getToolsManager().setForcedMode(true);
 
@@ -142,14 +159,16 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		// inflater.inflate(R.menu.context_menu, menu);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 		return true;
@@ -161,7 +180,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	 * @see android.app.Activity#onDestroy()
 	 */
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
 
 		getManagers().getPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
@@ -172,61 +192,77 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
 		// Handle the back button
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
 			// Ask the user if they want to quit
-			new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.quit).setMessage(R.string.really_quit).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.quit).setMessage(R.string.really_quit).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			{
 				@Override
-				public void onClick(DialogInterface dialog, int which) {
+				public void onClick(DialogInterface dialog, int which)
+				{
 					// Stop the activity
 					finish();
 				}
 			}).setNegativeButton(R.string.no, null).show();
 
 			return true;
-		} else {
+		} else
+		{
 			return super.onKeyDown(keyCode, event);
 		}
 	}
 
 	@Override
-	public void onMeshChange() {
+	public void onMeshChange()
+	{
 		UpdateView();
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.show_tools_panel: {
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case R.id.show_tools_panel:
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false);
 			return true;
 		}
-		case R.id.show_point_of_view_panel: {
+		case R.id.show_point_of_view_panel:
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class, false);
 			return true;
 		}
-		case R.id.show_debug_panel: {
+		case R.id.show_debug_panel:
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class, false);
 			return true;
 		}
-		case R.id.show_check_version_panel: {
+		case R.id.show_check_version_panel:
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
 			return true;
 		}
-		case R.id.show_tutorial_wizard_panel: {
+		case R.id.show_tutorial_wizard_panel:
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
 			return true;
 		}
-		case R.id.show_options: {
+		case R.id.show_options:
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
 			return true;
 		}
-		case R.id.show_about_panel: {
+		case R.id.show_about_panel:
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.AboutPanel.class, false);
 			return true;
 		}
-		case R.id.quit: {
+		case R.id.quit:
+		{
 			this.finish();
 			return true;
 		}
@@ -236,7 +272,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause()
+	{
 		super.onPause();
 
 		// not needed for glsurfaceView since render is on request
@@ -246,28 +283,33 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 	@Override
-	public void onPointOfViewChange() {
+	public void onPointOfViewChange()
+	{
 		UpdateView();
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 
-		if (mGLSurfaceView != null) {
+		if (mGLSurfaceView != null)
+		{
 			mGLSurfaceView.onResume();
 			UpdateView();
 		}
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		super.onStop();
 
 	}
 
 	@Override
-	public void onToolChange() {
+	public void onToolChange()
+	{
 		UpdateButtonsView();
 	}
 
@@ -277,30 +319,37 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	 * @see android.app.Activity#onTouchEvent(android.view.MotionEvent)
 	 */
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(MotionEvent event)
+	{
 		getManagers().getTouchManager().onTouchEvent(event);
 		return super.onTouchEvent(event);
 	}
 
-	public void ShowSplashScreen() {
-		if (getManagers().getOptionsManager().getDisplaySplashScreenAtStartup() == true) {
+	public void ShowSplashScreen()
+	{
+		if (getManagers().getOptionsManager().getDisplaySplashScreenAtStartup() == true)
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.SplashPanel.class, false);
 		}
 	}
 
-	public void ShowTutorial() {
-		if (getManagers().getOptionsManager().getViewTutorialAtStartup() == true) {
+	public void ShowTutorial()
+	{
+		if (getManagers().getOptionsManager().getViewTutorialAtStartup() == true)
+		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
 		}
 	}
 
-	private void UpdateButtonsView() {
+	private void UpdateButtonsView()
+	{
 		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.POV);
 		mSculptToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.SCULPT);
 		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.PAINT);
 	}
 
-	private void UpdateView() {
+	private void UpdateView()
+	{
 		mGLSurfaceView.requestRender();
 	}
 

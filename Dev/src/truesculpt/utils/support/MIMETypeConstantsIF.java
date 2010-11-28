@@ -1,22 +1,20 @@
 package truesculpt.utils.support;
 
 /**
- * ConstantsIF contains various constants used in the clienthelper and
- * EmailServlet impl of the mail service. <br>
+ * ConstantsIF contains various constants used in the clienthelper and EmailServlet impl of the mail service. <br>
  * Here are some links:<br>
  * <ul style=square>
- * <li><a href=http://www.utoronto.ca/webdocs/HTMLdocs/Book/Book-
- * 3ed/appb/mimetype.html>Listing of MIME types</a></li>
+ * <li><a href=http://www.utoronto.ca/webdocs/HTMLdocs/Book/Book- 3ed/appb/mimetype.html>Listing of MIME types</a></li>
  * <li><a href=http://mgrand.home.mindspring.com/mime.html>MIME Overview</a></li>
  * <li><a href=http://en.wikipedia.org/wiki/MIME>MIME on Wikipedia</a></li>
- * <li><a href=http://www.w3schools.com/media/media_mimeref.asp>MIME
- * Reference</a></li>
+ * <li><a href=http://www.w3schools.com/media/media_mimeref.asp>MIME Reference</a></li>
  * </ul>
  * 
  * @author Nazmul Idris
  * @since Dec 26, 2006, 4:07:30 PM
  */
-public interface MIMETypeConstantsIF {
+public interface MIMETypeConstantsIF
+{
 
 	public static String BINARY_TYPE = "application/octet-stream";
 	public static String CSS_TYPE = "text/css";

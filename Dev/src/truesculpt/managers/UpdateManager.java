@@ -14,7 +14,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
-public class UpdateManager extends BaseManager {
+public class UpdateManager extends BaseManager
+{
 
 	public enum EUpdateStatus {
 		IS_A_BETA, UNDEFINED, UP_TO_DATE, UPDATE_NEEDED
@@ -23,21 +24,26 @@ public class UpdateManager extends BaseManager {
 	private String mCurrentVersion = "";
 	private String mLatestVersion = "";
 
-	public UpdateManager(Context baseContext) {
+	public UpdateManager(Context baseContext)
+	{
 		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getCurrentVersion() {
+	public String getCurrentVersion()
+	{
 
-		if (mCurrentVersion.length() == 0) {
+		if (mCurrentVersion.length() == 0)
+		{
 			String strCurrVersion = "0.0";
 
 			PackageManager pm = getbaseContext().getPackageManager();
-			try {
+			try
+			{
 				PackageInfo info = pm.getPackageInfo(getbaseContext().getPackageName(), 0);
 				strCurrVersion = info.versionName;
-			} catch (NameNotFoundException e) {
+			} catch (NameNotFoundException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -47,11 +53,14 @@ public class UpdateManager extends BaseManager {
 		return mCurrentVersion;
 	}
 
-	public String getLatestVersion() {
-		if (mLatestVersion.length() == 0) {
+	public String getLatestVersion()
+	{
+		if (mLatestVersion.length() == 0)
+		{
 			String strLatestVersion = "-1.0";
 
-			try {
+			try
+			{
 				// TODO check alternative url list (register url)
 				URL url = new URL("http://code.google.com/p/truesculpt/wiki/Version");
 				InputStream stream = url.openStream();
@@ -59,7 +68,8 @@ public class UpdateManager extends BaseManager {
 				BufferedReader buffReader = new BufferedReader(reader);
 				String strTemp = buffReader.readLine();
 				String strFileVersion = "";
-				while (strTemp != null) {
+				while (strTemp != null)
+				{
 					strFileVersion += strTemp;
 					strTemp = buffReader.readLine();
 				}
@@ -72,7 +82,8 @@ public class UpdateManager extends BaseManager {
 				Pattern p = Pattern.compile("<p>LATEST_STABLE_VERSION=[0-9]+_[0-9]+ </p>", Pattern.CASE_INSENSITIVE);
 
 				Matcher m = p.matcher(strFileVersion);
-				if (m.find()) {
+				if (m.find())
+				{
 					String elem = m.group();
 					elem = elem.replace("<p>LATEST_STABLE_VERSION=", "");
 					elem = elem.replace("</p>", "");
@@ -81,10 +92,12 @@ public class UpdateManager extends BaseManager {
 
 					strLatestVersion = elem;
 				}
-			} catch (MalformedURLException e) {
+			} catch (MalformedURLException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (IOException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -94,7 +107,8 @@ public class UpdateManager extends BaseManager {
 		return mLatestVersion;
 	}
 
-	public EUpdateStatus getUpdateStatus(String strCurrVersion, String strLatestVersion) {
+	public EUpdateStatus getUpdateStatus(String strCurrVersion, String strLatestVersion)
+	{
 
 		EUpdateStatus res = EUpdateStatus.UNDEFINED;
 
@@ -103,18 +117,22 @@ public class UpdateManager extends BaseManager {
 		int majLat = -1;
 		int minLat = -1;
 
-		try {
+		try
+		{
 			String[] tempVer = strCurrVersion.split("\\.");
-			if (tempVer.length == 2) {
+			if (tempVer.length == 2)
+			{
 				majCurr = Integer.parseInt(tempVer[0]);
 				minCurr = Integer.parseInt(tempVer[1]);
 			}
 			tempVer = strLatestVersion.split("\\.");
-			if (tempVer.length == 2) {
+			if (tempVer.length == 2)
+			{
 				majLat = Integer.parseInt(tempVer[0]);
 				minLat = Integer.parseInt(tempVer[1]);
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			res = EUpdateStatus.UNDEFINED;
 			return res;
 		}
@@ -122,34 +140,46 @@ public class UpdateManager extends BaseManager {
 		boolean bUpdateNeeded = false;
 		boolean bIsBeta = false;
 
-		if (majCurr >= 0 && minCurr >= 0 && majLat >= 0 && minLat >= 0) {
-			if (majLat > majCurr) {
+		if (majCurr >= 0 && minCurr >= 0 && majLat >= 0 && minLat >= 0)
+		{
+			if (majLat > majCurr)
+			{
 				bUpdateNeeded = true;
-			} else if (majLat == majCurr) {
-				if (minLat > minCurr) {
+			} else if (majLat == majCurr)
+			{
+				if (minLat > minCurr)
+				{
 					bUpdateNeeded = true;
-				} else if (minLat < minCurr) {
+				} else if (minLat < minCurr)
+				{
 					bIsBeta = true;
 				}
-			} else if (majLat < majCurr) {
+			} else if (majLat < majCurr)
+			{
 				bIsBeta = true;
 			}
-		} else {
+		} else
+		{
 			res = EUpdateStatus.UNDEFINED;
 			return res;
 		}
 
-		if (bIsBeta) {
+		if (bIsBeta)
+		{
 			res = EUpdateStatus.IS_A_BETA;
-		} else {
-			if (bUpdateNeeded) {
+		} else
+		{
+			if (bUpdateNeeded)
+			{
 				res = EUpdateStatus.UPDATE_NEEDED;
-			} else {
+			} else
+			{
 				res = EUpdateStatus.UP_TO_DATE;
 			}
 		}
 
-		if (res != EUpdateStatus.UNDEFINED) {
+		if (res != EUpdateStatus.UNDEFINED)
+		{
 			getManagers().getOptionsManager().updateLastSoftwareUpdateCheckDate();
 		}
 
@@ -157,12 +187,14 @@ public class UpdateManager extends BaseManager {
 	};
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		// TODO Auto-generated method stub
 	}
 

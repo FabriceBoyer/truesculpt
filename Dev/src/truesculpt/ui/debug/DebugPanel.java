@@ -12,28 +12,35 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class DebugPanel extends Activity {
-	public Managers getManagers() {
+public class DebugPanel extends Activity
+{
+	public Managers getManagers()
+	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.debug);
 
 		final Button button = (Button) findViewById(R.id.show_sensors);
-		button.setOnClickListener(new View.OnClickListener() {
+		button.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				Utils.StartMyActivity(DebugPanel.this, truesculpt.ui.debug.DebugSensorsPanel.class, false);
 			}
 		});
 
 		final Button button2 = (Button) findViewById(R.id.show_test);
-		button2.setOnClickListener(new View.OnClickListener() {
+		button2.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				Utils.StartMyActivity(DebugPanel.this, truesculpt.ui.debug.DebugTestPanel.class, false);
 			}
 		});
@@ -55,35 +62,42 @@ public class DebugPanel extends Activity {
 		meshStatText.setText(msg);
 
 		SeekBar mDebugSeekBar = (SeekBar) findViewById(R.id.debugBar);
-		mDebugSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+		mDebugSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
 			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
 				// getManagers().
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
+			public void onStartTrackingTouch(SeekBar seekBar)
+			{
 			}
 
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
+			public void onStopTrackingTouch(SeekBar seekBar)
+			{
 			}
 		});
 		mDebugSeekBar.setMax(0);
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause()
+	{
 		super.onPause();
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 	}
 }

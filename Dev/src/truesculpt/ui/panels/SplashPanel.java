@@ -9,14 +9,17 @@ import android.widget.ImageView;
 
 //TODO : callback notification to dismiss only when the rest of the app is ready
 
-public class SplashPanel extends Activity {
+public class SplashPanel extends Activity
+{
 
 	// time in milliseconds
 	private static final long SPLASHTIME = 5000;
 
-	private Runnable mCloseActivityTask = new Runnable() {
+	private Runnable mCloseActivityTask = new Runnable()
+	{
 		@Override
-		public void run() {
+		public void run()
+		{
 			finish();
 		}
 	};
@@ -28,7 +31,8 @@ public class SplashPanel extends Activity {
 
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle icicle) {
+	public void onCreate(Bundle icicle)
+	{
 		super.onCreate(icicle);
 
 		mSplash = new ImageView(this);
@@ -40,7 +44,8 @@ public class SplashPanel extends Activity {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(MotionEvent event)
+	{
 		finish();
 		return super.onTouchEvent(event);
 	}

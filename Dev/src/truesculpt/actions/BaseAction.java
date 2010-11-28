@@ -1,8 +1,10 @@
 package truesculpt.actions;
 
-public abstract class BaseAction {
+public abstract class BaseAction
+{
 
-	public BaseAction() {
+	public BaseAction()
+	{
 
 	}
 

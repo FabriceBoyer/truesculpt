@@ -7,8 +7,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 /**
- * <B>ByteBuffer</B> is a container for bytes. A ByteBuffer is to bytes, what a
- * StringBuffer is to Strings.
+ * <B>ByteBuffer</B> is a container for bytes. A ByteBuffer is to bytes, what a StringBuffer is to Strings.
  * <p/>
  * <p/>
  * 
@@ -16,7 +15,8 @@ import java.io.UnsupportedEncodingException;
  * @version 1.0
  * @since 3/9/2000,11:54am
  */
-public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Serializable {
+public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Serializable
+{
 
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// constants
@@ -28,7 +28,8 @@ public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Seriali
 	//
 	// self test method
 	//
-	public static void main(String args[]) {
+	public static void main(String args[])
+	{
 		byte[] br1 = { (byte) '0', (byte) '1' };
 		byte[] br2 = { (byte) '<', (byte) 'T', (byte) '>' };
 
@@ -58,26 +59,31 @@ public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Seriali
 	//
 	// constructors
 	//
-	public ByteBuffer() {
+	public ByteBuffer()
+	{
 	}
 
-	public ByteBuffer(byte[] srcBuf) {
+	public ByteBuffer(byte[] srcBuf)
+	{
 		append(srcBuf);
 	}
 
-	public ByteBuffer(ByteBuffer bb) {
+	public ByteBuffer(ByteBuffer bb)
+	{
 		append(bb);
 	}
 
 	/**
-	 * this method does not close the InputStream. Simply reads all data on the
-	 * stream into a byte buffer.
+	 * this method does not close the InputStream. Simply reads all data on the stream into a byte buffer.
 	 */
-	public ByteBuffer(InputStream is) throws IOException {
+	public ByteBuffer(InputStream is) throws IOException
+	{
 		byte[] readBuf = new byte[BUFFER_SIZE];
-		while (true) {
+		while (true)
+		{
 			int read = is.read(readBuf);
-			if (read == -1) {
+			if (read == -1)
+			{
 				break;
 			}
 			append(readBuf, 0, read);
@@ -87,25 +93,27 @@ public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Seriali
 	//
 	// convenience methods
 	//
-	public void append(byte[] srcBuf) {
+	public void append(byte[] srcBuf)
+	{
 		append(srcBuf, 0, srcBuf.length);
 	}
 
 	//
 	// pure functionality of the class
 	//
-	public ByteBuffer append(byte[] srcBuf, int srcStartIndex, int srcLength) {
-		if (byteRay == null) {
+	public ByteBuffer append(byte[] srcBuf, int srcStartIndex, int srcLength)
+	{
+		if (byteRay == null)
+		{
 			// create a new array
 			byteRay = new byte[srcLength];
 			// copy the src array to the new one
 			/*
-			 * System.out.println( "byteRay.length="+byteRay.length +
-			 * ",srcBuf.length="+srcBuf.length + ",srcStartIndex="+srcStartIndex
-			 * + ",srcLength="+srcLength );
+			 * System.out.println( "byteRay.length="+byteRay.length + ",srcBuf.length="+srcBuf.length + ",srcStartIndex="+srcStartIndex + ",srcLength="+srcLength );
 			 */
 			arrayCopy(srcBuf, srcStartIndex, byteRay, 0, srcLength);
-		} else {
+		} else
+		{
 			int currentSize = byteRay.length;
 			// create a new array (which is bigger than existing one)
 			byte[] newByteRay = new byte[currentSize + srcLength];
@@ -124,29 +132,26 @@ public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Seriali
 	/*
 	 * public String toString() { if (byteRay == null) { return null; }
 	 * 
-	 * try { return new String(byteRay, enc); } catch
-	 * (UnsupportedEncodingException e) { //this will never happen, unless the
-	 * DEFAULT_CHAR_ENCODING //is invalid return
-	 * "support.ConstantsIF.DEFAULT_CHAR_ENCODING=" + DEFAULT_CHAR_ENCODING +
-	 * " is invalid!"; } }
+	 * try { return new String(byteRay, enc); } catch (UnsupportedEncodingException e) { //this will never happen, unless the DEFAULT_CHAR_ENCODING //is invalid return "support.ConstantsIF.DEFAULT_CHAR_ENCODING=" + DEFAULT_CHAR_ENCODING + " is invalid!"; } }
 	 */
 
-	public void append(ByteBuffer buf) {
+	public void append(ByteBuffer buf)
+	{
 		append(buf.getBytes(), 0, buf.getSize());
 	}
 
-	protected final void arrayCopy(byte[] srcBuf, int srcStartIndex, byte[] destBuf, int destStartIndex, int numberOfBytesToCopy) {
+	protected final void arrayCopy(byte[] srcBuf, int srcStartIndex, byte[] destBuf, int destStartIndex, int numberOfBytesToCopy)
+	{
 		System.arraycopy(srcBuf, srcStartIndex, destBuf, destStartIndex, numberOfBytesToCopy);
 		/*
-		 * System.out.println( "arrayCopy start" ); for( int i=0;
-		 * i<numberOfBytesToCopy; i++) { destBuf[ destStartIndex + i ] = srcBuf[
-		 * srcStartIndex + i ]; System.out.println( "\tindex="+i ); }
-		 * System.out.println( "arrayCopy end" );
+		 * System.out.println( "arrayCopy start" ); for( int i=0; i<numberOfBytesToCopy; i++) { destBuf[ destStartIndex + i ] = srcBuf[ srcStartIndex + i ]; System.out.println( "\tindex="+i ); } System.out.println( "arrayCopy end" );
 		 */
 	}
 
-	public void clear() {
-		if (byteRay != null) {
+	public void clear()
+	{
+		if (byteRay != null)
+		{
 			byteRay = null;
 		}
 	}
@@ -154,51 +159,66 @@ public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Seriali
 	//
 	// accessors for internal state
 	//
-	public byte[] getBytes() {
-		if (byteRay == null) {
+	public byte[] getBytes()
+	{
+		if (byteRay == null)
+		{
 			return new byte[0];
 		}
 		return byteRay;
 	}
 
-	public ByteArrayInputStream getInputStream() {
+	public ByteArrayInputStream getInputStream()
+	{
 		return new ByteArrayInputStream(getBytes());
 	}
 
-	public int getSize() {
-		if (byteRay != null) {
+	public int getSize()
+	{
+		if (byteRay != null)
+		{
 			return byteRay.length;
-		} else {
+		} else
+		{
 			return 0;
 		}
 	}
 
-	public void setEncoding(String enc) {
-		if (enc == null) {
+	public void setEncoding(String enc)
+	{
+		if (enc == null)
+		{
 			return;
-		} else {
+		} else
+		{
 			// test this encoding string to be valid
-			try {
+			try
+			{
 				byte[] bytes = { (byte) '0', (byte) '1' };
 				new String(bytes, enc);
 				this.enc = enc;
-			} catch (UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException e)
+			{
 				// don't override the default encoding
 				System.out.println("unsupported encoding");
 			}
 		}
 	}
 
-	public byte[] toByteArray() {
+	public byte[] toByteArray()
+	{
 		return getBytes();
 	}
 
 	@Override
-	public String toString() {
-		if (byteRay != null && byteRay.length > 0) {
+	public String toString()
+	{
+		if (byteRay != null && byteRay.length > 0)
+		{
 			float sizeInKB = byteRay.length / 1000f;
 			return sizeInKB + " KB";
-		} else {
+		} else
+		{
 			return "0 KB";
 		}
 	}

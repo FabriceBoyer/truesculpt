@@ -15,31 +15,25 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * ZipObject is a utility class for compressing and decompressing any object.
- * The idea is to compress object parameters before passing them to remote
- * objects. The reason for doing this is improving network transmission speeds.
- * With most customers using modems, compressing any data transmission even by
- * 50% is a great help. Since most transmissions are textual, the compression
- * should be even better on those.
+ * ZipObject is a utility class for compressing and decompressing any object. The idea is to compress object parameters before passing them to remote objects. The reason for doing this is improving network transmission speeds. With most customers using modems, compressing any data transmission even by 50% is a great help. Since most transmissions are textual, the compression should be even better on those.
  * <p/>
- * This class uses Serialization, ObjectIn/OutputStreams, and
- * ByteArrayIn/OutputStreams.
+ * This class uses Serialization, ObjectIn/OutputStreams, and ByteArrayIn/OutputStreams.
  * 
  * @author Nazmul Bin Idris
  * @version 1.0
  *          <p/>
  *          Creation Date : 9/3/1999 Creation Time : 8:00pm
  */
-public class ZipObject<T extends Serializable> implements Serializable {
+public class ZipObject<T extends Serializable> implements Serializable
+{
 
 	static final long serialVersionUID = 5572357487744011409L;
 
 	/**
-	 * Given a byte[] which contains the output of {@link #toBytes()}, allows
-	 * the original uncompressed object to be reconstituted... using
-	 * {@link #getObject()}.
+	 * Given a byte[] which contains the output of {@link #toBytes()}, allows the original uncompressed object to be reconstituted... using {@link #getObject()}.
 	 */
-	public static ZipObject fromBytes(byte[] bytes) throws IllegalArgumentException {
+	public static ZipObject fromBytes(byte[] bytes) throws IllegalArgumentException
+	{
 
 		ZipObject zobj = new ZipObject();
 		zobj.buffer = bytes;
@@ -48,11 +42,10 @@ public class ZipObject<T extends Serializable> implements Serializable {
 	}
 
 	/**
-	 * Given an InputStream which contains the output of {@link #toBytes()},
-	 * allows the original uncompressed object to be reconstituted... using
-	 * {@link #getObject()}.
+	 * Given an InputStream which contains the output of {@link #toBytes()}, allows the original uncompressed object to be reconstituted... using {@link #getObject()}.
 	 */
-	public static ZipObject fromInputStream(InputStream is) throws IOException, IllegalArgumentException {
+	public static ZipObject fromInputStream(InputStream is) throws IOException, IllegalArgumentException
+	{
 
 		ByteBuffer bb = new ByteBuffer(is);
 
@@ -66,19 +59,23 @@ public class ZipObject<T extends Serializable> implements Serializable {
 	 *            command line args
 	 */
 	@SuppressWarnings("unchecked")
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 		// create a large object, a vector of hashtables
 		Vector<Hashtable<Object, String>> v = new Vector<Hashtable<Object, String>>();
-		for (int j = 0; j < 100; j++) {
+		for (int j = 0; j < 100; j++)
+		{
 			Hashtable<Object, String> ht = new Hashtable<Object, String>();
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++)
+			{
 				ht.put(i, "whatever");
 			}
 			v.addElement(ht);
 		}
 
-		try {
+		try
+		{
 
 			// write uncompressed obj to disk (check size)
 			File tempFile1 = File.createTempFile("uncompressed", "ser");
@@ -113,7 +110,8 @@ public class ZipObject<T extends Serializable> implements Serializable {
 			Vector unzipV = v2Zip.getObject();
 
 			System.out.println(Utils.listToString(unzipV));
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.out.println(e);
 		}
 
@@ -123,7 +121,8 @@ public class ZipObject<T extends Serializable> implements Serializable {
 	protected byte[] buffer;
 
 	/** no default constructor accessible publicly... */
-	private ZipObject() {
+	private ZipObject()
+	{
 	}
 
 	/**
@@ -135,11 +134,12 @@ public class ZipObject<T extends Serializable> implements Serializable {
 	 * @return compressed object encapsulated in a ZipObject
 	 * 
 	 * @throws ZipObjectException
-	 *             this is thrown if the object couldnt be compressed for
-	 *             whatever reason
+	 *             this is thrown if the object couldnt be compressed for whatever reason
 	 */
-	public ZipObject(T obj) throws ZipObjectException {
-		try {
+	public ZipObject(T obj) throws ZipObjectException
+	{
+		try
+		{
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			GZIPOutputStream gzos = new GZIPOutputStream(baos);
 			ObjectOutputStream oos = new ObjectOutputStream(gzos);
@@ -155,7 +155,8 @@ public class ZipObject<T extends Serializable> implements Serializable {
 			buffer = baos.toByteArray();// save data
 
 			baos.close(); // close
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.out.println(e);
 			e.printStackTrace();
 			throw new ZipObjectException("could not zip given object into a ZipObject");
@@ -163,18 +164,18 @@ public class ZipObject<T extends Serializable> implements Serializable {
 	}
 
 	/**
-	 * this method extracts the compress object (from this ZipObject) and
-	 * returns it. <br>
+	 * this method extracts the compress object (from this ZipObject) and returns it. <br>
 	 * 
 	 * @return returns the uncompressed object contained in this ZipObject
 	 * 
 	 * @throws ZipObjectException
-	 *             this is thrown if the object could not be uncompressed for
-	 *             whatever reason
+	 *             this is thrown if the object could not be uncompressed for whatever reason
 	 */
 	@SuppressWarnings("unchecked")
-	public final T getObject() throws ZipObjectException {
-		try {
+	public final T getObject() throws ZipObjectException
+	{
+		try
+		{
 			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
 			GZIPInputStream gzis = new GZIPInputStream(bais);
 			ObjectInputStream ois = new ObjectInputStream(gzis);
@@ -186,7 +187,8 @@ public class ZipObject<T extends Serializable> implements Serializable {
 			ois.close(); // close
 
 			return (T) obj;
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			// System.out.println(e);
 			// e.printStackTrace();
 			throw new ZipObjectException("could not unzip ZipObject to get object", e);
@@ -194,30 +196,35 @@ public class ZipObject<T extends Serializable> implements Serializable {
 
 	}
 
-	public int getSize() {
+	public int getSize()
+	{
 		return buffer == null ? 0 : buffer.length;
 	}
 
-	public String getSizeString() {
+	public String getSizeString()
+	{
 		return Integer.toString(getSize());
 	}
 
 	/**
-	 * simply returns the internal byte array used to store the ZipObject data
-	 * in
+	 * simply returns the internal byte array used to store the ZipObject data in
 	 * 
 	 * @return array of bytes used by ZipObject to store compressed data
 	 */
-	public byte[] toBytes() throws ZipObjectException {
-		if (buffer == null) {
+	public byte[] toBytes() throws ZipObjectException
+	{
+		if (buffer == null)
+		{
 			throw new ZipObjectException("the internal byte array is null");
 		}
 		return buffer;
 	}
 
 	/** returns an InputStream that can read from the buffer of the ZipObject */
-	public InputStream toInputStream() throws ZipObjectException {
-		if (buffer == null) {
+	public InputStream toInputStream() throws ZipObjectException
+	{
+		if (buffer == null)
+		{
 			throw new ZipObjectException("the internal byte array is null");
 		}
 
@@ -226,10 +233,13 @@ public class ZipObject<T extends Serializable> implements Serializable {
 
 	/** returns a string representation of the ZipObject */
 	@Override
-	public String toString() {
-		if (buffer != null) {
+	public String toString()
+	{
+		if (buffer != null)
+		{
 			return buffer.length / 1000f + " KB";
-		} else {
+		} else
+		{
 			return "0 KB";
 		}
 	}

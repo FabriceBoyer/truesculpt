@@ -6,9 +6,11 @@ import truesculpt.main.TrueSculptApp;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-public class OptionsPanel extends PreferenceActivity {
+public class OptionsPanel extends PreferenceActivity
+{
 
-	public Managers getManagers() {
+	public Managers getManagers()
+	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
@@ -18,7 +20,8 @@ public class OptionsPanel extends PreferenceActivity {
 	 * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 
 		super.onCreate(savedInstanceState);
 
@@ -32,13 +35,15 @@ public class OptionsPanel extends PreferenceActivity {
 	 * @see android.preference.PreferenceActivity#onDestroy()
 	 */
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
 
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		super.onStop();
 
 	}

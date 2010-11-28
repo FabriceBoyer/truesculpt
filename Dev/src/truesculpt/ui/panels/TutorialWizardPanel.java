@@ -13,11 +13,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
-public class TutorialWizardPanel extends Activity {
+public class TutorialWizardPanel extends Activity
+{
 
-	private class MyWebViewClient extends WebViewClient {
+	private class MyWebViewClient extends WebViewClient
+	{
 		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+		public boolean shouldOverrideUrlLoading(WebView view, String url)
+		{
 			view.loadUrl(url);
 			return true;
 		}
@@ -33,26 +36,33 @@ public class TutorialWizardPanel extends Activity {
 
 	private Button prevBtn;
 
-	private void ExitConfirmation() {
-		if (getSeeAgainOption() == true) {
+	private void ExitConfirmation()
+	{
+		if (getSeeAgainOption() == true)
+		{
 			showDialog(DIALOG_SEE_WIZARD_AGAIN_ID);
-		} else {
+		} else
+		{
 			finish();
 		}
 	}
 
-	public Managers getManagers() {
+	public Managers getManagers()
+	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
-	public boolean getSeeAgainOption() {
+	public boolean getSeeAgainOption()
+	{
 		return getManagers().getOptionsManager().getViewTutorialAtStartup();
 	}
 
-	private void GoToNextStep() {
+	private void GoToNextStep()
+	{
 		mStepCurrentIndex++;
 
-		if (mStepCurrentIndex >= mStepsCount) {
+		if (mStepCurrentIndex >= mStepsCount)
+		{
 			mStepCurrentIndex = mStepsCount;
 
 			ExitConfirmation();
@@ -61,9 +71,11 @@ public class TutorialWizardPanel extends Activity {
 		RefreshView();
 	}
 
-	private void GoToPreviousStep() {
+	private void GoToPreviousStep()
+	{
 		mStepCurrentIndex--;
-		if (mStepCurrentIndex < 0) {
+		if (mStepCurrentIndex < 0)
+		{
 			mStepCurrentIndex = 0;
 		}
 
@@ -71,7 +83,8 @@ public class TutorialWizardPanel extends Activity {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.tutorialwizard);
@@ -80,25 +93,31 @@ public class TutorialWizardPanel extends Activity {
 		mWebView.setWebViewClient(new MyWebViewClient());
 
 		prevBtn = (Button) findViewById(R.id.prevBtn);
-		prevBtn.setOnClickListener(new View.OnClickListener() {
+		prevBtn.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				GoToPreviousStep();
 			}
 		});
 
 		nextBtn = (Button) findViewById(R.id.nextBtn);
-		nextBtn.setOnClickListener(new View.OnClickListener() {
+		nextBtn.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				GoToNextStep();
 			}
 		});
 
 		finishBtn = (Button) findViewById(R.id.finishBtn);
-		finishBtn.setOnClickListener(new View.OnClickListener() {
+		finishBtn.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				ExitConfirmation();
 			}
 		});
@@ -112,20 +131,27 @@ public class TutorialWizardPanel extends Activity {
 	 * @see android.app.Activity#onCreateDialog(int)
 	 */
 	@Override
-	protected Dialog onCreateDialog(int id) {
+	protected Dialog onCreateDialog(int id)
+	{
 		Dialog dialog = null;
-		switch (id) {
-		case DIALOG_SEE_WIZARD_AGAIN_ID: {
+		switch (id)
+		{
+		case DIALOG_SEE_WIZARD_AGAIN_ID:
+		{
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(R.string.this_tutorial_is_over_do_you_want_to_see_it_again_next_time_).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			builder.setMessage(R.string.this_tutorial_is_over_do_you_want_to_see_it_again_next_time_).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			{
 				@Override
-				public void onClick(DialogInterface dialog, int id) {
+				public void onClick(DialogInterface dialog, int id)
+				{
 					setSeeAgainOption(true);
 					finish();
 				}
-			}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+			{
 				@Override
-				public void onClick(DialogInterface dialog, int id) {
+				public void onClick(DialogInterface dialog, int id)
+				{
 					setSeeAgainOption(false);
 					finish();
 				}
@@ -140,35 +166,44 @@ public class TutorialWizardPanel extends Activity {
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 	}
 
 	@Override
-	protected void onStart() {
+	protected void onStart()
+	{
 		super.onStart();
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		super.onStop();
 	}
 
-	private void RefreshView() {
-		if (mStepCurrentIndex >= mStepsCount - 1) {
+	private void RefreshView()
+	{
+		if (mStepCurrentIndex >= mStepsCount - 1)
+		{
 			nextBtn.setEnabled(false);
-		} else {
+		} else
+		{
 			nextBtn.setEnabled(true);
 		}
 
-		if (mStepCurrentIndex <= 0) {
+		if (mStepCurrentIndex <= 0)
+		{
 			prevBtn.setEnabled(false);
-		} else {
+		} else
+		{
 			prevBtn.setEnabled(true);
 		}
 
@@ -176,7 +211,8 @@ public class TutorialWizardPanel extends Activity {
 		mWebView.loadUrl(strUrl);
 	}
 
-	public void setSeeAgainOption(boolean bSeeAgain) {
+	public void setSeeAgainOption(boolean bSeeAgain)
+	{
 		getManagers().getOptionsManager().setViewTutorialAtStartup(bSeeAgain);
 	}
 

@@ -13,7 +13,8 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class ToolsPanel extends Activity implements OnColorChangedListener, OnToolChangeListener {
+public class ToolsPanel extends Activity implements OnColorChangedListener, OnToolChangeListener
+{
 	private final int DIALOG_COLOR_PICKER_ID = 0;
 
 	private ColorPickerView mColorPickerView;
@@ -26,54 +27,65 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	private TextView mStrengthText;
 
 	@Override
-	public void colorChanged(int color) {
+	public void colorChanged(int color)
+	{
 		getManagers().getToolsManager().setColor(color);
 		// String msg = "color is " + Integer.toString(color);
 		// Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
 	}
 
-	public Managers getManagers() {
+	public Managers getManagers()
+	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tools);
 
 		getManagers().getToolsManager().registerToolChangeListener(this);
 
 		mRadiusSeekBar = (SeekBar) findViewById(R.id.RadiusBar);
-		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
 			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
 				getManagers().getToolsManager().setRadius(progress);
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
+			public void onStartTrackingTouch(SeekBar seekBar)
+			{
 			}
 
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
+			public void onStopTrackingTouch(SeekBar seekBar)
+			{
 			}
 		});
 		mRadiusSeekBar.setMax(100);// 0 to 100 pct
 		mRadiusText = (TextView) findViewById(R.id.RadiusText);
 
 		mStrengthSeekBar = (SeekBar) findViewById(R.id.StrengthBar);
-		mStrengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+		mStrengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
 			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
 				getManagers().getToolsManager().setStrength(progress - 100);
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
+			public void onStartTrackingTouch(SeekBar seekBar)
+			{
 			}
 
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
+			public void onStopTrackingTouch(SeekBar seekBar)
+			{
 			}
 		});
 		mStrengthSeekBar.setMax(200);// -100 to 100 pct
@@ -87,29 +99,34 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
 
 		getManagers().getToolsManager().unRegisterToolChangeListener(this);
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause()
+	{
 		super.onPause();
 	}
 
 	@Override
-	public void onToolChange() {
+	public void onToolChange()
+	{
 		UpdateView();
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(MotionEvent event)
+	{
 		finish();
 		return super.onTouchEvent(event);
 	}
 
-	private void UpdateView() {
+	private void UpdateView()
+	{
 
 		float fStrength = getManagers().getToolsManager().getStrength();
 		mStrengthSeekBar.setProgress((int) fStrength + 100);

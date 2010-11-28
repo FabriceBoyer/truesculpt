@@ -26,14 +26,16 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * A vertex shaded cube.
  */
-public class ReferenceAxis {
+public class ReferenceAxis
+{
 	private FloatBuffer mColorBuffer;
 
 	private ShortBuffer mIndexBuffer;
 
 	private FloatBuffer mVertexBuffer;
 
-	public ReferenceAxis() {
+	public ReferenceAxis()
+	{
 		float two = 2.0f;
 		float one = 1.0f;
 		float vertices[] = { 0, 0, 0, two, 0, 0, 0, two, 0, 0, 0, two };
@@ -71,7 +73,8 @@ public class ReferenceAxis {
 		mIndexBuffer.position(0);
 	}
 
-	public void draw(GL10 gl) {
+	public void draw(GL10 gl)
+	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
 		gl.glFrontFace(GL10.GL_CW);

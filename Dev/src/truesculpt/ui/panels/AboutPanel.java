@@ -7,7 +7,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-public class AboutPanel extends Activity {
+public class AboutPanel extends Activity
+{
 
 	/*
 	 * (non-Javadoc)
@@ -15,21 +16,25 @@ public class AboutPanel extends Activity {
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
 
 		final Button button = (Button) findViewById(R.id.Ok_btn);
-		button.setOnClickListener(new View.OnClickListener() {
+		button.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				finish();
 			}
 		});
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(MotionEvent event)
+	{
 		finish();
 		return super.onTouchEvent(event);
 	}

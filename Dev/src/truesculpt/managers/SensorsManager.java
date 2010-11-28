@@ -12,9 +12,11 @@ import android.hardware.SensorManager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class SensorsManager extends BaseManager implements SensorEventListener {
+public class SensorsManager extends BaseManager implements SensorEventListener
+{
 
-	public interface OnSensorChangeListener {
+	public interface OnSensorChangeListener
+	{
 		void onSensorChanged();
 	}
 
@@ -28,26 +30,32 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 
 	float[] origAngles = new float[3];
 
-	public SensorsManager(Context baseContext) {
+	public SensorsManager(Context baseContext)
+	{
 		super(baseContext);
 
 	}
 
-	public void calibrate() {
+	public void calibrate()
+	{
 		bOrigSet = false;
 	}
 
-	private void NotifyListeners() {
+	private void NotifyListeners()
+	{
 		getManagers().getPointOfViewManager().onSensorChanged();
 
-		for (OnSensorChangeListener listener : mListeners) {
+		for (OnSensorChangeListener listener : mListeners)
+		{
 			listener.onSensorChanged();
 		}
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
+	public void onAccuracyChanged(Sensor sensor, int accuracy)
+	{
+		if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
+		{
 			// getManagers().getOptionsManager().setUseSensorsToChangePOV(false);
 			// restart();
 
@@ -59,22 +67,28 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 	}
 
 	@Override
-	public void onCreate() {
-		if (getManagers().getOptionsManager().getUseSensorsToChangePOV()) {
+	public void onCreate()
+	{
+		if (getManagers().getOptionsManager().getUseSensorsToChangePOV())
+		{
 			restart();
 		}
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		stop();
 	}
 
 	@Override
-	public void onSensorChanged(SensorEvent event) {
+	public void onSensorChanged(SensorEvent event)
+	{
 
-		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-			if (!bOrigSet) {
+		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+		{
+			if (!bOrigSet)
+			{
 				MatrixUtils.copy(event.values, origAngles);
 				bOrigSet = true;
 			}
@@ -83,10 +97,10 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 			MatrixUtils.minus(event.values, lastAngles, diffAngles);
 
 			// eliminate bas points
-			if (diffAngles[0] < fAngleThresold && diffAngles[1] < fAngleThresold) {
+			if (diffAngles[0] < fAngleThresold && diffAngles[1] < fAngleThresold)
+			{
 				float rotation = -(event.values[0] - origAngles[0]);
 				float elevation = +(event.values[1] - origAngles[1]);
-				float zoomDistance = event.values[2] - origAngles[2];
 
 				MatrixUtils.copy(event.values, lastAngles);
 
@@ -98,30 +112,37 @@ public class SensorsManager extends BaseManager implements SensorEventListener {
 		}
 	}
 
-	public void registerOnSensorChangeListener(OnSensorChangeListener listener) {
+	public void registerOnSensorChangeListener(OnSensorChangeListener listener)
+	{
 		mListeners.add(listener);
 	}
 
-	public void restart() {
+	public void restart()
+	{
 		stop();
 		start();
 	}
 
-	public void start() {
+	public void start()
+	{
 		mSensorManager = (SensorManager) getbaseContext().getSystemService(Context.SENSOR_SERVICE);
 		List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD);
-		for (int i = 0; i < sensorList.size(); i++) {
+		for (int i = 0; i < sensorList.size(); i++)
+		{
 			mSensorManager.registerListener(SensorsManager.this, sensorList.get(i), SensorManager.SENSOR_DELAY_GAME);
 		}
 	}
 
-	public void stop() {
-		if (mSensorManager != null) {
+	public void stop()
+	{
+		if (mSensorManager != null)
+		{
 			mSensorManager.unregisterListener(SensorsManager.this);
 		}
 	}
 
-	public void unRegisterOnSensorChangeListener(OnSensorChangeListener listener) {
+	public void unRegisterOnSensorChangeListener(OnSensorChangeListener listener)
+	{
 		mListeners.remove(listener);
 	}
 

@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 //For history of action manager
-public class HistoryPanel extends Activity {
+public class HistoryPanel extends Activity
+{
 
 	/*
 	 * (non-Javadoc)
@@ -12,7 +13,8 @@ public class HistoryPanel extends Activity {
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}

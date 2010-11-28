@@ -13,28 +13,27 @@ import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
 
 /**
- * AnimationUtils is a helper class to make it easy to apply certain animation
- * effects to layouts and components. It also demonstrates various ways of
- * loading animation sequence definitions - from XML and generated in Java code.
+ * AnimationUtils is a helper class to make it easy to apply certain animation effects to layouts and components. It also demonstrates various ways of loading animation sequence definitions - from XML and generated in Java code.
  * 
  * @author Nazmul Idris
  * @version 1.0
  * @since Jun 24, 2008, 1:22:27 PM
  */
-public class AnimUtils {
+public class AnimUtils
+{
 
-	public static Animation runFadeOutAnimationOn(Activity ctx, View target) {
+	public static Animation runFadeOutAnimationOn(Activity ctx, View target)
+	{
 		Animation animation = AnimationUtils.loadAnimation(ctx, android.R.anim.fade_out);
 		target.startAnimation(animation);
 		return animation;
 	}
 
 	/*
-	 * @see <a href=
-	 * "http://code.google.com/android/samples/ApiDemos/src/com/google/android/samples/view/LayoutAnimation2.html"
-	 * >animations</a>
+	 * @see <a href= "http://code.google.com/android/samples/ApiDemos/src/com/google/android/samples/view/LayoutAnimation2.html" >animations</a>
 	 */
-	public static void setLayoutAnim_slidedownfromtop(ViewGroup panel, Context ctx) {
+	public static void setLayoutAnim_slidedownfromtop(ViewGroup panel, Context ctx)
+	{
 
 		AnimationSet set = new AnimationSet(true);
 
@@ -51,7 +50,8 @@ public class AnimUtils {
 
 	}
 
-	public static void setLayoutAnim_slideupfrombottom(ViewGroup panel, Context ctx) {
+	public static void setLayoutAnim_slideupfrombottom(ViewGroup panel, Context ctx)
+	{
 
 		AnimationSet set = new AnimationSet(true);
 
@@ -72,7 +72,8 @@ public class AnimUtils {
 	}
 
 	/** load a layout animation sequence from xml */
-	public static void setLayoutAnimation2(ViewGroup panel, Context ctx) {
+	public static void setLayoutAnimation2(ViewGroup panel, Context ctx)
+	{
 
 		LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(ctx, R.anim.slide_in_left);
 

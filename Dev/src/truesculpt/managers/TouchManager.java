@@ -8,7 +8,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 //To detect sculpture action, zoom and pan actions based on gesture
-public class TouchManager extends BaseManager {
+public class TouchManager extends BaseManager
+{
 
 	private float fDemultRotateFactor = 2.5f;
 
@@ -23,29 +24,34 @@ public class TouchManager extends BaseManager {
 	private float mRotInit = 0.0f;
 	private float mZoomInit = 0.0f;
 
-	public TouchManager(Context baseContext) {
+	public TouchManager(Context baseContext)
+	{
 		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 
 	/** Show an event in the LogCat view, for debugging */
-	private void dumpEvent(MotionEvent event) {
+	private void dumpEvent(MotionEvent event)
+	{
 		String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE", "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
 		StringBuilder sb = new StringBuilder();
 		int action = event.getAction();
 		int actionCode = action & MotionEvent.ACTION_MASK;
 		sb.append("event ACTION_").append(names[actionCode]);
-		if (actionCode == MotionEvent.ACTION_POINTER_DOWN || actionCode == MotionEvent.ACTION_POINTER_UP) {
+		if (actionCode == MotionEvent.ACTION_POINTER_DOWN || actionCode == MotionEvent.ACTION_POINTER_UP)
+		{
 			sb.append("(pid ").append(action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
 			sb.append(")");
 		}
 		sb.append("[");
-		for (int i = 0; i < event.getPointerCount(); i++) {
+		for (int i = 0; i < event.getPointerCount(); i++)
+		{
 			sb.append("#").append(i);
 			sb.append("(pid ").append(event.getPointerId(i));
 			sb.append(")=").append((int) event.getX(i));
 			sb.append(",").append((int) event.getY(i));
-			if (i + 1 < event.getPointerCount()) {
+			if (i + 1 < event.getPointerCount())
+			{
 				sb.append(";");
 			}
 		}
@@ -53,28 +59,33 @@ public class TouchManager extends BaseManager {
 		Log.d("POINTER", sb.toString());
 	}
 
-	private float getDistanceBetweenFingers(MotionEvent event) {
+	private float getDistanceBetweenFingers(MotionEvent event)
+	{
 		float x = event.getX(0) - event.getX(1);
 		float y = event.getY(0) - event.getY(1);
 		return (float) Math.sqrt(x * x + y * y);
 	}
 
 	// handle correct main finger
-	private void initPOVValues(MotionEvent event, boolean bZoomGestureEnd) {
+	private void initPOVValues(MotionEvent event, boolean bZoomGestureEnd)
+	{
 		int nIndex = 0;
 
 		int nCount = event.getPointerCount();
 
-		if (bZoomGestureEnd) {
+		if (bZoomGestureEnd)
+		{
 			int action = event.getAction();
 			nIndex = action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
 			nIndex++;// take another index (non risen up)
 		}
 
-		if (nIndex < 0) {
+		if (nIndex < 0)
+		{
 			nIndex = nCount - 1;
 		}
-		if (nIndex >= nCount) {
+		if (nIndex >= nCount)
+		{
 			nIndex = 0;
 		}
 
@@ -89,18 +100,21 @@ public class TouchManager extends BaseManager {
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	// ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
-	public void onTouchEvent(MotionEvent event) {
+	public void onTouchEvent(MotionEvent event)
+	{
 		// String msg="Pressure = " + Float.toString(event.getPressure());
 		// String msg="(x,y) = (" + Float.toString(event.getX()) +","
 		// +Float.toString(event.getY()) + ")";
@@ -114,10 +128,13 @@ public class TouchManager extends BaseManager {
 		int action = event.getAction();
 		int actionCode = action & MotionEvent.ACTION_MASK;
 
-		switch (actionCode) {
-		case MotionEvent.ACTION_DOWN: {
+		switch (actionCode)
+		{
+		case MotionEvent.ACTION_DOWN:
+		{
 			long curTapTapTime = System.currentTimeMillis();
-			if (curTapTapTime - mLastTapTapTime < fTapTapTimeThresold) {
+			if (curTapTapTime - mLastTapTapTime < fTapTapTimeThresold)
+			{
 				StartTapTapAction();
 			}
 			mLastTapTapTime = curTapTapTime;
@@ -127,17 +144,23 @@ public class TouchManager extends BaseManager {
 
 			// auto switch tool mode
 			int nRes = getManagers().getMeshManager().Pick(x, y);
-			if (nRes < 0) {
+			if (nRes < 0)
+			{
 				EToolMode currMode = getManagers().getToolsManager().getToolMode();
-				if (currMode != EToolMode.POV) {
-					if (getManagers().getToolsManager().getForcedMode() == false) {
+				if (currMode != EToolMode.POV)
+				{
+					if (getManagers().getToolsManager().getForcedMode() == false)
+					{
 						getManagers().getToolsManager().setToolMode(EToolMode.POV);
 					}
 				}
-			} else {
+			} else
+			{
 				EToolMode currMode = getManagers().getToolsManager().getToolMode();
-				if (currMode == EToolMode.POV) {
-					if (getManagers().getToolsManager().getForcedMode() == false) {
+				if (currMode == EToolMode.POV)
+				{
+					if (getManagers().getToolsManager().getForcedMode() == false)
+					{
 						getManagers().getToolsManager().setLastToolMode();
 					}
 				}
@@ -148,7 +171,8 @@ public class TouchManager extends BaseManager {
 			break;
 		}
 
-		case MotionEvent.ACTION_POINTER_DOWN: {
+		case MotionEvent.ACTION_POINTER_DOWN:
+		{
 			mZoomInit = getManagers().getPointOfViewManager().getZoomDistance();
 			mLastFingerSpacing = getDistanceBetweenFingers(event);
 			;
@@ -156,27 +180,34 @@ public class TouchManager extends BaseManager {
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ZOOM);
 			break;
 		}
-		case MotionEvent.ACTION_POINTER_UP: {
+		case MotionEvent.ACTION_POINTER_UP:
+		{
 			initPOVValues(event, true);// reinit rotate values
 
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 			break;
 		}
-		case MotionEvent.ACTION_UP: {
+		case MotionEvent.ACTION_UP:
+		{
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 			break;
 		}
-		case MotionEvent.ACTION_MOVE: {
-			switch (getManagers().getToolsManager().getToolMode()) {
-			case POV: {
-				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE) {
+		case MotionEvent.ACTION_MOVE:
+		{
+			switch (getManagers().getToolsManager().getToolMode())
+			{
+			case POV:
+			{
+				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE)
+				{
 					float angleRot = mRotInit + (x - mLastX) / fDemultRotateFactor;
 					float angleElev = mElevInit + (y - mLastY) / fDemultRotateFactor;
 					float dist = getManagers().getPointOfViewManager().getZoomDistance();
 
 					getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
 				}
-				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM) {
+				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM)
+				{
 					float fingersSpacing = getDistanceBetweenFingers(event);
 					float dist = mZoomInit - (fingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
 
@@ -187,7 +218,8 @@ public class TouchManager extends BaseManager {
 			}
 
 			case SCULPT:
-			case PAINT: {
+			case PAINT:
+			{
 				getManagers().getMeshManager().Pick(x, y);
 				break;
 			}
@@ -198,15 +230,19 @@ public class TouchManager extends BaseManager {
 		}
 	}
 
-	private void StartTapTapAction() {
-		switch (getManagers().getToolsManager().getToolMode()) {
-		case POV: {
+	private void StartTapTapAction()
+	{
+		switch (getManagers().getToolsManager().getToolMode())
+		{
+		case POV:
+		{
 			// TODO queue or post to come back in UI thread
 			Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.ToolsPanel.class, true);
 			break;
 		}
 		case SCULPT:
-		case PAINT: {
+		case PAINT:
+		{
 			break;
 		}
 		}

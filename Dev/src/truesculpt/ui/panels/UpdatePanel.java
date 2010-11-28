@@ -12,22 +12,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class UpdatePanel extends Activity {
+public class UpdatePanel extends Activity
+{
 
 	private Handler mHandler = new Handler();
 
-	Runnable mLookUpTask = new Runnable() {
+	Runnable mLookUpTask = new Runnable()
+	{
 		@Override
-		public void run() {
+		public void run()
+		{
 			strCurrVersion = getManagers().getUpdateManager().getCurrentVersion();
 			strLatestVersion = getManagers().getUpdateManager().getLatestVersion();
 
 			mHandler.post(mUpdateViewTask); // to come back in UI thread
 		}
 	};
-	Runnable mUpdateViewTask = new Runnable() {
+	Runnable mUpdateViewTask = new Runnable()
+	{
 		@Override
-		public void run() {
+		public void run()
+		{
 			UpdateView();
 		}
 	};
@@ -37,20 +42,24 @@ public class UpdatePanel extends Activity {
 
 	TextView text = null;
 
-	public Managers getManagers() {
+	public Managers getManagers()
+	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
 
 		final Button button = (Button) findViewById(R.id.Ok_btn);
-		button.setOnClickListener(new View.OnClickListener() {
+		button.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				finish();
 			}
 		});
@@ -66,45 +75,55 @@ public class UpdatePanel extends Activity {
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause()
+	{
 		super.onPause();
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 	}
 
-	public void UpdateView() {
+	public void UpdateView()
+	{
 		EUpdateStatus status = getManagers().getUpdateManager().getUpdateStatus(strCurrVersion, strLatestVersion);
 
 		String msg = "";
-		if (status != EUpdateStatus.UNDEFINED) {
+		if (status != EUpdateStatus.UNDEFINED)
+		{
 			msg += getString(R.string.current_version_is_) + " " + strCurrVersion + " \n";
 			msg += getString(R.string.latest_version_is_) + " " + strLatestVersion + " \n";
 
-			if (status == EUpdateStatus.IS_A_BETA) {
+			if (status == EUpdateStatus.IS_A_BETA)
+			{
 				msg += getString(R.string.this_version_is_a_beta_) + " \n";
 			}
 
-			if (status == EUpdateStatus.UPDATE_NEEDED) {
+			if (status == EUpdateStatus.UPDATE_NEEDED)
+			{
 				msg += getString(R.string.an_update_is_needed_) + " \n";
 			}
-			if (status == EUpdateStatus.UP_TO_DATE || status == EUpdateStatus.IS_A_BETA) {
+			if (status == EUpdateStatus.UP_TO_DATE || status == EUpdateStatus.IS_A_BETA)
+			{
 				msg += getString(R.string.no_update_is_needed_) + " \n";
 			}
-		} else {
+		} else
+		{
 			msg += getString(R.string.unable_to_get_update_status) + " \n";
 		}
 
 		text.setText(msg);
 
-		if (status == EUpdateStatus.UPDATE_NEEDED) {
+		if (status == EUpdateStatus.UPDATE_NEEDED)
+		{
 			// Launch associated web page
 			String strLastestURL = strLatestVersion.replace(".", "_");
 			strLastestURL = "https://code.google.com/p/truesculpt/downloads/detail?name=TrueSculpt_" + strLastestURL + ".apk";

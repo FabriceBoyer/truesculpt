@@ -30,12 +30,10 @@ import android.os.Bundle;
 import android.view.View;
 
 /**
- * <h3>Application that displays the values of the acceleration sensor
- * graphically.</h3>
+ * <h3>Application that displays the values of the acceleration sensor graphically.</h3>
  * 
  * <p>
- * This demonstrates the {@link android.hardware.SensorManager
- * android.hardware.SensorManager} class.
+ * This demonstrates the {@link android.hardware.SensorManager android.hardware.SensorManager} class.
  * 
  * <h4>Demo</h4>
  * OS / Sensors
@@ -48,8 +46,10 @@ import android.view.View;
  * </tr>
  * </table>
  */
-public class DebugSensorsPanel extends Activity {
-	private class GraphView extends View implements SensorListener {
+public class DebugSensorsPanel extends Activity
+{
+	private class GraphView extends View implements SensorListener
+	{
 		private Bitmap mBitmap;
 		private Canvas mCanvas = new Canvas();
 		private int mColors[] = new int[3 * 2];
@@ -66,7 +66,8 @@ public class DebugSensorsPanel extends Activity {
 		private float mWidth;
 		private float mYOffset;
 
-		public GraphView(Context context) {
+		public GraphView(Context context)
+		{
 			super(context);
 			mColors[0] = Color.argb(192, 255, 64, 64);
 			mColors[1] = Color.argb(192, 64, 128, 64);
@@ -81,20 +82,25 @@ public class DebugSensorsPanel extends Activity {
 		}
 
 		@Override
-		public void onAccuracyChanged(int sensor, int accuracy) {
+		public void onAccuracyChanged(int sensor, int accuracy)
+		{
 
 		}
 
 		@Override
-		protected void onDraw(Canvas canvas) {
-			synchronized (this) {
-				if (mBitmap != null) {
+		protected void onDraw(Canvas canvas)
+		{
+			synchronized (this)
+			{
+				if (mBitmap != null)
+				{
 					final Paint paint = mPaint;
 					final Path path = mPath;
 					final int outer = 0xFFC0C0C0;
 					final int inner = 0xFFff7010;
 
-					if (mLastX >= mMaxX) {
+					if (mLastX >= mMaxX)
+					{
 						mLastX = 0;
 						final Canvas cavas = mCanvas;
 						final float yoffset = mYOffset;
@@ -109,11 +115,13 @@ public class DebugSensorsPanel extends Activity {
 					canvas.drawBitmap(mBitmap, 0, 0, null);
 
 					float[] values = mOrientationValues;
-					if (mWidth < mHeight) {
+					if (mWidth < mHeight)
+					{
 						float w0 = mWidth * 0.333333f;
 						float w = w0 - 32;
 						float x = w0 * 0.5f;
-						for (int i = 0; i < 3; i++) {
+						for (int i = 0; i < 3; i++)
+						{
 							canvas.save(Canvas.MATRIX_SAVE_FLAG);
 							canvas.translate(x, w * 0.5f + 4.0f);
 							canvas.save(Canvas.MATRIX_SAVE_FLAG);
@@ -128,11 +136,13 @@ public class DebugSensorsPanel extends Activity {
 							canvas.restore();
 							x += w0;
 						}
-					} else {
+					} else
+					{
 						float h0 = mHeight * 0.333333f;
 						float h = h0 - 32;
 						float y = h0 * 0.5f;
-						for (int i = 0; i < 3; i++) {
+						for (int i = 0; i < 3; i++)
+						{
 							canvas.save(Canvas.MATRIX_SAVE_FLAG);
 							canvas.translate(mWidth - (h * 0.5f + 4.0f), y);
 							canvas.save(Canvas.MATRIX_SAVE_FLAG);
@@ -154,30 +164,38 @@ public class DebugSensorsPanel extends Activity {
 		}
 
 		@Override
-		public void onSensorChanged(int sensor, float[] values) {
+		public void onSensorChanged(int sensor, float[] values)
+		{
 			// Log.d(TAG, "sensor: " + sensor + ", x: " + values[0] + ", y: " +
 			// values[1] + ", z: " + values[2]);
-			synchronized (this) {
-				if (mBitmap != null) {
+			synchronized (this)
+			{
+				if (mBitmap != null)
+				{
 					final Canvas canvas = mCanvas;
 					final Paint paint = mPaint;
-					if (sensor == SensorManager.SENSOR_ORIENTATION) {
-						for (int i = 0; i < 3; i++) {
+					if (sensor == SensorManager.SENSOR_ORIENTATION)
+					{
+						for (int i = 0; i < 3; i++)
+						{
 							mOrientationValues[i] = values[i];
 						}
-					} else {
+					} else
+					{
 						float deltaX = mSpeed;
 						float newX = mLastX + deltaX;
 
 						int j = sensor == SensorManager.SENSOR_MAGNETIC_FIELD ? 1 : 0;
-						for (int i = 0; i < 3; i++) {
+						for (int i = 0; i < 3; i++)
+						{
 							int k = i + j * 3;
 							final float v = mYOffset + values[i] * mScale[j];
 							paint.setColor(mColors[k]);
 							canvas.drawLine(mLastX, mLastValues[k], newX, v, paint);
 							mLastValues[k] = v;
 						}
-						if (sensor == SensorManager.SENSOR_MAGNETIC_FIELD) {
+						if (sensor == SensorManager.SENSOR_MAGNETIC_FIELD)
+						{
 							mLastX += mSpeed;
 						}
 					}
@@ -187,7 +205,8 @@ public class DebugSensorsPanel extends Activity {
 		}
 
 		@Override
-		protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		protected void onSizeChanged(int w, int h, int oldw, int oldh)
+		{
 			mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
 			mCanvas.setBitmap(mBitmap);
 			mCanvas.drawColor(0xFFFFFFFF);
@@ -196,9 +215,11 @@ public class DebugSensorsPanel extends Activity {
 			mScale[1] = -(h * 0.5f * 1.0f / SensorManager.MAGNETIC_FIELD_EARTH_MAX);
 			mWidth = w;
 			mHeight = h;
-			if (mWidth < mHeight) {
+			if (mWidth < mHeight)
+			{
 				mMaxX = w;
-			} else {
+			} else
+			{
 				mMaxX = w - 50;
 			}
 			mLastX = mMaxX;
@@ -213,12 +234,11 @@ public class DebugSensorsPanel extends Activity {
 	private SensorManager mSensorManager;
 
 	/**
-	 * Initialization of the Activity after it is first created. Must at least
-	 * call {@link android.app.Activity#setContentView setContentView()} to
-	 * describe what is to be displayed in the screen.
+	 * Initialization of the Activity after it is first created. Must at least call {@link android.app.Activity#setContentView setContentView()} to describe what is to be displayed in the screen.
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		// Be sure to call the super class.
 		super.onCreate(savedInstanceState);
 
@@ -228,13 +248,15 @@ public class DebugSensorsPanel extends Activity {
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 		mSensorManager.registerListener(mGraphView, SensorManager.SENSOR_ACCELEROMETER | SensorManager.SENSOR_MAGNETIC_FIELD | SensorManager.SENSOR_ORIENTATION, SensorManager.SENSOR_DELAY_FASTEST);
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		mSensorManager.unregisterListener(mGraphView);
 		super.onStop();
 	}

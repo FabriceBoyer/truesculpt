@@ -13,7 +13,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class ColorPickerView extends View {
+public class ColorPickerView extends View
+{
 	private static final int CENTER_RADIUS = 32;
 	private static final int CENTER_X = 100;
 	private static final int CENTER_Y = 100;
@@ -27,7 +28,8 @@ public class ColorPickerView extends View {
 
 	private Paint mPaint;
 
-	public ColorPickerView(Context c, AttributeSet attrs) {
+	public ColorPickerView(Context c, AttributeSet attrs)
+	{
 		super(c, attrs);
 
 		mColors = new int[] { 0xFFFF0000, 0xFFFF00FF, 0xFF0000FF, 0xFF00FFFF, 0xFF00FF00, 0xFFFFFF00, 0xFFFF0000 };
@@ -43,20 +45,25 @@ public class ColorPickerView extends View {
 		mCenterPaint.setStrokeWidth(5);
 	}
 
-	private int ave(int s, int d, float p) {
+	private int ave(int s, int d, float p)
+	{
 		return s + java.lang.Math.round(p * (d - s));
 	}
 
-	private int floatToByte(float x) {
+	private int floatToByte(float x)
+	{
 		int n = java.lang.Math.round(x);
 		return n;
 	}
 
-	private int interpColor(int colors[], float unit) {
-		if (unit <= 0) {
+	private int interpColor(int colors[], float unit)
+	{
+		if (unit <= 0)
+		{
 			return colors[0];
 		}
-		if (unit >= 1) {
+		if (unit >= 1)
+		{
 			return colors[colors.length - 1];
 		}
 
@@ -76,7 +83,8 @@ public class ColorPickerView extends View {
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
+	protected void onDraw(Canvas canvas)
+	{
 		float r = CENTER_X - mPaint.getStrokeWidth() * 0.5f;
 
 		canvas.translate(CENTER_X, CENTER_X);
@@ -96,25 +104,31 @@ public class ColorPickerView extends View {
 	}
 
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+	{
 		setMeasuredDimension(CENTER_X * 2, CENTER_Y * 2);
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(MotionEvent event)
+	{
 		float x = event.getX() - CENTER_X;
 		float y = event.getY() - CENTER_Y;
 		boolean inCenter = java.lang.Math.sqrt(x * x + y * y) <= CENTER_RADIUS;
 
-		if (!inCenter) {
-			switch (event.getAction()) {
+		if (!inCenter)
+		{
+			switch (event.getAction())
+			{
 			case MotionEvent.ACTION_DOWN:
 			case MotionEvent.ACTION_MOVE:
-			case MotionEvent.ACTION_UP: {
+			case MotionEvent.ACTION_UP:
+			{
 				float angle = (float) java.lang.Math.atan2(y, x);
 				// need to turn angle [-PI ... PI] into unit [0....1]
 				float unit = angle / (2 * PI);
-				if (unit < 0) {
+				if (unit < 0)
+				{
 					unit += 1;
 				}
 				mCenterPaint.setColor(interpColor(mColors, unit));
@@ -127,16 +141,20 @@ public class ColorPickerView extends View {
 		return true;
 	}
 
-	private int pinToByte(int n) {
-		if (n < 0) {
+	private int pinToByte(int n)
+	{
+		if (n < 0)
+		{
 			n = 0;
-		} else if (n > 255) {
+		} else if (n > 255)
+		{
 			n = 255;
 		}
 		return n;
 	}
 
-	private int rotateColor(int color, float rad) {
+	private int rotateColor(int color, float rad)
+	{
 		float deg = rad * 180 / 3.1415927f;
 		int r = Color.red(color);
 		int g = Color.green(color);
@@ -160,11 +178,13 @@ public class ColorPickerView extends View {
 		return Color.argb(Color.alpha(color), pinToByte(ir), pinToByte(ig), pinToByte(ib));
 	}
 
-	public void SetColor(int color) {
+	public void SetColor(int color)
+	{
 		mCenterPaint.setColor(color);
 	}
 
-	public void SetColorChangeListener(OnColorChangedListener listener) {
+	public void SetColorChangeListener(OnColorChangedListener listener)
+	{
 		mListener = listener;
 	}
 }

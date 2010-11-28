@@ -26,7 +26,8 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * A vertex shaded cube.
  */
-public class PickHighlight {
+public class PickHighlight
+{
 	private FloatBuffer mColorBuffer;
 	private ShortBuffer mIndexBuffer;
 	private FloatBuffer mVertexBuffer;
@@ -35,7 +36,8 @@ public class PickHighlight {
 	private float mY = 0.0f;
 	private float mZ = 0.0f;
 
-	public PickHighlight() {
+	public PickHighlight()
+	{
 		float small = 0.1f;
 		float one = 1.0f;
 		float vertices[] = { -small, -small, -small, small, -small, -small, small, small, -small, -small, small, -small, -small, -small, small, small, -small, small, small, small, small, -small, small, small, };
@@ -71,7 +73,8 @@ public class PickHighlight {
 		mIndexBuffer.position(0);
 	}
 
-	public void draw(GL10 gl) {
+	public void draw(GL10 gl)
+	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
 		gl.glTranslatef(mX, mY, mZ);
@@ -84,7 +87,8 @@ public class PickHighlight {
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 
-	public void setPickHighlightPosition(float[] pt) {
+	public void setPickHighlightPosition(float[] pt)
+	{
 		mX = pt[0];
 		mY = pt[1];
 		mZ = pt[2];

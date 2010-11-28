@@ -1,6 +1,7 @@
 package truesculpt.renderer;
 
-public class Face {
+public class Face
+{
 
 	public int nIndex0;
 	public int nIndex1;

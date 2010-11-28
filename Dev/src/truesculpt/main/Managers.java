@@ -18,7 +18,8 @@ import truesculpt.managers.UsageStatisticsManager;
 import truesculpt.managers.WebManager;
 import android.content.Context;
 
-public class Managers {
+public class Managers
+{
 
 	private ActionsManager mActionsManager = null;
 	private FileManager mFileManager = null;
@@ -36,18 +37,23 @@ public class Managers {
 
 	private WebManager mWebManager = null;
 
-	public Managers() {
+	public Managers()
+	{
 
 	}
 
-	public void Create() {
-		for (BaseManager manager : mManagersList) {
+	public void Create()
+	{
+		for (BaseManager manager : mManagersList)
+		{
 			manager.onCreate();
 		}
 	}
 
-	public void Destroy() {
-		for (BaseManager manager : mManagersList) {
+	public void Destroy()
+	{
+		for (BaseManager manager : mManagersList)
+		{
 			manager.onDestroy();
 		}
 	}
@@ -55,95 +61,109 @@ public class Managers {
 	/**
 	 * @return the mActionsManager
 	 */
-	public ActionsManager getActionsManager() {
+	public ActionsManager getActionsManager()
+	{
 		return mActionsManager;
 	}
 
 	/**
 	 * @return the mFileManager
 	 */
-	public FileManager getFileManager() {
+	public FileManager getFileManager()
+	{
 		return mFileManager;
 	}
 
 	/**
 	 * @return the mMemoryManager
 	 */
-	public MemoryManager getMemoryManager() {
+	public MemoryManager getMemoryManager()
+	{
 		return mMemoryManager;
 	}
 
 	/**
 	 * @return the mMeshManager
 	 */
-	public MeshManager getMeshManager() {
+	public MeshManager getMeshManager()
+	{
 		return mMeshManager;
 	}
 
 	/**
 	 * @return the mOptionsManager
 	 */
-	public OptionsManager getOptionsManager() {
+	public OptionsManager getOptionsManager()
+	{
 		return mOptionsManager;
 	}
 
 	/**
 	 * @return the mPointOfViewManager
 	 */
-	public PointOfViewManager getPointOfViewManager() {
+	public PointOfViewManager getPointOfViewManager()
+	{
 		return mPointOfViewManager;
 	}
 
 	/**
 	 * @return the mRendererManager
 	 */
-	public RendererManager getRendererManager() {
+	public RendererManager getRendererManager()
+	{
 		return mRendererManager;
 	}
 
 	/**
 	 * @return the mSensorsManager
 	 */
-	public SensorsManager getSensorsManager() {
+	public SensorsManager getSensorsManager()
+	{
 		return mSensorsManager;
 	}
 
 	/**
 	 * @return the mToolsManager
 	 */
-	public ToolsManager getToolsManager() {
+	public ToolsManager getToolsManager()
+	{
 		return mToolsManager;
 	}
 
 	/**
 	 * @return the mTouchManager
 	 */
-	public TouchManager getTouchManager() {
+	public TouchManager getTouchManager()
+	{
 		return mTouchManager;
 	}
 
 	/**
 	 * @return the mUpdateManager
 	 */
-	public UpdateManager getUpdateManager() {
+	public UpdateManager getUpdateManager()
+	{
 		return mUpdateManager;
 	}
 
 	/**
 	 * @return the mUsageStatisticsManager
 	 */
-	public UsageStatisticsManager getUsageStatisticsManager() {
+	public UsageStatisticsManager getUsageStatisticsManager()
+	{
 		return mUsageStatisticsManager;
 	}
 
 	/**
 	 * @return the mWebManager
 	 */
-	public WebManager getWebManager() {
+	public WebManager getWebManager()
+	{
 		return mWebManager;
 	}
 
-	public void Init(Context baseContext) {
+	public void Init(Context baseContext)
+	{
 
 		// init
 		mActionsManager = new ActionsManager(baseContext);
