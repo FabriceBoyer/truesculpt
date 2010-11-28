@@ -215,7 +215,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		    fos.flush();
 		    fos.close();
 		} catch (Exception e) {
-		    // handle
+		    assert(false);
 		}
 	}
 
