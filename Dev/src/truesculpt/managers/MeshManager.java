@@ -123,7 +123,11 @@ public class MeshManager extends BaseManager {
 			
 			if (getManagers().getOptionsManager().getDisplayDebugInfos())
 			{	
-				mObject.drawNormals(gl);
+				if (mObject!=null)
+				{
+					mObject.drawNormals(gl);
+				}
+				
 				mRay.draw(gl);
 				mPickHighlight.draw(gl);				
 			}

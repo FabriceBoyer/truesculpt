@@ -170,14 +170,10 @@ public class GeneratedObject
     
     public void drawNormals(GL10 gl)
     {
-    	gl.glEnableClientState(GL10.GL_COLOR_ARRAY);	
-    
         gl.glFrontFace(GL10.GL_CCW);//counter clock wise is specific to previous format
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mNormalBuffer);
-        gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);        
-        gl.glDrawElements(GL10.GL_LINE_STRIP, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
-        
-        gl.glDisableClientState(GL10.GL_COLOR_ARRAY);	
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mNormalBuffer);        
+        gl.glDrawElements(GL10.GL_LINE_STRIP, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);        
+        	
     }
 
 	public FloatBuffer getVertexBuffer() {
