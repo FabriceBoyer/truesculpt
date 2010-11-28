@@ -122,9 +122,10 @@ public class MeshManager extends BaseManager {
 			}
 			
 			if (getManagers().getOptionsManager().getDisplayDebugInfos())
-			{			
+			{	
+				mObject.drawNormals(gl);
 				mRay.draw(gl);
-				mPickHighlight.draw(gl);
+				mPickHighlight.draw(gl);				
 			}
 		}
 	}
@@ -183,7 +184,7 @@ public class MeshManager extends BaseManager {
 							}
 							case PAINT:						
 							{					
-								ColorTriangle(nIndex);
+								ColorizeTriangle(nIndex);
 								break;
 							}
 						}
@@ -213,7 +214,7 @@ public class MeshManager extends BaseManager {
     }
         
     //TODO place as an action
-    private void ColorTriangle(int triangleIndex)
+    private void ColorizeTriangle(int triangleIndex)
     {
     	if (triangleIndex>=0)
     	{    
