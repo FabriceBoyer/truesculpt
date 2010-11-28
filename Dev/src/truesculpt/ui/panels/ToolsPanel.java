@@ -33,10 +33,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		//String msg = "color is " + Integer.toString(color);
 		//Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
 	}
-
-	private ToggleButton mViewToggle;
-	private ToggleButton mSculptToggle;
-	private ToggleButton mPaintToggle;	
 	
 	private TextView mRadiusText;
 	private SeekBar mRadiusSeekBar;
@@ -52,40 +48,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		setContentView(R.layout.tools);
 		
 		getManagers().getToolsManager().registerToolChangeListener(this);
-		
-		mViewToggle = (ToggleButton) findViewById(R.id.View);
-		mViewToggle.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {				
-				getManagers().getToolsManager().setToolMode( EToolMode.POV);
-				getManagers().getToolsManager().setForcedMode(true);
-				
-				UpdateView();
-			}
-		});
-		
-		mSculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
-		mSculptToggle.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {				
-				getManagers().getToolsManager().setToolMode( EToolMode.SCULPT);
-				getManagers().getToolsManager().setForcedMode(true);
-				
-				UpdateView();
-			}
-		});
-		
-		mPaintToggle = (ToggleButton) findViewById(R.id.Paint);
-		mPaintToggle.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {				
-				getManagers().getToolsManager().setToolMode( EToolMode.PAINT);
-				getManagers().getToolsManager().setForcedMode(true);
-				
-				UpdateView();
-			}
-		});
-		
+					
 		mRadiusSeekBar=(SeekBar)findViewById(R.id.RadiusBar);
 		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
 			@Override
@@ -124,10 +87,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	
 	private void UpdateView()
 	{
-		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.POV);
-		mSculptToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.SCULPT);	
-		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode()==EToolMode.PAINT);	
-		
+
 		float fStrength=getManagers().getToolsManager().getStrength();
 		mStrengthSeekBar.setProgress((int)fStrength+100);
 		mStrengthText.setText("Strength = "+Integer.toString((int)fStrength)+" %");
