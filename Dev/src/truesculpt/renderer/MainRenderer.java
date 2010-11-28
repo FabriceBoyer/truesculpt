@@ -70,6 +70,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		return mLastFrameDurationMs;
 	}
 
+	private boolean mbTakeScreenshot=false;
+	
 	@Override
 	public void onDrawFrame(GL10 gl)
 	{
@@ -108,6 +110,11 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
+		if (mbTakeScreenshot)
+		{
+			TakeGLScreenshot(gl);
+		}
+		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs = tStop - tStart;
 	}
@@ -169,8 +176,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glShadeModel(GL10.GL_SMOOTH);
 	}
 	
-	public void TakeScreenshot(GL10 gl)
+	private void TakeGLScreenshot(GL10 gl)
 	{
+		mbTakeScreenshot=false;
+		
 		int[] mViewPort = new int[4];
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
@@ -201,13 +210,17 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		bitmap.copyPixelsFromBuffer(sbuf);
 
 		try {
-		    FileOutputStream fos = new FileOutputStream("/sdcard/screenshot.png");
+		    FileOutputStream fos = new FileOutputStream("/sdcard/TrueSculpt_Screenshot.png");
 		    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 		    fos.flush();
 		    fos.close();
 		} catch (Exception e) {
 		    // handle
 		}
+	}
 
+	public void TakeGLScreenshotOfNextFrame()
+	{
+		this.mbTakeScreenshot = true;
 	}
 }
