@@ -79,8 +79,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glRotatef(mRot, 0, 1, 0);		
 	
 		//common part (normals optionnal)
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);			
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);				
 		
 		//only if point of view changed		
 		mManagers.getMeshManager().getCurrentModelView(gl);
@@ -92,6 +91,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		
 		//main draw call
 		mManagers.getMeshManager().draw(gl);
+		
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
