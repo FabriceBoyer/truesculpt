@@ -9,20 +9,19 @@ public class UsageStatisticsManager extends BaseManager {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void incrementStartupCount()
-	{
-		
+	public void incrementStartupCount() {
+
 	}
 
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

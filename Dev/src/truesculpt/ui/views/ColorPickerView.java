@@ -30,8 +30,7 @@ public class ColorPickerView extends View {
 	public ColorPickerView(Context c, AttributeSet attrs) {
 		super(c, attrs);
 
-		mColors = new int[] { 0xFFFF0000, 0xFFFF00FF, 0xFF0000FF,
-				0xFF00FFFF, 0xFF00FF00, 0xFFFFFF00, 0xFFFF0000 };
+		mColors = new int[] { 0xFFFF0000, 0xFFFF00FF, 0xFF0000FF, 0xFF00FFFF, 0xFF00FF00, 0xFFFFFF00, 0xFFFF0000 };
 		Shader s = new SweepGradient(0, 0, mColors, null);
 
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -43,13 +42,6 @@ public class ColorPickerView extends View {
 		mCenterPaint.setColor(0);
 		mCenterPaint.setStrokeWidth(5);
 	}
-	
-	public void SetColor(int color)
-	{
-		mCenterPaint.setColor(color);
-	}
-	
-	public void SetColorChangeListener(OnColorChangedListener listener) { mListener=listener;}
 
 	private int ave(int s, int d, float p) {
 		return s + java.lang.Math.round(p * (d - s));
@@ -91,18 +83,16 @@ public class ColorPickerView extends View {
 
 		canvas.drawOval(new RectF(-r, -r, r, r), mPaint);
 		canvas.drawCircle(0, 0, CENTER_RADIUS, mCenterPaint);
-		
+
 		int c = mCenterPaint.getColor();
 		mCenterPaint.setStyle(Paint.Style.STROKE);
-		
+
 		mCenterPaint.setAlpha(0xFF);
-		
-		canvas.drawCircle(0, 0,
-				CENTER_RADIUS + mCenterPaint.getStrokeWidth(),
-				mCenterPaint);
+
+		canvas.drawCircle(0, 0, CENTER_RADIUS + mCenterPaint.getStrokeWidth(), mCenterPaint);
 
 		mCenterPaint.setStyle(Paint.Style.FILL);
-		mCenterPaint.setColor(c);		
+		mCenterPaint.setColor(c);
 	}
 
 	@Override
@@ -116,24 +106,22 @@ public class ColorPickerView extends View {
 		float y = event.getY() - CENTER_Y;
 		boolean inCenter = java.lang.Math.sqrt(x * x + y * y) <= CENTER_RADIUS;
 
-		if (!inCenter)
-		{
+		if (!inCenter) {
 			switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:				
-				case MotionEvent.ACTION_MOVE:
-				case MotionEvent.ACTION_UP:	
-				{
-					float angle = (float) java.lang.Math.atan2(y, x);
-					// need to turn angle [-PI ... PI] into unit [0....1]
-					float unit = angle / (2 * PI);
-					if (unit < 0) {
-						unit += 1;
-					}
-					mCenterPaint.setColor(interpColor(mColors, unit));
-					mListener.colorChanged(mCenterPaint.getColor());
-					invalidate();
-					break;			
+			case MotionEvent.ACTION_DOWN:
+			case MotionEvent.ACTION_MOVE:
+			case MotionEvent.ACTION_UP: {
+				float angle = (float) java.lang.Math.atan2(y, x);
+				// need to turn angle [-PI ... PI] into unit [0....1]
+				float unit = angle / (2 * PI);
+				if (unit < 0) {
+					unit += 1;
 				}
+				mCenterPaint.setColor(interpColor(mColors, unit));
+				mListener.colorChanged(mCenterPaint.getColor());
+				invalidate();
+				break;
+			}
 			}
 		}
 		return true;
@@ -169,7 +157,14 @@ public class ColorPickerView extends View {
 		int ig = floatToByte(a[5] * r + a[6] * g + a[7] * b);
 		int ib = floatToByte(a[10] * r + a[11] * g + a[12] * b);
 
-		return Color.argb(Color.alpha(color), pinToByte(ir), pinToByte(ig),
-				pinToByte(ib));
+		return Color.argb(Color.alpha(color), pinToByte(ir), pinToByte(ig), pinToByte(ib));
+	}
+
+	public void SetColor(int color) {
+		mCenterPaint.setColor(color);
+	}
+
+	public void SetColorChangeListener(OnColorChangedListener listener) {
+		mListener = listener;
 	}
 }

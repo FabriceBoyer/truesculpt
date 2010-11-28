@@ -20,13 +20,12 @@ public abstract class BaseManager {
 		return mbaseContext;
 	}
 
-	protected Managers getManagers() {	
-		return ((TrueSculptApp)getbaseContext().getApplicationContext()).getManagers();
+	protected Managers getManagers() {
+		return ((TrueSculptApp) getbaseContext().getApplicationContext()).getManagers();
 	}
-	
-	
-	public abstract void onCreate();	
-	
+
+	public abstract void onCreate();
+
 	public abstract void onDestroy();
 
 }

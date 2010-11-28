@@ -7,227 +7,200 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 /**
- * <B>ByteBuffer</B> is a container for bytes. A ByteBuffer is to bytes, what a StringBuffer is to
- * Strings.
+ * <B>ByteBuffer</B> is a container for bytes. A ByteBuffer is to bytes, what a
+ * StringBuffer is to Strings.
  * <p/>
  * <p/>
- *
+ * 
  * @author Nazmul Idris
  * @version 1.0
  * @since 3/9/2000,11:54am
  */
-public class ByteBuffer
-    implements truesculpt.utils.support.ConstantsIF, Serializable
-{
+public class ByteBuffer implements truesculpt.utils.support.ConstantsIF, Serializable {
 
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// constants
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-public static final int BUFFER_SIZE = 4096;
+	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	// constants
+	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	public static final int BUFFER_SIZE = 4096;
 
-static final long serialVersionUID = 7401588019652180668L;
+	static final long serialVersionUID = 7401588019652180668L;
 
-//
-// self test method
-//
-public static void main(String args[]) {
-  byte[] br1 = {(byte) '0', (byte) '1'};
-  byte[] br2 = {(byte) '<', (byte) 'T', (byte) '>'};
+	//
+	// self test method
+	//
+	public static void main(String args[]) {
+		byte[] br1 = { (byte) '0', (byte) '1' };
+		byte[] br2 = { (byte) '<', (byte) 'T', (byte) '>' };
 
-  System.out.println("::bb1.append( br1 )");
-  ByteBuffer bb1 = new ByteBuffer().append(br1, 0, 2);
-  bb1.setEncoding(UTF8);
-  System.out.println();
+		System.out.println("::bb1.append( br1 )");
+		ByteBuffer bb1 = new ByteBuffer().append(br1, 0, 2);
+		bb1.setEncoding(UTF8);
+		System.out.println();
 
-  System.out.println("::bb1.toString():" + bb1.toString());
-  System.out.println();
+		System.out.println("::bb1.toString():" + bb1.toString());
+		System.out.println();
 
-  System.out.println("::bb1.append( br2 )");
-  bb1.append(br2, 0, 3);
-  System.out.println();
+		System.out.println("::bb1.append( br2 )");
+		bb1.append(br2, 0, 3);
+		System.out.println();
 
-  System.out.println("::bb1.toString():" + bb1.toString());
-  System.out.println();
-}
-//
-// Data Members
-//
-protected byte[] byteRay = null;
+		System.out.println("::bb1.toString():" + bb1.toString());
+		System.out.println();
+	}
 
-protected String enc = DEFAULT_CHAR_ENCODING;
+	//
+	// Data Members
+	//
+	protected byte[] byteRay = null;
 
-//
-// constructors
-//
-public ByteBuffer() {
-}
+	protected String enc = DEFAULT_CHAR_ENCODING;
 
-public ByteBuffer(byte[] srcBuf) {
-  append(srcBuf);
-}
+	//
+	// constructors
+	//
+	public ByteBuffer() {
+	}
 
-public ByteBuffer(ByteBuffer bb) {
-  append(bb);
-}
+	public ByteBuffer(byte[] srcBuf) {
+		append(srcBuf);
+	}
 
-/**
- * this method does not close the InputStream. Simply reads all data on the stream into a byte
- * buffer.
- */
-public ByteBuffer(InputStream is) throws IOException {
-  byte[] readBuf = new byte[BUFFER_SIZE];
-  while (true) {
-    int read = is.read(readBuf);
-    if (read == -1) break;
-    append(readBuf, 0, read);
-  }
-}
+	public ByteBuffer(ByteBuffer bb) {
+		append(bb);
+	}
 
-//
-// convenience methods
-//
-public void append(byte[] srcBuf) {
-  append(srcBuf, 0, srcBuf.length);
-}
+	/**
+	 * this method does not close the InputStream. Simply reads all data on the
+	 * stream into a byte buffer.
+	 */
+	public ByteBuffer(InputStream is) throws IOException {
+		byte[] readBuf = new byte[BUFFER_SIZE];
+		while (true) {
+			int read = is.read(readBuf);
+			if (read == -1) {
+				break;
+			}
+			append(readBuf, 0, read);
+		}
+	}
 
-//
-// pure functionality of the class
-//
-public ByteBuffer append(
-    byte[] srcBuf, int srcStartIndex, int srcLength)
-{
-  if (byteRay == null) {
-    //create a new array
-    byteRay = new byte[srcLength];
-    //copy the src array to the new one
-    /*
-    System.out.println(
-      "byteRay.length="+byteRay.length +
-      ",srcBuf.length="+srcBuf.length +
-      ",srcStartIndex="+srcStartIndex +
-      ",srcLength="+srcLength );
-    */
-    arrayCopy(
-        srcBuf, srcStartIndex, byteRay, 0, srcLength);
-  }
-  else {
-    int currentSize = byteRay.length;
-    //create a new array (which is bigger than existing one)
-    byte[] newByteRay = new byte[currentSize + srcLength];
-    //copy the old (internal) array into the new one
-    arrayCopy(byteRay, 0, newByteRay, 0, currentSize);
-    //copy the src array into the new one
-    int newByteRayStartIndex = currentSize;
-    arrayCopy(
-        srcBuf, srcStartIndex,
-        newByteRay, newByteRayStartIndex,
-        srcLength);
-    //now blow away the old internal byte array with the bigger one
-    byteRay = newByteRay;
-  }
+	//
+	// convenience methods
+	//
+	public void append(byte[] srcBuf) {
+		append(srcBuf, 0, srcBuf.length);
+	}
 
-  return this;
-}
+	//
+	// pure functionality of the class
+	//
+	public ByteBuffer append(byte[] srcBuf, int srcStartIndex, int srcLength) {
+		if (byteRay == null) {
+			// create a new array
+			byteRay = new byte[srcLength];
+			// copy the src array to the new one
+			/*
+			 * System.out.println( "byteRay.length="+byteRay.length +
+			 * ",srcBuf.length="+srcBuf.length + ",srcStartIndex="+srcStartIndex
+			 * + ",srcLength="+srcLength );
+			 */
+			arrayCopy(srcBuf, srcStartIndex, byteRay, 0, srcLength);
+		} else {
+			int currentSize = byteRay.length;
+			// create a new array (which is bigger than existing one)
+			byte[] newByteRay = new byte[currentSize + srcLength];
+			// copy the old (internal) array into the new one
+			arrayCopy(byteRay, 0, newByteRay, 0, currentSize);
+			// copy the src array into the new one
+			int newByteRayStartIndex = currentSize;
+			arrayCopy(srcBuf, srcStartIndex, newByteRay, newByteRayStartIndex, srcLength);
+			// now blow away the old internal byte array with the bigger one
+			byteRay = newByteRay;
+		}
 
-/*
-public String toString() {
-  if (byteRay == null) {
-    return null;
-  }
+		return this;
+	}
 
-  try {
-    return new String(byteRay, enc);
-  }
-  catch (UnsupportedEncodingException e) {
-    //this will never happen, unless the DEFAULT_CHAR_ENCODING
-    //is invalid
-    return "support.ConstantsIF.DEFAULT_CHAR_ENCODING=" +
-           DEFAULT_CHAR_ENCODING + " is invalid!";
-  }
-}
-*/
+	/*
+	 * public String toString() { if (byteRay == null) { return null; }
+	 * 
+	 * try { return new String(byteRay, enc); } catch
+	 * (UnsupportedEncodingException e) { //this will never happen, unless the
+	 * DEFAULT_CHAR_ENCODING //is invalid return
+	 * "support.ConstantsIF.DEFAULT_CHAR_ENCODING=" + DEFAULT_CHAR_ENCODING +
+	 * " is invalid!"; } }
+	 */
 
-public void append(ByteBuffer buf) {
-  append(buf.getBytes(), 0, buf.getSize());
-}
+	public void append(ByteBuffer buf) {
+		append(buf.getBytes(), 0, buf.getSize());
+	}
 
-protected final void arrayCopy(byte[] srcBuf, int srcStartIndex,
-                               byte[] destBuf, int destStartIndex,
-                               int numberOfBytesToCopy)
-{
-  System.arraycopy(srcBuf, srcStartIndex,
-                   destBuf, destStartIndex,
-                   numberOfBytesToCopy);
-  /*
-  System.out.println( "arrayCopy start" );
-  for( int i=0; i<numberOfBytesToCopy; i++) {
-    destBuf[ destStartIndex + i ] = srcBuf[ srcStartIndex + i ];
-    System.out.println( "\tindex="+i );
-  }
-  System.out.println( "arrayCopy end" );
-  */
-}
+	protected final void arrayCopy(byte[] srcBuf, int srcStartIndex, byte[] destBuf, int destStartIndex, int numberOfBytesToCopy) {
+		System.arraycopy(srcBuf, srcStartIndex, destBuf, destStartIndex, numberOfBytesToCopy);
+		/*
+		 * System.out.println( "arrayCopy start" ); for( int i=0;
+		 * i<numberOfBytesToCopy; i++) { destBuf[ destStartIndex + i ] = srcBuf[
+		 * srcStartIndex + i ]; System.out.println( "\tindex="+i ); }
+		 * System.out.println( "arrayCopy end" );
+		 */
+	}
 
-public void clear() {
-  if (byteRay != null) {
-    byteRay = null;
-  }
-}
+	public void clear() {
+		if (byteRay != null) {
+			byteRay = null;
+		}
+	}
 
-//
-// accessors for internal state
-//
-public byte[] getBytes() {
-  if (byteRay == null) {
-    return new byte[0];
-  }
-  return byteRay;
-}
+	//
+	// accessors for internal state
+	//
+	public byte[] getBytes() {
+		if (byteRay == null) {
+			return new byte[0];
+		}
+		return byteRay;
+	}
 
-public ByteArrayInputStream getInputStream() {
-  return new ByteArrayInputStream(getBytes());
-}
+	public ByteArrayInputStream getInputStream() {
+		return new ByteArrayInputStream(getBytes());
+	}
 
-public int getSize() {
-  if (byteRay != null) {
-    return byteRay.length;
-  }
-  else {
-    return 0;
-  }
-}
+	public int getSize() {
+		if (byteRay != null) {
+			return byteRay.length;
+		} else {
+			return 0;
+		}
+	}
 
-public void setEncoding(String enc) {
-  if (enc == null) {
-    return;
-  }
-  else {
-    //test this encoding string to be valid
-    try {
-      byte[] bytes = {(byte) '0', (byte) '1'};
-      new String(bytes, enc);
-      this.enc = enc;
-    }
-    catch (UnsupportedEncodingException e) {
-      //don't override the default encoding
-      System.out.println("unsupported encoding");
-    }
-  }
-}
+	public void setEncoding(String enc) {
+		if (enc == null) {
+			return;
+		} else {
+			// test this encoding string to be valid
+			try {
+				byte[] bytes = { (byte) '0', (byte) '1' };
+				new String(bytes, enc);
+				this.enc = enc;
+			} catch (UnsupportedEncodingException e) {
+				// don't override the default encoding
+				System.out.println("unsupported encoding");
+			}
+		}
+	}
 
-public byte[] toByteArray() {
-  return getBytes();
-}
+	public byte[] toByteArray() {
+		return getBytes();
+	}
 
-@Override
-public String toString() {
-  if (byteRay != null && byteRay.length > 0) {
-    float sizeInKB = byteRay.length / 1000f;
-    return sizeInKB + " KB";
-  }
-  else {
-    return "0 KB";
-  }
-}
+	@Override
+	public String toString() {
+		if (byteRay != null && byteRay.length > 0) {
+			float sizeInKB = byteRay.length / 1000f;
+			return sizeInKB + " KB";
+		} else {
+			return "0 KB";
+		}
+	}
 
-}//end of ByteBuffer class
+}// end of ByteBuffer class

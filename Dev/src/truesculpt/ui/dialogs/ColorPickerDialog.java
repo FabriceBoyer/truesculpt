@@ -19,16 +19,7 @@ package truesculpt.ui.dialogs;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.SweepGradient;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 
 public class ColorPickerDialog extends Dialog {
 
@@ -40,8 +31,7 @@ public class ColorPickerDialog extends Dialog {
 
 	private OnColorChangedListener mListener;
 
-	public ColorPickerDialog(Context context, OnColorChangedListener listener,
-			int initialColor) {
+	public ColorPickerDialog(Context context, OnColorChangedListener listener, int initialColor) {
 		super(context);
 
 		mListener = listener;
@@ -54,11 +44,11 @@ public class ColorPickerDialog extends Dialog {
 		OnColorChangedListener l = new OnColorChangedListener() {
 			@Override
 			public void colorChanged(int color) {
-				mListener.colorChanged(color);				
+				mListener.colorChanged(color);
 			}
 		};
 
-		ColorPickerView pickerView= new ColorPickerView(getContext(), null);
+		ColorPickerView pickerView = new ColorPickerView(getContext(), null);
 		pickerView.SetColor(mInitialColor);
 		pickerView.SetColorChangeListener(l);
 		setContentView(pickerView);

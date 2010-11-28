@@ -20,8 +20,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import truesculpt.main.Managers;
-import truesculpt.managers.MeshManager;
-
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 
@@ -30,34 +28,41 @@ import android.os.SystemClock;
  */
 
 public class MainRenderer implements GLSurfaceView.Renderer {
-	private float mRot;
+	float fShininess = 25.0f;
+	float lightAmbient[] = new float[] { 0.1f, 0.1f, 0.1f, 1.0f };
+	float lightDiffuse[] = new float[] { 0.9f, 0.9f, 0.9f, 1.0f };
+
+	float[] lightPos = new float[] { 5, 5, 10, 1 };
+	float lightSpecular[] = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
+
+	float matAmbient[] = new float[] { 1, 1, 1, 1 };
+
+	float matDiffuse[] = new float[] { 1, 1, 1, 1 };
+
+	float matSpecular[] = new float[] { 1, 1, 1, 1 };
+
+	private ReferenceAxis mAxis = new ReferenceAxis();
+
 	private float mDistance;
+
 	private float mElevation;
 
-	private Managers mManagers=null;
-	private ReferenceAxis mAxis= new ReferenceAxis();
-
+	private long mLastFrameDurationMs = 0;
+	private Managers mManagers = null;
+	private float mRot;
 
 	public MainRenderer(Managers managers) {
 		super();
-		this.mManagers = managers;		
+		this.mManagers = managers;
 	}
-
-	private long mLastFrameDurationMs=0;
 
 	public long getLastFrameDurationMs() {
 		return mLastFrameDurationMs;
 	}
-	
-	public void onPointOfViewChange(float fRot, float fDistance, float fElevation) {
-		mRot = fRot;
-		mDistance = fDistance;
-		mElevation = fElevation;
-	}
-		
+
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		
+
 		long tStart = SystemClock.uptimeMillis();
 		/*
 		 * Usually, the first thing one might want to do is to clear the screen.
@@ -72,33 +77,36 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
-				
+
 		gl.glTranslatef(0, 0, -mDistance);
-		
+
 		gl.glRotatef(mElevation, 1, 0, 0);
-		gl.glRotatef(mRot, 0, 1, 0);		
-	
-		//common part (normals optionnal)
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);				
-		
-		//only if point of view changed		
+		gl.glRotatef(mRot, 0, 1, 0);
+
+		// common part (normals optionnal)
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+
+		// only if point of view changed
 		mManagers.getMeshManager().getCurrentModelView(gl);
-		
-		if (mManagers.getOptionsManager().getDisplayDebugInfos())
-		{
+
+		if (mManagers.getOptionsManager().getDisplayDebugInfos()) {
 			mAxis.draw(gl);
 		}
-		
-		//main draw call
-		mManagers.getMeshManager().draw(gl);
-		
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		
-		long tStop = SystemClock.uptimeMillis();
-		mLastFrameDurationMs=tStop-tStart;		
-	}
-	
 
+		// main draw call
+		mManagers.getMeshManager().draw(gl);
+
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+
+		long tStop = SystemClock.uptimeMillis();
+		mLastFrameDurationMs = tStop - tStart;
+	}
+
+	public void onPointOfViewChange(float fRot, float fDistance, float fElevation) {
+		mRot = fRot;
+		mDistance = fDistance;
+		mElevation = fElevation;
+	}
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -114,53 +122,40 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glFrustumf(-ratio, ratio, -1, 1, 1.0f, 10);
-		
+
 		mManagers.getMeshManager().getCurrentProjection(gl);
 		mManagers.getMeshManager().getViewport(gl);
 	}
 
-	float lightAmbient[] = new float[] {0.1f, 0.1f, 0.1f, 1.0f};
-	float lightDiffuse[] = new float[]	{0.9f, 0.9f, 0.9f, 1.0f};
-	float lightSpecular[] = new float[] {0.2f, 0.2f, 0.2f, 1.0f};
-
-	float[] lightPos = new float[] {5,5,10,1};
-	
-	float matAmbient[] = new float[] { 1,1,1,1};
-	float matDiffuse[] = new float[] { 1,1,1,1};
-	float matSpecular[] = new float[] { 1,1,1,1};
-	float fShininess=25.0f;
-	
-	
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-		
-		//TODO back screen color configuration in options
-		gl.glClearColor(0, 0, 0, 0);	
-		
-		
+
+		// TODO back screen color configuration in options
+		gl.glClearColor(0, 0, 0, 0);
+
 		gl.glEnable(GL10.GL_LIGHTING);
 		gl.glEnable(GL10.GL_LIGHT0);
-		
+
 		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, matAmbient, 0);
-		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, matDiffuse, 0);		 
+		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, matDiffuse, 0);
 		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, matSpecular, 0);
-		gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, fShininess );
-		    
-		//TODO use texture, not color at point
+		gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, fShininess);
+
+		// TODO use texture, not color at point
 		gl.glEnable(GL10.GL_COLOR_MATERIAL);
-		
-		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPos, 0);	
-		
-		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, lightAmbient,	0);
-		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, lightDiffuse,	0);		
-		gl.glLightfv( GL10.GL_LIGHT0,  GL10.GL_SPECULAR, lightSpecular, 0);			
-		
+
+		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPos, 0);
+
+		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, lightAmbient, 0);
+		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, lightDiffuse, 0);
+		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR, lightSpecular, 0);
+
 		gl.glEnable(GL10.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL10.GL_LEQUAL);
-		
+
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
-	}	
+	}
 }

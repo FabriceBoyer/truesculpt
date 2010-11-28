@@ -22,6 +22,7 @@ public class Managers {
 
 	private ActionsManager mActionsManager = null;
 	private FileManager mFileManager = null;
+	private Vector<BaseManager> mManagersList = new Vector<BaseManager>();
 	private MemoryManager mMemoryManager = null;
 	private MeshManager mMeshManager = null;
 	private OptionsManager mOptionsManager = null;
@@ -32,97 +33,119 @@ public class Managers {
 	private TouchManager mTouchManager = null;
 	private UpdateManager mUpdateManager = null;
 	private UsageStatisticsManager mUsageStatisticsManager = null;
+
 	private WebManager mWebManager = null;
-	
-	private Vector<BaseManager> mManagersList=new Vector<BaseManager>();
-	
+
 	public Managers() {
 
 	}
-	
+
+	public void Create() {
+		for (BaseManager manager : mManagersList) {
+			manager.onCreate();
+		}
+	}
+
+	public void Destroy() {
+		for (BaseManager manager : mManagersList) {
+			manager.onDestroy();
+		}
+	}
+
 	/**
 	 * @return the mActionsManager
 	 */
 	public ActionsManager getActionsManager() {
 		return mActionsManager;
 	}
+
 	/**
 	 * @return the mFileManager
 	 */
 	public FileManager getFileManager() {
 		return mFileManager;
 	}
+
 	/**
 	 * @return the mMemoryManager
 	 */
 	public MemoryManager getMemoryManager() {
 		return mMemoryManager;
 	}
+
 	/**
 	 * @return the mMeshManager
 	 */
 	public MeshManager getMeshManager() {
 		return mMeshManager;
 	}
+
 	/**
 	 * @return the mOptionsManager
 	 */
 	public OptionsManager getOptionsManager() {
 		return mOptionsManager;
 	}
+
 	/**
 	 * @return the mPointOfViewManager
 	 */
 	public PointOfViewManager getPointOfViewManager() {
 		return mPointOfViewManager;
 	}
+
 	/**
 	 * @return the mRendererManager
 	 */
 	public RendererManager getRendererManager() {
 		return mRendererManager;
 	}
+
 	/**
 	 * @return the mSensorsManager
 	 */
 	public SensorsManager getSensorsManager() {
 		return mSensorsManager;
 	}
+
 	/**
 	 * @return the mToolsManager
 	 */
 	public ToolsManager getToolsManager() {
 		return mToolsManager;
 	}
+
 	/**
 	 * @return the mTouchManager
 	 */
 	public TouchManager getTouchManager() {
 		return mTouchManager;
 	}
+
 	/**
 	 * @return the mUpdateManager
 	 */
 	public UpdateManager getUpdateManager() {
 		return mUpdateManager;
 	}
+
 	/**
 	 * @return the mUsageStatisticsManager
 	 */
 	public UsageStatisticsManager getUsageStatisticsManager() {
 		return mUsageStatisticsManager;
 	}
+
 	/**
 	 * @return the mWebManager
 	 */
 	public WebManager getWebManager() {
 		return mWebManager;
 	}
-	
 
 	public void Init(Context baseContext) {
-		
-		//init
+
+		// init
 		mActionsManager = new ActionsManager(baseContext);
 		mMemoryManager = new MemoryManager(baseContext);
 		mMeshManager = new MeshManager(baseContext);
@@ -134,10 +157,9 @@ public class Managers {
 		mTouchManager = new TouchManager(baseContext);
 		mUpdateManager = new UpdateManager(baseContext);
 		mWebManager = new WebManager(baseContext);
-		mUsageStatisticsManager= new UsageStatisticsManager(baseContext);
-		mFileManager= new FileManager(baseContext);
-		
-		
+		mUsageStatisticsManager = new UsageStatisticsManager(baseContext);
+		mFileManager = new FileManager(baseContext);
+
 		mManagersList.add(mActionsManager);
 		mManagersList.add(mFileManager);
 		mManagersList.add(mMemoryManager);
@@ -150,24 +172,8 @@ public class Managers {
 		mManagersList.add(mTouchManager);
 		mManagersList.add(mUpdateManager);
 		mManagersList.add(mUsageStatisticsManager);
-		mManagersList.add(mWebManager);		
-		
-	}
-	
-	public void Create()
-	{		
-		for (BaseManager manager : mManagersList)
-		{
-			manager.onCreate();
-		}	
-	}
-	
-	public void Destroy()
-	{		
-		for (BaseManager manager : mManagersList)
-		{
-			manager.onDestroy();
-		}	
+		mManagersList.add(mWebManager);
+
 	}
 
 }

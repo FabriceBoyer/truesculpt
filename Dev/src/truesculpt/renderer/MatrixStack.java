@@ -16,164 +16,159 @@
 
 package truesculpt.renderer;
 
-import android.opengl.Matrix;
-
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import android.opengl.Matrix;
 
 /**
  * A matrix stack, similar to OpenGL ES's internal matrix stack.
  */
 public class MatrixStack {
-    public MatrixStack() {
-        commonInit(DEFAULT_MAX_DEPTH);
-    }
+	private final static int DEFAULT_MAX_DEPTH = 32;
 
-    public MatrixStack(int maxDepth) {
-        commonInit(maxDepth);
-    }
+	private final static int MATRIX_SIZE = 16;
 
-    private void commonInit(int maxDepth) {
-        mMatrix = new float[maxDepth * MATRIX_SIZE];
-        mTemp = new float[MATRIX_SIZE * 2];
-        glLoadIdentity();
-    }
+	private float[] mMatrix;
 
-    public void glFrustumf(float left, float right, float bottom, float top,
-            float near, float far) {
-        Matrix.frustumM(mMatrix, mTop, left, right, bottom, top, near, far);
-    }
+	private float[] mTemp;
 
-    public void glFrustumx(int left, int right, int bottom, int top, int near,
-            int far) {
-        glFrustumf(fixedToFloat(left),fixedToFloat(right),
-                fixedToFloat(bottom), fixedToFloat(top),
-                fixedToFloat(near), fixedToFloat(far));
-    }
+	private int mTop;
 
-    public void glLoadIdentity() {
-        Matrix.setIdentityM(mMatrix, mTop);
-    }
+	public MatrixStack() {
+		commonInit(DEFAULT_MAX_DEPTH);
+	}
 
-    public void glLoadMatrixf(float[] m, int offset) {
-        System.arraycopy(m, offset, mMatrix, mTop, MATRIX_SIZE);
-    }
+	public MatrixStack(int maxDepth) {
+		commonInit(maxDepth);
+	}
 
-    public void glLoadMatrixf(FloatBuffer m) {
-        m.get(mMatrix, mTop, MATRIX_SIZE);
-    }
+	private void adjust(int dir) {
+		mTop += dir * MATRIX_SIZE;
+	}
 
-    public void glLoadMatrixx(int[] m, int offset) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
-            mMatrix[mTop + i] = fixedToFloat(m[offset + i]);
-        }
-    }
+	private void commonInit(int maxDepth) {
+		mMatrix = new float[maxDepth * MATRIX_SIZE];
+		mTemp = new float[MATRIX_SIZE * 2];
+		glLoadIdentity();
+	}
 
-    public void glLoadMatrixx(IntBuffer m) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
-            mMatrix[mTop + i] = fixedToFloat(m.get());
-        }
-    }
+	private float fixedToFloat(int x) {
+		return x * 1.0f / 65536.0f;
+	}
 
-    public void glMultMatrixf(float[] m, int offset) {
-        System.arraycopy(mMatrix, mTop, mTemp, 0, MATRIX_SIZE);
-        Matrix.multiplyMM(mMatrix, mTop, mTemp, 0, m, offset);
-    }
+	public void getMatrix(float[] dest, int offset) {
+		System.arraycopy(mMatrix, mTop, dest, offset, MATRIX_SIZE);
+	}
 
-    public void glMultMatrixf(FloatBuffer m) {
-        m.get(mTemp, MATRIX_SIZE, MATRIX_SIZE);
-        glMultMatrixf(mTemp, MATRIX_SIZE);
-    }
+	public void glFrustumf(float left, float right, float bottom, float top, float near, float far) {
+		Matrix.frustumM(mMatrix, mTop, left, right, bottom, top, near, far);
+	}
 
-    public void glMultMatrixx(int[] m, int offset) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
-            mTemp[MATRIX_SIZE + i] = fixedToFloat(m[offset + i]);
-        }
-        glMultMatrixf(mTemp, MATRIX_SIZE);
-    }
+	public void glFrustumx(int left, int right, int bottom, int top, int near, int far) {
+		glFrustumf(fixedToFloat(left), fixedToFloat(right), fixedToFloat(bottom), fixedToFloat(top), fixedToFloat(near), fixedToFloat(far));
+	}
 
-    public void glMultMatrixx(IntBuffer m) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
-            mTemp[MATRIX_SIZE + i] = fixedToFloat(m.get());
-        }
-        glMultMatrixf(mTemp, MATRIX_SIZE);
-    }
+	public void glLoadIdentity() {
+		Matrix.setIdentityM(mMatrix, mTop);
+	}
 
-    public void glOrthof(float left, float right, float bottom, float top,
-            float near, float far) {
-        Matrix.orthoM(mMatrix, mTop, left, right, bottom, top, near, far);
-    }
+	public void glLoadMatrixf(float[] m, int offset) {
+		System.arraycopy(m, offset, mMatrix, mTop, MATRIX_SIZE);
+	}
 
-    public void glOrthox(int left, int right, int bottom, int top, int near,
-            int far) {
-        glOrthof(fixedToFloat(left), fixedToFloat(right),
-                fixedToFloat(bottom), fixedToFloat(top),
-                fixedToFloat(near), fixedToFloat(far));
-    }
+	public void glLoadMatrixf(FloatBuffer m) {
+		m.get(mMatrix, mTop, MATRIX_SIZE);
+	}
 
-    public void glPopMatrix() {
-        preflight_adjust(-1);
-        adjust(-1);
-    }
+	public void glLoadMatrixx(int[] m, int offset) {
+		for (int i = 0; i < MATRIX_SIZE; i++) {
+			mMatrix[mTop + i] = fixedToFloat(m[offset + i]);
+		}
+	}
 
-    public void glPushMatrix() {
-        preflight_adjust(1);
-        System.arraycopy(mMatrix, mTop, mMatrix, mTop + MATRIX_SIZE,
-                MATRIX_SIZE);
-        adjust(1);
-    }
+	public void glLoadMatrixx(IntBuffer m) {
+		for (int i = 0; i < MATRIX_SIZE; i++) {
+			mMatrix[mTop + i] = fixedToFloat(m.get());
+		}
+	}
 
-    public void glRotatef(float angle, float x, float y, float z) {
-        Matrix.setRotateM(mTemp, 0, angle, x, y, z);
-        System.arraycopy(mMatrix, mTop, mTemp, MATRIX_SIZE, MATRIX_SIZE);
-        Matrix.multiplyMM(mMatrix, mTop, mTemp, MATRIX_SIZE, mTemp, 0);
-    }
+	public void glMultMatrixf(float[] m, int offset) {
+		System.arraycopy(mMatrix, mTop, mTemp, 0, MATRIX_SIZE);
+		Matrix.multiplyMM(mMatrix, mTop, mTemp, 0, m, offset);
+	}
 
-    public void glRotatex(int angle, int x, int y, int z) {
-        glRotatef(angle, fixedToFloat(x), fixedToFloat(y), fixedToFloat(z));
-    }
+	public void glMultMatrixf(FloatBuffer m) {
+		m.get(mTemp, MATRIX_SIZE, MATRIX_SIZE);
+		glMultMatrixf(mTemp, MATRIX_SIZE);
+	}
 
-    public void glScalef(float x, float y, float z) {
-        Matrix.scaleM(mMatrix, mTop, x, y, z);
-    }
+	public void glMultMatrixx(int[] m, int offset) {
+		for (int i = 0; i < MATRIX_SIZE; i++) {
+			mTemp[MATRIX_SIZE + i] = fixedToFloat(m[offset + i]);
+		}
+		glMultMatrixf(mTemp, MATRIX_SIZE);
+	}
 
-    public void glScalex(int x, int y, int z) {
-        glScalef(fixedToFloat(x), fixedToFloat(y), fixedToFloat(z));
-    }
+	public void glMultMatrixx(IntBuffer m) {
+		for (int i = 0; i < MATRIX_SIZE; i++) {
+			mTemp[MATRIX_SIZE + i] = fixedToFloat(m.get());
+		}
+		glMultMatrixf(mTemp, MATRIX_SIZE);
+	}
 
-    public void glTranslatef(float x, float y, float z) {
-        Matrix.translateM(mMatrix, mTop, x, y, z);
-    }
+	public void glOrthof(float left, float right, float bottom, float top, float near, float far) {
+		Matrix.orthoM(mMatrix, mTop, left, right, bottom, top, near, far);
+	}
 
-    public void glTranslatex(int x, int y, int z) {
-        glTranslatef(fixedToFloat(x), fixedToFloat(y), fixedToFloat(z));
-    }
+	public void glOrthox(int left, int right, int bottom, int top, int near, int far) {
+		glOrthof(fixedToFloat(left), fixedToFloat(right), fixedToFloat(bottom), fixedToFloat(top), fixedToFloat(near), fixedToFloat(far));
+	}
 
-    public void getMatrix(float[] dest, int offset) {
-        System.arraycopy(mMatrix, mTop, dest, offset, MATRIX_SIZE);
-    }
+	public void glPopMatrix() {
+		preflight_adjust(-1);
+		adjust(-1);
+	}
 
-    private float fixedToFloat(int x) {
-        return x * (1.0f / 65536.0f);
-    }
+	public void glPushMatrix() {
+		preflight_adjust(1);
+		System.arraycopy(mMatrix, mTop, mMatrix, mTop + MATRIX_SIZE, MATRIX_SIZE);
+		adjust(1);
+	}
 
-    private void preflight_adjust(int dir) {
-        int newTop = mTop + dir * MATRIX_SIZE;
-        if (newTop < 0) {
-            throw new IllegalArgumentException("stack underflow");
-        }
-        if (newTop + MATRIX_SIZE > mMatrix.length) {
-            throw new IllegalArgumentException("stack overflow");
-        }
-    }
+	public void glRotatef(float angle, float x, float y, float z) {
+		Matrix.setRotateM(mTemp, 0, angle, x, y, z);
+		System.arraycopy(mMatrix, mTop, mTemp, MATRIX_SIZE, MATRIX_SIZE);
+		Matrix.multiplyMM(mMatrix, mTop, mTemp, MATRIX_SIZE, mTemp, 0);
+	}
 
-    private void adjust(int dir) {
-        mTop += dir * MATRIX_SIZE;
-    }
+	public void glRotatex(int angle, int x, int y, int z) {
+		glRotatef(angle, fixedToFloat(x), fixedToFloat(y), fixedToFloat(z));
+	}
 
-    private final static int DEFAULT_MAX_DEPTH = 32;
-    private final static int MATRIX_SIZE = 16;
-    private float[] mMatrix;
-    private int mTop;
-    private float[] mTemp;
+	public void glScalef(float x, float y, float z) {
+		Matrix.scaleM(mMatrix, mTop, x, y, z);
+	}
+
+	public void glScalex(int x, int y, int z) {
+		glScalef(fixedToFloat(x), fixedToFloat(y), fixedToFloat(z));
+	}
+
+	public void glTranslatef(float x, float y, float z) {
+		Matrix.translateM(mMatrix, mTop, x, y, z);
+	}
+
+	public void glTranslatex(int x, int y, int z) {
+		glTranslatef(fixedToFloat(x), fixedToFloat(y), fixedToFloat(z));
+	}
+
+	private void preflight_adjust(int dir) {
+		int newTop = mTop + dir * MATRIX_SIZE;
+		if (newTop < 0) {
+			throw new IllegalArgumentException("stack underflow");
+		}
+		if (newTop + MATRIX_SIZE > mMatrix.length) {
+			throw new IllegalArgumentException("stack overflow");
+		}
+	}
 }
