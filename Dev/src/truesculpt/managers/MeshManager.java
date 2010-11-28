@@ -121,8 +121,11 @@ public class MeshManager extends BaseManager {
 				mObject.draw(gl);
 			}
 			
-			//mRay.draw(gl);
-			//mPickHighlight.draw(gl);
+			if (getManagers().getOptionsManager().getDisplayDebugInfos())
+			{			
+				mRay.draw(gl);
+				mPickHighlight.draw(gl);
+			}
 		}
 	}
 

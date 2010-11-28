@@ -19,6 +19,7 @@ package truesculpt.renderer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.main.Managers;
 import truesculpt.managers.MeshManager;
 
 import android.opengl.GLSurfaceView;
@@ -33,13 +34,13 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	private float mDistance;
 	private float mElevation;
 
-	private MeshManager mMeshManager=null;
+	private Managers mManagers=null;
 	private ReferenceAxis mAxis= new ReferenceAxis();
 
 
-	public MainRenderer(MeshManager mMeshManager) {
+	public MainRenderer(Managers managers) {
 		super();
-		this.mMeshManager = mMeshManager;		
+		this.mManagers = managers;		
 	}
 
 	private long mLastFrameDurationMs=0;
@@ -82,12 +83,15 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);			
 		
 		//only if point of view changed		
-		mMeshManager.getCurrentModelView(gl);
+		mManagers.getMeshManager().getCurrentModelView(gl);
 		
-		mAxis.draw(gl);
+		if (mManagers.getOptionsManager().getDisplayDebugInfos())
+		{
+			mAxis.draw(gl);
+		}
 		
 		//main draw call
-		mMeshManager.draw(gl);
+		mManagers.getMeshManager().draw(gl);
 		
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs=tStop-tStart;		
@@ -110,8 +114,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		gl.glLoadIdentity();
 		gl.glFrustumf(-ratio, ratio, -1, 1, 1.0f, 10);
 		
-		mMeshManager.getCurrentProjection(gl);
-		mMeshManager.getViewport(gl);
+		mManagers.getMeshManager().getCurrentProjection(gl);
+		mManagers.getMeshManager().getViewport(gl);
 	}
 
 	float lightAmbient[] = new float[] {0.1f, 0.1f, 0.1f, 1.0f};
