@@ -11,24 +11,22 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 /**
- * AppUtils is a helper class that makes it easy to perform frequently used
- * tasks in Android development.
+ * AppUtils is a helper class that makes it easy to perform frequently used tasks in Android development.
  * 
  * @author Nazmul Idris
  * @version 1.0
  * @since Jul 8, 2008, 2:35:39 PM
  */
-public class AppUtils {
+public class AppUtils
+{
 
 	/**
-	 * 127.0.0.1 in the emulator points back to itself. Use this if you want to
-	 * access your host OS
+	 * 127.0.0.1 in the emulator points back to itself. Use this if you want to access your host OS
 	 */
 	public static String EmulatorLocalhost = "10.0.2.2";
 
 	/**
-	 * create an image view, given a drawable. you can set the max size of this
-	 * imageview as well.
+	 * create an image view, given a drawable. you can set the max size of this imageview as well.
 	 * 
 	 * @param iconWidth
 	 *            -1 means dont set this
@@ -37,26 +35,31 @@ public class AppUtils {
 	 * @param imageRes
 	 *            -1 means dont set this
 	 */
-	public static ImageView createImageView(Context activity, int iconWidth, int iconHeight, int imageRes) {
+	public static ImageView createImageView(Context activity, int iconWidth, int iconHeight, int imageRes)
+	{
 		ImageView icon = new ImageView(activity);
 		icon.setAdjustViewBounds(true);
 		icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
-		if (iconHeight != -1) {
+		if (iconHeight != -1)
+		{
 			icon.setMaxHeight(iconHeight);
 		}
-		if (iconWidth != -1) {
+		if (iconWidth != -1)
+		{
 			icon.setMaxWidth(iconWidth);
 		}
 
-		if (imageRes != -1) {
+		if (imageRes != -1)
+		{
 			icon.setImageResource(imageRes);
 		}
 		return icon;
 	}
 
 	/** simply resizes a given drawable resource to the given width and height */
-	public static Drawable resizeImage(Context ctx, int resId, int iconWidth, int iconHeight) {
+	public static Drawable resizeImage(Context ctx, int resId, int iconWidth, int iconHeight)
+	{
 
 		// load the origial Bitmap
 		Bitmap BitmapOrg = BitmapFactory.decodeResource(ctx.getResources(), resId);
@@ -88,18 +91,18 @@ public class AppUtils {
 	}
 
 	/**
-	 * shows a short message on top of your app... it goes away automatically
-	 * after a long delay
+	 * shows a short message on top of your app... it goes away automatically after a long delay
 	 */
-	public static void showToastLong(Activity a, String msg) {
+	public static void showToastLong(Activity a, String msg)
+	{
 		Toast.makeText(a, msg, Toast.LENGTH_LONG).show();
 	}
 
 	/**
-	 * shows a short message on top of your app... it goes away automatically
-	 * after a short delay
+	 * shows a short message on top of your app... it goes away automatically after a short delay
 	 */
-	public static void showToastShort(Activity a, String msg) {
+	public static void showToastShort(Activity a, String msg)
+	{
 		Toast.makeText(a, msg, Toast.LENGTH_SHORT).show();
 	}
 

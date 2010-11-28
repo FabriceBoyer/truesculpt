@@ -22,9 +22,11 @@ import android.os.SystemClock;
 import android.util.Log;
 
 //for mesh storage, computation and transformation application
-public class MeshManager extends BaseManager {
+public class MeshManager extends BaseManager
+{
 
-	public interface OnMeshChangeListener {
+	public interface OnMeshChangeListener
+	{
 		void onMeshChange();
 	}
 
@@ -42,6 +44,7 @@ public class MeshManager extends BaseManager {
 
 	static float[] w0 = new float[3];
 	static float[] zero = { 0, 0, 0 };
+
 	// intersect_RayTriangle(): intersect a ray with a 3D triangle
 	// Input: a ray R (R0 and R1), and a triangle T (V0,V1)
 	// Output: *I = intersection point (when it exists)
@@ -49,7 +52,8 @@ public class MeshManager extends BaseManager {
 	// 0 = disjoint (no intersect)
 	// 1 = intersect in unique point I1
 	// 2 = are in the same plane
-	static int intersect_RayTriangle(float[] R0, float[] R1, float[] V0, float[] V1, float[] V2, float[] Ires) {
+	static int intersect_RayTriangle(float[] R0, float[] R1, float[] V0, float[] V1, float[] V2, float[] Ires)
+	{
 		float r, a, b; // params to calc ray-plane intersect
 
 		// get triangle edge vectors and plane normal
@@ -57,7 +61,8 @@ public class MeshManager extends BaseManager {
 		MatrixUtils.minus(V2, V0, v);
 
 		MatrixUtils.cross(u, v, n); // cross product
-		if (n == zero) {
+		if (n == zero)
+		{
 			return -1; // do not deal with this case
 		}
 
@@ -67,24 +72,29 @@ public class MeshManager extends BaseManager {
 																// normal have
 																// same
 																// direction
-		if (bBackCullTriangle) {
+		if (bBackCullTriangle)
+		{
 			return 0;
 		}
 
 		MatrixUtils.minus(R0, V0, w0);
 		a = -MatrixUtils.dot(n, w0);
 		b = MatrixUtils.dot(n, dir);
-		if (Math.abs(b) < SMALL_NUM) { // ray is parallel to triangle plane
-			if (a == 0) {
+		if (Math.abs(b) < SMALL_NUM)
+		{ // ray is parallel to triangle plane
+			if (a == 0)
+			{
 				return 2;
-			} else {
+			} else
+			{
 				return 0; // ray disjoint from plane
 			}
 		}
 
 		// get intersect point of ray with triangle plane
 		r = a / b;
-		if (r < 0.0) {
+		if (r < 0.0)
+		{
 			return 0; // => no intersect
 			// for a segment, also test if (r > 1.0) => no intersect
 		}
@@ -105,11 +115,13 @@ public class MeshManager extends BaseManager {
 		// get and test parametric coords
 		float s, t;
 		s = (uv * wv - vv * wu) / D;
-		if (s < 0.0 || s > 1.0) {
+		if (s < 0.0 || s > 1.0)
+		{
 			return 0;
 		}
 		t = (uv * wu - uu * wv) / D;
-		if (t < 0.0 || s + t > 1.0) {
+		if (t < 0.0 || s + t > 1.0)
+		{
 			return 0;
 		}
 
@@ -123,11 +135,14 @@ public class MeshManager extends BaseManager {
 	private HashMap<Integer, Face> mFaceMap = new HashMap<Integer, Face>();
 	ShortBuffer mIndexBuffer = null;
 
-	Runnable mInitTask = new Runnable() {
+	Runnable mInitTask = new Runnable()
+	{
 		@Override
-		public void run() {
+		public void run()
+		{
 
-			try {
+			try
+			{
 
 				mObject = new GeneratedObject(getManagers().getToolsManager().getColor(), 4);
 
@@ -139,7 +154,8 @@ public class MeshManager extends BaseManager {
 				BuildRelationMapFromMesh();
 				BuildFaceMapFromMesh();
 
-			} catch (Exception e) {
+			} catch (Exception e)
+			{
 				assert false;
 			}
 			bInitOver = true;
@@ -174,28 +190,32 @@ public class MeshManager extends BaseManager {
 
 	float[] rayPt2 = new float[3];
 
-	public MeshManager(Context baseContext) {
+	public MeshManager(Context baseContext)
+	{
 		super(baseContext);
 	}
 
-	private void AddRelationToMap(int nIndexOrig, int nIndexOther, float fDistance) {
+	private void AddRelationToMap(int nIndexOrig, int nIndexOther, float fDistance)
+	{
 		NodeRelationList relationList = mNodeRelationMap.get(nIndexOrig);
-		if (relationList == null) {
+		if (relationList == null)
+		{
 			relationList = new NodeRelationList();
 			mNodeRelationMap.put(nIndexOrig, relationList);
 		}
 		relationList.AddRelation(nIndexOther, fDistance);
 	}
 
-	private void BuildFaceMapFromMesh() {
+	private void BuildFaceMapFromMesh()
+	{
 		float[] V0 = new float[3];
 		float[] V1 = new float[3];
 		float[] V2 = new float[3];
-		float[] VDiff = new float[3];
 
 		int nIndexCount = mIndexBuffer.capacity();
 
-		for (int i = 0; i < nIndexCount; i = i + 3) {
+		for (int i = 0; i < nIndexCount; i = i + 3)
+		{
 			int nIndex0 = 3 * mIndexBuffer.get(i);
 			mVertexBuffer.position(nIndex0);
 			mVertexBuffer.get(V0, 0, 3);
@@ -225,7 +245,8 @@ public class MeshManager extends BaseManager {
 		mVertexBuffer.position(0);
 	}
 
-	private void BuildRelationMapFromMesh() {
+	private void BuildRelationMapFromMesh()
+	{
 		float[] V0 = new float[3];
 		float[] V1 = new float[3];
 		float[] V2 = new float[3];
@@ -233,7 +254,8 @@ public class MeshManager extends BaseManager {
 
 		int nIndexCount = mIndexBuffer.capacity();
 
-		for (int i = 0; i < nIndexCount; i = i + 3) {
+		for (int i = 0; i < nIndexCount; i = i + 3)
+		{
 			int nIndex0 = 3 * mIndexBuffer.get(i);
 			mVertexBuffer.position(nIndex0);
 			mVertexBuffer.get(V0, 0, 3);
@@ -270,8 +292,10 @@ public class MeshManager extends BaseManager {
 	}
 
 	// TODO place as an action
-	private void ColorizeTriangle(int triangleIndex) {
-		if (triangleIndex >= 0) {
+	private void ColorizeTriangle(int triangleIndex)
+	{
+		if (triangleIndex >= 0)
+		{
 			float[] VColor = new float[4];
 
 			int color = getManagers().getToolsManager().getColor();
@@ -295,14 +319,19 @@ public class MeshManager extends BaseManager {
 		}
 	}
 
-	public void draw(GL10 gl) {
-		synchronized (this) {
-			if (mObject != null && bInitOver) {
+	public void draw(GL10 gl)
+	{
+		synchronized (this)
+		{
+			if (mObject != null && bInitOver)
+			{
 				mObject.draw(gl);
 			}
 
-			if (getManagers().getOptionsManager().getDisplayDebugInfos()) {
-				if (mObject != null) {
+			if (getManagers().getOptionsManager().getDisplayDebugInfos())
+			{
+				if (mObject != null)
+				{
 					mObject.drawNormals(gl);
 				}
 
@@ -314,36 +343,39 @@ public class MeshManager extends BaseManager {
 
 	// TODO test for GL11 instanceof to handle not GL11 devices
 	// TODO use GL11ES calls indepedent of redraw with gl param
-	public void getCurrentModelView(GL10 gl) {
+	public void getCurrentModelView(GL10 gl)
+	{
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelView, 0);
 	}
 
-	public void getCurrentProjection(GL10 gl) {
+	public void getCurrentProjection(GL10 gl)
+	{
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjection, 0);
 	}
 
-	public int getFacesCount() {
+	public int getFacesCount()
+	{
 		int nCount = -1;
-		if (mObject != null) {
+		if (mObject != null)
+		{
 			nCount = mObject.getFacesCount();
 		}
 		return nCount;
 	}
 
-	public long getLastPickDurationMs() {
+	public long getLastPickDurationMs()
+	{
 		return mLastPickDurationMs;
 	}
 
-	int GetPickedTriangleIndex() {
+	int GetPickedTriangleIndex()
+	{
 		int nRes = -1;
 
 		float[] R0 = new float[3];
 		float[] R1 = new float[3];
-		float[] V0 = new float[3];
-		float[] V1 = new float[3];
-		float[] V2 = new float[3];
 		float[] Ires = new float[3];
 
 		MatrixUtils.copy(rayPt1, R0);
@@ -354,15 +386,18 @@ public class MeshManager extends BaseManager {
 																	// R1
 
 		int nIndexCount = mIndexBuffer.capacity();
-		for (int i = 0; i < nIndexCount; i = i + 3) {
+		for (int i = 0; i < nIndexCount; i = i + 3)
+		{
 			Face face = mFaceMap.get(i);
 
 			int nCollide = intersect_RayTriangle(R0, R1, face.V0, face.V1, face.V2, Ires);
 
-			if (nCollide == 1) {
+			if (nCollide == 1)
+			{
 				MatrixUtils.minus(Ires, R0, dir);
 				float fDistanceToR0 = MatrixUtils.magnitude(dir);
-				if (fDistanceToR0 <= fSmallestDistanceToR0) {
+				if (fDistanceToR0 <= fSmallestDistanceToR0)
+				{
 					MatrixUtils.copy(Ires, intersectPt);
 					nRes = i;
 					fSmallestDistanceToR0 = fDistanceToR0;
@@ -376,27 +411,29 @@ public class MeshManager extends BaseManager {
 		return nRes;
 	}
 
-	public int getVertexCount() {
+	public int getVertexCount()
+	{
 		int nCount = -1;
-		if (mObject != null) {
+		if (mObject != null)
+		{
 			nCount = mObject.getVertexCount();
 		}
 		return nCount;
 	}
 
-	public void getViewport(GL10 gl) {
+	public void getViewport(GL10 gl)
+	{
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
 	}
 
 	/**
-	 * Calculates the transform from screen coordinate system to world
-	 * coordinate system coordinates for a specific point, given a camera
-	 * position.
+	 * Calculates the transform from screen coordinate system to world coordinate system coordinates for a specific point, given a camera position.
 	 * 
 	 * @return position in WCS.
 	 */
-	public void GetWorldCoords(float[] worldPos, float touchX, float touchY, float z) {
+	public void GetWorldCoords(float[] worldPos, float touchX, float touchY, float z)
+	{
 		// SCREEN height & width (ej: 320 x 480)
 		float screenW = mViewPort[2];
 		float screenH = mViewPort[3];
@@ -434,7 +471,8 @@ public class MeshManager extends BaseManager {
 		 */
 		Matrix.multiplyMV(outPoint, 0, invertedMatrix, 0, normalizedInPoint, 0);
 
-		if (outPoint[3] == 0.0) {
+		if (outPoint[3] == 0.0)
+		{
 			// Avoid /0 error.
 			Log.e("World coords", "ERROR!");
 			return;
@@ -447,29 +485,35 @@ public class MeshManager extends BaseManager {
 		worldPos[2] = outPoint[2] / outPoint[3];
 	}
 
-	private void NotifyListeners() {
-		for (OnMeshChangeListener listener : mListeners) {
+	private void NotifyListeners()
+	{
+		for (OnMeshChangeListener listener : mListeners)
+		{
 			listener.onMeshChange();
 		}
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 		Thread thr = new Thread(null, mInitTask, "Mesh_Init");
 		thr.start();
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	// TODO threaded to improve GUI reactivity
 	// pick is not an action
-	public int Pick(float screenX, float screenY) {
+	public int Pick(float screenX, float screenY)
+	{
 		int nIndex = -1;
-		synchronized (this) {
+		synchronized (this)
+		{
 
 			long tStart = SystemClock.uptimeMillis();
 
@@ -479,25 +523,31 @@ public class MeshManager extends BaseManager {
 
 			mRay.setRayPos(rayPt1, rayPt2);
 
-			String msg = "";
+			// String msg = "";
 			// msg="Pt1 : x="+Float.toString(rayPt1[0])+"; y="+Float.toString(rayPt1[1])+"; z="+Float.toString(rayPt1[2])+"\n";
 			// msg+=
 			// "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
 			// Log.i("Picking",msg);
 
-			if (bInitOver) {
-				try {
+			if (bInitOver)
+			{
+				try
+				{
 					nIndex = GetPickedTriangleIndex();
-					if (nIndex >= 0) {
+					if (nIndex >= 0)
+					{
 						mPickHighlight.setPickHighlightPosition(intersectPt);
 
 						// TODO place in actionManager
-						switch (getManagers().getToolsManager().getToolMode()) {
-						case SCULPT: {
+						switch (getManagers().getToolsManager().getToolMode())
+						{
+						case SCULPT:
+						{
 							RiseTriangle(nIndex);
 							break;
 						}
-						case PAINT: {
+						case PAINT:
+						{
 							ColorizeTriangle(nIndex);
 							break;
 						}
@@ -510,10 +560,12 @@ public class MeshManager extends BaseManager {
 						// Float.toString(intersectPt[1]) + "; z=" +
 						// Float.toString(intersectPt[2]) + "\n";
 						// Log.i("Picking", msg);
-					} else {
+					} else
+					{
 						mPickHighlight.setPickHighlightPosition(zero);
 					}
-				} catch (Exception e) {
+				} catch (Exception e)
+				{
 					assert false;
 				}
 			}
@@ -529,13 +581,16 @@ public class MeshManager extends BaseManager {
 		return nIndex;
 	}
 
-	public void registerPointOfViewChangeListener(OnMeshChangeListener listener) {
+	public void registerPointOfViewChangeListener(OnMeshChangeListener listener)
+	{
 		mListeners.add(listener);
 	}
 
 	// TODO place as an action
-	private void RiseTriangle(int triangleIndex) {
-		if (triangleIndex >= 0) {
+	private void RiseTriangle(int triangleIndex)
+	{
+		if (triangleIndex >= 0)
+		{
 			float[] V0 = new float[3];
 			float[] VTemp = new float[3];
 			float[] nOffset = new float[3];
@@ -563,10 +618,12 @@ public class MeshManager extends BaseManager {
 
 			UpdateVertexNormal(nIndex0);
 
-			if (getManagers().getToolsManager().getRadius() >= 50) {
+			if (getManagers().getToolsManager().getRadius() >= 50)
+			{
 				// First corona
 				NodeRelationList list = mNodeRelationMap.get(nIndex0);
-				for (NodeRelation relation : list.mRelationList) {
+				for (NodeRelation relation : list.mRelationList)
+				{
 					int nOtherIndex = relation.mOtherIndex;
 
 					mVertexBuffer.position(nOtherIndex);
@@ -591,11 +648,13 @@ public class MeshManager extends BaseManager {
 		}
 	}
 
-	public void unRegisterPointOfViewChangeListener(OnMeshChangeListener listener) {
+	public void unRegisterPointOfViewChangeListener(OnMeshChangeListener listener)
+	{
 		mListeners.remove(listener);
 	}
 
-	private void UpdateVertexNormal(int nVertexIndex) {
+	private void UpdateVertexNormal(int nVertexIndex)
+	{
 		float[] V0Normal = new float[3];
 		float[] VTempNormal = new float[3];
 
@@ -604,7 +663,8 @@ public class MeshManager extends BaseManager {
 
 		// averaging normals
 		NodeRelationList list = mNodeRelationMap.get(nVertexIndex);
-		for (NodeRelation relation : list.mRelationList) {
+		for (NodeRelation relation : list.mRelationList)
+		{
 			int nOtherIndex = relation.mOtherIndex;
 
 			mNormalBuffer.position(nOtherIndex);

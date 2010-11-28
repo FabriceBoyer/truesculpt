@@ -5,7 +5,8 @@ import java.util.Vector;
 
 import truesculpt.utils.MatrixUtils;
 
-public class RecursiveSphereGenerator {
+public class RecursiveSphereGenerator
+{
 	int edge_walk = 0;
 	Vector<Integer> end = new Vector<Integer>();
 	Vector<Integer> faces = new Vector<Integer>();
@@ -19,28 +20,33 @@ public class RecursiveSphereGenerator {
 	Vector<Integer> start = new Vector<Integer>();
 	Vector<Float> vertices = new Vector<Float>();
 
-	public RecursiveSphereGenerator(int subdivideCount) {
+	public RecursiveSphereGenerator(int subdivideCount)
+	{
 		init_icosahedron();
 		// init_octahedron();
 
 		int n_subdivisions = subdivideCount;
-		for (int i = 0; i < n_subdivisions; i++) {
+		for (int i = 0; i < n_subdivisions; i++)
+		{
 			subdivide();
 		}
 
 		generateSphereNormals();
 	}
 
-	private void generateSphereNormals() {
+	private void generateSphereNormals()
+	{
 		float[] V0 = new float[3];
 
 		int n = vertices.size();
-		for (int i = 0; i < n; i = i + 3) {
+		for (int i = 0; i < n; i = i + 3)
+		{
 			Float x = vertices.get(i + 0);
 			Float y = vertices.get(i + 1);
 			Float z = vertices.get(i + 2);
 
-			if (x != null && y != null && z != null) {
+			if (x != null && y != null && z != null)
+			{
 				V0[0] = x;
 				V0[1] = y;
 				V0[2] = z;
@@ -54,19 +60,23 @@ public class RecursiveSphereGenerator {
 		}
 	}
 
-	public Vector<Integer> getFaces() {
+	public Vector<Integer> getFaces()
+	{
 		return faces;
 	}
 
-	public Vector<Float> getNormals() {
+	public Vector<Float> getNormals()
+	{
 		return normals;
 	}
 
-	public Vector<Float> getVertices() {
+	public Vector<Float> getVertices()
+	{
 		return vertices;
 	}
 
-	void init_icosahedron() {
+	void init_icosahedron()
+	{
 		float t = (float) ((1 + Math.sqrt(5)) / 2);
 		float tau = (float) (t / Math.sqrt(1 + t * t));
 		float one = (float) (1 / Math.sqrt(1 + t * t));
@@ -81,7 +91,8 @@ public class RecursiveSphereGenerator {
 		faces.addAll(Arrays.asList(icosahedron_faces));
 	}
 
-	void init_octahedron() {
+	void init_octahedron()
+	{
 		Float octahedron_vertices[] = { 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
 		Integer octahedron_faces[] = { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 1, 5, 2, 1, 5, 3, 2, 5, 4, 3, 5, 1, 4 };
 
@@ -92,7 +103,8 @@ public class RecursiveSphereGenerator {
 		faces.addAll(Arrays.asList(octahedron_faces));
 	}
 
-	void init_tetrahedron() {
+	void init_tetrahedron()
+	{
 		float sqrt3 = (float) (1 / Math.sqrt(3.0));
 		Float tetrahedron_vertices[] = { sqrt3, sqrt3, sqrt3, -sqrt3, -sqrt3, sqrt3, -sqrt3, sqrt3, -sqrt3, sqrt3, -sqrt3, -sqrt3 };
 		Integer tetrahedron_faces[] = { 0, 2, 1, 0, 1, 3, 2, 3, 1, 3, 2, 0 };
@@ -104,10 +116,13 @@ public class RecursiveSphereGenerator {
 		faces.addAll(Arrays.asList(tetrahedron_faces));
 	}
 
-	int search_midpoint(int index_start, int index_end) {
+	int search_midpoint(int index_start, int index_end)
+	{
 		int i;
-		for (i = 0; i < edge_walk; i++) {
-			if (start.get(i) == index_start && end.get(i) == index_end || start.get(i) == index_end && end.get(i) == index_start) {
+		for (i = 0; i < edge_walk; i++)
+		{
+			if (start.get(i) == index_start && end.get(i) == index_end || start.get(i) == index_end && end.get(i) == index_start)
+			{
 				int res = midpoint.get(i);
 
 				/* update the arrays */
@@ -142,7 +157,8 @@ public class RecursiveSphereGenerator {
 		return midpoint.get(edge_walk - 1);
 	}
 
-	void subdivide() {
+	void subdivide()
+	{
 		int n_vertices_new = n_vertices + 2 * n_edges;
 		int n_faces_new = 4 * n_faces;
 		int i = 0;
@@ -164,7 +180,8 @@ public class RecursiveSphereGenerator {
 		faces.setSize(3 * n_faces_new);
 		n_faces_new = 0;
 
-		for (i = 0; i < n_faces; i++) {
+		for (i = 0; i < n_faces; i++)
+		{
 			int a = faces_old.get(3 * i);
 			int b = faces_old.get(3 * i + 1);
 			int c = faces_old.get(3 * i + 2);

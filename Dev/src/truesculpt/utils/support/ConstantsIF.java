@@ -1,8 +1,7 @@
 package truesculpt.utils.support;
 
 /**
- * <b>ConstantsIF</b> holds constants that are relevant to the whole plugin
- * package.
+ * <b>ConstantsIF</b> holds constants that are relevant to the whole plugin package.
  * <p/>
  * <p/>
  * 
@@ -10,7 +9,8 @@ package truesculpt.utils.support;
  * @version 1.0
  * @since 3/8/2000,6:56pm
  */
-public interface ConstantsIF extends MIMETypeConstantsIF {
+public interface ConstantsIF extends MIMETypeConstantsIF
+{
 
 	//
 	// jvm constants for string encoding

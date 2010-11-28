@@ -5,7 +5,8 @@ import java.util.Vector;
 import android.content.Context;
 import android.graphics.Color;
 
-public class ToolsManager extends BaseManager {
+public class ToolsManager extends BaseManager
+{
 
 	public enum EPovToolSubMode {
 		PAN, ROTATE, ZOOM
@@ -19,7 +20,8 @@ public class ToolsManager extends BaseManager {
 		PAINT, POV, SCULPT
 	};
 
-	public interface OnToolChangeListener {
+	public interface OnToolChangeListener
+	{
 		void onToolChange();
 	}
 
@@ -36,115 +38,142 @@ public class ToolsManager extends BaseManager {
 
 	private float mStrength = 50.0f;// pct
 
-	public ToolsManager(Context baseContext) {
+	public ToolsManager(Context baseContext)
+	{
 		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getColor() {
+	public int getColor()
+	{
 		return mColor;
 	}
 
-	public boolean getForcedMode() {
+	public boolean getForcedMode()
+	{
 		return mForcedMode;
 	}
 
-	public EToolMode getLastMode() {
+	public EToolMode getLastMode()
+	{
 		return mLastMode;
 	}
 
-	public EPovToolSubMode getPovSubMode() {
+	public EPovToolSubMode getPovSubMode()
+	{
 		return mPovSubMode;
 	}
 
-	public float getRadius() {
+	public float getRadius()
+	{
 		return mRadius;
 	}
 
-	public float getStrength() {
+	public float getStrength()
+	{
 		return mStrength;
 	}
 
-	public EToolMode getToolMode() {
+	public EToolMode getToolMode()
+	{
 		return mMode;
 	}
 
-	private void NotifyListeners() {
-		for (OnToolChangeListener listener : mListeners) {
+	private void NotifyListeners()
+	{
+		for (OnToolChangeListener listener : mListeners)
+		{
 			listener.onToolChange();
 		}
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
-	public void registerToolChangeListener(OnToolChangeListener listener) {
+	public void registerToolChangeListener(OnToolChangeListener listener)
+	{
 		mListeners.add(listener);
 	}
 
-	public void setColor(int color) {
+	public void setColor(int color)
+	{
 		this.mColor = color;
 		NotifyListeners();
 	}
 
-	public void setForcedMode(boolean mForcedMode) {
+	public void setForcedMode(boolean mForcedMode)
+	{
 		this.mForcedMode = mForcedMode;
 	}
 
-	public void setLastToolMode() {
-		if (mMode != mLastMode) {
+	public void setLastToolMode()
+	{
+		if (mMode != mLastMode)
+		{
 			mMode = mLastMode;
 			NotifyListeners();
 			// don't update mLastMode otherwise oscillate
 		}
 	}
 
-	public void setPovSubMode(EPovToolSubMode mPovSubMode) {
+	public void setPovSubMode(EPovToolSubMode mPovSubMode)
+	{
 		this.mPovSubMode = mPovSubMode;
 	}
 
-	public void setRadius(float radius) {
+	public void setRadius(float radius)
+	{
 		this.mRadius = radius;
-		if (mRadius > 100) {
+		if (mRadius > 100)
+		{
 			mRadius = 100;
 		}
-		if (mRadius < 0) {
+		if (mRadius < 0)
+		{
 			mRadius = 0;
 		}
 		NotifyListeners();
 	}
 
-	public void setStrength(float strength) {
+	public void setStrength(float strength)
+	{
 		this.mStrength = strength;
 
-		if (mStrength > 100) {
+		if (mStrength > 100)
+		{
 			mStrength = 100;
 		}
-		if (mStrength < -100) {
+		if (mStrength < -100)
+		{
 			mStrength = -100;
 		}
 
 		NotifyListeners();
 	}
 
-	public void setToolMode(EToolMode mode) {
-		if (mMode != mode) {
+	public void setToolMode(EToolMode mode)
+	{
+		if (mMode != mode)
+		{
 			mLastMode = mMode;
 			mMode = mode;
 			NotifyListeners();
 		}
 	}
 
-	public void unRegisterToolChangeListener(OnToolChangeListener listener) {
+	public void unRegisterToolChangeListener(OnToolChangeListener listener)
+	{
 		mListeners.remove(listener);
 	}
 

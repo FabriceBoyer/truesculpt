@@ -21,9 +21,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
-public class ColorPickerDialog extends Dialog {
+public class ColorPickerDialog extends Dialog
+{
 
-	public interface OnColorChangedListener {
+	public interface OnColorChangedListener
+	{
 		void colorChanged(int color);
 	}
 
@@ -31,7 +33,8 @@ public class ColorPickerDialog extends Dialog {
 
 	private OnColorChangedListener mListener;
 
-	public ColorPickerDialog(Context context, OnColorChangedListener listener, int initialColor) {
+	public ColorPickerDialog(Context context, OnColorChangedListener listener, int initialColor)
+	{
 		super(context);
 
 		mListener = listener;
@@ -39,11 +42,14 @@ public class ColorPickerDialog extends Dialog {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
-		OnColorChangedListener l = new OnColorChangedListener() {
+		OnColorChangedListener l = new OnColorChangedListener()
+		{
 			@Override
-			public void colorChanged(int color) {
+			public void colorChanged(int color)
+			{
 				mListener.colorChanged(color);
 			}
 		};

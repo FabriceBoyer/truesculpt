@@ -11,25 +11,24 @@ import android.view.View;
 import android.view.animation.Animation;
 
 /**
- * SimpleActivity is a subclass of Activity that makes it trivial to create a
- * sub-Activity, and handle it's results (ok or cancel). No need to deal with
- * requestCodes, since this class handles creating correlationIds automatically.
+ * SimpleActivity is a subclass of Activity that makes it trivial to create a sub-Activity, and handle it's results (ok or cancel). No need to deal with requestCodes, since this class handles creating correlationIds automatically.
  * 
  * @author Nazmul Idris
  * @version 1.0
  * @since Jul 3, 2008, 12:08:46 PM
  */
-public class SimpleActivity extends Activity {
+public class SimpleActivity extends Activity
+{
 
 	/**
-	 * ResultCallbackIF is a simple interface that you have to implement to
-	 * handle results - ok or cancel from a sub-Activity.
+	 * ResultCallbackIF is a simple interface that you have to implement to handle results - ok or cancel from a sub-Activity.
 	 * 
 	 * @author Nazmul Idris
 	 * @version 1.0
 	 * @since Jul 3, 2008, 12:11:31 PM
 	 */
-	public static interface ResultCallbackIF {
+	public static interface ResultCallbackIF
+	{
 
 		public void resultCancel(Intent data);
 
@@ -46,10 +45,10 @@ public class SimpleActivity extends Activity {
 	protected View rootView;
 
 	/**
-	 * use this method to launch the sub-Activity, and provide a functor to
-	 * handle the result - ok or cancel
+	 * use this method to launch the sub-Activity, and provide a functor to handle the result - ok or cancel
 	 */
-	public void launchSubActivity(Class subActivityClass, ResultCallbackIF callback) {
+	public void launchSubActivity(Class subActivityClass, ResultCallbackIF callback)
+	{
 
 		Intent i = new Intent(this, subActivityClass);
 
@@ -63,17 +62,18 @@ public class SimpleActivity extends Activity {
 	}
 
 	/**
-	 * this is the underlying implementation of the onActivityResult method that
-	 * handles auto generation of correlationIds and adding/removing callback
-	 * functors to handle the result
+	 * this is the underlying implementation of the onActivityResult method that handles auto generation of correlationIds and adding/removing callback functors to handle the result
 	 */
 	@Override
-	protected void onActivityResult(int correlationId, int resultCode, Intent data) {
+	protected void onActivityResult(int correlationId, int resultCode, Intent data)
+	{
 
-		try {
+		try
+		{
 			ResultCallbackIF callback = _callbackMap.get(correlationId);
 
-			switch (resultCode) {
+			switch (resultCode)
+			{
 			case Activity.RESULT_CANCELED:
 				Log.i(Global.TAG3, this.getClass().getSimpleName() + " - Activity returned result [CANCEL]:" + data.toString());
 				callback.resultCancel(data);
@@ -87,21 +87,26 @@ public class SimpleActivity extends Activity {
 			default:
 				Log.e(Global.TAG3, "Couldn't find callback handler for correlationId");
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			Log.e(Global.TAG3, "Problem processing result from sub-activity", e);
 		}
 
 	}
 
 	@Override
-	public boolean onKeyDown(int i, KeyEvent event) {
+	public boolean onKeyDown(int i, KeyEvent event)
+	{
 
 		// only intercept back button press
-		if (i == KeyEvent.KEYCODE_BACK) {
-			if (rootView != null) {
+		if (i == KeyEvent.KEYCODE_BACK)
+		{
+			if (rootView != null)
+			{
 				runFadeOutAnimAndFinish(i, event);
 				return true; // consume this keyevent
-			} else {
+			} else
+			{
 				super.onKeyDown(i, event);
 				return true;
 			}
@@ -111,53 +116,61 @@ public class SimpleActivity extends Activity {
 	}
 
 	/**
-	 * simply runs a fadeout anim on the {@link #rootView}, and then call the
-	 * super class's implementation of the back button press eventhandler.
+	 * simply runs a fadeout anim on the {@link #rootView}, and then call the super class's implementation of the back button press eventhandler.
 	 */
-	public void runFadeOutAnimAndFinish(final int i, final KeyEvent event) {
+	public void runFadeOutAnimAndFinish(final int i, final KeyEvent event)
+	{
 
-		if (rootView == null) {
+		if (rootView == null)
+		{
 			throw new IllegalArgumentException("rootView can not be null!");
 		}
 
 		// run an animation to fade this out...
 		Animation animation = AnimUtils.runFadeOutAnimationOn(this, rootView);
 
-		animation.setAnimationListener(new Animation.AnimationListener() {
+		animation.setAnimationListener(new Animation.AnimationListener()
+		{
 			@Override
-			public void onAnimationEnd(Animation animation) {
+			public void onAnimationEnd(Animation animation)
+			{
 
-				if (i == 0 && event == null) {
+				if (i == 0 && event == null)
+				{
 					finish();
-				} else {
+				} else
+				{
 					SimpleActivity.super.onKeyDown(i, event);
 				}
 			}
 
 			@Override
-			public void onAnimationRepeat(Animation animation) {
+			public void onAnimationRepeat(Animation animation)
+			{
 			}
 
 			@Override
-			public void onAnimationStart(Animation animation) {
+			public void onAnimationStart(Animation animation)
+			{
 			}
 		});
 
 	}
 
 	/**
-	 * simply calls the {@link #runFadeOutAnimAndFinish(int, KeyEvent)} with
-	 * some params that will cause it not to call the super class's
-	 * implpementation of KEYCODE_BACK pressed
+	 * simply calls the {@link #runFadeOutAnimAndFinish(int, KeyEvent)} with some params that will cause it not to call the super class's implpementation of KEYCODE_BACK pressed
 	 */
-	public void runFadeOutAnimationAndFinish() {
-		if (rootView == null) {
+	public void runFadeOutAnimationAndFinish()
+	{
+		if (rootView == null)
+		{
 			throw new IllegalArgumentException("rootView can not be null!");
 		}
 		runFadeOutAnimAndFinish(0, null);
 	}
 
-	public void setRootViewToRunFinishAnimOn(View root) {
+	public void setRootViewToRunFinishAnimOn(View root)
+	{
 		rootView = root;
 	}
 

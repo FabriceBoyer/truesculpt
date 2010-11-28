@@ -26,12 +26,14 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * A vertex shaded cube.
  */
-public class RayPickDebug {
+public class RayPickDebug
+{
 	private FloatBuffer mColorBuffer;
 	private ShortBuffer mIndexBuffer;
 	private FloatBuffer mVertexBuffer;
 
-	public RayPickDebug() {
+	public RayPickDebug()
+	{
 		float zero = 0.0f;
 		float one = 1.0f;
 		float two = 2.0f;
@@ -68,7 +70,8 @@ public class RayPickDebug {
 		mIndexBuffer.position(0);
 	}
 
-	public void draw(GL10 gl) {
+	public void draw(GL10 gl)
+	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
 		gl.glFrontFace(GL10.GL_CW);
@@ -79,7 +82,8 @@ public class RayPickDebug {
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 
-	public void setRayPos(float[] pt1, float[] pt2) {
+	public void setRayPos(float[] pt1, float[] pt2)
+	{
 		mVertexBuffer.position(0);
 		mVertexBuffer.put(pt1);
 		mVertexBuffer.put(pt2);

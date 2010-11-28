@@ -3,11 +3,13 @@ package truesculpt.managers;
 import truesculpt.renderer.MainRenderer;
 import android.content.Context;
 
-public class RendererManager extends BaseManager {
+public class RendererManager extends BaseManager
+{
 
 	private MainRenderer mRenderer = null;
 
-	public RendererManager(Context baseContext) {
+	public RendererManager(Context baseContext)
+	{
 		super(baseContext);
 
 		mRenderer = new MainRenderer(getManagers());
@@ -17,23 +19,27 @@ public class RendererManager extends BaseManager {
 	/**
 	 * @return the mRenderer
 	 */
-	public MainRenderer getmRenderer() {
+	public MainRenderer getmRenderer()
+	{
 		return mRenderer;
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
-	public void onPointOfViewChange() {
+	public void onPointOfViewChange()
+	{
 		PointOfViewManager povManager = getManagers().getPointOfViewManager();
 		mRenderer.onPointOfViewChange(povManager.getRotationAngle(), povManager.getZoomDistance(), povManager.getElevationAngle());
 	}

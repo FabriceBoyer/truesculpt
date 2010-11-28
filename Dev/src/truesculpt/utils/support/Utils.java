@@ -17,8 +17,7 @@ import java.util.Map;
 import java.util.logging.LogRecord;
 
 /**
- * <B>Utils</B> is a static function library to do mundane and repetitive, yet
- * important functions that are used everywhere in the system.
+ * <B>Utils</B> is a static function library to do mundane and repetitive, yet important functions that are used everywhere in the system.
  * <p/>
  * <p/>
  * 
@@ -26,19 +25,24 @@ import java.util.logging.LogRecord;
  * @version 1.0
  * @since 2/26/2000,3:08pm
  */
-public class Utils {
+public class Utils
+{
 
-	public static String arrayToString(Object[] args) {
+	public static String arrayToString(Object[] args)
+	{
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("{number of entries=").append(args.length).append("}\n");
 
 		int i = 0;
 
-		for (Object obj : args) {
-			if (obj != null) {
+		for (Object obj : args)
+		{
+			if (obj != null)
+			{
 				sb.append("[").append(++i).append("] ").append(obj.toString()).append("\n");
-			} else {
+			} else
+			{
 				sb.append("[").append(++i).append("] ").append("null").append("\n");
 			}
 		}
@@ -50,7 +54,8 @@ public class Utils {
 	// Methods
 	// -------------------------------------------------------------------------------------------------------------------
 
-	public static final String buildUri(String uri, HashMap<String, String> map) throws IllegalArgumentException {
+	public static final String buildUri(String uri, HashMap<String, String> map) throws IllegalArgumentException
+	{
 
 		StringBuilder sb = new StringBuilder();
 
@@ -58,11 +63,15 @@ public class Utils {
 
 		int i = 0;
 
-		if (map != null && !map.isEmpty()) {
-			for (String key : map.keySet()) {
-				if (i == 0) {
+		if (map != null && !map.isEmpty())
+		{
+			for (String key : map.keySet())
+			{
+				if (i == 0)
+				{
 					sb.append("?");
-				} else {
+				} else
+				{
 					sb.append("&");
 				}
 
@@ -77,7 +86,8 @@ public class Utils {
 		return sb.toString();
 	}
 
-	public static String concatenateFilePath(String path1, String path2) {
+	public static String concatenateFilePath(String path1, String path2)
+	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(path1);
 		sb.append(System.getProperty("file.separator"));
@@ -94,10 +104,12 @@ public class Utils {
 	 * @return this is null if the object can't be copied for some reason
 	 */
 	@SuppressWarnings({ "unchecked" })
-	public static <Type extends Serializable> Type copyObject(Type copythis) {
+	public static <Type extends Serializable> Type copyObject(Type copythis)
+	{
 		Type retval = null;
 
-		try {
+		try
+		{
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
 			oos.writeObject(copythis);
@@ -108,7 +120,8 @@ public class Utils {
 			baos.close();
 			oos.close();
 			ois.close();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			return null;
 		}
 
@@ -116,20 +129,23 @@ public class Utils {
 	}
 
 	/**
-	 * this method reads a file and returns a ByteBuffer of the contents of this
-	 * file.
+	 * this method reads a file and returns a ByteBuffer of the contents of this file.
 	 */
-	public static ByteBuffer fileToByteBuffer(String fileName) {
+	public static ByteBuffer fileToByteBuffer(String fileName)
+	{
 		// System.out.println( "reading icon file" );
-		try {
+		try
+		{
 			InputStream is = new FileInputStream(fileName);
 			byte[] buffer = new byte[4096];
 
 			ByteBuffer bb = new ByteBuffer();
 
-			while (true) {
+			while (true)
+			{
 				int read = is.read(buffer);
-				if (read == -1) {
+				if (read == -1)
+				{
 					break;
 				}
 				bb.append(buffer, 0, read);
@@ -139,29 +155,33 @@ public class Utils {
 
 			return bb;
 
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.out.println(e);
 			return null;
 		}
 	}
 
 	/**
-	 * this method reads a file and returns it as a ByteBuffer, but it uses a
-	 * Map for a fileCache
+	 * this method reads a file and returns it as a ByteBuffer, but it uses a Map for a fileCache
 	 */
-	public static ByteBuffer fileToByteBuffer(String fileName, Map<String, ByteBuffer> fileCache) {
+	public static ByteBuffer fileToByteBuffer(String fileName, Map<String, ByteBuffer> fileCache)
+	{
 		ByteBuffer bb;
 
-		try {
+		try
+		{
 			// try to get the file from the cache
 			Object o = fileCache.get(fileName);
-			if (o != null) {
+			if (o != null)
+			{
 				bb = (ByteBuffer) o;
 				// System.out.println( "got "+fileName+" from cache." );
 				return bb;
 			}
 
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.out.println(e);
 		}
 
@@ -174,52 +194,63 @@ public class Utils {
 	}
 
 	/**
-	 * this method reads a file and returns a byte[] of the contents of this
-	 * file.
+	 * this method reads a file and returns a byte[] of the contents of this file.
 	 */
-	public static byte[] fileToBytes(String fileName) {
+	public static byte[] fileToBytes(String fileName)
+	{
 		ByteBuffer retVal = fileToByteBuffer(fileName);
 		return retVal == null ? null : retVal.getBytes();
 	}
 
 	/**
-	 * this method reads a file and returns it as a byte array, but it uses a
-	 * Map for a fileCache
+	 * this method reads a file and returns it as a byte array, but it uses a Map for a fileCache
 	 */
-	public static byte[] fileToBytes(String fileName, Map<String, ByteBuffer> fileCache) {
+	public static byte[] fileToBytes(String fileName, Map<String, ByteBuffer> fileCache)
+	{
 		ByteBuffer retVal = fileToByteBuffer(fileName, fileCache);
 		return retVal == null ? null : retVal.getBytes();
 	}
 
-	public static String getCallerClassName() {
-		try {
+	public static String getCallerClassName()
+	{
+		try
+		{
 			return Thread.currentThread().getStackTrace()[1].getClassName();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			return "n/a";
 		}
 	}
 
-	public static String getCallerMethodName() {
-		try {
+	public static String getCallerMethodName()
+	{
+		try
+		{
 			return Thread.currentThread().getStackTrace()[1].getMethodName();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			return "n/a";
 		}
 
 	}
 
-	public static String getClassNameFromStackTrace(int depth) {
-		try {
+	public static String getClassNameFromStackTrace(int depth)
+	{
+		try
+		{
 			return Thread.currentThread().getStackTrace()[depth].getClassName();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			return "n/a";
 		}
 	}
 
-	public static String getDebugHeaderString(String msg) {
+	public static String getDebugHeaderString(String msg)
+	{
 
 		StringBuilder lines = new StringBuilder();
-		for (int i = 0; i < msg.length() + 6; i++) {
+		for (int i = 0; i < msg.length() + 6; i++)
+		{
 			lines.append("-");
 		}
 
@@ -229,34 +260,32 @@ public class Utils {
 		return sb.toString();
 	}
 
-	public static Object[] getObjectRay(Object... args) {
+	public static Object[] getObjectRay(Object... args)
+	{
 		return args;
 	}
 
 	/**
-	 * this method does away with a NullPointerException that might get thrown
-	 * (incorrectly semantically speaking) when the following call is made:
-	 * <tt>(String)Map.get("nonexistentkey");</tt>. The NullPointerException
-	 * gets thrown because you can't typecast NULL. So the code simply checks to
-	 * see if get(key) returns a null; and if it does, merely returns null; else
-	 * returns the String representation of the object.s
+	 * this method does away with a NullPointerException that might get thrown (incorrectly semantically speaking) when the following call is made: <tt>(String)Map.get("nonexistentkey");</tt>. The NullPointerException gets thrown because you can't typecast NULL. So the code simply checks to see if get(key) returns a null; and if it does, merely returns null; else returns the String representation of the object.s
 	 */
-	public static String getString(Map m, Object key) {
+	public static String getString(Map m, Object key)
+	{
 		return m.get(key) == null ? null : m.get(key).toString();
 	}
 
 	/** this method returns the current time in */
-	public static String getTime() {
+	public static String getTime()
+	{
 		Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd.hh_mm_ss_a.zzz");
 		return sdf.format(d);
 	}
 
 	/**
-	 * this is just a convenience method to tokenize a string using the services
-	 * of TheStringTokenizer class.
+	 * this is just a convenience method to tokenize a string using the services of TheStringTokenizer class.
 	 */
-	public static String[] getTokens(String s, String delim) {
+	public static String[] getTokens(String s, String delim)
+	{
 		TheStringTokenizer st = new TheStringTokenizer(s, delim);
 		return st.getTokens();
 	}
@@ -269,62 +298,80 @@ public class Utils {
 	 * @param rhs
 	 *            this might be null
 	 */
-	public static boolean isDifferent(Object lhs, Object rhs) {
+	public static boolean isDifferent(Object lhs, Object rhs)
+	{
 
 		// they are both null, not different...
-		if (lhs == null && rhs == null) {
+		if (lhs == null && rhs == null)
+		{
 			return false;
 		}
 
-		try {
+		try
+		{
 			// if they are equal, they are not different...
-			if (lhs.equals(rhs)) {
+			if (lhs.equals(rhs))
+			{
 				return false;
 			}
 			// if they are inequal, they are different...
-			else {
+			else
+			{
 				return true;
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			// this means they are different in some way...
 			return true;
 		}
 
 	}
 
-	public static boolean isNullOrEmpty(String string) {
-		if (string == null || string.length() == 0) {
+	public static boolean isNullOrEmpty(String string)
+	{
+		if (string == null || string.length() == 0)
+		{
 			return true;
-		} else {
+		} else
+		{
 			return false;
 		}
 
 	}
 
-	public static <T> boolean isObjectInArray(T item, T[] list) {
+	public static <T> boolean isObjectInArray(T item, T[] list)
+	{
 
-		for (T listItem : list) {
-			if (item.equals(listItem)) {
+		for (T listItem : list)
+		{
+			if (item.equals(listItem))
+			{
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static <T> boolean isObjectInList(T item, List<T> list) {
+	public static <T> boolean isObjectInList(T item, List<T> list)
+	{
 
-		for (T listItem : list) {
-			if (item.equals(listItem)) {
+		for (T listItem : list)
+		{
+			if (item.equals(listItem))
+			{
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static boolean isStringInList(String item, List<String> list) {
+	public static boolean isStringInList(String item, List<String> list)
+	{
 
-		for (String listItem : list) {
-			if (item.equals(listItem)) {
+		for (String listItem : list)
+		{
+			if (item.equals(listItem))
+			{
 				return true;
 			}
 		}
@@ -332,26 +379,31 @@ public class Utils {
 	}
 
 	/** Turns a list of LogRecord objects into a string for debug purposes */
-	public static String listOfLogRecordToString(List<LogRecord> list) {
+	public static String listOfLogRecordToString(List<LogRecord> list)
+	{
 		StringBuilder sb = new StringBuilder();
 
-		for (LogRecord rec : list) {
+		for (LogRecord rec : list)
+		{
 			sb.append("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n").append("LEVEL:").append(rec.getLevel()).append(", Name:").append(rec.getLoggerName()).append("\n").append("MSG:  ").append(rec.getMessage()).append("\n").append("EX:   ").append(rec.getThrown()).append("\n");
 		}
 
 		return sb.toString();
 	}
 
-	public static String listToString(List list) {
+	public static String listToString(List list)
+	{
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("{number of entries=").append(list.size()).append("}\n");
 
 		int i = 0;
 
-		for (Object obj : list) {
+		for (Object obj : list)
+		{
 			sb.append("[").append(++i).append("] ").append(obj.toString());
-			if (i != list.size()) {
+			if (i != list.size())
+			{
 				sb.append("\n");
 			}
 		}
@@ -359,7 +411,8 @@ public class Utils {
 		return sb.toString();
 	}
 
-	public static String mapToString(Map map) {
+	public static String mapToString(Map map)
+	{
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("{number of entries=").append(map.size()).append("}\n");
@@ -368,8 +421,10 @@ public class Utils {
 
 		String separator = "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
-		for (Object key : map.keySet()) {
-			if (i == 0 && !map.isEmpty()) {
+		for (Object key : map.keySet())
+		{
+			if (i == 0 && !map.isEmpty())
+			{
 				sb.append(separator);
 			}
 			sb.append("\t[").append(++i).append("] ").append(key.toString()).append("=\n\t\t ").append(map.get(key).toString()).append(separator);
@@ -378,54 +433,69 @@ public class Utils {
 		return sb.toString();
 	}
 
-	public static void printDebugHeaderToConsole(String msg) {
+	public static void printDebugHeaderToConsole(String msg)
+	{
 		System.out.println(getDebugHeaderString(msg));
 	}
 
-	public static ArrayList<String> toArrayListFromObjectRay(Object[] objRay) {
-		if (objRay == null) {
+	public static ArrayList<String> toArrayListFromObjectRay(Object[] objRay)
+	{
+		if (objRay == null)
+		{
 			return new ArrayList<String>();
-		} else {
+		} else
+		{
 			ArrayList<String> list = new ArrayList<String>();
-			for (Object o : objRay) {
+			for (Object o : objRay)
+			{
 				list.add(o.toString());
 			}
 			return list;
 		}
 	}
 
-	public static void writeToFile(byte[] msg, String file) {
-		try {
+	public static void writeToFile(byte[] msg, String file)
+	{
+		try
+		{
 			FileOutputStream fos = new FileOutputStream(file);
 			fos.write(msg);
 			fos.close();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.out.println(e);
 		}
 	}
 
-	public static void writeToFile(ByteBuffer msg, String file) {
-		try {
+	public static void writeToFile(ByteBuffer msg, String file)
+	{
+		try
+		{
 			FileOutputStream fos = new FileOutputStream(file);
 			fos.write(msg.getBytes());
 			fos.close();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.out.println(e);
 		}
 	}
 
-	public static void writeToFile(String msg, String file) {
-		try {
+	public static void writeToFile(String msg, String file)
+	{
+		try
+		{
 			FileOutputStream fos = new FileOutputStream(file);
 			fos.write(msg.getBytes());
 			fos.close();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.out.println(e);
 		}
 	}
 
 	/** no constructor */
-	private Utils() {
+	private Utils()
+	{
 	}
 
 }// end of Utils class

@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 //is a local cache really necessary ? direct call to manager better?
-public class OptionsManager extends BaseManager {
+public class OptionsManager extends BaseManager
+{
 
 	SharedPreferences settings = null;
 
-	public OptionsManager(Context baseContext) {
+	public OptionsManager(Context baseContext)
+	{
 		super(baseContext);
 
 		// Restore preferences
@@ -17,23 +19,28 @@ public class OptionsManager extends BaseManager {
 
 	}
 
-	public boolean getCheckUpdateAtStartup() {
+	public boolean getCheckUpdateAtStartup()
+	{
 		return settings.getBoolean("CheckUpdateAtStartup", true);
 	}
 
-	public boolean getDisplayDebugInfos() {
+	public boolean getDisplayDebugInfos()
+	{
 		return settings.getBoolean("DisplayDebugInfos", true);
 	}
 
-	public boolean getDisplaySplashScreenAtStartup() {
+	public boolean getDisplaySplashScreenAtStartup()
+	{
 		return settings.getBoolean("DisplaySplashScreenAtStartup", true);
 	}
 
-	public boolean getGatherUsageData() {
+	public boolean getGatherUsageData()
+	{
 		return settings.getBoolean("GatherUsageData", true);
 	}
 
-	public long getLastSoftwareUpdateCheckDate() {
+	public long getLastSoftwareUpdateCheckDate()
+	{
 		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init
 																		// default
 																		// values
@@ -43,61 +50,72 @@ public class OptionsManager extends BaseManager {
 		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
 	}
 
-	public boolean getLoadLastUsedFileAtStartup() {
+	public boolean getLoadLastUsedFileAtStartup()
+	{
 		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
 	}
 
-	public boolean getUseSensorsToChangePOV() {
+	public boolean getUseSensorsToChangePOV()
+	{
 		return settings.getBoolean("UseSensorsToChangePOV", true);
 	}
 
-	public boolean getViewTutorialAtStartup() {
+	public boolean getViewTutorialAtStartup()
+	{
 		return settings.getBoolean("ViewTutorialAtStartup", true);
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setCheckUpdateAtStartup(boolean mCheckUpdateAtStartup) {
+	public void setCheckUpdateAtStartup(boolean mCheckUpdateAtStartup)
+	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("CheckUpdateAtStartup", mCheckUpdateAtStartup);
 		editor.commit();
 	}
 
-	public void setDisplayDebugInfos(boolean mDisplayDebugInfos) {
+	public void setDisplayDebugInfos(boolean mDisplayDebugInfos)
+	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("DisplayDebugInfos", mDisplayDebugInfos);
 		editor.commit();
 	}
 
-	public void setDisplaySplashScreenAtStartup(boolean mDisplaySplashScreenAtStartup) {
+	public void setDisplaySplashScreenAtStartup(boolean mDisplaySplashScreenAtStartup)
+	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("DisplaySplashScreenAtStartup", mDisplaySplashScreenAtStartup);
 		editor.commit();
 	}
 
-	public void setGatherUsageData(boolean mGatherUsageData) {
+	public void setGatherUsageData(boolean mGatherUsageData)
+	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("GatherUsageData", mGatherUsageData);
 		editor.commit();
 	}
 
-	public void setLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup) {
+	public void setLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup)
+	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("LoaLastdUsedFileAtStartup", mLoadLastUsedFileAtStartup);
 		editor.commit();
 	}
 
-	public void setUseSensorsToChangePOV(boolean mUseSensorsToChangePOV) {
+	public void setUseSensorsToChangePOV(boolean mUseSensorsToChangePOV)
+	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("UseSensorsToChangePOV", mUseSensorsToChangePOV);
 		editor.commit();
@@ -105,13 +123,15 @@ public class OptionsManager extends BaseManager {
 		getManagers().getSensorsManager().restart();
 	}
 
-	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup) {
+	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup)
+	{
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
 		editor.commit();
 	}
 
-	public void updateLastSoftwareUpdateCheckDate() {
+	public void updateLastSoftwareUpdateCheckDate()
+	{
 		long today = System.currentTimeMillis();
 
 		SharedPreferences.Editor editor = settings.edit();

@@ -4,9 +4,11 @@ import java.util.Vector;
 
 import android.content.Context;
 
-public class PointOfViewManager extends BaseManager {
+public class PointOfViewManager extends BaseManager
+{
 
-	public interface OnPointOfViewChangeListener {
+	public interface OnPointOfViewChangeListener
+	{
 		void onPointOfViewChange();
 	}
 
@@ -22,59 +24,72 @@ public class PointOfViewManager extends BaseManager {
 
 	private float mTheta = 0.0f;
 
-	public PointOfViewManager(Context baseContext) {
+	public PointOfViewManager(Context baseContext)
+	{
 		super(baseContext);
 
 	}
 
-	public float getElevationAngle() {
+	public float getElevationAngle()
+	{
 		return mPhi;
 	}
 
-	public float getRmax() {
+	public float getRmax()
+	{
 		return mRmax;
 	}
 
-	public float getRmin() {
+	public float getRmin()
+	{
 		return mRmin;
 	}
 
-	public float getRotationAngle() {
+	public float getRotationAngle()
+	{
 		return mTheta;
 	}
 
-	public float getZoomDistance() {
+	public float getZoomDistance()
+	{
 		return mR;
 	}
 
-	private void NotifyListeners() {
+	private void NotifyListeners()
+	{
 		getManagers().getRendererManager().onPointOfViewChange();
 
-		for (OnPointOfViewChangeListener listener : mListeners) {
+		for (OnPointOfViewChangeListener listener : mListeners)
+		{
 			listener.onPointOfViewChange();
 		}
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate()
+	{
 
 		ResetPOV();
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy()
+	{
 
 	}
 
-	public void onSensorChanged() {
+	public void onSensorChanged()
+	{
 		NotifyListeners();
 	}
 
-	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener) {
+	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
+	{
 		mListeners.add(listener);
 	}
 
-	public void ResetPOV() {
+	public void ResetPOV()
+	{
 		mR = 3.0f;
 		mTheta = 0.0f;
 		mPhi = 0.0f;
@@ -82,68 +97,83 @@ public class PointOfViewManager extends BaseManager {
 		NotifyListeners();
 	}
 
-	public void SetAllAngles(float rotation, float elevation, float zoomDistance) {
+	public void SetAllAngles(float rotation, float elevation, float zoomDistance)
+	{
 		setElevationAngleInternal(elevation);
 		setRotationAngleInternal(rotation);
 		setZoomDistanceInternal(zoomDistance);
 		NotifyListeners();
 	}
 
-	public void SetAllAngles(float[] angles) {
+	public void SetAllAngles(float[] angles)
+	{
 		SetAllAngles(angles[0], angles[1], angles[2]);
 	}
 
 	// +90 to -90
-	public void setElevationAngle(float angle) {
+	public void setElevationAngle(float angle)
+	{
 		setElevationAngleInternal(angle);
 		NotifyListeners();
 	}
 
-	private void setElevationAngleInternal(float angle) {
+	private void setElevationAngleInternal(float angle)
+	{
 		mPhi = angle;
 
-		if (angle > 90.0f) {
+		if (angle > 90.0f)
+		{
 			mPhi = 90.0f;
 		}
 
-		if (angle < -90.0f) {
+		if (angle < -90.0f)
+		{
 			mPhi = -90.0f;
 		}
 	}
 
 	// 180 to 180
-	public void setRotationAngle(float angle) {
+	public void setRotationAngle(float angle)
+	{
 		setRotationAngleInternal(angle);
 		NotifyListeners();
 	}
 
-	private void setRotationAngleInternal(float angle) {
+	private void setRotationAngleInternal(float angle)
+	{
 		mTheta = angle % 180;
-		if (angle > 180.0f) {
+		if (angle > 180.0f)
+		{
 			mTheta -= 180.0f;
 		}
-		if (angle < -180.0f) {
+		if (angle < -180.0f)
+		{
 			mTheta += 180.0f;
 		}
 	}
 
-	public void setZoomDistance(float dist) {
+	public void setZoomDistance(float dist)
+	{
 		setZoomDistanceInternal(dist);
 		NotifyListeners();
 	}
 
-	private void setZoomDistanceInternal(float dist) {
+	private void setZoomDistanceInternal(float dist)
+	{
 		mR = dist;
 
-		if (dist > mRmax) {
+		if (dist > mRmax)
+		{
 			mR = mRmax;
 		}
-		if (dist < mRmin) {
+		if (dist < mRmin)
+		{
 			mR = mRmin;
 		}
 	}
 
-	public void unRegisterPointOfViewChangeListener(OnPointOfViewChangeListener listener) {
+	public void unRegisterPointOfViewChangeListener(OnPointOfViewChangeListener listener)
+	{
 		mListeners.remove(listener);
 	}
 

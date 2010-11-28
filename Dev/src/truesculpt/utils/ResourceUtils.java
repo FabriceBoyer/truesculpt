@@ -14,24 +14,30 @@ import android.util.Log;
  * @version 1.0
  * @since Jun 24, 2008, 6:45:15 PM
  */
-public class ResourceUtils {
+public class ResourceUtils
+{
 
-	public static int getResourceIdForDrawable(Context _context, String resPackage, String resName) {
+	public static int getResourceIdForDrawable(Context _context, String resPackage, String resName)
+	{
 		return _context.getResources().getIdentifier(resName, "drawable", resPackage);
 	}
 
-	public static String loadResToString(int resId, Activity ctx) {
+	public static String loadResToString(int resId, Activity ctx)
+	{
 
-		try {
+		try
+		{
 			InputStream is = ctx.getResources().openRawResource(resId);
 
 			byte[] buffer = new byte[4096];
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			while (true) {
+			while (true)
+			{
 				int read = is.read(buffer);
 
-				if (read == -1) {
+				if (read == -1)
+				{
 					break;
 				}
 
@@ -46,7 +52,8 @@ public class ResourceUtils {
 			Log.i(Global.TAG, "ResourceUtils loaded resource to string:" + data);
 
 			return data;
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			Log.e(Global.TAG, "ResourceUtils failed to load resource to string", e);
 			return null;
 		}

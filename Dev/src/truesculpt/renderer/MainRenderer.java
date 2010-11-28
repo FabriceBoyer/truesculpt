@@ -27,7 +27,8 @@ import android.os.SystemClock;
  * Render a pair of tumbling cubes.
  */
 
-public class MainRenderer implements GLSurfaceView.Renderer {
+public class MainRenderer implements GLSurfaceView.Renderer
+{
 	float fShininess = 25.0f;
 	float lightAmbient[] = new float[] { 0.1f, 0.1f, 0.1f, 1.0f };
 	float lightDiffuse[] = new float[] { 0.9f, 0.9f, 0.9f, 1.0f };
@@ -51,22 +52,23 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	private Managers mManagers = null;
 	private float mRot;
 
-	public MainRenderer(Managers managers) {
+	public MainRenderer(Managers managers)
+	{
 		super();
 		this.mManagers = managers;
 	}
 
-	public long getLastFrameDurationMs() {
+	public long getLastFrameDurationMs()
+	{
 		return mLastFrameDurationMs;
 	}
 
 	@Override
-	public void onDrawFrame(GL10 gl) {
-
+	public void onDrawFrame(GL10 gl)
+	{
 		long tStart = SystemClock.uptimeMillis();
 		/*
-		 * Usually, the first thing one might want to do is to clear the screen.
-		 * The most efficient way of doing this is to use glClear().
+		 * Usually, the first thing one might want to do is to clear the screen. The most efficient way of doing this is to use glClear().
 		 */
 
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -89,7 +91,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		// only if point of view changed
 		mManagers.getMeshManager().getCurrentModelView(gl);
 
-		if (mManagers.getOptionsManager().getDisplayDebugInfos()) {
+		if (mManagers.getOptionsManager().getDisplayDebugInfos())
+		{
 			mAxis.draw(gl);
 		}
 
@@ -102,20 +105,20 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 		mLastFrameDurationMs = tStop - tStart;
 	}
 
-	public void onPointOfViewChange(float fRot, float fDistance, float fElevation) {
+	public void onPointOfViewChange(float fRot, float fDistance, float fElevation)
+	{
 		mRot = fRot;
 		mDistance = fDistance;
 		mElevation = fElevation;
 	}
 
 	@Override
-	public void onSurfaceChanged(GL10 gl, int width, int height) {
+	public void onSurfaceChanged(GL10 gl, int width, int height)
+	{
 		gl.glViewport(0, 0, width, height);
 
 		/*
-		 * Set our projection matrix. This doesn't have to be done each time we
-		 * draw, but usually a new projection needs to be set when the viewport
-		 * is resized.
+		 * Set our projection matrix. This doesn't have to be done each time we draw, but usually a new projection needs to be set when the viewport is resized.
 		 */
 
 		float ratio = (float) width / height;
@@ -128,7 +131,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 	}
 
 	@Override
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+	public void onSurfaceCreated(GL10 gl, EGLConfig config)
+	{
 
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
