@@ -9,24 +9,25 @@ import android.widget.Button;
 
 public class AboutPanel extends Activity {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {		
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
-				
 
 		final Button button = (Button) findViewById(R.id.Ok_btn);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				finish();				
+				finish();
 			}
 		});
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		finish();

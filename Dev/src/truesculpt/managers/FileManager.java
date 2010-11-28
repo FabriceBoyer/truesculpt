@@ -5,8 +5,8 @@ import android.content.Context;
 //open and save a file, autosave?
 public class FileManager extends BaseManager {
 
-	private String mLastUsedFile="";//MRU
-	
+	private String mLastUsedFile = "";// MRU
+
 	public FileManager(Context baseContext) {
 		super(baseContext);
 		// TODO Auto-generated constructor stub
@@ -15,13 +15,13 @@ public class FileManager extends BaseManager {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

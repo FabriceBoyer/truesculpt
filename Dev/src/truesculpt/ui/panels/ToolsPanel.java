@@ -1,106 +1,95 @@
 package truesculpt.ui.panels;
 
-import truesculpt.managers.ToolsManager.EToolMode;
-import truesculpt.managers.ToolsManager.OnToolChangeListener;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.ui.dialogs.ColorPickerDialog;
+import truesculpt.managers.ToolsManager.OnToolChangeListener;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 public class ToolsPanel extends Activity implements OnColorChangedListener, OnToolChangeListener {
-	private final int DIALOG_COLOR_PICKER_ID=0;
+	private final int DIALOG_COLOR_PICKER_ID = 0;
 
-	
-	public Managers getManagers() {	
-		return ((TrueSculptApp)getApplicationContext()).getManagers();
-	}
-	
+	private ColorPickerView mColorPickerView;
+
+	private SeekBar mRadiusSeekBar;
+
+	private TextView mRadiusText;
+	private SeekBar mStrengthSeekBar;
+
+	private TextView mStrengthText;
+
 	@Override
 	public void colorChanged(int color) {
 		getManagers().getToolsManager().setColor(color);
-		//String msg = "color is " + Integer.toString(color);
-		//Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
+		// String msg = "color is " + Integer.toString(color);
+		// Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
 	}
-	
-	private TextView mRadiusText;
-	private SeekBar mRadiusSeekBar;
-	
-	private TextView mStrengthText;
-	private SeekBar mStrengthSeekBar;
-	
-	private ColorPickerView mColorPickerView;
-	
+
+	public Managers getManagers() {
+		return ((TrueSculptApp) getApplicationContext()).getManagers();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tools);
-		
+
 		getManagers().getToolsManager().registerToolChangeListener(this);
-					
-		mRadiusSeekBar=(SeekBar)findViewById(R.id.RadiusBar);
-		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+
+		mRadiusSeekBar = (SeekBar) findViewById(R.id.RadiusBar);
+		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				getManagers().getToolsManager().setRadius(progress);
 			}
+
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {}			
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {}
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
 		});
-		mRadiusSeekBar.setMax(100);//0 to 100 pct		
-		mRadiusText=(TextView)findViewById(R.id.RadiusText);
-		
-		
-		mStrengthSeekBar=(SeekBar)findViewById(R.id.StrengthBar);
-		mStrengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {				
+		mRadiusSeekBar.setMax(100);// 0 to 100 pct
+		mRadiusText = (TextView) findViewById(R.id.RadiusText);
+
+		mStrengthSeekBar = (SeekBar) findViewById(R.id.StrengthBar);
+		mStrengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				getManagers().getToolsManager().setStrength(progress-100);			
+				getManagers().getToolsManager().setStrength(progress - 100);
 			}
+
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {}			
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {}
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
 		});
-		mStrengthSeekBar.setMax(200);//-100 to 100 pct		
-		mStrengthText=(TextView)findViewById(R.id.StrengthText);
-		
-		mColorPickerView=(ColorPickerView) findViewById(R.id.ColorPickerView);
+		mStrengthSeekBar.setMax(200);// -100 to 100 pct
+		mStrengthText = (TextView) findViewById(R.id.StrengthText);
+
+		mColorPickerView = (ColorPickerView) findViewById(R.id.ColorPickerView);
 		mColorPickerView.SetColorChangeListener(this);
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
-		
+
 		UpdateView();
 	}
-	
-	private void UpdateView()
-	{
 
-		float fStrength=getManagers().getToolsManager().getStrength();
-		mStrengthSeekBar.setProgress((int)fStrength+100);
-		mStrengthText.setText("Strength = "+Integer.toString((int)fStrength)+" %");
-		
-		float fRadius=getManagers().getToolsManager().getRadius();
-		mRadiusSeekBar.setProgress((int)fRadius);
-		mRadiusText.setText("Radius = "+Integer.toString((int)fRadius)+" %");
-	}
-		
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
+
 		getManagers().getToolsManager().unRegisterToolChangeListener(this);
 	}
 
@@ -111,13 +100,24 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 
 	@Override
 	public void onToolChange() {
-		UpdateView();		
+		UpdateView();
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		finish();
 		return super.onTouchEvent(event);
+	}
+
+	private void UpdateView() {
+
+		float fStrength = getManagers().getToolsManager().getStrength();
+		mStrengthSeekBar.setProgress((int) fStrength + 100);
+		mStrengthText.setText("Strength = " + Integer.toString((int) fStrength) + " %");
+
+		float fRadius = getManagers().getToolsManager().getRadius();
+		mRadiusSeekBar.setProgress((int) fRadius);
+		mRadiusText.setText("Radius = " + Integer.toString((int) fRadius) + " %");
 	}
 
 }

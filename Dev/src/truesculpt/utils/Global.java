@@ -7,6 +7,6 @@ package truesculpt.utils;
  */
 public class Global {
 
-public static final String TAG = "TAG1";
-public static final String TAG3 = "TAG3";
-}//end class Global
+	public static final String TAG = "TAG1";
+	public static final String TAG3 = "TAG3";
+}// end class Global

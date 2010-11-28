@@ -38,7 +38,7 @@ public class SplashPanel extends Activity {
 
 		mHandler.postDelayed(mCloseActivityTask, SPLASHTIME);
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		finish();

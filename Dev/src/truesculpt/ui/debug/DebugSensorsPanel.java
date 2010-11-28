@@ -99,15 +99,12 @@ public class DebugSensorsPanel extends Activity {
 						final Canvas cavas = mCanvas;
 						final float yoffset = mYOffset;
 						final float maxx = mMaxX;
-						final float oneG = SensorManager.STANDARD_GRAVITY
-								* mScale[0];
+						final float oneG = SensorManager.STANDARD_GRAVITY * mScale[0];
 						paint.setColor(0xFFAAAAAA);
 						cavas.drawColor(0xFFFFFFFF);
 						cavas.drawLine(0, yoffset, maxx, yoffset, paint);
-						cavas.drawLine(0, yoffset + oneG, maxx, yoffset + oneG,
-								paint);
-						cavas.drawLine(0, yoffset - oneG, maxx, yoffset - oneG,
-								paint);
+						cavas.drawLine(0, yoffset + oneG, maxx, yoffset + oneG, paint);
+						cavas.drawLine(0, yoffset - oneG, maxx, yoffset - oneG, paint);
 					}
 					canvas.drawBitmap(mBitmap, 0, 0, null);
 
@@ -172,18 +169,17 @@ public class DebugSensorsPanel extends Activity {
 						float deltaX = mSpeed;
 						float newX = mLastX + deltaX;
 
-						int j = (sensor == SensorManager.SENSOR_MAGNETIC_FIELD) ? 1
-								: 0;
+						int j = sensor == SensorManager.SENSOR_MAGNETIC_FIELD ? 1 : 0;
 						for (int i = 0; i < 3; i++) {
 							int k = i + j * 3;
 							final float v = mYOffset + values[i] * mScale[j];
 							paint.setColor(mColors[k]);
-							canvas.drawLine(mLastX, mLastValues[k], newX, v,
-									paint);
+							canvas.drawLine(mLastX, mLastValues[k], newX, v, paint);
 							mLastValues[k] = v;
 						}
-						if (sensor == SensorManager.SENSOR_MAGNETIC_FIELD)
+						if (sensor == SensorManager.SENSOR_MAGNETIC_FIELD) {
 							mLastX += mSpeed;
+						}
 					}
 					invalidate();
 				}
@@ -196,8 +192,8 @@ public class DebugSensorsPanel extends Activity {
 			mCanvas.setBitmap(mBitmap);
 			mCanvas.drawColor(0xFFFFFFFF);
 			mYOffset = h * 0.5f;
-			mScale[0] = -(h * 0.5f * (1.0f / (SensorManager.STANDARD_GRAVITY * 2)));
-			mScale[1] = -(h * 0.5f * (1.0f / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));
+			mScale[0] = -(h * 0.5f * 1.0f / (SensorManager.STANDARD_GRAVITY * 2));
+			mScale[1] = -(h * 0.5f * 1.0f / SensorManager.MAGNETIC_FIELD_EARTH_MAX);
 			mWidth = w;
 			mHeight = h;
 			if (mWidth < mHeight) {
@@ -234,11 +230,7 @@ public class DebugSensorsPanel extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(mGraphView,
-				SensorManager.SENSOR_ACCELEROMETER
-						| SensorManager.SENSOR_MAGNETIC_FIELD
-						| SensorManager.SENSOR_ORIENTATION,
-				SensorManager.SENSOR_DELAY_FASTEST);
+		mSensorManager.registerListener(mGraphView, SensorManager.SENSOR_ACCELEROMETER | SensorManager.SENSOR_MAGNETIC_FIELD | SensorManager.SENSOR_ORIENTATION, SensorManager.SENSOR_DELAY_FASTEST);
 	}
 
 	@Override
