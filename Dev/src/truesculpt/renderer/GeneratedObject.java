@@ -26,6 +26,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.Color;
 import truesculpt.renderer.generator.RecursiveSphereGenerator;
+import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
 
 /**
@@ -37,7 +38,10 @@ public class GeneratedObject
     private ShortBuffer   mIndexBuffer=null;
     private FloatBuffer   mVertexBuffer=null;
     private FloatBuffer   mNormalBuffer=null;
-        
+    
+    private ShortBuffer   mDrawNormalIndexBuffer=null;
+    private FloatBuffer   mDrawNormalVertexBuffer=null;   
+    
     private int mFacesCount=0;
 	private int mVertexCount=0;
     
@@ -91,6 +95,19 @@ public class GeneratedObject
         mNormalBuffer = nbb.asFloatBuffer();
         putFloatVectorToBuffer(mNormalBuffer,normals);
         mNormalBuffer.position(0);
+        
+        ByteBuffer ndvbb = ByteBuffer.allocateDirect(2*3*4);//float is 4 bytes, normals contains x,y,z in seq
+        ndvbb.order(ByteOrder.nativeOrder());
+        mDrawNormalVertexBuffer = ndvbb.asFloatBuffer();        
+        mDrawNormalVertexBuffer.position(0);
+        
+        ByteBuffer ndibb = ByteBuffer.allocateDirect(2*2);//line are 3 elements in short ( 2 bytes )
+        ndibb.order(ByteOrder.nativeOrder());
+        mDrawNormalIndexBuffer = ndibb.asShortBuffer();        
+        mDrawNormalIndexBuffer.position(0);	
+        mDrawNormalIndexBuffer.put((short) 0);
+        mDrawNormalIndexBuffer.put((short) 1);
+        mDrawNormalIndexBuffer.position(0);	
 
     } 
     
@@ -171,8 +188,35 @@ public class GeneratedObject
     public void drawNormals(GL10 gl)
     {
         gl.glFrontFace(GL10.GL_CCW);//counter clock wise is specific to previous format
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mNormalBuffer);        
-        gl.glDrawElements(GL10.GL_LINE_STRIP, mFacesCount*3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);        
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawNormalVertexBuffer);        
+        
+    	float[] V0=new float[3];
+    	float[] V1=new float[3];
+    	
+        int nCount=mNormalBuffer.capacity();
+        for (int i=0;i<nCount;i=i+3)
+        {
+        	mVertexBuffer.position(i);
+        	mVertexBuffer.get(V0,0,3);        	
+        	
+        	mNormalBuffer.position(i);
+        	mNormalBuffer.get(V1,0,3);    
+        	
+        	MatrixUtils.scalarMultiply(V1, 0.1f);
+        	MatrixUtils.plus(V0, V1, V1);        	
+        	
+        	mDrawNormalVertexBuffer.position(0);
+        	mDrawNormalVertexBuffer.put(V0);
+        	mDrawNormalVertexBuffer.position(3);
+        	mDrawNormalVertexBuffer.put(V1);
+        	mDrawNormalVertexBuffer.position(0);
+        	
+        	gl.glDrawElements(GL10.GL_LINES, 2, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);  
+        }
+        
+        mVertexBuffer.position(0);
+    	mNormalBuffer.position(0);
+             
         	
     }
 
