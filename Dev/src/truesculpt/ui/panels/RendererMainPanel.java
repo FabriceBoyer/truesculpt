@@ -26,15 +26,10 @@ import android.widget.ToggleButton;
 
 public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener, OnToolChangeListener
 {
-
 	private static final String TAG = "TrueSculptMain";
-
 	private GLSurfaceView mGLSurfaceView = null;
-
 	private ToggleButton mPaintToggle;
-
 	private ToggleButton mSculptToggle;
-
 	private ToggleButton mViewToggle;
 
 	public void CheckUpdate()

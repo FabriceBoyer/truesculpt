@@ -3,13 +3,17 @@ package truesculpt.ui.panels;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.managers.ToolsManager.OnToolChangeListener;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.ToggleButton;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -94,6 +98,17 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mColorPickerView = (ColorPickerView) findViewById(R.id.ColorPickerView);
 		mColorPickerView.SetColorChangeListener(this);
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
+		
+
+		Button mScreenshotButton = (Button) findViewById(R.id.screenshot);
+		mScreenshotButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				getManagers().getToolsManager().TakeGLScreenshot();
+			}
+		});
 
 		UpdateView();
 	}
@@ -127,7 +142,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 
 	private void UpdateView()
 	{
-
 		float fStrength = getManagers().getToolsManager().getStrength();
 		mStrengthSeekBar.setProgress((int) fStrength + 100);
 		mStrengthText.setText("Strength = " + Integer.toString((int) fStrength) + " %");

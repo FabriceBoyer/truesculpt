@@ -176,5 +176,10 @@ public class ToolsManager extends BaseManager
 	{
 		mListeners.remove(listener);
 	}
-
+	
+	public void TakeGLScreenshot()
+	{
+		getManagers().getRendererManager().getmRenderer().TakeGLScreenshotOfNextFrame();
+		NotifyListeners();
+	}
 }
