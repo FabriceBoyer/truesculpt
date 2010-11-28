@@ -235,12 +235,11 @@ public class MatrixUtils {
      * Subtracts two vectors (a-b).
      * @param a The first vector
      * @param b The second vector
-     * @param result Storage for the result, if null, store in a.
+     * @param result Storage for the result
      **/
     public static void minus(float[] a, float[] b, float[] result) {
-	float[] res = (result == null)?a:result;
-	for (int i=0;i<Math.min(a.length,b.length);i++)
-	    res[i] = a[i]-b[i];
+	for (int i=0;i<a.length;i++)
+		result[i] = a[i]-b[i];
     }
     
     /**
@@ -259,12 +258,11 @@ public class MatrixUtils {
      * Adds two vectors (a+b).
      * @param a The first vector
      * @param b The second vector
-     * @param result Storage for the result, if null, store in a.
+     * @param result Storage for the result
      **/
-    public static void plus(float[] a, float[] b, float[] result) {
-	float[] res = (result == null)?a:result;
+    public static void plus(float[] a, float[] b, float[] result) {	
 	for (int i=0;i<a.length;i++)
-	    res[i] = a[i]+b[i];
+		result[i] = a[i]+b[i];
     }
     
     /**

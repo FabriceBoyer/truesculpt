@@ -10,6 +10,7 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.managers.ToolsManager.EToolMode;
+import truesculpt.renderer.Face;
 import truesculpt.renderer.GeneratedObject;
 import truesculpt.renderer.NodeRelation;
 import truesculpt.renderer.NodeRelationList;
@@ -73,6 +74,7 @@ public class MeshManager extends BaseManager {
 				mVertexBuffer= mObject.getVertexBuffer(); 
 				
 				BuildRelationMapFromMesh();
+				BuildFaceMapFromMesh();
 				
 			} catch (Exception e) {
 				assert(false);
@@ -436,19 +438,9 @@ public class MeshManager extends BaseManager {
     	int nIndexCount=mIndexBuffer.capacity();    	
     	for (int i=0;i<nIndexCount;i=i+3)
     	{    		
-    		int nCurrIndex0=3*mIndexBuffer.get(i);
-    		mVertexBuffer.position(nCurrIndex0);
-    		mVertexBuffer.get(V0,0,3);
-    		
-    		int nCurrIndex1=3*mIndexBuffer.get(i+1);
-    		mVertexBuffer.position(nCurrIndex1);
-    		mVertexBuffer.get(V1,0,3);
-    		
-    		int nCurrIndex2=3*mIndexBuffer.get(i+2);
-    		mVertexBuffer.position(nCurrIndex2);
-    		mVertexBuffer.get(V2,0,3);    		
-    		
-    		int nCollide=intersect_RayTriangle( R0, R1, V0, V1, V2, Ires );
+    		Face face=mFaceMap.get(i);
+   		
+    		int nCollide=intersect_RayTriangle( R0, R1, face.V0, face.V1, face.V2, Ires );
     		
     		if (nCollide==1)
     		{
@@ -606,6 +598,48 @@ public class MeshManager extends BaseManager {
 			mNodeRelationMap.put(nIndexOrig, relationList);
 		}
 		relationList.AddRelation(nIndexOther,fDistance);
+	}
+	
+	
+	private  HashMap<Integer,Face> mFaceMap= new HashMap<Integer,Face> ();
+	
+	private void BuildFaceMapFromMesh()
+	{   	
+    	float[] V0=new float[3];
+    	float[] V1=new float[3];
+    	float[] V2=new float[3];
+    	float[] VDiff= new float[3];
+    	    		         	
+    	int nIndexCount=mIndexBuffer.capacity();   		
+    	
+    	for (int i = 0; i < nIndexCount; i=i+3) {
+    		int nIndex0=3*mIndexBuffer.get(i); 
+    		mVertexBuffer.position(nIndex0);
+    		mVertexBuffer.get(V0,0,3);
+    		
+    		int nIndex1=3*mIndexBuffer.get(i+1);
+    		mVertexBuffer.position(nIndex1);
+    		mVertexBuffer.get(V1,0,3);
+    		
+    		int nIndex2=3*mIndexBuffer.get(i+2);
+    		mVertexBuffer.position(nIndex2);
+    		mVertexBuffer.get(V2,0,3); 
+    		
+    		Face face=new Face();
+    		MatrixUtils.copy(V0, face.V0);
+    		MatrixUtils.copy(V1, face.V1);
+    		MatrixUtils.copy(V2, face.V2);
+    		face.nIndex0=nIndex0;
+    		face.nIndex1=nIndex1;
+    		face.nIndex2=nIndex2;
+    		
+    		mFaceMap.put(i, face);
+    		mFaceMap.put(i+1, face);
+    		mFaceMap.put(i+2, face);    	
+		}
+		
+		mIndexBuffer.position(0);
+    	mVertexBuffer.position(0);
 	}
 	
 }
