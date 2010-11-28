@@ -165,6 +165,8 @@ public class GeneratedObject
         
         gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
         
+        
+        
     }
 
 	public FloatBuffer getVertexBuffer() {

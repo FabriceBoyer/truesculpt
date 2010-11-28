@@ -100,6 +100,16 @@ public class OptionsManager extends BaseManager {
 		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
 	}
 
+	public boolean getDisplayDebugInfos() {
+		return settings.getBoolean("DisplayDebugInfos", true);
+	}
+	
+	public void setDisplayDebugInfos(boolean mDisplayDebugInfos) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("DisplayDebugInfos", mDisplayDebugInfos);
+		editor.commit();
+	}
+	
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
