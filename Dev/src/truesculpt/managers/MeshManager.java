@@ -68,10 +68,7 @@ public class MeshManager extends BaseManager
 
 		MatrixUtils.minus(R1, R0, dir); // ray direction vector
 
-		boolean bBackCullTriangle = MatrixUtils.dot(dir, n) > 0;// ray dir and
-																// normal have
-																// same
-																// direction
+		boolean bBackCullTriangle = MatrixUtils.dot(dir, n) > 0;// ray dir and normal have same direction
 		if (bBackCullTriangle)
 		{
 			return 0;
@@ -140,10 +137,8 @@ public class MeshManager extends BaseManager
 		@Override
 		public void run()
 		{
-
 			try
 			{
-
 				mObject = new GeneratedObject(getManagers().getToolsManager().getColor(), 4);
 
 				mIndexBuffer = mObject.getIndexBuffer();
@@ -165,29 +160,17 @@ public class MeshManager extends BaseManager
 	};
 
 	long mLastPickDurationMs = -1;
-
 	private Vector<OnMeshChangeListener> mListeners = new Vector<OnMeshChangeListener>();
-
 	private float[] mModelView = new float[16];
-
 	private HashMap<Integer, NodeRelationList> mNodeRelationMap = new HashMap<Integer, NodeRelationList>();
-
 	FloatBuffer mNormalBuffer = null;
-
 	private GeneratedObject mObject = null;
-
 	private PickHighlight mPickHighlight = new PickHighlight();
-
 	private float[] mProjection = new float[16];
-
 	private RayPickDebug mRay = new RayPickDebug();
-
 	FloatBuffer mVertexBuffer = null;
-
 	private int[] mViewPort = new int[4];
-
 	float[] rayPt1 = new float[3];
-
 	float[] rayPt2 = new float[3];
 
 	public MeshManager(Context baseContext)
@@ -343,13 +326,13 @@ public class MeshManager extends BaseManager
 
 	// TODO test for GL11 instanceof to handle not GL11 devices
 	// TODO use GL11ES calls indepedent of redraw with gl param
-	public void getCurrentModelView(GL10 gl)
+	public void setCurrentModelView(GL10 gl)
 	{
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelView, 0);
 	}
 
-	public void getCurrentProjection(GL10 gl)
+	public void setCurrentProjection(GL10 gl)
 	{
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjection, 0);
@@ -382,8 +365,7 @@ public class MeshManager extends BaseManager
 		MatrixUtils.copy(rayPt2, R1);
 
 		MatrixUtils.minus(R1, R0, dir);
-		float fSmallestDistanceToR0 = MatrixUtils.magnitude(dir);// ray is R0 to
-																	// R1
+		float fSmallestDistanceToR0 = MatrixUtils.magnitude(dir);// ray is R0 to R1
 
 		int nIndexCount = mIndexBuffer.capacity();
 		for (int i = 0; i < nIndexCount; i = i + 3)
@@ -421,7 +403,7 @@ public class MeshManager extends BaseManager
 		return nCount;
 	}
 
-	public void getViewport(GL10 gl)
+	public void setViewport(GL10 gl)
 	{
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
@@ -601,11 +583,7 @@ public class MeshManager extends BaseManager
 			mVertexBuffer.position(nIndex0);
 			mVertexBuffer.get(V0, 0, 3);
 
-			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength
-																									// is
-																									// -100
-																									// to
-																									// 100
+			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
 
 			mNormalBuffer.position(nIndex0);
 			mNormalBuffer.get(nOffset, 0, 3);

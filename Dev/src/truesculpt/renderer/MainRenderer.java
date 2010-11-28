@@ -16,10 +16,17 @@
 
 package truesculpt.renderer;
 
+import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.main.Managers;
+import android.graphics.Bitmap;
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 
@@ -89,7 +96,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
 		// only if point of view changed
-		mManagers.getMeshManager().getCurrentModelView(gl);
+		mManagers.getMeshManager().setCurrentModelView(gl);
 
 		if (mManagers.getOptionsManager().getDisplayDebugInfos())
 		{
@@ -126,14 +133,13 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glLoadIdentity();
 		gl.glFrustumf(-ratio, ratio, -1, 1, 1.0f, 10);
 
-		mManagers.getMeshManager().getCurrentProjection(gl);
-		mManagers.getMeshManager().getViewport(gl);
+		mManagers.getMeshManager().setCurrentProjection(gl);
+		mManagers.getMeshManager().setViewport(gl);
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)
 	{
-
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
 		// TODO back screen color configuration in options
@@ -161,5 +167,47 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
+	}
+	
+	public void TakeScreenshot(GL10 gl)
+	{
+		int[] mViewPort = new int[4];
+		GL11 gl2 = (GL11) gl;
+		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
+		
+		int width = mViewPort[2];
+		int  height = mViewPort[3];
+
+		int size = width * height;
+		ByteBuffer buf = ByteBuffer.allocateDirect(size * 4);
+		buf.order(ByteOrder.nativeOrder());
+		gl.glReadPixels(0, 0, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, buf);
+		int data[] = new int[size];
+		buf.asIntBuffer().get(data);
+		buf = null;
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+		bitmap.setPixels(data, size-width, -width, 0, 0, width, height);
+		data = null;
+
+		short sdata[] = new short[size];
+		ShortBuffer sbuf = ShortBuffer.wrap(sdata);
+		bitmap.copyPixelsToBuffer(sbuf);
+		for (int i = 0; i < size; ++i) {
+		    //BGR-565 to RGB-565
+		    short v = sdata[i];
+		    sdata[i] = (short) (((v&0x1f) << 11) | (v&0x7e0) | ((v&0xf800) >> 11));
+		}
+		sbuf.rewind();
+		bitmap.copyPixelsFromBuffer(sbuf);
+
+		try {
+		    FileOutputStream fos = new FileOutputStream("/sdcard/screenshot.png");
+		    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+		    fos.flush();
+		    fos.close();
+		} catch (Exception e) {
+		    // handle
+		}
+
 	}
 }
