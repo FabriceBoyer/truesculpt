@@ -178,15 +178,26 @@ public class MeshManager extends BaseManager
 		super(baseContext);
 	}
 
-	private void AddRelationToMap(int nIndexOrig, int nIndexOther, float fDistance)
+	private void AddVertexRelationToMap(int nVertexIndexOrig, int nVertexIndexOther, float fDistance)
 	{
-		NodeRelationList relationList = mNodeRelationMap.get(nIndexOrig);
+		NodeRelationList relationList = mNodeRelationMap.get(nVertexIndexOrig);
 		if (relationList == null)
 		{
 			relationList = new NodeRelationList();
-			mNodeRelationMap.put(nIndexOrig, relationList);
+			mNodeRelationMap.put(nVertexIndexOrig, relationList);
 		}
-		relationList.AddRelation(nIndexOther, fDistance);
+		relationList.AddVertexRelation(nVertexIndexOther, fDistance);
+	}
+	
+	private void AddFaceRelationToMap(int nVertexIndexOrig, int triangleIndex)
+	{
+		NodeRelationList relationList = mNodeRelationMap.get(nVertexIndexOrig);
+		if (relationList == null)
+		{
+			relationList = new NodeRelationList();
+			mNodeRelationMap.put(nVertexIndexOrig, relationList);
+		}
+		relationList.AddFaceRelation(triangleIndex);
 	}
 
 	private void BuildFaceMapFromMesh()
@@ -199,22 +210,20 @@ public class MeshManager extends BaseManager
 
 		for (int i = 0; i < nIndexCount; i = i + 3)
 		{
+			Face face = new Face();
+			
 			int nIndex0 = 3 * mIndexBuffer.get(i);
 			mVertexBuffer.position(nIndex0);
-			mVertexBuffer.get(V0, 0, 3);
+			mVertexBuffer.get(face.V0, 0, 3);
 
 			int nIndex1 = 3 * mIndexBuffer.get(i + 1);
 			mVertexBuffer.position(nIndex1);
-			mVertexBuffer.get(V1, 0, 3);
+			mVertexBuffer.get(face.V1, 0, 3);
 
 			int nIndex2 = 3 * mIndexBuffer.get(i + 2);
 			mVertexBuffer.position(nIndex2);
-			mVertexBuffer.get(V2, 0, 3);
+			mVertexBuffer.get(face.V2, 0, 3);
 
-			Face face = new Face();
-			MatrixUtils.copy(V0, face.V0);
-			MatrixUtils.copy(V1, face.V1);
-			MatrixUtils.copy(V2, face.V2);
 			face.nIndex0 = nIndex0;
 			face.nIndex1 = nIndex1;
 			face.nIndex2 = nIndex2;
@@ -254,26 +263,33 @@ public class MeshManager extends BaseManager
 			// 0 to 1
 			MatrixUtils.minus(V1, V0, VDiff);
 			float fDist1 = MatrixUtils.magnitude(VDiff);
-			AddRelationToMap(nIndex0, nIndex1, fDist1);
-			AddRelationToMap(nIndex1, nIndex0, fDist1);
-
+			AddVertexRelationToMap(nIndex0, nIndex1, fDist1);
+			AddVertexRelationToMap(nIndex1, nIndex0, fDist1);
+			
 			// 1 to 2
 			MatrixUtils.minus(V2, V1, VDiff);
 			float fDist2 = MatrixUtils.magnitude(VDiff);
-			AddRelationToMap(nIndex1, nIndex2, fDist2);
-			AddRelationToMap(nIndex2, nIndex1, fDist2);
+			AddVertexRelationToMap(nIndex1, nIndex2, fDist2);
+			AddVertexRelationToMap(nIndex2, nIndex1, fDist2);
 
 			// 2 to 0
 			MatrixUtils.minus(V0, V2, VDiff);
 			float fDist3 = MatrixUtils.magnitude(VDiff);
-			AddRelationToMap(nIndex2, nIndex0, fDist3);
-			AddRelationToMap(nIndex0, nIndex2, fDist3);
+			AddVertexRelationToMap(nIndex2, nIndex0, fDist3);
+			AddVertexRelationToMap(nIndex0, nIndex2, fDist3);
+			
+			
+			//same faces for every point
+			AddFaceRelationToMap(nIndex0,i);
+			AddFaceRelationToMap(nIndex1,i);
+			AddFaceRelationToMap(nIndex2,i);
 		}
 
 		mIndexBuffer.position(0);
 		mVertexBuffer.position(0);
 	}
-
+	
+	
 	// TODO place as an action
 	private void ColorizeTriangle(int triangleIndex)
 	{
@@ -499,8 +515,7 @@ public class MeshManager extends BaseManager
 
 			long tStart = SystemClock.uptimeMillis();
 
-			GetWorldCoords(rayPt2, screenX, screenY, 1.0f);// normalized z
-															// between -1 and 1
+			GetWorldCoords(rayPt2, screenX, screenY, 1.0f);// normalized z between -1 and 1
 			GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
 
 			mRay.setRayPos(rayPt1, rayPt2);
@@ -523,16 +538,16 @@ public class MeshManager extends BaseManager
 						// TODO place in actionManager
 						switch (getManagers().getToolsManager().getToolMode())
 						{
-						case SCULPT:
-						{
-							RiseTriangle(nIndex);
-							break;
-						}
-						case PAINT:
-						{
-							ColorizeTriangle(nIndex);
-							break;
-						}
+							case SCULPT:
+							{
+								RiseTriangle(nIndex);
+								break;
+							}
+							case PAINT:
+							{
+								ColorizeTriangle(nIndex);
+								break;
+							}
 						}
 
 						// msg = "Picked Triangle Index =" +
@@ -568,6 +583,33 @@ public class MeshManager extends BaseManager
 		mListeners.add(listener);
 	}
 
+	//handles bytearray and map cache
+	private void UpdateVertexBufferValue(int nVertexIndex, float[] Value)
+	{		
+		mVertexBuffer.position(nVertexIndex);
+		mVertexBuffer.put(Value, 0, 3);	
+		mVertexBuffer.position(0);
+		
+
+		NodeRelationList list=mNodeRelationMap.get(nVertexIndex);
+		for (Integer triangleIndex : list.mFaceRelationList)
+		{
+			Face face = mFaceMap.get(triangleIndex);
+			
+			int nIndex0 = 3 * mIndexBuffer.get(triangleIndex);
+			mVertexBuffer.position(nIndex0);
+			mVertexBuffer.get(face.V0, 0, 3);
+
+			int nIndex1 = 3 * mIndexBuffer.get(triangleIndex + 1);
+			mVertexBuffer.position(nIndex1);
+			mVertexBuffer.get(face.V1, 0, 3);
+
+			int nIndex2 = 3 * mIndexBuffer.get(triangleIndex + 2);
+			mVertexBuffer.position(nIndex2);
+			mVertexBuffer.get(face.V2, 0, 3);			
+		}
+	}
+	
 	// TODO place as an action
 	private void RiseTriangle(int triangleIndex)
 	{
@@ -577,8 +619,7 @@ public class MeshManager extends BaseManager
 			float[] VTemp = new float[3];
 			float[] nOffset = new float[3];
 
-			// first triangle point arbitrarily chosen (should take closest or
-			// retessalate)
+			// first triangle point arbitrarily chosen (should take closest or retessalate)
 			int nIndex0 = 3 * mIndexBuffer.get(triangleIndex);
 			mVertexBuffer.position(nIndex0);
 			mVertexBuffer.get(V0, 0, 3);
@@ -591,19 +632,19 @@ public class MeshManager extends BaseManager
 			MatrixUtils.scalarMultiply(nOffset, fMaxDeformation);
 
 			MatrixUtils.plus(V0, nOffset, V0);
-			mVertexBuffer.position(nIndex0);
-			mVertexBuffer.put(V0, 0, 3);
-
-			UpdateVertexNormal(nIndex0);
+			UpdateVertexBufferValue(nIndex0,V0);
 
 			if (getManagers().getToolsManager().getRadius() >= 50)
 			{
 				// First corona
+				
+				//Rise point
 				NodeRelationList list = mNodeRelationMap.get(nIndex0);
-				for (NodeRelation relation : list.mRelationList)
+				for (NodeRelation relation : list.mVertexRelationList)
 				{
 					int nOtherIndex = relation.mOtherIndex;
 
+					//TODO read from map
 					mVertexBuffer.position(nOtherIndex);
 					mVertexBuffer.get(VTemp, 0, 3);
 
@@ -613,13 +654,19 @@ public class MeshManager extends BaseManager
 
 					MatrixUtils.plus(VTemp, nOffset, VTemp);
 
-					mVertexBuffer.position(nOtherIndex);
-					mVertexBuffer.put(VTemp, 0, 3);
-
+					UpdateVertexBufferValue(nOtherIndex,VTemp);					
+				}
+				
+				//update normals after rise up
+				for (NodeRelation relation : list.mVertexRelationList)
+				{
+					int nOtherIndex = relation.mOtherIndex;
 					UpdateVertexNormal(nOtherIndex);
 				}
 			}
 
+			UpdateVertexNormal(nIndex0);
+			
 			mIndexBuffer.position(0);
 			mVertexBuffer.position(0);
 			mNormalBuffer.position(0);
@@ -633,30 +680,38 @@ public class MeshManager extends BaseManager
 
 	private void UpdateVertexNormal(int nVertexIndex)
 	{
-		float[] V0Normal = new float[3];
-		float[] VTempNormal = new float[3];
-
-		mNormalBuffer.position(nVertexIndex);
-		mNormalBuffer.get(V0Normal, 0, 3);
-
-		// averaging normals
+		float[] VNormal = {0,0,0};
+		float[] VTempNormal= new float[3];
+		
+		// averaging normals of triangles around
 		NodeRelationList list = mNodeRelationMap.get(nVertexIndex);
-		for (NodeRelation relation : list.mRelationList)
+		for (Integer triangleIndex : list.mFaceRelationList)
 		{
-			int nOtherIndex = relation.mOtherIndex;
-
-			mNormalBuffer.position(nOtherIndex);
-			mNormalBuffer.get(VTempNormal, 0, 3);
-
-			MatrixUtils.plus(V0Normal, VTempNormal, V0Normal);
+			ComputeNormalOfTriangle(triangleIndex,VTempNormal);
+			MatrixUtils.plus(VNormal, VTempNormal, VNormal);
 		}
 
-		MatrixUtils.normalize(V0Normal);
+		MatrixUtils.normalize(VNormal);
 
 		mNormalBuffer.position(nVertexIndex);
-		mNormalBuffer.put(V0Normal, 0, 3);
+		mNormalBuffer.put(VNormal, 0, 3);
 
 		mNormalBuffer.position(0);
 	}
+	
+	private void ComputeNormalOfTriangle(int nTriangleIndex, float[] normal)
+	{
+		Face face = mFaceMap.get(nTriangleIndex);
+		
+		// get triangle edge vectors and plane normal
+		MatrixUtils.minus(face.V1, face.V0, u);
+		MatrixUtils.minus(face.V2, face.V0, v);
+
+		MatrixUtils.cross(u, v, n); // cross product
+		MatrixUtils.normalize(n);
+		
+		MatrixUtils.copy(n, normal);		
+	}
+	
 
 }
