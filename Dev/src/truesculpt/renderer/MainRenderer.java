@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
+import java.util.Date;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -157,8 +158,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, matAmbient, 0);
 		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, matDiffuse, 0);
-		gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, matSpecular, 0);
-		gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, fShininess);
+		//gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, matSpecular, 0);
+		//gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, fShininess);
 
 		// TODO use texture, not color at point
 		gl.glEnable(GL10.GL_COLOR_MATERIAL);
@@ -167,7 +168,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, lightAmbient, 0);
 		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, lightDiffuse, 0);
-		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR, lightSpecular, 0);
+		//gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR, lightSpecular, 0);
 
 		gl.glEnable(GL10.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL10.GL_LEQUAL);
@@ -208,9 +209,13 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		}
 		sbuf.rewind();
 		bitmap.copyPixelsFromBuffer(sbuf);
-
+		
 		try {
-		    FileOutputStream fos = new FileOutputStream("/sdcard/TrueSculpt_Screenshot.png");
+			Date date= new Date();
+			String strFileName="/sdcard/TrueSculpt_Screenshot_"+date.toGMTString()+".png";
+			strFileName=strFileName.replaceAll(":", "_");
+			strFileName=strFileName.replaceAll(" ", "_");			
+		    FileOutputStream fos = new FileOutputStream(strFileName);
 		    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 		    fos.flush();
 		    fos.close();
