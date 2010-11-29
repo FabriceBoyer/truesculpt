@@ -5,15 +5,21 @@ import java.util.Vector;
 public class NodeRelationList
 {
 
-	public Vector<NodeRelation> mRelationList = new Vector<NodeRelation>();
+	public Vector<Integer> mFaceRelationList = new Vector<Integer>();
+	public Vector<NodeRelation> mVertexRelationList = new Vector<NodeRelation>();
 
 	public NodeRelationList()
 	{
 
 	}
-
-	public void AddRelation(int mOtherIndex, float mDistance)
+	
+	public void AddFaceRelation(int triangleIndex)
 	{
-		mRelationList.add(new NodeRelation(mOtherIndex, mDistance));
+		mFaceRelationList.add(triangleIndex);
+	}
+
+	public void AddVertexRelation(int mOtherIndex, float mDistance)
+	{
+		mVertexRelationList.add(new NodeRelation(mOtherIndex, mDistance));
 	}
 }
