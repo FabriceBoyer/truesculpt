@@ -648,9 +648,7 @@ public class MeshManager extends BaseManager
 					mVertexBuffer.position(nOtherIndex);
 					mVertexBuffer.get(VTemp, 0, 3);
 
-					mNormalBuffer.position(nOtherIndex);
-					mNormalBuffer.get(nOffset, 0, 3);
-					MatrixUtils.scalarMultiply(nOffset, fMaxDeformation / 2.0f);
+					MatrixUtils.scalarMultiply(nOffset, 1 / 2.0f);
 
 					MatrixUtils.plus(VTemp, nOffset, VTemp);
 
