@@ -205,8 +205,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		bitmap.copyPixelsFromBuffer(sbuf);
 		
 		try {
+			//TODO add sculpture name in filename
 			Date date= new Date();
-			String strFileName="/sdcard/TrueSculpt_Screenshot_"+date.toGMTString()+".png";
+			String strFileName="/sdcard/Truesculpt/Screenshot_"+date.toGMTString()+".png";
 			strFileName=strFileName.replaceAll(":", "_");
 			strFileName=strFileName.replaceAll(" ", "_");			
 		    FileOutputStream fos = new FileOutputStream(strFileName);
