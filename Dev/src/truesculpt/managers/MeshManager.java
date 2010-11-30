@@ -762,8 +762,7 @@ public class MeshManager extends BaseManager
 		}	
 		else
 		{
-			// detect if same as limit and decrement if necessary		
-			
+			// detect if same as limit and recompute to decrement vector if necessary (beware severals vectors can be the max)		
 		}
 	}
 
