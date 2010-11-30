@@ -311,18 +311,34 @@ public class MeshManager extends BaseManager
 			mColorBuffer.position(nIndex0);
 			mColorBuffer.put(VColor, 0, 4);
 
-			int nIndex1 = 4 * mIndexBuffer.get(triangleIndex + 1);
-			mColorBuffer.position(nIndex1);
-			mColorBuffer.put(VColor, 0, 4);
+			int nVertexIndex0=3*mIndexBuffer.get(triangleIndex);
+		
+			if (getManagers().getToolsManager().getRadius() >= 50)
+			{
+				// First corona					
+				NodeRelationList list = mNodeRelationMap.get(nVertexIndex0);
+				for (Integer otherTriangle : list.mFaceRelationList)
+				{		
+					nIndex0 = 4 * mIndexBuffer.get(otherTriangle);
+					mColorBuffer.position(nIndex0);
+					mColorBuffer.put(VColor, 0, 4);
 
-			int nIndex2 = 4 * mIndexBuffer.get(triangleIndex + 2);
-			mColorBuffer.position(nIndex2);
-			mColorBuffer.put(VColor, 0, 4);
+					int nIndex1 = 4 * mIndexBuffer.get(otherTriangle + 1);
+					mColorBuffer.position(nIndex1);
+					mColorBuffer.put(VColor, 0, 4);
 
+					int nIndex2 = 4 * mIndexBuffer.get(otherTriangle + 2);
+					mColorBuffer.position(nIndex2);
+					mColorBuffer.put(VColor, 0, 4);			
+				}				
+			}
+			
 			mIndexBuffer.position(0);
-			mColorBuffer.position(0);
+			mColorBuffer.position(0);	
 		}
 	}
+	
+	
 
 	public void draw(GL10 gl)
 	{
