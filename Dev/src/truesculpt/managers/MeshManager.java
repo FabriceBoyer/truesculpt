@@ -562,8 +562,15 @@ public class MeshManager extends BaseManager
 						{
 							case SCULPT:
 							{
-								RiseSculptAction(nIndex);
-								break;
+								switch (getManagers().getToolsManager().getSculptSubMode())
+								{
+								case RISE:
+									RiseSculptAction(nIndex);
+									break;
+								case MORPH:
+									InitMorphAction(nIndex);
+									break;
+								}
 							}
 							case PAINT:
 							{
@@ -579,7 +586,8 @@ public class MeshManager extends BaseManager
 						// Float.toString(intersectPt[1]) + "; z=" +
 						// Float.toString(intersectPt[2]) + "\n";
 						// Log.i("Picking", msg);
-					} else
+					}
+					else
 					{
 						mPickHighlight.setPickHighlightPosition(zero);
 					}
@@ -600,6 +608,11 @@ public class MeshManager extends BaseManager
 		return nIndex;
 	}
 
+	private void InitMorphAction(int nTriangleIndex)
+	{
+		
+	}	
+	
 	public void registerPointOfViewChangeListener(OnMeshChangeListener listener)
 	{
 		mListeners.add(listener);

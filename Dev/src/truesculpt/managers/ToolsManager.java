@@ -13,7 +13,7 @@ public class ToolsManager extends BaseManager
 	};
 
 	public enum ESculptToolSubMode {
-		REFINE, RISE, SUNK
+		REFINE, RISE, MORPH
 	};
 
 	public enum EToolMode {
@@ -33,6 +33,7 @@ public class ToolsManager extends BaseManager
 	private EToolMode mMode = EToolMode.POV;
 
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
+	private ESculptToolSubMode mSculptSubMode= ESculptToolSubMode.RISE;
 
 	private float mRadius = 50.0f;// pct
 
@@ -181,5 +182,15 @@ public class ToolsManager extends BaseManager
 	{
 		getManagers().getRendererManager().getmRenderer().TakeGLScreenshotOfNextFrame();
 		NotifyListeners();
+	}
+
+	public ESculptToolSubMode getSculptSubMode()
+	{
+		return mSculptSubMode;
+	}
+
+	public void setSculptSubMode(ESculptToolSubMode mSculptSubMode)
+	{
+		this.mSculptSubMode = mSculptSubMode;
 	}
 }
