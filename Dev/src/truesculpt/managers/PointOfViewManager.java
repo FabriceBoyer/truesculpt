@@ -17,9 +17,9 @@ public class PointOfViewManager extends BaseManager
 
 	// looked from point
 	private float mR = 0.0f;
-	// TODO to be recomputed to adapt to max size of object
+	
+	//to be recomputed to adapt to max size of object
 	private float mRmax = 9.0f;
-
 	private float mRmin = 2.0f;
 
 	private float mTheta = 0.0f;
@@ -175,6 +175,18 @@ public class PointOfViewManager extends BaseManager
 	public void unRegisterPointOfViewChangeListener(OnPointOfViewChangeListener listener)
 	{
 		mListeners.remove(listener);
+	}
+
+	public void setRmax(float mRmax)
+	{
+		this.mRmax = mRmax;
+		setZoomDistance(mR);//refresh distance with saturations and notify
+	}
+
+	public void setRmin(float mRmin)
+	{
+		this.mRmin = mRmin;
+		setZoomDistance(mR);//refresh distance with saturations and notify
 	}
 
 }

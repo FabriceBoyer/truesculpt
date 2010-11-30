@@ -2,6 +2,7 @@ package truesculpt.managers;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -44,6 +45,8 @@ public class MeshManager extends BaseManager
 
 	static float[] w0 = new float[3];
 	static float[] zero = { 0, 0, 0 };
+	
+	
 
 	// intersect_RayTriangle(): intersect a ray with a 3D triangle
 	// Input: a ray R (R0 and R1), and a triangle T (V0,V1)
@@ -131,7 +134,9 @@ public class MeshManager extends BaseManager
 	FloatBuffer mColorBuffer = null;
 	private HashMap<Integer, Face> mFaceMap = new HashMap<Integer, Face>();
 	ShortBuffer mIndexBuffer = null;
-
+	float mBoundingSphereRadius=1.0f;
+	float[] mBoundingSphereVector=new float[3];
+	
 	Runnable mInitTask = new Runnable()
 	{
 		@Override
@@ -148,6 +153,7 @@ public class MeshManager extends BaseManager
 
 				BuildRelationMapFromMesh();
 				BuildFaceMapFromMesh();
+				ComputeBoundingSphereRadius();
 
 			} catch (Exception e)
 			{
@@ -291,7 +297,7 @@ public class MeshManager extends BaseManager
 	
 	
 	// TODO place as an action
-	private void ColorizeTriangle(int triangleIndex)
+	private void ColorizePaintAction(int triangleIndex)
 	{
 		if (triangleIndex >= 0)
 		{
@@ -540,12 +546,12 @@ public class MeshManager extends BaseManager
 						{
 							case SCULPT:
 							{
-								RiseTriangle(nIndex);
+								RiseSculptAction(nIndex);
 								break;
 							}
 							case PAINT:
 							{
-								ColorizeTriangle(nIndex);
+								ColorizePaintAction(nIndex);
 								break;
 							}
 						}
@@ -608,10 +614,12 @@ public class MeshManager extends BaseManager
 			mVertexBuffer.position(nIndex2);
 			mVertexBuffer.get(face.V2, 0, 3);			
 		}
+		
+		UpdateBoudingSphereRadius(Value);
 	}
 	
 	// TODO place as an action
-	private void RiseTriangle(int triangleIndex)
+	private void RiseSculptAction(int triangleIndex)
 	{
 		if (triangleIndex >= 0)
 		{
@@ -711,5 +719,52 @@ public class MeshManager extends BaseManager
 		MatrixUtils.copy(n, normal);		
 	}
 	
+	
+	void ComputeBoundingSphereRadius()
+	{
+		mBoundingSphereRadius=0.0f;
+		Collection<Face> list=mFaceMap.values();		
+		for (Face face : list)
+		{
+			float norm=MatrixUtils.magnitude(face.V0);
+			if (norm>mBoundingSphereRadius)
+			{
+				MatrixUtils.copy(face.V0, mBoundingSphereVector);
+			}
+			
+			norm=MatrixUtils.magnitude(face.V1);
+			if (norm>mBoundingSphereRadius)
+			{
+				MatrixUtils.copy(face.V1, mBoundingSphereVector);
+			}
+			
+			norm=MatrixUtils.magnitude(face.V2);
+			if (norm>mBoundingSphereRadius) 
+			{
+				MatrixUtils.copy(face.V2, mBoundingSphereVector);	
+			}
+		}
+		
+		float finalNorm=MatrixUtils.magnitude(mBoundingSphereVector);
+		mBoundingSphereRadius=finalNorm;
+		
+		getManagers().getPointOfViewManager().setRmin(1+mBoundingSphereRadius);//takes near clip into accoutn, TODO read from conf
+	}
+	
+	void UpdateBoudingSphereRadius(float[] val)
+	{		
+		float norm=MatrixUtils.magnitude(val);
+		if (norm>mBoundingSphereRadius) 
+		{
+			mBoundingSphereRadius=norm;
+			MatrixUtils.copy(val, mBoundingSphereVector);
+			getManagers().getPointOfViewManager().setRmin(1+mBoundingSphereRadius);//takes near clip into accoutn, TODO read from conf
+		}	
+		else
+		{
+			// detect if same as limit and decrement if necessary		
+			
+		}
+	}
 
 }
