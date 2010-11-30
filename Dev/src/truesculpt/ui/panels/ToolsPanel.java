@@ -107,6 +107,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 			public void onClick(View v)
 			{
 				getManagers().getToolsManager().TakeGLScreenshot();
+				finish();
 			}
 		});
 
@@ -136,6 +137,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+		//TODO handle scrolling properly
 		finish();
 		return super.onTouchEvent(event);
 	}

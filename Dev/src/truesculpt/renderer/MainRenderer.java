@@ -40,22 +40,16 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	float fShininess = 25.0f;
 	float lightAmbient[] = new float[] { 0.1f, 0.1f, 0.1f, 1.0f };
 	float lightDiffuse[] = new float[] { 0.9f, 0.9f, 0.9f, 1.0f };
-
 	float[] lightPos = new float[] { 5, 5, 10, 1 };
 	float lightSpecular[] = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
-
 	float matAmbient[] = new float[] { 1, 1, 1, 1 };
-
 	float matDiffuse[] = new float[] { 1, 1, 1, 1 };
-
 	float matSpecular[] = new float[] { 1, 1, 1, 1 };
 
 	private ReferenceAxis mAxis = new ReferenceAxis();
 
 	private float mDistance;
-
 	private float mElevation;
-
 	private long mLastFrameDurationMs = 0;
 	private Managers mManagers = null;
 	private float mRot;
