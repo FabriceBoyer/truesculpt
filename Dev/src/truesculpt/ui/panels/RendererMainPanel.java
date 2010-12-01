@@ -226,11 +226,11 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false);
 			return true;
 		}
-		case R.id.show_point_of_view_panel:
+		case R.id.show_options:
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class, false);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
 			return true;
-		}
+		}		
 		case R.id.show_debug_panel:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class, false);
@@ -246,14 +246,16 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
 			return true;
 		}
-		case R.id.show_options:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
-			return true;
-		}
 		case R.id.show_about_panel:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.AboutPanel.class, false);
+			return true;
+		}
+		
+		/*
+		case R.id.show_point_of_view_panel:
+		{
+			Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class, false);
 			return true;
 		}
 		case R.id.quit:
@@ -261,6 +263,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			this.finish();
 			return true;
 		}
+		*/
 		default:
 			return super.onOptionsItemSelected(item);
 		}
