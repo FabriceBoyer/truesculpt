@@ -571,6 +571,7 @@ public class MeshManager extends BaseManager
 									InitMorphAction(nIndex);
 									break;
 								}
+								break;
 							}
 							case PAINT:
 							{
