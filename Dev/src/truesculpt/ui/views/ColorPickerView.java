@@ -181,6 +181,7 @@ public class ColorPickerView extends View
 	public void SetColor(int color)
 	{
 		mCenterPaint.setColor(color);
+		invalidate();
 	}
 
 	public void SetColorChangeListener(OnColorChangedListener listener)

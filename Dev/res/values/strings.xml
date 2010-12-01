@@ -51,4 +51,8 @@
 <string name="Radius">Radius</string>
 <string name="paint">Paint</string>
 <string name="screenshot">Screenshot</string>
+<string name="ResetPOV">Reset View</string>
+    <string name="ambilwarna_cancel">Cancel</string>
+    <string name="ambilwarna_ok">OK</string>
+    
 </resources>
