@@ -5,9 +5,13 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.managers.ToolsManager.OnToolChangeListener;
+import truesculpt.ui.dialogs.AmbilWarnaDialog;
+import truesculpt.ui.dialogs.AmbilWarnaDialog.OnAmbilWarnaListener;
+import truesculpt.ui.dialogs.AmbilWarnaKotak;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -99,6 +103,16 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		mColorPickerView.SetColorChangeListener(this);
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
 		
+		
+		Button colorPickerButton = (Button) findViewById(R.id.colorpickerBtn);
+		colorPickerButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ShowHSLColorPickerDialog();
+			}
+		});
 
 		Button mScreenshotButton = (Button) findViewById(R.id.screenshot);
 		mScreenshotButton.setOnClickListener(new View.OnClickListener()
@@ -107,6 +121,17 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 			public void onClick(View v)
 			{
 				getManagers().getToolsManager().TakeGLScreenshot();
+				finish();
+			}
+		});
+		
+		Button resetPOVbutton = (Button) findViewById(R.id.ResetPOV);
+		resetPOVbutton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				getManagers().getPointOfViewManager().ResetPOV();
 				finish();
 			}
 		});
@@ -151,6 +176,28 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		float fRadius = getManagers().getToolsManager().getRadius();
 		mRadiusSeekBar.setProgress((int) fRadius);
 		mRadiusText.setText("Radius = " + Integer.toString((int) fRadius) + " %");
+		
+		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
 	}
 
+	private void ShowHSLColorPickerDialog()
+	{
+		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
+		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
+		AmbilWarnaDialog dialog = new AmbilWarnaDialog(ToolsPanel.this, getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener() {
+		        @Override
+		        public void onOk(AmbilWarnaDialog dialog, int color) {
+		        	getManagers().getToolsManager().setColor(color);
+		        }
+		                
+		        @Override
+		        public void onCancel(AmbilWarnaDialog dialog) {
+		                // cancel was selected by the user
+		        }
+		});
+
+		dialog.show();	
+	}
+
+	
 }

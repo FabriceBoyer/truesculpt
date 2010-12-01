@@ -11,5 +11,9 @@
  <SeekBar android:id="@+id/RadiusBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
   
  <truesculpt.ui.views.ColorPickerView android:id="@+id/ColorPickerView" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-  <Button android:text="@string/screenshot" android:id="@+id/screenshot" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+ <Button android:text="@string/color_picker" android:id="@+id/colorpickerBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+ 
+ <Button android:text="@string/screenshot" android:id="@+id/screenshot" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+ <Button android:text="@string/ResetPOV" android:id="@+id/ResetPOV" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+  
 </LinearLayout>
