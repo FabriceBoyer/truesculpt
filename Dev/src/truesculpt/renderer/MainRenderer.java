@@ -205,18 +205,24 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		bitmap.copyPixelsFromBuffer(sbuf);
 		
 		try {
-			//TODO add sculpture name in filename
-			Date date= new Date();
-			String strFileName="/sdcard/Truesculpt/Screenshot_"+date.toGMTString()+".png";
-			strFileName=strFileName.replaceAll(":", "_");
-			strFileName=strFileName.replaceAll(" ", "_");			
-		    FileOutputStream fos = new FileOutputStream(strFileName);
+			String strSnapshotFileName=CreateSnapshotFileName();
+		    FileOutputStream fos = new FileOutputStream(strSnapshotFileName);
 		    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 		    fos.flush();
 		    fos.close();
 		} catch (Exception e) {
 		    assert(false);
 		}
+	}
+	
+	public String CreateSnapshotFileName()
+	{
+		//TODO add sculpture name in filename
+		Date date= new Date();
+		String strFileName="/sdcard/Truesculpt/Screenshot_"+date.toGMTString()+".png";
+		strFileName=strFileName.replaceAll(":", "_");
+		strFileName=strFileName.replaceAll(" ", "_");
+		return strFileName;
 	}
 
 	public void TakeGLScreenshotOfNextFrame()
