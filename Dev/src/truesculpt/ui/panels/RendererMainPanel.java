@@ -1,5 +1,7 @@
 package truesculpt.ui.panels;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
@@ -7,6 +9,7 @@ import truesculpt.managers.MeshManager.OnMeshChangeListener;
 import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.managers.ToolsManager.OnToolChangeListener;
+import truesculpt.managers.UsageStatisticsManager;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -64,14 +67,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
-	public void NotifyStartupStat()
-	{
-		if (getManagers().getOptionsManager().getGatherUsageData() == true)
-		{
-			getManagers().getUsageStatisticsManager().incrementStartupCount();
-		}
-	}
-
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
@@ -83,10 +79,16 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		}
 	}
 
+
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		if (true) {
+		    //StrictMode.enableDefaults();
+		}
+		
 		super.onCreate(savedInstanceState);
 
 		getManagers().Init(getBaseContext());
@@ -94,9 +96,14 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 		ShowSplashScreen();
 		CheckUpdate();
-		ShowTutorial();
-		NotifyStartupStat();
+		ShowTutorial();		
 
+		getManagers().getUsageStatisticsManager().getTracker().trackEvent(
+		           "Truesculpt",  // Category
+		           "Init",  // Action
+		           "Start", // Label
+		           0);       // Value  
+		
 		setContentView(R.layout.main);
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
@@ -183,7 +190,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		getManagers().getMeshManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
 		getManagers().getToolsManager().unRegisterToolChangeListener(RendererMainPanel.this);
 
-		getManagers().Destroy();
+		getManagers().Destroy();		
 	}
 
 	@Override

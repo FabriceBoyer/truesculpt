@@ -1,9 +1,13 @@
 package truesculpt.managers;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 import android.content.Context;
 
 public class UsageStatisticsManager extends BaseManager
 {
+	
+	private GoogleAnalyticsTracker tracker;
 
 	public UsageStatisticsManager(Context baseContext)
 	{
@@ -11,22 +15,27 @@ public class UsageStatisticsManager extends BaseManager
 		// TODO Auto-generated constructor stub
 	}
 
-	public void incrementStartupCount()
-	{
-
-	}
 
 	@Override
 	public void onCreate()
 	{
-		// TODO Auto-generated method stub
-
+		if (getManagers().getOptionsManager().getGatherUsageData() == true)
+		{
+			tracker = GoogleAnalyticsTracker.getInstance();
+			tracker.start("UA-18915484-3", 20 , getbaseContext()); 		
+		}
 	}
 
 	@Override
 	public void onDestroy()
 	{
-		// TODO Auto-generated method stub
-
+		tracker.stop();
 	}
+
+
+	public GoogleAnalyticsTracker getTracker()
+	{
+		return tracker;
+	}
+	
 }
