@@ -51,6 +51,9 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		getManagers().getUsageStatisticsManager().getTracker().trackPageView("/Tools");
+		
 		setContentView(R.layout.tools);
 
 		getManagers().getToolsManager().registerToolChangeListener(this);
