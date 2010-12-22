@@ -87,6 +87,8 @@ public class TutorialWizardPanel extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUsageStatisticsManager().TrackPageView("/TutorialWizardPanel");
+		
 		setContentView(R.layout.tutorialwizard);
 
 		mWebView = (WebView) findViewById(R.id.webview);

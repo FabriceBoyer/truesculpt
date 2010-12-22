@@ -68,11 +68,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 
 	@Override
 	public void onCreate()
-	{
-		if (getManagers().getOptionsManager().getUseSensorsToChangePOV())
-		{
-			restart();
-		}
+	{		
+		restart();		
 	}
 
 	@Override
@@ -125,12 +122,15 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 
 	public void start()
 	{
-		mSensorManager = (SensorManager) getbaseContext().getSystemService(Context.SENSOR_SERVICE);
-		List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD);
-		for (int i = 0; i < sensorList.size(); i++)
+		if (getManagers().getOptionsManager().getUseSensorsToChangePOV())
 		{
-			mSensorManager.registerListener(SensorsManager.this, sensorList.get(i), SensorManager.SENSOR_DELAY_GAME);
-		}
+			mSensorManager = (SensorManager) getbaseContext().getSystemService(Context.SENSOR_SERVICE);
+			List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD);
+			for (int i = 0; i < sensorList.size(); i++)
+			{
+				mSensorManager.registerListener(SensorsManager.this, sensorList.get(i), SensorManager.SENSOR_DELAY_GAME);
+			}
+		}		
 	}
 
 	public void stop()

@@ -4,7 +4,9 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 
 public class OptionsPanel extends PreferenceActivity
 {
@@ -22,8 +24,9 @@ public class OptionsPanel extends PreferenceActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-
 		super.onCreate(savedInstanceState);
+		
+		getManagers().getUsageStatisticsManager().TrackPageView("/OptionsPanel");
 
 		// must be in same package than manager ?
 		addPreferencesFromResource(R.xml.options);
@@ -46,6 +49,13 @@ public class OptionsPanel extends PreferenceActivity
 	{
 		super.onStop();
 
+	}
+
+	@Override
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
+	{
+		// TODO Auto-generated method stub
+		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 
 }

@@ -11,8 +11,8 @@
 	          android:name="truesculpt.ui.panels.RendererMainPanel"
 	          android:theme="@android:style/Theme.NoTitleBar">            
 		<intent-filter>
-		<action android:name="android.intent.action.MAIN"></action>
-		<category android:name="android.intent.category.LAUNCHER"></category>
+			<action android:name="android.intent.action.MAIN"></action>
+			<category android:name="android.intent.category.LAUNCHER"></category>
 		</intent-filter>
 	</activity>
 	
@@ -26,13 +26,13 @@
 	<activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash" android:theme="@style/Theme.TrueSculpt"></activity>
 	<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel" android:theme="@style/Theme.TrueSculpt"></activity>
 	<activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel" android:theme="@style/Theme.TrueSculpt"></activity>
-	</application>
+</application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>
 	
 	<uses-permission android:name="android.permission.INTERNET" />   
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />  
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 	
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
 	
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
 </manifest> 

@@ -1,6 +1,8 @@
 package truesculpt.ui.panels;
 
+import truesculpt.main.Managers;
 import truesculpt.main.R;
+import truesculpt.main.TrueSculptApp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -10,15 +12,13 @@ import android.widget.Button;
 public class AboutPanel extends Activity
 {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		getManagers().getUsageStatisticsManager().TrackPageView("/AboutPanel");
+		
 		setContentView(R.layout.about);
 
 		final Button button = (Button) findViewById(R.id.Ok_btn);
@@ -37,6 +37,11 @@ public class AboutPanel extends Activity
 	{
 		finish();
 		return super.onTouchEvent(event);
+	}
+	
+	public Managers getManagers()
+	{
+		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
 }

@@ -100,13 +100,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		CheckUpdate();
 		ShowTutorial();		
 
-		getManagers().getUsageStatisticsManager().getTracker().trackEvent(
-		           "Truesculpt",  // Category
-		           "Init",  // Action
-		           "Start", // Label
-		           0);       // Value  
-				
-				 
 		setContentView(R.layout.main);
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);

@@ -50,8 +50,10 @@ public class UpdatePanel extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-
 		super.onCreate(savedInstanceState);
+		
+		getManagers().getUsageStatisticsManager().TrackPageView("/UpdatePanel");
+		
 		setContentView(R.layout.update);
 
 		final Button button = (Button) findViewById(R.id.Ok_btn);
