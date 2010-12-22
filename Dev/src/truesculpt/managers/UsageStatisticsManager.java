@@ -24,7 +24,7 @@ public class UsageStatisticsManager extends BaseManager
 		
 		restart();
 		
-		TrackEvent("AppSession", "StartCount",0); 
+		TrackEvent("AppSession", "Count",0); 
 	}
 
 	@Override
