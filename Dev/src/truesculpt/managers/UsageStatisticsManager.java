@@ -51,6 +51,7 @@ public class UsageStatisticsManager extends BaseManager
 	{
 		if (tracker!=null)
 		{
+			tracker.dispatch();
 			tracker.stop();
 			tracker=null;
 		}
