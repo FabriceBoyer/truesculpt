@@ -13,9 +13,11 @@ import truesculpt.managers.UsageStatisticsManager;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -80,6 +82,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 
+	PowerManager.WakeLock wl=null;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -103,7 +106,15 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		           "Init",  // Action
 		           "Start", // Label
 		           0);       // Value  
-		
+				
+		//prevent sleep mode
+		if (getManagers().getOptionsManager().getPreventSleepMode())
+		{
+			PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+			wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Truesculpt");
+			wl.acquire();
+		}
+		 
 		setContentView(R.layout.main);
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
@@ -191,6 +202,11 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		getManagers().getToolsManager().unRegisterToolChangeListener(RendererMainPanel.this);
 
 		getManagers().Destroy();		
+		
+		if (wl!=null)
+		{
+			wl.release();
+		}
 	}
 
 	@Override

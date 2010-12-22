@@ -41,9 +41,7 @@ public class OptionsManager extends BaseManager
 
 	public long getLastSoftwareUpdateCheckDate()
 	{
-		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init
-																		// default
-																		// values
+		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init default values
 		{
 			updateLastSoftwareUpdateCheckDate();
 		}
@@ -63,6 +61,11 @@ public class OptionsManager extends BaseManager
 	public boolean getViewTutorialAtStartup()
 	{
 		return settings.getBoolean("ViewTutorialAtStartup", true);
+	}
+	
+	public boolean getPreventSleepMode()
+	{
+		return settings.getBoolean("PreventSleepMode", true);
 	}
 
 	@Override
@@ -138,5 +141,13 @@ public class OptionsManager extends BaseManager
 		editor.putLong("LastSoftwareUpdateCheckDate", today);
 		editor.commit();
 	}
+	
+	public void setPreventSleepMode(boolean mPreventSleepMode)
+	{
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("PreventSleepMode", mPreventSleepMode);
+		editor.commit();
+	}
+	
 
 }
