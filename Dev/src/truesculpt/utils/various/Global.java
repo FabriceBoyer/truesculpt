@@ -1,4 +1,4 @@
-package truesculpt.utils;
+package truesculpt.utils.various;
 
 /**
  * @author Nazmul Idris

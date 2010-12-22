@@ -1,4 +1,4 @@
-package truesculpt.utils;
+package truesculpt.utils.various;
 
 // Much of this is adapted from the beartronics FP lib
 public class FixedPointUtils

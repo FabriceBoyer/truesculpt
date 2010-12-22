@@ -1,4 +1,4 @@
-package truesculpt.utils;
+package truesculpt.utils.various;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,5 +1,6 @@
 package truesculpt.utils;
 
+import truesculpt.utils.various.FixedPointUtils;
 import android.util.Log;
 
 public class MatrixUtils

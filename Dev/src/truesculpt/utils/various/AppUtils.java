@@ -1,4 +1,4 @@
-package truesculpt.utils;
+package truesculpt.utils.various;
 
 import android.app.Activity;
 import android.content.Context;
