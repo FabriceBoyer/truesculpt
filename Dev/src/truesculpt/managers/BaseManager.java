@@ -18,7 +18,7 @@ public abstract class BaseManager
 	/**
 	 * @return the mbaseContext
 	 */
-	protected Context getbaseContext()
+	public Context getbaseContext()
 	{
 		return mbaseContext;
 	}

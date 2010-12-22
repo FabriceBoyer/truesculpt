@@ -16,7 +16,9 @@
 
 package truesculpt.renderer;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
@@ -27,8 +29,12 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.main.Managers;
+import android.app.WallpaperManager;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
+import android.os.Environment;
 import android.os.SystemClock;
 
 /**
@@ -204,8 +210,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		sbuf.rewind();
 		bitmap.copyPixelsFromBuffer(sbuf);
 		
-		try {
-			String strSnapshotFileName=CreateSnapshotFileName();
+		String strSnapshotFileName=CreateSnapshotFileName();
+		try {			
 		    FileOutputStream fos = new FileOutputStream(strSnapshotFileName);
 		    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 		    fos.flush();
@@ -213,13 +219,33 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		} catch (Exception e) {
 		    assert(false);
 		}
+		
+		//temp for test
+		SetAsWallpaper(strSnapshotFileName);
 	}
 	
+	public void SetAsWallpaper(String strFileName)
+	{
+		Bitmap bitmap = BitmapFactory.decodeFile(strFileName);
+					 
+	    try {
+	    	WallpaperManager wp=(WallpaperManager) mManagers.getRendererManager().getbaseContext().getSystemService(Context.WALLPAPER_SERVICE);
+	    	wp.setBitmap(bitmap);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 	public String CreateSnapshotFileName()
 	{
 		//TODO add sculpture name in filename
 		Date date= new Date();
-		String strFileName="/sdcard/Truesculpt/Screenshot/Img_"+date.toGMTString()+".png";
+		String strBasePath=Environment.getExternalStorageDirectory()+"/Truesculpt/Screenshots/";
+		
+		// have the object build the directory structure, if needed.
+		File basePath = new File(strBasePath);
+		basePath.mkdirs();				
+
+		String strFileName=strBasePath+"Img_"+date.toGMTString()+".png";
 		strFileName=strFileName.replaceAll(":", "_");
 		strFileName=strFileName.replaceAll(" ", "_");
 		return strFileName;
