@@ -164,7 +164,7 @@ public class Managers
 		return mWebManager;
 	}
 	
-	public SleepPowerManager getPowerManager()
+	public SleepPowerManager getSleepPowerManager()
 	{
 		return mPowerManager;
 	}	

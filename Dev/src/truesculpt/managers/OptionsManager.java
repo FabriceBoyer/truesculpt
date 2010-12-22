@@ -107,13 +107,15 @@ public class OptionsManager extends BaseManager
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("GatherUsageData", mGatherUsageData);
 		editor.commit();
+		
+		getManagers().getUsageStatisticsManager().restart();
 	}
 
 	public void setLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup)
 	{
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("LoaLastdUsedFileAtStartup", mLoadLastUsedFileAtStartup);
-		editor.commit();
+		editor.putBoolean("LoadLastUsedFileAtStartup", mLoadLastUsedFileAtStartup);
+		editor.commit();		
 	}
 
 	public void setUseSensorsToChangePOV(boolean mUseSensorsToChangePOV)
@@ -146,7 +148,8 @@ public class OptionsManager extends BaseManager
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("PreventSleepMode", mPreventSleepMode);
 		editor.commit();
-	}
-	
+		
+		getManagers().getSleepPowerManager().updateSleepMode();
+	}	
 
 }

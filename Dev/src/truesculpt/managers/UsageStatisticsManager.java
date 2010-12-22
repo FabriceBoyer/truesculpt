@@ -15,20 +15,16 @@ public class UsageStatisticsManager extends BaseManager
 		// TODO Auto-generated constructor stub
 	}
 
-	long startTime = System.currentTimeMillis();
+	long startTime = 0;
 	
 	@Override
 	public void onCreate()
 	{
-		if (getManagers().getOptionsManager().getGatherUsageData() == true)
-		{
-			tracker = GoogleAnalyticsTracker.getInstance();
-			tracker.start("UA-18915484-3", 300 , getbaseContext());		
-			
-			startTime = System.currentTimeMillis();
-			
-			TrackEvent("AppSession", "StartCount",0); 
-		}
+		startTime = System.currentTimeMillis();
+		
+		restart();
+		
+		TrackEvent("AppSession", "StartCount",0); 
 	}
 
 	@Override
@@ -39,9 +35,32 @@ public class UsageStatisticsManager extends BaseManager
 		
 		TrackEvent("AppSession", "Duration",duration);        
 		
-		tracker.stop();
+		stop();		
 	}
-
+	
+	private void start()
+	{
+		if (getManagers().getOptionsManager().getGatherUsageData() == true)
+		{
+			tracker = GoogleAnalyticsTracker.getInstance();
+			tracker.start("UA-18915484-3", 300 , getbaseContext());		
+		}
+	}
+	
+	private void stop()
+	{
+		if (tracker!=null)
+		{
+			tracker.stop();
+			tracker=null;
+		}
+	}
+	
+	public void restart()
+	{
+		stop();
+		start();
+	}
 
 	public void TrackEvent(String action, String label, int value)
 	{
