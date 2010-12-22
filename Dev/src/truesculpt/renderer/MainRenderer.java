@@ -181,6 +181,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	{
 		mbTakeScreenshot=false;
 		
+		mManagers.getUsageStatisticsManager().TrackEvent("Screenshot", "Count", 0);
+		
 		int[] mViewPort = new int[4];
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
