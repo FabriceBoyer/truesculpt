@@ -81,59 +81,6 @@ public class OptionsManager extends BaseManager
 
 	}
 
-	public void setCheckUpdateAtStartup(boolean mCheckUpdateAtStartup)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("CheckUpdateAtStartup", mCheckUpdateAtStartup);
-		editor.commit();
-	}
-
-	public void setDisplayDebugInfos(boolean mDisplayDebugInfos)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("DisplayDebugInfos", mDisplayDebugInfos);
-		editor.commit();
-	}
-
-	public void setDisplaySplashScreenAtStartup(boolean mDisplaySplashScreenAtStartup)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("DisplaySplashScreenAtStartup", mDisplaySplashScreenAtStartup);
-		editor.commit();
-	}
-
-	public void setGatherUsageData(boolean mGatherUsageData)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("GatherUsageData", mGatherUsageData);
-		editor.commit();
-		
-		getManagers().getUsageStatisticsManager().restart();
-	}
-
-	public void setLoadLastUsedFileAtStartup(boolean mLoadLastUsedFileAtStartup)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("LoadLastUsedFileAtStartup", mLoadLastUsedFileAtStartup);
-		editor.commit();		
-	}
-
-	public void setUseSensorsToChangePOV(boolean mUseSensorsToChangePOV)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("UseSensorsToChangePOV", mUseSensorsToChangePOV);
-		editor.commit();
-
-		getManagers().getSensorsManager().restart();
-	}
-
-	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
-		editor.commit();
-	}
-
 	public void updateLastSoftwareUpdateCheckDate()
 	{
 		long today = System.currentTimeMillis();
@@ -143,13 +90,13 @@ public class OptionsManager extends BaseManager
 		editor.commit();
 	}
 	
-	public void setPreventSleepMode(boolean mPreventSleepMode)
+	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup)
 	{
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("PreventSleepMode", mPreventSleepMode);
+		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
 		editor.commit();
-		
-		getManagers().getSleepPowerManager().restart();
-	}	
+	}
+	
+
 
 }
