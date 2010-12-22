@@ -5,9 +5,9 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.managers.ToolsManager.OnToolChangeListener;
-import truesculpt.ui.dialogs.AmbilWarnaDialog;
-import truesculpt.ui.dialogs.AmbilWarnaDialog.OnAmbilWarnaListener;
-import truesculpt.ui.dialogs.AmbilWarnaKotak;
+import truesculpt.ui.dialogs.HSLColorPickerDialog;
+import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
+import truesculpt.ui.dialogs.HSLColorPickerView;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
@@ -187,14 +187,14 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	{
 		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
 		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
-		AmbilWarnaDialog dialog = new AmbilWarnaDialog(ToolsPanel.this, getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener() {
+		HSLColorPickerDialog dialog = new HSLColorPickerDialog(ToolsPanel.this, getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener() {
 		        @Override
-		        public void onOk(AmbilWarnaDialog dialog, int color) {
+		        public void onOk(HSLColorPickerDialog dialog, int color) {
 		        	getManagers().getToolsManager().setColor(color);
 		        }
 		                
 		        @Override
-		        public void onCancel(AmbilWarnaDialog dialog) {
+		        public void onCancel(HSLColorPickerDialog dialog) {
 		                // cancel was selected by the user
 		        }
 		});

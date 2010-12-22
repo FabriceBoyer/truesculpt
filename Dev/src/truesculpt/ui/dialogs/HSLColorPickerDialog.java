@@ -8,18 +8,18 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
-public class AmbilWarnaDialog {
-	private static final String TAG = AmbilWarnaDialog.class.getSimpleName();
+public class HSLColorPickerDialog {
+	private static final String TAG = HSLColorPickerDialog.class.getSimpleName();
 	
 	public interface OnAmbilWarnaListener {
-		void onCancel(AmbilWarnaDialog dialog);
-		void onOk(AmbilWarnaDialog dialog, int color);
+		void onCancel(HSLColorPickerDialog dialog);
+		void onOk(HSLColorPickerDialog dialog, int color);
 	}
 	
 	AlertDialog dialog;
 	OnAmbilWarnaListener listener;
 	View viewHue;
-	AmbilWarnaKotak viewKotak;
+	HSLColorPickerView viewKotak;
 	ImageView panah;
 	View viewWarnaLama;
 	View viewWarnaBaru;
@@ -34,7 +34,7 @@ public class AmbilWarnaDialog {
 	float ukuranUiDp = 240.f;
 	float ukuranUiPx; // diset di constructor
 	
-	public AmbilWarnaDialog(Context context, int color, OnAmbilWarnaListener listener) {
+	public HSLColorPickerDialog(Context context, int color, OnAmbilWarnaListener listener) {
 		this.listener = listener;
 		this.warnaLama = color;
 		this.warnaBaru = color;
@@ -49,7 +49,7 @@ public class AmbilWarnaDialog {
 		
 		View view = LayoutInflater.from(context).inflate(R.layout.ambilwarna_dialog, null);
 		viewHue = view.findViewById(R.id.ambilwarna_viewHue);
-		viewKotak = (AmbilWarnaKotak) view.findViewById(R.id.ambilwarna_viewKotak);
+		viewKotak = (HSLColorPickerView) view.findViewById(R.id.ambilwarna_viewKotak);
 		panah = (ImageView) view.findViewById(R.id.ambilwarna_panah);
 		viewWarnaLama = view.findViewById(R.id.ambilwarna_warnaLama);
 		viewWarnaBaru = view.findViewById(R.id.ambilwarna_warnaBaru);
@@ -120,16 +120,16 @@ public class AmbilWarnaDialog {
 		.setPositiveButton(R.string.ambilwarna_ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if (AmbilWarnaDialog.this.listener != null) {
-					AmbilWarnaDialog.this.listener.onOk(AmbilWarnaDialog.this, warnaBaru);
+				if (HSLColorPickerDialog.this.listener != null) {
+					HSLColorPickerDialog.this.listener.onOk(HSLColorPickerDialog.this, warnaBaru);
 				}
 			}
 		})
 		.setNegativeButton(R.string.ambilwarna_cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if (AmbilWarnaDialog.this.listener != null) {
-					AmbilWarnaDialog.this.listener.onCancel(AmbilWarnaDialog.this);
+				if (HSLColorPickerDialog.this.listener != null) {
+					HSLColorPickerDialog.this.listener.onCancel(HSLColorPickerDialog.this);
 				}
 			}
 		})
