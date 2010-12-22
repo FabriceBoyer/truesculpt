@@ -57,7 +57,7 @@ public class OptionsPanel extends PreferenceActivity
 		//click value already set in manager		
 		if( preference.getKey().equalsIgnoreCase("PreventSleepMode"))
 		{		
-			getManagers().getSleepPowerManager().updateSleepMode();
+			getManagers().getSleepPowerManager().restart();
 		}
 		if( preference.getKey().equalsIgnoreCase("UseSensorsToChangePOV"))
 		{		
