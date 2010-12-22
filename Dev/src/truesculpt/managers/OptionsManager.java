@@ -39,15 +39,6 @@ public class OptionsManager extends BaseManager
 		return settings.getBoolean("GatherUsageData", true);
 	}
 
-	public long getLastSoftwareUpdateCheckDate()
-	{
-		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init default values
-		{
-			updateLastSoftwareUpdateCheckDate();
-		}
-		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
-	}
-
 	public boolean getLoadLastUsedFileAtStartup()
 	{
 		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
@@ -61,6 +52,13 @@ public class OptionsManager extends BaseManager
 	public boolean getViewTutorialAtStartup()
 	{
 		return settings.getBoolean("ViewTutorialAtStartup", true);
+	}
+	
+	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup)
+	{
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
+		editor.commit();
 	}
 	
 	public boolean getPreventSleepMode()
@@ -81,6 +79,15 @@ public class OptionsManager extends BaseManager
 
 	}
 
+	public long getLastSoftwareUpdateCheckDate()
+	{
+		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init default values
+		{
+			updateLastSoftwareUpdateCheckDate();
+		}
+		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
+	}
+	
 	public void updateLastSoftwareUpdateCheckDate()
 	{
 		long today = System.currentTimeMillis();
@@ -89,14 +96,4 @@ public class OptionsManager extends BaseManager
 		editor.putLong("LastSoftwareUpdateCheckDate", today);
 		editor.commit();
 	}
-	
-	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
-		editor.commit();
-	}
-	
-
-
 }
