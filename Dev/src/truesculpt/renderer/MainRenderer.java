@@ -95,7 +95,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		// only if point of view changed
 		mManagers.getMeshManager().setCurrentModelView(gl);
 
-		if (mManagers.getOptionsManager().getDisplayDebugInfos())
+		if (mManagers.getOptionsManager().getDisplayDebugInfos())//TODO use cache
 		{
 			mAxis.draw(gl);
 		}
@@ -219,7 +219,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	{
 		//TODO add sculpture name in filename
 		Date date= new Date();
-		String strFileName="/sdcard/Truesculpt/Screenshot_"+date.toGMTString()+".png";
+		String strFileName="/sdcard/Truesculpt/Screenshot/Img_"+date.toGMTString()+".png";
 		strFileName=strFileName.replaceAll(":", "_");
 		strFileName=strFileName.replaceAll(" ", "_");
 		return strFileName;

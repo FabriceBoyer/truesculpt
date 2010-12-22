@@ -71,8 +71,7 @@ public class OptionsManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		// TODO Auto-generated method stub
-
+		//Nothing done here because other managers use this class at create time
 	}
 
 	@Override
