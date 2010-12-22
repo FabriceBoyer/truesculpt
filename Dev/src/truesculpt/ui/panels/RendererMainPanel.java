@@ -81,8 +81,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		}
 	}
 
-
-	PowerManager.WakeLock wl=null;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -94,6 +92,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		
 		super.onCreate(savedInstanceState);
 
+		//TODO place in application not here ?
 		getManagers().Init(getBaseContext());
 		getManagers().Create();
 
@@ -107,14 +106,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		           "Start", // Label
 		           0);       // Value  
 				
-		//prevent sleep mode
-		if (getManagers().getOptionsManager().getPreventSleepMode())
-		{
-			PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-			wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Truesculpt");
-			wl.acquire();
-		}
-		 
+				 
 		setContentView(R.layout.main);
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
@@ -122,7 +114,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		mGLSurfaceView.setRenderer(getManagers().getRendererManager().getmRenderer());
 		mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
-		UpdateView();
+		UpdateGLView();
 
 		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
 		getManagers().getMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
@@ -171,6 +163,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		UpdateButtonsView();
 	}
 
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
@@ -201,13 +194,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		getManagers().getMeshManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
 		getManagers().getToolsManager().unRegisterToolChangeListener(RendererMainPanel.this);
 
-		getManagers().Destroy();		
-		
-		if (wl!=null)
-		{
-			wl.release();
-		}
+		getManagers().Destroy();			
 	}
+	
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -236,7 +225,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	@Override
 	public void onMeshChange()
 	{
-		UpdateView();
+		UpdateGLView();
 	}
 
 	@Override
@@ -306,7 +295,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	@Override
 	public void onPointOfViewChange()
 	{
-		UpdateView();
+		UpdateGLView();
 	}
 
 	@Override
@@ -317,7 +306,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		if (mGLSurfaceView != null)
 		{
 			mGLSurfaceView.onResume();
-			UpdateView();
+			UpdateGLView();
 		}
 	}
 
@@ -369,7 +358,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.PAINT);
 	}
 
-	private void UpdateView()
+	private void UpdateGLView()
 	{
 		mGLSurfaceView.requestRender();
 	}

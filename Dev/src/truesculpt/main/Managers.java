@@ -9,6 +9,7 @@ import truesculpt.managers.MemoryManager;
 import truesculpt.managers.MeshManager;
 import truesculpt.managers.OptionsManager;
 import truesculpt.managers.PointOfViewManager;
+import truesculpt.managers.SleepPowerManager;
 import truesculpt.managers.RendererManager;
 import truesculpt.managers.SensorsManager;
 import truesculpt.managers.ToolsManager;
@@ -34,6 +35,7 @@ public class Managers
 	private TouchManager mTouchManager = null;
 	private UpdateManager mUpdateManager = null;
 	private UsageStatisticsManager mUsageStatisticsManager = null;
+	private SleepPowerManager mPowerManager = null;
 
 	private WebManager mWebManager = null;
 
@@ -161,6 +163,12 @@ public class Managers
 	{
 		return mWebManager;
 	}
+	
+	public SleepPowerManager getPowerManager()
+	{
+		return mPowerManager;
+	}	
+	
 
 	public void Init(Context baseContext)
 	{
@@ -179,6 +187,7 @@ public class Managers
 		mWebManager = new WebManager(baseContext);
 		mUsageStatisticsManager = new UsageStatisticsManager(baseContext);
 		mFileManager = new FileManager(baseContext);
+		mPowerManager =  new SleepPowerManager(baseContext);
 
 		mManagersList.add(mActionsManager);
 		mManagersList.add(mFileManager);
@@ -193,6 +202,7 @@ public class Managers
 		mManagersList.add(mUpdateManager);
 		mManagersList.add(mUsageStatisticsManager);
 		mManagersList.add(mWebManager);
+		mManagersList.add(mPowerManager);
 
 	}
 
