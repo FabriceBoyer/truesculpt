@@ -134,7 +134,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 			@Override
 			public void onClick(View v)
 			{
-				getManagers().getPointOfViewManager().ResetPOV();
+				getManagers().getPointOfViewManager().resetPOV();
 				finish();
 			}
 		});
