@@ -1,4 +1,4 @@
-package truesculpt.utils;
+package truesculpt.utils.various;
 
 import java.util.HashMap;
 import java.util.Random;

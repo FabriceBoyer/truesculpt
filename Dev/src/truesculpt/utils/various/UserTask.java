@@ -1,4 +1,4 @@
-package truesculpt.utils;
+package truesculpt.utils.various;
 
 /*
  * Copyright (C) 2008 The Android Open Source Project, Romain Guy

@@ -1,4 +1,4 @@
-package truesculpt.utils;
+package truesculpt.utils.various;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
