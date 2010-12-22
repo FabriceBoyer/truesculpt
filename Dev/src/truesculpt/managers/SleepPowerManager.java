@@ -16,19 +16,23 @@ public class SleepPowerManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		updateSleepMode();		
+		restart();		
 	}
 
 	@Override
 	public void onDestroy()
 	{
-		StopSleepMode();		
+		stop();		
 	}
 	
-	public void updateSleepMode()
+	public void restart()
 	{
-		StopSleepMode();
-		
+		stop();		
+		start();
+	}
+
+	private void start()
+	{
 		//prevent sleep mode
 		if (getManagers().getOptionsManager().getPreventSleepMode())
 		{
@@ -38,7 +42,7 @@ public class SleepPowerManager extends BaseManager
 		}
 	}
 	
-	public void StopSleepMode()
+	public void stop()
 	{
 		if (wl!=null)
 		{

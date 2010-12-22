@@ -149,7 +149,7 @@ public class OptionsManager extends BaseManager
 		editor.putBoolean("PreventSleepMode", mPreventSleepMode);
 		editor.commit();
 		
-		getManagers().getSleepPowerManager().updateSleepMode();
+		getManagers().getSleepPowerManager().restart();
 	}	
 
 }
