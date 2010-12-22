@@ -54,7 +54,20 @@ public class OptionsPanel extends PreferenceActivity
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
 	{
-		// TODO Auto-generated method stub
+		//click value already set in manager		
+		if( preference.getKey().equalsIgnoreCase("PreventSleepMode"))
+		{		
+			getManagers().getSleepPowerManager().updateSleepMode();
+		}
+		if( preference.getKey().equalsIgnoreCase("UseSensorsToChangePOV"))
+		{		
+			getManagers().getSensorsManager().restart();
+		}
+		if( preference.getKey().equalsIgnoreCase("GatherUsageData"))
+		{		
+			getManagers().getUsageStatisticsManager().restart();
+		}
+		
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 

@@ -16,7 +16,7 @@ public class SleepPowerManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		UpdateSleepMode();		
+		updateSleepMode();		
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class SleepPowerManager extends BaseManager
 		StopSleepMode();		
 	}
 	
-	public void UpdateSleepMode()
+	public void updateSleepMode()
 	{
 		StopSleepMode();
 		
