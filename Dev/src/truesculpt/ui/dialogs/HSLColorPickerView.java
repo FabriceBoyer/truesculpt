@@ -7,7 +7,7 @@ import android.graphics.Shader.*;
 import android.util.*;
 import android.view.*;
 
-public class AmbilWarnaKotak extends View {
+public class HSLColorPickerView extends View {
 	
 	Paint paint;
 	Shader dalam;
@@ -18,15 +18,15 @@ public class AmbilWarnaKotak extends View {
 	float ukuranUiPx; // diset di constructor
 	float[] tmp00 = new float[3];
 
-	public AmbilWarnaKotak(Context context) {
+	public HSLColorPickerView(Context context) {
 		this(context, null);
 	}
 
-	public AmbilWarnaKotak(Context context, AttributeSet attrs) {
+	public HSLColorPickerView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public AmbilWarnaKotak(Context context, AttributeSet attrs, int defStyle) {
+	public HSLColorPickerView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		
 		satudp = context.getResources().getDimension(R.dimen.ambilwarna_satudp);
