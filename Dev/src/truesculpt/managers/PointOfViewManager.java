@@ -69,7 +69,7 @@ public class PointOfViewManager extends BaseManager
 	public void onCreate()
 	{
 
-		ResetPOV();
+		resetPOV();
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class PointOfViewManager extends BaseManager
 		mListeners.add(listener);
 	}
 
-	public void ResetPOV()
+	public void resetPOV()
 	{
 		mR = 3.0f;
 		mTheta = 0.0f;

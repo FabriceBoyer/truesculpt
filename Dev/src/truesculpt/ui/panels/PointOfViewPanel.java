@@ -152,7 +152,7 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 
 	private void ResetPOV()
 	{
-		getManagers().getPointOfViewManager().ResetPOV();
+		getManagers().getPointOfViewManager().resetPOV();
 	}
 
 	private void UpdateUI()

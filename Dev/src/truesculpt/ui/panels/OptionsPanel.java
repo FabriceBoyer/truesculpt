@@ -67,6 +67,10 @@ public class OptionsPanel extends PreferenceActivity
 		{		
 			getManagers().getUsageStatisticsManager().restart();
 		}
+		if( preference.getKey().equalsIgnoreCase("DisplayDebugInfos"))
+		{		
+			getManagers().getPointOfViewManager().resetPOV();
+		}		
 		
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
