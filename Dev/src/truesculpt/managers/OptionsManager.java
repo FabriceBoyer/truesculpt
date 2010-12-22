@@ -66,6 +66,11 @@ public class OptionsManager extends BaseManager
 		return settings.getBoolean("PreventSleepMode", true);
 	}
 
+	public boolean getFullScreenApplication()
+	{
+		return settings.getBoolean("FullScreenApplication", false);
+	}
+	
 	@Override
 	public void onCreate()
 	{
