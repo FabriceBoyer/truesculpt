@@ -42,7 +42,7 @@ public class SleepPowerManager extends BaseManager
 		}
 	}
 	
-	public void stop()
+	private void stop()
 	{
 		if (wl!=null)
 		{

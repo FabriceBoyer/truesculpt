@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="FullScreenApplication">Full screen application</string>
     <string name="PreventSleepMode">Prevent sleep mode</string>
     <string name="DisplayDebugInfos">Display debug infos</string>
     <string name="looking_for_updates_">Looking for updates...</string>
