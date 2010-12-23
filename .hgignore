@@ -6,4 +6,5 @@ Doc/*
 *.lnk
 Tasks/contexts/*
 Tasks/.*
+Tasks/backup/*
 Screenshots/misc/*
