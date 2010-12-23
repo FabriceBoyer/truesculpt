@@ -4,3 +4,6 @@ Dev/bin/*
 Dev/.settings
 Doc/*
 *.lnk
+Tasks/contexts/*
+Tasks/.*
+Screenshots/misc/*
