@@ -93,6 +93,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		getManagers().Init(getBaseContext());
 		getManagers().Create();
 
+		getManagers().getUsageStatisticsManager().TrackPageView("/RendererMainPanel");
+		
 		ShowSplashScreen();
 		CheckUpdate();
 		ShowTutorial();		
