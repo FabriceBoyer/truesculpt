@@ -47,7 +47,7 @@ public class DebugPanel extends Activity
 
 		// TODO update on timer
 		TextView lastFrameText = (TextView) findViewById(R.id.lastFrameDurationText);
-		long lLastRenderDuration = getManagers().getRendererManager().getmRenderer().getLastFrameDurationMs();
+		long lLastRenderDuration = getManagers().getRendererManager().getMainRenderer().getLastFrameDurationMs();
 		String msg = "Last frame duration = " + Long.toString(lLastRenderDuration) + " ms\n";
 		msg += "Equivalent FPS is " + Float.toString(1.0f / lLastRenderDuration * 1000.0f) + " image/s\n\n";
 		long lLastPickDuration = getManagers().getMeshManager().getLastPickDurationMs();
