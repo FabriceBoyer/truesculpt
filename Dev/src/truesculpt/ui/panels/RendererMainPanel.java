@@ -104,7 +104,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 		mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
 		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
-		mGLSurfaceView.setRenderer(getManagers().getRendererManager().getmRenderer());
+		mGLSurfaceView.setRenderer(getManagers().getRendererManager().getMainRenderer());
 		mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
 		UpdateGLView();

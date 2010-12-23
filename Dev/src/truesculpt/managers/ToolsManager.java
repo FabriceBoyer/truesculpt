@@ -180,7 +180,7 @@ public class ToolsManager extends BaseManager
 	
 	public void TakeGLScreenshot()
 	{
-		getManagers().getRendererManager().getmRenderer().TakeGLScreenshotOfNextFrame();
+		getManagers().getRendererManager().getMainRenderer().TakeGLScreenshotOfNextFrame();
 		NotifyListeners();
 	}
 
