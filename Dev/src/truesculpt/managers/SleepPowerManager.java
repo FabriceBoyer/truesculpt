@@ -31,7 +31,7 @@ public class SleepPowerManager extends BaseManager
 		start();
 	}
 
-	private void start()
+	public void start()
 	{
 		//prevent sleep mode
 		if (getManagers().getOptionsManager().getPreventSleepMode())
@@ -42,7 +42,7 @@ public class SleepPowerManager extends BaseManager
 		}
 	}
 	
-	private void stop()
+	public void stop()
 	{
 		if (wl!=null)
 		{

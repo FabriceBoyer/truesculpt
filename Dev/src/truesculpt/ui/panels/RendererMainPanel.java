@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ToggleButton;
 
@@ -77,6 +78,7 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 	
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -94,6 +96,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		ShowSplashScreen();
 		CheckUpdate();
 		ShowTutorial();		
+		
+		updateFullscreenWindowStatus();
 
 		setContentView(R.layout.main);
 
@@ -149,6 +153,15 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		});
 
 		UpdateButtonsView();
+	}
+
+	public void updateFullscreenWindowStatus()
+	{
+		if (getManagers().getOptionsManager().getFullScreenApplication())
+		{
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN );
+		}
 	}
 
 	
@@ -274,6 +287,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	{
 		super.onPause();
 
+		getManagers().getSleepPowerManager().stop();
+		
 		// not needed for glsurfaceView since render is on request
 		// TODO pause sensors
 		// if (mGLSurfaceView != null)
@@ -291,6 +306,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	{
 		super.onResume();
 
+		getManagers().getSleepPowerManager().restart();
+		
 		if (mGLSurfaceView != null)
 		{
 			mGLSurfaceView.onResume();
@@ -302,7 +319,8 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	protected void onStop()
 	{
 		super.onStop();
-
+		
+		getManagers().getSleepPowerManager().stop();
 	}
 
 	@Override
