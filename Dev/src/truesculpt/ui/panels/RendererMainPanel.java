@@ -246,21 +246,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
 			return true;
 		}		
-		case R.id.show_debug_panel:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class, false);
-			return true;
-		}
-		case R.id.show_check_version_panel:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
-			return true;
-		}
-		case R.id.show_tutorial_wizard_panel:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
-			return true;
-		}
 		case R.id.show_about_panel:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.AboutPanel.class, false);
