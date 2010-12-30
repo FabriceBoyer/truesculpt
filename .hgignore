@@ -2,7 +2,7 @@ syntax: glob
 Dev/gen/*
 Dev/bin/*
 Dev/.settings
-Doc/*
+Help/*
 *.lnk
 Tasks/contexts/*
 Tasks/.*
