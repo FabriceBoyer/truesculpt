@@ -1,2 +1,2 @@
-contact: fabrice.boyer@gmail.com
-site: https://code.google.com/p/truesculpt/
+Author: fabrice.boyer@gmail.com
+WebSite: https://code.google.com/p/truesculpt/
