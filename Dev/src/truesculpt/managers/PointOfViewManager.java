@@ -78,11 +78,6 @@ public class PointOfViewManager extends BaseManager
 
 	}
 
-	public void onSensorChanged()
-	{
-		NotifyListeners();
-	}
-
 	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
 	{
 		mListeners.add(listener);

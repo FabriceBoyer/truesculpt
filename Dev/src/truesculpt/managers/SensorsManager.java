@@ -43,8 +43,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 
 	private void NotifyListeners()
 	{
-		getManagers().getPointOfViewManager().onSensorChanged();
-
 		for (OnSensorChangeListener listener : mListeners)
 		{
 			listener.onSensorChanged();
