@@ -1,6 +1,7 @@
 License for this software is : Gnu Public Licence Version 3
 http://www.gnu.org/licenses/gpl.html
-contact : fabrice.boyer@gmail.com
+
+Author : fabrice.boyer@gmail.com
 
 
 Copyright (C) 2011  Fabrice Boyer
