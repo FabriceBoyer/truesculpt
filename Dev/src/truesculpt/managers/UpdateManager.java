@@ -43,8 +43,7 @@ public class UpdateManager extends BaseManager
 				PackageInfo info = pm.getPackageInfo(getbaseContext().getPackageName(), 0);
 				strCurrVersion = info.versionName;
 			} catch (NameNotFoundException e)
-			{
-				// TODO Auto-generated catch block
+			{				
 				e.printStackTrace();
 			}
 			mCurrentVersion = strCurrVersion;
@@ -93,12 +92,10 @@ public class UpdateManager extends BaseManager
 					strLatestVersion = elem;
 				}
 			} catch (MalformedURLException e)
-			{
-				// TODO Auto-generated catch block
+			{				
 				e.printStackTrace();
 			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
+			{				
 				e.printStackTrace();
 			}
 
@@ -133,6 +130,7 @@ public class UpdateManager extends BaseManager
 			}
 		} catch (Exception e)
 		{
+			e.printStackTrace();
 			res = EUpdateStatus.UNDEFINED;
 			return res;
 		}

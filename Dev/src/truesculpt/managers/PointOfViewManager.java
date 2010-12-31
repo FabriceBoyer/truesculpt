@@ -1,18 +1,10 @@
 package truesculpt.managers;
 
-import java.util.Vector;
 
 import android.content.Context;
 
-public class PointOfViewManager extends BaseManager
+public class PointOfViewManager extends BaseManager 
 {
-
-	public interface OnPointOfViewChangeListener
-	{
-		void onPointOfViewChange();
-	}
-
-	private Vector<OnPointOfViewChangeListener> mListeners = new Vector<OnPointOfViewChangeListener>();
 	private float mPhi = 0.0f;
 
 	// looked from point
@@ -59,10 +51,8 @@ public class PointOfViewManager extends BaseManager
 	{
 		getManagers().getRendererManager().onPointOfViewChange();
 
-		for (OnPointOfViewChangeListener listener : mListeners)
-		{
-			listener.onPointOfViewChange();
-		}
+		setChanged();	
+		notifyObservers(this);
 	}
 
 	@Override
@@ -76,11 +66,6 @@ public class PointOfViewManager extends BaseManager
 	public void onDestroy()
 	{
 
-	}
-
-	public void registerPointOfViewChangeListener(OnPointOfViewChangeListener listener)
-	{
-		mListeners.add(listener);
 	}
 
 	public void resetPOV()
@@ -165,11 +150,6 @@ public class PointOfViewManager extends BaseManager
 		{
 			mR = mRmin;
 		}
-	}
-
-	public void unRegisterPointOfViewChangeListener(OnPointOfViewChangeListener listener)
-	{
-		mListeners.remove(listener);
 	}
 
 	public void setRmax(float mRmax)

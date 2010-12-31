@@ -20,16 +20,11 @@ public class ToolsManager extends BaseManager
 		PAINT, POV, SCULPT
 	};
 
-	public interface OnToolChangeListener
-	{
-		void onToolChange();
-	}
-
+	
 	private int mColor = Color.rgb(150, 150, 150);
 	private boolean mForcedMode = false;
 	private EToolMode mLastMode = EToolMode.SCULPT;
-	private Vector<OnToolChangeListener> mListeners = new Vector<OnToolChangeListener>();
-
+	
 	private EToolMode mMode = EToolMode.POV;
 
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
@@ -82,10 +77,8 @@ public class ToolsManager extends BaseManager
 
 	private void NotifyListeners()
 	{
-		for (OnToolChangeListener listener : mListeners)
-		{
-			listener.onToolChange();
-		}
+		setChanged();
+		notifyObservers(this);		
 	}
 
 	@Override
@@ -102,11 +95,7 @@ public class ToolsManager extends BaseManager
 
 	}
 
-	public void registerToolChangeListener(OnToolChangeListener listener)
-	{
-		mListeners.add(listener);
-	}
-
+	
 	public void setColor(int color)
 	{
 		this.mColor = color;
@@ -171,11 +160,6 @@ public class ToolsManager extends BaseManager
 			mMode = mode;
 			NotifyListeners();
 		}
-	}
-
-	public void unRegisterToolChangeListener(OnToolChangeListener listener)
-	{
-		mListeners.remove(listener);
 	}
 	
 	public void TakeGLScreenshot()

@@ -1,12 +1,12 @@
 package truesculpt.ui.panels;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.MeshManager.OnMeshChangeListener;
-import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import truesculpt.managers.ToolsManager.EToolMode;
-import truesculpt.managers.ToolsManager.OnToolChangeListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,7 +25,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ToggleButton;
 
-public class RendererMainPanel extends Activity implements OnPointOfViewChangeListener, OnMeshChangeListener, OnToolChangeListener
+public class RendererMainPanel extends Activity implements Observer
 {
 	private static final String TAG = "TrueSculptMain";
 	private GLSurfaceView mGLSurfaceView = null;
@@ -110,9 +110,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 
 		UpdateGLView();
 
-		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(RendererMainPanel.this);
-		getManagers().getMeshManager().registerPointOfViewChangeListener(RendererMainPanel.this);
-		getManagers().getToolsManager().registerToolChangeListener(RendererMainPanel.this);
+		getManagers().getPointOfViewManager().addObserver(RendererMainPanel.this);
+		getManagers().getMeshManager().addObserver(RendererMainPanel.this);
+		getManagers().getToolsManager().addObserver(RendererMainPanel.this);
 
 		mViewToggle = (ToggleButton) findViewById(R.id.View);
 		mViewToggle.setOnClickListener(new View.OnClickListener()
@@ -193,9 +193,9 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	{
 		super.onDestroy();
 
-		getManagers().getPointOfViewManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
-		getManagers().getMeshManager().unRegisterPointOfViewChangeListener(RendererMainPanel.this);
-		getManagers().getToolsManager().unRegisterToolChangeListener(RendererMainPanel.this);
+		getManagers().getPointOfViewManager().deleteObserver(RendererMainPanel.this);
+		getManagers().getMeshManager().deleteObserver(RendererMainPanel.this);
+		getManagers().getToolsManager().deleteObserver(RendererMainPanel.this);
 
 		getManagers().Destroy();			
 	}
@@ -223,12 +223,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		{
 			return super.onKeyDown(keyCode, event);
 		}
-	}
-
-	@Override
-	public void onMeshChange()
-	{
-		UpdateGLView();
 	}
 
 	@Override
@@ -283,12 +277,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	}
 
 	@Override
-	public void onPointOfViewChange()
-	{
-		UpdateGLView();
-	}
-
-	@Override
 	protected void onResume()
 	{
 		super.onResume();
@@ -308,12 +296,6 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 		super.onStop();
 		
 		getManagers().getSleepPowerManager().stop();
-	}
-
-	@Override
-	public void onToolChange()
-	{
-		UpdateButtonsView();
 	}
 
 	/*
@@ -354,6 +336,13 @@ public class RendererMainPanel extends Activity implements OnPointOfViewChangeLi
 	private void UpdateGLView()
 	{
 		mGLSurfaceView.requestRender();
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		UpdateGLView();	
+		UpdateButtonsView();
 	}
 
 }

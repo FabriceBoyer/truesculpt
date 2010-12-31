@@ -14,18 +14,11 @@ import android.widget.Toast;
 
 public class SensorsManager extends BaseManager implements SensorEventListener
 {
-
-	public interface OnSensorChangeListener
-	{
-		void onSensorChanged();
-	}
-
 	boolean bOrigSet = false;
 	float[] diffAngles = new float[3];
 	float[] lastAngles = new float[3];
 
-	private Vector<OnSensorChangeListener> mListeners = new Vector<OnSensorChangeListener>();
-
+	
 	private SensorManager mSensorManager = null;
 
 	float[] origAngles = new float[3];
@@ -43,10 +36,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 
 	private void NotifyListeners()
 	{
-		for (OnSensorChangeListener listener : mListeners)
-		{
-			listener.onSensorChanged();
-		}
+		setChanged();
+		notifyObservers(this);
 	}
 
 	@Override
@@ -104,11 +95,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 		}
 	}
 
-	public void registerOnSensorChangeListener(OnSensorChangeListener listener)
-	{
-		mListeners.add(listener);
-	}
-
 	public void restart()
 	{
 		stop();
@@ -134,11 +120,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 		{
 			mSensorManager.unregisterListener(SensorsManager.this);
 		}
-	}
-
-	public void unRegisterOnSensorChangeListener(OnSensorChangeListener listener)
-	{
-		mListeners.remove(listener);
 	}
 
 }

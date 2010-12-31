@@ -1,9 +1,11 @@
 package truesculpt.ui.panels;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.ToolsManager.OnToolChangeListener;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
@@ -17,7 +19,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class ToolsPanel extends Activity implements OnColorChangedListener, OnToolChangeListener
+public class ToolsPanel extends Activity implements OnColorChangedListener, Observer
 {
 	private final int DIALOG_COLOR_PICKER_ID = 0;
 
@@ -52,7 +54,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		
 		setContentView(R.layout.tools);
 
-		getManagers().getToolsManager().registerToolChangeListener(this);
+		getManagers().getToolsManager().addObserver(this);
 
 		mRadiusSeekBar = (SeekBar) findViewById(R.id.RadiusBar);
 		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
@@ -143,7 +145,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 	{
 		super.onDestroy();
 
-		getManagers().getToolsManager().unRegisterToolChangeListener(this);
+		getManagers().getToolsManager().deleteObserver(this);
 	}
 
 	@Override
@@ -152,12 +154,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		super.onPause();
 	}
 
-	@Override
-	public void onToolChange()
-	{
-		UpdateView();
-	}
-
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
@@ -196,6 +193,12 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, OnTo
 		});
 
 		dialog.show();	
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		UpdateView();		
 	}
 
 	
