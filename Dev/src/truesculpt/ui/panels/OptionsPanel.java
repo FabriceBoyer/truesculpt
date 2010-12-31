@@ -17,11 +17,7 @@ public class OptionsPanel extends PreferenceActivity
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
-	 */
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -33,11 +29,7 @@ public class OptionsPanel extends PreferenceActivity
 		addPreferencesFromResource(R.xml.options);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.preference.PreferenceActivity#onDestroy()
-	 */
+
 	@Override
 	protected void onDestroy()
 	{

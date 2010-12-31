@@ -19,18 +19,13 @@ import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
 import android.content.Context;
 import android.opengl.Matrix;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager
 {
-
-	public interface OnMeshChangeListener
-	{
-		void onMeshChange();
-	}
-
 	// ray vectors
 	static float[] dir = new float[3];
 	static float[] n = new float[3];
@@ -141,32 +136,35 @@ public class MeshManager extends BaseManager
 	{
 		@Override
 		public void run()
-		{
-			try
-			{
-				mObject = new GeneratedObject(getManagers().getToolsManager().getColor(), 4);
+		{		
+			mObject = new GeneratedObject(getManagers().getToolsManager().getColor(), 5);
 
-				mIndexBuffer = mObject.getIndexBuffer();
-				mColorBuffer = mObject.getColorBuffer();
-				mNormalBuffer = mObject.getNormalBuffer();
-				mVertexBuffer = mObject.getVertexBuffer();
+			mIndexBuffer = mObject.getIndexBuffer();
+			mColorBuffer = mObject.getColorBuffer();
+			mNormalBuffer = mObject.getNormalBuffer();
+			mVertexBuffer = mObject.getVertexBuffer();
 
-				BuildRelationMapFromMesh();
-				BuildFaceMapFromMesh();
-				ComputeBoundingSphereRadius();
-
-			} catch (Exception e)
-			{
-				assert false;
-			}
+			BuildRelationMapFromMesh();
+			BuildFaceMapFromMesh();			
+			
 			bInitOver = true;
 
-			NotifyListeners();
+			mHandler.post(mNotifyTask); // to come back in UI thread			
 		}
 	};
 
-	long mLastPickDurationMs = -1;
-	private Vector<OnMeshChangeListener> mListeners = new Vector<OnMeshChangeListener>();
+	private Handler mHandler = new Handler();
+	Runnable mNotifyTask = new Runnable()
+	{
+		@Override
+		public void run()
+		{
+			ComputeBoundingSphereRadius();
+			NotifyListeners();
+		}
+	};
+	
+	long mLastPickDurationMs = -1;	
 	private float[] mModelView = new float[16];
 	private HashMap<Integer, NodeRelationList> mNodeRelationMap = new HashMap<Integer, NodeRelationList>();
 	FloatBuffer mNormalBuffer = null;
@@ -346,18 +344,14 @@ public class MeshManager extends BaseManager
 		{
 			if (mObject != null && bInitOver)
 			{
-				mObject.draw(gl);
-			}
+				mObject.draw(gl);		
 
-			if (getManagers().getOptionsManager().getDisplayDebugInfos())
-			{
-				if (mObject != null)
-				{
+				if (getManagers().getOptionsManager().getDisplayDebugInfos())
+				{				
 					mObject.drawNormals(gl);
+					mRay.draw(gl);
+					mPickHighlight.draw(gl);
 				}
-
-				mRay.draw(gl);
-				mPickHighlight.draw(gl);
 			}
 		}
 	}
@@ -507,10 +501,8 @@ public class MeshManager extends BaseManager
 
 	private void NotifyListeners()
 	{
-		for (OnMeshChangeListener listener : mListeners)
-		{
-			listener.onMeshChange();
-		}
+		setChanged();
+		notifyObservers(this);
 	}
 
 	@Override
@@ -550,52 +542,48 @@ public class MeshManager extends BaseManager
 
 			if (bInitOver)
 			{
-				try
+				
+				nIndex = GetPickedTriangleIndex();
+				if (nIndex >= 0)
 				{
-					nIndex = GetPickedTriangleIndex();
-					if (nIndex >= 0)
-					{
-						mPickHighlight.setPickHighlightPosition(intersectPt);
+					mPickHighlight.setPickHighlightPosition(intersectPt);
 
-						// TODO place in actionManager
-						switch (getManagers().getToolsManager().getToolMode())
+					// TODO place in actionManager
+					switch (getManagers().getToolsManager().getToolMode())
+					{
+						case SCULPT:
 						{
-							case SCULPT:
+							switch (getManagers().getToolsManager().getSculptSubMode())
 							{
-								switch (getManagers().getToolsManager().getSculptSubMode())
-								{
-								case RISE:
-									RiseSculptAction(nIndex);
-									break;
-								case MORPH:
-									InitMorphAction(nIndex);
-									break;
-								}
+							case RISE:
+								RiseSculptAction(nIndex);
+								break;
+							case MORPH:
+								InitMorphAction(nIndex);
 								break;
 							}
-							case PAINT:
-							{
-								ColorizePaintAction(nIndex);
-								break;
-							}
+							break;
 						}
+						case PAINT:
+						{
+							ColorizePaintAction(nIndex);
+							break;
+						}
+					}
 
-						// msg = "Picked Triangle Index =" +
-						// Integer.toString(nIndex) + "\n";
-						// msg += "intersectPt : x=" +
-						// Float.toString(intersectPt[0]) + "; y=" +
-						// Float.toString(intersectPt[1]) + "; z=" +
-						// Float.toString(intersectPt[2]) + "\n";
-						// Log.i("Picking", msg);
-					}
-					else
-					{
-						mPickHighlight.setPickHighlightPosition(zero);
-					}
-				} catch (Exception e)
-				{
-					assert false;
+					// msg = "Picked Triangle Index =" +
+					// Integer.toString(nIndex) + "\n";
+					// msg += "intersectPt : x=" +
+					// Float.toString(intersectPt[0]) + "; y=" +
+					// Float.toString(intersectPt[1]) + "; z=" +
+					// Float.toString(intersectPt[2]) + "\n";
+					// Log.i("Picking", msg);
 				}
+				else
+				{
+					mPickHighlight.setPickHighlightPosition(zero);
+				}
+				
 			}
 
 			NotifyListeners();
@@ -614,11 +602,6 @@ public class MeshManager extends BaseManager
 		
 	}	
 	
-	public void registerPointOfViewChangeListener(OnMeshChangeListener listener)
-	{
-		mListeners.add(listener);
-	}
-
 	//handles bytearray and map cache
 	private void UpdateVertexBufferValue(int nVertexIndex, float[] Value)
 	{		
@@ -707,11 +690,6 @@ public class MeshManager extends BaseManager
 			mVertexBuffer.position(0);
 			mNormalBuffer.position(0);
 		}
-	}
-
-	public void unRegisterPointOfViewChangeListener(OnMeshChangeListener listener)
-	{
-		mListeners.remove(listener);
 	}
 
 	private void UpdateVertexNormal(int nVertexIndex)

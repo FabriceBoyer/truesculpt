@@ -30,32 +30,13 @@ public class Utils
 	{
 		if (callingContext != null)
 		{
-			boolean bSuccess = true;
-			String msg = "";
-
-			// Intent startIntent = new Intent(callingACtivity,
-			// ChildActivity.class);
-			// getLocalActivityManager().startActivity("and.mypackage.ChildActivity",
-			// startIntent);
-
 			Intent myIntent = new Intent(callingContext, cls);
 			if (bNewTask)
 			{
 				myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			}
-			try
-			{
-				callingContext.startActivity(myIntent);
-			} catch (Exception e)
-			{
-				msg = e.getMessage();
-				bSuccess = false;
-			}
-
-			if (!bSuccess)
-			{
-				Toast.makeText(callingContext, msg, Toast.LENGTH_LONG);
-			}
+			
+			callingContext.startActivity(myIntent);			
 		}
 	}
 

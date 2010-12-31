@@ -1,9 +1,11 @@
 package truesculpt.ui.panels;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.PointOfViewManager.OnPointOfViewChangeListener;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -14,7 +16,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 //TODO transparent to view result immediately on lower activity
-public class PointOfViewPanel extends Activity implements OnPointOfViewChangeListener
+public class PointOfViewPanel extends Activity implements Observer
 {
 
 	private SeekBar mDistanceSeekBar;
@@ -115,14 +117,14 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 
 		UpdateUI();
 
-		getManagers().getPointOfViewManager().registerPointOfViewChangeListener(PointOfViewPanel.this);
+		getManagers().getPointOfViewManager().addObserver(PointOfViewPanel.this);
 	}
 
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		getManagers().getPointOfViewManager().unRegisterPointOfViewChangeListener(PointOfViewPanel.this);
+		getManagers().getPointOfViewManager().deleteObserver(PointOfViewPanel.this);
 	}
 
 	@Override
@@ -131,11 +133,6 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		super.onPause();
 	}
 
-	@Override
-	public void onPointOfViewChange()
-	{
-		UpdateUI();
-	}
 
 	@Override
 	protected void onResume()
@@ -170,5 +167,11 @@ public class PointOfViewPanel extends Activity implements OnPointOfViewChangeLis
 		float distance = getManagers().getPointOfViewManager().getZoomDistance();
 		mDistanceSeekBar.setProgress((int) distance);
 		mDistanceText.setText("Distance=" + Integer.toString((int) distance) + " m");
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		UpdateUI();		
 	}
 }
