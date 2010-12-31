@@ -183,11 +183,7 @@ public class RendererMainPanel extends Activity implements Observer
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onDestroy()
-	 */
+	
 	@Override
 	protected void onDestroy()
 	{
@@ -298,11 +294,6 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getSleepPowerManager().stop();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onTouchEvent(android.view.MotionEvent)
-	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{

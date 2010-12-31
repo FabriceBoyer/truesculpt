@@ -126,12 +126,7 @@ public class TutorialWizardPanel extends Activity
 
 		RefreshView();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateDialog(int)
-	 */
+	
 	@Override
 	protected Dialog onCreateDialog(int id)
 	{
