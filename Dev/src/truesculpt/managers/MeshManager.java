@@ -137,7 +137,7 @@ public class MeshManager extends BaseManager
 		@Override
 		public void run()
 		{		
-			mObject = new GeneratedObject(getManagers().getToolsManager().getColor(), 5);
+			mObject = new GeneratedObject(getManagers().getToolsManager().getColor(), 4);
 
 			mIndexBuffer = mObject.getIndexBuffer();
 			mColorBuffer = mObject.getColorBuffer();
@@ -206,10 +206,6 @@ public class MeshManager extends BaseManager
 
 	private void BuildFaceMapFromMesh()
 	{
-		float[] V0 = new float[3];
-		float[] V1 = new float[3];
-		float[] V2 = new float[3];
-
 		int nIndexCount = mIndexBuffer.capacity();
 
 		for (int i = 0; i < nIndexCount; i = i + 3)
