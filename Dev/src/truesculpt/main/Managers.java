@@ -16,6 +16,7 @@ import truesculpt.managers.ToolsManager;
 import truesculpt.managers.TouchManager;
 import truesculpt.managers.UpdateManager;
 import truesculpt.managers.UsageStatisticsManager;
+import truesculpt.managers.UtilsManager;
 import truesculpt.managers.WebManager;
 import android.content.Context;
 
@@ -36,6 +37,7 @@ public class Managers
 	private UpdateManager mUpdateManager = null;
 	private UsageStatisticsManager mUsageStatisticsManager = null;
 	private SleepPowerManager mPowerManager = null;
+	private UtilsManager mUtilsManager = null;
 
 	private WebManager mWebManager = null;
 
@@ -169,6 +171,12 @@ public class Managers
 		return mPowerManager;
 	}	
 	
+	public UtilsManager getUtilsManager()
+	{
+		return mUtilsManager;
+	}
+	
+	
 
 	public void Init(Context baseContext)
 	{
@@ -188,6 +196,7 @@ public class Managers
 		mUsageStatisticsManager = new UsageStatisticsManager(baseContext);
 		mFileManager = new FileManager(baseContext);
 		mPowerManager =  new SleepPowerManager(baseContext);
+		mUtilsManager = new UtilsManager(baseContext);
 
 		mManagersList.add(mActionsManager);
 		mManagersList.add(mFileManager);
@@ -203,7 +212,7 @@ public class Managers
 		mManagersList.add(mUsageStatisticsManager);
 		mManagersList.add(mWebManager);
 		mManagersList.add(mPowerManager);
-
+		mManagersList.add(mUtilsManager);
+	
 	}
-
 }

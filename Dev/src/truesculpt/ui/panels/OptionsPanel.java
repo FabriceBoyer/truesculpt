@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.widget.Toast;
 
 public class OptionsPanel extends PreferenceActivity
 {
@@ -67,7 +66,7 @@ public class OptionsPanel extends PreferenceActivity
 		if( preference.getKey().equalsIgnoreCase("FullScreenApplication"))
 		{		
 			String msg = "You need to restart the application for this option to be taken into account";
-			Toast.makeText(this, msg, Toast.LENGTH_LONG);
+			getManagers().getUtilsManager().ShowToastMessage(msg);			
 		}	
 		
 		return super.onPreferenceTreeClick(preferenceScreen, preference);

@@ -33,7 +33,7 @@ public class MemoryManager extends BaseManager
 		msg += " memoryInfo.lowMemory " + memoryInfo.lowMemory + "\n";
 		msg += " memoryInfo.threshold " + memoryInfo.threshold + "\n";
 
-		// Toast.makeText(TrueSculpt.this, msg, Toast.LENGTH_LONG).show();
+		getManagers().getUtilsManager().ShowToastMessage(msg);
 	}
 
 	private void getMemoryInfoForAllProcesses()
