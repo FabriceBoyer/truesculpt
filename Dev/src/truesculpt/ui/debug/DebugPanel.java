@@ -35,15 +35,6 @@ public class DebugPanel extends Activity
 			}
 		});
 
-		final Button button2 = (Button) findViewById(R.id.show_test);
-		button2.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				Utils.StartMyActivity(DebugPanel.this, truesculpt.ui.debug.DebugTestPanel.class, false);
-			}
-		});
 
 		// TODO update on timer
 		TextView lastFrameText = (TextView) findViewById(R.id.lastFrameDurationText);
