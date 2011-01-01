@@ -44,7 +44,6 @@ public class UtilsManager extends BaseManager
 
 	}
 	
-	//TODO : use SendMessage and handleMessage in mainActivity
 	private Handler mHandler = new Handler();
 	Runnable mShowMessageTask = new Runnable()
 	{		
@@ -55,9 +54,9 @@ public class UtilsManager extends BaseManager
 			toast.show();
 		}
 	};
-	
-	
+		
 	private String mShowMsg=""; 
+	
 	//to come back in UI thread from a manager
 	public void ShowToastMessage(String msg)
 	{
