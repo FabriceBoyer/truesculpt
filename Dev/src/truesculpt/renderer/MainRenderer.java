@@ -72,6 +72,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	{
 		return mLastFrameDurationMs;
 	}
+	public Managers getManagers()
+	{
+		return mManagers;
+	}
 
 	private boolean mbTakeScreenshot=false;
 	
@@ -101,21 +105,21 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
 		// only if point of view changed
-		mManagers.getMeshManager().setCurrentModelView(gl);
+		getManagers().getMeshManager().setCurrentModelView(gl);
 
-		if (mManagers.getOptionsManager().getDisplayDebugInfos())//TODO use cache
+		if (getManagers().getOptionsManager().getDisplayDebugInfos())//TODO use cache
 		{
 			mAxis.draw(gl);
 		}
 
 		// main draw call
-		mManagers.getMeshManager().draw(gl);
+		getManagers().getMeshManager().draw(gl);
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
 		if (mbTakeScreenshot)
 		{
-			mManagers.getUtilsManager().TakeGLScreenshot(gl);
+			getManagers().getUtilsManager().TakeGLScreenshot(gl);
 			mbTakeScreenshot=false;
 		}
 		
@@ -144,8 +148,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glLoadIdentity();
 		gl.glFrustumf(-ratio, ratio, -1, 1, 1.0f, 10);
 
-		mManagers.getMeshManager().setCurrentProjection(gl);
-		mManagers.getMeshManager().setViewport(gl);
+		getManagers().getMeshManager().setCurrentProjection(gl);
+		getManagers().getMeshManager().setViewport(gl);
 	}
 
 	@Override
