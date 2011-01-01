@@ -37,7 +37,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	{
 		getManagers().getToolsManager().setColor(color);
 		// String msg = "color is " + Integer.toString(color);
-		// Toast.makeText(ToolsPanel.this, msg, Toast.LENGTH_SHORT).show();
+		// getManagers().getUtilsManager().ShowToastMessage(msg);
 	}
 
 	public Managers getManagers()

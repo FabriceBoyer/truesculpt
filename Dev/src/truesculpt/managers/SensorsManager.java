@@ -1,7 +1,6 @@
 package truesculpt.managers;
 
 import java.util.List;
-import java.util.Vector;
 
 import truesculpt.utils.MatrixUtils;
 import android.content.Context;
@@ -10,7 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
-import android.widget.Toast;
+
 
 public class SensorsManager extends BaseManager implements SensorEventListener
 {
@@ -45,9 +44,8 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 	{
 		if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 		{
-			// TODO queue event to come back in UI thread
 			String msg = "Disabling sensors due to low accuracy";
-			//Toast.makeText(getbaseContext(), msg, Toast.LENGTH_LONG);
+			getManagers().getUtilsManager().ShowToastMessage(msg);
 			Log.i("SensorManager", msg);
 		}
 	}
