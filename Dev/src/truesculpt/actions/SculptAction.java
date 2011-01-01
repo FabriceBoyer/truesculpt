@@ -3,6 +3,12 @@ package truesculpt.actions;
 public class SculptAction extends BaseAction
 {
 
+	public SculptAction(String strDescription)
+	{
+		super(strDescription);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public boolean DoAction()
 	{
