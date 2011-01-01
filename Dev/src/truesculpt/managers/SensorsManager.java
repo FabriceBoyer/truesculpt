@@ -2,6 +2,7 @@ package truesculpt.managers;
 
 import java.util.List;
 
+import truesculpt.main.R;
 import truesculpt.utils.MatrixUtils;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -44,7 +45,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 	{
 		if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 		{
-			String msg = "Disabling sensors due to low accuracy";
+			String msg = getbaseContext().getString(R.string.sensors_have_a_low_accuracy);
 			getManagers().getUtilsManager().ShowToastMessage(msg);
 			Log.i("SensorManager", msg);
 		}

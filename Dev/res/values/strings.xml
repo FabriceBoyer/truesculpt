@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="sensors_have_a_low_accuracy">Sensors have a low accuracy</string>
+    <string name="snapshot_has_been_saved_to_">Snapshot has been saved to </string>
+    <string name="you_need_to_restart_the_application_for_this_option_to_be_taken_into_account">You need to restart the application for this option to be taken into account</string>
     <string name="FullScreenApplication">Full screen application</string>
     <string name="PreventSleepMode">Prevent sleep mode</string>
     <string name="DisplayDebugInfos">Display debug infos</string>

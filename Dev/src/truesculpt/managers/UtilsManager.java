@@ -19,7 +19,6 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
 import android.widget.Toast;
 
 public class UtilsManager extends BaseManager
@@ -110,7 +109,7 @@ public class UtilsManager extends BaseManager
 			return;
 		}
 		
-		String msg="Snapshot has been saved to "+strSnapshotFileName;
+		String msg=getbaseContext().getString(R.string.snapshot_has_been_saved_to_)+strSnapshotFileName;
 		ShowToastMessage(msg);
 		
 		//photo sound
