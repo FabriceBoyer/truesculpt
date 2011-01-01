@@ -65,7 +65,7 @@ public class OptionsPanel extends PreferenceActivity
 		}	
 		if( preference.getKey().equalsIgnoreCase("FullScreenApplication"))
 		{		
-			String msg = "You need to restart the application for this option to be taken into account";
+			String msg = getString(R.string.you_need_to_restart_the_application_for_this_option_to_be_taken_into_account);
 			getManagers().getUtilsManager().ShowToastMessage(msg);			
 		}	
 		
