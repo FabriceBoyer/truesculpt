@@ -2,11 +2,15 @@ package truesculpt.ui.dialogs;
 
 import truesculpt.main.R;
 import android.app.AlertDialog;
-import android.content.*;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AbsoluteLayout;
+import android.widget.ImageView;
 
 public class HSLColorPickerDialog {
 	private static final String TAG = HSLColorPickerDialog.class.getSimpleName();

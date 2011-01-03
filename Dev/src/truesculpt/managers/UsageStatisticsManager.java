@@ -1,8 +1,8 @@
 package truesculpt.managers;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-
 import android.content.Context;
+
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class UsageStatisticsManager extends BaseManager
 {

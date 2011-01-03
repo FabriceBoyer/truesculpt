@@ -4,7 +4,6 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
