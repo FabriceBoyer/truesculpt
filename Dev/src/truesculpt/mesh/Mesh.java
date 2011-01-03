@@ -33,7 +33,17 @@ public class Mesh
 	  return null;
 	}
 	
-	void ExportToOBJ()
+	 void ComputeNormalOfTriangle()
+	{
+		 
+	}
+	 
+	 void ComputeBoundingSphereRadius()
+	{
+	 
+	}
+	
+	void ExportToOBJ(String strFileName)
 	{
 		
 	}
