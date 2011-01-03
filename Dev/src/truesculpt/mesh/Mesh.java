@@ -2,7 +2,18 @@ package truesculpt.mesh;
 
 public class Mesh
 {
-	void Init()
+	void InitAsSphere(int nSubdivionLevel)
+	{
+		
+	}
+	
+	void EmptyAll()
+	{
+		
+	}
+	
+	//makes a sphere
+	void  NormalizeAllVertices()
 	{
 		
 	}
@@ -12,7 +23,7 @@ public class Mesh
 		
 	}
 	
-	void SubdivideAll()
+	void SubdivideAllFaces()
 	{
 		
 	}
@@ -20,5 +31,15 @@ public class Mesh
 	Face Pick(float[] rayPt1,float[] rayPt2 )
 	{		
 	  return null;
+	}
+	
+	void ExportToOBJ()
+	{
+		
+	}
+	
+	void ImportFromOBJ(String strFileName)
+	{
+		
 	}
 }
