@@ -1,7 +1,5 @@
 package truesculpt.managers;
 
-import java.util.Vector;
-
 import android.content.Context;
 import android.graphics.Color;
 
