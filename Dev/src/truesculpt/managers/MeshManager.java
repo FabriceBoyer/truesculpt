@@ -178,7 +178,7 @@ public class MeshManager extends BaseManager
 	float[] rayPt2 = new float[3];
 	
 	//Main Mesh test
-	Mesh mesh= new Mesh();
+	Mesh mMesh= null;
 
 	public MeshManager(Context baseContext)
 	{
@@ -344,7 +344,11 @@ public class MeshManager extends BaseManager
 			if (mObject != null && bInitOver)
 			{
 				//mObject.draw(gl);
-				mesh.draw(gl);
+				
+				if (mMesh!=null)
+				{
+					mMesh.draw(gl);
+				}
 
 				if (getManagers().getOptionsManager().getDisplayDebugInfos())
 				{				
@@ -510,8 +514,10 @@ public class MeshManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		Thread thr = new Thread(null, mInitTask, "Mesh_Init");
-		thr.start();
+		//Thread thr = new Thread(null, mInitTask, "Mesh_Init");
+		//thr.start();
+		
+		 mMesh= new Mesh(getManagers());
 	}
 
 	@Override

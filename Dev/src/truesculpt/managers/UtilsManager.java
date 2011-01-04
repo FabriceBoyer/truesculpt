@@ -146,4 +146,20 @@ public class UtilsManager extends BaseManager
 		strFileName=strFileName.replaceAll(" ", "_");
 		return strFileName;
 	}
+	
+	public String CreateObjExportFileName()
+	{
+		//TODO add sculpture name in filename
+		Date date= new Date();
+		String strBasePath=Environment.getExternalStorageDirectory()+"/Truesculpt/ObjExport/";
+		
+		// have the object build the directory structure, if needed.
+		File basePath = new File(strBasePath);
+		basePath.mkdirs();				
+
+		String strFileName=strBasePath+"Export_"+date.toGMTString()+".obj";
+		strFileName=strFileName.replaceAll(":", "_");
+		strFileName=strFileName.replaceAll(" ", "_");
+		return strFileName;
+	}
 }
