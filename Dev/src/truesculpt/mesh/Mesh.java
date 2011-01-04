@@ -1,6 +1,8 @@
 package truesculpt.mesh;
 
 import java.util.Vector;
+
+import truesculpt.utils.MatrixUtils;
 import static junit.framework.Assert.*;
 
 public class Mesh
@@ -197,10 +199,19 @@ public class Mesh
 	{
 		boolean bRes=false;
 		
-		if (
-				//(((e0.F0==e1.F0)&&(e0.F1==e1.F1)) || ((e0.F1==e1.F0)&&(e0.F0==e1.F1))) &&
-				(((e0.V0==e1.V0)&&(e0.V1==e1.V1)) || ((e0.V1==e1.V0)&&(e0.V0==e1.V1)))
-			)
+		if 	(((e0.V0==e1.V0)&&(e0.V1==e1.V1)) || ((e0.V1==e1.V0)&&(e0.V0==e1.V1)))
+		{ 
+			bRes=true;
+		}		
+		
+		return bRes;		
+	}
+	
+	private boolean AreEdgeFaceEqual(Edge e0,Edge e1)
+	{
+		boolean bRes=false;
+		
+		if (((e0.F0==e1.F0)&&(e0.F1==e1.F1)) || ((e0.F1==e1.F0)&&(e0.F0==e1.F1)))
 		{ 
 			bRes=true;
 		}		
@@ -216,7 +227,11 @@ public class Mesh
 	// makes a sphere
 	void NormalizeAllVertices()
 	{
-
+		for (Vertex vertex : mVertexList)
+		{
+			MatrixUtils.normalize(vertex.Coord);
+			MatrixUtils.copy(vertex.Coord, vertex.Normal);//Normal is coord because sphere is radius 1			
+		}
 	}
 
 	void SubdivideFace()
