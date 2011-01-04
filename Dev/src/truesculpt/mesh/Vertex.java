@@ -15,5 +15,5 @@ public class Vertex
 	public float[] Coord = null;
 	public float[] Normal = null;
 	
-	public Vector<Edge> mEdgeList= new Vector<Edge>();
+	public Vector<Edge> mCloseEdgeList= new Vector<Edge>();
 }

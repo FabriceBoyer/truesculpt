@@ -1,6 +1,7 @@
 package truesculpt.mesh;
 
 import java.util.Vector;
+import static junit.framework.Assert.*;
 
 public class Mesh
 {
@@ -8,6 +9,11 @@ public class Mesh
 	public Vector<Face> mFaceList = new Vector<Face>();
 	public Vector<Vertex> mVertexList = new Vector<Vertex>();
 
+	public Mesh()
+	{
+		InitAsIcosahedron();
+	}
+	
 	void InitAsSphere(int nSubdivionLevel)
 	{
 		Reset();
@@ -40,6 +46,19 @@ public class Mesh
 		Vertex v9 = new Vertex(0.0f, -tau, one);
 		Vertex v10 = new Vertex(0.0f, -tau, -one);
 		Vertex v11 = new Vertex(0.0f, tau, -one);
+				
+		mVertexList.add(v0);
+		mVertexList.add(v1);
+		mVertexList.add(v2);
+		mVertexList.add(v3);
+		mVertexList.add(v4);
+		mVertexList.add(v5);
+		mVertexList.add(v6);
+		mVertexList.add(v7);
+		mVertexList.add(v8);
+		mVertexList.add(v9);
+		mVertexList.add(v10);
+		mVertexList.add(v11);
 
 		// Counter clock wise (CCVW) face definition
 		// Integer icosahedron_faces[] =
@@ -63,10 +82,130 @@ public class Mesh
 		Face f17 = new Face(v6, v1, v11);
 		Face f18 = new Face(v7, v2, v9);
 		Face f19 = new Face(v6, v10, v2);
-
+		
+		mFaceList.add(f0);
+		mFaceList.add(f1);
+		mFaceList.add(f2);
+		mFaceList.add(f3);
+		mFaceList.add(f4);
+		mFaceList.add(f5);
+		mFaceList.add(f6);
+		mFaceList.add(f7);
+		mFaceList.add(f8);
+		mFaceList.add(f9);
+		mFaceList.add(f10);
+		mFaceList.add(f11);
+		mFaceList.add(f12);
+		mFaceList.add(f13);
+		mFaceList.add(f14);
+		mFaceList.add(f15);
+		mFaceList.add(f16);
+		mFaceList.add(f17);
+		mFaceList.add(f18);
+		mFaceList.add(f19);
+		
+		//Create vertex list
+		//regroup common vertices and delete useless ones
+		for (Face face : mFaceList)
+		{
+			{
+				Edge e=face.E0;
+				Edge res=RegroupEdge(e);
+				if (res!=e)//regrouped
+				{
+					face.E0=res;
+					face.E0.F1=face;//F0 only set at startup (can be twice the same or different if regrouped but don't care)				
+				}
+				else
+				{
+					mEdgeList.add(e);
+				}	
+			}
+			
+			{
+				Edge e=face.E1;
+				Edge res=RegroupEdge(e);
+				if (res!=e)//regrouped
+				{
+					face.E1=res;
+					face.E1.F1=face;//F0 only set at startup (can be twice the same or different if regrouped but don't care)				
+				}
+				else
+				{
+					mEdgeList.add(e);
+				}	
+			}
+			
+			{
+				Edge e=face.E2;
+				Edge res=RegroupEdge(e);
+				if (res!=e)//regrouped
+				{
+					face.E2=res;
+					face.E2.F1=face;//F0 only set at startup (can be twice the same or different if regrouped but don't care)				
+				}
+				else
+				{
+					mEdgeList.add(e);
+				}	
+			}
+		}
+				
+		//update edge list in each vertex
+		for (Edge edge : mEdgeList)
+		{
+			edge.V0.mCloseEdgeList.add(edge);
+			edge.V1.mCloseEdgeList.add(edge);
+		}
+		
+		//update close edge list in each edge;
+		for (Vertex vertex : mVertexList)
+		{
+			for (Edge edge : vertex.mCloseEdgeList)
+			{
+				//TODO filter common edges (use add function or dedicated data structure)
+				edge.mLinkedEdgeList.addAll(edge.V0.mCloseEdgeList);
+				edge.mLinkedEdgeList.addAll(edge.V1.mCloseEdgeList);
+			}
+		}
+		
+		
+		assertEquals(mEdgeList.size(),30);
+		
 		// n_vertices = 12;
 		// n_faces = 20;
 		// n_edges = 30;
+	}
+	
+	//TODO update function updating all lists
+	
+	//return an equivalent edge from the list (with equal vertex not faces)
+	private Edge RegroupEdge(Edge e)
+	{
+		Edge res=e;		
+		for (Edge edge : mEdgeList)
+		{
+			if (AreEdgeVertexEqual(e, edge))
+			{
+				res=edge;
+			}
+		}
+		return res;
+	}
+	
+	private boolean AreEdgeVertexEqual(Edge e0,Edge e1)
+	{
+		boolean bRes=false;
+		
+		if (
+				//(((e0.F0==e1.F0)&&(e0.F1==e1.F1)) || ((e0.F1==e1.F0)&&(e0.F0==e1.F1))) &&
+				(((e0.V0==e1.V0)&&(e0.V1==e1.V1)) || ((e0.V1==e1.V0)&&(e0.V0==e1.V1)))
+			)
+		{ 
+			bRes=true;
+		}		
+		
+		return bRes;		
 	}
 
 	void Reset()
@@ -112,6 +251,7 @@ public class Mesh
 
 	void ImportFromOBJ(String strFileName)
 	{
+		Reset();
 
 	}
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import truesculpt.mesh.Mesh;
 import truesculpt.renderer.Face;
 import truesculpt.renderer.GeneratedObject;
 import truesculpt.renderer.NodeRelation;
@@ -175,6 +176,9 @@ public class MeshManager extends BaseManager
 	private int[] mViewPort = new int[4];
 	float[] rayPt1 = new float[3];
 	float[] rayPt2 = new float[3];
+	
+	//Main Mesh test
+	Mesh mesh= new Mesh();
 
 	public MeshManager(Context baseContext)
 	{
