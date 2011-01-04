@@ -343,7 +343,8 @@ public class MeshManager extends BaseManager
 		{
 			if (mObject != null && bInitOver)
 			{
-				mObject.draw(gl);		
+				//mObject.draw(gl);
+				mesh.draw(gl);
 
 				if (getManagers().getOptionsManager().getDisplayDebugInfos())
 				{				
@@ -352,6 +353,8 @@ public class MeshManager extends BaseManager
 					mPickHighlight.draw(gl);
 				}
 			}
+			
+			
 		}
 	}
 

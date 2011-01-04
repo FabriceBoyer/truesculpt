@@ -2,18 +2,24 @@ package truesculpt.mesh;
 
 import java.util.Vector;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import truesculpt.utils.MatrixUtils;
 import static junit.framework.Assert.*;
 
 public class Mesh
 {
-	public Vector<Edge> mEdgeList = new Vector<Edge>();
-	public Vector<Face> mFaceList = new Vector<Face>();
-	public Vector<Vertex> mVertexList = new Vector<Vertex>();
+	Vector<Edge> mEdgeList = new Vector<Edge>();
+	Vector<Face> mFaceList = new Vector<Face>();
+	Vector<Vertex> mVertexList = new Vector<Vertex>();
+	
+	Vector<RenderFaceGroup> mRenderGroupList= new Vector<RenderFaceGroup>();
 
 	public Mesh()
 	{
 		InitAsIcosahedron();
+		
+		mRenderGroupList.add(new RenderFaceGroup(this));
 	}
 	
 	void InitAsSphere(int nSubdivionLevel)
@@ -24,8 +30,7 @@ public class Mesh
 		{
 			SubdivideAllFaces();
 		}
-		NormalizeAllVertices();
-		ComputeAllVertexNormals();
+		NormalizeAllVertices();		
 		ComputeBoundingSphereRadius();
 	}
 
@@ -253,6 +258,11 @@ public class Mesh
 	{
 
 	}
+	
+	void ComputeVertexNormal(Vertex vertex)
+	{
+
+	}
 
 	void ComputeBoundingSphereRadius()
 	{
@@ -268,5 +278,13 @@ public class Mesh
 	{
 		Reset();
 
+	}
+	
+	public void draw(GL10 gl)
+	{
+		for (RenderFaceGroup renderGroup : mRenderGroupList)
+		{
+			renderGroup.draw(gl);
+		}
 	}
 }
