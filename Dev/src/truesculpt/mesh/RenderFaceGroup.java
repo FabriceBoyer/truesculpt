@@ -57,9 +57,9 @@ public class RenderFaceGroup
 		mIndexBuffer = ibb.asShortBuffer();
 		for (Face face : mMesh.mFaceList)
 		{
-			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E0.V0));
-			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E0.V1));
-			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.FindThirdVertex(face.E0)));
+			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.getV0()));
+			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.getV1()));
+			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.getV2()));
 		}		
 		mIndexBuffer.position(0);
 

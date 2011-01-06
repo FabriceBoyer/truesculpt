@@ -199,6 +199,33 @@ public class Mesh
 			vertex.Color=color;
 		}
 		
+		//check triangle normals are outside and correct if necessary		
+		float[] u = new float[3];
+		float[] v = new float[3];
+		float[] n = new float[3];
+		float[] dir = new float[3];
+		
+		for (Face face : mFaceList)
+		{
+			Vertex V0 = face.getV0();
+			Vertex V1 = face.getV1();			
+			Vertex V2 = face.getV2();
+			
+			// get triangle edge vectors and plane normal
+			MatrixUtils.minus(V1.Coord, V0.Coord, u);
+			MatrixUtils.minus(V2.Coord, V0.Coord, v);
+	
+			MatrixUtils.cross(u, v, n); // cross product
+			
+			dir=V0.Coord;
+
+			boolean bCollinear = MatrixUtils.dot(dir, n) > 0;// dir and normal have same direction
+			if (!bCollinear)//swap two edges
+			{
+				assertTrue(true);
+			}
+		}
+		
 		assertEquals(mEdgeList.size(),30);
 		assertEquals(mFaceList.size(),20);
 		assertEquals(mVertexList.size(),12);
@@ -328,9 +355,9 @@ public class Mesh
 			file.write("# Face Definitions\n");
 			for(Face face : mFaceList)
 			{
-				int n0=mVertexList.indexOf(face.E0.V0);
-				int n1=mVertexList.indexOf(face.E0.V1);
-				int n2=mVertexList.indexOf(face.FindThirdVertex(face.E0));
+				int n0=mVertexList.indexOf(face.getV0());
+				int n1=mVertexList.indexOf(face.getV1());
+				int n2=mVertexList.indexOf(face.getV2());
 				
 				assertTrue(n0>=0);
 				assertTrue(n1>=0);

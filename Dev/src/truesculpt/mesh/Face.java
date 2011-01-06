@@ -15,6 +15,7 @@ public class Face
 	public Edge E1=null;
 	public Edge E2=null;
 	
+	
 	//vertex not contained in vertex e provided
 	public Vertex FindThirdVertex(Edge e)
 	{		
@@ -29,5 +30,35 @@ public class Face
 		if (E2.V1!=e0 && E2.V1!=e1) { return E2.V1;}			
 		
 		return null;	
+	}
+
+	public Vertex getV0()
+	{
+		if (E0.F0==this)//not regrouped
+		{
+			return E0.V0;
+		}
+		else
+		{
+			return E0.V1;
+		}
+	}	
+	
+	public Vertex getV1()
+	{
+		if (E0.F0==this)//not regrouped
+		{
+			return E0.V1;
+		}
+		else
+		{
+			return E0.V0;
+		}
+	}	
+
+	//TODO avoid computing: cache
+	public Vertex getV2()
+	{
+		return FindThirdVertex(E0);
 	}	
 }
