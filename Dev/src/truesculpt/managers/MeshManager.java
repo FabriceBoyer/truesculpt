@@ -341,14 +341,14 @@ public class MeshManager extends BaseManager
 	{
 		synchronized (this)
 		{
+			if (mMesh!=null)
+			{
+				mMesh.draw(gl);
+			}
+			
 			if (mObject != null && bInitOver)
 			{
-				//mObject.draw(gl);
-				
-				if (mMesh!=null)
-				{
-					mMesh.draw(gl);
-				}
+				mObject.draw(gl);			
 
 				if (getManagers().getOptionsManager().getDisplayDebugInfos())
 				{				

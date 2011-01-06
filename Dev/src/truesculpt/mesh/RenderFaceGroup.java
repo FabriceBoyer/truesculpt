@@ -7,54 +7,155 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.utils.MatrixUtils;
+import truesculpt.utils.Utils;
+
 public class RenderFaceGroup
 {
-	private FloatBuffer mColorBuffer;
-	private ShortBuffer mIndexBuffer;
-	private FloatBuffer mVertexBuffer;
+	private FloatBuffer mColorBuffer = null;
+	private ShortBuffer mIndexBuffer = null;
+	private FloatBuffer mVertexBuffer = null;
+	private FloatBuffer mNormalBuffer = null;
 
+	private ShortBuffer mDrawNormalIndexBuffer = null;
+	private FloatBuffer mDrawNormalVertexBuffer = null;
+	
+	private int mFacesCount = 0;
+	private int mVertexCount = 0;
+	
 	private Mesh mMesh=null;
 	public RenderFaceGroup(Mesh mesh)
 	{
 		mMesh=mesh;
 		
-		float one = 1.0f;
-		float vertices[] = { -one, -one, -one, one, -one, -one, one, one, -one, -one, one, -one, -one, -one, one, one, -one, one, one, one, one, -one, one, one, };
-		float colors[] = { 0, 0, 0, one, one, 0, 0, one, one, one, 0, one, 0, one, 0, one, 0, 0, one, one, one, 0, one, one, one, one, one, one, 0, one, one, one, };
-		short indices[] = { 0, 4, 5, 0, 5, 1, 1, 5, 6, 1, 6, 2, 2, 6, 7, 2, 7, 3, 3, 7, 4, 3, 4, 0, 4, 7, 6, 4, 6, 5, 3, 0, 1, 3, 1, 2 };
-
-		// Buffers to be passed to gl*Pointer() functions
-		// must be direct, i.e., they must be placed on the
-		// native heap where the garbage collector cannot
-		// move them.
-		//
-		// Buffers with multi-byte datatypes (e.g., short, int, float)
-		// must have their byte order set to native order
-
-		ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
+		mVertexCount = mMesh.mVertexList.size();
+		ByteBuffer vbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// float is 4 bytes, vertices contains x,y,z in seq
 		vbb.order(ByteOrder.nativeOrder());
 		mVertexBuffer = vbb.asFloatBuffer();
-		mVertexBuffer.put(vertices);
+		for (Vertex vertex : mMesh.mVertexList)
+		{
+			mVertexBuffer.put(vertex.Coord[0]);
+			mVertexBuffer.put(vertex.Coord[1]);
+			mVertexBuffer.put(vertex.Coord[2]);
+		}
 		mVertexBuffer.position(0);
 
-		ByteBuffer cbb = ByteBuffer.allocateDirect(colors.length * 4);
+		ByteBuffer cbb = ByteBuffer.allocateDirect(mVertexCount * 4 * 4); // 4 color elem (RGBA) in float (4 bytes)
 		cbb.order(ByteOrder.nativeOrder());
-		mColorBuffer = cbb.asFloatBuffer();
-		mColorBuffer.put(colors);
+		mColorBuffer = cbb.asFloatBuffer();	
+		float[] VCol = new float[4];
+		for (Vertex vertex : mMesh.mVertexList)
+		{			
+			Utils.ColorIntToFloatVector(vertex.Color, VCol);
+			mColorBuffer.put(VCol);
+		}
 		mColorBuffer.position(0);
 
-		ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length * 2);
+		mFacesCount =  mMesh.mFaceList.size();
+		ByteBuffer ibb = ByteBuffer.allocateDirect(mFacesCount * 3 * 2);// faces are 3 elements (vertex index ) in short ( 2 bytes )
 		ibb.order(ByteOrder.nativeOrder());
 		mIndexBuffer = ibb.asShortBuffer();
-		mIndexBuffer.put(indices);
+		for (Face face : mMesh.mFaceList)
+		{
+			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E0.V0));
+			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E0.V1));
+			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E1.V1));
+		}		
 		mIndexBuffer.position(0);
-	}
 
+		ByteBuffer nbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// float is 4 bytes, normals contains x,y,z in seq
+		nbb.order(ByteOrder.nativeOrder());
+		mNormalBuffer = nbb.asFloatBuffer();
+		for (Vertex vertex : mMesh.mVertexList)
+		{
+			mNormalBuffer.put(vertex.Normal[0]);
+			mNormalBuffer.put(vertex.Normal[1]);
+			mNormalBuffer.put(vertex.Normal[2]);
+		}
+		mNormalBuffer.position(0);
+		
+		
+		ByteBuffer ndvbb = ByteBuffer.allocateDirect(2 * 3 * 4);// float is 4 bytes, normals contains x,y,z in seq
+		ndvbb.order(ByteOrder.nativeOrder());
+		mDrawNormalVertexBuffer = ndvbb.asFloatBuffer();
+		mDrawNormalVertexBuffer.position(0);
+
+		ByteBuffer ndibb = ByteBuffer.allocateDirect(2 * 2);// line are 3 elements in short ( 2 bytes )
+		ndibb.order(ByteOrder.nativeOrder());
+		mDrawNormalIndexBuffer = ndibb.asShortBuffer();
+		mDrawNormalIndexBuffer.position(0);
+		mDrawNormalIndexBuffer.put((short) 0);
+		mDrawNormalIndexBuffer.put((short) 1);
+		mDrawNormalIndexBuffer.position(0);
+	}
+	
 	public void draw(GL10 gl)
 	{
-		gl.glFrontFace(GL10.GL_CCW);
+		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+		gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
+
+		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-		gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+		gl.glNormalPointer(GL10.GL_FLOAT, 0, mNormalBuffer);
+		gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount * 3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+
+		gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
+		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
+	
+
+	public void drawNormals(GL10 gl)
+	{
+		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
+		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawNormalVertexBuffer);
+
+		float[] V0 = new float[3];
+		float[] V1 = new float[3];
+
+		int nCount = mNormalBuffer.capacity();
+		for (int i = 0; i < nCount; i = i + 3)
+		{
+			mVertexBuffer.position(i);
+			mVertexBuffer.get(V0, 0, 3);
+
+			mNormalBuffer.position(i);
+			mNormalBuffer.get(V1, 0, 3);
+
+			MatrixUtils.scalarMultiply(V1, 0.1f);
+			MatrixUtils.plus(V0, V1, V1);
+
+			mDrawNormalVertexBuffer.position(0);
+			mDrawNormalVertexBuffer.put(V0);
+			mDrawNormalVertexBuffer.position(3);
+			mDrawNormalVertexBuffer.put(V1);
+			mDrawNormalVertexBuffer.position(0);
+
+			gl.glDrawElements(GL10.GL_LINES, 2, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);
+		}
+
+		mVertexBuffer.position(0);
+		mNormalBuffer.position(0);
+	}
+	
+	public FloatBuffer getColorBuffer()
+	{
+		return mColorBuffer;
+	}
+
+	public ShortBuffer getIndexBuffer()
+	{
+		return mIndexBuffer;
+	}
+
+	public FloatBuffer getNormalBuffer()
+	{
+		return mNormalBuffer;
+	}
+
+	public FloatBuffer getVertexBuffer()
+	{
+		return mVertexBuffer;
+	}
+	
 }

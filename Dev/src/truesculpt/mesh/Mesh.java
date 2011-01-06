@@ -27,8 +27,8 @@ public class Mesh
 		
 		InitAsSphere(3);		
 		
-		String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
-		ExportToOBJ(strFileName);
+		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
+		//ExportToOBJ(strFileName);
 		
 		mRenderGroupList.add(new RenderFaceGroup(this));
 	}
@@ -193,6 +193,13 @@ public class Mesh
 		}
 		
 		
+		//Set default vertex color
+		int color=getManagers().getToolsManager().getColor();
+		for (Vertex vertex : mVertexList)
+		{
+			vertex.Color=color;
+		}
+		
 		assertEquals(mEdgeList.size(),30);
 		
 		// n_vertices = 12;
@@ -242,7 +249,9 @@ public class Mesh
 
 	void Reset()
 	{
-
+		mVertexList.clear();
+		mFaceList.clear();
+		mEdgeList.clear();
 	}
 
 	// makes a sphere
@@ -360,5 +369,18 @@ public class Mesh
 		{
 			renderGroup.draw(gl);
 		}
+	}
+	
+	public int getVertexCount()
+	{
+		return mVertexList.size();
+	}
+	public int getFaceCount()
+	{
+		return mFaceList.size();
+	}
+	public int getEdgeCount()
+	{
+		return mEdgeList.size();
 	}
 }
