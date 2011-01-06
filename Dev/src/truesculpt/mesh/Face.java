@@ -1,7 +1,5 @@
 package truesculpt.mesh;
-
-import java.util.Vector;
-
+import static junit.framework.Assert.*;
 
 public class Face
 {
@@ -15,5 +13,21 @@ public class Face
 
 	public Edge E0=null;
 	public Edge E1=null;
-	public Edge E2=null;	
+	public Edge E2=null;
+	
+	//vertex not contained in vertex e provided
+	public Vertex FindThirdVertex(Edge e)
+	{		
+		Vertex e0=e.V0;
+		Vertex e1=e.V1;
+		
+		if (E0.V0!=e0 && E0.V0!=e1) { return E0.V0;}
+		if (E0.V1!=e0 && E0.V1!=e1) { return E0.V1;}
+		if (E1.V0!=e0 && E1.V0!=e1) { return E1.V0;}
+		if (E1.V1!=e0 && E1.V1!=e1) { return E1.V1;}
+		if (E2.V0!=e0 && E2.V0!=e1) { return E2.V0;}
+		if (E2.V1!=e0 && E2.V1!=e1) { return E2.V1;}			
+		
+		return null;	
+	}	
 }

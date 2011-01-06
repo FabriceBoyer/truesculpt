@@ -59,7 +59,7 @@ public class RenderFaceGroup
 		{
 			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E0.V0));
 			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E0.V1));
-			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.E1.V1));
+			mIndexBuffer.put((short)mMesh.mVertexList.indexOf(face.FindThirdVertex(face.E0)));
 		}		
 		mIndexBuffer.position(0);
 
@@ -98,6 +98,7 @@ public class RenderFaceGroup
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
 		gl.glNormalPointer(GL10.GL_FLOAT, 0, mNormalBuffer);
+
 		gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount * 3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
 		gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
