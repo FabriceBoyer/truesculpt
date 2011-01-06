@@ -190,8 +190,7 @@ public class Mesh
 				edge.mLinkedEdgeList.addAll(edge.V0.mCloseEdgeList);
 				edge.mLinkedEdgeList.addAll(edge.V1.mCloseEdgeList);
 			}
-		}
-		
+		}		
 		
 		//Set default vertex color
 		int color=getManagers().getToolsManager().getColor();
@@ -201,6 +200,8 @@ public class Mesh
 		}
 		
 		assertEquals(mEdgeList.size(),30);
+		assertEquals(mFaceList.size(),20);
+		assertEquals(mVertexList.size(),12);
 		
 		// n_vertices = 12;
 		// n_faces = 20;
@@ -329,7 +330,7 @@ public class Mesh
 			{
 				int n0=mVertexList.indexOf(face.E0.V0);
 				int n1=mVertexList.indexOf(face.E0.V1);
-				int n2=mVertexList.indexOf(face.E1.V1);
+				int n2=mVertexList.indexOf(face.FindThirdVertex(face.E0));
 				
 				assertTrue(n0>=0);
 				assertTrue(n1>=0);
