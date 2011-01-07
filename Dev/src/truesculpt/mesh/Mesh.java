@@ -46,6 +46,7 @@ public class Mesh
 		{
 			SubdivideAllFaces();
 		}
+		FinalizeInit();
 		NormalizeAllVertices();		
 		ComputeBoundingSphereRadius();
 	}
@@ -126,6 +127,17 @@ public class Mesh
 		mFaceList.add(f17);
 		mFaceList.add(f18);
 		mFaceList.add(f19);
+				
+		assertEquals(mFaceList.size(),20);
+		assertEquals(mVertexList.size(),12);
+		
+		// n_vertices = 12;
+		// n_faces = 20;
+		// n_edges = 30;
+	}
+	
+	private void FinalizeInit()
+	{
 		
 		//Create vertex list
 		//regroup common vertices and delete useless ones
@@ -226,13 +238,7 @@ public class Mesh
 			}
 		}
 		
-		assertEquals(mEdgeList.size(),30);
-		assertEquals(mFaceList.size(),20);
-		assertEquals(mVertexList.size(),12);
-		
-		// n_vertices = 12;
-		// n_faces = 20;
-		// n_edges = 30;
+
 	}
 	
 	//TODO update function updating all lists
@@ -292,14 +298,59 @@ public class Mesh
 		}
 	}
 
-	void SubdivideFace()
+	void SubdivideFace(Face face)
 	{
+		boolean bDoesFaceContainsHalfSplitterEdge=face.E0.bHalfSplitter || face.E1.bHalfSplitter || face.E2.bHalfSplitter;
+		
+		Vertex V0 = face.getV0();
+		Vertex V1 = face.getV1();			
+		Vertex V2 = face.getV2();
+				
+		Vertex mid0=new Vertex(V0,V1);
+		Vertex mid1=new Vertex(V1,V2);
+		Vertex mid2=new Vertex(V2,V0);	
+		
+		mVertexList.add(mid0);
+		mVertexList.add(mid1);
+		mVertexList.add(mid2);
 
+	}
+	
+	void SubdivideFacePartialWithVertexOnEdge(Face face)
+	{
+		Vertex A = face.getV0();
+		Vertex B = face.getV1();			
+		Vertex C = face.getV2();
+				
+		Vertex v0=new Vertex(A,B);//takes mid point
+		Vertex v1=new Vertex(B,C);
+		Vertex v2=new Vertex(C,A);	
+		
+		mVertexList.add(v0);
+		mVertexList.add(v1);
+		mVertexList.add(v2);
+		
+		Face f0 = new Face(A, v0, v2);
+		Face f1 = new Face(v0, B, v1);
+		Face f2 = new Face(v1, C, v2);
+		Face f3 = new Face(v0, v1, v2);
+		
+		mFaceList.add(f0);
+		mFaceList.add(f1);
+		mFaceList.add(f2);
+		mFaceList.add(f3);
+		
+		mFaceList.remove(face);
+		
 	}
 
 	void SubdivideAllFaces()
 	{
-
+		Vector<Face> mOrigFaceList = new Vector<Face>(mFaceList);
+		for (Face face : mOrigFaceList)
+		{
+			SubdivideFacePartialWithVertexOnEdge(face);
+		}
 	}
 
 	Face Pick(float[] rayPt1, float[] rayPt2)
@@ -309,17 +360,30 @@ public class Mesh
 
 	void ComputeAllVertexNormals()
 	{
+		for (Vertex vertex : mVertexList)
+		{
+			ComputeVertexNormal(vertex);
+		}
 
 	}
 	
+	//Based on close triangles normals * sin of their angle and normalize
 	void ComputeVertexNormal(Vertex vertex)
 	{
-
+		
 	}
-
+	
 	void ComputeBoundingSphereRadius()
 	{
-
+		float mBoundingSphereRadius=0.0f;
+		for (Vertex vertex : mVertexList)
+		{
+			float norm=MatrixUtils.magnitude(vertex.Coord);
+			if (norm>mBoundingSphereRadius)
+			{
+				mBoundingSphereRadius=norm;
+			}			
+		}
 	}
 
 	//From http://en.wikipedia.org/wiki/Wavefront_.obj_file

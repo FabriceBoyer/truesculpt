@@ -20,4 +20,6 @@ public class Edge
 	public Face F1=null;
 	
 	public Vector<Edge> mLinkedEdgeList= new Vector<Edge>();
+	
+	boolean bHalfSplitter=false;
 }
