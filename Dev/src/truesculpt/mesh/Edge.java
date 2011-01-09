@@ -1,5 +1,6 @@
 package truesculpt.mesh;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Edge
@@ -19,7 +20,7 @@ public class Edge
 	public Face F0=null;
 	public Face F1=null;
 	
-	public Vector<Edge> mLinkedEdgeList= new Vector<Edge>();
+	public ArrayList<Edge> mLinkedEdgeList= new ArrayList<Edge>();
 	
 	boolean bHalfSplitter=false;
 }
