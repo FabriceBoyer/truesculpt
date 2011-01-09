@@ -3,6 +3,7 @@ package truesculpt.mesh;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -13,11 +14,11 @@ import static junit.framework.Assert.*;
 
 public class Mesh
 {
-	Vector<Edge> mEdgeList = new Vector<Edge>();
-	Vector<Face> mFaceList = new Vector<Face>();
-	Vector<Vertex> mVertexList = new Vector<Vertex>();
+	ArrayList<Edge> mEdgeList = new ArrayList<Edge>();
+	ArrayList<Face> mFaceList = new ArrayList<Face>();
+	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
 	
-	Vector<RenderFaceGroup> mRenderGroupList= new Vector<RenderFaceGroup>();
+	ArrayList<RenderFaceGroup> mRenderGroupList= new ArrayList<RenderFaceGroup>();
 
 	Managers mManagers;
 	
@@ -25,7 +26,11 @@ public class Mesh
 	{
 		mManagers=managers;
 		
-		InitAsSphere(3);		
+		mEdgeList.ensureCapacity(30000);
+		mFaceList.ensureCapacity(30000);
+		mVertexList.ensureCapacity(30000);
+		
+		InitAsSphere(4);		
 		
 		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		//ExportToOBJ(strFileName);
@@ -141,8 +146,11 @@ public class Mesh
 		
 		//Create vertex list
 		//regroup common vertices and delete useless ones
-		for (Face face : mFaceList)
+		int nCount=mFaceList.size();
+		for (int i=0;i<nCount;i++)
 		{
+			Face face = mFaceList.get(i);
+			
 			{
 				Edge e=face.E0;
 				Edge res=RegroupEdge(e);
@@ -237,8 +245,6 @@ public class Mesh
 				assertTrue(true);
 			}
 		}
-		
-
 	}
 	
 	//TODO update function updating all lists
@@ -247,11 +253,14 @@ public class Mesh
 	private Edge RegroupEdge(Edge e)
 	{
 		Edge res=e;		
-		for (Edge edge : mEdgeList)
+		int n=mEdgeList.size();
+		for (int i=0;i<n;i++)
 		{
+			Edge edge=mEdgeList.get(i);
 			if (AreEdgeVertexEqual(e, edge))
 			{
 				res=edge;
+				break;
 			}
 		}
 		return res;
@@ -291,8 +300,10 @@ public class Mesh
 	// makes a sphere
 	void NormalizeAllVertices()
 	{
-		for (Vertex vertex : mVertexList)
+		int n=mVertexList.size();
+		for (int i=0;i<n;i++)
 		{
+			Vertex vertex=mVertexList.get(i);
 			MatrixUtils.normalize(vertex.Coord);
 			MatrixUtils.copy(vertex.Coord, vertex.Normal);//Normal is coord because sphere is radius 1			
 		}
@@ -313,7 +324,6 @@ public class Mesh
 		mVertexList.add(mid0);
 		mVertexList.add(mid1);
 		mVertexList.add(mid2);
-
 	}
 	
 	void SubdivideFacePartialWithVertexOnEdge(Face face)
@@ -340,16 +350,16 @@ public class Mesh
 		mFaceList.add(f2);
 		mFaceList.add(f3);
 		
-		mFaceList.remove(face);
-		
+		mFaceList.remove(face);		
 	}
 
 	void SubdivideAllFaces()
 	{
-		Vector<Face> mOrigFaceList = new Vector<Face>(mFaceList);
-		for (Face face : mOrigFaceList)
+		ArrayList<Face> mOrigFaceList = new ArrayList<Face>(mFaceList);
+		int n=mOrigFaceList.size();
+		for (int i=0;i<n;i++)
 		{
-			SubdivideFacePartialWithVertexOnEdge(face);
+			SubdivideFacePartialWithVertexOnEdge(mOrigFaceList.get(i));
 		}
 	}
 
@@ -360,11 +370,12 @@ public class Mesh
 
 	void ComputeAllVertexNormals()
 	{
-		for (Vertex vertex : mVertexList)
+		int n=mVertexList.size();
+		for (int i=0;i<n;i++)
 		{
+			Vertex vertex = mVertexList.get(i);
 			ComputeVertexNormal(vertex);
 		}
-
 	}
 	
 	//Based on close triangles normals * sin of their angle and normalize
@@ -376,8 +387,10 @@ public class Mesh
 	void ComputeBoundingSphereRadius()
 	{
 		float mBoundingSphereRadius=0.0f;
-		for (Vertex vertex : mVertexList)
+		int n=mVertexList.size();
+		for (int i=0;i<n;i++)
 		{
+			Vertex vertex = mVertexList.get(i);
 			float norm=MatrixUtils.magnitude(vertex.Coord);
 			if (norm>mBoundingSphereRadius)
 			{
@@ -444,8 +457,7 @@ public class Mesh
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		 
+		
 		getManagers().getUtilsManager().ShowToastMessage("Sculpture successfully exported to " + strFileName);
 	}
 

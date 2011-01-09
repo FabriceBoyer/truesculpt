@@ -1,5 +1,6 @@
 package truesculpt.main;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import truesculpt.managers.ActionsManager;
@@ -25,7 +26,7 @@ public class Managers
 
 	private ActionsManager mActionsManager = null;
 	private FileManager mFileManager = null;
-	private Vector<BaseManager> mManagersList = new Vector<BaseManager>();
+	private ArrayList<BaseManager> mManagersList = new ArrayList<BaseManager>();
 	private MemoryManager mMemoryManager = null;
 	private MeshManager mMeshManager = null;
 	private OptionsManager mOptionsManager = null;

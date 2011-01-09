@@ -1,5 +1,6 @@
 package truesculpt.mesh;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import truesculpt.utils.MatrixUtils;
@@ -30,7 +31,7 @@ public class Vertex
 	public float[] Coord = new float[3];
 	public float[] Normal = new float[3];
 	
-	public Vector<Edge> mCloseEdgeList= new Vector<Edge>();
+	public ArrayList<Edge> mCloseEdgeList= new ArrayList<Edge>();
 	
 	public int Color=0;
 }

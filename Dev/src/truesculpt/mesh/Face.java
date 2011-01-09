@@ -15,6 +15,7 @@ public class Face
 	public Edge E1=null;
 	public Edge E2=null;
 	
+	public int nSubdivionLevel=1;
 	
 	//vertex not contained in vertex e provided
 	public Vertex FindThirdVertex(Edge e)

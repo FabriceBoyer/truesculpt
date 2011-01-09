@@ -379,9 +379,9 @@ public class MeshManager extends BaseManager
 	public int getFacesCount()
 	{
 		int nCount = -1;
-		if (mObject != null)
+		if (mMesh != null)
 		{
-			nCount = mObject.getFacesCount();
+			nCount = mMesh.getFaceCount();
 		}
 		return nCount;
 	}
@@ -434,9 +434,9 @@ public class MeshManager extends BaseManager
 	public int getVertexCount()
 	{
 		int nCount = -1;
-		if (mObject != null)
+		if (mMesh != null)
 		{
-			nCount = mObject.getVertexCount();
+			nCount = mMesh.getVertexCount();
 		}
 		return nCount;
 	}
