@@ -1,9 +1,13 @@
 package truesculpt.mesh;
 
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -30,7 +34,7 @@ public class Mesh
 		mFaceList.ensureCapacity(30000);
 		mVertexList.ensureCapacity(30000);
 		
-		InitAsSphere(4);		
+		InitAsSphere(1);		
 		
 		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		//ExportToOBJ(strFileName);
@@ -47,9 +51,12 @@ public class Mesh
 	{
 		Reset();
 		InitAsIcosahedron();
+		RegroupSimilarEdges();
+		FinalizeSubdivide();
 		for (int i=0;i<nSubdivionLevel;i++)
 		{
 			SubdivideAllFaces();
+			FinalizeSubdivide();
 		}
 		FinalizeInit();
 		NormalizeAllVertices();		
@@ -141,9 +148,8 @@ public class Mesh
 		// n_edges = 30;
 	}
 	
-	private void FinalizeInit()
+	private void RegroupSimilarEdges()
 	{
-		
 		//Create vertex list
 		//regroup common vertices and delete useless ones
 		int nCount=mFaceList.size();
@@ -193,13 +199,33 @@ public class Mesh
 				}	
 			}
 		}
-				
+	}
+			
+	private void FinalizeSubdivide()
+	{
+		for (Edge edge : mEdgeList)
+		{
+			edge.V0.mCloseEdgeList.clear();
+			edge.V1.mCloseEdgeList.clear();
+		}
+		
 		//update edge list in each vertex
 		for (Edge edge : mEdgeList)
 		{
 			edge.V0.mCloseEdgeList.add(edge);
 			edge.V1.mCloseEdgeList.add(edge);
 		}
+		
+		
+		//update close edge list in each edge;
+		for (Vertex vertex : mVertexList)
+		{
+			for (Edge edge : vertex.mCloseEdgeList)
+			{
+				edge.mLinkedEdgeList.clear();
+				edge.mLinkedEdgeList.clear();
+			}
+		}	
 		
 		//update close edge list in each edge;
 		for (Vertex vertex : mVertexList)
@@ -210,8 +236,11 @@ public class Mesh
 				edge.mLinkedEdgeList.addAll(edge.V0.mCloseEdgeList);
 				edge.mLinkedEdgeList.addAll(edge.V1.mCloseEdgeList);
 			}
-		}		
-		
+		}	
+	}
+	
+	private void FinalizeInit()
+	{
 		//Set default vertex color
 		int color=getManagers().getToolsManager().getColor();
 		for (Vertex vertex : mVertexList)
@@ -247,8 +276,7 @@ public class Mesh
 		}
 	}
 	
-	//TODO update function updating all lists
-	
+	//TODO update function updating all lists	
 	//return an equivalent edge from the list (with equal vertex not faces)
 	private Edge RegroupEdge(Edge e)
 	{
@@ -355,12 +383,76 @@ public class Mesh
 
 	void SubdivideAllFaces()
 	{
+		/*
 		ArrayList<Face> mOrigFaceList = new ArrayList<Face>(mFaceList);
 		int n=mOrigFaceList.size();
 		for (int i=0;i<n;i++)
 		{
 			SubdivideFacePartialWithVertexOnEdge(mOrigFaceList.get(i));
 		}
+		*/
+		
+		
+		ArrayList<Face> mOrigFaceList = new ArrayList<Face>(mFaceList);
+		int n=mOrigFaceList.size();
+		for (int i=0;i<n;i++)
+		{		
+			Face face = mOrigFaceList.get(i);					
+
+			Vertex A = face.getV0();
+			Vertex B = face.getV1();			
+			Vertex C = face.getV2();
+					
+			Vertex v0=new Vertex(A,B);//takes mid point
+			Vertex v1=new Vertex(B,C);
+			Vertex v2=new Vertex(C,A);	
+			
+			mVertexList.add(v0);
+			mVertexList.add(v1);
+			mVertexList.add(v2);
+			
+			Face f0 = new Face(A, v0, v2);	
+			//f0.E0.F1=
+			Face f1 = new Face(v0, B, v1);
+			Face f2 = new Face(v1, C, v2);
+			Face f3 = new Face(v0, v1, v2);
+			
+			mFaceList.add(f0);
+			mFaceList.add(f1);
+			mFaceList.add(f2);
+			mFaceList.add(f3);
+			
+			mFaceList.remove(face);				
+		}		
+				
+	}
+	
+	
+	void SubdivideFaceFromSplittedEdge(Face face)
+	{
+		
+		
+	}
+	
+	private Vertex DivideEdge(Edge edge)
+	{
+		Face face0 = edge.F0;
+		Face face1 = edge.F1;
+		Vertex vMid=new Vertex(edge.V0,edge.V1);
+		Vertex v0=edge.V0;
+		Vertex v1=edge.V1;
+		mVertexList.add(vMid);
+		Edge e0=new Edge(v0,vMid,face0);
+		Edge e1=new Edge(vMid,v1,face0);
+		mEdgeList.remove(edge);
+		e0.F1=face1;
+		e1.F1=face1;		
+		mEdgeList.add(e0);
+		mEdgeList.add(e1);		
+		vMid.mCloseEdgeList.add(e0);
+		vMid.mCloseEdgeList.add(e1);
+		
+		return vMid;
 	}
 
 	Face Pick(float[] rayPt1, float[] rayPt2)
@@ -461,10 +553,145 @@ public class Mesh
 		getManagers().getUtilsManager().ShowToastMessage("Sculpture successfully exported to " + strFileName);
 	}
 
-	void ImportFromOBJ(String strFileName)
+	void ImportFromOBJ(String strFileName) throws IOException
 	{
 		Reset();
 
+		int nCount = 0;
+		float[] coord = new float[2];
+
+		LineNumberReader input = new LineNumberReader(new InputStreamReader(new FileInputStream(strFileName)));
+		String line = null;
+		try
+		{
+			for (line = input.readLine(); line != null; line = input.readLine())
+			{
+				if (line.length() > 0)
+				{
+					if (line.startsWith("v "))
+					{
+						float[] vertex = new float[3];
+						StringTokenizer tok = new StringTokenizer(line);
+						tok.nextToken();
+						vertex[0] = Float.parseFloat(tok.nextToken());
+						vertex[1] = Float.parseFloat(tok.nextToken());
+						vertex[2] = Float.parseFloat(tok.nextToken());
+						// m.addVertex(vertex);
+					}
+					else if (line.startsWith("vt "))
+					{
+						StringTokenizer tok = new StringTokenizer(line);
+						tok.nextToken();
+						coord[0] = Float.parseFloat(tok.nextToken());
+						coord[1] = Float.parseFloat(tok.nextToken());
+						// m.addTextureCoordinate(coord);
+					} 
+					else if (line.startsWith("f "))
+					{
+						int[] face = new int[3];
+						int[] face_n_ix = new int[3];
+						int[] face_tx_ix = new int[3];
+						int[] val;
+
+						StringTokenizer tok = new StringTokenizer(line);
+						tok.nextToken();
+						val = parseIntTriple(tok.nextToken());
+						face[0] = val[0];
+						if (val.length > 1 && val[1] > -1)
+							face_tx_ix[0] = val[1];
+						if (val.length > 2 && val[2] > -1)
+							face_n_ix[0] = val[2];
+
+						val = parseIntTriple(tok.nextToken());
+						face[1] = val[0];
+						if (val.length > 1 && val[1] > -1)
+							face_tx_ix[1] = val[1];
+						if (val.length > 2 && val[2] > -1)
+							face_n_ix[1] = val[2];
+
+						val = parseIntTriple(tok.nextToken());
+						face[2] = val[0];
+						if (val.length > 1 && val[1] > -1)
+						{
+							face_tx_ix[2] = val[1];
+							// m.addTextureIndices(face_tx_ix);
+						}
+						if (val.length > 2 && val[2] > -1)
+						{
+							face_n_ix[2] = val[2];
+							// m.addFaceNormals(face_n_ix);
+						}
+						// m.addFace(face);
+						if (tok.hasMoreTokens())
+						{
+							val = parseIntTriple(tok.nextToken());
+							face[1] = face[2];
+							face[2] = val[0];
+							if (val.length > 1 && val[1] > -1)
+							{
+								face_tx_ix[1] = face_tx_ix[2];
+								face_tx_ix[2] = val[1];
+								// m.addTextureIndices(face_tx_ix);
+							}
+							if (val.length > 2 && val[2] > -1)
+							{
+								face_n_ix[1] = face_n_ix[2];
+								face_n_ix[2] = val[2];
+								// m.addFaceNormals(face_n_ix);
+							}
+							// m.addFace(face);
+						}
+
+					} 
+					else if (line.startsWith("vn "))
+					{
+						nCount++;
+						float[] norm = new float[3];
+						StringTokenizer tok = new StringTokenizer(line);
+						tok.nextToken();
+						norm[0] = Float.parseFloat(tok.nextToken());
+						norm[1] = Float.parseFloat(tok.nextToken());
+						norm[2] = Float.parseFloat(tok.nextToken());
+						// m.addNormal(norm);
+					}
+				}
+			}
+		} catch (Exception ex)
+		{
+			System.err.println("Error parsing file:");
+			System.err.println(input.getLineNumber() + " : " + line);
+		}
+		// if (!file_normal) {
+		// m.calculateFaceNormals(coordinate_hand);
+		// m.calculateVertexNormals();
+		// // m.copyNormals();
+	}
+
+	protected static int parseInt(String val)
+	{
+		if (val.length() == 0)
+		{
+			return -1;
+		}
+		return Integer.parseInt(val);
+	}
+
+	protected static int[] parseIntTriple(String face)
+	{
+		int ix = face.indexOf("/");
+		if (ix == -1)
+			return new int[] { Integer.parseInt(face) - 1 };
+		else
+		{
+			int ix2 = face.indexOf("/", ix + 1);
+			if (ix2 == -1)
+			{
+				return new int[] { Integer.parseInt(face.substring(0, ix)) - 1, Integer.parseInt(face.substring(ix + 1)) - 1 };
+			} else
+			{
+				return new int[] { parseInt(face.substring(0, ix)) - 1, parseInt(face.substring(ix + 1, ix2)) - 1, parseInt(face.substring(ix2 + 1)) - 1 };
+			}
+		}
 	}
 	
 	public void draw(GL10 gl)
