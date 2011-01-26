@@ -9,22 +9,13 @@
  <SeekBar android:id="@+id/StrengthBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
  <TextView android:text="@string/Radius" android:id="@+id/RadiusText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
  <SeekBar android:id="@+id/RadiusBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
+ <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1">
+     <truesculpt.ui.views.ColorPickerView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/ColorPickerView"></truesculpt.ui.views.ColorPickerView>
+     <Button android:id="@+id/colorpickerBtn" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/color_picker"></Button>
+ </LinearLayout>
+ <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout2">
+     <Button android:id="@+id/ResetPOV" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/ResetPOV"></Button>
+     <Button android:id="@+id/screenshot" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/screenshot"></Button>
+ </LinearLayout>
   
- <truesculpt.ui.views.ColorPickerView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/ColorPickerView"></truesculpt.ui.views.ColorPickerView><LinearLayout android:id="@+id/LinearLayout03" android:layout_width="wrap_content" android:layout_height="wrap_content"></LinearLayout><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/color_picker" android:id="@+id/colorpickerBtn"></Button><LinearLayout android:id="@+id/LinearLayout02" android:layout_width="wrap_content" android:layout_height="wrap_content"></LinearLayout><LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"></LinearLayout>
- 
- 
- <Button android:text="@string/screenshot" android:id="@+id/screenshot" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
- <Button android:text="@string/ResetPOV" android:id="@+id/ResetPOV" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-  
-
-
-
-
-
-
-
-
-
-
-
 </LinearLayout>

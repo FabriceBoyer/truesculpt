@@ -10,6 +10,9 @@ public class Edge
 		V0=v0;
 		V1=v1;
 		
+		V0.mCloseEdgeList.add(this);
+		V1.mCloseEdgeList.add(this);
+		
 		F0=F;	
 		F1=F;
 	}
