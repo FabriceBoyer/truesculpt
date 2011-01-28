@@ -59,5 +59,15 @@
 <string name="ResetPOV">Reset View</string>
     <string name="ambilwarna_cancel">Cancel</string>
     <string name="ambilwarna_ok">OK</string>
+    <string name="Paintingtool">Painting tool</string>
+    <string name="Sculptingtool">Sculpting tool</string>
+    <string name="close">Close</string>
+    <string name="Choose_existing">Choose existing</string>
+    <string name="Publish_to_web_site">Publish to web site</string>
+    <string name="choose_from_web_site">Choose from web site</string>
+    <string name="pick_color">Pick color</string>
+    <string name="symmetry">Symmetry</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
     
 </resources>

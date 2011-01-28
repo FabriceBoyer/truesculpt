@@ -27,7 +27,7 @@
                 
 		 <Button android:text="@string/prevBtn" android:id="@+id/prevBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 		 <Button android:text="@string/nextBtn" android:id="@+id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-		 <Button android:text="@string/finishBtn" android:id="@+id/finishBtn" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		 <Button android:text="@string/finishBtn" android:id="@+id/finishBtn" android:layout_height="wrap_content" android:layout_width="fill_parent"></Button>
 	</LinearLayout>
 
 </LinearLayout>
