@@ -2,20 +2,29 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:orientation="vertical">    
+  android:orientation="vertical" android:layout_height="wrap_content">    
        
  <TextView android:text="@string/Strength" android:id="@+id/StrengthText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
  <SeekBar android:id="@+id/StrengthBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
  <TextView android:text="@string/Radius" android:id="@+id/RadiusText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
  <SeekBar android:id="@+id/RadiusBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
- <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1">
-     <truesculpt.ui.views.ColorPickerView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/ColorPickerView"></truesculpt.ui.views.ColorPickerView>
-     <Button android:id="@+id/colorpickerBtn" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/color_picker"></Button>
- </LinearLayout>
+ <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="@string/Sculptingtool"></TextView>
+ <Spinner android:layout_height="wrap_content" android:id="@+id/spinner1" android:layout_width="fill_parent"></Spinner>
+ <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_width="wrap_content" android:text="@string/Paintingtool"></TextView>
+ <Spinner android:layout_height="wrap_content" android:id="@+id/spinner2" android:layout_width="fill_parent"></Spinner>
  <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout2">
-     <Button android:id="@+id/ResetPOV" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/ResetPOV"></Button>
-     <Button android:id="@+id/screenshot" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/screenshot"></Button>
+     <Button android:layout_height="wrap_content" android:id="@+id/ResetPOV" android:layout_width="wrap_content" android:text="@string/ResetPOV"></Button>
+     <Button android:layout_height="wrap_content" android:id="@+id/screenshot" android:layout_width="wrap_content" android:text="@string/screenshot"></Button>
+     <Button android:layout_height="wrap_content" android:id="@+id/button1" android:text="@string/close" android:layout_width="fill_parent"></Button>
+ </LinearLayout>
+ <TextView android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/symmetry"></TextView>
+ <Spinner android:layout_height="wrap_content" android:id="@+id/spinner3" android:layout_width="fill_parent"></Spinner>
+ <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1">     
+     <truesculpt.ui.views.ColorPickerView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/ColorPickerView"></truesculpt.ui.views.ColorPickerView>
+     <LinearLayout android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/linearLayout3" android:orientation="vertical">
+         <Button android:layout_height="wrap_content" android:id="@+id/colorpickerBtn" android:layout_width="fill_parent" android:text="@string/color_picker"></Button>
+         <Button android:layout_height="wrap_content" android:id="@+id/button2" android:layout_width="fill_parent" android:text="@string/pick_color"></Button>
+     </LinearLayout>
  </LinearLayout>
   
 </LinearLayout>

@@ -45,9 +45,9 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 	{
 		if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 		{
-			String msg = getbaseContext().getString(R.string.sensors_have_a_low_accuracy);
-			getManagers().getUtilsManager().ShowToastMessage(msg);
-			Log.i("SensorManager", msg);
+			//String msg = getbaseContext().getString(R.string.sensors_have_a_low_accuracy);
+			//getManagers().getUtilsManager().ShowToastMessage(msg);
+			//Log.i("SensorManager", msg);
 		}
 	}
 
@@ -66,7 +66,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 	@Override
 	public void onSensorChanged(SensorEvent event)
 	{
-
 		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
 		{
 			if (!bOrigSet)
@@ -78,7 +77,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 			float fAngleThresold = 90.0f;
 			MatrixUtils.minus(event.values, lastAngles, diffAngles);
 
-			// eliminate bas points
+			// eliminate bad points
 			if (diffAngles[0] < fAngleThresold && diffAngles[1] < fAngleThresold)
 			{
 				float rotation = -(event.values[0] - origAngles[0]);
