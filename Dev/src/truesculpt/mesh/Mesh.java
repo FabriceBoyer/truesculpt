@@ -69,7 +69,6 @@ public class Mesh
 		float tau = (float) (t / Math.sqrt(1 + t * t));
 		float one = (float) (1 / Math.sqrt(1 + t * t));
 
-		// Float icosahedron_vertices[] =
 		Vertex v0 = new Vertex(tau, one, 0.0f);
 		Vertex v1 = new Vertex(-tau, one, 0.0f);
 		Vertex v2 = new Vertex(-tau, -one, 0.0f);
