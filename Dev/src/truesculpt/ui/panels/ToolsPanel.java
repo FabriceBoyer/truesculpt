@@ -2,6 +2,8 @@ package truesculpt.ui.panels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,6 +16,7 @@ import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +26,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -50,6 +54,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -141,6 +146,16 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 				finish();
 			}
 		});
+		
+		Button CloseButton = (Button) findViewById(R.id.CloseBtn);
+		CloseButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{				
+				finish();
+			}
+		});
 
 		mToolSpinner = (Spinner)findViewById(R.id.SculptToolSpinner);
 		InitToolSpinner();
@@ -165,38 +180,37 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	
 	private void InitToolSpinner()
 	{
-		  ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
-		  
-	        HashMap<String, String> map;
-	 
-	        map = new HashMap<String, String>();
-	        map.put("title", "Draw");
-	        map.put("description", "Draw");
-	        map.put("image", String.valueOf(R.drawable.draw));
-	        listItem.add(map);
-	 
-	        map = new HashMap<String, String>();
-	        map.put("title", "Grab");
-	        map.put("description", "Grab");
-	        map.put("image", String.valueOf(R.drawable.grab));
-	        listItem.add(map);
-	 
-	        map = new HashMap<String, String>();
-	        map.put("title", "Smooth");
-	        map.put("description", "Smooth");
-	        map.put("image", String.valueOf(R.drawable.smooth));
-	        listItem.add(map);
-	        
-	        map = new HashMap<String, String>();
-	        map.put("title", "Inflate");
-	        map.put("description", "Inflate");
-	        map.put("image", String.valueOf(R.drawable.inflate));
-	        listItem.add(map);
-	      
-	        SimpleAdapter mAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.toolitem,
-	               new String[] {"image", "title", "description"}, new int[] {R.id.image, R.id.title, R.id.description});
-	  
-	        mToolSpinner.setAdapter(mAdapter);       
+	    ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();	  
+        HashMap<String, String> map;
+ 
+        map = new HashMap<String, String>();
+        map.put("title", "Draw");
+        map.put("description", "Draw");
+        map.put("image", String.valueOf(R.drawable.draw));
+        listItem.add(map);
+ 
+        map = new HashMap<String, String>();
+        map.put("title", "Grab");
+        map.put("description", "Grab");
+        map.put("image", String.valueOf(R.drawable.grab));
+        listItem.add(map);
+ 
+        map = new HashMap<String, String>();
+        map.put("title", "Smooth");
+        map.put("description", "Smooth");
+        map.put("image", String.valueOf(R.drawable.smooth));
+        listItem.add(map);
+        
+        map = new HashMap<String, String>();
+        map.put("title", "Inflate");
+        map.put("description", "Inflate");
+        map.put("image", String.valueOf(R.drawable.inflate));
+        listItem.add(map);
+      
+        SimpleAdapter mAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.toolitem,
+               new String[] {"image", "title", "description"}, new int[] {R.id.image, R.id.title, R.id.description});
+          
+        mToolSpinner.setAdapter(mAdapter); 	        
 	}
 
 	@Override
@@ -217,8 +231,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		//TODO handle scrolling properly
-		finish();
 		return super.onTouchEvent(event);
 	}
 

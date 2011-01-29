@@ -1,5 +1,7 @@
 package truesculpt.actions;
 
+import truesculpt.main.R;
+
 public class ColorizeAction extends BaseAction
 {
 
@@ -23,4 +25,15 @@ public class ColorizeAction extends BaseAction
 		return false;
 	}
 
+	@Override
+	public String getActionName()
+	{		
+		return "Colorize";
+	}
+	@Override
+	public int getImageResourceID() 
+	{
+		return R.drawable.colorpicker; 
+	}
+	
 }
