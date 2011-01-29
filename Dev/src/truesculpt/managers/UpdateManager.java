@@ -43,7 +43,7 @@ public class UpdateManager extends BaseManager
 				PackageInfo info = pm.getPackageInfo(getbaseContext().getPackageName(), 0);
 				strCurrVersion = info.versionName;
 			} catch (NameNotFoundException e)
-			{				
+			{
 				e.printStackTrace();
 			}
 			mCurrentVersion = strCurrVersion;
@@ -92,10 +92,10 @@ public class UpdateManager extends BaseManager
 					strLatestVersion = elem;
 				}
 			} catch (MalformedURLException e)
-			{				
+			{
 				e.printStackTrace();
 			} catch (IOException e)
-			{				
+			{
 				e.printStackTrace();
 			}
 

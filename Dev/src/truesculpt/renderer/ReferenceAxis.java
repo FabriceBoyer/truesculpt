@@ -38,15 +38,9 @@ public class ReferenceAxis
 	{
 		float two = 2.0f;
 		float one = 1.0f;
-		float vertices[] = { 0, 0, 0,
-							two, 0, 0,
-							0, two, 0,
-							0, 0, two };
+		float vertices[] = { 0, 0, 0, two, 0, 0, 0, two, 0, 0, 0, two };
 
-		float colors[] = { one, one, one, one,
-						   one, 0, 0, one, 
-						   0, one, 0, one, 
-						   0, 0, one, one	};
+		float colors[] = { one, one, one, one, one, 0, 0, one, 0, one, 0, one, 0, 0, one, one };
 
 		short indices[] = { 0, 1, 0, 2, 0, 3 };
 

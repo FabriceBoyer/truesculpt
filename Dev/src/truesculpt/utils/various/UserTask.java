@@ -127,7 +127,7 @@ public abstract class UserTask<Params, Progress, Result>
 {
 	private static class InternalHandler extends Handler
 	{
-		@SuppressWarnings({ "unchecked", "RawUseOfParameterizedType" })
+		@SuppressWarnings( { "unchecked", "RawUseOfParameterizedType" })
 		@Override
 		public void handleMessage(Message msg)
 		{
@@ -166,7 +166,7 @@ public abstract class UserTask<Params, Progress, Result>
 		RUNNING,
 	}
 
-	@SuppressWarnings({ "RawUseOfParameterizedType" })
+	@SuppressWarnings( { "RawUseOfParameterizedType" })
 	private static class UserTaskResult<Data>
 	{
 		final Data[] mData;
@@ -445,7 +445,7 @@ public abstract class UserTask<Params, Progress, Result>
 	 * @see #publishProgress(Object[])
 	 * @see #doInBackground(Object[])
 	 */
-	@SuppressWarnings({ "UnusedDeclaration" })
+	@SuppressWarnings( { "UnusedDeclaration" })
 	public void onProgressUpdate(Progress... values)
 	{
 	}

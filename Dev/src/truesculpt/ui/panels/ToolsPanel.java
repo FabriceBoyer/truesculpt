@@ -47,14 +47,53 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
+	private void InitPaintSpinner()
+	{
+
+	}
+
+	private void InitToolSpinner()
+	{
+		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> map;
+
+		map = new HashMap<String, String>();
+		map.put("title", "Draw");
+		map.put("description", "Draw");
+		map.put("image", String.valueOf(R.drawable.draw));
+		listItem.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("title", "Grab");
+		map.put("description", "Grab");
+		map.put("image", String.valueOf(R.drawable.grab));
+		listItem.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("title", "Smooth");
+		map.put("description", "Smooth");
+		map.put("image", String.valueOf(R.drawable.smooth));
+		listItem.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("title", "Inflate");
+		map.put("description", "Inflate");
+		map.put("image", String.valueOf(R.drawable.inflate));
+		listItem.add(map);
+
+		SimpleAdapter mAdapter = new SimpleAdapter(this.getBaseContext(), listItem, R.layout.toolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
+
+		mToolSpinner.setAdapter(mAdapter);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
+
 		getManagers().getUsageStatisticsManager().TrackPageView("/ToolsPanel");
-		
+
 		setContentView(R.layout.tools);
 
 		getManagers().getToolsManager().addObserver(this);
@@ -106,8 +145,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		mColorPickerView = (ColorPickerView) findViewById(R.id.ColorPickerView);
 		mColorPickerView.SetColorChangeListener(this);
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
-		
-		
+
 		Button colorPickerButton = (Button) findViewById(R.id.colorpickerBtn);
 		colorPickerButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -128,7 +166,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 				finish();
 			}
 		});
-		
+
 		Button resetPOVbutton = (Button) findViewById(R.id.ResetPOV);
 		resetPOVbutton.setOnClickListener(new View.OnClickListener()
 		{
@@ -139,71 +177,29 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 				finish();
 			}
 		});
-		
+
 		Button CloseButton = (Button) findViewById(R.id.CloseBtn);
 		CloseButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
-			{				
+			{
 				finish();
 			}
 		});
 
-		mToolSpinner = (Spinner)findViewById(R.id.SculptToolSpinner);
+		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		InitToolSpinner();
-		
-	    Spinner s = (Spinner) findViewById(R.id.SymmetrySpinner);
-	    ArrayAdapter adapter = ArrayAdapter.createFromResource(
-	            this, R.array.symmetry, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    s.setAdapter(adapter);
 
-	    mPaintSpinner = (Spinner)findViewById(R.id.SculptToolSpinner);
-	    InitPaintSpinner();
-	    
+		Spinner s = (Spinner) findViewById(R.id.SymmetrySpinner);
+		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.symmetry, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		s.setAdapter(adapter);
+
+		mPaintSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
+		InitPaintSpinner();
+
 		UpdateView();
-	}
-	
-	private void InitPaintSpinner()
-	{
-		
-		
-	}
-	
-	private void InitToolSpinner()
-	{
-	    ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();	  
-        HashMap<String, String> map;
- 
-        map = new HashMap<String, String>();
-        map.put("title", "Draw");
-        map.put("description", "Draw");
-        map.put("image", String.valueOf(R.drawable.draw));
-        listItem.add(map);
- 
-        map = new HashMap<String, String>();
-        map.put("title", "Grab");
-        map.put("description", "Grab");
-        map.put("image", String.valueOf(R.drawable.grab));
-        listItem.add(map);
- 
-        map = new HashMap<String, String>();
-        map.put("title", "Smooth");
-        map.put("description", "Smooth");
-        map.put("image", String.valueOf(R.drawable.smooth));
-        listItem.add(map);
-        
-        map = new HashMap<String, String>();
-        map.put("title", "Inflate");
-        map.put("description", "Inflate");
-        map.put("image", String.valueOf(R.drawable.inflate));
-        listItem.add(map);
-      
-        SimpleAdapter mAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.toolitem,
-               new String[] {"image", "title", "description"}, new int[] {R.id.image, R.id.title, R.id.description});
-          
-        mToolSpinner.setAdapter(mAdapter); 	        
 	}
 
 	@Override
@@ -220,11 +216,38 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		super.onPause();
 	}
 
-	
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
 		return super.onTouchEvent(event);
+	}
+
+	private void ShowHSLColorPickerDialog()
+	{
+		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
+		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
+		HSLColorPickerDialog dialog = new HSLColorPickerDialog(ToolsPanel.this, getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
+		{
+			@Override
+			public void onCancel(HSLColorPickerDialog dialog)
+			{
+				// cancel was selected by the user
+			}
+
+			@Override
+			public void onOk(HSLColorPickerDialog dialog, int color)
+			{
+				getManagers().getToolsManager().setColor(color);
+			}
+		});
+
+		dialog.show();
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		UpdateView();
 	}
 
 	private void UpdateView()
@@ -236,34 +259,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		float fRadius = getManagers().getToolsManager().getRadius();
 		mRadiusSeekBar.setProgress((int) fRadius);
 		mRadiusText.setText("Radius = " + Integer.toString((int) fRadius) + " %");
-		
+
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
 	}
 
-	private void ShowHSLColorPickerDialog()
-	{
-		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
-		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
-		HSLColorPickerDialog dialog = new HSLColorPickerDialog(ToolsPanel.this, getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener() {
-		        @Override
-		        public void onOk(HSLColorPickerDialog dialog, int color) {
-		        	getManagers().getToolsManager().setColor(color);
-		        }
-		                
-		        @Override
-		        public void onCancel(HSLColorPickerDialog dialog) {
-		                // cancel was selected by the user
-		        }
-		});
-
-		dialog.show();	
-	}
-
-	@Override
-	public void update(Observable observable, Object data)
-	{
-		UpdateView();		
-	}
-
-	
 }

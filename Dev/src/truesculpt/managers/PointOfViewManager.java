@@ -1,16 +1,15 @@
 package truesculpt.managers;
 
-
 import android.content.Context;
 
-public class PointOfViewManager extends BaseManager 
+public class PointOfViewManager extends BaseManager
 {
 	private float mPhi = 0.0f;
 
 	// looked from point
 	private float mR = 0.0f;
-	
-	//to be recomputed to adapt to max size of object
+
+	// to be recomputed to adapt to max size of object
 	private float mRmax = 9.0f;
 	private float mRmin = 2.0f;
 
@@ -51,7 +50,7 @@ public class PointOfViewManager extends BaseManager
 	{
 		getManagers().getRendererManager().onPointOfViewChange();
 
-		setChanged();	
+		setChanged();
 		notifyObservers(this);
 	}
 
@@ -112,6 +111,18 @@ public class PointOfViewManager extends BaseManager
 		}
 	}
 
+	public void setRmax(float mRmax)
+	{
+		this.mRmax = mRmax;
+		setZoomDistance(mR);// refresh distance with saturations and notify
+	}
+
+	public void setRmin(float mRmin)
+	{
+		this.mRmin = mRmin;
+		setZoomDistance(mR);// refresh distance with saturations and notify
+	}
+
 	// 180 to 180
 	public void setRotationAngle(float angle)
 	{
@@ -150,18 +161,6 @@ public class PointOfViewManager extends BaseManager
 		{
 			mR = mRmin;
 		}
-	}
-
-	public void setRmax(float mRmax)
-	{
-		this.mRmax = mRmax;
-		setZoomDistance(mR);//refresh distance with saturations and notify
-	}
-
-	public void setRmin(float mRmin)
-	{
-		this.mRmin = mRmin;
-		setZoomDistance(mR);//refresh distance with saturations and notify
 	}
 
 }

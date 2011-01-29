@@ -65,7 +65,6 @@ public class RendererMainPanel extends Activity implements Observer
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
-	
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
@@ -77,28 +76,27 @@ public class RendererMainPanel extends Activity implements Observer
 		}
 	}
 
-	
-	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		if (true) {
-		    //StrictMode.enableDefaults();
+		if (true)
+		{
+			// StrictMode.enableDefaults();
 		}
-		
+
 		super.onCreate(savedInstanceState);
 
-		//TODO place in application not here ?
+		// TODO place in application not here ?
 		getManagers().Init(getBaseContext());
 		getManagers().Create();
 
 		getManagers().getUsageStatisticsManager().TrackPageView("/RendererMainPanel");
-		
+
 		ShowSplashScreen();
 		CheckUpdate();
-		ShowTutorial();		
-		
+		ShowTutorial();
+
 		updateFullscreenWindowStatus();
 
 		setContentView(R.layout.main);
@@ -157,16 +155,6 @@ public class RendererMainPanel extends Activity implements Observer
 		UpdateButtonsView();
 	}
 
-	public void updateFullscreenWindowStatus()
-	{
-		if (getManagers().getOptionsManager().getFullScreenApplication())
-		{
-			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN );
-		}
-	}
-
-	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
@@ -183,7 +171,6 @@ public class RendererMainPanel extends Activity implements Observer
 		return true;
 	}
 
-	
 	@Override
 	protected void onDestroy()
 	{
@@ -193,9 +180,8 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getMeshManager().deleteObserver(RendererMainPanel.this);
 		getManagers().getToolsManager().deleteObserver(RendererMainPanel.this);
 
-		getManagers().Destroy();			
+		getManagers().Destroy();
 	}
-	
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -235,30 +221,21 @@ public class RendererMainPanel extends Activity implements Observer
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
 			return true;
-		}		
+		}
 		case R.id.show_history:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.HistoryPanel.class, false);
 			return true;
-		}	
+		}
 		case R.id.show_about_panel:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.AboutPanel.class, false);
 			return true;
 		}
-		
-		/*
-		case R.id.show_point_of_view_panel:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class, false);
-			return true;
-		}
-		case R.id.quit:
-		{
-			this.finish();
-			return true;
-		}
-		*/
+
+			/*
+			 * case R.id.show_point_of_view_panel: { Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class, false); return true; } case R.id.quit: { this.finish(); return true; }
+			 */
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -270,7 +247,7 @@ public class RendererMainPanel extends Activity implements Observer
 		super.onPause();
 
 		getManagers().getSleepPowerManager().stop();
-		
+
 		// not needed for glsurfaceView since render is on request
 		// TODO pause sensors
 		// if (mGLSurfaceView != null)
@@ -283,7 +260,7 @@ public class RendererMainPanel extends Activity implements Observer
 		super.onResume();
 
 		getManagers().getSleepPowerManager().restart();
-		
+
 		if (mGLSurfaceView != null)
 		{
 			mGLSurfaceView.onResume();
@@ -295,7 +272,7 @@ public class RendererMainPanel extends Activity implements Observer
 	protected void onStop()
 	{
 		super.onStop();
-		
+
 		getManagers().getSleepPowerManager().stop();
 	}
 
@@ -322,6 +299,13 @@ public class RendererMainPanel extends Activity implements Observer
 		}
 	}
 
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		UpdateGLView();
+		UpdateButtonsView();
+	}
+
 	private void UpdateButtonsView()
 	{
 		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.POV);
@@ -329,16 +313,17 @@ public class RendererMainPanel extends Activity implements Observer
 		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.PAINT);
 	}
 
+	public void updateFullscreenWindowStatus()
+	{
+		if (getManagers().getOptionsManager().getFullScreenApplication())
+		{
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
+
 	private void UpdateGLView()
 	{
 		mGLSurfaceView.requestRender();
-	}
-
-	@Override
-	public void update(Observable observable, Object data)
-	{
-		UpdateGLView();	
-		UpdateButtonsView();
 	}
 
 }

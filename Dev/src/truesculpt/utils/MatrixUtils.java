@@ -76,6 +76,30 @@ public class MatrixUtils
 	}
 
 	/**
+	 * compares two vectors.
+	 * 
+	 * @param a
+	 *            The first vector
+	 * @param b
+	 *            The second vector
+	 * @param result
+	 *            true if equa
+	 **/
+	public static boolean equals(float[] a, float[] b)
+	{
+		boolean bRes = true;
+		for (int i = 0; i < a.length; i++)
+		{
+			if (a[i] != b[i])
+			{
+				bRes = false;
+				break;
+			}
+		}
+		return bRes;
+	}
+
+	/**
 	 * Homogenize a point (divide by its last element)
 	 * 
 	 * @param pt
@@ -127,30 +151,6 @@ public class MatrixUtils
 		return FixedPointUtils.sqrt(FixedPointUtils.multiply(vector[0], vector[0]) + FixedPointUtils.multiply(vector[1], vector[1]) + FixedPointUtils.multiply(vector[2], vector[2]));
 	}
 
-	/**
-	 * compares two vectors.
-	 * 
-	 * @param a
-	 *            The first vector
-	 * @param b
-	 *            The second vector
-	 * @param result
-	 *            true if equa
-	 **/
-	public static boolean equals(float[] a, float[] b)
-	{
-		boolean bRes=true;
-		for (int i = 0; i < a.length; i++)
-		{
-			if (a[i]!=b[i]) 
-			{ 
-				bRes=false;
-				break;			
-			}
-		}
-		return bRes;
-	}
-	
 	/**
 	 * Subtracts two vectors (a-b).
 	 * 

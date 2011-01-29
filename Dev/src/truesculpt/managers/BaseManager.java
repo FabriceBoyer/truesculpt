@@ -6,7 +6,6 @@ import truesculpt.main.Managers;
 import truesculpt.main.TrueSculptApp;
 import android.content.Context;
 
-
 public abstract class BaseManager extends Observable
 {
 	private Context mbaseContext;

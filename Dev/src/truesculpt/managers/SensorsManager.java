@@ -9,14 +9,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-
 public class SensorsManager extends BaseManager implements SensorEventListener
 {
 	boolean bOrigSet = false;
 	float[] diffAngles = new float[3];
 	float[] lastAngles = new float[3];
 
-	
 	private SensorManager mSensorManager = null;
 
 	float[] origAngles = new float[3];
@@ -43,16 +41,16 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 	{
 		if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 		{
-			//String msg = getbaseContext().getString(R.string.sensors_have_a_low_accuracy);
-			//getManagers().getUtilsManager().ShowToastMessage(msg);
-			//Log.i("SensorManager", msg);
+			// String msg = getbaseContext().getString(R.string.sensors_have_a_low_accuracy);
+			// getManagers().getUtilsManager().ShowToastMessage(msg);
+			// Log.i("SensorManager", msg);
 		}
 	}
 
 	@Override
 	public void onCreate()
-	{		
-		restart();		
+	{
+		restart();
 	}
 
 	@Override
@@ -107,7 +105,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 			{
 				mSensorManager.registerListener(SensorsManager.this, sensorList.get(i), SensorManager.SENSOR_DELAY_GAME);
 			}
-		}		
+		}
 	}
 
 	public void stop()

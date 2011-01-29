@@ -133,7 +133,6 @@ public class PointOfViewPanel extends Activity implements Observer
 		super.onPause();
 	}
 
-
 	@Override
 	protected void onResume()
 	{
@@ -152,26 +151,26 @@ public class PointOfViewPanel extends Activity implements Observer
 		getManagers().getPointOfViewManager().resetPOV();
 	}
 
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		UpdateUI();
+	}
+
 	private void UpdateUI()
 	{
 		float elevation = getManagers().getPointOfViewManager().getElevationAngle();
 		mElevationSeekBar.setProgress((int) elevation + 90);// 90° offset to
-															// center
+		// center
 		mElevationText.setText("Elevation=" + Integer.toString((int) elevation) + " °");
 
 		float rotation = getManagers().getPointOfViewManager().getRotationAngle();
 		mRotationSeekBar.setProgress((int) rotation + 180);// 180° offset to
-															// center
+		// center
 		mRotationText.setText("Rotation=" + Integer.toString((int) rotation) + " °");
 
 		float distance = getManagers().getPointOfViewManager().getZoomDistance();
 		mDistanceSeekBar.setProgress((int) distance);
 		mDistanceText.setText("Distance=" + Integer.toString((int) distance) + " m");
-	}
-
-	@Override
-	public void update(Observable observable, Object data)
-	{
-		UpdateUI();		
 	}
 }

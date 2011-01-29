@@ -40,8 +40,6 @@ public class MeshManager extends BaseManager
 
 	static float[] w0 = new float[3];
 	static float[] zero = { 0, 0, 0 };
-	
-	
 
 	// intersect_RayTriangle(): intersect a ray with a 3D triangle
 	// Input: a ray R (R0 and R1), and a triangle T (V0,V1)
@@ -129,14 +127,14 @@ public class MeshManager extends BaseManager
 	FloatBuffer mColorBuffer = null;
 	private HashMap<Integer, Face> mFaceMap = new HashMap<Integer, Face>();
 	ShortBuffer mIndexBuffer = null;
-	float mBoundingSphereRadius=1.0f;
-	float[] mBoundingSphereVector=new float[3];
-	
+	float mBoundingSphereRadius = 1.0f;
+	float[] mBoundingSphereVector = new float[3];
+
 	Runnable mInitTask = new Runnable()
 	{
 		@Override
 		public void run()
-		{		
+		{
 			mObject = new GeneratedObject(getManagers().getToolsManager().getColor(), 4);
 
 			mIndexBuffer = mObject.getIndexBuffer();
@@ -145,11 +143,11 @@ public class MeshManager extends BaseManager
 			mVertexBuffer = mObject.getVertexBuffer();
 
 			BuildRelationMapFromMesh();
-			BuildFaceMapFromMesh();			
-			
+			BuildFaceMapFromMesh();
+
 			bInitOver = true;
 
-			mHandler.post(mNotifyTask); // to come back in UI thread			
+			mHandler.post(mNotifyTask); // to come back in UI thread
 		}
 	};
 
@@ -163,8 +161,8 @@ public class MeshManager extends BaseManager
 			NotifyListeners();
 		}
 	};
-	
-	long mLastPickDurationMs = -1;	
+
+	long mLastPickDurationMs = -1;
 	private float[] mModelView = new float[16];
 	private HashMap<Integer, NodeRelationList> mNodeRelationMap = new HashMap<Integer, NodeRelationList>();
 	FloatBuffer mNormalBuffer = null;
@@ -176,13 +174,24 @@ public class MeshManager extends BaseManager
 	private int[] mViewPort = new int[4];
 	float[] rayPt1 = new float[3];
 	float[] rayPt2 = new float[3];
-	
-	//Main Mesh test
-	Mesh mMesh= null;
+
+	// Main Mesh test
+	Mesh mMesh = null;
 
 	public MeshManager(Context baseContext)
 	{
 		super(baseContext);
+	}
+
+	private void AddFaceRelationToMap(int nVertexIndexOrig, int triangleIndex)
+	{
+		NodeRelationList relationList = mNodeRelationMap.get(nVertexIndexOrig);
+		if (relationList == null)
+		{
+			relationList = new NodeRelationList();
+			mNodeRelationMap.put(nVertexIndexOrig, relationList);
+		}
+		relationList.AddFaceRelation(triangleIndex);
 	}
 
 	private void AddVertexRelationToMap(int nVertexIndexOrig, int nVertexIndexOther, float fDistance)
@@ -195,17 +204,6 @@ public class MeshManager extends BaseManager
 		}
 		relationList.AddVertexRelation(nVertexIndexOther, fDistance);
 	}
-	
-	private void AddFaceRelationToMap(int nVertexIndexOrig, int triangleIndex)
-	{
-		NodeRelationList relationList = mNodeRelationMap.get(nVertexIndexOrig);
-		if (relationList == null)
-		{
-			relationList = new NodeRelationList();
-			mNodeRelationMap.put(nVertexIndexOrig, relationList);
-		}
-		relationList.AddFaceRelation(triangleIndex);
-	}
 
 	private void BuildFaceMapFromMesh()
 	{
@@ -214,7 +212,7 @@ public class MeshManager extends BaseManager
 		for (int i = 0; i < nIndexCount; i = i + 3)
 		{
 			Face face = new Face();
-			
+
 			int nIndex0 = 3 * mIndexBuffer.get(i);
 			mVertexBuffer.position(nIndex0);
 			mVertexBuffer.get(face.V0, 0, 3);
@@ -268,7 +266,7 @@ public class MeshManager extends BaseManager
 			float fDist1 = MatrixUtils.magnitude(VDiff);
 			AddVertexRelationToMap(nIndex0, nIndex1, fDist1);
 			AddVertexRelationToMap(nIndex1, nIndex0, fDist1);
-			
+
 			// 1 to 2
 			MatrixUtils.minus(V2, V1, VDiff);
 			float fDist2 = MatrixUtils.magnitude(VDiff);
@@ -280,19 +278,17 @@ public class MeshManager extends BaseManager
 			float fDist3 = MatrixUtils.magnitude(VDiff);
 			AddVertexRelationToMap(nIndex2, nIndex0, fDist3);
 			AddVertexRelationToMap(nIndex0, nIndex2, fDist3);
-			
-			
-			//same faces for every point
-			AddFaceRelationToMap(nIndex0,i);
-			AddFaceRelationToMap(nIndex1,i);
-			AddFaceRelationToMap(nIndex2,i);
+
+			// same faces for every point
+			AddFaceRelationToMap(nIndex0, i);
+			AddFaceRelationToMap(nIndex1, i);
+			AddFaceRelationToMap(nIndex2, i);
 		}
 
 		mIndexBuffer.position(0);
 		mVertexBuffer.position(0);
 	}
-	
-	
+
 	// TODO place as an action
 	private void ColorizePaintAction(int triangleIndex)
 	{
@@ -308,14 +304,14 @@ public class MeshManager extends BaseManager
 			mColorBuffer.position(nIndex0);
 			mColorBuffer.put(VColor, 0, 4);
 
-			int nVertexIndex0=3*mIndexBuffer.get(triangleIndex);
-		
+			int nVertexIndex0 = 3 * mIndexBuffer.get(triangleIndex);
+
 			if (getManagers().getToolsManager().getRadius() >= 50)
 			{
-				// First corona					
+				// First corona
 				NodeRelationList list = mNodeRelationMap.get(nVertexIndex0);
 				for (Integer otherTriangle : list.mFaceRelationList)
-				{		
+				{
 					nIndex0 = 4 * mIndexBuffer.get(otherTriangle);
 					mColorBuffer.position(nIndex0);
 					mColorBuffer.put(VColor, 0, 4);
@@ -326,54 +322,82 @@ public class MeshManager extends BaseManager
 
 					int nIndex2 = 4 * mIndexBuffer.get(otherTriangle + 2);
 					mColorBuffer.position(nIndex2);
-					mColorBuffer.put(VColor, 0, 4);			
-				}				
+					mColorBuffer.put(VColor, 0, 4);
+				}
 			}
-			
+
 			mIndexBuffer.position(0);
-			mColorBuffer.position(0);	
+			mColorBuffer.position(0);
 		}
 	}
-	
-	
+
+	void ComputeBoundingSphereRadius()
+	{
+		mBoundingSphereRadius = 0.0f;
+		Collection<Face> list = mFaceMap.values();
+		for (Face face : list)
+		{
+			float norm = MatrixUtils.magnitude(face.V0);
+			if (norm > mBoundingSphereRadius)
+			{
+				MatrixUtils.copy(face.V0, mBoundingSphereVector);
+			}
+
+			norm = MatrixUtils.magnitude(face.V1);
+			if (norm > mBoundingSphereRadius)
+			{
+				MatrixUtils.copy(face.V1, mBoundingSphereVector);
+			}
+
+			norm = MatrixUtils.magnitude(face.V2);
+			if (norm > mBoundingSphereRadius)
+			{
+				MatrixUtils.copy(face.V2, mBoundingSphereVector);
+			}
+		}
+
+		float finalNorm = MatrixUtils.magnitude(mBoundingSphereVector);
+		mBoundingSphereRadius = finalNorm;
+
+		getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into accoutn, TODO read from conf
+	}
+
+	private void ComputeNormalOfTriangle(int nTriangleIndex, float[] normal)
+	{
+		Face face = mFaceMap.get(nTriangleIndex);
+
+		// get triangle edge vectors and plane normal
+		MatrixUtils.minus(face.V1, face.V0, u);
+		MatrixUtils.minus(face.V2, face.V0, v);
+
+		MatrixUtils.cross(u, v, n); // cross product
+		MatrixUtils.normalize(n);
+
+		MatrixUtils.copy(n, normal);
+	}
 
 	public void draw(GL10 gl)
 	{
 		synchronized (this)
 		{
-			if (mMesh!=null)
+			if (mMesh != null)
 			{
 				mMesh.draw(gl);
 			}
-			
+
 			if (mObject != null && bInitOver)
 			{
-				mObject.draw(gl);			
+				mObject.draw(gl);
 
 				if (getManagers().getOptionsManager().getDisplayDebugInfos())
-				{				
+				{
 					mObject.drawNormals(gl);
 					mRay.draw(gl);
 					mPickHighlight.draw(gl);
 				}
 			}
-			
-			
+
 		}
-	}
-
-	// TODO test for GL11 instanceof to handle not GL11 devices
-	// TODO use GL11ES calls indepedent of redraw with gl param
-	public void setCurrentModelView(GL10 gl)
-	{
-		GL11 gl2 = (GL11) gl;
-		gl2.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelView, 0);
-	}
-
-	public void setCurrentProjection(GL10 gl)
-	{
-		GL11 gl2 = (GL11) gl;
-		gl2.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjection, 0);
 	}
 
 	public int getFacesCount()
@@ -441,12 +465,6 @@ public class MeshManager extends BaseManager
 		return nCount;
 	}
 
-	public void setViewport(GL10 gl)
-	{
-		GL11 gl2 = (GL11) gl;
-		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
-	}
-
 	/**
 	 * Calculates the transform from screen coordinate system to world coordinate system coordinates for a specific point, given a camera position.
 	 * 
@@ -505,6 +523,11 @@ public class MeshManager extends BaseManager
 		worldPos[2] = outPoint[2] / outPoint[3];
 	}
 
+	private void InitMorphAction(int nTriangleIndex)
+	{
+
+	}
+
 	private void NotifyListeners()
 	{
 		setChanged();
@@ -514,9 +537,9 @@ public class MeshManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		//Thread thr = new Thread(null, mInitTask, "Mesh_Init");
-		//thr.start();
-		
+		// Thread thr = new Thread(null, mInitTask, "Mesh_Init");
+		// thr.start();
+
 		// mMesh= new Mesh(getManagers());
 	}
 
@@ -550,7 +573,7 @@ public class MeshManager extends BaseManager
 
 			if (bInitOver)
 			{
-				
+
 				nIndex = GetPickedTriangleIndex();
 				if (nIndex >= 0)
 				{
@@ -559,24 +582,24 @@ public class MeshManager extends BaseManager
 					// TODO place in actionManager
 					switch (getManagers().getToolsManager().getToolMode())
 					{
-						case SCULPT:
+					case SCULPT:
+					{
+						switch (getManagers().getToolsManager().getSculptSubMode())
 						{
-							switch (getManagers().getToolsManager().getSculptSubMode())
-							{
-							case RISE:
-								RiseSculptAction(nIndex);
-								break;
-							case MORPH:
-								InitMorphAction(nIndex);
-								break;
-							}
+						case RISE:
+							RiseSculptAction(nIndex);
+							break;
+						case MORPH:
+							InitMorphAction(nIndex);
 							break;
 						}
-						case PAINT:
-						{
-							ColorizePaintAction(nIndex);
-							break;
-						}
+						break;
+					}
+					case PAINT:
+					{
+						ColorizePaintAction(nIndex);
+						break;
+					}
 					}
 
 					// msg = "Picked Triangle Index =" +
@@ -586,12 +609,11 @@ public class MeshManager extends BaseManager
 					// Float.toString(intersectPt[1]) + "; z=" +
 					// Float.toString(intersectPt[2]) + "\n";
 					// Log.i("Picking", msg);
-				}
-				else
+				} else
 				{
 					mPickHighlight.setPickHighlightPosition(zero);
 				}
-				
+
 			}
 
 			NotifyListeners();
@@ -605,40 +627,6 @@ public class MeshManager extends BaseManager
 		return nIndex;
 	}
 
-	private void InitMorphAction(int nTriangleIndex)
-	{
-		
-	}	
-	
-	//handles bytearray and map cache
-	private void UpdateVertexBufferValue(int nVertexIndex, float[] Value)
-	{		
-		mVertexBuffer.position(nVertexIndex);
-		mVertexBuffer.put(Value, 0, 3);	
-		mVertexBuffer.position(0);
-		
-
-		NodeRelationList list=mNodeRelationMap.get(nVertexIndex);
-		for (Integer triangleIndex : list.mFaceRelationList)
-		{
-			Face face = mFaceMap.get(triangleIndex);
-			
-			int nIndex0 = 3 * mIndexBuffer.get(triangleIndex);
-			mVertexBuffer.position(nIndex0);
-			mVertexBuffer.get(face.V0, 0, 3);
-
-			int nIndex1 = 3 * mIndexBuffer.get(triangleIndex + 1);
-			mVertexBuffer.position(nIndex1);
-			mVertexBuffer.get(face.V1, 0, 3);
-
-			int nIndex2 = 3 * mIndexBuffer.get(triangleIndex + 2);
-			mVertexBuffer.position(nIndex2);
-			mVertexBuffer.get(face.V2, 0, 3);			
-		}
-		
-		UpdateBoudingSphereRadius(Value);
-	}
-	
 	// TODO place as an action
 	private void RiseSculptAction(int triangleIndex)
 	{
@@ -661,19 +649,19 @@ public class MeshManager extends BaseManager
 			MatrixUtils.scalarMultiply(nOffset, fMaxDeformation);
 
 			MatrixUtils.plus(V0, nOffset, V0);
-			UpdateVertexBufferValue(nIndex0,V0);
+			UpdateVertexBufferValue(nIndex0, V0);
 
 			if (getManagers().getToolsManager().getRadius() >= 50)
 			{
 				// First corona
-				
-				//Rise point
+
+				// Rise point
 				NodeRelationList list = mNodeRelationMap.get(nIndex0);
 				for (NodeRelation relation : list.mVertexRelationList)
 				{
 					int nOtherIndex = relation.mOtherIndex;
 
-					//TODO read from map
+					// TODO read from map
 					mVertexBuffer.position(nOtherIndex);
 					mVertexBuffer.get(VTemp, 0, 3);
 
@@ -681,10 +669,10 @@ public class MeshManager extends BaseManager
 
 					MatrixUtils.plus(VTemp, nOffset, VTemp);
 
-					UpdateVertexBufferValue(nOtherIndex,VTemp);					
+					UpdateVertexBufferValue(nOtherIndex, VTemp);
 				}
-				
-				//update normals after rise up
+
+				// update normals after rise up
 				for (NodeRelation relation : list.mVertexRelationList)
 				{
 					int nOtherIndex = relation.mOtherIndex;
@@ -693,23 +681,85 @@ public class MeshManager extends BaseManager
 			}
 
 			UpdateVertexNormal(nIndex0);
-			
+
 			mIndexBuffer.position(0);
 			mVertexBuffer.position(0);
 			mNormalBuffer.position(0);
 		}
 	}
 
+	// TODO test for GL11 instanceof to handle not GL11 devices
+	// TODO use GL11ES calls indepedent of redraw with gl param
+	public void setCurrentModelView(GL10 gl)
+	{
+		GL11 gl2 = (GL11) gl;
+		gl2.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelView, 0);
+	}
+
+	public void setCurrentProjection(GL10 gl)
+	{
+		GL11 gl2 = (GL11) gl;
+		gl2.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjection, 0);
+	}
+
+	public void setViewport(GL10 gl)
+	{
+		GL11 gl2 = (GL11) gl;
+		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
+	}
+
+	void UpdateBoudingSphereRadius(float[] val)
+	{
+		float norm = MatrixUtils.magnitude(val);
+		if (norm > mBoundingSphereRadius)
+		{
+			mBoundingSphereRadius = norm;
+			MatrixUtils.copy(val, mBoundingSphereVector);
+			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into accoutn, TODO read from conf
+		} else
+		{
+			// detect if same as limit and recompute to decrement vector if necessary (beware severals vectors can be the max)
+		}
+	}
+
+	// handles bytearray and map cache
+	private void UpdateVertexBufferValue(int nVertexIndex, float[] Value)
+	{
+		mVertexBuffer.position(nVertexIndex);
+		mVertexBuffer.put(Value, 0, 3);
+		mVertexBuffer.position(0);
+
+		NodeRelationList list = mNodeRelationMap.get(nVertexIndex);
+		for (Integer triangleIndex : list.mFaceRelationList)
+		{
+			Face face = mFaceMap.get(triangleIndex);
+
+			int nIndex0 = 3 * mIndexBuffer.get(triangleIndex);
+			mVertexBuffer.position(nIndex0);
+			mVertexBuffer.get(face.V0, 0, 3);
+
+			int nIndex1 = 3 * mIndexBuffer.get(triangleIndex + 1);
+			mVertexBuffer.position(nIndex1);
+			mVertexBuffer.get(face.V1, 0, 3);
+
+			int nIndex2 = 3 * mIndexBuffer.get(triangleIndex + 2);
+			mVertexBuffer.position(nIndex2);
+			mVertexBuffer.get(face.V2, 0, 3);
+		}
+
+		UpdateBoudingSphereRadius(Value);
+	}
+
 	private void UpdateVertexNormal(int nVertexIndex)
 	{
-		float[] VNormal = {0,0,0};
-		float[] VTempNormal= new float[3];
-		
+		float[] VNormal = { 0, 0, 0 };
+		float[] VTempNormal = new float[3];
+
 		// averaging normals of triangles around
 		NodeRelationList list = mNodeRelationMap.get(nVertexIndex);
 		for (Integer triangleIndex : list.mFaceRelationList)
 		{
-			ComputeNormalOfTriangle(triangleIndex,VTempNormal);
+			ComputeNormalOfTriangle(triangleIndex, VTempNormal);
 			MatrixUtils.plus(VNormal, VTempNormal, VNormal);
 		}
 
@@ -719,67 +769,6 @@ public class MeshManager extends BaseManager
 		mNormalBuffer.put(VNormal, 0, 3);
 
 		mNormalBuffer.position(0);
-	}
-	
-	private void ComputeNormalOfTriangle(int nTriangleIndex, float[] normal)
-	{
-		Face face = mFaceMap.get(nTriangleIndex);
-		
-		// get triangle edge vectors and plane normal
-		MatrixUtils.minus(face.V1, face.V0, u);
-		MatrixUtils.minus(face.V2, face.V0, v);
-
-		MatrixUtils.cross(u, v, n); // cross product
-		MatrixUtils.normalize(n);
-		
-		MatrixUtils.copy(n, normal);		
-	}
-	
-	
-	void ComputeBoundingSphereRadius()
-	{
-		mBoundingSphereRadius=0.0f;
-		Collection<Face> list=mFaceMap.values();		
-		for (Face face : list)
-		{
-			float norm=MatrixUtils.magnitude(face.V0);
-			if (norm>mBoundingSphereRadius)
-			{
-				MatrixUtils.copy(face.V0, mBoundingSphereVector);
-			}
-			
-			norm=MatrixUtils.magnitude(face.V1);
-			if (norm>mBoundingSphereRadius)
-			{
-				MatrixUtils.copy(face.V1, mBoundingSphereVector);
-			}
-			
-			norm=MatrixUtils.magnitude(face.V2);
-			if (norm>mBoundingSphereRadius) 
-			{
-				MatrixUtils.copy(face.V2, mBoundingSphereVector);	
-			}
-		}
-		
-		float finalNorm=MatrixUtils.magnitude(mBoundingSphereVector);
-		mBoundingSphereRadius=finalNorm;
-		
-		getManagers().getPointOfViewManager().setRmin(1+mBoundingSphereRadius);//takes near clip into accoutn, TODO read from conf
-	}
-	
-	void UpdateBoudingSphereRadius(float[] val)
-	{		
-		float norm=MatrixUtils.magnitude(val);
-		if (norm>mBoundingSphereRadius) 
-		{
-			mBoundingSphereRadius=norm;
-			MatrixUtils.copy(val, mBoundingSphereVector);
-			getManagers().getPointOfViewManager().setRmin(1+mBoundingSphereRadius);//takes near clip into accoutn, TODO read from conf
-		}	
-		else
-		{
-			// detect if same as limit and recompute to decrement vector if necessary (beware severals vectors can be the max)		
-		}
 	}
 
 }

@@ -12,7 +12,7 @@ public class NodeRelationList
 	{
 
 	}
-	
+
 	public void AddFaceRelation(int triangleIndex)
 	{
 		mFaceRelationList.add(triangleIndex);

@@ -46,6 +46,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private Managers mManagers = null;
 	private float mRot;
 
+	private boolean mbTakeScreenshot = false;
+
 	public MainRenderer(Managers managers)
 	{
 		super();
@@ -56,13 +58,12 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	{
 		return mLastFrameDurationMs;
 	}
+
 	public Managers getManagers()
 	{
 		return mManagers;
 	}
 
-	private boolean mbTakeScreenshot=false;
-	
 	@Override
 	public void onDrawFrame(GL10 gl)
 	{
@@ -91,7 +92,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		// only if point of view changed
 		getManagers().getMeshManager().setCurrentModelView(gl);
 
-		if (getManagers().getOptionsManager().getDisplayDebugInfos())//TODO use cache
+		if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use cache
 		{
 			mAxis.draw(gl);
 		}
@@ -104,9 +105,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		if (mbTakeScreenshot)
 		{
 			getManagers().getUtilsManager().TakeGLScreenshot(gl);
-			mbTakeScreenshot=false;
+			mbTakeScreenshot = false;
 		}
-		
+
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs = tStop - tStart;
 	}
@@ -167,7 +168,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
 	}
-	
+
 	public void TakeGLScreenshotOfNextFrame()
 	{
 		this.mbTakeScreenshot = true;

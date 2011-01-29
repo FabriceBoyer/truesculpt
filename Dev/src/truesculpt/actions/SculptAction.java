@@ -19,22 +19,22 @@ public class SculptAction extends BaseAction
 	}
 
 	@Override
+	public String getActionName()
+	{
+		return "Sculpt";
+	}
+
+	@Override
+	public int getImageResourceID()
+	{
+		return R.drawable.grab;
+	}
+
+	@Override
 	public boolean UndoAction()
 	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public String getActionName()
-	{		
-		return "Sculpt";
-	}
-	@Override
-	public int getImageResourceID() 
-	{
-		return R.drawable.grab; 
-	}
-	
-	
 }
