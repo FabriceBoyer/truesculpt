@@ -5,8 +5,8 @@ import android.os.PowerManager;
 
 public class SleepPowerManager extends BaseManager
 {
-	private PowerManager.WakeLock wl=null;
-	
+	private PowerManager.WakeLock wl = null;
+
 	public SleepPowerManager(Context baseContext)
 	{
 		super(baseContext);
@@ -16,24 +16,24 @@ public class SleepPowerManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		restart();		
+		restart();
 	}
 
 	@Override
 	public void onDestroy()
 	{
-		stop();		
+		stop();
 	}
-	
+
 	public void restart()
 	{
-		stop();		
+		stop();
 		start();
 	}
 
 	public void start()
 	{
-		//prevent sleep mode
+		// prevent sleep mode
 		if (getManagers().getOptionsManager().getPreventSleepMode())
 		{
 			PowerManager pm = (PowerManager) getbaseContext().getSystemService(Context.POWER_SERVICE);
@@ -41,13 +41,13 @@ public class SleepPowerManager extends BaseManager
 			wl.acquire();
 		}
 	}
-	
+
 	public void stop()
 	{
-		if (wl!=null)
+		if (wl != null)
 		{
 			wl.release();
-			wl=null;
+			wl = null;
 		}
 	}
 

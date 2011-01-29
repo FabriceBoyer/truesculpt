@@ -35,7 +35,6 @@ public class DebugPanel extends Activity
 			}
 		});
 
-
 		// TODO update on timer
 		TextView lastFrameText = (TextView) findViewById(R.id.lastFrameDurationText);
 		long lLastRenderDuration = getManagers().getRendererManager().getMainRenderer().getLastFrameDurationMs();

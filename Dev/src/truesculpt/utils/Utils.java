@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 
-
 public class Utils
 {
 	public static void ColorIntToFloatVector(int color, float[] VColor)
@@ -16,7 +15,7 @@ public class Utils
 		VColor[2] = Color.blue(color) / 255.0f;
 		VColor[3] = 1.0f;
 	}
-	
+
 	public static void ShowURLInBrowser(Activity callingACtivity, String strURL)
 	{
 		if (callingACtivity != null)
@@ -35,8 +34,8 @@ public class Utils
 			{
 				myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			}
-			
-			callingContext.startActivity(myIntent);			
+
+			callingContext.startActivity(myIntent);
 		}
 	}
 

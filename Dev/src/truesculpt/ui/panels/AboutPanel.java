@@ -16,13 +16,18 @@ import android.widget.Button;
 public class AboutPanel extends Activity
 {
 
+	public Managers getManagers()
+	{
+		return ((TrueSculptApp) getApplicationContext()).getManagers();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
+
 		getManagers().getUsageStatisticsManager().TrackPageView("/AboutPanel");
-		
+
 		setContentView(R.layout.about);
 
 		final Button button = (Button) findViewById(R.id.Ok_btn);
@@ -37,30 +42,18 @@ public class AboutPanel extends Activity
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event)
-	{
-		finish();
-		return super.onTouchEvent(event);
-	}
-	
-	public Managers getManagers()
-	{
-		return ((TrueSculptApp) getApplicationContext()).getManagers();
-	}
-	
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.about, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
-		{	
+		{
 		case R.id.show_debug_panel:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class, false);
@@ -75,11 +68,18 @@ public class AboutPanel extends Activity
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
 			return true;
-		}		
-	
+		}
+
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
+	{
+		finish();
+		return super.onTouchEvent(event);
 	}
 
 }

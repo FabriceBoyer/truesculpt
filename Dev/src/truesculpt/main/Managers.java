@@ -126,6 +126,11 @@ public class Managers
 		return mSensorsManager;
 	}
 
+	public SleepPowerManager getSleepPowerManager()
+	{
+		return mPowerManager;
+	}
+
 	/**
 	 * @return the mToolsManager
 	 */
@@ -158,6 +163,11 @@ public class Managers
 		return mUsageStatisticsManager;
 	}
 
+	public UtilsManager getUtilsManager()
+	{
+		return mUtilsManager;
+	}
+
 	/**
 	 * @return the mWebManager
 	 */
@@ -165,18 +175,6 @@ public class Managers
 	{
 		return mWebManager;
 	}
-	
-	public SleepPowerManager getSleepPowerManager()
-	{
-		return mPowerManager;
-	}	
-	
-	public UtilsManager getUtilsManager()
-	{
-		return mUtilsManager;
-	}
-	
-	
 
 	public void Init(Context baseContext)
 	{
@@ -195,7 +193,7 @@ public class Managers
 		mWebManager = new WebManager(baseContext);
 		mUsageStatisticsManager = new UsageStatisticsManager(baseContext);
 		mFileManager = new FileManager(baseContext);
-		mPowerManager =  new SleepPowerManager(baseContext);
+		mPowerManager = new SleepPowerManager(baseContext);
 		mUtilsManager = new UtilsManager(baseContext);
 
 		mManagersList.add(mActionsManager);
@@ -213,6 +211,6 @@ public class Managers
 		mManagersList.add(mWebManager);
 		mManagersList.add(mPowerManager);
 		mManagersList.add(mUtilsManager);
-	
+
 	}
 }

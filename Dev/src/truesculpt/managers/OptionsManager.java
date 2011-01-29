@@ -34,14 +34,33 @@ public class OptionsManager extends BaseManager
 		return settings.getBoolean("DisplaySplashScreenAtStartup", true);
 	}
 
+	public boolean getFullScreenApplication()
+	{
+		return settings.getBoolean("FullScreenApplication", false);
+	}
+
 	public boolean getGatherUsageData()
 	{
 		return settings.getBoolean("GatherUsageData", true);
 	}
 
+	public long getLastSoftwareUpdateCheckDate()
+	{
+		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init default values
+		{
+			updateLastSoftwareUpdateCheckDate();
+		}
+		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
+	}
+
 	public boolean getLoadLastUsedFileAtStartup()
 	{
 		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
+	}
+
+	public boolean getPreventSleepMode()
+	{
+		return settings.getBoolean("PreventSleepMode", true);
 	}
 
 	public boolean getUseSensorsToChangePOV()
@@ -53,28 +72,11 @@ public class OptionsManager extends BaseManager
 	{
 		return settings.getBoolean("ViewTutorialAtStartup", true);
 	}
-	
-	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup)
-	{
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
-		editor.commit();
-	}
-	
-	public boolean getPreventSleepMode()
-	{
-		return settings.getBoolean("PreventSleepMode", true);
-	}
 
-	public boolean getFullScreenApplication()
-	{
-		return settings.getBoolean("FullScreenApplication", false);
-	}
-	
 	@Override
 	public void onCreate()
 	{
-		//Nothing done here because other managers use this class at create time
+		// Nothing done here because other managers use this class at create time
 	}
 
 	@Override
@@ -84,15 +86,13 @@ public class OptionsManager extends BaseManager
 
 	}
 
-	public long getLastSoftwareUpdateCheckDate()
+	public void setViewTutorialAtStartup(boolean mViewTutorialAtStartup)
 	{
-		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init default values
-		{
-			updateLastSoftwareUpdateCheckDate();
-		}
-		return settings.getLong("LastSoftwareUpdateCheckDate", System.currentTimeMillis());
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("ViewTutorialAtStartup", mViewTutorialAtStartup);
+		editor.commit();
 	}
-	
+
 	public void updateLastSoftwareUpdateCheckDate()
 	{
 		long today = System.currentTimeMillis();

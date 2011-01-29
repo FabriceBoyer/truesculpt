@@ -13,15 +13,23 @@ import android.widget.TextView;
 
 public class HistoryAdapter extends BaseAdapter
 {
-	LayoutInflater inflater;
-	ActionsManager mActionsManager=null;
-	
-	public HistoryAdapter(Context context, ActionsManager manager )
+	class ViewHolder
 	{
-		mActionsManager=manager;		
+		TextView title;
+		TextView description;
+		ImageView image;
+	}
+
+	LayoutInflater inflater;
+
+	ActionsManager mActionsManager = null;
+
+	public HistoryAdapter(Context context, ActionsManager manager)
+	{
+		mActionsManager = manager;
 		inflater = LayoutInflater.from(context);
 	}
-	
+
 	@Override
 	public int getCount()
 	{
@@ -42,34 +50,27 @@ public class HistoryAdapter extends BaseAdapter
 		return position;
 	}
 
-	class ViewHolder {
-		TextView title;
-		TextView description;
-		ImageView image;
-	}
-	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		ViewHolder holder;
 
-		if(convertView == null) 
+		if (convertView == null)
 		{
 			holder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.historyitem, null);
-			holder.title = (TextView)convertView.findViewById(R.id.title);
-			holder.description = (TextView)convertView.findViewById(R.id.description);
-			holder.image= (ImageView)convertView.findViewById(R.id.image);
+			holder.title = (TextView) convertView.findViewById(R.id.title);
+			holder.description = (TextView) convertView.findViewById(R.id.description);
+			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			convertView.setTag(holder);
-		}
-		else
+		} else
 		{
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		BaseAction action=mActionsManager.getActionsList().get(position);
+		BaseAction action = mActionsManager.getActionsList().get(position);
 		holder.title.setText(action.getActionName());
-		holder.description.setText(action.getDescription());		
+		holder.description.setText(action.getDescription());
 		holder.image.setImageResource(action.getImageResourceID());
 
 		return convertView;

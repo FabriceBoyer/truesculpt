@@ -13,8 +13,9 @@ import android.graphics.Shader.TileMode;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class HSLColorPickerView extends View {
-	
+public class HSLColorPickerView extends View
+{
+
 	Paint paint;
 	Shader dalam;
 	Shader luar;
@@ -24,26 +25,31 @@ public class HSLColorPickerView extends View {
 	float ukuranUiPx; // diset di constructor
 	float[] tmp00 = new float[3];
 
-	public HSLColorPickerView(Context context) {
+	public HSLColorPickerView(Context context)
+	{
 		this(context, null);
 	}
 
-	public HSLColorPickerView(Context context, AttributeSet attrs) {
+	public HSLColorPickerView(Context context, AttributeSet attrs)
+	{
 		this(context, attrs, 0);
 	}
 
-	public HSLColorPickerView(Context context, AttributeSet attrs, int defStyle) {
+	public HSLColorPickerView(Context context, AttributeSet attrs, int defStyle)
+	{
 		super(context, attrs, defStyle);
-		
+
 		satudp = context.getResources().getDimension(R.dimen.ambilwarna_satudp);
 		ukuranUiPx = ukuranUiDp * satudp;
 	}
-	
+
 	@Override
-	protected void onDraw(Canvas canvas) {
+	protected void onDraw(Canvas canvas)
+	{
 		super.onDraw(canvas);
-		
-		if (paint == null) {
+
+		if (paint == null)
+		{
 			paint = new Paint();
 			luar = new LinearGradient(0.f, 0.f, 0.f, ukuranUiPx, 0xffffffff, 0xff000000, TileMode.CLAMP);
 		}
@@ -56,11 +62,12 @@ public class HSLColorPickerView extends View {
 		ComposeShader shader = new ComposeShader(luar, dalam, PorterDuff.Mode.MULTIPLY);
 
 		paint.setShader(shader);
-		
+
 		canvas.drawRect(0.f, 0.f, ukuranUiPx, ukuranUiPx, paint);
 	}
-	
-	void setHue(float hue) {
+
+	void setHue(float hue)
+	{
 		this.hue = hue;
 		invalidate();
 	}

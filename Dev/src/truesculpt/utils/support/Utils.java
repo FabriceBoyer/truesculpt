@@ -103,7 +103,7 @@ public class Utils
 	 * 
 	 * @return this is null if the object can't be copied for some reason
 	 */
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings( { "unchecked" })
 	public static <Type extends Serializable> Type copyObject(Type copythis)
 	{
 		Type retval = null;

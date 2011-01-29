@@ -19,22 +19,22 @@ public class InitialCreationAction extends BaseAction
 	}
 
 	@Override
+	public String getActionName()
+	{
+		return "Init";
+	}
+
+	@Override
+	public int getImageResourceID()
+	{
+		return R.drawable.flash;
+	}
+
+	@Override
 	public boolean UndoAction()
 	{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	@Override
-	public String getActionName()
-	{		
-		return "Init";
-	}
-	@Override
-	public int getImageResourceID() 
-	{
-		return R.drawable.flash; 
-	}
-	
 
 }

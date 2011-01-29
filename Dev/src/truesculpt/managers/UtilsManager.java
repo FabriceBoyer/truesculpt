@@ -24,10 +24,56 @@ import android.widget.Toast;
 public class UtilsManager extends BaseManager
 {
 
+	private Handler mHandler = new Handler();
+
+	Runnable mShowMessageTask = new Runnable()
+	{
+		@Override
+		public void run()
+		{
+			Toast toast = Toast.makeText(getbaseContext(), mShowMsg, Toast.LENGTH_LONG);
+			toast.show();
+		}
+	};
+
+	private String mShowMsg = "";
+
 	public UtilsManager(Context baseContext)
 	{
 		super(baseContext);
 		// TODO Auto-generated constructor stub
+	}
+
+	public String CreateObjExportFileName()
+	{
+		// TODO add sculpture name in filename
+		Date date = new Date();
+		String strBasePath = Environment.getExternalStorageDirectory() + "/Truesculpt/ObjExport/";
+
+		// have the object build the directory structure, if needed.
+		File basePath = new File(strBasePath);
+		basePath.mkdirs();
+
+		String strFileName = strBasePath + "Export_" + date.toGMTString() + ".obj";
+		strFileName = strFileName.replaceAll(":", "_");
+		strFileName = strFileName.replaceAll(" ", "_");
+		return strFileName;
+	}
+
+	private String CreateSnapshotFileName()
+	{
+		// TODO add sculpture name in filename
+		Date date = new Date();
+		String strBasePath = Environment.getExternalStorageDirectory() + "/Truesculpt/Screenshots/";
+
+		// have the object build the directory structure, if needed.
+		File basePath = new File(strBasePath);
+		basePath.mkdirs();
+
+		String strFileName = strBasePath + "Img_" + date.toGMTString() + ".png";
+		strFileName = strFileName.replaceAll(":", "_");
+		strFileName = strFileName.replaceAll(" ", "_");
+		return strFileName;
 	}
 
 	@Override
@@ -43,37 +89,38 @@ public class UtilsManager extends BaseManager
 		// TODO Auto-generated method stub
 
 	}
-	
-	private Handler mHandler = new Handler();
-	Runnable mShowMessageTask = new Runnable()
-	{		
-		@Override
-		public void run()
+
+	public void SetImageAsWallpaper(String strFileName)
+	{
+		Bitmap bitmap = BitmapFactory.decodeFile(strFileName);
+
+		try
 		{
-			Toast toast =Toast.makeText(getbaseContext(), mShowMsg, Toast.LENGTH_LONG);
-			toast.show();
+			WallpaperManager wp = (WallpaperManager) getbaseContext().getSystemService(Context.WALLPAPER_SERVICE);
+			wp.setBitmap(bitmap);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
 		}
-	};
-		
-	private String mShowMsg=""; 
-	
-	//to come back in UI thread from a manager
+	}
+
+	// to come back in UI thread from a manager
 	public void ShowToastMessage(String msg)
 	{
-		mShowMsg=msg;
-		mHandler.post(mShowMessageTask);		
+		mShowMsg = msg;
+		mHandler.post(mShowMessageTask);
 	}
-	
+
 	public void TakeGLScreenshot(GL10 gl)
-	{		
+	{
 		getManagers().getUsageStatisticsManager().TrackEvent("Screenshot", "Count", 0);
-		
+
 		int[] mViewPort = new int[4];
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
-		
+
 		int width = mViewPort[2];
-		int  height = mViewPort[3];
+		int height = mViewPort[3];
 
 		int size = width * height;
 		ByteBuffer buf = ByteBuffer.allocateDirect(size * 4);
@@ -83,83 +130,42 @@ public class UtilsManager extends BaseManager
 		buf.asIntBuffer().get(data);
 		buf = null;
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-		bitmap.setPixels(data, size-width, -width, 0, 0, width, height);
+		bitmap.setPixels(data, size - width, -width, 0, 0, width, height);
 		data = null;
 
 		short sdata[] = new short[size];
 		ShortBuffer sbuf = ShortBuffer.wrap(sdata);
 		bitmap.copyPixelsToBuffer(sbuf);
-		for (int i = 0; i < size; ++i) {
-		    //BGR-565 to RGB-565
-		    short v = sdata[i];
-		    sdata[i] = (short) (((v&0x1f) << 11) | (v&0x7e0) | ((v&0xf800) >> 11));
+		for (int i = 0; i < size; ++i)
+		{
+			// BGR-565 to RGB-565
+			short v = sdata[i];
+			sdata[i] = (short) ((v & 0x1f) << 11 | v & 0x7e0 | (v & 0xf800) >> 11);
 		}
 		sbuf.rewind();
 		bitmap.copyPixelsFromBuffer(sbuf);
-		
-		String strSnapshotFileName=CreateSnapshotFileName();
-		try {			
-		    FileOutputStream fos = new FileOutputStream(strSnapshotFileName);
-		    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-		    fos.flush();
-		    fos.close();		    
-		} catch (Exception e) {
+
+		String strSnapshotFileName = CreateSnapshotFileName();
+		try
+		{
+			FileOutputStream fos = new FileOutputStream(strSnapshotFileName);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+			fos.flush();
+			fos.close();
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 			return;
 		}
-		
-		String msg=getbaseContext().getString(R.string.snapshot_has_been_saved_to_)+strSnapshotFileName;
+
+		String msg = getbaseContext().getString(R.string.snapshot_has_been_saved_to_) + strSnapshotFileName;
 		ShowToastMessage(msg);
-		
-		//photo sound
+
+		// photo sound
 		MediaPlayer mp = MediaPlayer.create(getbaseContext(), R.raw.photo_shutter);
 		mp.start();
-		
-		//temp for test
+
+		// temp for test
 		SetImageAsWallpaper(strSnapshotFileName);
-	}
-	
-	public void SetImageAsWallpaper(String strFileName)
-	{
-		Bitmap bitmap = BitmapFactory.decodeFile(strFileName);
-					 
-	    try {
-	    	WallpaperManager wp=(WallpaperManager) getbaseContext().getSystemService(Context.WALLPAPER_SERVICE);
-	    	wp.setBitmap(bitmap);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-	
-	private String CreateSnapshotFileName()
-	{
-		//TODO add sculpture name in filename
-		Date date= new Date();
-		String strBasePath=Environment.getExternalStorageDirectory()+"/Truesculpt/Screenshots/";
-		
-		// have the object build the directory structure, if needed.
-		File basePath = new File(strBasePath);
-		basePath.mkdirs();				
-
-		String strFileName=strBasePath+"Img_"+date.toGMTString()+".png";
-		strFileName=strFileName.replaceAll(":", "_");
-		strFileName=strFileName.replaceAll(" ", "_");
-		return strFileName;
-	}
-	
-	public String CreateObjExportFileName()
-	{
-		//TODO add sculpture name in filename
-		Date date= new Date();
-		String strBasePath=Environment.getExternalStorageDirectory()+"/Truesculpt/ObjExport/";
-		
-		// have the object build the directory structure, if needed.
-		File basePath = new File(strBasePath);
-		basePath.mkdirs();				
-
-		String strFileName=strBasePath+"Export_"+date.toGMTString()+".obj";
-		strFileName=strFileName.replaceAll(":", "_");
-		strFileName=strFileName.replaceAll(" ", "_");
-		return strFileName;
 	}
 }

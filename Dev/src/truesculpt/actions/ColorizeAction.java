@@ -19,21 +19,22 @@ public class ColorizeAction extends BaseAction
 	}
 
 	@Override
+	public String getActionName()
+	{
+		return "Colorize";
+	}
+
+	@Override
+	public int getImageResourceID()
+	{
+		return R.drawable.colorpicker;
+	}
+
+	@Override
 	public boolean UndoAction()
 	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public String getActionName()
-	{		
-		return "Colorize";
-	}
-	@Override
-	public int getImageResourceID() 
-	{
-		return R.drawable.colorpicker; 
-	}
-	
 }

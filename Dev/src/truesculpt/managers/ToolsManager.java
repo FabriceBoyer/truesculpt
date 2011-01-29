@@ -18,15 +18,14 @@ public class ToolsManager extends BaseManager
 		PAINT, POV, SCULPT
 	};
 
-	
 	private int mColor = Color.rgb(150, 150, 150);
 	private boolean mForcedMode = false;
 	private EToolMode mLastMode = EToolMode.SCULPT;
-	
+
 	private EToolMode mMode = EToolMode.POV;
 
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
-	private ESculptToolSubMode mSculptSubMode= ESculptToolSubMode.RISE;
+	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.RISE;
 
 	private float mRadius = 50.0f;// pct
 
@@ -63,6 +62,11 @@ public class ToolsManager extends BaseManager
 		return mRadius;
 	}
 
+	public ESculptToolSubMode getSculptSubMode()
+	{
+		return mSculptSubMode;
+	}
+
 	public float getStrength()
 	{
 		return mStrength;
@@ -76,7 +80,7 @@ public class ToolsManager extends BaseManager
 	private void NotifyListeners()
 	{
 		setChanged();
-		notifyObservers(this);		
+		notifyObservers(this);
 	}
 
 	@Override
@@ -93,7 +97,6 @@ public class ToolsManager extends BaseManager
 
 	}
 
-	
 	public void setColor(int color)
 	{
 		this.mColor = color;
@@ -134,6 +137,11 @@ public class ToolsManager extends BaseManager
 		NotifyListeners();
 	}
 
+	public void setSculptSubMode(ESculptToolSubMode mSculptSubMode)
+	{
+		this.mSculptSubMode = mSculptSubMode;
+	}
+
 	public void setStrength(float strength)
 	{
 		this.mStrength = strength;
@@ -159,20 +167,10 @@ public class ToolsManager extends BaseManager
 			NotifyListeners();
 		}
 	}
-	
+
 	public void TakeGLScreenshot()
 	{
 		getManagers().getRendererManager().getMainRenderer().TakeGLScreenshotOfNextFrame();
 		NotifyListeners();
-	}
-
-	public ESculptToolSubMode getSculptSubMode()
-	{
-		return mSculptSubMode;
-	}
-
-	public void setSculptSubMode(ESculptToolSubMode mSculptSubMode)
-	{
-		this.mSculptSubMode = mSculptSubMode;
 	}
 }
