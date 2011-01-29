@@ -2,14 +2,12 @@ package truesculpt.managers;
 
 import java.util.List;
 
-import truesculpt.main.R;
 import truesculpt.utils.MatrixUtils;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 
 public class SensorsManager extends BaseManager implements SensorEventListener

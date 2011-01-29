@@ -1,5 +1,4 @@
 package truesculpt.mesh;
-import static junit.framework.Assert.*;
 
 public class Face
 {

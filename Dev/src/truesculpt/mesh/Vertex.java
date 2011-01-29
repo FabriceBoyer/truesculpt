@@ -1,7 +1,6 @@
 package truesculpt.mesh;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import truesculpt.utils.MatrixUtils;
 
