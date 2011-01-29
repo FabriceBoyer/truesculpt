@@ -236,6 +236,11 @@ public class RendererMainPanel extends Activity implements Observer
 			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
 			return true;
 		}		
+		case R.id.show_history:
+		{
+			Utils.StartMyActivity(this, truesculpt.ui.panels.HistoryPanel.class, false);
+			return true;
+		}	
 		case R.id.show_about_panel:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.AboutPanel.class, false);

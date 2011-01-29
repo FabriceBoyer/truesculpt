@@ -4,7 +4,7 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:orientation="vertical">
     <TextView android:text="Filename" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <EditText android:layout_height="wrap_content" android:id="@+id/editText1" android:text="EditText" android:layout_width="fill_parent"></EditText>
+    <EditText android:layout_height="wrap_content" android:id="@+id/editText" android:text="EditText" android:layout_width="fill_parent"></EditText>
     <Button android:layout_height="wrap_content" android:id="@+id/button1" android:layout_width="wrap_content" android:text="@string/Choose_existing"></Button>
     <Button android:layout_height="wrap_content" android:id="@+id/button4" android:layout_width="wrap_content" android:text="@string/choose_from_web_site"></Button>
     <Button android:layout_height="wrap_content" android:id="@+id/button3" android:layout_width="wrap_content" android:text="@string/Publish_to_web_site"></Button>
