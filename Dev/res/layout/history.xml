@@ -4,11 +4,11 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:orientation="vertical">
 
-    <ListView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/listView1"></ListView>
+    <ListView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/historyListView"></ListView>
     <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1">
-        <Button android:layout_height="wrap_content" android:id="@+id/button2" android:text="@string/undo" android:layout_width="wrap_content"></Button>
-        <Button android:layout_height="wrap_content" android:id="@+id/button1" android:text="@string/redo" android:layout_width="wrap_content"></Button>
-        <Button android:layout_height="wrap_content" android:id="@+id/button3" android:layout_width="fill_parent" android:text="@string/close"></Button>
+        <Button android:layout_height="wrap_content" android:id="@+id/UndoBtn" android:text="@string/undo" android:layout_width="wrap_content"></Button>
+        <Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:text="@string/redo" android:layout_width="wrap_content"></Button>
+        <Button android:layout_height="wrap_content" android:id="@+id/CloseBtn" android:layout_width="fill_parent" android:text="@string/close"></Button>
     </LinearLayout>
    
    </LinearLayout>

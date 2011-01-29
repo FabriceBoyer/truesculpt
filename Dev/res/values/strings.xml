@@ -69,5 +69,9 @@
     <string name="symmetry">Symmetry</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
-    
+    <string name="undouptothispoint">Undo up to this point</string>
+    <string name="show_history">History</string>
+    <string name="history">History</string>
+    <string name="statistics">Statistics</string>
+    <string name="fileSelector">File</string>    
 </resources>

@@ -21,10 +21,12 @@
 	<activity android:name="truesculpt.ui.panels.UpdatePanel" android:label="@string/update_version_panel" android:theme="@style/Theme.TrueSculpt"></activity>
 	<activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard" android:theme="@style/Theme.TrueSculpt"></activity>
 	<activity android:name="truesculpt.ui.debug.DebugSensorsPanel" android:screenOrientation="portrait" android:label="@string/show_sensors" android:theme="@style/Theme.TrueSculpt"></activity>
-	<activity android:name="truesculpt.ui.debug.DebugTestPanel" android:label="@string/show_test" android:theme="@style/Theme.TrueSculpt"></activity>
 	<activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash" android:theme="@style/Theme.TrueSculpt"></activity>
 	<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel" android:theme="@style/Theme.TrueSculpt"></activity>
 	<activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel" android:theme="@style/Theme.TrueSculpt"></activity>
+	<activity android:name="truesculpt.ui.panels.HistoryPanel" android:label="@string/history" android:theme="@style/Theme.TrueSculpt"></activity>
+	<activity android:name="truesculpt.ui.panels.StatisticsPanel" android:theme="@style/Theme.TrueSculpt" android:label="@string/statistics"></activity>
+	<activity android:name="truesculpt.ui.panels.FileSelectorPanel" android:theme="@style/Theme.TrueSculpt" android:label="@string/fileSelector"></activity>
 </application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>

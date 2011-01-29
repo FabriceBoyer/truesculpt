@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/show_tools_panel" android:title="@string/show_tools_panel" android:icon="@drawable/equalizer"></item>
     <item android:id="@+id/show_options" android:title="@string/show_options" android:icon="@drawable/settings"></item>
-    <item android:id="@+id/show_about_panel" android:title="@string/show_about_panel" android:icon="@drawable/happy"></item>
+    <item android:title="@string/show_history" android:id="@+id/show_history" android:icon="@drawable/clock"></item>
+    <item android:title="@string/show_about_panel" android:id="@+id/show_about_panel" android:icon="@drawable/happy"></item>
 
 <!--
     <item android:id="@+id/show_point_of_view_panel" android:title="@string/show_point_of_view_panel" android:icon="@drawable/resize"></item> 
