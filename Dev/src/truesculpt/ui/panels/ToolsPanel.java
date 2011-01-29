@@ -1,5 +1,7 @@
 package truesculpt.ui.panels;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,26 +13,29 @@ import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class ToolsPanel extends Activity implements OnColorChangedListener, Observer
 {
-	private final int DIALOG_COLOR_PICKER_ID = 0;
-
 	private ColorPickerView mColorPickerView;
-
 	private SeekBar mRadiusSeekBar;
-
 	private TextView mRadiusText;
 	private SeekBar mStrengthSeekBar;
-
 	private TextView mStrengthText;
+	private Spinner mToolSpinner;
+	private Spinner mPaintSpinner;
 
 	@Override
 	public void colorChanged(int color)
@@ -137,7 +142,61 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 			}
 		});
 
+		mToolSpinner = (Spinner)findViewById(R.id.SculptToolSpinner);
+		InitToolSpinner();
+		
+	    Spinner s = (Spinner) findViewById(R.id.SymmetrySpinner);
+	    ArrayAdapter adapter = ArrayAdapter.createFromResource(
+	            this, R.array.symmetry, android.R.layout.simple_spinner_item);
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    s.setAdapter(adapter);
+
+	    mPaintSpinner = (Spinner)findViewById(R.id.SculptToolSpinner);
+	    InitPaintSpinner();
+	    
 		UpdateView();
+	}
+	
+	private void InitPaintSpinner()
+	{
+		
+		
+	}
+	
+	private void InitToolSpinner()
+	{
+		  ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+		  
+	        HashMap<String, String> map;
+	 
+	        map = new HashMap<String, String>();
+	        map.put("title", "Draw");
+	        map.put("description", "Draw");
+	        map.put("image", String.valueOf(R.drawable.draw));
+	        listItem.add(map);
+	 
+	        map = new HashMap<String, String>();
+	        map.put("title", "Grab");
+	        map.put("description", "Grab");
+	        map.put("image", String.valueOf(R.drawable.grab));
+	        listItem.add(map);
+	 
+	        map = new HashMap<String, String>();
+	        map.put("title", "Smooth");
+	        map.put("description", "Smooth");
+	        map.put("image", String.valueOf(R.drawable.smooth));
+	        listItem.add(map);
+	        
+	        map = new HashMap<String, String>();
+	        map.put("title", "Inflate");
+	        map.put("description", "Inflate");
+	        map.put("image", String.valueOf(R.drawable.inflate));
+	        listItem.add(map);
+	      
+	        SimpleAdapter mAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.toolitem,
+	               new String[] {"image", "title", "description"}, new int[] {R.id.image, R.id.title, R.id.description});
+	  
+	        mToolSpinner.setAdapter(mAdapter);       
 	}
 
 	@Override
