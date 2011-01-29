@@ -12,8 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 //TODO transparent to view result immediately on lower activity
 public class PointOfViewPanel extends Activity implements Observer

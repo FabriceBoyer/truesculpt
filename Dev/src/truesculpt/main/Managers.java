@@ -1,7 +1,6 @@
 package truesculpt.main;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import truesculpt.managers.ActionsManager;
 import truesculpt.managers.BaseManager;

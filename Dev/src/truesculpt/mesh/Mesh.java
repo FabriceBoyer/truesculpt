@@ -1,5 +1,8 @@
 package truesculpt.mesh;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -8,13 +11,11 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
-import static junit.framework.Assert.*;
 
 public class Mesh
 {
