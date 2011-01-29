@@ -1,5 +1,7 @@
 package truesculpt.actions;
 
+import truesculpt.main.R;
+
 public abstract class BaseAction
 {
 
@@ -23,5 +25,7 @@ public abstract class BaseAction
 
 	public abstract boolean UndoAction();
 
+	public String getActionName() { return "Undefined"; }
+	public int getImageResourceID() { return R.drawable.logo; }
 	
 }

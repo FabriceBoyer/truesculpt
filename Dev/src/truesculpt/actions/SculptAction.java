@@ -1,5 +1,7 @@
 package truesculpt.actions;
 
+import truesculpt.main.R;
+
 public class SculptAction extends BaseAction
 {
 
@@ -23,4 +25,16 @@ public class SculptAction extends BaseAction
 		return false;
 	}
 
+	@Override
+	public String getActionName()
+	{		
+		return "Sculpt";
+	}
+	@Override
+	public int getImageResourceID() 
+	{
+		return R.drawable.grab; 
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package truesculpt.actions;
 
+import truesculpt.main.R;
+
 public class InitialCreationAction extends BaseAction
 {
 
@@ -22,5 +24,17 @@ public class InitialCreationAction extends BaseAction
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public String getActionName()
+	{		
+		return "Init";
+	}
+	@Override
+	public int getImageResourceID() 
+	{
+		return R.drawable.flash; 
+	}
+	
 
 }
