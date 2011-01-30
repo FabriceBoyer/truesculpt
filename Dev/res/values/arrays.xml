@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="symmetry">
+    	<item>None</item>
         <item>X</item>
         <item>Y</item>
         <item>Z</item>
