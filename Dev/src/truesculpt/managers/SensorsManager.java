@@ -41,9 +41,15 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 	{
 		if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 		{
+			stop();
+			
 			// String msg = getbaseContext().getString(R.string.sensors_have_a_low_accuracy);
 			// getManagers().getUtilsManager().ShowToastMessage(msg);
 			// Log.i("SensorManager", msg);
+		}
+		else
+		{
+			start();
 		}
 	}
 
@@ -97,7 +103,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 
 	public void start()
 	{
-		if (getManagers().getOptionsManager().getUseSensorsToChangePOV())
+		if (getManagers().getOptionsManager().getUseSensorsToChangePOV() && mSensorManager==null)
 		{
 			mSensorManager = (SensorManager) getbaseContext().getSystemService(Context.SENSOR_SERVICE);
 			List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD);
@@ -113,6 +119,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 		if (mSensorManager != null)
 		{
 			mSensorManager.unregisterListener(SensorsManager.this);
+			mSensorManager=null;
 		}
 	}
 
