@@ -8,16 +8,23 @@ import truesculpt.ui.views.HistoryAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 //For history of action manager
 public class HistoryPanel extends Activity
 {
 	private ListView mHistoryListView;
+	HistoryAdapter adapter;
 
 	public Managers getManagers()
 	{
@@ -33,22 +40,17 @@ public class HistoryPanel extends Activity
 
 		mHistoryListView = (ListView) findViewById(R.id.historyListView);
 
-		HistoryAdapter adapter = new HistoryAdapter(getApplicationContext(), getManagers().getActionsManager());
+		adapter = new HistoryAdapter(getApplicationContext(), getManagers().getActionsManager());
 		mHistoryListView.setAdapter(adapter);
 		mHistoryListView.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
-			@SuppressWarnings("unchecked")
 			public void onItemClick(AdapterView<?> a, View v, int position, long id)
 			{
-				BaseAction action = (BaseAction) mHistoryListView.getItemAtPosition(position);
-				AlertDialog.Builder adb = new AlertDialog.Builder(HistoryPanel.this);
-				adb.setTitle("Selected item");
-				adb.setMessage("You chose : " + action.getActionName());
-				adb.setPositiveButton("Ok", null);
-				adb.show();
+				v.showContextMenu();
 			}
 		});
+		registerForContextMenu(mHistoryListView);
 
 		Button CloseButton = (Button) findViewById(R.id.CloseBtn);
 		CloseButton.setOnClickListener(new View.OnClickListener()
@@ -59,6 +61,35 @@ public class HistoryPanel extends Activity
 				finish();
 			}
 		});
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
+	{
+	  super.onCreateContextMenu(menu, v, menuInfo);
+	  MenuInflater inflater = getMenuInflater();
+	  inflater.inflate(R.menu.history_item_context_menu, menu);	  
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+	  
+	  switch (item.getItemId()) {
+	  case R.id.undo:
+		  getManagers().getActionsManager().getActionsList().remove(info.position);
+		  adapter.notifyDataSetChanged();
+	    return true;
+	  case R.id.undo_up_to_this_point:
+		  for (int i=0;i<info.position;i++)
+		  {
+			  getManagers().getActionsManager().getActionsList().remove(0);
+		  }
+		  adapter.notifyDataSetChanged();
+	    return true;
+	  default:
+	    return super.onContextItemSelected(item);
+	  }
 	}
 
 }
