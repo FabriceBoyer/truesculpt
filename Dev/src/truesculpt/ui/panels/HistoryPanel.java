@@ -76,12 +76,12 @@ public class HistoryPanel extends Activity
 	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	  
 	  switch (item.getItemId()) {
-	  case R.id.undo:
+	  case R.id.undo_this_item:
 		  getManagers().getActionsManager().getActionsList().remove(info.position);
 		  adapter.notifyDataSetChanged();
 	    return true;
 	  case R.id.undo_up_to_this_point:
-		  for (int i=0;i<info.position;i++)
+		  for (int i=0;i<=info.position;i++)
 		  {
 			  getManagers().getActionsManager().getActionsList().remove(0);
 		  }

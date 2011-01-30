@@ -16,12 +16,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class ToolsPanel extends Activity implements OnColorChangedListener, Observer
@@ -33,7 +35,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	private TextView mStrengthText;
 	private Spinner mToolSpinner;
 	private Spinner mPaintSpinner;
-
+	private Spinner mSymmetrySpinner;
+	
 	@Override
 	public void colorChanged(int color)
 	{
@@ -81,9 +84,11 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		map.put("image", String.valueOf(R.drawable.inflate));
 		listItem.add(map);
 
-		SimpleAdapter mAdapter = new SimpleAdapter(this.getBaseContext(), listItem, R.layout.toolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
+		SimpleAdapter mAdapter = new SimpleAdapter(this.getBaseContext(), listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
 
-		mToolSpinner.setAdapter(mAdapter);
+		mAdapter.setDropDownViewResource(R.layout.toolitem);
+		
+		mToolSpinner.setAdapter(mAdapter);		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -190,14 +195,58 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		InitToolSpinner();
+		mToolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+	
+			}
 
-		Spinner s = (Spinner) findViewById(R.id.SymmetrySpinner);
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
+			}
+		});
+
+		
+		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
 		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.symmetry, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		s.setAdapter(adapter);
+		mSymmetrySpinner.setAdapter(adapter);
+		mSymmetrySpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+	
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
+			}
+		});
 
 		mPaintSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		InitPaintSpinner();
+		mPaintSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+	
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
+			}
+		});
+
 
 		UpdateView();
 	}
