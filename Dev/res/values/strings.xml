@@ -73,5 +73,6 @@
     <string name="show_history">History</string>
     <string name="history">History</string>
     <string name="statistics">Statistics</string>
-    <string name="fileSelector">File</string>    
+    <string name="fileSelector">File</string>
+    <string name="undo_this_item">Undo this item</string>    
 </resources>

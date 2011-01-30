@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/undo" android:title="@string/undo"></item>
-    <item android:id="@+id/undo_up_to_this_point" android:title="@string/undouptothispoint"></item>
+    <item android:title="@string/undouptothispoint" android:id="@+id/undo_up_to_this_point"></item><item android:title="@string/undo" android:id="@+id/undo_this_item"></item>
+    
 </menu>
