@@ -19,13 +19,13 @@ public class SculptAction extends BaseAction
 	}
 
 	@Override
-	public String getActionName()
+	public String GetActionName()
 	{
 		return "Sculpt";
 	}
 
 	@Override
-	public int getImageResourceID()
+	public int GetImageResourceID()
 	{
 		return R.drawable.grab;
 	}

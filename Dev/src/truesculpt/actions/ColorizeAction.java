@@ -19,13 +19,13 @@ public class ColorizeAction extends BaseAction
 	}
 
 	@Override
-	public String getActionName()
+	public String GetActionName()
 	{
 		return "Colorize";
 	}
 
 	@Override
-	public int getImageResourceID()
+	public int GetImageResourceID()
 	{
 		return R.drawable.colorpicker;
 	}
