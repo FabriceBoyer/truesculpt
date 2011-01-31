@@ -19,13 +19,13 @@ public class InitialCreationAction extends BaseAction
 	}
 
 	@Override
-	public String getActionName()
+	public String GetActionName()
 	{
 		return "Init";
 	}
 
 	@Override
-	public int getImageResourceID()
+	public int GetImageResourceID()
 	{
 		return R.drawable.flash;
 	}

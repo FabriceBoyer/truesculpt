@@ -69,9 +69,9 @@ public class HistoryAdapter extends BaseAdapter
 		}
 
 		BaseAction action = mActionsManager.getActionsList().get(position);
-		holder.title.setText(action.getActionName());
+		holder.title.setText(action.GetActionName());
 		holder.description.setText(action.getDescription());
-		holder.image.setImageResource(action.getImageResourceID());
+		holder.image.setImageResource(action.GetImageResourceID());
 
 		return convertView;
 	}

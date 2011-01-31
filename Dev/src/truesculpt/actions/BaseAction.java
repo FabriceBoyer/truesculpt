@@ -14,7 +14,7 @@ public abstract class BaseAction
 
 	public abstract boolean DoAction();
 
-	public String getActionName()
+	public String GetActionName()
 	{
 		return "Undefined";
 	}
@@ -24,7 +24,7 @@ public abstract class BaseAction
 		return mStrDescription;
 	}
 
-	public int getImageResourceID()
+	public int GetImageResourceID()
 	{
 		return R.drawable.logo;
 	}
