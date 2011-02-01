@@ -89,7 +89,22 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 
 		adapter.setDropDownViewResource(R.layout.toolitem);
 		
-		toolSpinner.setAdapter(adapter);		
+		toolSpinner.setAdapter(adapter);	
+		
+		toolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+	
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
+			}
+		});
 	}
 
 	@SuppressWarnings("unchecked")
@@ -196,21 +211,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		InitToolSpinner(mToolSpinner,this.getBaseContext());
-		mToolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-	
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0)
-			{
-				
-			}
-		});
-
 		
 		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
 		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.symmetry, android.R.layout.simple_spinner_item);
