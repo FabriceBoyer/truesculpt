@@ -5,10 +5,23 @@
   android:layout_height="fill_parent" android:orientation="vertical">
 
     <ListView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/historyListView"></ListView>
-    <LinearLayout android:layout_gravity="bottom" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:orientation="horizontal" >
-        <Button android:layout_height="wrap_content" android:id="@+id/UndoBtn" android:text="@string/undo" android:background="@drawable/undo" android:layout_width="wrap_content"></Button>
-        <Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:text="@string/redo" android:background="@drawable/redo" android:layout_width="wrap_content"></Button>
-        <Button android:layout_height="wrap_content" android:id="@+id/CloseBtn" android:layout_width="fill_parent" android:text="@string/close"></Button>
-    </LinearLayout>
+    
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="bottom"
+        android:stretchColumns="*">
+          
+	    <TableRow>                
+		  <Button android:layout_height="wrap_content" android:id="@+id/UndoBtn" android:text="@string/undo" android:layout_width="fill_parent"></Button>
+	        <Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:text="@string/redo" android:layout_width="fill_parent"></Button>
+	        <!--
+	         <Button android:layout_height="wrap_content" android:id="@+id/CloseBtn" android:layout_width="fill_parent" android:text="@string/close"></Button>
+	         -->
+	     </TableRow>
+	
+	</TableLayout>   
+
    
  </FrameLayout>

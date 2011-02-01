@@ -52,15 +52,15 @@ public class HistoryPanel extends Activity
 		});
 		registerForContextMenu(mHistoryListView);
 
-		Button CloseButton = (Button) findViewById(R.id.CloseBtn);
-		CloseButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				finish();
-			}
-		});
+//		Button CloseButton = (Button) findViewById(R.id.CloseBtn);
+//		CloseButton.setOnClickListener(new View.OnClickListener()
+//		{
+//			@Override
+//			public void onClick(View v)
+//			{
+//				finish();
+//			}
+//		});
 	}
 	
 	@Override
