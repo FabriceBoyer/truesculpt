@@ -13,6 +13,7 @@ import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +56,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 
 	}
 
-	private void InitToolSpinner()
+	public static void InitToolSpinner(Spinner toolSpinner, Context context)
 	{
 		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
@@ -84,11 +85,11 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		map.put("image", String.valueOf(R.drawable.inflate));
 		listItem.add(map);
 
-		SimpleAdapter mAdapter = new SimpleAdapter(this.getBaseContext(), listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
+		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
 
-		mAdapter.setDropDownViewResource(R.layout.toolitem);
+		adapter.setDropDownViewResource(R.layout.toolitem);
 		
-		mToolSpinner.setAdapter(mAdapter);		
+		toolSpinner.setAdapter(adapter);		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -194,7 +195,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		});
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		InitToolSpinner();
+		InitToolSpinner(mToolSpinner,this.getBaseContext());
 		mToolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
 			@Override

@@ -29,10 +29,8 @@
 <SlidingDrawer android:layout_width="wrap_content" android:id="@+id/toolsSlidingDrawer"  android:layout_gravity="bottom" android:orientation="vertical" android:handle="@+id/toolsSlideHandleButton" android:content="@+id/contentLayout" android:layout_height="250dip" android:padding="10dip">
 	 <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/toolsSlideHandleButton" android:background="@drawable/tab"></Button>
 	 <LinearLayout android:layout_width="wrap_content" android:id="@+id/contentLayout" android:orientation="horizontal" android:gravity="center|top" android:layout_height="wrap_content" android:padding="10dip">
-	 	<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Content"></Button>
-		<Button android:id="@+id/Button02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Content"></Button>
-		<Button android:id="@+id/Button03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Content"></Button>
-	</LinearLayout>	 
+	 	<Spinner style="@style/SpinnerAsEditText" android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content"></Spinner>
+     </LinearLayout>	 
 </SlidingDrawer>
      
 </FrameLayout>
