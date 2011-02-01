@@ -22,10 +22,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SlidingDrawer;
+import android.widget.Spinner;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
@@ -174,6 +177,23 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDrawerClosed() {
 				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.up_arrow);
+			}
+		});
+		
+		Spinner mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
+		ToolsPanel.InitToolSpinner(mToolSpinner,this.getBaseContext());
+		mToolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+	
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
 			}
 		});
 		
