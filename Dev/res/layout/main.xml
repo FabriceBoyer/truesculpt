@@ -9,22 +9,7 @@
  	<android.opengl.GLSurfaceView 
             android:id="@+id/glview" 
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content"/> 
-            
-	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	        android:orientation="horizontal" 
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content" 
-	        android:layout_gravity="bottom"
-	        android:stretchColumns="*">
-	          
-	    <TableRow>                
-		  <ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-		  <ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-		  <ToggleButton android:textOn="@string/paint"  android:textOff="@string/paint" android:id="@+id/Paint" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-		</TableRow>
-		
-	</TableLayout>      
+            android:layout_height="fill_parent"/>   
 
     <include layout="@layout/toolsdrawer"/>
      
