@@ -9,9 +9,9 @@
  <TextView android:text="@string/Radius" android:id="@+id/RadiusText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
  <SeekBar android:id="@+id/RadiusBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
  <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="@string/Sculptingtool"></TextView>
- <Spinner android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content"></Spinner>
+ <Spinner style="@style/SpinnerAsEditText" android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content"></Spinner>
  <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_width="wrap_content" android:text="@string/Paintingtool"></TextView>
- <Spinner android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content"></Spinner>
+ <Spinner style="@style/SpinnerAsEditText" android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content"></Spinner>
  <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout2">
      <Button android:layout_height="wrap_content" android:id="@+id/ResetPOV" android:layout_width="wrap_content" android:text="@string/ResetPOV"></Button>
      <Button android:layout_height="wrap_content" android:id="@+id/screenshot" android:layout_width="wrap_content" android:text="@string/screenshot"></Button>
