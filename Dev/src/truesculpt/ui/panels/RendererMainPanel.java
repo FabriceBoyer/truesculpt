@@ -22,8 +22,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
+import android.widget.SlidingDrawer;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.SlidingDrawer.OnDrawerCloseListener;
+import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class RendererMainPanel extends Activity implements Observer
 {
@@ -32,6 +36,8 @@ public class RendererMainPanel extends Activity implements Observer
 	private ToggleButton mPaintToggle;
 	private ToggleButton mSculptToggle;
 	private ToggleButton mViewToggle;
+	private Button mToolsSlideHandleButton;	
+	private SlidingDrawer mToolsSlidingDrawer;
 
 	public void CheckUpdate()
 	{
@@ -152,6 +158,25 @@ public class RendererMainPanel extends Activity implements Observer
 
 		});
 
+
+		mToolsSlideHandleButton = (Button) findViewById(R.id.toolsSlideHandleButton);
+		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
+
+		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
+
+			@Override
+			public void onDrawerOpened() {
+				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.down_arrow);
+			}
+		});
+
+		mToolsSlidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener() {
+			@Override
+			public void onDrawerClosed() {
+				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.up_arrow);
+			}
+		});
+		
 		UpdateButtonsView();
 	}
 
