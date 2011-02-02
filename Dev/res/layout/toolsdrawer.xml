@@ -1,7 +1,16 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
  
 	
-	<SlidingDrawer android:layout_width="wrap_content" android:id="@+id/toolsSlidingDrawer"  android:layout_gravity="bottom" android:orientation="vertical" android:handle="@+id/toolsSlideHandleButton" android:content="@+id/contentLayout" android:layout_height="250dip">
+	<SlidingDrawer 
+		android:layout_width="wrap_content" 
+		android:id="@+id/toolsSlidingDrawer" 
+		android:layout_gravity="bottom"
+		android:orientation="vertical"
+		android:handle="@+id/toolsSlideHandleButton" 
+		android:content="@+id/contentLayout"
+		android:layout_height="250dip"
+		android:animateOnClick="false">
+		
 		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/toolsSlideHandleButton" android:background="@drawable/tab"></Button>
 		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@+id/contentLayout"	        
@@ -9,18 +18,19 @@
 	        android:layout_height="fill_parent"	        
 	        android:stretchColumns="*">
 	          
-	    <TableRow>                
-		  <ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-		  <ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-		  <ToggleButton android:textOn="@string/paint"  android:textOff="@string/paint" android:id="@+id/Paint" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-		</TableRow>
-		
-		<TableRow>  
-			<Button android:layout_height="wrap_content" android:id="@+id/UndoBtn"  android:background="@drawable/undo" android:layout_width="wrap_content"></Button>
-		 	<Spinner android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
-		 	<Spinner android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
-		 	<Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:background="@drawable/redo" android:layout_width="wrap_content"></Button>		 
-		 </TableRow>
+		    <TableRow>                
+			  <ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
+			  <ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
+			  <ToggleButton android:textOn="@string/paint"  android:textOff="@string/paint" android:id="@+id/Paint" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
+			</TableRow>
+			
+			<TableRow>  
+				<Button android:layout_height="wrap_content" android:id="@+id/UndoBtn"  android:background="@drawable/undo" android:layout_width="wrap_content"></Button>
+			 	<Spinner android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
+			 	<Spinner android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
+			 	<Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:background="@drawable/redo" android:layout_width="wrap_content"></Button>		 
+			 </TableRow>
+		 
 	   </TableLayout>   
 	</SlidingDrawer>
 </merge>
