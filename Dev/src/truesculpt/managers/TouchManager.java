@@ -154,7 +154,8 @@ public class TouchManager extends BaseManager
 						getManagers().getToolsManager().setToolMode(EToolMode.POV);
 					}
 				}
-			} else
+			}
+			else
 			{
 				EToolMode currMode = getManagers().getToolsManager().getToolMode();
 				if (currMode == EToolMode.POV)
@@ -175,7 +176,6 @@ public class TouchManager extends BaseManager
 		{
 			mZoomInit = getManagers().getPointOfViewManager().getZoomDistance();
 			mLastFingerSpacing = getDistanceBetweenFingers(event);
-			;
 
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ZOOM);
 			break;
@@ -196,33 +196,33 @@ public class TouchManager extends BaseManager
 		{
 			switch (getManagers().getToolsManager().getToolMode())
 			{
-			case POV:
-			{
-				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE)
+				case POV:
 				{
-					float angleRot = mRotInit + (x - mLastX) / fDemultRotateFactor;
-					float angleElev = mElevInit + (y - mLastY) / fDemultRotateFactor;
-					float dist = getManagers().getPointOfViewManager().getZoomDistance();
-
-					getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
+					if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE)
+					{
+						float angleRot = mRotInit + (x - mLastX) / fDemultRotateFactor;
+						float angleElev = mElevInit + (y - mLastY) / fDemultRotateFactor;
+						float dist = getManagers().getPointOfViewManager().getZoomDistance();
+	
+						getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
+					}
+					if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM)
+					{
+						float fingersSpacing = getDistanceBetweenFingers(event);
+						float dist = mZoomInit - (fingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
+	
+						getManagers().getPointOfViewManager().setZoomDistance(dist);
+					}
+	
+					break;
 				}
-				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM)
+	
+				case SCULPT:
+				case PAINT:
 				{
-					float fingersSpacing = getDistanceBetweenFingers(event);
-					float dist = mZoomInit - (fingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
-
-					getManagers().getPointOfViewManager().setZoomDistance(dist);
+					getManagers().getMeshManager().Pick(x, y);
+					break;
 				}
-
-				break;
-			}
-
-			case SCULPT:
-			case PAINT:
-			{
-				getManagers().getMeshManager().Pick(x, y);
-				break;
-			}
 			}
 
 			break;
