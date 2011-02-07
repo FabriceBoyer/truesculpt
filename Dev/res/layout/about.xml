@@ -12,9 +12,10 @@
 	<ImageView android:id="@+id/about_image" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/logo"></ImageView>
 	<TextView android:text="@string/about_text" android:id="@+id/about_text" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 	</LinearLayout>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/current_version_is_" android:id="@+id/current_version"></TextView>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/spacer" android:id="@+id/spacer"></TextView>
 	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/licence" android:text="@string/licence"></TextView>
 	<ImageView android:layout_height="wrap_content" android:src="@drawable/licence_logo" android:id="@+id/licence_logo" android:layout_width="fill_parent"></ImageView>
-	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/current_version" android:text="@string/current_version_is_"></TextView>
 	<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tutorials" android:text="@string/tutorial_wizard"></Button>
 	<Button android:text="@string/ok_btn" android:id="@+id/Ok_btn" android:layout_width="fill_parent" android:layout_height="wrap_content" ></Button>
 </LinearLayout>

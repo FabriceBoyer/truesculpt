@@ -75,5 +75,6 @@
     <string name="statistics">Statistics</string>
     <string name="fileSelector">File</string>
     <string name="undo_this_item">Undo this item</string>
-    <string name="licence">This software is licensed under Creative Commons "Attribution Non-Commercial Share-Alike 3.0" (CC BY-NC-SA 3.0) </string>    
+    <string name="licence">This software is licensed under Creative Commons "Attribution Non-Commercial Share-Alike 3.0" (CC BY-NC-SA 3.0)\nhttp://creativecommons.org/licenses/by-nc-sa/3.0/ </string>
+    <string name="spacer"> </string>    
 </resources>
