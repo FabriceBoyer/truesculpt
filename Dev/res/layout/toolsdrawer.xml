@@ -9,7 +9,7 @@
 		android:handle="@+id/toolsSlideHandleButton" 
 		android:content="@+id/contentLayout"
 		android:layout_height="250dip"
-		android:animateOnClick="false">
+		android:background="@drawable/fully_transparent">
 		
 		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/toolsSlideHandleButton" android:background="@drawable/tab"></Button>
 		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
