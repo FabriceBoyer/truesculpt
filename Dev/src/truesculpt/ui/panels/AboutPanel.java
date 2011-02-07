@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class AboutPanel extends Activity
 {
@@ -39,6 +40,21 @@ public class AboutPanel extends Activity
 				finish();
 			}
 		});
+		
+		final Button buttonTutorial = (Button) findViewById(R.id.tutorials);
+		buttonTutorial.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Utils.StartMyActivity(AboutPanel.this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
+			}
+		});
+		
+		TextView currVersionText = (TextView) findViewById(R.id.current_version);
+		String strCurrVersion = getManagers().getUpdateManager().getCurrentVersion();
+		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n";
+		currVersionText.setText(msg);
 	}
 
 	@Override
