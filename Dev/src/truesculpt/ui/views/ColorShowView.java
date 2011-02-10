@@ -23,7 +23,10 @@ public class ColorShowView extends View
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
-		canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), mCenterPaint);
+		float x=getWidth()/2.0f;
+		float y=getHeight()/2.0f;
+		float R=Math.min(getWidth(), getHeight())/2.0f;
+		canvas.drawCircle(x, y, R, mCenterPaint);
 	}
 
 	public void SetColor(int color)
