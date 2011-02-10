@@ -7,6 +7,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.EToolMode;
+import truesculpt.ui.views.ColorShowView;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -43,6 +44,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private SlidingDrawer mToolsSlidingDrawer;
 	private Button mRedoButton;
 	private Button mUndoButton;
+	private ColorShowView mColorShow;
 
 	public void CheckUpdate()
 	{
@@ -203,6 +205,16 @@ public class RendererMainPanel extends Activity implements Observer
 			public void onClick(View v)
 			{
 				getManagers().getActionsManager().Undo();
+			}
+		});
+				
+		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
+		mColorShow.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ToolsPanel.ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
 		});
 		
@@ -386,6 +398,8 @@ public class RendererMainPanel extends Activity implements Observer
 		{
 			mRedoButton.setEnabled(true);
 		}
+		
+		mColorShow.SetColor(getManagers().getToolsManager().getColor());
 	}
 
 	public void updateFullscreenWindowStatus()

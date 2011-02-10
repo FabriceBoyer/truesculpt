@@ -31,6 +31,7 @@ public class HSLColorPickerDialog
 	View viewWarnaLama;
 	View viewWarnaBaru;
 	ImageView viewKeker;
+	Context mContext;
 
 	float satudp;
 	int warnaLama;
@@ -45,6 +46,7 @@ public class HSLColorPickerDialog
 
 	public HSLColorPickerDialog(Context context, int color, OnAmbilWarnaListener listener)
 	{
+		this.mContext=context;
 		this.listener = listener;
 		this.warnaLama = color;
 		this.warnaBaru = color;
@@ -209,5 +211,10 @@ public class HSLColorPickerDialog
 	public void show()
 	{
 		dialog.show();
+	}
+	
+	public Context getContext()
+	{
+		return mContext;
 	}
 }
