@@ -30,6 +30,7 @@
 			 	<Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:text="@string/redo"  android:layout_width="wrap_content"></Button>		 
 			 </TableRow>
 			 <TableRow>  
+			    <truesculpt.ui.views.ColorShowView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ColorShowView"></truesculpt.ui.views.ColorShowView>
 		 		<Spinner android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
 		 	</TableRow>
 	   </TableLayout>   

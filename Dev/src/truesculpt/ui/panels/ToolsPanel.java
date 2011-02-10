@@ -173,7 +173,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 			@Override
 			public void onClick(View v)
 			{
-				ShowHSLColorPickerDialog();
+				ShowHSLColorPickerDialog(ToolsPanel.this);
 			}
 		});
 
@@ -272,11 +272,11 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		return super.onTouchEvent(event);
 	}
 
-	private void ShowHSLColorPickerDialog()
+	static public void ShowHSLColorPickerDialog(Context context)
 	{
 		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
 		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
-		HSLColorPickerDialog dialog = new HSLColorPickerDialog(ToolsPanel.this, getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
+		HSLColorPickerDialog dialog = new HSLColorPickerDialog(context, ((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
 		{
 			@Override
 			public void onCancel(HSLColorPickerDialog dialog)
@@ -287,7 +287,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 			@Override
 			public void onOk(HSLColorPickerDialog dialog, int color)
 			{
-				getManagers().getToolsManager().setColor(color);
+				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color);
 			}
 		});
 
