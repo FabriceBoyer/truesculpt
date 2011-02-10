@@ -28,8 +28,8 @@ public class HistoryPanel extends Activity implements Observer
 {
 	private ListView mHistoryListView;
 	HistoryAdapter adapter;
-	Button RedoButton;
-	Button UndoButton;
+	Button mRedoButton;
+	Button mUndoButton;
 
 	@Override
 	protected void onDestroy()
@@ -67,8 +67,8 @@ public class HistoryPanel extends Activity implements Observer
 		registerForContextMenu(mHistoryListView);
 		
 		
-		RedoButton = (Button) findViewById(R.id.RedoBtn);
-		RedoButton.setOnClickListener(new View.OnClickListener()
+		mRedoButton = (Button) findViewById(R.id.RedoBtn);
+		mRedoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -77,8 +77,8 @@ public class HistoryPanel extends Activity implements Observer
 			}
 		});
 		
-		UndoButton = (Button) findViewById(R.id.UndoBtn);
-		UndoButton.setOnClickListener(new View.OnClickListener()
+		mUndoButton = (Button) findViewById(R.id.UndoBtn);
+		mUndoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -95,21 +95,21 @@ public class HistoryPanel extends Activity implements Observer
 	{
 		if (getManagers().getActionsManager().GetUndoActionCount()<=0) 
 		{
-			UndoButton.setEnabled(false);			
+			mUndoButton.setEnabled(false);			
 		}
 		else
 		{
-			UndoButton.setEnabled(true);
+			mUndoButton.setEnabled(true);
 		}
 		
 		
 		if (getManagers().getActionsManager().GetRedoActionCount()<=0) 
 		{
-			RedoButton.setEnabled(false);			
+			mRedoButton.setEnabled(false);			
 		}
 		else
 		{
-			RedoButton.setEnabled(true);
+			mRedoButton.setEnabled(true);
 		}
 		
 	}

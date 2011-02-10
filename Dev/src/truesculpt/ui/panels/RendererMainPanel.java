@@ -41,6 +41,8 @@ public class RendererMainPanel extends Activity implements Observer
 	private ToggleButton mViewToggle;
 	private Button mToolsSlideHandleButton;	
 	private SlidingDrawer mToolsSlidingDrawer;
+	private Button mRedoButton;
+	private Button mUndoButton;
 
 	public void CheckUpdate()
 	{
@@ -120,6 +122,7 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getPointOfViewManager().addObserver(RendererMainPanel.this);
 		getManagers().getMeshManager().addObserver(RendererMainPanel.this);
 		getManagers().getToolsManager().addObserver(RendererMainPanel.this);
+		getManagers().getActionsManager().addObserver(this);
 
 		mViewToggle = (ToggleButton) findViewById(R.id.View);
 		mViewToggle.setOnClickListener(new View.OnClickListener()
@@ -183,9 +186,30 @@ public class RendererMainPanel extends Activity implements Observer
 		Spinner mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		ToolsPanel.InitToolSpinner(mToolSpinner,this.getBaseContext());
 		
-		UpdateButtonsView();
+		mRedoButton = (Button) findViewById(R.id.RedoBtn);
+		mRedoButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				getManagers().getActionsManager().Redo();
+			}
+		});
+		
+		mUndoButton = (Button) findViewById(R.id.UndoBtn);
+		mUndoButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				getManagers().getActionsManager().Undo();
+			}
+		});
+		
+		UpdateButtonsView();	
 	}
-
+	
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
@@ -210,6 +234,7 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getPointOfViewManager().deleteObserver(RendererMainPanel.this);
 		getManagers().getMeshManager().deleteObserver(RendererMainPanel.this);
 		getManagers().getToolsManager().deleteObserver(RendererMainPanel.this);
+		getManagers().getActionsManager().deleteObserver(this);
 
 		getManagers().Destroy();
 	}
@@ -342,6 +367,25 @@ public class RendererMainPanel extends Activity implements Observer
 		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.POV);
 		mSculptToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.SCULPT);
 		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.PAINT);
+		
+		if (getManagers().getActionsManager().GetUndoActionCount()<=0) 
+		{
+			mUndoButton.setEnabled(false);			
+		}
+		else
+		{
+			mUndoButton.setEnabled(true);
+		}
+		
+		
+		if (getManagers().getActionsManager().GetRedoActionCount()<=0) 
+		{
+			mRedoButton.setEnabled(false);			
+		}
+		else
+		{
+			mRedoButton.setEnabled(true);
+		}
 	}
 
 	public void updateFullscreenWindowStatus()
