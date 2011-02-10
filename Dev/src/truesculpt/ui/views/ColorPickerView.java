@@ -106,33 +106,33 @@ public class ColorPickerView extends View
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+		boolean bRes=false;
 		float x = event.getX() - CENTER_X;
 		float y = event.getY() - CENTER_Y;
-		boolean inCenter = java.lang.Math.sqrt(x * x + y * y) <= CENTER_RADIUS;
+		float R=(float) java.lang.Math.sqrt(x * x + y * y);
+		boolean inCenter = R <= CENTER_RADIUS;
 
 		if (!inCenter)
-		{
-			switch (event.getAction())
+		{			
+			float angle = (float) java.lang.Math.atan2(y, x);
+			// need to turn angle [-PI ... PI] into unit [0....1]
+			float unit = angle / (2 * PI);
+			if (unit < 0)
 			{
-			case MotionEvent.ACTION_DOWN:
-			case MotionEvent.ACTION_MOVE:
-			case MotionEvent.ACTION_UP:
-			{
-				float angle = (float) java.lang.Math.atan2(y, x);
-				// need to turn angle [-PI ... PI] into unit [0....1]
-				float unit = angle / (2 * PI);
-				if (unit < 0)
-				{
-					unit += 1;
-				}
-				mCenterPaint.setColor(interpColor(mColors, unit));
-				mListener.colorChanged(mCenterPaint.getColor());
-				invalidate();
-				break;
+				unit += 1;
 			}
-			}
+			int col=interpColor(mColors, unit);
+			mListener.colorChanged(col);
+			mCenterPaint.setColor(col);
+			invalidate();
+			bRes=true;
 		}
-		return true;
+		else
+		{
+			bRes=super.onTouchEvent(event);
+		}
+		 
+		return bRes;	
 	}
 
 	public void SetColor(int color)

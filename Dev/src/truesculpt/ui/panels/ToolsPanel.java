@@ -37,6 +37,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	private Spinner mToolSpinner;
 	private Spinner mPaintSpinner;
 	private Spinner mSymmetrySpinner;
+	private Button mColorPickerButton;
 	
 	@Override
 	public void colorChanged(int color)
@@ -166,9 +167,17 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		mColorPickerView = (ColorPickerView) findViewById(R.id.ColorPickerView);
 		mColorPickerView.SetColorChangeListener(this);
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
+		mColorPickerView.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ShowHSLColorPickerDialog(ToolsPanel.this);
+			}
+		});
 
-		Button colorPickerButton = (Button) findViewById(R.id.colorpickerBtn);
-		colorPickerButton.setOnClickListener(new View.OnClickListener()
+		mColorPickerButton = (Button) findViewById(R.id.colorpickerBtn);
+		mColorPickerButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
