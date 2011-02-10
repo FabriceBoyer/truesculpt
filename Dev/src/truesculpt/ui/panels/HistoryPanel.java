@@ -1,5 +1,8 @@
 package truesculpt.ui.panels;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import truesculpt.actions.BaseAction;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
@@ -21,10 +24,19 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 //For history of action manager
-public class HistoryPanel extends Activity
+public class HistoryPanel extends Activity implements Observer
 {
 	private ListView mHistoryListView;
 	HistoryAdapter adapter;
+	Button RedoButton;
+	Button UndoButton;
+
+	@Override
+	protected void onDestroy()
+	{
+		getManagers().getActionsManager().deleteObserver(this);
+		super.onDestroy();
+	}
 
 	public Managers getManagers()
 	{
@@ -38,6 +50,8 @@ public class HistoryPanel extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
 
+		getManagers().getActionsManager().addObserver(this);
+		
 		mHistoryListView = (ListView) findViewById(R.id.historyListView);
 
 		adapter = new HistoryAdapter(getApplicationContext(), getManagers().getActionsManager());
@@ -51,16 +65,53 @@ public class HistoryPanel extends Activity
 			}
 		});
 		registerForContextMenu(mHistoryListView);
+		
+		
+		RedoButton = (Button) findViewById(R.id.RedoBtn);
+		RedoButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				getManagers().getActionsManager().Redo();
+			}
+		});
+		
+		UndoButton = (Button) findViewById(R.id.UndoBtn);
+		UndoButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				getManagers().getActionsManager().Undo();
+			}
+		});
+		
+		UpdateButtonsView();
 
-//		Button CloseButton = (Button) findViewById(R.id.CloseBtn);
-//		CloseButton.setOnClickListener(new View.OnClickListener()
-//		{
-//			@Override
-//			public void onClick(View v)
-//			{
-//				finish();
-//			}
-//		});
+	}
+	
+	private void UpdateButtonsView()
+	{
+		if (getManagers().getActionsManager().GetUndoActionCount()<=0) 
+		{
+			UndoButton.setEnabled(false);			
+		}
+		else
+		{
+			UndoButton.setEnabled(true);
+		}
+		
+		
+		if (getManagers().getActionsManager().GetRedoActionCount()<=0) 
+		{
+			RedoButton.setEnabled(false);			
+		}
+		else
+		{
+			RedoButton.setEnabled(true);
+		}
+		
 	}
 	
 	@Override
@@ -77,19 +128,21 @@ public class HistoryPanel extends Activity
 	  
 	  switch (item.getItemId()) {
 	  case R.id.undo_this_item:
-		  getManagers().getActionsManager().getActionsList().remove(info.position);
-		  adapter.notifyDataSetChanged();
+		  getManagers().getActionsManager().Remove(info.position);//update through observable		 
 	    return true;
 	  case R.id.undo_up_to_this_point:
-		  for (int i=0;i<=info.position;i++)
-		  {
-			  getManagers().getActionsManager().getActionsList().remove(0);
-		  }
-		  adapter.notifyDataSetChanged();
+		  getManagers().getActionsManager().RemoveUpTo(info.position);		 
 	    return true;
 	  default:
 	    return super.onContextItemSelected(item);
 	  }
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		 adapter.notifyDataSetChanged();
+		 UpdateButtonsView();
 	}
 
 }

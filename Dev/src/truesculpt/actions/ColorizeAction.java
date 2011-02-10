@@ -4,11 +4,10 @@ import truesculpt.main.R;
 
 public class ColorizeAction extends BaseAction
 {
-
 	public ColorizeAction(String strDescription)
 	{
-		super(strDescription);
-		// TODO Auto-generated constructor stub
+		super();
+		setDescription(strDescription);
 	}
 
 	@Override
