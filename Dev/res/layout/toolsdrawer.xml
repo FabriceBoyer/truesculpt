@@ -25,12 +25,13 @@
 			</TableRow>
 			
 			<TableRow>  
-				<Button android:layout_height="wrap_content" android:id="@+id/UndoBtn"  android:background="@drawable/undo" android:layout_width="wrap_content"></Button>
-			 	<Spinner android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
-			 	<Spinner android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
-			 	<Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:background="@drawable/redo" android:layout_width="wrap_content"></Button>		 
+				<Button android:layout_height="wrap_content" android:id="@+id/UndoBtn" android:text="@string/undo"  android:layout_width="wrap_content"></Button>
+			 	<Spinner android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>			 
+			 	<Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:text="@string/redo"  android:layout_width="wrap_content"></Button>		 
 			 </TableRow>
-		 
+			 <TableRow>  
+		 		<Spinner android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
+		 	</TableRow>
 	   </TableLayout>   
 	</SlidingDrawer>
 </merge>
