@@ -50,12 +50,6 @@ public class ColorPickerView extends View
 		return s + java.lang.Math.round(p * (d - s));
 	}
 
-	private int floatToByte(float x)
-	{
-		int n = java.lang.Math.round(x);
-		return n;
-	}
-
 	private int interpColor(int colors[], float unit)
 	{
 		if (unit <= 0)
@@ -139,43 +133,6 @@ public class ColorPickerView extends View
 			}
 		}
 		return true;
-	}
-
-	private int pinToByte(int n)
-	{
-		if (n < 0)
-		{
-			n = 0;
-		} else if (n > 255)
-		{
-			n = 255;
-		}
-		return n;
-	}
-
-	private int rotateColor(int color, float rad)
-	{
-		float deg = rad * 180 / 3.1415927f;
-		int r = Color.red(color);
-		int g = Color.green(color);
-		int b = Color.blue(color);
-
-		ColorMatrix cm = new ColorMatrix();
-		ColorMatrix tmp = new ColorMatrix();
-
-		cm.setRGB2YUV();
-		tmp.setRotate(0, deg);
-		cm.postConcat(tmp);
-		tmp.setYUV2RGB();
-		cm.postConcat(tmp);
-
-		final float[] a = cm.getArray();
-
-		int ir = floatToByte(a[0] * r + a[1] * g + a[2] * b);
-		int ig = floatToByte(a[5] * r + a[6] * g + a[7] * b);
-		int ib = floatToByte(a[10] * r + a[11] * g + a[12] * b);
-
-		return Color.argb(Color.alpha(color), pinToByte(ir), pinToByte(ig), pinToByte(ib));
 	}
 
 	public void SetColor(int color)
