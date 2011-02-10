@@ -6,6 +6,7 @@ import truesculpt.main.TrueSculptApp;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +42,12 @@ public class AboutPanel extends Activity
 			}
 		});
 		
+		TextView aboutText=(TextView)findViewById(R.id.about_text);
+		String aboutMsg= getString(R.string.about_text) +"\n" +
+		getString(R.string.Website) + " : " + "\n" + "http://code.google.com/p/truesculpt";
+		aboutText.setText(aboutMsg);
+		Linkify.addLinks(aboutText, Linkify.ALL);		
+		
 		final Button buttonTutorial = (Button) findViewById(R.id.tutorials);
 		buttonTutorial.setOnClickListener(new View.OnClickListener()
 		{
@@ -53,8 +60,12 @@ public class AboutPanel extends Activity
 		
 		TextView currVersionText = (TextView) findViewById(R.id.current_version);
 		String strCurrVersion = getManagers().getUpdateManager().getCurrentVersion();
-		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n";
+		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n";		 
 		currVersionText.setText(msg);
+		Linkify.addLinks(currVersionText, Linkify.ALL);		
+		
+		TextView licenseText = (TextView) findViewById(R.id.licence);
+		Linkify.addLinks(licenseText, Linkify.ALL);		
 	}
 
 	@Override
@@ -94,7 +105,7 @@ public class AboutPanel extends Activity
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		finish();
+		//finish();
 		return super.onTouchEvent(event);
 	}
 

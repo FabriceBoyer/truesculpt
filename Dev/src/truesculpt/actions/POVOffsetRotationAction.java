@@ -2,10 +2,10 @@ package truesculpt.actions;
 
 import truesculpt.main.R;
 
-public class ColorizeAction extends BaseAction
+public class POVOffsetRotationAction extends BaseAction
 {
 
-	public ColorizeAction(String strDescription)
+	public POVOffsetRotationAction(String strDescription)
 	{
 		super(strDescription);
 		// TODO Auto-generated constructor stub
@@ -21,13 +21,13 @@ public class ColorizeAction extends BaseAction
 	@Override
 	public String GetActionName()
 	{
-		return "Paint";
+		return "Rotate point of view";
 	}
 
 	@Override
 	public int GetImageResourceID()
 	{
-		return R.drawable.colorpicker;
+		return R.drawable.resize;
 	}
 
 	@Override
