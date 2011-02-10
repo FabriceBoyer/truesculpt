@@ -18,7 +18,13 @@ public class ActionsManager extends BaseManager
 	public ActionsManager(Context baseContext)
 	{
 		super(baseContext);
+		
+		mActionsList.add(new InitialCreationAction("Init"));
 
+	}
+
+	private void randomTestInit()
+	{
 		// sample actions
 		mActionsList.add(new InitialCreationAction("Init sphere"));
 		mActionsList.add(new SculptAction("Deforming"));
@@ -43,7 +49,6 @@ public class ActionsManager extends BaseManager
 				mActionsList.add(new ColorizeAction("Colorize " + Integer.toString(val)));
 			}
 		}
-
 	}
 
 	public List<BaseAction> getActionsList()

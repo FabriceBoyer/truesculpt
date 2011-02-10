@@ -142,7 +142,7 @@ public class PointOfViewPanel extends Activity implements Observer
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		finish();
+		//finish();
 		return super.onTouchEvent(event);
 	}
 
