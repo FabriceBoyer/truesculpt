@@ -30,12 +30,6 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 		bOrigSet = false;
 	}
 
-	private void NotifyListeners()
-	{
-		setChanged();
-		notifyObservers(this);
-	}
-
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy)
 	{

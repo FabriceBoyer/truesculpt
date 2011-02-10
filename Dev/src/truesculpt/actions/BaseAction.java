@@ -1,39 +1,37 @@
 package truesculpt.actions;
 
-import truesculpt.main.R;
+import truesculpt.main.Managers;
 
 public abstract class BaseAction
 {
-
 	String mStrDescription;
-
-	public BaseAction(String strDescription)
+	Managers mManagers=null;
+	
+	public BaseAction()
 	{
-		this.mStrDescription = strDescription;
-	}
+	}	
 
-	public abstract boolean DoAction();
-
-	public String GetActionName()
-	{
-		return "Undefined";
-	}
-
+	abstract public boolean DoAction();
+	abstract public boolean UndoAction();
+	
+	abstract public String GetActionName();
+	abstract public int GetImageResourceID();	 
+	
 	public String getDescription()
 	{
 		return mStrDescription;
 	}
-
-	public int GetImageResourceID()
-	{
-		return R.drawable.logo;
-	}
-
 	public void setDescription(String strDescription)
 	{
 		this.mStrDescription = strDescription;
 	}
-
-	public abstract boolean UndoAction();
-
+	
+	public void setManagers(Managers managers)
+	{
+		mManagers=managers;
+	}
+	public Managers getManagers()
+	{
+		return mManagers;
+	}
 }

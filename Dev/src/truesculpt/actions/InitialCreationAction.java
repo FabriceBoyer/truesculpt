@@ -7,8 +7,8 @@ public class InitialCreationAction extends BaseAction
 
 	public InitialCreationAction(String strDescription)
 	{
-		super(strDescription);
-		// TODO Auto-generated constructor stub
+		super();
+		setDescription(strDescription);
 	}
 
 	@Override

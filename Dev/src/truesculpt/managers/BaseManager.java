@@ -33,4 +33,10 @@ public abstract class BaseManager extends Observable
 
 	public abstract void onDestroy();
 
+	public void NotifyListeners()
+	{
+		setChanged();
+		notifyObservers(this);
+	}
+
 }

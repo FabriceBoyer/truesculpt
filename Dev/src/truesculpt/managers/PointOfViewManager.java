@@ -46,18 +46,16 @@ public class PointOfViewManager extends BaseManager
 		return mR;
 	}
 
-	private void NotifyListeners()
+	@Override
+	public void NotifyListeners()
 	{
 		getManagers().getRendererManager().onPointOfViewChange();
-
-		setChanged();
-		notifyObservers(this);
+		super.NotifyListeners();		
 	}
 
 	@Override
 	public void onCreate()
 	{
-
 		resetPOV();
 	}
 

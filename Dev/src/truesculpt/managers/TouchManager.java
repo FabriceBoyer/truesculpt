@@ -1,5 +1,6 @@
 package truesculpt.managers;
 
+import truesculpt.actions.ChangePOVAction;
 import truesculpt.managers.ToolsManager.EPovToolSubMode;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.utils.Utils;
@@ -190,6 +191,8 @@ public class TouchManager extends BaseManager
 		case MotionEvent.ACTION_UP:
 		{
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
+			getManagers().getActionsManager().AddUndoAction(new ChangePOVAction(mRotInit, mElevInit, mZoomInit, 
+					getManagers().getPointOfViewManager().getRotationAngle(), getManagers().getPointOfViewManager().getElevationAngle(), getManagers().getPointOfViewManager().getZoomDistance()));
 			break;
 		}
 		case MotionEvent.ACTION_MOVE:

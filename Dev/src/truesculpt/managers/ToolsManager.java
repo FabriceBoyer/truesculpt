@@ -11,7 +11,7 @@ public class ToolsManager extends BaseManager
 	};
 
 	public enum ESculptToolSubMode {
-		REFINE, RISE, MORPH
+		DRAW, GRAB, INFLATE, SMOOTH
 	};
 
 	public enum EToolMode {
@@ -25,7 +25,7 @@ public class ToolsManager extends BaseManager
 	private EToolMode mMode = EToolMode.POV;
 
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
-	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.RISE;
+	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.DRAW;
 
 	private float mRadius = 50.0f;// pct
 
@@ -75,12 +75,6 @@ public class ToolsManager extends BaseManager
 	public EToolMode getToolMode()
 	{
 		return mMode;
-	}
-
-	private void NotifyListeners()
-	{
-		setChanged();
-		notifyObservers(this);
 	}
 
 	@Override

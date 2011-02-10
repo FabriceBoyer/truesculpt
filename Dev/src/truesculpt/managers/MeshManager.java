@@ -523,15 +523,9 @@ public class MeshManager extends BaseManager
 		worldPos[2] = outPoint[2] / outPoint[3];
 	}
 
-	private void InitMorphAction(int nTriangleIndex)
+	private void InitGrabAction(int nTriangleIndex)
 	{
 
-	}
-
-	private void NotifyListeners()
-	{
-		setChanged();
-		notifyObservers(this);
 	}
 
 	@Override
@@ -586,11 +580,11 @@ public class MeshManager extends BaseManager
 					{
 						switch (getManagers().getToolsManager().getSculptSubMode())
 						{
-						case RISE:
+						case DRAW:
 							RiseSculptAction(nIndex);
 							break;
-						case MORPH:
-							InitMorphAction(nIndex);
+						case GRAB:
+							InitGrabAction(nIndex);
 							break;
 						}
 						break;

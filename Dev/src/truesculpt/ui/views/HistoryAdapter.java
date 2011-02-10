@@ -33,14 +33,14 @@ public class HistoryAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		int n = mActionsManager.getActionsList().size();
+		int n = mActionsManager.GetUndoActionCount();
 		return n;
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		Object obj = mActionsManager.getActionsList().get(position);
+		Object obj = mActionsManager.GetUndoActionAt(position);
 		return obj;
 	}
 
@@ -68,7 +68,7 @@ public class HistoryAdapter extends BaseAdapter
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		BaseAction action = mActionsManager.getActionsList().get(position);
+		BaseAction action = mActionsManager.GetUndoActionAt(position);
 		holder.title.setText(action.GetActionName());
 		holder.description.setText(action.getDescription());
 		holder.image.setImageResource(action.GetImageResourceID());
