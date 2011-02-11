@@ -1,4 +1,4 @@
-package truesculpt.ui.dialogs;
+package truesculpt.ui.views;
 
 import truesculpt.main.R;
 import android.content.Context;
@@ -66,7 +66,7 @@ public class HSLColorPickerView extends View
 		canvas.drawRect(0.f, 0.f, ukuranUiPx, ukuranUiPx, paint);
 	}
 
-	void setHue(float hue)
+	public void setHue(float hue)
 	{
 		this.hue = hue;
 		invalidate();

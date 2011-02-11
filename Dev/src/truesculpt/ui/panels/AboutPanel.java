@@ -83,7 +83,7 @@ public class AboutPanel extends Activity
 		{
 		case R.id.show_debug_panel:
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.debug.DebugPanel.class, false);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.DebugPanel.class, false);
 			return true;
 		}
 		case R.id.show_check_version_panel:
