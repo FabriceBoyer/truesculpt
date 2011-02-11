@@ -1,5 +1,8 @@
 package truesculpt.utils;
 
+import truesculpt.main.TrueSculptApp;
+import truesculpt.ui.dialogs.HSLColorPickerDialog;
+import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +40,28 @@ public class Utils
 
 			callingContext.startActivity(myIntent);
 		}
+	}
+	
+	public static void ShowHSLColorPickerDialog(Context context)
+	{
+		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
+		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
+		HSLColorPickerDialog dialog = new HSLColorPickerDialog(context, ((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
+		{
+			@Override
+			public void onCancel(HSLColorPickerDialog dialog)
+			{
+				// cancel was selected by the user
+			}
+
+			@Override
+			public void onOk(HSLColorPickerDialog dialog, int color)
+			{
+				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color);
+			}
+		});
+
+		dialog.show();
 	}
 
 }

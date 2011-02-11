@@ -1,16 +1,20 @@
 package truesculpt.ui.panels;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.ToolsManager.ESculptToolSubMode;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.ui.views.ColorShowView;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -25,6 +29,7 @@ import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.SimpleAdapter;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
@@ -186,10 +191,10 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		
-		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		ToolsPanel.InitToolSpinner(mToolSpinner,this.getBaseContext());
+		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinnerDrawer);
+		InitToolSpinner(mToolSpinner,this.getBaseContext());
 		
-		mRedoButton = (Button) findViewById(R.id.RedoBtn);
+		mRedoButton = (Button) findViewById(R.id.RedoBtnDrawer);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -199,7 +204,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		
-		mUndoButton = (Button) findViewById(R.id.UndoBtn);
+		mUndoButton = (Button) findViewById(R.id.UndoBtnDrawer);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -209,13 +214,13 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 				
-		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
+		mColorShow = (ColorShowView) findViewById(R.id.ColorShowViewDrawer);
 		mColorShow.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				ToolsPanel.ShowHSLColorPickerDialog(RendererMainPanel.this);
+				Utils.ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
 		});
 		
@@ -402,7 +407,97 @@ public class RendererMainPanel extends Activity implements Observer
 		
 		mColorShow.SetColor(getManagers().getToolsManager().getColor());
 		
-		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
+		UpdateToolSpinner(mToolSpinner,this);
+	}
+	
+	public void UpdateToolSpinner(Spinner toolSpinner, final Context context)
+	{
+		ESculptToolSubMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSculptSubMode();
+		int nIndex=0;
+		switch (mode)
+		{
+		case DRAW:
+			nIndex=0;
+			break;
+		case GRAB:
+			nIndex=1;
+			break;
+		case SMOOTH:
+			nIndex=2;
+			break;
+		case INFLATE:
+			nIndex=3;
+			break;
+		}
+		toolSpinner.setSelection(nIndex);
+	}
+	
+	public void InitToolSpinner(Spinner toolSpinner, final Context context)
+	{
+		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> map;
+
+		map = new HashMap<String, String>();
+		map.put("title", "Draw");
+		map.put("description", "Draw");
+		map.put("image", String.valueOf(R.drawable.draw));
+		listItem.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("title", "Grab");
+		map.put("description", "Grab");
+		map.put("image", String.valueOf(R.drawable.grab));
+		listItem.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("title", "Smooth");
+		map.put("description", "Smooth");
+		map.put("image", String.valueOf(R.drawable.smooth));
+		listItem.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("title", "Inflate");
+		map.put("description", "Inflate");
+		map.put("image", String.valueOf(R.drawable.inflate));
+		listItem.add(map);
+			
+		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
+		adapter.setDropDownViewResource(R.layout.toolitem);		
+		toolSpinner.setAdapter(adapter);			
+		toolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				ESculptToolSubMode mode=ESculptToolSubMode.DRAW;
+				
+				switch ((int)arg3)
+				{
+				case 0:
+					mode=ESculptToolSubMode.DRAW;
+					break;
+				case 1:
+					mode=ESculptToolSubMode.GRAB;
+					break;
+				case 2:
+					mode=ESculptToolSubMode.SMOOTH;
+					break;
+				case 3:
+					mode=ESculptToolSubMode.INFLATE;
+					break;
+				}
+				
+				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setSculptSubMode(mode);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
+			}
+		});
+		
+		UpdateToolSpinner(toolSpinner,context);
 	}
 
 	public void updateFullscreenWindowStatus()
