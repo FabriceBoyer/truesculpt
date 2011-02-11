@@ -1,4 +1,4 @@
-package truesculpt.ui.debug;
+package truesculpt.ui.panels;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
@@ -31,7 +31,7 @@ public class DebugPanel extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				Utils.StartMyActivity(DebugPanel.this, truesculpt.ui.debug.DebugSensorsPanel.class, false);
+				Utils.StartMyActivity(DebugPanel.this, truesculpt.ui.panels.DebugSensorsPanel.class, false);
 			}
 		});
 

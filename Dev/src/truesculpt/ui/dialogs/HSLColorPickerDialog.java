@@ -1,6 +1,7 @@
 package truesculpt.ui.dialogs;
 
 import truesculpt.main.R;
+import truesculpt.ui.views.HSLColorPickerView;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
