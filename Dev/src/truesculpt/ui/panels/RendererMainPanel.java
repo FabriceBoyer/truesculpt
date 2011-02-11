@@ -45,6 +45,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private Button mRedoButton;
 	private Button mUndoButton;
 	private ColorShowView mColorShow;
+	private Spinner mToolSpinner;
 
 	public void CheckUpdate()
 	{
@@ -185,7 +186,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		
-		Spinner mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
+		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		ToolsPanel.InitToolSpinner(mToolSpinner,this.getBaseContext());
 		
 		mRedoButton = (Button) findViewById(R.id.RedoBtn);
@@ -400,6 +401,8 @@ public class RendererMainPanel extends Activity implements Observer
 		}
 		
 		mColorShow.SetColor(getManagers().getToolsManager().getColor());
+		
+		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
 	}
 
 	public void updateFullscreenWindowStatus()

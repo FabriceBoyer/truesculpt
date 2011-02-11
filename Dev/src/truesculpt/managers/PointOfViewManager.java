@@ -77,7 +77,7 @@ public class PointOfViewManager extends BaseManager
 		mTheta = 0.0f;
 		mPhi = 0.0f;
 		
-		getManagers().getActionsManager().AddUndoAction(new ChangePOVAction(mThetaInit, mPhiInit, mRInit, mTheta, mPhi,mR));
+		//getManagers().getActionsManager().AddUndoAction(new ChangePOVAction(mThetaInit, mPhiInit, mRInit, mTheta, mPhi,mR));
 
 		NotifyListeners();
 	}
