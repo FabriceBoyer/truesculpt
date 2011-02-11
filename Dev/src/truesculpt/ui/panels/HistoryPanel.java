@@ -128,10 +128,12 @@ public class HistoryPanel extends Activity implements Observer
 	  
 	  switch (item.getItemId()) {
 	  case R.id.undo_this_item:
-		  getManagers().getActionsManager().Remove(info.position);//update through observable		 
+		  //TODO use undo functions
+		  //getManagers().getActionsManager().Remove(info.position);//update through observable		 
 	    return true;
 	  case R.id.undo_up_to_this_point:
-		  getManagers().getActionsManager().RemoveUpTo(info.position);		 
+		  //TODO use undo functions
+		  //getManagers().getActionsManager().RemoveUpTo(info.position);		 
 	    return true;
 	  default:
 	    return super.onContextItemSelected(item);

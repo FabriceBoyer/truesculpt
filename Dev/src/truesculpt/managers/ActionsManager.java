@@ -13,14 +13,14 @@ import android.content.Context;
 //For undo redo and analytical description of sculpture
 public class ActionsManager extends BaseManager
 {
-	private List<BaseAction> mUndoActionsList = new ArrayList<BaseAction>();
-	private List<BaseAction> mRedoActionsList = new ArrayList<BaseAction>();
-	
+	private int MAX_UNDO_SIZE=100;
+	private List<BaseAction> mUndoActionsList = new ArrayList<BaseAction>(MAX_UNDO_SIZE);
+	private List<BaseAction> mRedoActionsList = new ArrayList<BaseAction>(MAX_UNDO_SIZE);
+		
 	public ActionsManager(Context baseContext)
 	{
-		super(baseContext);
+		super(baseContext);		
 	}
-
 	
 	@Override
 	public void onCreate()
@@ -77,7 +77,16 @@ public class ActionsManager extends BaseManager
 	public void AddUndoAction(BaseAction action)
 	{
 		action.setManagers(getManagers());
-		mUndoActionsList.add(0,action);//add at the top
+		
+		//TODO optimize by avoiding offsetting (reverse list)
+		mUndoActionsList.add(0,action);//add at the top	
+		
+		//history stripping
+		if(GetUndoActionCount()>MAX_UNDO_SIZE)
+		{
+			mUndoActionsList.remove(GetUndoActionCount()-1);
+		}
+		
 		mRedoActionsList.clear();//new branch no more needed
 		NotifyListeners();
 	}
