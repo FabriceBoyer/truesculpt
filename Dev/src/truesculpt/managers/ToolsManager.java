@@ -1,11 +1,14 @@
 package truesculpt.managers;
 
+import truesculpt.actions.ChangeToolAction;
+import truesculpt.utils.Utils;
 import android.content.Context;
 import android.graphics.Color;
 
+
+
 public class ToolsManager extends BaseManager
 {
-
 	public enum EPovToolSubMode {
 		PAN, ROTATE, ZOOM
 	};
@@ -21,6 +24,31 @@ public class ToolsManager extends BaseManager
 	public enum ESymmetryMode {
 		NONE,X,Y,Z
 	};
+		
+	public class GlobalToolState
+	{
+		EToolMode m_toolmode;
+		ESculptToolSubMode m_subSculptTool;
+		EPovToolSubMode m_subPOVTool;
+		ESymmetryMode m_symmetrymode;
+		int m_Color;
+		float m_Radius;
+		float m_Strength;
+		//TODO paint mode
+		
+		public String toString() 
+		{
+			String msg="";
+			msg=m_toolmode.toString()+"/"+
+			m_subSculptTool.toString()+"/"+
+			m_subPOVTool+"/"+
+			m_symmetrymode.toString()+"/"+
+			Utils.ColorIntToString(m_Color)+"/"+
+			Float.toString(m_Radius)+"/"+
+			Float.toString(m_Strength);
+			return msg;		
+		}
+	};
 
 	private int mColor = Color.rgb(150, 150, 150);
 	private boolean mForcedMode = false;
@@ -34,7 +62,6 @@ public class ToolsManager extends BaseManager
 	private ESymmetryMode mSymmetryMode=ESymmetryMode.NONE;
 
 	private float mRadius = 50.0f;// pct
-
 	private float mStrength = 50.0f;// pct
 
 	public ToolsManager(Context baseContext)
@@ -104,7 +131,10 @@ public class ToolsManager extends BaseManager
 
 	public void setColor(int color)
 	{
+		GlobalToolState prevState=GetGlobalToolState();
 		this.mColor = color;
+		getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+		
 		NotifyListeners();
 	}
 
@@ -118,8 +148,8 @@ public class ToolsManager extends BaseManager
 		if (mMode != mLastMode)
 		{
 			mMode = mLastMode;
+			
 			NotifyListeners();
-			// don't update mLastMode otherwise oscillate
 		}
 	}
 
@@ -127,14 +157,20 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mPovSubMode != mPovSubMode)
 		{
-			this.mPovSubMode = mPovSubMode;		
+			GlobalToolState prevState=GetGlobalToolState();
+			this.mPovSubMode = mPovSubMode;			
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			
 			NotifyListeners();
 		}
 	}
 
 	public void setRadius(float radius)
 	{
+		GlobalToolState prevState=GetGlobalToolState();	
 		this.mRadius = radius;
+		getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+		
 		if (mRadius > 100)
 		{
 			mRadius = 100;
@@ -150,7 +186,10 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mSculptSubMode != mSculptSubMode)
 		{
+			GlobalToolState prevState=GetGlobalToolState();			
 			this.mSculptSubMode = mSculptSubMode;		
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			
 			NotifyListeners();
 		}
 	}
@@ -159,14 +198,19 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mSymmetryMode != mSymmetryMode)
 		{
+			GlobalToolState prevState=GetGlobalToolState();	
 			this.mSymmetryMode = mSymmetryMode;		
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			
 			NotifyListeners();
 		}
 	}
 
 	public void setStrength(float strength)
 	{
+		GlobalToolState prevState=GetGlobalToolState();	
 		this.mStrength = strength;
+		getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 
 		if (mStrength > 100)
 		{
@@ -184,8 +228,11 @@ public class ToolsManager extends BaseManager
 	{
 		if (mMode != mode)
 		{
+			GlobalToolState prevState=GetGlobalToolState();	
 			mLastMode = mMode;
 			mMode = mode;
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			
 			NotifyListeners();
 		}
 	}
@@ -194,5 +241,30 @@ public class ToolsManager extends BaseManager
 	{
 		getManagers().getRendererManager().getMainRenderer().TakeGLScreenshotOfNextFrame();
 		NotifyListeners();
+	}
+	
+	public GlobalToolState GetGlobalToolState()
+	{
+		GlobalToolState state=new GlobalToolState();
+		state.m_toolmode=mMode;
+		state.m_subPOVTool=mPovSubMode;
+		state.m_subSculptTool=mSculptSubMode;
+		state.m_symmetrymode=mSymmetryMode;
+		state.m_Color=mColor;
+		state.m_Radius=mRadius;
+		state.m_Strength=mStrength;
+		return state;		
+	}
+
+	//TODO store data with this class?
+	public void SetGlobalToolState(GlobalToolState state)
+	{
+		mMode=state.m_toolmode;
+		mPovSubMode=state.m_subPOVTool;
+		mSculptSubMode=state.m_subSculptTool;
+		mSymmetryMode=state.m_symmetrymode;	
+		mColor=state.m_Color;
+		mRadius=state.m_Radius;
+		mStrength=state.m_Strength;
 	}
 }

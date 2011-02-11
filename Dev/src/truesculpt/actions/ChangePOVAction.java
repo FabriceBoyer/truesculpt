@@ -4,6 +4,7 @@ import truesculpt.main.R;
 
 public class ChangePOVAction extends BaseAction
 {
+	//TODO regroup in 1 state class with two instances init and curr
 	float m_init_rotation,  m_init_elevation,  m_init_zoomDistance=0.0f;
 	float m_curr_rotation,  m_curr_elevation,  m_curr_zoomDistance=0.0f;
 	
@@ -32,7 +33,7 @@ public class ChangePOVAction extends BaseAction
 	public boolean DoAction()
 	{
 		getManagers().getPointOfViewManager().SetAllAngles(m_curr_rotation, m_curr_elevation, m_curr_zoomDistance);
-		return false;
+		return true;
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class ChangePOVAction extends BaseAction
 	public boolean UndoAction()
 	{
 		getManagers().getPointOfViewManager().SetAllAngles(m_init_rotation, m_init_elevation, m_init_zoomDistance);
-		return false;
+		return true;
 	}
 
 }
