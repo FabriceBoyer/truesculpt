@@ -168,8 +168,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 				
 			}
 		});
-		
-		UpdateToolSpinner(toolSpinner,context);
 	}
 
 	@Override
