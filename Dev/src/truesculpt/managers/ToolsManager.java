@@ -17,6 +17,10 @@ public class ToolsManager extends BaseManager
 	public enum EToolMode {
 		PAINT, POV, SCULPT
 	};
+	
+	public enum ESymmetryMode {
+		NONE,X,Y,Z
+	};
 
 	private int mColor = Color.rgb(150, 150, 150);
 	private boolean mForcedMode = false;
@@ -26,6 +30,8 @@ public class ToolsManager extends BaseManager
 
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
 	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.DRAW;
+	
+	private ESymmetryMode mSymmetryMode=ESymmetryMode.NONE;
 
 	private float mRadius = 50.0f;// pct
 
@@ -65,6 +71,11 @@ public class ToolsManager extends BaseManager
 	public ESculptToolSubMode getSculptSubMode()
 	{
 		return mSculptSubMode;
+	}
+	
+	public ESymmetryMode getSymmetryMode()
+	{
+		return mSymmetryMode;
 	}
 
 	public float getStrength()
@@ -114,7 +125,11 @@ public class ToolsManager extends BaseManager
 
 	public void setPovSubMode(EPovToolSubMode mPovSubMode)
 	{
-		this.mPovSubMode = mPovSubMode;
+		if (this.mPovSubMode != mPovSubMode)
+		{
+			this.mPovSubMode = mPovSubMode;		
+			NotifyListeners();
+		}
 	}
 
 	public void setRadius(float radius)
@@ -133,7 +148,20 @@ public class ToolsManager extends BaseManager
 
 	public void setSculptSubMode(ESculptToolSubMode mSculptSubMode)
 	{
-		this.mSculptSubMode = mSculptSubMode;
+		if (this.mSculptSubMode != mSculptSubMode)
+		{
+			this.mSculptSubMode = mSculptSubMode;		
+			NotifyListeners();
+		}
+	}
+	
+	public void setSymmetryMode(ESymmetryMode mSymmetryMode)
+	{
+		if (this.mSymmetryMode != mSymmetryMode)
+		{
+			this.mSymmetryMode = mSymmetryMode;		
+			NotifyListeners();
+		}
 	}
 
 	public void setStrength(float strength)

@@ -8,6 +8,7 @@ import java.util.Observer;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.ToolsManager.ESculptToolSubMode;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
@@ -56,8 +57,30 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	{
 
 	}
-
-	public static void InitToolSpinner(Spinner toolSpinner, Context context)
+			
+	public static void UpdateToolSpinner(Spinner toolSpinner, final Context context)
+	{
+		ESculptToolSubMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSculptSubMode();
+		int nIndex=0;
+		switch (mode)
+		{
+		case DRAW:
+			nIndex=0;
+			break;
+		case GRAB:
+			nIndex=1;
+			break;
+		case SMOOTH:
+			nIndex=2;
+			break;
+		case INFLATE:
+			nIndex=3;
+			break;
+		}
+		toolSpinner.setSelection(nIndex);
+	}
+	
+	public static void InitToolSpinner(Spinner toolSpinner, final Context context)
 	{
 		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
@@ -85,19 +108,34 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		map.put("description", "Inflate");
 		map.put("image", String.valueOf(R.drawable.inflate));
 		listItem.add(map);
-
+			
 		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
-
-		adapter.setDropDownViewResource(R.layout.toolitem);
-		
-		toolSpinner.setAdapter(adapter);	
-		
+		adapter.setDropDownViewResource(R.layout.toolitem);		
+		toolSpinner.setAdapter(adapter);			
 		toolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-	
+				ESculptToolSubMode mode=ESculptToolSubMode.DRAW;
+				
+				switch ((int)arg3)
+				{
+				case 0:
+					mode=ESculptToolSubMode.DRAW;
+					break;
+				case 1:
+					mode=ESculptToolSubMode.GRAB;
+					break;
+				case 2:
+					mode=ESculptToolSubMode.SMOOTH;
+					break;
+				case 3:
+					mode=ESculptToolSubMode.INFLATE;
+					break;
+				}
+				
+				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setSculptSubMode(mode);
 			}
 
 			@Override
@@ -106,6 +144,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 				
 			}
 		});
+		
+		UpdateToolSpinner(toolSpinner,context);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -197,8 +237,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 			}
 		});
 
-		Button resetPOVbutton = (Button) findViewById(R.id.ResetPOV);
-		resetPOVbutton.setOnClickListener(new View.OnClickListener()
+		Button ResetPOVbutton = (Button) findViewById(R.id.ResetPOV);
+		ResetPOVbutton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -219,7 +259,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		});
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		InitToolSpinner(mToolSpinner,this.getBaseContext());
+		ToolsPanel.InitToolSpinner(mToolSpinner,this.getBaseContext());
 		
 		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
 		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.symmetry, android.R.layout.simple_spinner_item);
@@ -320,6 +360,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		mRadiusText.setText("Radius = " + Integer.toString((int) fRadius) + " %");
 
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
+		
+		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
 	}
 
 }

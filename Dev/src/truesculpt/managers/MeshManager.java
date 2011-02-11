@@ -534,7 +534,7 @@ public class MeshManager extends BaseManager
 		// Thread thr = new Thread(null, mInitTask, "Mesh_Init");
 		// thr.start();
 
-		// mMesh= new Mesh(getManagers());
+		mMesh= new Mesh(getManagers());
 	}
 
 	@Override
