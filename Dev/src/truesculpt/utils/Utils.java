@@ -18,6 +18,20 @@ public class Utils
 		VColor[2] = Color.blue(color) / 255.0f;
 		VColor[3] = 1.0f;
 	}
+	
+	public static String ColorIntToString(int color)
+	{
+		String res;
+		float[] VColor = new float[4];
+		ColorIntToFloatVector(color,VColor);
+		res="("+
+		Float.toString(VColor[0])+","+
+		Float.toString(VColor[1])+","+
+		Float.toString(VColor[2])+","+		
+		")";
+		return res;
+	}
+
 
 	public static void ShowURLInBrowser(Activity callingACtivity, String strURL)
 	{
