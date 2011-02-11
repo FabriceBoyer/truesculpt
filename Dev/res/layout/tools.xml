@@ -9,7 +9,7 @@
  <TextView android:text="@string/Radius" android:id="@+id/RadiusText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
  <SeekBar android:id="@+id/RadiusBar" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
  <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="@string/Sculptingtool"></TextView>
- <Spinner style="@style/SpinnerAsEditText" android:layout_height="wrap_content" android:id="@+id/SculptToolSpinner" android:layout_width="wrap_content"></Spinner>
+ <Spinner android:layout_height="50dip" android:id="@+id/SculptToolSpinner" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
  <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_width="wrap_content" android:text="@string/Paintingtool"></TextView>
  <Spinner style="@style/SpinnerAsEditText" android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinner" android:layout_width="wrap_content"></Spinner>
  <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout2">

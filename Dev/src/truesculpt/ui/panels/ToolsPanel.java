@@ -9,10 +9,12 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.ESculptToolSubMode;
+import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
 import truesculpt.ui.views.ColorPickerView;
+import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -57,8 +59,30 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	{
 
 	}
+	
+	public void UpdateSymmetrySpinner(Spinner symSpinner, final Context context)
+	{
+		ESymmetryMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSymmetryMode();
+		int nIndex=0;
+		switch (mode)
+		{
+		case NONE:
+			nIndex=0;
+			break;
+		case X:
+			nIndex=1;
+			break;
+		case Y:
+			nIndex=2;
+			break;
+		case Z:
+			nIndex=3;
+			break;
+		}
+		symSpinner.setSelection(nIndex);
+	}
 			
-	public static void UpdateToolSpinner(Spinner toolSpinner, final Context context)
+	public void UpdateToolSpinner(Spinner toolSpinner, final Context context)
 	{
 		ESculptToolSubMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSculptSubMode();
 		int nIndex=0;
@@ -80,7 +104,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		toolSpinner.setSelection(nIndex);
 	}
 	
-	public static void InitToolSpinner(Spinner toolSpinner, final Context context)
+	public void InitToolSpinner(Spinner toolSpinner, final Context context)
 	{
 		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
@@ -212,7 +236,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 			@Override
 			public void onClick(View v)
 			{
-				ShowHSLColorPickerDialog(ToolsPanel.this);
+				Utils.ShowHSLColorPickerDialog(ToolsPanel.this);
 			}
 		});
 
@@ -222,7 +246,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 			@Override
 			public void onClick(View v)
 			{
-				ShowHSLColorPickerDialog(ToolsPanel.this);
+				Utils.ShowHSLColorPickerDialog(ToolsPanel.this);
 			}
 		});
 
@@ -259,26 +283,10 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		});
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		ToolsPanel.InitToolSpinner(mToolSpinner,this.getBaseContext());
+		InitToolSpinner(mToolSpinner,this.getBaseContext());
 		
 		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
-		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.symmetry, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		mSymmetrySpinner.setAdapter(adapter);
-		mSymmetrySpinner.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-	
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0)
-			{
-				
-			}
-		});
+		InitSymmetrySpinner(mSymmetrySpinner, this.getBaseContext());		
 
 		mPaintSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		InitPaintSpinner();
@@ -301,6 +309,45 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		UpdateView();
 	}
 
+	private void InitSymmetrySpinner(Spinner symSpinner, final Context context)
+	{
+		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.symmetry, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		symSpinner.setAdapter(adapter);
+		symSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				ESymmetryMode mode=ESymmetryMode.NONE;
+				
+				switch ((int)arg3)
+				{
+				case 0:
+					mode=ESymmetryMode.NONE;
+					break;
+				case 1:
+					mode=ESymmetryMode.X;
+					break;
+				case 2:
+					mode=ESymmetryMode.Y;
+					break;
+				case 3:
+					mode=ESymmetryMode.Z;
+					break;
+				}
+				
+				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setSymmetryMode(mode);
+			}
+			
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				
+			}
+		});
+	}
+
 	@Override
 	protected void onDestroy()
 	{
@@ -321,28 +368,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		return super.onTouchEvent(event);
 	}
 
-	static public void ShowHSLColorPickerDialog(Context context)
-	{
-		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
-		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
-		HSLColorPickerDialog dialog = new HSLColorPickerDialog(context, ((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
-		{
-			@Override
-			public void onCancel(HSLColorPickerDialog dialog)
-			{
-				// cancel was selected by the user
-			}
-
-			@Override
-			public void onOk(HSLColorPickerDialog dialog, int color)
-			{
-				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color);
-			}
-		});
-
-		dialog.show();
-	}
-
 	@Override
 	public void update(Observable observable, Object data)
 	{
@@ -361,7 +386,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
 		
-		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
+		UpdateToolSpinner(mToolSpinner,this.getBaseContext());
+		UpdateSymmetrySpinner(mSymmetrySpinner,this.getBaseContext());
 	}
 
 }
