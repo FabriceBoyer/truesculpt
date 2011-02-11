@@ -60,7 +60,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 
 	}
 	
-	public void UpdateSymmetrySpinner(Spinner symSpinner, final Context context)
+	public static void UpdateSymmetrySpinner(Spinner symSpinner, final Context context)
 	{
 		ESymmetryMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSymmetryMode();
 		int nIndex=0;
@@ -82,7 +82,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		symSpinner.setSelection(nIndex);
 	}
 			
-	public void UpdateToolSpinner(Spinner toolSpinner, final Context context)
+	public static void UpdateToolSpinner(Spinner toolSpinner, final Context context)
 	{
 		ESculptToolSubMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSculptSubMode();
 		int nIndex=0;
@@ -104,7 +104,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		toolSpinner.setSelection(nIndex);
 	}
 	
-	public void InitToolSpinner(Spinner toolSpinner, final Context context)
+	public static void InitToolSpinner(Spinner toolSpinner, final Context context)
 	{
 		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
@@ -283,7 +283,7 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		});
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		InitToolSpinner(mToolSpinner,this.getBaseContext());
+		InitToolSpinner(mToolSpinner,this);
 		
 		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
 		InitSymmetrySpinner(mSymmetrySpinner, this.getBaseContext());		
@@ -309,9 +309,9 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		UpdateView();
 	}
 
-	private void InitSymmetrySpinner(Spinner symSpinner, final Context context)
+	private static void InitSymmetrySpinner(Spinner symSpinner, final Context context)
 	{
-		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.symmetry, android.R.layout.simple_spinner_item);
+		ArrayAdapter adapter = ArrayAdapter.createFromResource(context, R.array.symmetry, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		symSpinner.setAdapter(adapter);
 		symSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
@@ -386,8 +386,8 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
 		
-		UpdateToolSpinner(mToolSpinner,this.getBaseContext());
-		UpdateSymmetrySpinner(mSymmetrySpinner,this.getBaseContext());
+		UpdateToolSpinner(mToolSpinner,this);
+		UpdateSymmetrySpinner(mSymmetrySpinner,this);
 	}
 
 }
