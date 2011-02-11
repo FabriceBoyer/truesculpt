@@ -172,7 +172,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		UpdateToolSpinner(toolSpinner,context);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -286,9 +285,9 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		InitToolSpinner(mToolSpinner,this);
 		
 		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
-		InitSymmetrySpinner(mSymmetrySpinner, this.getBaseContext());		
+		InitSymmetrySpinner(mSymmetrySpinner, this);		
 
-		mPaintSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
+		mPaintSpinner = (Spinner) findViewById(R.id.PaintingToolSpinner);
 		InitPaintSpinner();
 		mPaintSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
@@ -304,7 +303,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 				
 			}
 		});
-
 
 		UpdateView();
 	}
