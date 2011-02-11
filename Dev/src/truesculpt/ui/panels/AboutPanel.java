@@ -32,6 +32,7 @@ public class AboutPanel extends Activity
 
 		setContentView(R.layout.about);
 
+		/*
 		final Button button = (Button) findViewById(R.id.Ok_btn);
 		button.setOnClickListener(new View.OnClickListener()
 		{
@@ -41,6 +42,7 @@ public class AboutPanel extends Activity
 				finish();
 			}
 		});
+		*/
 		
 		TextView aboutText=(TextView)findViewById(R.id.about_text);
 		String aboutMsg= getString(R.string.about_text) +"\n" +
