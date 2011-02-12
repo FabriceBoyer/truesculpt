@@ -56,7 +56,7 @@ public class HSLColorPickerDialog
 		sat = tmp01[1];
 		val = tmp01[2];
 
-		satudp = context.getResources().getDimension(R.dimen.ambilwarna_satudp);
+		satudp = 1;//1dp
 		ukuranUiPx = ukuranUiDp * satudp;
 		Log.d(TAG, "satudp = " + satudp + ", ukuranUiPx=" + ukuranUiPx); //$NON-NLS-1$//$NON-NLS-2$
 
