@@ -24,9 +24,9 @@
 			</TableRow>
 			
 	        <TableRow>			
-			 	<Spinner android:layout_height="50dip" android:id="@+id/SculptToolSpinnerDrawer" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
-			 	<truesculpt.ui.views.ColorShowView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ColorShowViewDrawer"></truesculpt.ui.views.ColorShowView>
-		 		<Spinner android:layout_height="wrap_content" android:id="@+id/PaintingToolSpinnerDrawer" android:layout_width="wrap_content" style="@style/SpinnerAsEditText"></Spinner>
+			 	<Spinner android:layout_height="50dip" android:id="@+id/SculptToolSpinner" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
+			 	<truesculpt.ui.views.ColorShowView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ColorShowView"></truesculpt.ui.views.ColorShowView>
+		 		<Spinner android:layout_height="50dip" android:id="@+id/PaintingToolSpinner" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
 			</TableRow>       
 
 			<TableRow>  
