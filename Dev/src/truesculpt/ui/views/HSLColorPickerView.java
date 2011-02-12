@@ -39,7 +39,7 @@ public class HSLColorPickerView extends View
 	{
 		super(context, attrs, defStyle);
 
-		satudp = 1;//1dp
+		satudp = context.getResources().getDimension(R.dimen.ambilwarna_satudp);
 		ukuranUiPx = ukuranUiDp * satudp;
 	}
 
