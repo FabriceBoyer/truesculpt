@@ -142,11 +142,14 @@ public class ToolsManager extends BaseManager
 
 	public void setColor(int color)
 	{
-		GlobalToolState prevState=GetGlobalToolState();
-		this.mColor = color;
-		getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
-		
-		NotifyListeners();
+		if (this.mColor!=color)
+		{
+			GlobalToolState prevState=GetGlobalToolState();
+			this.mColor = color;
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			
+			NotifyListeners();
+		}
 	}
 
 	public void setForcedMode(boolean mForcedMode)
@@ -249,7 +252,7 @@ public class ToolsManager extends BaseManager
 
 	public void setToolMode(EToolMode mode)
 	{
-		if (mMode != mode)
+		if (this.mMode != mode)
 		{
 			GlobalToolState prevState=GetGlobalToolState();	
 			mLastMode = mMode;
