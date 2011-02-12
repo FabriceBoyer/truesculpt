@@ -49,6 +49,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private SlidingDrawer mToolsSlidingDrawer;
 	private Button mRedoButton;
 	private Button mUndoButton;
+	private Button mHistoryButton;
 	private ColorShowView mColorShow;
 	private Spinner mToolSpinner;
 
@@ -194,7 +195,7 @@ public class RendererMainPanel extends Activity implements Observer
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinnerDrawer);
 		ToolsPanel.InitToolSpinner(mToolSpinner,this);
 		
-		mRedoButton = (Button) findViewById(R.id.RedoBtnDrawer);
+		mRedoButton = (Button) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -204,13 +205,23 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		
-		mUndoButton = (Button) findViewById(R.id.UndoBtnDrawer);
+		mUndoButton = (Button) findViewById(R.id.UndoBtn);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
 				getManagers().getActionsManager().Undo();
+			}
+		});
+		
+		mHistoryButton = (Button) findViewById(R.id.HistoryBtn);
+		mHistoryButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.HistoryPanel.class, false);
 			}
 		});
 				
