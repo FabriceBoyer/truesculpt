@@ -44,11 +44,11 @@ public class ToolsManager extends BaseManager
 		public String toString() 
 		{
 			String msg="";
-			msg=m_toolmode.toString()+"/"+
-			m_subSculptTool.toString()+"/"+
-			m_subPaintTool.toString()+"/"+
+			msg=m_toolmode+"/"+
+			m_subSculptTool+"/"+
+			m_subPaintTool+"/"+
 			m_subPOVTool+"/"+
-			m_symmetrymode.toString()+"/"+
+			m_symmetrymode+"/"+
 			Utils.ColorIntToString(m_Color)+"/"+
 			Float.toString(m_Radius)+"/"+
 			Float.toString(m_Strength);
