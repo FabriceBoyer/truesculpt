@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<style parent="@android:style/Widget.Spinner" name="SpinnerAsEditText"><item name="android:background">@android:color/transparent</item>
+<style parent="@android:style/Widget.Spinner" name="SpinnerAsEditText">
+	<item name="android:background">@android:color/transparent</item>
+</style>
+<style name="Theme.TrueSculpt" parent="android:Theme.Translucent.NoTitleBar">
+    <item name="android:windowBackground">@drawable/transparentbackground</item>              
 </style>
 </resources>
