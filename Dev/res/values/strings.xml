@@ -77,5 +77,6 @@
     <string name="undo_this_item">Undo this item</string>
     <string name="licence">This software and it\'s source are licensed under Creative Commons "Attribution Non-Commercial Share-Alike 3.0" (CC BY-NC-SA 3.0)\nhttp://creativecommons.org/licenses/by-nc-sa/3.0/ </string>
     <string name="spacer"> </string>
-    <string name="Website">Website</string>    
+    <string name="Website">Website</string>
+    <string name="donate">If you like this software and want to show your support, feel free to donate on the website or buy the "donate version" of the application on the android market</string>    
 </resources>
