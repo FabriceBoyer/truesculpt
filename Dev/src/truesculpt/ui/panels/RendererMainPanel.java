@@ -52,6 +52,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private Button mHistoryButton;
 	private ColorShowView mColorShow;
 	private Spinner mToolSpinner;
+	private Spinner mPaintSpinner;
 
 	public void CheckUpdate()
 	{
@@ -192,8 +193,11 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		
-		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinnerDrawer);
+		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		ToolsPanel.InitToolSpinner(mToolSpinner,this);
+		
+		mPaintSpinner = (Spinner) findViewById(R.id.PaintingToolSpinner);
+		ToolsPanel.InitPaintSpinner(mPaintSpinner,this);			
 		
 		mRedoButton = (Button) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
@@ -225,7 +229,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 				
-		mColorShow = (ColorShowView) findViewById(R.id.ColorShowViewDrawer);
+		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
 		mColorShow.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -419,6 +423,7 @@ public class RendererMainPanel extends Activity implements Observer
 		mColorShow.SetColor(getManagers().getToolsManager().getColor());
 		
 		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
+		ToolsPanel.UpdatePaintSpinner(mPaintSpinner, this);
 	}	
 
 	public void updateFullscreenWindowStatus()
