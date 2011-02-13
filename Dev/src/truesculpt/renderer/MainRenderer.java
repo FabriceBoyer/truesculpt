@@ -23,10 +23,6 @@ import truesculpt.main.Managers;
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 
-/**
- * Render a pair of tumbling cubes.
- */
-
 public class MainRenderer implements GLSurfaceView.Renderer
 {
 	float fShininess = 25.0f;

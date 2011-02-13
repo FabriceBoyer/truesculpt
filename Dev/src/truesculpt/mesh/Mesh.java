@@ -61,7 +61,7 @@ public class Mesh
 		mFaceList.ensureCapacity(30000);
 		mVertexList.ensureCapacity(30000);
 
-		InitAsSphere(1);
+		InitAsSphere(5);
 
 		// String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		// ExportToOBJ(strFileName);
@@ -568,7 +568,6 @@ public class Mesh
 		for (int i = 0; i < nCount; i++)
 		{
 			Face face = mFaceList.get(i);
-
 			{
 				Edge e = face.E0;
 				Edge res = RegroupEdge(e);
@@ -642,7 +641,6 @@ public class Mesh
 			mVertexList.add(v2);
 
 			Face f0 = new Face(A, v0, v2);
-			// f0.E0.F1=
 			Face f1 = new Face(v0, B, v1);
 			Face f2 = new Face(v1, C, v2);
 			Face f3 = new Face(v0, v1, v2);

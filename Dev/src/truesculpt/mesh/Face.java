@@ -3,7 +3,6 @@ package truesculpt.mesh;
 public class Face
 {
 	public Edge E0 = null;
-
 	public Edge E1 = null;
 	public Edge E2 = null;
 	public int nSubdivionLevel = 1;

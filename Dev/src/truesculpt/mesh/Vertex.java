@@ -6,13 +6,9 @@ import truesculpt.utils.MatrixUtils;
 
 public class Vertex
 {
-
 	public float[] Coord = new float[3];
-
 	public float[] Normal = new float[3];
-
 	public ArrayList<Edge> mCloseEdgeList = new ArrayList<Edge>();
-
 	public int Color = 0;
 
 	public Vertex(float x, float y, float z)
