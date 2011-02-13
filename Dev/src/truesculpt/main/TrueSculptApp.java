@@ -16,7 +16,9 @@ public class TrueSculptApp extends Application
 	public void onCreate()
 	{
 		super.onCreate();
-
+		
+		getManagers().Init(getBaseContext());
+		getManagers().Create();
 	}
 
 	@Override
