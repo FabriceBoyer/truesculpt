@@ -61,7 +61,7 @@ public class Mesh
 		mFaceList.ensureCapacity(30000);
 		mVertexList.ensureCapacity(30000);
 
-		InitAsSphere(5);
+		InitAsSphere(3);
 
 		// String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		// ExportToOBJ(strFileName);

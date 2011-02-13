@@ -108,10 +108,6 @@ public class RendererMainPanel extends Activity implements Observer
 
 		super.onCreate(savedInstanceState);
 
-		// TODO place in application not here ?
-		getManagers().Init(getBaseContext());
-		getManagers().Create();
-
 		getManagers().getUsageStatisticsManager().TrackPageView("/RendererMainPanel");
 
 		ShowSplashScreen();
