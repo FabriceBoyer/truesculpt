@@ -31,4 +31,12 @@ public class Vertex
 		MatrixUtils.scalarMultiply(temp, 0.5f);
 		MatrixUtils.copy(temp, Coord);
 	}
+	public Vertex(Vertex V0, Vertex V1, Vertex V2)
+	{
+		float[] temp = new float[3];
+		MatrixUtils.plus(V0.Coord, V1.Coord, temp);
+		MatrixUtils.plus(temp, V2.Coord, temp);
+		MatrixUtils.scalarMultiply(temp, 1.0f/3.0f);
+		MatrixUtils.copy(temp, Coord);
+	}
 }

@@ -23,8 +23,6 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import truesculpt.mesh.RenderFaceGroup;
-
 /**
  * A vertex shaded cube.
  */

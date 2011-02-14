@@ -2,12 +2,8 @@ package truesculpt.managers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import truesculpt.actions.BaseAction;
-import truesculpt.actions.ColorizeAction;
-import truesculpt.actions.InitialCreationAction;
-import truesculpt.actions.SculptAction;
 import android.content.Context;
 
 //For undo redo and analytical description of sculpture

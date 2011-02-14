@@ -11,7 +11,9 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
 import javax.microedition.khronos.opengles.GL10;
+
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
@@ -28,7 +30,7 @@ public class Mesh
 	{
 		mManagers = managers;
 
-		InitAsSphere(3);
+		InitAsSphere(5);
 
 		// String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		// ExportToOBJ(strFileName);
@@ -47,6 +49,7 @@ public class Mesh
 	}
 	
 	float mBoundingSphereRadius = 0.0f;
+	
 	public void ComputeBoundingSphereRadius()
 	{
 		int n = mVertexList.size();
@@ -237,7 +240,8 @@ public class Mesh
 						coord[1] = Float.parseFloat(tok.nextToken());
 						coord[2] = Float.parseFloat(tok.nextToken());
 						mVertexList.add(new Vertex(coord));
-					} else if (line.startsWith("vt "))
+					}
+					else if (line.startsWith("vt "))
 					{
 						float[] coord = new float[2];
 						StringTokenizer tok = new StringTokenizer(line);
@@ -245,7 +249,8 @@ public class Mesh
 						coord[0] = Float.parseFloat(tok.nextToken());
 						coord[1] = Float.parseFloat(tok.nextToken());
 						// m.addTextureCoordinate(coord);
-					} else if (line.startsWith("f "))
+					}
+					else if (line.startsWith("f "))
 					{
 						int[] face = new int[3];
 						int[] face_n_ix = new int[3];
@@ -309,7 +314,8 @@ public class Mesh
 							mFaceList.add(new Face(face[0],face[1],face[2]));
 						}
 
-					} else if (line.startsWith("vn "))
+					} 
+					else if (line.startsWith("vn "))
 					{
 						nCount++;
 						float[] norm = new float[3];
@@ -322,7 +328,8 @@ public class Mesh
 					}
 				}
 			}
-		} catch (Exception ex)
+		}
+		catch (Exception ex)
 		{
 			System.err.println("Error parsing file:");
 			System.err.println(input.getLineNumber() + " : " + line);
@@ -582,9 +589,7 @@ public class Mesh
 			if (getManagers().getToolsManager().getRadius() >= 50)
 			{				
 				// update normals after rise up				
-			}
-
-			
+			}			
 		}
 	}
 
