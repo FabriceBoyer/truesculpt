@@ -160,7 +160,7 @@ public class Mesh
 	private void FinalizeInit()
 	{
 		// Set default vertex color
-		int color = getManagers().getToolsManager().getColor();
+		int color = getManagers().getToolsManager().getDefaultColor();
 		for (Vertex vertex : mVertexList)
 		{
 			vertex.Color = color;
@@ -352,7 +352,7 @@ public class Mesh
 		mVertexList.add( new Vertex(0.0f, -tau, -one));
 		mVertexList.add( new Vertex(0.0f, tau, -one));
 
-		// Counter clock wise (CCVW) face definition
+		// Counter clock wise (CCW) face definition
 		mFaceList.add( new Face(4, 8, 7));
 		mFaceList.add( new Face(4, 7, 9));
 		mFaceList.add( new Face(5, 6, 11));
@@ -575,6 +575,7 @@ public class Mesh
 			MatrixUtils.scalarMultiply(VOffset, fMaxDeformation);
 			MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);
 			
+			ComputeVertexNormal(vertex);
 			UpdateVertexValue(face.V0);
 
 			// First corona
@@ -583,7 +584,7 @@ public class Mesh
 				// update normals after rise up				
 			}
 
-			ComputeVertexNormal(vertex);
+			
 		}
 	}
 
