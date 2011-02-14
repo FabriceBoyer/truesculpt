@@ -7,8 +7,8 @@
 
 <CheckBoxPreference android:key="LoadLastUsedFileAtStartup" android:title="@string/Load_last_used_file" android:defaultValue="true"></CheckBoxPreference>
 </PreferenceCategory>
-<PreferenceCategory android:title="General" android:key="general"><CheckBoxPreference android:key="GatherUsageData" android:title="@string/Gather_usage_data" android:defaultValue="true"></CheckBoxPreference><CheckBoxPreference android:key="UseSensorsToChangePOV" android:title="@string/UseSensorsToChangePOV" android:defaultValue="true"></CheckBoxPreference><CheckBoxPreference android:defaultValue="true" android:key="DisplayDebugInfos" android:title="@string/DisplayDebugInfos"></CheckBoxPreference><CheckBoxPreference android:key="PreventSleepMode" android:title="@string/PreventSleepMode" android:defaultValue="true"></CheckBoxPreference>
-<CheckBoxPreference android:title="@string/FullScreenApplication" android:defaultValue="false" android:key="FullScreenApplication"></CheckBoxPreference>
+<PreferenceCategory android:title="General" android:key="general"><CheckBoxPreference android:key="GatherUsageData" android:title="@string/Gather_usage_data" android:defaultValue="true"></CheckBoxPreference><CheckBoxPreference android:key="UseSensorsToChangePOV" android:title="@string/UseSensorsToChangePOV" android:defaultValue="false"></CheckBoxPreference><CheckBoxPreference android:defaultValue="false" android:key="DisplayDebugInfos" android:title="@string/DisplayDebugInfos"></CheckBoxPreference><CheckBoxPreference android:key="PreventSleepMode" android:title="@string/PreventSleepMode" android:defaultValue="true"></CheckBoxPreference>
+<CheckBoxPreference android:title="@string/FullScreenApplication" android:defaultValue="true" android:key="FullScreenApplication"></CheckBoxPreference>
 </PreferenceCategory>
 
 

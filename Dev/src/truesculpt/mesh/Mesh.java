@@ -192,9 +192,7 @@ public class Mesh
 				assertTrue(false);
 			}
 		}
-	}
-
-	
+	}	
 
 	public int getEdgeCount()
 	{
@@ -538,8 +536,7 @@ public class Mesh
 	public void InitGrabAction(int nTriangleIndex)
 	{
 
-	}
-	
+	}	
 
 	// TODO place as an action
 	public void ColorizePaintAction(int triangleIndex)

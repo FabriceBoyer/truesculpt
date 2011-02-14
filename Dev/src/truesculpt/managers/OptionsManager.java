@@ -21,12 +21,12 @@ public class OptionsManager extends BaseManager
 
 	public boolean getCheckUpdateAtStartup()
 	{
-		return settings.getBoolean("CheckUpdateAtStartup", true);
+		return settings.getBoolean("CheckUpdateAtStartup", false);
 	}
 
 	public boolean getDisplayDebugInfos()
 	{
-		return settings.getBoolean("DisplayDebugInfos", true);
+		return settings.getBoolean("DisplayDebugInfos", false);
 	}
 
 	public boolean getDisplaySplashScreenAtStartup()
@@ -36,7 +36,7 @@ public class OptionsManager extends BaseManager
 
 	public boolean getFullScreenApplication()
 	{
-		return settings.getBoolean("FullScreenApplication", false);
+		return settings.getBoolean("FullScreenApplication", true);
 	}
 
 	public boolean getGatherUsageData()
@@ -65,7 +65,7 @@ public class OptionsManager extends BaseManager
 
 	public boolean getUseSensorsToChangePOV()
 	{
-		return settings.getBoolean("UseSensorsToChangePOV", true);
+		return settings.getBoolean("UseSensorsToChangePOV", false);
 	}
 
 	public boolean getViewTutorialAtStartup()
