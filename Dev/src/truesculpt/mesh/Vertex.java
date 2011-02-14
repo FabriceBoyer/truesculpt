@@ -8,7 +8,7 @@ public class Vertex
 {
 	public float[] Coord = new float[3];
 	public float[] Normal = new float[3];
-	public ArrayList<Edge> mCloseEdgeList = new ArrayList<Edge>();
+	public ArrayList<Integer> LinkedEdges= new ArrayList<Integer>();
 	public int Color = 0;
 
 	public Vertex(float x, float y, float z)
@@ -23,6 +23,7 @@ public class Vertex
 		MatrixUtils.copy(coord, Coord);
 	}
 
+	//midVertex
 	public Vertex(Vertex V0, Vertex V1)
 	{
 		float[] temp = new float[3];

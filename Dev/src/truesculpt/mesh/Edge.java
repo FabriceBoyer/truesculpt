@@ -4,23 +4,18 @@ import java.util.ArrayList;
 
 public class Edge
 {
-	public Vertex V0 = null;
-	public Vertex V1 = null;
-	public Face F0 = null;
-	public Face F1 = null;
-	public ArrayList<Edge> mLinkedEdgeList = new ArrayList<Edge>();
+	public int V0 = -1;
+	public int V1 = -1;
+	public int F0 = -1;
+	public int F1 = -1;
+	public ArrayList<Integer> LinkedEdges = new ArrayList<Integer>();
 
-	boolean bHalfSplitter = false;
-
-	public Edge(Vertex v0, Vertex v1, Face F)
+	public Edge(int v0, int v1, int F0, int F1)
 	{
 		V0 = v0;
 		V1 = v1;
 
-		V0.mCloseEdgeList.add(this);
-		V1.mCloseEdgeList.add(this);
-
-		F0 = F;
-		F1 = F;
+		this.F0 = F0;
+		this.F1 = F1;
 	}
 }
