@@ -31,6 +31,34 @@ public class Utils
 		")";
 		return res;
 	}
+	
+	protected static int parseInt(String val)
+	{
+		if (val.length() == 0)
+		{
+			return -1;
+		}
+		return Integer.parseInt(val);
+	}
+
+	public static int[] parseIntTriple(String face)
+	{
+		int ix = face.indexOf("/");
+		if (ix == -1)
+		{
+			return new int[] { Integer.parseInt(face) - 1 };
+		} else
+		{
+			int ix2 = face.indexOf("/", ix + 1);
+			if (ix2 == -1)
+			{
+				return new int[] { Integer.parseInt(face.substring(0, ix)) - 1, Integer.parseInt(face.substring(ix + 1)) - 1 };
+			} else
+			{
+				return new int[] { parseInt(face.substring(0, ix)) - 1, parseInt(face.substring(ix + 1, ix2)) - 1, parseInt(face.substring(ix2 + 1)) - 1 };
+			}
+		}
+	}
 
 
 	public static void ShowURLInBrowser(Activity callingACtivity, String strURL)
