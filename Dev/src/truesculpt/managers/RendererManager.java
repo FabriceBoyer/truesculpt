@@ -3,6 +3,7 @@ package truesculpt.managers;
 import truesculpt.renderer.MainRenderer;
 import android.content.Context;
 
+//TODO : remove cause useless
 public class RendererManager extends BaseManager
 {
 

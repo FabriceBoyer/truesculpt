@@ -23,6 +23,8 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.mesh.RenderFaceGroup;
+
 /**
  * A vertex shaded cube.
  */
@@ -36,7 +38,6 @@ public class RayPickDebug
 	{
 		float zero = 0.0f;
 		float one = 1.0f;
-		float two = 2.0f;
 		float vertices[] = { zero, zero, zero, zero, zero, zero };
 
 		float colors[] = { one, one, one, one, one, one, one, one };

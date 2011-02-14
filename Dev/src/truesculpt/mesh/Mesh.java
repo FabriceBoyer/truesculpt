@@ -11,9 +11,7 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
 import javax.microedition.khronos.opengles.GL10;
-
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
@@ -30,7 +28,7 @@ public class Mesh
 	{
 		mManagers = managers;
 
-		InitAsSphere(5);
+		InitAsSphere(3);
 
 		// String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		// ExportToOBJ(strFileName);
@@ -47,10 +45,10 @@ public class Mesh
 			ComputeVertexNormal(vertex);
 		}
 	}
-
-	void ComputeBoundingSphereRadius()
+	
+	float mBoundingSphereRadius = 0.0f;
+	public void ComputeBoundingSphereRadius()
 	{
-		float mBoundingSphereRadius = 0.0f;
 		int n = mVertexList.size();
 		for (int i = 0; i < n; i++)
 		{
@@ -61,12 +59,27 @@ public class Mesh
 				mBoundingSphereRadius = norm;
 			}
 		}
+		getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);
 	}
 
 	// Based on close triangles normals * sin of their angle and normalize
+	// averaging normals of triangles around
 	void ComputeVertexNormal(Vertex vertex)
 	{
+		
+	}
+	
+	//based on triangle only
+	void ComputeFaceNormal(Face face, float[] normal)
+	{
+		// get triangle edge vectors and plane normal
+		MatrixUtils.minus(mVertexList.get(face.V1).Coord, mVertexList.get(face.V0).Coord, u);
+		MatrixUtils.minus(mVertexList.get(face.V2).Coord, mVertexList.get(face.V0).Coord, v);
 
+		MatrixUtils.cross(u, v, n); // cross product
+		MatrixUtils.normalize(n);
+
+		MatrixUtils.copy(n, normal);
 	}
 
 	public void draw(GL10 gl)
@@ -74,6 +87,14 @@ public class Mesh
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
 			renderGroup.draw(gl);
+		}
+	}
+	
+	public void drawNormals(GL10 gl)
+	{
+		for (RenderFaceGroup renderGroup : mRenderGroupList)
+		{
+			renderGroup.drawNormals(gl);
 		}
 	}
 
@@ -374,7 +395,6 @@ public class Mesh
 		}		
 		FinalizeInit();
 		NormalizeAllVertices();
-		ComputeBoundingSphereRadius();
 	}
 
 	// makes a sphere
@@ -389,12 +409,186 @@ public class Mesh
 		}
 	}
 
-	Face Pick(float[] rayPt1, float[] rayPt2)
+	public int Pick(float[] rayPt1, float[] rayPt2, float [] intersectPtReturn)
 	{
-		return null;
-	}
+		int nRes = -1;
 
+		float[] R0 = new float[3];
+		float[] R1 = new float[3];
+		float[] Ires = new float[3];
+
+		MatrixUtils.copy(rayPt1, R0);
+		MatrixUtils.copy(rayPt2, R1);
+
+		MatrixUtils.minus(R1, R0, dir);
+		float fSmallestDistanceToR0 = MatrixUtils.magnitude(dir);// ray is R0 to R1
+
+		int nFaceCount = getFaceCount();
+		for (int i=0;i<nFaceCount;i++)
+		{
+			Face face = mFaceList.get(i);
+			
+			int nCollide = intersect_RayTriangle(R0, R1, mVertexList.get(face.V0).Coord,  mVertexList.get(face.V1).Coord,  mVertexList.get(face.V2).Coord, Ires);
+
+			if (nCollide == 1)
+			{
+				MatrixUtils.minus(Ires, R0, dir);
+				float fDistanceToR0 = MatrixUtils.magnitude(dir);
+				if (fDistanceToR0 <= fSmallestDistanceToR0)
+				{
+					MatrixUtils.copy(Ires, intersectPtReturn);
+					nRes = i;
+					fSmallestDistanceToR0 = fDistanceToR0;
+				}
+			}
+		}
+		return nRes;
+	}
 	
+	// recycled vectors for time critical function where new are too long
+	static float[] dir = new float[3];
+	static float[] n = new float[3];
+	static float SMALL_NUM = 0.00000001f; // anything that avoids division overflow
+	static float[] u = new float[3];
+	static float[] v = new float[3];
+	static float[] w = new float[3];
+	static float[] w0 = new float[3];
+	static float[] zero = { 0, 0, 0 };
+
+	// intersect_RayTriangle(): intersect a ray with a 3D triangle
+	// Input: a ray R (R0 and R1), and a triangle T (V0,V1)
+	// Output: *I = intersection point (when it exists)
+	// Return: -1 = triangle is degenerate (a segment or point)
+	// 0 = disjoint (no intersect)
+	// 1 = intersect in unique point I1
+	// 2 = are in the same plane
+	static int intersect_RayTriangle(float[] R0, float[] R1, float[] V0, float[] V1, float[] V2, float[] Ires)
+	{
+		float r, a, b; // params to calc ray-plane intersect
+
+		// get triangle edge vectors and plane normal
+		MatrixUtils.minus(V1, V0, u);
+		MatrixUtils.minus(V2, V0, v);
+
+		MatrixUtils.cross(u, v, n); // cross product
+		if (n == zero)
+		{
+			return -1; // do not deal with this case
+		}
+
+		MatrixUtils.minus(R1, R0, dir); // ray direction vector
+
+		boolean bBackCullTriangle = MatrixUtils.dot(dir, n) > 0;// ray dir and normal have same direction
+		if (bBackCullTriangle)
+		{
+			return 0;
+		}
+
+		MatrixUtils.minus(R0, V0, w0);
+		a = -MatrixUtils.dot(n, w0);
+		b = MatrixUtils.dot(n, dir);
+		if (Math.abs(b) < SMALL_NUM)
+		{ // ray is parallel to triangle plane
+			if (a == 0)
+			{
+				return 2;
+			} else
+			{
+				return 0; // ray disjoint from plane
+			}
+		}
+
+		// get intersect point of ray with triangle plane
+		r = a / b;
+		if (r < 0.0)
+		{
+			return 0; // => no intersect
+			// for a segment, also test if (r > 1.0) => no intersect
+		}
+
+		MatrixUtils.scalarMultiply(dir, r);
+		MatrixUtils.plus(R0, dir, Ires);
+
+		// is I inside T?
+		float uu, uv, vv, wu, wv, D;
+		uu = MatrixUtils.dot(u, u);
+		uv = MatrixUtils.dot(u, v);
+		vv = MatrixUtils.dot(v, v);
+		MatrixUtils.minus(Ires, V0, w);
+		wu = MatrixUtils.dot(w, u);
+		wv = MatrixUtils.dot(w, v);
+		D = uv * uv - uu * vv;
+
+		// get and test parametric coords
+		float s, t;
+		s = (uv * wv - vv * wu) / D;
+		if (s < 0.0 || s > 1.0)
+		{
+			return 0;
+		}
+		t = (uv * wu - uu * wv) / D;
+		if (t < 0.0 || s + t > 1.0)
+		{
+			return 0;
+		}
+
+		return 1; // I is in T
+	}
+	
+	public void InitGrabAction(int nTriangleIndex)
+	{
+
+	}
+	
+
+	// TODO place as an action
+	public void ColorizePaintAction(int triangleIndex)
+	{
+		if (triangleIndex >= 0)
+		{
+			int color = getManagers().getToolsManager().getColor();
+			Face face=mFaceList.get(triangleIndex);
+			Vertex vertex=mVertexList.get(face.V0);//arbitrarily chosen point in triangle
+			vertex.Color=color;
+			
+			UpdateVertexColor(face.V0);
+
+			// First corona
+			if (getManagers().getToolsManager().getRadius() >= 50)
+			{				
+
+			}
+		}
+	}
+	
+
+	// TODO place as an action
+	public void RiseSculptAction(int triangleIndex)
+	{
+		if (triangleIndex >= 0)
+		{
+			float[] VOffset = new float[3];
+			
+			Face face=mFaceList.get(triangleIndex);
+			Vertex vertex=mVertexList.get(face.V0);// first triangle point arbitrarily chosen (should take closest or retessalate)
+
+			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
+
+			MatrixUtils.copy(vertex.Normal, VOffset);
+			MatrixUtils.scalarMultiply(VOffset, fMaxDeformation);
+			MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);
+			
+			UpdateVertexValue(face.V0);
+
+			// First corona
+			if (getManagers().getToolsManager().getRadius() >= 50)
+			{				
+				// update normals after rise up				
+			}
+
+			ComputeVertexNormal(vertex);
+		}
+	}
 
 	void Reset()
 	{
@@ -444,5 +638,33 @@ public class Mesh
 			mFaceList.add(f3);			
 		}
 	}
+	
+	public void UpdateVertexValue(int nVertexIndex)
+	{
+		Vertex vertex=mVertexList.get(nVertexIndex);
+		for (RenderFaceGroup renderGroup : mRenderGroupList)
+		{
+			renderGroup.UpdateVertexValue( nVertexIndex, vertex.Coord, vertex.Normal);
+		}
+		UpdateBoudingSphereRadius(vertex.Coord);				
+	}
+	
+	public void UpdateVertexColor( int nVertexIndex)
+	{
+		Vertex vertex=mVertexList.get(nVertexIndex);
+		for (RenderFaceGroup renderGroup : mRenderGroupList)
+		{
+			renderGroup.UpdateVertexColor( nVertexIndex, vertex.Color);
+		}		
+	}
 
+	void UpdateBoudingSphereRadius(float[] val)
+	{
+		float norm = MatrixUtils.magnitude(val);
+		if (norm > mBoundingSphereRadius)
+		{
+			mBoundingSphereRadius = norm;
+			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into accoutn, TODO read from conf
+		} 
+	}
 }
