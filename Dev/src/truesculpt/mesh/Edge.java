@@ -2,6 +2,7 @@ package truesculpt.mesh;
 
 import java.util.ArrayList;
 
+//not oriented
 public class Edge
 {
 	public int V0 = -1;
@@ -9,6 +10,7 @@ public class Edge
 	public int F0 = -1;
 	public int F1 = -1;
 	public ArrayList<Integer> LinkedEdges = new ArrayList<Integer>();
+	float dLength=-1.0f;
 
 	public Edge(int v0, int v1, int F0, int F1)
 	{
