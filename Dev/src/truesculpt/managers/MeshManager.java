@@ -223,8 +223,15 @@ public class MeshManager extends BaseManager
 							}
 							case PAINT:
 							{
-								mMesh.ColorizePaintAction(nIndex);
-								break;
+								switch (getManagers().getToolsManager().getPaintSubMode())
+								{
+								case COLOR:
+									mMesh.ColorizePaintAction(nIndex);
+									break;
+								case TEXTURE:
+									//TODO
+									break;
+								}
 							}
 						}					
 					}

@@ -56,7 +56,7 @@ public class ToolsManager extends BaseManager
 		}
 	};
 
-	private int mColor = Color.rgb(150, 150, 150);
+	private int mColor = Color.rgb(255, 0, 0);
 	private boolean mForcedMode = false;
 	private EToolMode mLastMode = EToolMode.SCULPT;
 	private EToolMode mMode = EToolMode.POV;
@@ -290,5 +290,11 @@ public class ToolsManager extends BaseManager
 		mColor=state.m_Color;
 		mRadius=state.m_Radius;
 		mStrength=state.m_Strength;
+	}
+
+	//mesh init color
+	public int getDefaultColor()
+	{		
+		return Color.rgb(150, 150, 150);
 	}
 }

@@ -99,6 +99,7 @@ public class RenderFaceGroup
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
 		gl.glNormalPointer(GL10.GL_FLOAT, 0, mNormalBuffer);
 
+		//Wireframe : use GL10.GL_LINES
 		gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount * 3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
 		gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
