@@ -1,5 +1,6 @@
 package truesculpt.mesh;
 
+
 public class Face
 {
 	public int V0 = -1;

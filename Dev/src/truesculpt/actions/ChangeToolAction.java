@@ -1,7 +1,5 @@
 package truesculpt.actions;
 
-import java.sql.Struct;
-
 import truesculpt.main.R;
 import truesculpt.managers.ToolsManager.GlobalToolState;
 

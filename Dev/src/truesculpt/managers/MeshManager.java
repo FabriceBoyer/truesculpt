@@ -1,18 +1,11 @@
 package truesculpt.managers;
 
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
-import java.util.Collection;
-import java.util.HashMap;
-
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.mesh.Mesh;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
-import truesculpt.utils.MatrixUtils;
-import truesculpt.utils.Utils;
 import android.content.Context;
 import android.opengl.Matrix;
 import android.os.Handler;

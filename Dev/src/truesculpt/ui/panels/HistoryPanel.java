@@ -3,16 +3,13 @@ package truesculpt.ui.panels;
 import java.util.Observable;
 import java.util.Observer;
 
-import truesculpt.actions.BaseAction;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.views.HistoryAdapter;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;

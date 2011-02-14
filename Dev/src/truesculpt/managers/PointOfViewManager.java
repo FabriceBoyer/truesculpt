@@ -1,7 +1,5 @@
 package truesculpt.managers;
 
-import truesculpt.actions.ChangePOVAction;
-import truesculpt.managers.ToolsManager.EPovToolSubMode;
 import android.content.Context;
 
 public class PointOfViewManager extends BaseManager
