@@ -61,7 +61,7 @@ public class Mesh
 		mFaceList.ensureCapacity(30000);
 		mVertexList.ensureCapacity(30000);
 
-		InitAsSphere(3);
+		InitAsSphere(4);
 
 		// String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		// ExportToOBJ(strFileName);
@@ -513,13 +513,12 @@ public class Mesh
 	{
 		Reset();
 		InitAsIcosahedron();
-		RegroupSimilarEdges();
-		FinalizeSubdivide();
+		RegroupSimilarEdges();		
 		for (int i = 0; i < nSubdivionLevel; i++)
 		{
-			SubdivideAllFaces();
-			FinalizeSubdivide();
+			SubdivideAllFaces();			
 		}
+		FinalizeSubdivide();
 		FinalizeInit();
 		NormalizeAllVertices();
 		ComputeBoundingSphereRadius();
@@ -618,11 +617,8 @@ public class Mesh
 
 	void SubdivideAllFaces()
 	{
-		/*
-		 * ArrayList<Face> mOrigFaceList = new ArrayList<Face>(mFaceList); int n=mOrigFaceList.size(); for (int i=0;i<n;i++) { SubdivideFacePartialWithVertexOnEdge(mOrigFaceList.get(i)); }
-		 */
-
-		ArrayList<Face> mOrigFaceList = new ArrayList<Face>(mFaceList);
+		ArrayList<Face> mOrigFaceList = mFaceList;
+		mFaceList=new ArrayList<Face>();
 		int n = mOrigFaceList.size();
 		for (int i = 0; i < n; i++)
 		{
@@ -648,59 +644,8 @@ public class Mesh
 			mFaceList.add(f0);
 			mFaceList.add(f1);
 			mFaceList.add(f2);
-			mFaceList.add(f3);
-
-			mFaceList.remove(face);
+			mFaceList.add(f3);			
 		}
-
 	}
 
-	void SubdivideFace(Face face)
-	{
-		boolean bDoesFaceContainsHalfSplitterEdge = face.E0.bHalfSplitter || face.E1.bHalfSplitter || face.E2.bHalfSplitter;
-
-		Vertex V0 = face.getV0();
-		Vertex V1 = face.getV1();
-		Vertex V2 = face.getV2();
-
-		Vertex mid0 = new Vertex(V0, V1);
-		Vertex mid1 = new Vertex(V1, V2);
-		Vertex mid2 = new Vertex(V2, V0);
-
-		mVertexList.add(mid0);
-		mVertexList.add(mid1);
-		mVertexList.add(mid2);
-	}
-
-	void SubdivideFaceFromSplittedEdge(Face face)
-	{
-
-	}
-
-	void SubdivideFacePartialWithVertexOnEdge(Face face)
-	{
-		Vertex A = face.getV0();
-		Vertex B = face.getV1();
-		Vertex C = face.getV2();
-
-		Vertex v0 = new Vertex(A, B);// takes mid point
-		Vertex v1 = new Vertex(B, C);
-		Vertex v2 = new Vertex(C, A);
-
-		mVertexList.add(v0);
-		mVertexList.add(v1);
-		mVertexList.add(v2);
-
-		Face f0 = new Face(A, v0, v2);
-		Face f1 = new Face(v0, B, v1);
-		Face f2 = new Face(v1, C, v2);
-		Face f3 = new Face(v0, v1, v2);
-
-		mFaceList.add(f0);
-		mFaceList.add(f1);
-		mFaceList.add(f2);
-		mFaceList.add(f3);
-
-		mFaceList.remove(face);
-	}
 }

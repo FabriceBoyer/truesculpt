@@ -100,12 +100,9 @@ public class RendererMainPanel extends Activity implements Observer
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
-	{
-		if (true)
-		{
-			// StrictMode.enableDefaults();
-		}
-
+	{	
+		// StrictMode.enableDefaults();
+		
 		super.onCreate(savedInstanceState);
 
 		getManagers().getUsageStatisticsManager().TrackPageView("/RendererMainPanel");
@@ -173,7 +170,6 @@ public class RendererMainPanel extends Activity implements Observer
 
 		mToolsSlideHandleButton = (Button) findViewById(R.id.toolsSlideHandleButton);
 		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
-
 		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
 
 			@Override
@@ -181,7 +177,6 @@ public class RendererMainPanel extends Activity implements Observer
 				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.down_arrow);
 			}
 		});
-
 		mToolsSlidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener() {
 			@Override
 			public void onDrawerClosed() {
@@ -404,8 +399,7 @@ public class RendererMainPanel extends Activity implements Observer
 		else
 		{
 			mUndoButton.setEnabled(true);
-		}
-		
+		}		
 		
 		if (getManagers().getActionsManager().GetRedoActionCount()<=0) 
 		{
