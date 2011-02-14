@@ -16,37 +16,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
+import truesculpt.utils.Utils;
 
 public class Mesh
 {
-	protected static int parseInt(String val)
-	{
-		if (val.length() == 0)
-		{
-			return -1;
-		}
-		return Integer.parseInt(val);
-	}
-
-	protected static int[] parseIntTriple(String face)
-	{
-		int ix = face.indexOf("/");
-		if (ix == -1)
-		{
-			return new int[] { Integer.parseInt(face) - 1 };
-		} else
-		{
-			int ix2 = face.indexOf("/", ix + 1);
-			if (ix2 == -1)
-			{
-				return new int[] { Integer.parseInt(face.substring(0, ix)) - 1, Integer.parseInt(face.substring(ix + 1)) - 1 };
-			} else
-			{
-				return new int[] { parseInt(face.substring(0, ix)) - 1, parseInt(face.substring(ix + 1, ix2)) - 1, parseInt(face.substring(ix2 + 1)) - 1 };
-			}
-		}
-	}
-
 	ArrayList<Edge> mEdgeList = new ArrayList<Edge>();
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
 	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
@@ -56,10 +29,6 @@ public class Mesh
 	public Mesh(Managers managers)
 	{
 		mManagers = managers;
-
-		mEdgeList.ensureCapacity(30000);
-		mFaceList.ensureCapacity(30000);
-		mVertexList.ensureCapacity(30000);
 
 		InitAsSphere(4);
 
@@ -346,7 +315,7 @@ public class Mesh
 
 						StringTokenizer tok = new StringTokenizer(line);
 						tok.nextToken();
-						val = parseIntTriple(tok.nextToken());
+						val = Utils.parseIntTriple(tok.nextToken());
 						face[0] = val[0];
 						if (val.length > 1 && val[1] > -1)
 						{
@@ -357,7 +326,7 @@ public class Mesh
 							face_n_ix[0] = val[2];
 						}
 
-						val = parseIntTriple(tok.nextToken());
+						val = Utils.parseIntTriple(tok.nextToken());
 						face[1] = val[0];
 						if (val.length > 1 && val[1] > -1)
 						{
@@ -368,7 +337,7 @@ public class Mesh
 							face_n_ix[1] = val[2];
 						}
 
-						val = parseIntTriple(tok.nextToken());
+						val = Utils.parseIntTriple(tok.nextToken());
 						face[2] = val[0];
 						if (val.length > 1 && val[1] > -1)
 						{
@@ -383,7 +352,7 @@ public class Mesh
 						// m.addFace(face);
 						if (tok.hasMoreTokens())
 						{
-							val = parseIntTriple(tok.nextToken());
+							val = Utils.parseIntTriple(tok.nextToken());
 							face[1] = face[2];
 							face[2] = val[0];
 							if (val.length > 1 && val[1] > -1)
