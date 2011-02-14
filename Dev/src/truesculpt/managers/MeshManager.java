@@ -65,8 +65,6 @@ public class MeshManager extends BaseManager
 		super(baseContext);
 	}
 
-			
-
 	public void draw(GL10 gl)
 	{
 		synchronized (this)
@@ -200,12 +198,6 @@ public class MeshManager extends BaseManager
 	
 				mRay.setRayPos(rayPt1, rayPt2);
 	
-				// String msg = "";
-				// msg="Pt1 : x="+Float.toString(rayPt1[0])+"; y="+Float.toString(rayPt1[1])+"; z="+Float.toString(rayPt1[2])+"\n";
-				// msg+=
-				// "Pt2 : x="+Float.toString(rayPt2[0])+"; y="+Float.toString(rayPt2[1])+"; z="+Float.toString(rayPt2[2])+"\n";
-				// Log.i("Picking",msg);
-	
 				if (bInitOver)
 				{
 					nIndex = mMesh.Pick(rayPt1, rayPt2,intersectPt);
@@ -234,30 +226,19 @@ public class MeshManager extends BaseManager
 								mMesh.ColorizePaintAction(nIndex);
 								break;
 							}
-						}
-	
-						// msg = "Picked Triangle Index =" +
-						// Integer.toString(nIndex) + "\n";
-						// msg += "intersectPt : x=" +
-						// Float.toString(intersectPt[0]) + "; y=" +
-						// Float.toString(intersectPt[1]) + "; z=" +
-						// Float.toString(intersectPt[2]) + "\n";
-						// Log.i("Picking", msg);
-					} else
+						}					
+					}
+					else
 					{
 						float[] zero = { 0, 0, 0 };
 						mPickHighlight.setPickHighlightPosition(zero);
-					}
-	
+					}	
 				}
 	
 				long tStop = SystemClock.uptimeMillis();
 				mLastPickDurationMs = tStop - tStart;
 				
 				NotifyListeners();	
-
-				// msg="Picking duration = "+Float.toString(mLastPickDurationMs)+" ms\n";
-				// Log.i("Picking", msg);
 			}
 		}
 
@@ -265,8 +246,8 @@ public class MeshManager extends BaseManager
 	}
 
 
-	// TODO test for GL11 instanceof to handle not GL11 devices
-	// TODO use GL11ES calls indepedent of redraw with gl param
+	// TODO test for GL11 instance of to handle not GL11 devices
+	// TODO use GL11ES calls independent of redraw with gl param
 	public void setCurrentModelView(GL10 gl)
 	{
 		GL11 gl2 = (GL11) gl;
@@ -284,5 +265,4 @@ public class MeshManager extends BaseManager
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
 	}
-
 }

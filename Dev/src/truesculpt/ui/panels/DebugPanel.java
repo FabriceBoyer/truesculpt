@@ -47,7 +47,7 @@ public class DebugPanel extends Activity
 		TextView meshStatText = (TextView) findViewById(R.id.MeshStatsText);
 		int nVertex = getManagers().getMeshManager().getVertexCount();
 		int nFaces = getManagers().getMeshManager().getFacesCount();
-		msg = "Number of vertex = " + Integer.toString(nVertex) + "\n";
+		msg = "Number of vertices = " + Integer.toString(nVertex) + "\n";
 		msg += "Number of faces = " + Integer.toString(nFaces) + "\n";
 		meshStatText.setText(msg);
 
