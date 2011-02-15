@@ -23,6 +23,8 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.utils.Utils;
+
 /**
  * A vertex shaded cube.
  */
@@ -91,4 +93,22 @@ public class SymmetryPlane
 
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}	
+	
+	public void setColor(int color)
+	{
+		float[] VCol = new float[4];
+		Utils.ColorIntToFloatVector(color, VCol);
+		
+		mColorBuffer.position(0);
+		mColorBuffer.put(VCol,0,4);
+		mColorBuffer.put(VCol,0,4);	
+		mColorBuffer.put(VCol,0,4);	
+		mColorBuffer.put(VCol,0,4);			
+	}
+	
+	public void scalePlaneSize(float factor)
+	{
+		
+	}
+	
 }
