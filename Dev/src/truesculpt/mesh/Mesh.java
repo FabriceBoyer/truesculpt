@@ -20,7 +20,7 @@ import truesculpt.utils.Utils;
 
 public class Mesh
 {
-	ArrayList<Edge> mEdgeList = new ArrayList<Edge>();
+	ArrayList<HalfEdge> mEdgeList = new ArrayList<HalfEdge>();
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
 	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();

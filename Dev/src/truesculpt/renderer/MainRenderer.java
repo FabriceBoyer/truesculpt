@@ -20,6 +20,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import truesculpt.main.Managers;
+import truesculpt.managers.ToolsManager.ESymmetryMode;
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 
@@ -35,6 +36,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	float matSpecular[] = new float[] { 1, 1, 1, 1 };
 
 	private ReferenceAxis mAxis = new ReferenceAxis();
+	private SymmetryPlane mSymmetryPlane = new SymmetryPlane();
 
 	private float mDistance;
 	private float mElevation;
@@ -91,10 +93,29 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use cache
 		{
 			mAxis.draw(gl);
-		}
+		}		
 
 		// main draw call
 		getManagers().getMeshManager().draw(gl);
+		
+		if (getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE)
+		{			
+			float quarter=90;//degrees
+			switch (getManagers().getToolsManager().getSymmetryMode())
+			{
+			case X:
+				gl.glRotatef(quarter, 0, 1, 0);
+				break;
+			case Y:
+				gl.glRotatef(quarter, 1, 0, 0);
+				break;
+			case Z:				
+				//nop defined in this plane
+				break;
+				
+			}
+			mSymmetryPlane.draw(gl);
+		}
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
@@ -163,6 +184,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
+		
+		//transparency
+		gl.glEnable (GL10.GL_BLEND); 
+		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	public void TakeGLScreenshotOfNextFrame()
