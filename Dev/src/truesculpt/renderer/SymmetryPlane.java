@@ -38,16 +38,16 @@ public class SymmetryPlane
 	{
 		float zero = 0.0f;
 		float one = 1.0f;
-		float two = 2.0f;
+		float large=10.0f;
 		float half = 0.5f;
-		float vertices[] = { two, two, zero,
-							-two, two, zero,
-							-two, -two, zero,
-							two, -two, zero };
-		float colors[] = { zero, zero, one, half,
-							zero, zero, one, half,
-							zero, zero, one, half,
-							zero, zero, one, half};
+		float vertices[] = { large, large, zero,
+							-large, large, zero,
+							-large, -large, zero,
+							large, -large, zero };
+		float colors[] = { zero, one, zero, half,
+							zero, one, zero, half,
+							zero, one, zero, half,
+							zero, one, zero, half};
 		short indices[] = { 0, 1, 3,
 							1, 2, 3};
 
