@@ -71,16 +71,29 @@ public class RenderFaceGroup
 			mNormalBuffer.put(vertex.Normal[2]);
 		}
 
-
-		ByteBuffer ndvbb = ByteBuffer.allocateDirect(2 * 3 * 4);//  normals contains 3 elem (x,y,z) in float(4 bytes)
+		ByteBuffer ndvbb = ByteBuffer.allocateDirect(mVertexCount * 2 * 3 * 4);//  normals contains 3 elem (x,y,z) in float(4 bytes)
 		ndvbb.order(ByteOrder.nativeOrder());
 		mDrawNormalVertexBuffer = ndvbb.asFloatBuffer();
+		for (Vertex vertex : mMesh.mVertexList)
+		{
+			mDrawNormalVertexBuffer.put(vertex.Coord[0]);
+			mDrawNormalVertexBuffer.put(vertex.Coord[1]);
+			mDrawNormalVertexBuffer.put(vertex.Coord[2]);
+			
+			float scaleFactor=0.1f;
+			mDrawNormalVertexBuffer.put(vertex.Coord[0]+vertex.Normal[0]*scaleFactor);
+			mDrawNormalVertexBuffer.put(vertex.Coord[1]+vertex.Normal[1]*scaleFactor);
+			mDrawNormalVertexBuffer.put(vertex.Coord[2]+vertex.Normal[2]*scaleFactor);
+		}
 
-		ByteBuffer ndibb = ByteBuffer.allocateDirect(2 * 2);// line are 3 elements in short ( 2 bytes )
+		ByteBuffer ndibb = ByteBuffer.allocateDirect(mVertexCount * 2 * 2);// line are 2 elements in short ( 2 bytes )
 		ndibb.order(ByteOrder.nativeOrder());
 		mDrawNormalIndexBuffer = ndibb.asShortBuffer();
-		mDrawNormalIndexBuffer.put((short) 0);
-		mDrawNormalIndexBuffer.put((short) 1);
+		for (int i=0;i<mVertexCount;i=i+2)
+		{
+			mDrawNormalIndexBuffer.put((short) i);
+			mDrawNormalIndexBuffer.put((short)(i+1));
+		}
 	}
 
 	public void draw(GL10 gl)
@@ -111,31 +124,13 @@ public class RenderFaceGroup
 	public void drawNormals(GL10 gl)
 	{
 		mDrawNormalIndexBuffer.position(0);
+		mDrawNormalVertexBuffer.position(0);
 		
 		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawNormalVertexBuffer);
 
-		int nCount = mNormalBuffer.capacity();
-		for (int i = 0; i < nCount; i = i + 3)
-		{
-			mVertexBuffer.position(i);
-			mVertexBuffer.get(V0, 0, 3);
-
-			mNormalBuffer.position(i);
-			mNormalBuffer.get(V1, 0, 3);
-
-			MatrixUtils.scalarMultiply(V1, 0.1f);
-			MatrixUtils.plus(V0, V1, V1);
-
-			//TODO avoid loop, use preinited buffer
-			mDrawNormalVertexBuffer.position(0);
-			mDrawNormalVertexBuffer.put(V0);
-			mDrawNormalVertexBuffer.position(3);
-			mDrawNormalVertexBuffer.put(V1);
-			mDrawNormalVertexBuffer.position(0);
-			
-			gl.glDrawElements(GL10.GL_LINES, 2, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);
-		}
+		int nVertexCount = mMesh.getVertexCount();			
+		gl.glDrawElements(GL10.GL_LINES, nVertexCount, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);		
 	}
 
 	public FloatBuffer getColorBuffer()
