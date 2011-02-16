@@ -24,7 +24,8 @@ public class RenderFaceGroup
 	private int mVertexCount = 0;
 
 	private Mesh mMesh = null;
-
+	float mNormalScaleFactor=0.1f;
+	
 	public RenderFaceGroup(Mesh mesh)
 	{
 		mMesh = mesh;
@@ -76,14 +77,11 @@ public class RenderFaceGroup
 		mDrawNormalVertexBuffer = ndvbb.asFloatBuffer();
 		for (Vertex vertex : mMesh.mVertexList)
 		{
-			mDrawNormalVertexBuffer.put(vertex.Coord[0]);
-			mDrawNormalVertexBuffer.put(vertex.Coord[1]);
-			mDrawNormalVertexBuffer.put(vertex.Coord[2]);
+			mDrawNormalVertexBuffer.put(vertex.Coord);
 			
-			float scaleFactor=0.1f;
-			mDrawNormalVertexBuffer.put(vertex.Coord[0]+vertex.Normal[0]*scaleFactor);
-			mDrawNormalVertexBuffer.put(vertex.Coord[1]+vertex.Normal[1]*scaleFactor);
-			mDrawNormalVertexBuffer.put(vertex.Coord[2]+vertex.Normal[2]*scaleFactor);
+			mDrawNormalVertexBuffer.put(vertex.Coord[0]+vertex.Normal[0]*mNormalScaleFactor);
+			mDrawNormalVertexBuffer.put(vertex.Coord[1]+vertex.Normal[1]*mNormalScaleFactor);
+			mDrawNormalVertexBuffer.put(vertex.Coord[2]+vertex.Normal[2]*mNormalScaleFactor);
 		}
 
 		ByteBuffer ndibb = ByteBuffer.allocateDirect(mVertexCount * 2 * 2);// line are 2 elements in short ( 2 bytes )
@@ -157,7 +155,13 @@ public class RenderFaceGroup
 		mVertexBuffer.put(val, 0, 3);
 		
 		mNormalBuffer.position(nVertexIndex*3);
-		mNormalBuffer.put(normal, 0, 3);		
+		mNormalBuffer.put(normal, 0, 3);	
+		
+		mDrawNormalVertexBuffer.position(nVertexIndex*2*3);
+		mDrawNormalVertexBuffer.put(val);
+		mDrawNormalVertexBuffer.put(val[0]+normal[0]*mNormalScaleFactor);
+		mDrawNormalVertexBuffer.put(val[1]+normal[1]*mNormalScaleFactor);
+		mDrawNormalVertexBuffer.put(val[2]+normal[2]*mNormalScaleFactor);
 	}
 	
 	public void UpdateVertexColor( int nVertexIndex, int color)

@@ -421,5 +421,10 @@ public class RendererMainPanel extends Activity implements Observer
 	{
 		mGLSurfaceView.requestRender();
 	}
+	
+	public void OpenToolDrawer()
+	{
+		mToolsSlidingDrawer.open();
+	}
 
 }
