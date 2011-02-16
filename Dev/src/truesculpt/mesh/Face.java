@@ -6,7 +6,6 @@ public class Face
 	public int V0 = -1;
 	public int V1 = -1;
 	public int V2 = -1;
-	public int nSubdivionLevel = 1;
 
 	// CCW definition
 	public Face(int v0, int v1, int v2)

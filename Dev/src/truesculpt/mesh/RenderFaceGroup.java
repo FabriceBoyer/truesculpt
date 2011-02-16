@@ -119,8 +119,6 @@ public class RenderFaceGroup
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 
-	static float[] V0 = new float[3];
-	static float[] V1 = new float[3];
 	public void drawNormals(GL10 gl)
 	{
 		mDrawNormalIndexBuffer.position(0);
