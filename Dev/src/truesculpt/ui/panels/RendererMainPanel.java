@@ -132,8 +132,6 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				getManagers().getToolsManager().setToolMode(EToolMode.POV);
 				getManagers().getToolsManager().setForcedMode(true);
-
-				UpdateButtonsView();
 			}
 		});
 
@@ -145,8 +143,6 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);
 				getManagers().getToolsManager().setForcedMode(true);
-
-				UpdateButtonsView();
 			}
 		});
 
@@ -158,12 +154,8 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				getManagers().getToolsManager().setToolMode(EToolMode.PAINT);
 				getManagers().getToolsManager().setForcedMode(true);
-
-				UpdateButtonsView();
 			}
-
 		});
-
 
 		mToolsSlideHandleButton = (Button) findViewById(R.id.toolsSlideHandleButton);
 		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
