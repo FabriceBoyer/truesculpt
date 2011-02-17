@@ -25,6 +25,6 @@ public class TrueSculptApp extends Application
 	public void onTerminate()
 	{
 		super.onTerminate();
-
+		getManagers().Destroy();
 	}
 }
