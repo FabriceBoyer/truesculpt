@@ -8,6 +8,8 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.ui.views.ColorShowView;
+import truesculpt.ui.views.SliderPickView;
+import truesculpt.ui.views.SliderPickView.OnSliderPickChangedListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,6 +48,8 @@ public class RendererMainPanel extends Activity implements Observer
 	private ColorShowView mColorShow;
 	private Spinner mToolSpinner;
 	private Spinner mPaintSpinner;
+	private SliderPickView mRadius;
+	private SliderPickView mStrength;
 
 	public void CheckUpdate()
 	{
@@ -220,6 +224,32 @@ public class RendererMainPanel extends Activity implements Observer
 			public void onClick(View v)
 			{
 				Utils.ShowHSLColorPickerDialog(RendererMainPanel.this);
+			}
+		});
+		
+		mRadius = (SliderPickView)findViewById(R.id.RadiusPicker);
+		mRadius.setText("Radius");
+		mRadius.setMaxValue(100);
+		mRadius.setMinValue(0);
+		mRadius.setSliderChangeListener(new OnSliderPickChangedListener()
+		{			
+			@Override
+			public void sliderValueChanged(float value)
+			{
+				getManagers().getToolsManager().setRadius(value);				
+			}
+		});
+		
+		mStrength = (SliderPickView)findViewById(R.id.StrengthPicker);
+		mStrength.setText("Strength");
+		mStrength.setMaxValue(100);
+		mStrength.setMinValue(-100);
+		mStrength.setSliderChangeListener(new OnSliderPickChangedListener()
+		{			
+			@Override
+			public void sliderValueChanged(float value)
+			{
+				getManagers().getToolsManager().setStrength(value);				
 			}
 		});
 		
@@ -407,6 +437,9 @@ public class RendererMainPanel extends Activity implements Observer
 		
 		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
 		ToolsPanel.UpdatePaintSpinner(mPaintSpinner, this);
+		
+		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
+		mStrength.setCurrentValue(getManagers().getToolsManager().getStrength());
 	}	
 
 	public void updateFullscreenWindowStatus()
