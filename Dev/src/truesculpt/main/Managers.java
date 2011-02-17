@@ -60,6 +60,7 @@ public class Managers
 		{
 			manager.onDestroy();
 		}
+		mManagersList.clear();
 	}
 
 	/**
