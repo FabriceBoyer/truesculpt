@@ -15,17 +15,23 @@ import android.view.View;
 //TODO stay pushed= circular autoincrement, pb with onmove not sent, use timer thread, plus value hidden by finger
 public class SliderPickView extends View
 {	
+	public interface OnSliderPickChangedListener
+	{
+		void sliderValueChanged(float value);
+	}
+	
 	private String Text="Value : ";
 	private String UnitText=" %";
 	private float CurrentValue=50;
 	private float MaxValue=100;
 	private float MinValue=0;
-	private float PixelToValueRatio=0.5f;
+	private int PixelAmplitude=200;
 	
 	private Paint mTextPaint;
-	private float OrigValue=0;
 	float orig_x=0;
 	float orig_y=0;
+	
+	private OnSliderPickChangedListener mListener;
 	
 	public SliderPickView(Context c, AttributeSet attrs)
 	{
@@ -67,27 +73,16 @@ public class SliderPickView extends View
 		{
 			case MotionEvent.ACTION_DOWN:
 			{			
-				OrigValue=CurrentValue;
 				orig_x=x;
 				orig_y=y;
+				UpdateValue(x, y);
 				bRes=true;
 				break;
 			}
-			case MotionEvent.ACTION_UP:
-			{
-				bRes=true;
-				break;
-			}
+			case MotionEvent.ACTION_UP:			
 			case MotionEvent.ACTION_MOVE:
 			{
-				float distX=x-orig_x;
-				float distY=orig_y-y;
-				float dist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
-				float valueAmplitude=MaxValue-MinValue;
-				float pixelAmplitude=valueAmplitude*PixelToValueRatio;
-				//float newValue=OrigValue+PixelToValueRatio*distY;
-				float newValue=PixelToValueRatio*dist;
-				setCurrentValue(newValue);
+				UpdateValue(x, y);
 				bRes=true;
 				break;
 			}
@@ -95,6 +90,19 @@ public class SliderPickView extends View
 		
 		return bRes;
 	}
+
+	private void UpdateValue(float x, float y)
+	{
+		float distX=x-orig_x;
+		float distY=orig_y-y;
+		float pixelDist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
+		float valueAmplitude=MaxValue-MinValue;
+		float newValue=MinValue+pixelDist*(valueAmplitude/PixelAmplitude);
+		setCurrentValue(newValue);
+		mListener.sliderValueChanged(newValue);
+	}
+	
+	
 
 	public void setMaxValue(float maxValue)
 	{
@@ -111,7 +119,6 @@ public class SliderPickView extends View
 	{
 		MinValue = minValue;
 	}
-
 
 	public float getMinValue()
 	{
@@ -144,14 +151,20 @@ public class SliderPickView extends View
 		Text = text;
 	}
 	
-	public float getPixelToValueRatio()
+	public void setSliderChangeListener(OnSliderPickChangedListener mListener)
 	{
-		return PixelToValueRatio;
+		this.mListener = mListener;
 	}
 
-	public void setPixelToValueRatio(float pixelToValueRatio)
+	public int getPixelAmplitude()
 	{
-		PixelToValueRatio = pixelToValueRatio;
+		return PixelAmplitude;
 	}
 
+	public void setPixelAmplitude(int pixelAmplitude)
+	{
+		PixelAmplitude = pixelAmplitude;
+	}
+
+	
 }

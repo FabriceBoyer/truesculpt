@@ -29,7 +29,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class ToolsPanel extends Activity implements OnColorChangedListener, Observer
+public class ToolsPanel extends Activity implements Observer
 {
 	private ColorPickerView mColorPickerView;
 	private SeekBar mRadiusSeekBar;
@@ -41,14 +41,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 	private Spinner mSymmetrySpinner;
 	private Button mColorPickerButton;
 	
-	@Override
-	public void colorChanged(int color)
-	{
-		getManagers().getToolsManager().setColor(color);
-		// String msg = "color is " + Integer.toString(color);
-		// getManagers().getUtilsManager().ShowToastMessage(msg);
-	}
-
 	public Managers getManagers()
 	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
@@ -291,7 +283,6 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 		mStrengthText = (TextView) findViewById(R.id.StrengthText);
 
 		mColorPickerView = (ColorPickerView) findViewById(R.id.ColorPickerView);
-		mColorPickerView.SetColorChangeListener(this);
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
 		mColorPickerView.setOnClickListener(new View.OnClickListener()
 		{
@@ -301,6 +292,16 @@ public class ToolsPanel extends Activity implements OnColorChangedListener, Obse
 				Utils.ShowHSLColorPickerDialog(ToolsPanel.this);
 			}
 		});
+		mColorPickerView.SetColorChangeListener(new OnColorChangedListener()
+		{
+			@Override
+			public void colorChanged(int color)
+			{
+				getManagers().getToolsManager().setColor(color);
+			}
+		});
+	
+		
 
 		mColorPickerButton = (Button) findViewById(R.id.colorpickerBtn);
 		mColorPickerButton.setOnClickListener(new View.OnClickListener()
