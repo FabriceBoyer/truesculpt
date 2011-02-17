@@ -20,8 +20,8 @@ public class SliderPickView extends View
 	private float CurrentValue=50;
 	private float MaxValue=100;
 	private float MinValue=0;
+	private float PixelToValueRatio=0.5f;
 	
-	private float PixelToValueRatio=0.1f;
 	private Paint mTextPaint;
 	private float OrigValue=0;
 	float orig_x=0;
@@ -33,6 +33,7 @@ public class SliderPickView extends View
 		
 		mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mTextPaint.setColor(Color.WHITE);
+		mTextPaint.setTextSize(18);
 		mTextPaint.setStyle(Paint.Style.FILL);	
 	
 		invalidate();
@@ -83,8 +84,9 @@ public class SliderPickView extends View
 				float distY=orig_y-y;
 				float dist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
 				float valueAmplitude=MaxValue-MinValue;
-				float sign=Math.signum(distX);
-				float newValue=OrigValue+PixelToValueRatio*distY;
+				float pixelAmplitude=valueAmplitude*PixelToValueRatio;
+				//float newValue=OrigValue+PixelToValueRatio*distY;
+				float newValue=PixelToValueRatio*dist;
 				setCurrentValue(newValue);
 				bRes=true;
 				break;
@@ -141,4 +143,15 @@ public class SliderPickView extends View
 	{
 		Text = text;
 	}
+	
+	public float getPixelToValueRatio()
+	{
+		return PixelToValueRatio;
+	}
+
+	public void setPixelToValueRatio(float pixelToValueRatio)
+	{
+		PixelToValueRatio = pixelToValueRatio;
+	}
+
 }
