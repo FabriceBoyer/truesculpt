@@ -72,6 +72,7 @@ public class RenderFaceGroup
 			mNormalBuffer.put(vertex.Normal[2]);
 		}
 
+		//Beware memory consuming
 		ByteBuffer ndvbb = ByteBuffer.allocateDirect(mVertexCount * 2 * 3 * 4);//  normals contains 3 elem (x,y,z) in float(4 bytes)
 		ndvbb.order(ByteOrder.nativeOrder());
 		mDrawNormalVertexBuffer = ndvbb.asFloatBuffer();
@@ -125,8 +126,7 @@ public class RenderFaceGroup
 		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawNormalVertexBuffer);
 
-		int nVertexCount = mMesh.getVertexCount();			
-		gl.glDrawElements(GL10.GL_LINES, nVertexCount, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);		
+		gl.glDrawElements(GL10.GL_LINES, mVertexCount, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);		
 	}
 
 	public FloatBuffer getColorBuffer()
