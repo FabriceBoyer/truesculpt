@@ -18,13 +18,9 @@ public class ColorPickerView extends View
 	private static final int CENTER_X = 100;
 	private static final int CENTER_Y = 100;
 	private static final float PI = 3.1415926f;
-
-	private Paint mCenterPaint;
-
+	private Paint mCenterPaint=null;
 	private final int[] mColors;
-
-	private OnColorChangedListener mListener;
-
+	private OnColorChangedListener mListener=null;
 	private Paint mPaint;
 
 	public ColorPickerView(Context c, AttributeSet attrs)
@@ -121,7 +117,10 @@ public class ColorPickerView extends View
 				unit += 1;
 			}
 			int col=interpColor(mColors, unit);
-			mListener.colorChanged(col);
+			if (mListener!=null)
+			{
+				mListener.colorChanged(col);
+			}
 			mCenterPaint.setColor(col);
 			invalidate();
 			bRes=true;

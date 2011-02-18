@@ -27,11 +27,11 @@ public class SliderPickView extends View
 	private float MinValue=0;
 	private int PixelAmplitude=200;
 	
-	private Paint mTextPaint;
+	private Paint mTextPaint=null;
 	float orig_x=0;
 	float orig_y=0;
 	
-	private OnSliderPickChangedListener mListener;
+	private OnSliderPickChangedListener mListener=null;
 	
 	public SliderPickView(Context c, AttributeSet attrs)
 	{
@@ -99,7 +99,10 @@ public class SliderPickView extends View
 		float valueAmplitude=MaxValue-MinValue;
 		float newValue=MinValue+pixelDist*(valueAmplitude/PixelAmplitude);
 		setCurrentValue(newValue);
-		mListener.sliderValueChanged(newValue);
+		if (mListener!=null)
+		{
+			mListener.sliderValueChanged(newValue);
+		}
 	}
 	
 	

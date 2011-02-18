@@ -15,7 +15,6 @@ import android.view.View;
 
 public class HSLColorPickerView extends View
 {
-
 	Paint paint;
 	Shader dalam;
 	Shader luar;
