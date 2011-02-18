@@ -103,9 +103,7 @@ public class ColorShowView extends View
 	
 	private void UpdateColorValue(float x, float y, float pixelDist)
 	{
-		float newHue=360*pixelDist/PixelAmplitude;
-		if (newHue<0) newHue=0;
-		if (newHue>360) newHue=360;
+		float newHue=(360*pixelDist/PixelAmplitude)%360;
 		float [] VCol= new float[3];		
 		Color.colorToHSV(mColor,VCol);
 		VCol[0]=newHue;
