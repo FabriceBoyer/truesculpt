@@ -7,6 +7,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.EToolMode;
+import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorShowView;
 import truesculpt.ui.views.SliderPickView;
 import truesculpt.ui.views.SliderPickView.OnSliderPickChangedListener;
@@ -210,12 +211,21 @@ public class RendererMainPanel extends Activity implements Observer
 		});
 				
 		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
-		mColorShow.setOnClickListener(new View.OnClickListener()
+		mColorShow.setOnLongClickListener(new View.OnLongClickListener()
 		{
 			@Override
-			public void onClick(View v)
+			public boolean onLongClick(View v)
 			{
 				Utils.ShowHSLColorPickerDialog(RendererMainPanel.this);
+				return false;
+			}
+		});
+		mColorShow.SetColorChangeListener(new OnColorChangedListener()
+		{			
+			@Override
+			public void colorChanged(int color)
+			{
+				getManagers().getToolsManager().setColor(color);				
 			}
 		});
 		
@@ -431,7 +441,7 @@ public class RendererMainPanel extends Activity implements Observer
 			mRedoButton.setEnabled(true);
 		}
 		
-		mColorShow.SetColor(getManagers().getToolsManager().getColor());
+		mColorShow.setColor(getManagers().getToolsManager().getColor());
 		
 		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
 		ToolsPanel.UpdatePaintSpinner(mPaintSpinner, this);
