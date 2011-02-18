@@ -297,4 +297,11 @@ public class ToolsManager extends BaseManager
 	{		
 		return Color.rgb(150, 150, 150);
 	}
+	
+	@Override
+	public void NotifyListeners()
+	{
+		getManagers().getRendererManager().getMainRenderer().onToolChange();
+		super.NotifyListeners();		
+	}
 }

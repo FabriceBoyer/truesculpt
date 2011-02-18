@@ -23,6 +23,8 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import truesculpt.main.Managers;
+import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.utils.Utils;
 
 /**
@@ -77,11 +79,35 @@ public class SymmetryPlane
 		mIndexBuffer.put(indices);
 		mIndexBuffer.position(0);
 	}
+	
+	public void draw(GL10 gl,Managers managers)
+	{
+		gl.glPushMatrix();
+		if (managers.getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE)
+		{			
+			float quarter=90;//degrees
+			switch (managers.getToolsManager().getSymmetryMode())
+			{
+			case X:
+				gl.glRotatef(quarter, 0, 1, 0);
+				break;
+			case Y:
+				gl.glRotatef(quarter, 1, 0, 0);
+				break;
+			case Z:				
+				
+				break;				
+			}			
+		}
+		draw(gl);
+		gl.glPopMatrix();
+	}
 
 	public void draw(GL10 gl)
 	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-
+		gl.glEnable(GL10.GL_NORMALIZE);
+		
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
 		
@@ -91,6 +117,7 @@ public class SymmetryPlane
 		gl.glFrontFace(GL10.GL_CW);
 		gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
+		gl.glDisable(GL10.GL_NORMALIZE);
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}	
 	

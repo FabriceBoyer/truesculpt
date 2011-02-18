@@ -41,9 +41,7 @@ public class PickHighlight
 		float small = 0.1f;
 		float one = 1.0f;
 		float vertices[] = { -small, -small, -small, small, -small, -small, small, small, -small, -small, small, -small, -small, -small, small, small, -small, small, small, small, small, -small, small, small, };
-
 		float colors[] = { one, 0, 0, one, one, 0, 0, one, one, 0, 0, one, one, 0, 0, one, one, 0, 0, one, one, 0, 0, one, one, 0, 0, one, one, 0, 0, one, };
-
 		short indices[] = { 0, 4, 5, 0, 5, 1, 1, 5, 6, 1, 6, 2, 2, 6, 7, 2, 7, 3, 3, 7, 4, 3, 4, 0, 4, 7, 6, 4, 6, 5, 3, 0, 1, 3, 1, 2 };
 
 		// Buffers to be passed to gl*Pointer() functions
@@ -77,6 +75,7 @@ public class PickHighlight
 	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
+		gl.glPushMatrix();
 		gl.glTranslatef(mX, mY, mZ);
 
 		gl.glFrontFace(GL10.GL_CW);
@@ -84,6 +83,8 @@ public class PickHighlight
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
 		gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
+		gl.glPopMatrix();
+		
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 

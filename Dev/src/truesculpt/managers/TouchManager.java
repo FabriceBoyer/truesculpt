@@ -237,17 +237,17 @@ public class TouchManager extends BaseManager
 	{
 		switch (getManagers().getToolsManager().getToolMode())
 		{
-		case POV:
-		{
-			// TODO queue or post to come back in UI thread
-			Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.ToolsPanel.class, true);
-			break;
-		}
-		case SCULPT:
-		case PAINT:
-		{
-			break;
-		}
+			case POV:
+			{
+				// TODO queue or post to come back in UI thread
+				Utils.StartMyActivity(getbaseContext(), truesculpt.ui.panels.ToolsPanel.class, true);
+				break;
+			}
+			case SCULPT:
+			case PAINT:
+			{
+				break;
+			}
 		}
 	}
 }

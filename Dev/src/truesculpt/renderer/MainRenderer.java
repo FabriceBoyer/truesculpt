@@ -37,6 +37,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 	private ReferenceAxis mAxis = new ReferenceAxis();
 	private SymmetryPlane mSymmetryPlane = new SymmetryPlane();
+	private ToolOverlay mToolOverlay = new ToolOverlay();
 
 	private float mDistance;
 	private float mElevation;
@@ -66,21 +67,12 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	public void onDrawFrame(GL10 gl)
 	{
 		long tStart = SystemClock.uptimeMillis();
-		/*
-		 * Usually, the first thing one might want to do is to clear the screen. The most efficient way of doing this is to use glClear().
-		 */
-
+		
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
-		/*
-		 * Now we're ready to draw some 3D objects
-		 */
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
-
 		gl.glTranslatef(0, 0, -mDistance);
-
 		gl.glRotatef(mElevation, 1, 0, 0);
 		gl.glRotatef(mRot, 0, 1, 0);
 
@@ -98,24 +90,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		// main draw call
 		getManagers().getMeshManager().draw(gl);
 		
-		if (getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE)
-		{			
-			float quarter=90;//degrees
-			switch (getManagers().getToolsManager().getSymmetryMode())
-			{
-			case X:
-				gl.glRotatef(quarter, 0, 1, 0);
-				break;
-			case Y:
-				gl.glRotatef(quarter, 1, 0, 0);
-				break;
-			case Z:				
-				//nop defined in this plane
-				break;
-				
-			}
-			mSymmetryPlane.draw(gl);
-		}
+		mSymmetryPlane.draw(gl,mManagers);
+		
+		mToolOverlay.draw(gl,mManagers);
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
@@ -129,11 +106,11 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		mLastFrameDurationMs = tStop - tStart;
 	}
 
-	public void onPointOfViewChange(float fRot, float fDistance, float fElevation)
+	public void onPointOfViewChange()
 	{
-		mRot = fRot;
-		mDistance = fDistance;
-		mElevation = fElevation;
+		mRot = getManagers().getPointOfViewManager().getRotationAngle();
+		mDistance = getManagers().getPointOfViewManager().getZoomDistance();
+		mElevation = getManagers().getPointOfViewManager().getElevationAngle();
 	}
 
 	@Override
@@ -193,5 +170,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	public void TakeGLScreenshotOfNextFrame()
 	{
 		this.mbTakeScreenshot = true;
+	}
+	
+	public void onToolChange()
+	{
+		mToolOverlay.updateTool(mManagers);		
 	}
 }

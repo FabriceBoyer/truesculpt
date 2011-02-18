@@ -49,7 +49,7 @@ public class PointOfViewManager extends BaseManager
 	@Override
 	public void NotifyListeners()
 	{
-		getManagers().getRendererManager().onPointOfViewChange();
+		getManagers().getRendererManager().getMainRenderer().onPointOfViewChange();
 		super.NotifyListeners();		
 	}
 
