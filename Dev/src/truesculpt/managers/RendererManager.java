@@ -6,7 +6,6 @@ import android.content.Context;
 //TODO : remove cause useless
 public class RendererManager extends BaseManager
 {
-
 	private MainRenderer mRenderer = null;
 
 	public RendererManager(Context baseContext)
@@ -14,7 +13,6 @@ public class RendererManager extends BaseManager
 		super(baseContext);
 
 		mRenderer = new MainRenderer(getManagers());
-		onPointOfViewChange();
 	}
 
 	/**
@@ -38,11 +36,4 @@ public class RendererManager extends BaseManager
 		// TODO Auto-generated method stub
 
 	}
-
-	public void onPointOfViewChange()
-	{
-		PointOfViewManager povManager = getManagers().getPointOfViewManager();
-		mRenderer.onPointOfViewChange(povManager.getRotationAngle(), povManager.getZoomDistance(), povManager.getElevationAngle());
-	}
-
 }

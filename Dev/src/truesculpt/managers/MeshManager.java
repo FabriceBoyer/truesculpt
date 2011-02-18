@@ -8,6 +8,7 @@ import truesculpt.mesh.Mesh;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
 import truesculpt.renderer.SymmetryPlane;
+import truesculpt.utils.MatrixUtils;
 import android.content.Context;
 import android.opengl.Matrix;
 import android.os.Handler;
@@ -58,6 +59,10 @@ public class MeshManager extends BaseManager
 	public MeshManager(Context baseContext)
 	{
 		super(baseContext);
+		
+		intersectPt[0]=0f;
+		intersectPt[1]=0f;
+		intersectPt[2]=1f;
 	}
 
 	public void draw(GL10 gl)
@@ -71,8 +76,10 @@ public class MeshManager extends BaseManager
 				if (getManagers().getOptionsManager().getDisplayDebugInfos())
 				{
 					mMesh.drawNormals(gl);
-					mRay.draw(gl);
-					mPickHighlight.draw(gl);
+					
+					//pick debug
+					//mRay.draw(gl);
+					//mPickHighlight.draw(gl);
 				}				
 			}
 		}
@@ -267,4 +274,9 @@ public class MeshManager extends BaseManager
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
 	}
+	
+	public void getLastPickingPoint(float [] point)
+	{
+		MatrixUtils.copy(intersectPt, point);
+	}	
 }
