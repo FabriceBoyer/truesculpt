@@ -9,15 +9,22 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 public class ColorShowView extends View
 {
+	public interface OnDoubleClickListener
+	{
+		 void onDoubleClick(View v);	 
+	}
+	
 	private Paint mCenterPaint;
 	float orig_x=0;
 	float orig_y=0;
 	private int PixelAmplitude=200;	
-	private OnColorChangedListener mListener=null;
+	private OnColorChangedListener mColorListener=null;
+	private OnDoubleClickListener mDoubleClickListener=null;
 	int mColor=0;
+	private long mLastTapTapTime=0;
+	private long mTapTapTimeThresold=500;//ms
 
 	public ColorShowView(Context c, AttributeSet attrs)
 	{
@@ -57,35 +64,45 @@ public class ColorShowView extends View
 		float x = event.getX();
 		float y = event.getY();
 		
+		float distX=x-orig_x;
+		float distY=orig_y-y;
+		float pixelDist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
+		
 		switch (actionCode)
 		{
 			case MotionEvent.ACTION_DOWN:
 			{			
 				orig_x=x;
 				orig_y=y;
-				UpdateValue(x, y);
+				UpdateColorValue(x, y, 0);
+				
+				long curTapTapTime = System.currentTimeMillis();
+				if ((curTapTapTime - mLastTapTapTime) < mTapTapTimeThresold)
+				{
+					if (mDoubleClickListener!=null)
+					{
+						mDoubleClickListener.onDoubleClick(this);
+					}
+				}
+				mLastTapTapTime = curTapTapTime;
+				
 				bRes=true;
 				break;
 			}
 			case MotionEvent.ACTION_UP:			
 			case MotionEvent.ACTION_MOVE:
 			{
-				UpdateValue(x, y);
+				UpdateColorValue(x, y, pixelDist);
 				bRes=true;
 				break;
 			}
-		}
-		
-		bRes=super.onTouchEvent(event);
+		}				
 		
 		return bRes;
 	}	
 	
-	private void UpdateValue(float x, float y)
+	private void UpdateColorValue(float x, float y, float pixelDist)
 	{
-		float distX=x-orig_x;
-		float distY=orig_y-y;
-		float pixelDist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
 		float newHue=360*pixelDist/PixelAmplitude;
 		if (newHue<0) newHue=0;
 		if (newHue>360) newHue=360;
@@ -94,20 +111,24 @@ public class ColorShowView extends View
 		VCol[0]=newHue;
 		int newColor=Color.HSVToColor(VCol);
 		setColor(newColor);
-		if (mListener!=null) 
+		if (mColorListener!=null) 
 		{
-			mListener.colorChanged(newColor);
+			mColorListener.colorChanged(newColor);
 		}
 	}
 	
 	public void SetColorChangeListener(OnColorChangedListener listener)
 	{
-		mListener = listener;
+		mColorListener = listener;
 	}
-
+	
+	public void SetDoubleClickListener(OnDoubleClickListener listener)
+	{
+		mDoubleClickListener=listener;
+	}
+	
 	public int getColor()
 	{
 		return mColor;
 	}
-
 }
