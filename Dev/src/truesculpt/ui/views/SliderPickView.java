@@ -75,14 +75,14 @@ public class SliderPickView extends View
 			{			
 				orig_x=x;
 				orig_y=y;
-				UpdateValue(x, y);
+				UpdateSliderValue(x, y);
 				bRes=true;
 				break;
 			}
 			case MotionEvent.ACTION_UP:			
 			case MotionEvent.ACTION_MOVE:
 			{
-				UpdateValue(x, y);
+				UpdateSliderValue(x, y);
 				bRes=true;
 				break;
 			}
@@ -91,7 +91,7 @@ public class SliderPickView extends View
 		return bRes;
 	}
 
-	private void UpdateValue(float x, float y)
+	private void UpdateSliderValue(float x, float y)
 	{
 		float distX=x-orig_x;
 		float distY=orig_y-y;

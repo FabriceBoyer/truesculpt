@@ -211,13 +211,12 @@ public class RendererMainPanel extends Activity implements Observer
 		});
 				
 		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
-		mColorShow.setOnLongClickListener(new View.OnLongClickListener()
+		mColorShow.SetDoubleClickListener(new ColorShowView.OnDoubleClickListener()
 		{
 			@Override
-			public boolean onLongClick(View v)
+			public void onDoubleClick(View v)
 			{
 				Utils.ShowHSLColorPickerDialog(RendererMainPanel.this);
-				return false;
 			}
 		});
 		mColorShow.SetColorChangeListener(new OnColorChangedListener()
