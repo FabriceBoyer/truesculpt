@@ -1,5 +1,9 @@
 package truesculpt.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
@@ -60,7 +64,6 @@ public class Utils
 		}
 	}
 
-
 	public static void ShowURLInBrowser(Activity callingACtivity, String strURL)
 	{
 		if (callingACtivity != null)
@@ -83,27 +86,31 @@ public class Utils
 			callingContext.startActivity(myIntent);
 		}
 	}
-	
-	public static void ShowHSLColorPickerDialog(Context context)
+		
+	public static void SendEmail(Context context, String emailTo, String emailCC,
+		    String subject, String emailText, List<String> filePaths)
 	{
-		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
-		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
-		HSLColorPickerDialog dialog = new HSLColorPickerDialog(context, ((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
-		{
-			@Override
-			public void onCancel(HSLColorPickerDialog dialog)
-			{
-				// cancel was selected by the user
-			}
-
-			@Override
-			public void onOk(HSLColorPickerDialog dialog, int color)
-			{
-				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color);
-			}
-		});
-
-		dialog.show();
+	    //need to "send multiple" to get more than one attachment
+	    final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+	    emailIntent.setType("plain/text");
+	    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, 
+	        new String[]{emailTo});
+	    emailIntent.putExtra(android.content.Intent.EXTRA_CC, 
+	        new String[]{emailCC});
+	    emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    //has to be an ArrayList
+	    ArrayList<Uri> uris = new ArrayList<Uri>();
+	    //convert from paths to Android friendly Parcelable Uri's
+	    for (String file : filePaths)
+	    {
+	        File fileIn = new File(file);
+	        Uri u = Uri.fromFile(fileIn);
+	        uris.add(u);
+	    }
+	    emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+	    
+	    Intent intent = Intent.createChooser(emailIntent, "Share your sculpture");
+	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    context.startActivity(intent);
 	}
-
 }
