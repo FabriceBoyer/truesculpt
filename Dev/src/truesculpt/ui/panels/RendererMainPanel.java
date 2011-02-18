@@ -52,32 +52,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private SliderPickView mRadius;
 	private SliderPickView mStrength;
 
-	public void CheckUpdate()
-	{
-		boolean bStartUpdateActivity = false;
-		if (getManagers().getOptionsManager().getCheckUpdateAtStartup() == true)
-		{
-			bStartUpdateActivity = true;
-		}
-
-		long timeOfLastUpdate = getManagers().getOptionsManager().getLastSoftwareUpdateCheckDate();
-		long today = System.currentTimeMillis();
-		long timeSinceLastUpdate = today - timeOfLastUpdate;
-
-		long timeThresold = 31;
-		timeThresold *= 24;
-		timeThresold *= 3600;
-		timeThresold *= 1000;// one month in millis
-		if (timeSinceLastUpdate > timeThresold)
-		{
-			bStartUpdateActivity = true;// mandatory updates
-		}
-
-		if (bStartUpdateActivity)
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
-		}
-	}
+	
 
 	public Managers getManagers()
 	{
@@ -104,9 +79,10 @@ public class RendererMainPanel extends Activity implements Observer
 		super.onCreate(savedInstanceState);
 
 		getManagers().getUsageStatisticsManager().TrackPageView("/RendererMainPanel");
-
+		getManagers().getUtilsManager().InitHandler();
+		
 		ShowSplashScreen();
-		CheckUpdate();
+		getManagers().getUtilsManager().CheckUpdate(getBaseContext());
 		ShowTutorial();
 
 		updateFullscreenWindowStatus();
@@ -216,7 +192,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDoubleClick(View v)
 			{
-				Utils.ShowHSLColorPickerDialog(RendererMainPanel.this);
+				getManagers().getUtilsManager().ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
 		});
 		mColorShow.SetColorChangeListener(new OnColorChangedListener()

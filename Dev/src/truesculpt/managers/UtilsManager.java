@@ -6,12 +6,18 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.main.R;
+import truesculpt.main.TrueSculptApp;
+import truesculpt.ui.dialogs.HSLColorPickerDialog;
+import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
+import truesculpt.utils.Utils;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,8 +29,12 @@ import android.widget.Toast;
 
 public class UtilsManager extends BaseManager
 {
-
-	private Handler mHandler = new Handler();
+	private Handler mHandler = null;
+	
+	public void InitHandler()
+	{
+		mHandler= new Handler();
+	}
 
 	Runnable mShowMessageTask = new Runnable()
 	{
@@ -108,7 +118,10 @@ public class UtilsManager extends BaseManager
 	public void ShowToastMessage(String msg)
 	{
 		mShowMsg = msg;
-		mHandler.post(mShowMessageTask);
+		if (mHandler!=null)
+		{
+			mHandler.post(mShowMessageTask);
+		}
 	}
 
 	public void TakeGLScreenshot(GL10 gl)
@@ -166,6 +179,75 @@ public class UtilsManager extends BaseManager
 		mp.start();
 
 		// temp for test
-		SetImageAsWallpaper(strSnapshotFileName);
+		SetImageAsWallpaper(strSnapshotFileName);	
+		
+		ArrayList<String> filePaths=new ArrayList<String>();
+		filePaths.add(strSnapshotFileName);
+		Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My true sculpture", "It's great", filePaths);
+	}
+	
+	public class MailRunnable implements Runnable
+	{
+		public ArrayList<String> filePaths=new ArrayList<String>();			
+		
+		@Override
+		public void run()
+		{
+			Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My true sculpture", "It's great", filePaths);				
+		}		
+		
+		public void AddFilePath(String path)
+		{
+			filePaths.add(path);
+		}
+	}
+	
+	public void ShowHSLColorPickerDialog(Context context)
+	{
+		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
+		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
+		HSLColorPickerDialog dialog = new HSLColorPickerDialog(context, ((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
+		{
+			@Override
+			public void onCancel(HSLColorPickerDialog dialog)
+			{
+				// cancel was selected by the user
+			}
+
+			@Override
+			public void onOk(HSLColorPickerDialog dialog, int color)
+			{
+				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color);
+			}
+		});
+
+		dialog.show();
+	}
+	
+	public void CheckUpdate(Context context)
+	{
+		boolean bStartUpdateActivity = false;
+		if (getManagers().getOptionsManager().getCheckUpdateAtStartup() == true)
+		{
+			bStartUpdateActivity = true;
+		}
+
+		long timeOfLastUpdate = getManagers().getOptionsManager().getLastSoftwareUpdateCheckDate();
+		long today = System.currentTimeMillis();
+		long timeSinceLastUpdate = today - timeOfLastUpdate;
+
+		long timeThresold = 31;
+		timeThresold *= 24;
+		timeThresold *= 3600;
+		timeThresold *= 1000;// one month in millis
+		if (timeSinceLastUpdate > timeThresold)
+		{
+			bStartUpdateActivity = true;// mandatory updates
+		}
+
+		if (bStartUpdateActivity)
+		{
+			Utils.StartMyActivity(context, truesculpt.ui.panels.UpdatePanel.class, false);
+		}
 	}
 }

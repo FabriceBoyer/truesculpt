@@ -46,11 +46,6 @@ public class ToolsPanel extends Activity implements Observer
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
-	private void InitPaintSpinner()
-	{
-
-	}
-	
 	public static void UpdateSymmetrySpinner(Spinner symSpinner, final Context context)
 	{
 		ESymmetryMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSymmetryMode();
@@ -289,7 +284,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onClick(View v)
 			{
-				Utils.ShowHSLColorPickerDialog(ToolsPanel.this);
+				getManagers().getUtilsManager().ShowHSLColorPickerDialog(ToolsPanel.this);
 			}
 		});
 		mColorPickerView.SetColorChangeListener(new OnColorChangedListener()
@@ -299,9 +294,7 @@ public class ToolsPanel extends Activity implements Observer
 			{
 				getManagers().getToolsManager().setColor(color);
 			}
-		});
-	
-		
+		});		
 
 		mColorPickerButton = (Button) findViewById(R.id.colorpickerBtn);
 		mColorPickerButton.setOnClickListener(new View.OnClickListener()
@@ -309,7 +302,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onClick(View v)
 			{
-				Utils.ShowHSLColorPickerDialog(ToolsPanel.this);
+				getManagers().getUtilsManager().ShowHSLColorPickerDialog(ToolsPanel.this);
 			}
 		});
 
@@ -438,5 +431,4 @@ public class ToolsPanel extends Activity implements Observer
 		UpdateSymmetrySpinner(mSymmetrySpinner,this);
 		UpdatePaintSpinner(mPaintSpinner, this);
 	}
-
 }
