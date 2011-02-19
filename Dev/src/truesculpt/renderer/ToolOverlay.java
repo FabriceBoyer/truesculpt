@@ -64,13 +64,15 @@ public class ToolOverlay
 		mColorBuffer = cbb.asFloatBuffer();
 		updateColor(Color.BLUE, mDefaultTransparency);	
 
-		ByteBuffer ibb = ByteBuffer.allocateDirect(nVertices * 2);
+		ByteBuffer ibb = ByteBuffer.allocateDirect((nVertices+2) * 2);
 		ibb.order(ByteOrder.nativeOrder());
 		mIndexBuffer = ibb.asShortBuffer();
 		for (int i=0;i<nVertices;i++)
 		{
 			mIndexBuffer.put((short)i);
 		}
+		mIndexBuffer.put((short)0);
+		mIndexBuffer.put((short)1);
 		
 		offset[0]=0f;
 		offset[1]=0f;
@@ -117,9 +119,9 @@ public class ToolOverlay
 			
 			//two sided plane
 			gl.glFrontFace(GL10.GL_CCW);
-			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);		
+			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices+2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);		
 			gl.glFrontFace(GL10.GL_CW);
-			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices+2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 	
 			gl.glDisable(GL10.GL_NORMALIZE);
 			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
