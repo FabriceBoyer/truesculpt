@@ -30,9 +30,9 @@
 			</TableRow>       
 
 			<TableRow>  
-			    <Button android:layout_height="wrap_content" android:id="@+id/UndoBtn" android:text="@string/undo"  android:layout_width="wrap_content"></Button>
-			    <Button android:layout_height="wrap_content" android:id="@+id/HistoryBtn" android:text="@string/history"  android:layout_width="wrap_content"></Button>			 
-			 	<Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:text="@string/redo"  android:layout_width="wrap_content"></Button>
+			    <ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/UndoBtn" android:src="@drawable/undo"></ImageButton>
+			    <ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/HistoryBtn" android:src="@drawable/clock"></ImageButton>			 
+			 	<ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RedoBtn" android:src="@drawable/redo"></ImageButton>
 		 	</TableRow>
 		 	
 		 	<TableRow>			

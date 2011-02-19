@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,8 +26,8 @@ public class HistoryPanel extends Activity implements Observer
 {
 	private ListView mHistoryListView;
 	HistoryAdapter adapter;
-	Button mRedoButton;
-	Button mUndoButton;
+	ImageButton mRedoButton;
+	ImageButton mUndoButton;
 
 	@Override
 	protected void onDestroy()
@@ -64,7 +65,7 @@ public class HistoryPanel extends Activity implements Observer
 		registerForContextMenu(mHistoryListView);
 		
 		
-		mRedoButton = (Button) findViewById(R.id.RedoBtn);
+		mRedoButton = (ImageButton) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -74,7 +75,7 @@ public class HistoryPanel extends Activity implements Observer
 			}
 		});
 		
-		mUndoButton = (Button) findViewById(R.id.UndoBtn);
+		mUndoButton = (ImageButton) findViewById(R.id.UndoBtn);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
