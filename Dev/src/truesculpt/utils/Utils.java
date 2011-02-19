@@ -97,6 +97,8 @@ public class Utils
 	        new String[]{emailTo});
 	    emailIntent.putExtra(android.content.Intent.EXTRA_CC, 
 	        new String[]{emailCC});
+	    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);	  
+	    emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText);
 	    emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	    //has to be an ArrayList
 	    ArrayList<Uri> uris = new ArrayList<Uri>();
