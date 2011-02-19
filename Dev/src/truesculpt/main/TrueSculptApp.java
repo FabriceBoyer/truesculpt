@@ -4,7 +4,6 @@ import android.app.Application;
 
 public class TrueSculptApp extends Application
 {
-
 	private Managers mManagers = new Managers();
 
 	public Managers getManagers()
