@@ -92,8 +92,8 @@ public class ToolOverlay
 		
 		float length=MatrixUtils.magnitude(offset);
 		gl.glTranslatef(offset[0],offset[1],offset[2]);
-		float rot=(float) Math.toDegrees((float) Math.atan(offset[0]/offset[2]));
-		float elev=(float) Math.toDegrees((float) Math.atan(offset[1]/offset[2]));
+		float rot=(float) Math.toDegrees((float) Math.atan2(offset[0],offset[2]));
+		float elev=(float) Math.toDegrees((float) Math.asin(offset[1]/length));
 		gl.glRotatef(rot, 0, 1, 0);
 		gl.glRotatef(-elev, 1, 0, 0);
 		
