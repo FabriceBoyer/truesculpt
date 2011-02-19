@@ -6,6 +6,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +30,7 @@ public class SliderPickView extends View
 	private int PixelAmplitude=200;
 	
 	private Paint mTextPaint=null;
+	private Paint mLinePaint=null;
 	float orig_x=0;
 	float orig_y=0;
 	
@@ -40,7 +43,11 @@ public class SliderPickView extends View
 		mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mTextPaint.setColor(Color.WHITE);
 		mTextPaint.setTextSize(18);
-		mTextPaint.setStyle(Paint.Style.FILL);	
+			
+		mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mLinePaint.setColor(Color.GRAY);
+		mLinePaint.setStyle(Paint.Style.STROKE);
+		mLinePaint.setStrokeWidth(5);
 	
 		invalidate();
 	}
@@ -49,13 +56,15 @@ public class SliderPickView extends View
 	protected void onDraw(Canvas canvas)
 	{
 		float x=getWidth()/2.0f;
-		float y1=1.0f/3.0f*getHeight();
-		float y2=2.0f/3.0f*getHeight();
+		float y1=1.0f/3.0f*getHeight()+5;
+		float y2=2.0f/3.0f*getHeight()+5;
 		String valuetext= Integer.toString((int)(CurrentValue*100.0f)/100)+ UnitText;
 		float textWidth=mTextPaint.measureText(Text);
 		float valueTextWidth=mTextPaint.measureText(valuetext);
 		canvas.drawText(Text, x-textWidth/2.0f, y1, mTextPaint);
 		canvas.drawText(valuetext, x-valueTextWidth/2.0f, y2, mTextPaint);
+		
+		canvas.drawOval(new RectF(5,5,getWidth()-5,getHeight()-5), mLinePaint);
 	}
 
 	@Override
