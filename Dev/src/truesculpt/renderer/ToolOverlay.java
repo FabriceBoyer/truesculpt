@@ -146,8 +146,11 @@ public class ToolOverlay
 		float smallRadius=bigRadius*(.9f-(Math.abs(signedNormalizedStrength)*0.5f));
 		float height=signedNormalizedStrength * 0.5f;	
 		
-		updateGeometry(smallRadius,bigRadius,height);				
-		updateColor(mManagers.getToolsManager().getColor(),mDefaultTransparency);
+		synchronized(this)
+		{
+			updateGeometry(smallRadius,bigRadius,height);				
+			updateColor(mManagers.getToolsManager().getColor(),mDefaultTransparency);
+		}
 	}	
 	
 	//geometry is a cut cone along z with base in x,y plane
