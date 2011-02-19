@@ -141,11 +141,10 @@ public class ToolOverlay
 		float strength=mManagers.getToolsManager().getStrength();//-100 to 100
 		float radius=mManagers.getToolsManager().getRadius();//0 to 100;
 		
-		float positiveNormalizedStrength=(strength+100f)/200f;
 		float signedNormalizedStrength=strength/200f;
 		float bigRadius=radius/100f+0.1f;
-		float smallRadius=bigRadius*(.9f-(positiveNormalizedStrength*0.5f));
-		float height=signedNormalizedStrength * 0.2f;	
+		float smallRadius=bigRadius*(.9f-(Math.abs(signedNormalizedStrength)*0.5f));
+		float height=signedNormalizedStrength * 0.5f;	
 		
 		updateGeometry(smallRadius,bigRadius,height);				
 		updateColor(mManagers.getToolsManager().getColor(),mDefaultTransparency);
