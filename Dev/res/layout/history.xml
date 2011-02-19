@@ -13,13 +13,10 @@
         android:layout_gravity="bottom"
         android:stretchColumns="*">
           
-	    <TableRow>                
-		  <Button android:layout_height="wrap_content" android:id="@+id/UndoBtn" android:text="@string/undo" android:layout_width="fill_parent"></Button>
-	        <Button android:layout_height="wrap_content" android:id="@+id/RedoBtn" android:text="@string/redo" android:layout_width="fill_parent"></Button>
-	        <!--
-	         <Button android:layout_height="wrap_content" android:id="@+id/CloseBtn" android:layout_width="fill_parent" android:text="@string/close"></Button>
-	         -->
-	     </TableRow>
+	    <TableRow>      
+   		   <ImageButton android:scaleType="fitCenter"  android:layout_width="fill_parent" android:id="@+id/UndoBtn" android:src="@drawable/undo"></ImageButton>
+		   <ImageButton android:scaleType="fitCenter" android:layout_width="fill_parent" android:id="@+id/RedoBtn" android:src="@drawable/redo"></ImageButton>          
+	    </TableRow>
 	
 	</TableLayout>   
 

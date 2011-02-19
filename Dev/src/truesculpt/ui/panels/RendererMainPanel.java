@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
@@ -43,9 +44,9 @@ public class RendererMainPanel extends Activity implements Observer
 	private ToggleButton mViewToggle;
 	private Button mToolsSlideHandleButton;	
 	private SlidingDrawer mToolsSlidingDrawer;
-	private Button mRedoButton;
-	private Button mUndoButton;
-	private Button mHistoryButton;
+	private ImageButton mRedoButton;
+	private ImageButton mUndoButton;
+	private ImageButton mHistoryButton;
 	private ColorShowView mColorShow;
 	private Spinner mToolSpinner;
 	private Spinner mPaintSpinner;
@@ -156,7 +157,7 @@ public class RendererMainPanel extends Activity implements Observer
 		mPaintSpinner = (Spinner) findViewById(R.id.PaintingToolSpinner);
 		ToolsPanel.InitPaintSpinner(mPaintSpinner,this);			
 		
-		mRedoButton = (Button) findViewById(R.id.RedoBtn);
+		mRedoButton = (ImageButton) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -166,7 +167,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		
-		mUndoButton = (Button) findViewById(R.id.UndoBtn);
+		mUndoButton = (ImageButton) findViewById(R.id.UndoBtn);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -176,7 +177,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		
-		mHistoryButton = (Button) findViewById(R.id.HistoryBtn);
+		mHistoryButton = (ImageButton) findViewById(R.id.HistoryBtn);
 		mHistoryButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
