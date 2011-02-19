@@ -183,13 +183,13 @@ public class ToolsPanel extends Activity implements Observer
 		map = new HashMap<String, String>();
 		map.put("title", "Color");
 		map.put("description", "Color");
-		map.put("image", String.valueOf(R.drawable.brush));
+		map.put("image", String.valueOf(R.drawable.paint_palette));
 		listItem.add(map);
 
 		map = new HashMap<String, String>();
 		map.put("title", "Texture");
 		map.put("description", "Texture");
-		map.put("image", String.valueOf(R.drawable.paint_palette));
+		map.put("image", String.valueOf(R.drawable.brush));
 		listItem.add(map);
 		
 		map = new HashMap<String, String>();
