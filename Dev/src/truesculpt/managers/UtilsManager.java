@@ -183,7 +183,7 @@ public class UtilsManager extends BaseManager
 		
 		ArrayList<String> filePaths=new ArrayList<String>();
 		filePaths.add(strSnapshotFileName);
-		Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My true sculpture", "It's great", filePaths);
+		Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);
 	}
 	
 	public class MailRunnable implements Runnable
@@ -193,7 +193,7 @@ public class UtilsManager extends BaseManager
 		@Override
 		public void run()
 		{
-			Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My true sculpture", "It's great", filePaths);				
+			Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);				
 		}		
 		
 		public void AddFilePath(String path)

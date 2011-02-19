@@ -18,6 +18,7 @@ import android.util.Log;
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager
 {
+	private String Name="MyTrueSculpture";
 	private boolean bInitOver = false;
 	float[] intersectPt = new float[3];
 	
@@ -279,5 +280,15 @@ public class MeshManager extends BaseManager
 	public void getLastPickingPoint(float [] point)
 	{
 		MatrixUtils.copy(intersectPt, point);
+	}
+
+	public void setName(String name)
+	{
+		Name = name;
+	}
+
+	public String getName()
+	{
+		return Name;
 	}	
 }
