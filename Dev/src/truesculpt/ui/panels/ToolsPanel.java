@@ -168,7 +168,9 @@ public class ToolsPanel extends Activity implements Observer
 			break;
 		case TEXTURE:
 			nIndex=1;
-			break;		
+			break;	
+		case PICK_COLOR:
+			nIndex=2;
 		}
 		paintSpinner.setSelection(nIndex);
 	}
@@ -189,6 +191,12 @@ public class ToolsPanel extends Activity implements Observer
 		map.put("description", "Texture");
 		map.put("image", String.valueOf(R.drawable.paint_palette));
 		listItem.add(map);
+		
+		map = new HashMap<String, String>();
+		map.put("title", "Pick color");
+		map.put("description", "Pick color");
+		map.put("image", String.valueOf(R.drawable.colorpicker));
+		listItem.add(map);
 
 			
 		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
@@ -208,7 +216,10 @@ public class ToolsPanel extends Activity implements Observer
 					break;
 				case 1:
 					mode=EPaintToolSubMode.TEXTURE;
-					break;				
+					break;	
+				case 2:
+					mode=EPaintToolSubMode.PICK_COLOR;
+					break;		
 				}
 				
 				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setPaintSubMode(mode);

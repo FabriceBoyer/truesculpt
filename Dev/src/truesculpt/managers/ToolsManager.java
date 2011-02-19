@@ -18,7 +18,7 @@ public class ToolsManager extends BaseManager
 	};
 	
 	public enum EPaintToolSubMode {
-		COLOR, TEXTURE		
+		COLOR, TEXTURE, PICK_COLOR		
 	};
 
 	public enum EToolMode {
