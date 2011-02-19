@@ -20,6 +20,7 @@ public class MeshManager extends BaseManager
 {
 	private boolean bInitOver = false;
 	float[] intersectPt = new float[3];
+	
 	Runnable mInitTask = new Runnable()
 	{
 		@Override
