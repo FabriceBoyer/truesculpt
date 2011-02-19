@@ -39,7 +39,7 @@ public class ToolOverlay
 	private FloatBuffer mVertexBuffer;
 
 	int nVertices=100;	
-	float mTransp=0.5f;
+	float mDefaultTransparency=0.5f;
 	float offset[]=new float[3];
 	float scale[]=new float[3];
 	
@@ -62,7 +62,7 @@ public class ToolOverlay
 		ByteBuffer cbb = ByteBuffer.allocateDirect(nVertices * 4 * 4);
 		cbb.order(ByteOrder.nativeOrder());
 		mColorBuffer = cbb.asFloatBuffer();
-		updateColor(Color.BLUE);	
+		updateColor(Color.BLUE, mDefaultTransparency);	
 
 		ByteBuffer ibb = ByteBuffer.allocateDirect(nVertices * 2);
 		ibb.order(ByteOrder.nativeOrder());
@@ -123,11 +123,11 @@ public class ToolOverlay
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}	
 	
-	public void updateColor(int color)
+	public void updateColor(int color, float transparency)
 	{
 		float[] VCol = new float[4];
 		Utils.ColorIntToFloatVector(color, VCol);
-		VCol[3]=mTransp;
+		VCol[3]=transparency;
 		
 		mColorBuffer.position(0);
 		for (int i=0;i<nVertices;i++)
@@ -141,10 +141,14 @@ public class ToolOverlay
 		float strength=mManagers.getToolsManager().getStrength();//-100 to 100
 		float radius=mManagers.getToolsManager().getRadius();//0 to 100;
 		
+		float positiveNormalizedStrength=(strength+100f)/200f;
+		float signedNormalizedStrength=strength/200f;
 		float bigRadius=radius/100f+0.1f;
-		float smallRadius=bigRadius*(.9f-((strength+100f)/200f*0.5f));
-		float height=0.0f;		
+		float smallRadius=bigRadius*(.9f-(positiveNormalizedStrength*0.5f));
+		float height=signedNormalizedStrength * 0.2f;	
+		
 		updateGeometry(smallRadius,bigRadius,height);				
+		updateColor(mManagers.getToolsManager().getColor(),mDefaultTransparency);
 	}	
 	
 	//geometry is a cut cone along z with base in x,y plane
