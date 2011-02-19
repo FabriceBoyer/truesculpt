@@ -103,24 +103,27 @@ public class ToolOverlay
 	
 	public void draw(GL10 gl)
 	{
-		mVertexBuffer.position(0);
-		mIndexBuffer.position(0);	
-		mColorBuffer.position(0);
-		
-		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-		gl.glEnable(GL10.GL_NORMALIZE);
-		
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
-		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-		
-		//two sided plane
-		gl.glFrontFace(GL10.GL_CCW);
-		gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);		
-		gl.glFrontFace(GL10.GL_CW);
-		gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
-
-		gl.glDisable(GL10.GL_NORMALIZE);
-		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+		synchronized(this)
+		{			
+			mVertexBuffer.position(0);
+			mIndexBuffer.position(0);	
+			mColorBuffer.position(0);
+			
+			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+			gl.glEnable(GL10.GL_NORMALIZE);
+			
+			gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
+			gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
+			
+			//two sided plane
+			gl.glFrontFace(GL10.GL_CCW);
+			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);		
+			gl.glFrontFace(GL10.GL_CW);
+			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+	
+			gl.glDisable(GL10.GL_NORMALIZE);
+			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+		}
 	}	
 	
 	public void updateColor(int color, float transparency)
