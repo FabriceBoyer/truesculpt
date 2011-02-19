@@ -23,7 +23,10 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.graphics.Color;
+
 import truesculpt.main.Managers;
+import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
 
 /**
@@ -36,6 +39,7 @@ public class ToolOverlay
 	private FloatBuffer mVertexBuffer;
 
 	int nVertices=100;	
+	float mTransp=0.5f;
 	float offset[]=new float[3];
 	float scale[]=new float[3];
 	
@@ -58,13 +62,7 @@ public class ToolOverlay
 		ByteBuffer cbb = ByteBuffer.allocateDirect(nVertices * 4 * 4);
 		cbb.order(ByteOrder.nativeOrder());
 		mColorBuffer = cbb.asFloatBuffer();
-		for (int i=0;i<nVertices;i++)
-		{
-			mColorBuffer.put(1.0f);
-			mColorBuffer.put(1.0f);
-			mColorBuffer.put(1.0f);
-			mColorBuffer.put(1.0f);
-		}		
+		updateColor(Color.BLUE);	
 
 		ByteBuffer ibb = ByteBuffer.allocateDirect(nVertices * 2);
 		ibb.order(ByteOrder.nativeOrder());
@@ -82,16 +80,23 @@ public class ToolOverlay
 		scale[1]=1f;
 		scale[2]=1f;		
 		
-		updateGeometry(0.5f,1f,0.1f);
+		updateGeometry(0.9f,1f,0.1f);
 	}
 
 	public void draw(GL10 gl, Managers managers)
 	{				
 		managers.getMeshManager().getLastPickingPoint(offset);
+		
 		gl.glPushMatrix();
 		gl.glScalef(scale[0], scale[1], scale[2]);
-		gl.glTranslatef(offset[0], offset[1], offset[2]);
-		//TODO rotate based on normal to center
+		
+		float length=MatrixUtils.magnitude(offset);
+		gl.glTranslatef(offset[0],offset[1],offset[2]);
+		float rot=(float) Math.toDegrees((float) Math.atan(offset[0]/offset[2]));
+		float elev=(float) Math.toDegrees((float) Math.atan(offset[1]/offset[2]));
+		gl.glRotatef(rot, 0, 1, 0);
+		gl.glRotatef(-elev, 1, 0, 0);
+		
 		draw(gl);
 		gl.glPopMatrix();	
 	}
@@ -122,6 +127,7 @@ public class ToolOverlay
 	{
 		float[] VCol = new float[4];
 		Utils.ColorIntToFloatVector(color, VCol);
+		VCol[3]=mTransp;
 		
 		mColorBuffer.position(0);
 		for (int i=0;i<nVertices;i++)
@@ -132,14 +138,20 @@ public class ToolOverlay
 
 	public void updateTool(Managers mManagers)
 	{
-				
+		float strength=mManagers.getToolsManager().getStrength();//-100 to 100
+		float radius=mManagers.getToolsManager().getRadius();//0 to 100;
+		
+		float bigRadius=radius/100f+0.1f;
+		float smallRadius=bigRadius*(.9f-((strength+100f)/200f*0.5f));
+		float height=0.0f;		
+		updateGeometry(smallRadius,bigRadius,height);				
 	}	
 	
 	//geometry is a cut cone along z with base in x,y plane
 	private void updateGeometry(float fSmallRadius, float fBigRadius, float fHeight )
 	{
 		float angle=0;
-		float incr=360/nVertices;
+		float incr=360f/(float)nVertices;
 		boolean bIsTop=false;
 		mVertexBuffer.position(0);
 		for (int i=0;i<nVertices;i++)
@@ -147,7 +159,18 @@ public class ToolOverlay
 			float x=(float) Math.cos(Math.toRadians(angle));
 			float y=(float) Math.sin(Math.toRadians(angle));
 			float z=0f;
-			if (bIsTop) z=fHeight;
+			if (bIsTop)
+			{
+				x*=fSmallRadius;
+				y*=fSmallRadius;
+				z=fHeight;
+			}
+			else
+			{
+				x*=fBigRadius;
+				y*=fBigRadius;
+				z=0f;
+			}
 				
 			mVertexBuffer.put(x);
 			mVertexBuffer.put(y);

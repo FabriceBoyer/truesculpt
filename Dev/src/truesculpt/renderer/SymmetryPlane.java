@@ -35,7 +35,8 @@ public class SymmetryPlane
 	private FloatBuffer mColorBuffer;
 	private ShortBuffer mIndexBuffer;
 	private FloatBuffer mVertexBuffer;
-
+	private float mTransp=0.5f;
+	
 	public SymmetryPlane()
 	{
 		float zero = 0.0f;
@@ -46,10 +47,10 @@ public class SymmetryPlane
 							-large, large, zero,
 							-large, -large, zero,
 							large, -large, zero };
-		float colors[] = { zero, one, zero, half,
-							zero, one, zero, half,
-							zero, one, zero, half,
-							zero, one, zero, half};
+		float colors[] = { zero, one, zero, mTransp,
+							zero, one, zero, mTransp,
+							zero, one, zero, mTransp,
+							zero, one, zero, mTransp};
 		short indices[] = { 0, 1, 3,
 							1, 2, 3};
 
@@ -95,11 +96,10 @@ public class SymmetryPlane
 				gl.glRotatef(quarter, 1, 0, 0);
 				break;
 			case Z:				
-				
 				break;				
-			}			
-		}
-		draw(gl);
+			}		
+			draw(gl);
+		}		
 		gl.glPopMatrix();
 	}
 
@@ -125,7 +125,7 @@ public class SymmetryPlane
 	{
 		float[] VCol = new float[4];
 		Utils.ColorIntToFloatVector(color, VCol);
-		
+		VCol[3]=mTransp;
 		mColorBuffer.position(0);
 		mColorBuffer.put(VCol,0,4);
 		mColorBuffer.put(VCol,0,4);	
