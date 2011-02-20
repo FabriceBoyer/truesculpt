@@ -41,6 +41,7 @@ public class ToolOverlay
 	float mDefaultTransparency=0.3f;
 	float offset[]=new float[3];
 	float scale[]=new float[3];
+	boolean bShowOverlay=false;
 	
 	public ToolOverlay()
 	{
@@ -81,24 +82,27 @@ public class ToolOverlay
 	}
 
 	public void draw(GL10 gl, Managers managers)
-	{				
-		managers.getMeshManager().getLastPickingPoint(offset);
-		
-		gl.glPushMatrix();
-		gl.glScalef(scale[0], scale[1], scale[2]);
-		
-		float length=MatrixUtils.magnitude(offset);
-		gl.glTranslatef(offset[0],offset[1],offset[2]);
-		float rot=(float) Math.toDegrees((float) Math.atan2(offset[0],offset[2]));
-		float elev=(float) Math.toDegrees((float) Math.asin(offset[1]/length));
-		gl.glRotatef(rot, 0, 1, 0);
-		gl.glRotatef(-elev, 1, 0, 0);
-		
-		draw(gl);
-		gl.glPopMatrix();	
+	{		
+		if (bShowOverlay)
+		{
+			managers.getMeshManager().getLastPickingPoint(offset);
+			
+			gl.glPushMatrix();
+			gl.glScalef(scale[0], scale[1], scale[2]);
+			
+			float length=MatrixUtils.magnitude(offset);
+			gl.glTranslatef(offset[0],offset[1],offset[2]);
+			float rot=(float) Math.toDegrees((float) Math.atan2(offset[0],offset[2]));
+			float elev=(float) Math.toDegrees((float) Math.asin(offset[1]/length));
+			gl.glRotatef(rot, 0, 1, 0);
+			gl.glRotatef(-elev, 1, 0, 0);
+			
+			draw(gl);
+			gl.glPopMatrix();	
+		}
 	}
 	
-	public void draw(GL10 gl)
+	private void draw(GL10 gl)
 	{
 		synchronized(this)
 		{			
@@ -143,11 +147,35 @@ public class ToolOverlay
 		float bigRadius=radius/100f+0.1f;
 		float smallRadius=bigRadius*(1f-(Math.abs(signedNormalizedStrength)*0.5f));
 		float height=0f;	
+		int color=Color.BLUE;
+		if (signedNormalizedStrength<0) color=Color.RED;		
+				
+		switch (mManagers.getToolsManager().getSculptSubMode())
+		{			
+			case DRAW:
+			case GRAB:
+			case SMOOTH:
+			case INFLATE:
+			{
+				bShowOverlay=true;
+				break;	
+			}	
+			case COLOR:
+			case TEXTURE:
+			case PICK_COLOR:	
+			{
+				bShowOverlay=false;			
+				break;		
+			}
+		}
 		
-		synchronized(this)
+		if (bShowOverlay)
 		{
-			updateGeometry(smallRadius,bigRadius,height);				
-			updateColor(mManagers.getToolsManager().getColor(),mDefaultTransparency);
+			synchronized(this)
+			{
+				updateGeometry(smallRadius,bigRadius,height);				
+				updateColor(color,mDefaultTransparency);
+			}
 		}
 	}	
 	
