@@ -143,9 +143,7 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mPovSubMode != mPovSubMode)
 		{
-			SetUndoInitialState();
 			this.mPovSubMode = mPovSubMode;			
-			//AddUndoToolAction();
 			
 			NotifyListeners();
 		}
@@ -214,7 +212,6 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mMode != mode)
 		{
-			SetUndoInitialState();	
 			mMode = mode;
 			
 			NotifyListeners();
