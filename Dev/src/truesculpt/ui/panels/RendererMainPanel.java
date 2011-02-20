@@ -6,6 +6,7 @@ import java.util.Observer;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorShowView;
@@ -27,11 +28,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
@@ -47,6 +50,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private SliderPickView mRadius;
 	private SliderPickView mStrength;
 	private ImageButton mResetPOVbutton;	
+	private ToggleButton mSymmetrySwitcher;
 
 	public Managers getManagers()
 	{
@@ -97,14 +101,15 @@ public class RendererMainPanel extends Activity implements Observer
 	
 		mToolsSlideHandleButton = (Button) findViewById(R.id.toolsSlideHandleButton);
 		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
-		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
-
+		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() 
+		{
 			@Override
 			public void onDrawerOpened() {
 				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.down_arrow);
 			}
 		});
-		mToolsSlidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener() {
+		mToolsSlidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener()
+		{
 			@Override
 			public void onDrawerClosed() {
 				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.up_arrow);
@@ -168,6 +173,23 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.PointOfViewPanel.class, false);
 				return false;
+			}
+		});
+		
+		mSymmetrySwitcher= (ToggleButton) findViewById(R.id.SymmetrySwitcher);
+		mSymmetrySwitcher.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				if (getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE)
+				{
+					getManagers().getToolsManager().setSymmetryMode(ESymmetryMode.NONE);
+				}
+				else
+				{
+					getManagers().getToolsManager().setSymmetryMode(ESymmetryMode.X);
+				}				
 			}
 		});
 		
@@ -430,7 +452,10 @@ public class RendererMainPanel extends Activity implements Observer
 		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
 		
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
+		
 		mStrength.setCurrentValue(getManagers().getToolsManager().getStrength());
+		
+		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE);
 	}	
 
 	public void updateFullscreenWindowStatus()

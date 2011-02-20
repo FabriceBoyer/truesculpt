@@ -25,6 +25,7 @@
 		 	<TableRow>			
 			 	<truesculpt.ui.views.SliderPickView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RadiusPicker"></truesculpt.ui.views.SliderPickView>
 			 	<truesculpt.ui.views.SliderPickView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/StrengthPicker"></truesculpt.ui.views.SliderPickView>
+			 	<ToggleButton android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/SymmetrySwitcher" android:textOn="" android:textOff="" android:background="@drawable/symmetry_switcher_selector"></ToggleButton>
 			</TableRow> 
 			
 			<TableRow>  
