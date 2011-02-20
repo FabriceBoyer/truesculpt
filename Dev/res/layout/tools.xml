@@ -17,12 +17,6 @@
  </LinearLayout>
  <TextView android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/symmetry"></TextView>
  <Spinner android:layout_height="wrap_content" android:id="@+id/SymmetrySpinner" android:layout_width="wrap_content"></Spinner>
- <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1">     
-     <truesculpt.ui.views.ColorPickerView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/ColorPickerView"></truesculpt.ui.views.ColorPickerView>
-     <LinearLayout android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/linearLayout3" android:orientation="vertical">
-         <Button android:layout_height="wrap_content" android:id="@+id/colorpickerBtn" android:layout_width="fill_parent" android:text="@string/color_picker"></Button>
-         <Button android:layout_height="wrap_content" android:id="@+id/PickColorBtn" android:layout_width="fill_parent" android:text="@string/pick_color"></Button>
-     </LinearLayout>
- </LinearLayout>
+ <truesculpt.ui.views.ColorPickerView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/ColorPickerView"></truesculpt.ui.views.ColorPickerView>
   
 </LinearLayout>

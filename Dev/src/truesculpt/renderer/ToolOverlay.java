@@ -39,7 +39,7 @@ public class ToolOverlay
 	private FloatBuffer mVertexBuffer;
 
 	int nVertices=100;	
-	float mDefaultTransparency=0.5f;
+	float mDefaultTransparency=0.3f;
 	float offset[]=new float[3];
 	float scale[]=new float[3];
 	
@@ -112,7 +112,6 @@ public class ToolOverlay
 			mColorBuffer.position(0);
 			
 			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-			gl.glEnable(GL10.GL_NORMALIZE);
 			
 			gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 			gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
@@ -123,7 +122,6 @@ public class ToolOverlay
 			gl.glFrontFace(GL10.GL_CW);
 			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices+2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 	
-			gl.glDisable(GL10.GL_NORMALIZE);
 			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 		}
 	}	
@@ -148,7 +146,7 @@ public class ToolOverlay
 		
 		float signedNormalizedStrength=strength/200f;
 		float bigRadius=radius/100f+0.1f;
-		float smallRadius=bigRadius*(.9f-(Math.abs(signedNormalizedStrength)*0.5f));
+		float smallRadius=bigRadius*(1f-(Math.abs(signedNormalizedStrength)*0.5f));
 		float height=0f;	
 		
 		synchronized(this)

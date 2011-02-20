@@ -37,7 +37,6 @@ public class ToolsPanel extends Activity implements Observer
 	private TextView mStrengthText;
 	private Spinner mToolSpinner;
 	private Spinner mSymmetrySpinner;
-	private Button mColorPickerButton;
 	
 	public Managers getManagers()
 	{
@@ -263,16 +262,6 @@ public class ToolsPanel extends Activity implements Observer
 				getManagers().getToolsManager().setColor(color);
 			}
 		});		
-
-		mColorPickerButton = (Button) findViewById(R.id.colorpickerBtn);
-		mColorPickerButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				getManagers().getUtilsManager().ShowHSLColorPickerDialog(ToolsPanel.this);
-			}
-		});
 
 		Button mScreenshotButton = (Button) findViewById(R.id.screenshot);
 		mScreenshotButton.setOnClickListener(new View.OnClickListener()
