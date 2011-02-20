@@ -19,7 +19,7 @@ public class ColorShowView extends View
 	private Paint mCenterPaint;
 	float orig_x=0;
 	float orig_y=0;
-	private int PixelAmplitude=200;	
+	private int PixelAmplitude=300;	
 	private OnColorChangedListener mColorListener=null;
 	private OnDoubleClickListener mDoubleClickListener=null;
 	int mColor=0;
