@@ -12,7 +12,6 @@ import truesculpt.managers.ToolsManager.ESculptToolSubMode;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorPickerView;
-import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;

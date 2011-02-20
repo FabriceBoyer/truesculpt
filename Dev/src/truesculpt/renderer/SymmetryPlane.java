@@ -42,7 +42,6 @@ public class SymmetryPlane
 		float zero = 0.0f;
 		float one = 1.0f;
 		float large=3.0f;
-		float half = 0.5f;
 		float vertices[] = { large, large, zero,
 							-large, large, zero,
 							-large, -large, zero,

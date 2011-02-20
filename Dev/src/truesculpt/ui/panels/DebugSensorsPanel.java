@@ -227,8 +227,6 @@ public class DebugSensorsPanel extends Activity
 		}
 	}
 
-	/** Tag string for our debug logs */
-	private static final String TAG = "Sensors";
 	private GraphView mGraphView;
 
 	private SensorManager mSensorManager;

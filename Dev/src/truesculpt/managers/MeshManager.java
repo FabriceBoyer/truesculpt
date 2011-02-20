@@ -3,11 +3,9 @@ package truesculpt.managers;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Mesh;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
-import truesculpt.renderer.SymmetryPlane;
 import truesculpt.utils.MatrixUtils;
 import android.content.Context;
 import android.opengl.Matrix;

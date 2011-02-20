@@ -8,7 +8,6 @@ import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;

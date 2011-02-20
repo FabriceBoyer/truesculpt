@@ -67,16 +67,10 @@ public class PointOfViewManager extends BaseManager
 
 	public void resetPOV()
 	{
-		float mRInit=mR;
-		float mThetaInit=mTheta;
-		float mPhiInit=mPhi;
-		
 		mR = 3.0f;
 		mTheta = 0.0f;
 		mPhi = 0.0f;
 		
-		//getManagers().getActionsManager().AddUndoAction(new ChangePOVAction(mThetaInit, mPhiInit, mRInit, mTheta, mPhi,mR));
-
 		NotifyListeners();
 	}
 

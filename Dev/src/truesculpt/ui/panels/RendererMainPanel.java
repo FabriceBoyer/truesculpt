@@ -17,7 +17,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,14 +24,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
@@ -58,7 +54,6 @@ public class RendererMainPanel extends Activity implements Observer
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId())
 		{
 		default:
@@ -249,14 +244,6 @@ public class RendererMainPanel extends Activity implements Observer
 		UpdateButtonsView();	
 	}
 	
-	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
-	{
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getMenuInflater();
-		// inflater.inflate(R.menu.context_menu, menu);
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
