@@ -23,10 +23,10 @@ public class SliderPickView extends View
 	
 	private String Text="Value : ";
 	private String UnitText=" %";
-	private float CurrentValue=50;
+	private float CurrentValue=0;
 	private float MaxValue=100;
 	private float MinValue=0;
-	private int PixelAmplitude=200;
+	private int PixelAmplitude=300;
 	
 	private Paint mTextPaint=null;
 	private Paint mCenterPaint=null;
@@ -41,7 +41,7 @@ public class SliderPickView extends View
 		
 		mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mTextPaint.setColor(Color.WHITE);
-		mTextPaint.setTextSize(12);
+		mTextPaint.setTextSize(16);
 			
 		mCenterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mCenterPaint.setColor(Color.DKGRAY);
