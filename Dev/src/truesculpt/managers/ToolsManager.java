@@ -14,15 +14,11 @@ public class ToolsManager extends BaseManager
 	};
 
 	public enum ESculptToolSubMode {
-		DRAW, GRAB, INFLATE, SMOOTH
+		DRAW, GRAB, INFLATE, SMOOTH, COLOR, TEXTURE, PICK_COLOR		
 	};
 	
-	public enum EPaintToolSubMode {
-		COLOR, TEXTURE, PICK_COLOR		
-	};
-
 	public enum EToolMode {
-		PAINT, POV, SCULPT
+		POV, SCULPT
 	};
 	
 	public enum ESymmetryMode {
@@ -33,7 +29,6 @@ public class ToolsManager extends BaseManager
 	{
 		EToolMode m_toolmode;
 		ESculptToolSubMode m_subSculptTool;
-		EPaintToolSubMode m_subPaintTool;
 		EPovToolSubMode m_subPOVTool;
 		ESymmetryMode m_symmetrymode;
 		int m_Color;
@@ -46,7 +41,6 @@ public class ToolsManager extends BaseManager
 			String msg="";
 			msg=m_toolmode+"/"+
 			m_subSculptTool+"/"+
-			m_subPaintTool+"/"+
 			m_subPOVTool+"/"+
 			m_symmetrymode+"/"+
 			Utils.ColorIntToString(m_Color)+"/"+
@@ -57,12 +51,9 @@ public class ToolsManager extends BaseManager
 	};
 
 	private int mColor = Color.rgb(255, 0, 0);
-	private boolean mForcedMode = false;
-	private EToolMode mLastMode = EToolMode.SCULPT;
 	private EToolMode mMode = EToolMode.POV;
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
 	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.DRAW;
-	private EPaintToolSubMode mPaintSubMode = EPaintToolSubMode.COLOR;	
 	private ESymmetryMode mSymmetryMode=ESymmetryMode.NONE;
 	private float mRadius = 50.0f;// pct
 	private float mStrength = 50.0f;// pct
@@ -77,17 +68,7 @@ public class ToolsManager extends BaseManager
 	{
 		return mColor;
 	}
-
-	public boolean getForcedMode()
-	{
-		return mForcedMode;
-	}
-
-	public EToolMode getLastMode()
-	{
-		return mLastMode;
-	}
-
+	
 	public EPovToolSubMode getPovSubMode()
 	{
 		return mPovSubMode;
@@ -101,10 +82,6 @@ public class ToolsManager extends BaseManager
 	public ESculptToolSubMode getSculptSubMode()
 	{
 		return mSculptSubMode;
-	}
-	public EPaintToolSubMode getPaintSubMode()
-	{
-		return mPaintSubMode;
 	}
 	
 	public ESymmetryMode getSymmetryMode()
@@ -143,21 +120,6 @@ public class ToolsManager extends BaseManager
 			GlobalToolState prevState=GetGlobalToolState();
 			this.mColor = color;
 			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
-			
-			NotifyListeners();
-		}
-	}
-
-	public void setForcedMode(boolean mForcedMode)
-	{
-		this.mForcedMode = mForcedMode;
-	}
-
-	public void setLastToolMode()
-	{
-		if (mMode != mLastMode)
-		{
-			mMode = mLastMode;
 			
 			NotifyListeners();
 		}
@@ -204,18 +166,6 @@ public class ToolsManager extends BaseManager
 		}
 	}
 		
-	public void setPaintSubMode(EPaintToolSubMode mPaintSubMode)
-	{
-		if (this.mPaintSubMode != mPaintSubMode)
-		{
-			GlobalToolState prevState=GetGlobalToolState();			
-			this.mPaintSubMode = mPaintSubMode;		
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
-			
-			NotifyListeners();
-		}
-	}
-	
 	public void setSymmetryMode(ESymmetryMode mSymmetryMode)
 	{
 		if (this.mSymmetryMode != mSymmetryMode)
@@ -251,7 +201,6 @@ public class ToolsManager extends BaseManager
 		if (this.mMode != mode)
 		{
 			GlobalToolState prevState=GetGlobalToolState();	
-			mLastMode = mMode;
 			mMode = mode;
 			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 			
@@ -271,7 +220,6 @@ public class ToolsManager extends BaseManager
 		state.m_toolmode=mMode;
 		state.m_subPOVTool=mPovSubMode;
 		state.m_subSculptTool=mSculptSubMode;
-		state.m_subPaintTool=mPaintSubMode;
 		state.m_symmetrymode=mSymmetryMode;
 		state.m_Color=mColor;
 		state.m_Radius=mRadius;
@@ -285,7 +233,6 @@ public class ToolsManager extends BaseManager
 		mMode=state.m_toolmode;
 		mPovSubMode=state.m_subPOVTool;
 		mSculptSubMode=state.m_subSculptTool;
-		mPaintSubMode=state.m_subPaintTool;
 		mSymmetryMode=state.m_symmetrymode;	
 		mColor=state.m_Color;
 		mRadius=state.m_Radius;

@@ -146,32 +146,15 @@ public class TouchManager extends BaseManager
 			initPOVValues(event, false);
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 
-			// auto switch tool mode
 			int nRes = getManagers().getMeshManager().Pick(x, y);
 			if (nRes < 0)
 			{
-				EToolMode currMode = getManagers().getToolsManager().getToolMode();
-				if (currMode != EToolMode.POV)
-				{
-					if (getManagers().getToolsManager().getForcedMode() == false)
-					{
-						getManagers().getToolsManager().setToolMode(EToolMode.POV);
-					}
-				}
+				getManagers().getToolsManager().setToolMode(EToolMode.POV);
 			}
 			else
 			{
-				EToolMode currMode = getManagers().getToolsManager().getToolMode();
-				if (currMode == EToolMode.POV)
-				{
-					if (getManagers().getToolsManager().getForcedMode() == false)
-					{
-						getManagers().getToolsManager().setLastToolMode();
-					}
-				}
+				getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);
 			}
-
-			getManagers().getToolsManager().setForcedMode(false);
 
 			break;
 		}
@@ -224,7 +207,6 @@ public class TouchManager extends BaseManager
 				}
 	
 				case SCULPT:
-				case PAINT:
 				{
 					getManagers().getMeshManager().Pick(x, y);
 					break;
@@ -249,7 +231,6 @@ public class TouchManager extends BaseManager
 				break;
 			}
 			case SCULPT:
-			case PAINT:
 			{
 				break;
 			}

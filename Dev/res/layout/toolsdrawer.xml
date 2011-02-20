@@ -16,17 +16,10 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"	        
 	        android:stretchColumns="*">	   
-		    
-		    <TableRow>                
-			  <ToggleButton android:textOn="@string/view"  android:textOff="@string/view" android:id="@+id/View" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-			  <ToggleButton android:textOn="@string/sculpt"  android:textOff="@string/sculpt" android:id="@+id/Sculpt" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-			  <ToggleButton android:textOn="@string/paint"  android:textOff="@string/paint" android:id="@+id/Paint" android:layout_width="fill_parent" android:layout_height="wrap_content"></ToggleButton>
-			</TableRow>
 			
 	        <TableRow>			
 			 	<Spinner android:layout_height="50dip" android:id="@+id/SculptToolSpinner" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
 			 	<truesculpt.ui.views.ColorShowView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ColorShowView"></truesculpt.ui.views.ColorShowView>
-		 		<Spinner android:layout_height="50dip" android:id="@+id/PaintingToolSpinner" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
 			</TableRow>       
 
 		 	<TableRow>			
