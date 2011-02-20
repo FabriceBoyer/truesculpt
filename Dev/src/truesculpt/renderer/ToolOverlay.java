@@ -171,7 +171,7 @@ public class ToolOverlay
 		}
 		if (mManagers.getToolsManager().getToolMode()==EToolMode.POV)
 		{
-			bShowOverlay=false;
+			//bShowOverlay=false;
 		}
 		
 		if (bShowOverlay)
