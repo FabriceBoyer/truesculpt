@@ -670,4 +670,15 @@ public class Mesh
 			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into accoutn, TODO read from conf
 		} 
 	}
+
+	public void PickColorAction(int nIndex)
+	{
+		if (nIndex >= 0)
+		{			
+			Face face=mFaceList.get(nIndex);
+			Vertex vertex=mVertexList.get(face.V0);//arbitrarily chosen point in triangle
+			int color=vertex.Color;
+			getManagers().getToolsManager().setColor(color, true);			
+		}		
+	}
 }
