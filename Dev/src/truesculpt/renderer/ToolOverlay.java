@@ -146,10 +146,14 @@ public class ToolOverlay
 		
 		float signedNormalizedStrength=strength/100f;
 		float bigRadius=radius/100f+0.1f;
-		float smallRadius=bigRadius*(1f-Math.abs(signedNormalizedStrength));
+		float smallRadius=bigRadius*0.8f;//bigRadius*(1f-Math.abs(signedNormalizedStrength));
 		float height=0f;	
 		int color=Color.BLUE;
-		if (signedNormalizedStrength<0) color=Color.RED;		
+		if (signedNormalizedStrength<0) color=Color.RED;
+		float [] VCol=new float[3];
+		Color.colorToHSV(color, VCol);
+		VCol[2]=Math.abs(signedNormalizedStrength)*VCol[2];
+		color=Color.HSVToColor(VCol);
 				
 		switch (mManagers.getToolsManager().getSculptSubMode())
 		{			
