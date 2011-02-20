@@ -90,9 +90,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		// main draw call
 		getManagers().getMeshManager().draw(gl);
 				
-		mSymmetryPlane.draw(gl,mManagers);
-			
 		mToolOverlay.draw(gl,mManagers);		
+		
+		mSymmetryPlane.draw(gl,mManagers);
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 

@@ -35,7 +35,7 @@ public class SymmetryPlane
 	private FloatBuffer mColorBuffer;
 	private ShortBuffer mIndexBuffer;
 	private FloatBuffer mVertexBuffer;
-	private float mTransp=0.5f;
+	private float mTransp=0.3f;
 	
 	public SymmetryPlane()
 	{
@@ -106,7 +106,6 @@ public class SymmetryPlane
 	public void draw(GL10 gl)
 	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-		gl.glEnable(GL10.GL_NORMALIZE);
 		
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
@@ -117,7 +116,6 @@ public class SymmetryPlane
 		gl.glFrontFace(GL10.GL_CW);
 		gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
-		gl.glDisable(GL10.GL_NORMALIZE);
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}	
 	
