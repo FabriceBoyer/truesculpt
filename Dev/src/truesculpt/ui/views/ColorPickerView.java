@@ -131,21 +131,17 @@ public class ColorPickerView extends View
 				}
 				case MotionEvent.ACTION_UP:		
 				{
-					UpdateColor(col, State.CHANGE);
+					UpdateColor(col, State.STOP);
 					bRes=true;
 					break;
 				}
 				case MotionEvent.ACTION_MOVE:
 				{
-					UpdateColor(col, State.STOP);
+					UpdateColor(col, State.CHANGE);
 					bRes=true;
 					break;
 				}
-			}
-			if (mListener!=null)
-			{
-				
-			}
+			}			
 			
 			bRes=true;
 		}
