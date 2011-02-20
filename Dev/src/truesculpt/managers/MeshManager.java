@@ -219,13 +219,19 @@ public class MeshManager extends BaseManager
 									break;
 								case GRAB:
 									mMesh.InitGrabAction(nIndex);
-									break;								
+									break;	
+								case SMOOTH:
+									break;
+								case INFLATE:
+									break;
 								case COLOR:
 									mMesh.ColorizePaintAction(nIndex);
 									break;
 								case TEXTURE:
-									//TODO
 									break;
+								case PICK_COLOR:
+									mMesh.PickColorAction(nIndex);
+									break;								
 								}
 							}
 						}					
