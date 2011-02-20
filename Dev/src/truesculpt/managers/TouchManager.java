@@ -114,8 +114,10 @@ public class TouchManager extends BaseManager
 	}
 
 	// ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
-	public void onTouchEvent(MotionEvent event)
+	public int onTouchEvent(MotionEvent event)
 	{
+		int nReturn=0;
+		
 		// String msg="Pressure = " + Float.toString(event.getPressure());
 		// String msg="(x,y) = (" + Float.toString(event.getX()) +","
 		// +Float.toString(event.getY()) + ")";
@@ -137,6 +139,7 @@ public class TouchManager extends BaseManager
 			if (curTapTapTime - mLastTapTapTime < fTapTapTimeThresold)
 			{
 				StartTapTapAction();
+				nReturn=1;
 			}
 			mLastTapTapTime = curTapTapTime;
 
@@ -231,6 +234,8 @@ public class TouchManager extends BaseManager
 			break;
 		}
 		}
+		
+		return nReturn;
 	}
 
 	private void StartTapTapAction()
