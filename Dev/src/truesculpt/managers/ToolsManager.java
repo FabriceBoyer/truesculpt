@@ -131,7 +131,7 @@ public class ToolsManager extends BaseManager
 		{
 			GlobalToolState prevState=GetGlobalToolState();
 			this.mPovSubMode = mPovSubMode;			
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			//getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 			
 			NotifyListeners();
 		}
@@ -202,7 +202,7 @@ public class ToolsManager extends BaseManager
 		{
 			GlobalToolState prevState=GetGlobalToolState();	
 			mMode = mode;
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			//getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 			
 			NotifyListeners();
 		}
