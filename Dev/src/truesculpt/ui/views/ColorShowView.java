@@ -74,7 +74,7 @@ public class ColorShowView extends View
 			{			
 				orig_x=x;
 				orig_y=y;
-				UpdateColorValue(x, y, 0);
+				UpdateColorValue(x, y, 0,State.START);
 				
 				long curTapTapTime = System.currentTimeMillis();
 				if ((curTapTapTime - mLastTapTapTime) < mTapTapTimeThresold)
@@ -89,10 +89,15 @@ public class ColorShowView extends View
 				bRes=true;
 				break;
 			}
-			case MotionEvent.ACTION_UP:			
+			case MotionEvent.ACTION_UP:		
+			{
+				UpdateColorValue(x, y, pixelDist,State.STOP);
+				bRes=true;
+				break;
+			}
 			case MotionEvent.ACTION_MOVE:
 			{
-				UpdateColorValue(x, y, pixelDist);
+				UpdateColorValue(x, y, pixelDist,State.CHANGE);
 				bRes=true;
 				break;
 			}
@@ -101,7 +106,9 @@ public class ColorShowView extends View
 		return bRes;
 	}	
 	
-	private void UpdateColorValue(float x, float y, float pixelDist)
+	private enum State {START, CHANGE, STOP};
+	
+	private void UpdateColorValue(float x, float y, float pixelDist, State state)
 	{
 		float newHue=(360*pixelDist/PixelAmplitude)%360;
 		float [] VCol= new float[3];		
@@ -111,7 +118,18 @@ public class ColorShowView extends View
 		setColor(newColor);
 		if (mColorListener!=null) 
 		{
-			mColorListener.colorChanged(newColor);
+			switch (state)
+			{
+			case START:
+				mColorListener.colorChangeStart();
+				break;
+			case CHANGE:
+				mColorListener.colorChanged(newColor);
+				break;
+			case STOP:
+				mColorListener.colorChangeStop(newColor);
+				break;
+			}	
 		}
 	}
 	

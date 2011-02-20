@@ -341,12 +341,7 @@ public class RendererMainPanel extends Activity implements Observer
 			Utils.StartMyActivity(this, truesculpt.ui.panels.FileSelectorPanel.class, false);
 			return true;
 		}
-		case R.id.show_tools_panel:
-		{
-			commuteSliderState();
-			//Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false);
-			return true;
-		}
+	
 		case R.id.show_options:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
@@ -359,6 +354,12 @@ public class RendererMainPanel extends Activity implements Observer
 			return true;
 		}
 		/*
+		case R.id.show_tools_panel:
+		{
+			commuteSliderState();
+			//Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false);
+			return true;
+		}
 		case R.id.show_history:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.HistoryPanel.class, false);

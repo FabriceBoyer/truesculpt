@@ -91,13 +91,13 @@ public class SliderPickView extends View
 			}
 			case MotionEvent.ACTION_UP:		
 			{
-				UpdateSliderValue(x, y, State.CHANGE);
+				UpdateSliderValue(x, y, State.STOP);
 				bRes=true;
 				break;
 			}
 			case MotionEvent.ACTION_MOVE:
 			{
-				UpdateSliderValue(x, y, State.STOP);
+				UpdateSliderValue(x, y, State.CHANGE);
 				bRes=true;
 				break;
 			}
