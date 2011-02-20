@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import truesculpt.main.TrueSculptApp;
-import truesculpt.ui.dialogs.HSLColorPickerDialog;
-import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

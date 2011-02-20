@@ -7,7 +7,6 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
 
 public class RenderFaceGroup

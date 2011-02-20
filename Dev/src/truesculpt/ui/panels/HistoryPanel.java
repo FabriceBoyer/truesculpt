@@ -15,10 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 //For history of action manager
@@ -122,7 +120,6 @@ public class HistoryPanel extends Activity implements Observer
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	  
 	  switch (item.getItemId()) {
 	  case R.id.undo_this_item:

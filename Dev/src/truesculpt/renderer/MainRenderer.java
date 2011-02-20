@@ -20,7 +20,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import truesculpt.main.Managers;
-import truesculpt.managers.ToolsManager.ESymmetryMode;
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 

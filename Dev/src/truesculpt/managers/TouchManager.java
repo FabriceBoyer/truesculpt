@@ -3,7 +3,6 @@ package truesculpt.managers;
 import truesculpt.actions.ChangePOVAction;
 import truesculpt.managers.ToolsManager.EPovToolSubMode;
 import truesculpt.managers.ToolsManager.EToolMode;
-import truesculpt.utils.Utils;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;

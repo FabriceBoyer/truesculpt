@@ -23,11 +23,10 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.Color;
-
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
+import android.graphics.Color;
 
 /**
  * A vertex shaded cube.
@@ -45,10 +44,6 @@ public class ToolOverlay
 	
 	public ToolOverlay()
 	{
-		float zero = 0.0f;
-		float one = 1.0f;		
-		float half = 0.5f;
-
 		ByteBuffer vbb = ByteBuffer.allocateDirect(nVertices * 3 * 4);
 		vbb.order(ByteOrder.nativeOrder());
 		mVertexBuffer = vbb.asFloatBuffer();
