@@ -149,7 +149,7 @@ public class ToolOverlay
 		float signedNormalizedStrength=strength/200f;
 		float bigRadius=radius/100f+0.1f;
 		float smallRadius=bigRadius*(.9f-(Math.abs(signedNormalizedStrength)*0.5f));
-		float height=signedNormalizedStrength * 0.5f;	
+		float height=0f;	
 		
 		synchronized(this)
 		{

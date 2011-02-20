@@ -192,6 +192,15 @@ public class RendererMainPanel extends Activity implements Observer
 				}				
 			}
 		});
+		mSymmetrySwitcher.setOnLongClickListener(new View.OnLongClickListener()
+		{			
+			@Override
+			public boolean onLongClick(View v)
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);
+				return false;
+			}
+		});
 		
 		
 		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
