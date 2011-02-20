@@ -7,7 +7,6 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
-import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorShowView;
 import truesculpt.ui.views.SliderPickView;
@@ -41,7 +40,6 @@ import android.widget.SlidingDrawer.OnDrawerOpenListener;
 public class RendererMainPanel extends Activity implements Observer
 {
 	private GLSurfaceView mGLSurfaceView = null;
-	private Button mToolsSlideHandleButton;	
 	private SlidingDrawer mToolsSlidingDrawer;
 	private ImageButton mRedoButton;
 	private ImageButton mUndoButton;
@@ -99,7 +97,6 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getToolsManager().addObserver(RendererMainPanel.this);
 		getManagers().getActionsManager().addObserver(this);
 	
-		mToolsSlideHandleButton = (Button) findViewById(R.id.toolsSlideHandleButton);
 		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
 		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() 
 		{
@@ -246,6 +243,8 @@ public class RendererMainPanel extends Activity implements Observer
 				getManagers().getToolsManager().setStrength(value);				
 			}
 		});
+		
+		mToolsSlidingDrawer.open();
 		
 		UpdateButtonsView();	
 	}
