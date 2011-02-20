@@ -24,6 +24,7 @@ import java.nio.ShortBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import truesculpt.main.Managers;
+import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
 import android.graphics.Color;
@@ -167,6 +168,10 @@ public class ToolOverlay
 				bShowOverlay=false;			
 				break;		
 			}
+		}
+		if (mManagers.getToolsManager().getToolMode()==EToolMode.POV)
+		{
+			bShowOverlay=false;
 		}
 		
 		if (bShowOverlay)
