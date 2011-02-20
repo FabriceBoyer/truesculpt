@@ -169,10 +169,10 @@ public class RendererMainPanel extends Activity implements Observer
 		});
 		
 		mSymmetrySwitcher= (ToggleButton) findViewById(R.id.SymmetrySwitcher);
-		mSymmetrySwitcher.setOnCheckedChangeListener(new OnCheckedChangeListener()
-		{			
+		mSymmetrySwitcher.setOnClickListener(new View.OnClickListener()
+		{	
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			public void onClick(View v)
 			{
 				if (getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE)
 				{
@@ -215,12 +215,14 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChangeStart()
 			{			
+				getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void colorChangeStop(int color)
 			{
-				getManagers().getToolsManager().setColor(color,true);					
+				getManagers().getToolsManager().setColor(color,false);
+				getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		
@@ -239,13 +241,14 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStart()
 			{			
-				
+				getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop(float value)
 			{
-				getManagers().getToolsManager().setRadius(value,true);				
+				getManagers().getToolsManager().setRadius(value,false);	
+				getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		
@@ -264,13 +267,14 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStart()
 			{				
-				
+				getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop(float value)
 			{
-				getManagers().getToolsManager().setStrength(value,true);				
+				getManagers().getToolsManager().setStrength(value,false);
+				getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		

@@ -117,14 +117,25 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mColor!=color)
 		{
-			GlobalToolState prevState=GetGlobalToolState();
+			if (bAddUndoAction) SetUndoInitialState();
 			this.mColor = color;
-			if (bAddUndoAction)
-			{
-				getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
-			}
+			if (bAddUndoAction) AddUndoToolAction();		
 			
 			NotifyListeners();
+		}
+	}
+	
+	GlobalToolState prevState=null;
+	
+	public void SetUndoInitialState()
+	{
+		prevState=GetGlobalToolState();
+	}
+	public void AddUndoToolAction()
+	{
+		if (prevState!=null)
+		{
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 		}
 	}
 
@@ -132,9 +143,9 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mPovSubMode != mPovSubMode)
 		{
-			GlobalToolState prevState=GetGlobalToolState();
+			SetUndoInitialState();
 			this.mPovSubMode = mPovSubMode;			
-			//getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			//AddUndoToolAction();
 			
 			NotifyListeners();
 		}
@@ -142,12 +153,9 @@ public class ToolsManager extends BaseManager
 
 	public void setRadius(float radius, boolean bAddUndoAction)
 	{
-		GlobalToolState prevState=GetGlobalToolState();	
+		if (bAddUndoAction)	SetUndoInitialState();
 		this.mRadius = radius;
-		if (bAddUndoAction)
-		{
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
-		}
+		if (bAddUndoAction)	AddUndoToolAction();
 		
 		if (mRadius > 100)
 		{
@@ -164,9 +172,9 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mSculptSubMode != sculptSubMode)
 		{
-			GlobalToolState prevState=GetGlobalToolState();			
+			SetUndoInitialState();			
 			this.mSculptSubMode = sculptSubMode;	
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			AddUndoToolAction();
 			
 			NotifyListeners();
 		}
@@ -176,9 +184,9 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mSymmetryMode != symmetryMode)
 		{
-			GlobalToolState prevState=GetGlobalToolState();	
+			SetUndoInitialState();	
 			this.mSymmetryMode = symmetryMode;		
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			AddUndoToolAction();
 			
 			NotifyListeners();
 		}
@@ -186,13 +194,10 @@ public class ToolsManager extends BaseManager
 
 	public void setStrength(float strength, boolean bAddUndoAction)
 	{
-		GlobalToolState prevState=GetGlobalToolState();	
+		if (bAddUndoAction)	SetUndoInitialState();
 		this.mStrength = strength;
-		if (bAddUndoAction)
-		{
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
-		}
-
+		if (bAddUndoAction)	AddUndoToolAction();
+		
 		if (mStrength > 100)
 		{
 			mStrength = 100;
@@ -209,9 +214,8 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mMode != mode)
 		{
-			GlobalToolState prevState=GetGlobalToolState();	
+			SetUndoInitialState();	
 			mMode = mode;
-			//getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 			
 			NotifyListeners();
 		}
@@ -246,6 +250,8 @@ public class ToolsManager extends BaseManager
 		mColor=state.m_Color;
 		mRadius=state.m_Radius;
 		mStrength=state.m_Strength;
+		
+		NotifyListeners();
 	}
 
 	//mesh init color
