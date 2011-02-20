@@ -46,13 +46,12 @@ public class RendererMainPanel extends Activity implements Observer
 	private SlidingDrawer mToolsSlidingDrawer;
 	private ImageButton mRedoButton;
 	private ImageButton mUndoButton;
-	private ImageButton mHistoryButton;
 	private ColorShowView mColorShow;
 	private Spinner mToolSpinner;
 	private Spinner mPaintSpinner;
 	private SliderPickView mRadius;
 	private SliderPickView mStrength;
-
+	private ImageButton mResetPOVbutton;
 	
 
 	public Managers getManagers()
@@ -166,6 +165,15 @@ public class RendererMainPanel extends Activity implements Observer
 				getManagers().getActionsManager().Redo();
 			}
 		});
+		mRedoButton.setOnLongClickListener(new View.OnLongClickListener()
+		{			
+			@Override
+			public boolean onLongClick(View v)
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.HistoryPanel.class, false);
+				return false;
+			}
+		});
 		
 		mUndoButton = (ImageButton) findViewById(R.id.UndoBtn);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
@@ -176,17 +184,36 @@ public class RendererMainPanel extends Activity implements Observer
 				getManagers().getActionsManager().Undo();
 			}
 		});
+		mUndoButton.setOnLongClickListener(new View.OnLongClickListener()
+		{			
+			@Override
+			public boolean onLongClick(View v)
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.HistoryPanel.class, false);
+				return false;
+			}
+		});
 		
-		mHistoryButton = (ImageButton) findViewById(R.id.HistoryBtn);
-		mHistoryButton.setOnClickListener(new View.OnClickListener()
+		mResetPOVbutton = (ImageButton) findViewById(R.id.ResetPOVBtn);
+		mResetPOVbutton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.HistoryPanel.class, false);
+				getManagers().getPointOfViewManager().resetPOV();				
 			}
 		});
-				
+		mResetPOVbutton.setOnLongClickListener(new View.OnLongClickListener()
+		{			
+			@Override
+			public boolean onLongClick(View v)
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.PointOfViewPanel.class, false);
+				return false;
+			}
+		});
+		
+		
 		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
 		mColorShow.SetDoubleClickListener(new ColorShowView.OnDoubleClickListener()
 		{
@@ -380,7 +407,20 @@ public class RendererMainPanel extends Activity implements Observer
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		getManagers().getTouchManager().onTouchEvent(event);
+		int nRes = getManagers().getTouchManager().onTouchEvent(event);
+		switch (nRes)
+		{
+		case 1://Tap tap
+			if (mToolsSlidingDrawer.isOpened())
+			{
+				mToolsSlidingDrawer.close();
+			}
+			else
+			{
+				mToolsSlidingDrawer.open();
+			}
+			break;
+		}
 		return super.onTouchEvent(event);
 	}
 

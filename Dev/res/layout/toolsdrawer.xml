@@ -29,16 +29,16 @@
 		 		<Spinner android:layout_height="50dip" android:id="@+id/PaintingToolSpinner" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
 			</TableRow>       
 
-			<TableRow>  
-			    <ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/UndoBtn" android:src="@drawable/undo"></ImageButton>
-			    <ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/HistoryBtn" android:src="@drawable/clock"></ImageButton>			 
-			 	<ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RedoBtn" android:src="@drawable/redo"></ImageButton>
-		 	</TableRow>
-		 	
 		 	<TableRow>			
 			 	<truesculpt.ui.views.SliderPickView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RadiusPicker"></truesculpt.ui.views.SliderPickView>
 			 	<truesculpt.ui.views.SliderPickView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/StrengthPicker"></truesculpt.ui.views.SliderPickView>
 			</TableRow> 
+			
+			<TableRow>  
+			    <ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/UndoBtn" android:src="@drawable/undo"></ImageButton>
+			    <ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ResetPOVBtn" android:src="@drawable/resize"></ImageButton>			 
+			 	<ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RedoBtn" android:src="@drawable/redo"></ImageButton>
+		 	</TableRow>
 		 	
 	   </TableLayout>   
 	</SlidingDrawer>
