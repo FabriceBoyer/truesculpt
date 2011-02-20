@@ -176,8 +176,7 @@ public class TouchManager extends BaseManager
 		case MotionEvent.ACTION_UP:
 		{
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
-			getManagers().getActionsManager().AddUndoAction(new ChangePOVAction(mRotInit, mElevInit, mZoomInit, 
-															getManagers().getPointOfViewManager().getRotationAngle(), getManagers().getPointOfViewManager().getElevationAngle(), getManagers().getPointOfViewManager().getZoomDistance()));
+			//getManagers().getActionsManager().AddUndoAction(new ChangePOVAction(mRotInit, mElevInit, mZoomInit, getManagers().getPointOfViewManager().getRotationAngle(), getManagers().getPointOfViewManager().getElevationAngle(), getManagers().getPointOfViewManager().getZoomDistance()));
 			break;
 		}
 		case MotionEvent.ACTION_MOVE:
