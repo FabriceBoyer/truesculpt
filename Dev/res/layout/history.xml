@@ -15,6 +15,7 @@
           
 	    <TableRow>      
    		   <ImageButton android:scaleType="fitCenter"  android:layout_width="fill_parent" android:id="@+id/UndoBtn" android:src="@drawable/undo"></ImageButton>
+   		   <ImageButton android:scaleType="fitCenter" android:layout_width="fill_parent" android:id="@+id/ClearBtn" android:src="@drawable/disc"></ImageButton>
 		   <ImageButton android:scaleType="fitCenter" android:layout_width="fill_parent" android:id="@+id/RedoBtn" android:src="@drawable/redo"></ImageButton>          
 	    </TableRow>
 	

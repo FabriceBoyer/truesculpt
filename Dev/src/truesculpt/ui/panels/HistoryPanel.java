@@ -26,6 +26,7 @@ public class HistoryPanel extends Activity implements Observer
 	HistoryAdapter adapter;
 	ImageButton mRedoButton;
 	ImageButton mUndoButton;
+	ImageButton mClearButton;
 
 	@Override
 	protected void onDestroy()
@@ -80,6 +81,16 @@ public class HistoryPanel extends Activity implements Observer
 			public void onClick(View v)
 			{
 				getManagers().getActionsManager().Undo();
+			}
+		});
+		
+		mClearButton = (ImageButton) findViewById(R.id.ClearBtn);
+		mClearButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				getManagers().getActionsManager().ClearAll();
 			}
 		});
 		
