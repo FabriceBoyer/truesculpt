@@ -37,22 +37,16 @@ import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class RendererMainPanel extends Activity implements Observer
 {
-	private static final String TAG = "TrueSculptMain";
 	private GLSurfaceView mGLSurfaceView = null;
-	private ToggleButton mPaintToggle;
-	private ToggleButton mSculptToggle;
-	private ToggleButton mViewToggle;
 	private Button mToolsSlideHandleButton;	
 	private SlidingDrawer mToolsSlidingDrawer;
 	private ImageButton mRedoButton;
 	private ImageButton mUndoButton;
 	private ColorShowView mColorShow;
 	private Spinner mToolSpinner;
-	private Spinner mPaintSpinner;
 	private SliderPickView mRadius;
 	private SliderPickView mStrength;
-	private ImageButton mResetPOVbutton;
-	
+	private ImageButton mResetPOVbutton;	
 
 	public Managers getManagers()
 	{
@@ -100,40 +94,7 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getMeshManager().addObserver(RendererMainPanel.this);
 		getManagers().getToolsManager().addObserver(RendererMainPanel.this);
 		getManagers().getActionsManager().addObserver(this);
-
-		mViewToggle = (ToggleButton) findViewById(R.id.View);
-		mViewToggle.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				getManagers().getToolsManager().setToolMode(EToolMode.POV);
-				getManagers().getToolsManager().setForcedMode(true);
-			}
-		});
-
-		mSculptToggle = (ToggleButton) findViewById(R.id.Sculpt);
-		mSculptToggle.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);
-				getManagers().getToolsManager().setForcedMode(true);
-			}
-		});
-
-		mPaintToggle = (ToggleButton) findViewById(R.id.Paint);
-		mPaintToggle.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				getManagers().getToolsManager().setToolMode(EToolMode.PAINT);
-				getManagers().getToolsManager().setForcedMode(true);
-			}
-		});
-
+	
 		mToolsSlideHandleButton = (Button) findViewById(R.id.toolsSlideHandleButton);
 		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
 		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
@@ -152,9 +113,6 @@ public class RendererMainPanel extends Activity implements Observer
 		
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		ToolsPanel.InitToolSpinner(mToolSpinner,this);
-		
-		mPaintSpinner = (Spinner) findViewById(R.id.PaintingToolSpinner);
-		ToolsPanel.InitPaintSpinner(mPaintSpinner,this);			
 		
 		mRedoButton = (ImageButton) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
@@ -448,11 +406,7 @@ public class RendererMainPanel extends Activity implements Observer
 	}
 
 	private void UpdateButtonsView()
-	{
-		mViewToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.POV);
-		mSculptToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.SCULPT);
-		mPaintToggle.setChecked(getManagers().getToolsManager().getToolMode() == EToolMode.PAINT);
-		
+	{	
 		if (getManagers().getActionsManager().GetUndoActionCount()<=0) 
 		{
 			mUndoButton.setEnabled(false);			
@@ -474,7 +428,6 @@ public class RendererMainPanel extends Activity implements Observer
 		mColorShow.setColor(getManagers().getToolsManager().getColor());
 		
 		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
-		ToolsPanel.UpdatePaintSpinner(mPaintSpinner, this);
 		
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
 		mStrength.setCurrentValue(getManagers().getToolsManager().getStrength());
@@ -492,10 +445,4 @@ public class RendererMainPanel extends Activity implements Observer
 	{
 		mGLSurfaceView.requestRender();
 	}
-	
-	public void OpenToolDrawer()
-	{
-		mToolsSlidingDrawer.open();
-	}
-
 }

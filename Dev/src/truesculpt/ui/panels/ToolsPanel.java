@@ -8,7 +8,6 @@ import java.util.Observer;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.ToolsManager.EPaintToolSubMode;
 import truesculpt.managers.ToolsManager.ESculptToolSubMode;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
@@ -37,7 +36,6 @@ public class ToolsPanel extends Activity implements Observer
 	private SeekBar mStrengthSeekBar;
 	private TextView mStrengthText;
 	private Spinner mToolSpinner;
-	private Spinner mPaintSpinner;
 	private Spinner mSymmetrySpinner;
 	private Button mColorPickerButton;
 	
@@ -86,6 +84,14 @@ public class ToolsPanel extends Activity implements Observer
 		case INFLATE:
 			nIndex=3;
 			break;
+		case COLOR:
+			nIndex=4;
+			break;
+		case TEXTURE:
+			nIndex=5;
+			break;	
+		case PICK_COLOR:
+			nIndex=6;
 		}
 		toolSpinner.setSelection(nIndex);
 	}
@@ -118,6 +124,24 @@ public class ToolsPanel extends Activity implements Observer
 		map.put("description", "Inflate");
 		map.put("image", String.valueOf(R.drawable.inflate));
 		listItem.add(map);
+		
+		map = new HashMap<String, String>();
+		map.put("title", "Color");
+		map.put("description", "Color");
+		map.put("image", String.valueOf(R.drawable.paint_palette));
+		listItem.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("title", "Texture");
+		map.put("description", "Texture");
+		map.put("image", String.valueOf(R.drawable.brush));
+		listItem.add(map);
+		
+		map = new HashMap<String, String>();
+		map.put("title", "Pick color");
+		map.put("description", "Pick color");
+		map.put("image", String.valueOf(R.drawable.colorpicker));
+		listItem.add(map);
 			
 		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
 		adapter.setDropDownViewResource(R.layout.toolitem);		
@@ -143,6 +167,15 @@ public class ToolsPanel extends Activity implements Observer
 				case 3:
 					mode=ESculptToolSubMode.INFLATE;
 					break;
+				case 4:
+					mode=ESculptToolSubMode.COLOR;
+					break;
+				case 5:
+					mode=ESculptToolSubMode.TEXTURE;
+					break;	
+				case 6:
+					mode=ESculptToolSubMode.PICK_COLOR;
+					break;		
 				}
 				
 				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setSculptSubMode(mode);
@@ -156,82 +189,6 @@ public class ToolsPanel extends Activity implements Observer
 		});
 	}
 	
-	
-	public static void UpdatePaintSpinner(Spinner paintSpinner, final Context context)
-	{
-		EPaintToolSubMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getPaintSubMode();
-		int nIndex=0;
-		switch (mode)
-		{
-		case COLOR:
-			nIndex=0;
-			break;
-		case TEXTURE:
-			nIndex=1;
-			break;	
-		case PICK_COLOR:
-			nIndex=2;
-		}
-		paintSpinner.setSelection(nIndex);
-	}
-	
-	public static void InitPaintSpinner(Spinner paintSpinner, final Context context)
-	{
-		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
-		HashMap<String, String> map;
-
-		map = new HashMap<String, String>();
-		map.put("title", "Color");
-		map.put("description", "Color");
-		map.put("image", String.valueOf(R.drawable.paint_palette));
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("title", "Texture");
-		map.put("description", "Texture");
-		map.put("image", String.valueOf(R.drawable.brush));
-		listItem.add(map);
-		
-		map = new HashMap<String, String>();
-		map.put("title", "Pick color");
-		map.put("description", "Pick color");
-		map.put("image", String.valueOf(R.drawable.colorpicker));
-		listItem.add(map);
-
-			
-		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
-		adapter.setDropDownViewResource(R.layout.toolitem);		
-		paintSpinner.setAdapter(adapter);			
-		paintSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-				EPaintToolSubMode mode=EPaintToolSubMode.COLOR;
-				
-				switch ((int)arg3)
-				{
-				case 0:
-					mode=EPaintToolSubMode.COLOR;
-					break;
-				case 1:
-					mode=EPaintToolSubMode.TEXTURE;
-					break;	
-				case 2:
-					mode=EPaintToolSubMode.PICK_COLOR;
-					break;		
-				}
-				
-				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setPaintSubMode(mode);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0)
-			{
-				
-			}
-		});
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -355,9 +312,6 @@ public class ToolsPanel extends Activity implements Observer
 		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
 		InitSymmetrySpinner(mSymmetrySpinner, this);		
 
-		mPaintSpinner = (Spinner) findViewById(R.id.PaintingToolSpinner);
-		InitPaintSpinner(mPaintSpinner,this);		
-
 		UpdateView();
 	}
 
@@ -440,6 +394,5 @@ public class ToolsPanel extends Activity implements Observer
 		
 		UpdateToolSpinner(mToolSpinner,this);
 		UpdateSymmetrySpinner(mSymmetrySpinner,this);
-		UpdatePaintSpinner(mPaintSpinner, this);
 	}
 }

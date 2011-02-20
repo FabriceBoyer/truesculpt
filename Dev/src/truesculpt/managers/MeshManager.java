@@ -221,14 +221,7 @@ public class MeshManager extends BaseManager
 									break;
 								case GRAB:
 									mMesh.InitGrabAction(nIndex);
-									break;
-								}
-								break;
-							}
-							case PAINT:
-							{
-								switch (getManagers().getToolsManager().getPaintSubMode())
-								{
+									break;								
 								case COLOR:
 									mMesh.ColorizePaintAction(nIndex);
 									break;
