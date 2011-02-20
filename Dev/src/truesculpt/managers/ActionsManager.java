@@ -110,4 +110,11 @@ public class ActionsManager extends BaseManager
 			NotifyListeners();
 		}
 	}
+
+	public void ClearAll()
+	{
+		mUndoActionsList.clear();
+		mRedoActionsList.clear();
+		NotifyListeners();		
+	}
 }
