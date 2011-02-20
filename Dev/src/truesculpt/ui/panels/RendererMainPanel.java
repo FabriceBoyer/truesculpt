@@ -209,7 +209,18 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChanged(int color)
 			{
-				getManagers().getToolsManager().setColor(color);				
+				getManagers().getToolsManager().setColor(color,false);				
+			}
+
+			@Override
+			public void colorChangeStart()
+			{			
+			}
+
+			@Override
+			public void colorChangeStop(int color)
+			{
+				getManagers().getToolsManager().setColor(color,true);					
 			}
 		});
 		
@@ -222,7 +233,19 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				getManagers().getToolsManager().setRadius(value);				
+				getManagers().getToolsManager().setRadius(value,false);				
+			}
+
+			@Override
+			public void sliderChangeStart()
+			{			
+				
+			}
+
+			@Override
+			public void sliderChangeStop(float value)
+			{
+				getManagers().getToolsManager().setRadius(value,true);				
 			}
 		});
 		
@@ -235,7 +258,19 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				getManagers().getToolsManager().setStrength(value);				
+				getManagers().getToolsManager().setStrength(value,false);				
+			}
+
+			@Override
+			public void sliderChangeStart()
+			{				
+				
+			}
+
+			@Override
+			public void sliderChangeStop(float value)
+			{
+				getManagers().getToolsManager().setStrength(value,true);				
 			}
 		});
 		

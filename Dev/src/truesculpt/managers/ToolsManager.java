@@ -113,13 +113,16 @@ public class ToolsManager extends BaseManager
 
 	}
 
-	public void setColor(int color)
+	public void setColor(int color, boolean bAddUndoAction)
 	{
 		if (this.mColor!=color)
 		{
 			GlobalToolState prevState=GetGlobalToolState();
 			this.mColor = color;
-			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			if (bAddUndoAction)
+			{
+				getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+			}
 			
 			NotifyListeners();
 		}
@@ -137,11 +140,14 @@ public class ToolsManager extends BaseManager
 		}
 	}
 
-	public void setRadius(float radius)
+	public void setRadius(float radius, boolean bAddUndoAction)
 	{
 		GlobalToolState prevState=GetGlobalToolState();	
 		this.mRadius = radius;
-		getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+		if (bAddUndoAction)
+		{
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+		}
 		
 		if (mRadius > 100)
 		{
@@ -154,35 +160,38 @@ public class ToolsManager extends BaseManager
 		NotifyListeners();
 	}
 
-	public void setSculptSubMode(ESculptToolSubMode mSculptSubMode)
+	public void setSculptSubMode(ESculptToolSubMode sculptSubMode)
 	{
-		if (this.mSculptSubMode != mSculptSubMode)
+		if (this.mSculptSubMode != sculptSubMode)
 		{
 			GlobalToolState prevState=GetGlobalToolState();			
-			this.mSculptSubMode = mSculptSubMode;		
+			this.mSculptSubMode = sculptSubMode;	
 			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 			
 			NotifyListeners();
 		}
 	}
 		
-	public void setSymmetryMode(ESymmetryMode mSymmetryMode)
+	public void setSymmetryMode(ESymmetryMode symmetryMode)
 	{
-		if (this.mSymmetryMode != mSymmetryMode)
+		if (this.mSymmetryMode != symmetryMode)
 		{
 			GlobalToolState prevState=GetGlobalToolState();	
-			this.mSymmetryMode = mSymmetryMode;		
+			this.mSymmetryMode = symmetryMode;		
 			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 			
 			NotifyListeners();
 		}
 	}
 
-	public void setStrength(float strength)
+	public void setStrength(float strength, boolean bAddUndoAction)
 	{
 		GlobalToolState prevState=GetGlobalToolState();	
 		this.mStrength = strength;
-		getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+		if (bAddUndoAction)
+		{
+			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
+		}
 
 		if (mStrength > 100)
 		{

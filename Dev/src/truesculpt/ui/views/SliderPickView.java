@@ -17,6 +17,8 @@ public class SliderPickView extends View
 	public interface OnSliderPickChangedListener
 	{
 		void sliderValueChanged(float value);
+		void sliderChangeStart();
+		void sliderChangeStop(float value);
 	}
 	
 	private String Text="Value : ";
@@ -64,6 +66,8 @@ public class SliderPickView extends View
 		canvas.drawOval(new RectF(5,5,getWidth()-5,getHeight()-5), mLinePaint);
 	}
 
+	private enum State {START, CHANGE, STOP};
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
@@ -81,14 +85,19 @@ public class SliderPickView extends View
 			{			
 				orig_x=x;
 				orig_y=y;
-				UpdateSliderValue(x, y);
+				UpdateSliderValue(x, y, State.START);
 				bRes=true;
 				break;
 			}
-			case MotionEvent.ACTION_UP:			
+			case MotionEvent.ACTION_UP:		
+			{
+				UpdateSliderValue(x, y, State.CHANGE);
+				bRes=true;
+				break;
+			}
 			case MotionEvent.ACTION_MOVE:
 			{
-				UpdateSliderValue(x, y);
+				UpdateSliderValue(x, y, State.STOP);
 				bRes=true;
 				break;
 			}
@@ -97,7 +106,7 @@ public class SliderPickView extends View
 		return bRes;
 	}
 
-	private void UpdateSliderValue(float x, float y)
+	private void UpdateSliderValue(float x, float y, State state)
 	{
 		float distX=x-orig_x;
 		float distY=orig_y-y;
@@ -108,7 +117,18 @@ public class SliderPickView extends View
 		setCurrentValue(newValue);
 		if (mListener!=null)
 		{
-			mListener.sliderValueChanged(newValue);
+			switch (state)
+			{
+			case START:
+				mListener.sliderChangeStart();
+				break;
+			case CHANGE:
+				mListener.sliderValueChanged(newValue);
+				break;
+			case STOP:
+				mListener.sliderChangeStop(newValue);
+				break;
+			}			
 		}
 	}
 	
