@@ -322,7 +322,8 @@ public class RendererMainPanel extends Activity implements Observer
 		}
 		case R.id.show_tools_panel:
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false);
+			commuteSliderState();
+			//Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false);
 			return true;
 		}
 		case R.id.show_options:
