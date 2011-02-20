@@ -205,7 +205,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
-				getManagers().getToolsManager().setRadius(progress);
+				getManagers().getToolsManager().setRadius(progress,false);
 			}
 
 			@Override
@@ -216,6 +216,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
 			{
+				getManagers().getToolsManager().setRadius(seekBar.getProgress(),true);
 			}
 		});
 		mRadiusSeekBar.setMax(100);// 0 to 100 pct
@@ -227,7 +228,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
-				getManagers().getToolsManager().setStrength(progress - 100);
+				getManagers().getToolsManager().setStrength(progress - 100,false);
 			}
 
 			@Override
@@ -237,7 +238,8 @@ public class ToolsPanel extends Activity implements Observer
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
-			{
+			{				
+				getManagers().getToolsManager().setStrength(seekBar.getProgress()-100,true);
 			}
 		});
 		mStrengthSeekBar.setMax(200);// -100 to 100 pct
@@ -258,7 +260,20 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void colorChanged(int color)
 			{
-				getManagers().getToolsManager().setColor(color);
+				getManagers().getToolsManager().setColor(color,false);
+			}
+
+			@Override
+			public void colorChangeStart()
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void colorChangeStop(int color)
+			{
+				getManagers().getToolsManager().setColor(color,true);				
 			}
 		});		
 

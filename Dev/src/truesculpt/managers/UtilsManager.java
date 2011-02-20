@@ -216,7 +216,7 @@ public class UtilsManager extends BaseManager
 			@Override
 			public void onOk(HSLColorPickerDialog dialog, int color)
 			{
-				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color);
+				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color,true);
 			}
 		});
 

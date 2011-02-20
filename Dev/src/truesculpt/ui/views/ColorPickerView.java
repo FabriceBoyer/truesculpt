@@ -98,6 +98,8 @@ public class ColorPickerView extends View
 		setMeasuredDimension(CENTER_X * 2, CENTER_Y * 2);
 	}
 
+	private enum State {START, CHANGE, STOP};
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
@@ -117,12 +119,34 @@ public class ColorPickerView extends View
 				unit += 1;
 			}
 			int col=interpColor(mColors, unit);
+			
+			int action = event.getAction();
+			int actionCode = action & MotionEvent.ACTION_MASK;
+			switch (actionCode)
+			{
+				case MotionEvent.ACTION_DOWN:
+				{			
+					UpdateColor(col, State.START);
+					break;
+				}
+				case MotionEvent.ACTION_UP:		
+				{
+					UpdateColor(col, State.CHANGE);
+					bRes=true;
+					break;
+				}
+				case MotionEvent.ACTION_MOVE:
+				{
+					UpdateColor(col, State.STOP);
+					bRes=true;
+					break;
+				}
+			}
 			if (mListener!=null)
 			{
-				mListener.colorChanged(col);
+				
 			}
-			mCenterPaint.setColor(col);
-			invalidate();
+			
 			bRes=true;
 		}
 		else
@@ -131,6 +155,26 @@ public class ColorPickerView extends View
 		}
 		 
 		return bRes;	
+	}
+	
+	private void UpdateColor(int color, State state)
+	{
+		if (mListener!=null)
+		{
+			switch (state)
+			{
+			case START:
+				mListener.colorChangeStart();
+				break;
+			case CHANGE:
+				mListener.colorChanged(color);
+				break;
+			case STOP:
+				mListener.colorChangeStop(color);
+				break;
+			}					
+		}
+		SetColor(color);
 	}
 
 	public void SetColor(int color)
