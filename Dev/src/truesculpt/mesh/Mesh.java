@@ -151,7 +151,8 @@ public class Mesh
 			file.write("\n");
 			file.close();
 
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -189,8 +190,8 @@ public class Mesh
 
 			dir = V0.Coord;
 
-			boolean bCollinear = MatrixUtils.dot(dir, n) > 0;// dir and normal have same direction
-			if (!bCollinear)// swap two edges
+			boolean bColinear = MatrixUtils.dot(dir, n) > 0;// dir and normal have same direction
+			if (!bColinear)// swap two edges
 			{
 				assertTrue(false);
 			}
@@ -617,23 +618,23 @@ public class Mesh
 			Vertex B = mVertexList.get(nB);
 			Vertex C = mVertexList.get(nC);
 			
-			Vertex v0 = new Vertex(A, B);// takes mid point
-			Vertex v1 = new Vertex(B, C);
-			Vertex v2 = new Vertex(C, A);
+			Vertex D = new Vertex(A, B);// takes mid point
+			Vertex E = new Vertex(B, C);
+			Vertex F = new Vertex(C, A);
 			
 			int nBase=mVertexList.size();
-			int n0=nBase+0;
-			int n1=nBase+1;
-			int n2=nBase+2;
+			int nD=nBase+0;
+			int nE=nBase+1;
+			int nF=nBase+2;
 			
-			mVertexList.add(v0);
-			mVertexList.add(v1);
-			mVertexList.add(v2);
+			mVertexList.add(D);
+			mVertexList.add(E);
+			mVertexList.add(F);
 
-			Face f0 = new Face(nA, n0, n2);
-			Face f1 = new Face(n0, nB, n1);
-			Face f2 = new Face(n1, nC, n2);
-			Face f3 = new Face(n0, n1, n2);
+			Face f0 = new Face(nA, nD, nF);
+			Face f1 = new Face(nD, nB, nE);
+			Face f2 = new Face(nE, nC, nF);
+			Face f3 = new Face(nD, nE, nF);
 
 			mFaceList.add(f0);
 			mFaceList.add(f1);
