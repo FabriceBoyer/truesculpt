@@ -391,17 +391,22 @@ public class RendererMainPanel extends Activity implements Observer
 		switch (nRes)
 		{
 		case 1://Tap tap
-			if (mToolsSlidingDrawer.isOpened())
-			{
-				mToolsSlidingDrawer.close();
-			}
-			else
-			{
-				mToolsSlidingDrawer.open();
-			}
+			commuteSliderState();
 			break;
 		}
 		return super.onTouchEvent(event);
+	}
+
+	private void commuteSliderState()
+	{
+		if (mToolsSlidingDrawer.isOpened())
+		{
+			mToolsSlidingDrawer.close();
+		}
+		else
+		{
+			mToolsSlidingDrawer.open();
+		}
 	}
 
 	public void ShowSplashScreen()

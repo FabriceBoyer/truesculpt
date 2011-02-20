@@ -42,7 +42,7 @@ public class SliderPickView extends View
 		
 		mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mTextPaint.setColor(Color.WHITE);
-		mTextPaint.setTextSize(18);
+		mTextPaint.setTextSize(12);
 			
 		mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mLinePaint.setColor(Color.GRAY);
