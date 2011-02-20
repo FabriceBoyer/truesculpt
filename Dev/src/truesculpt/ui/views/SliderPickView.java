@@ -29,7 +29,7 @@ public class SliderPickView extends View
 	private int PixelAmplitude=200;
 	
 	private Paint mTextPaint=null;
-	private Paint mLinePaint=null;
+	private Paint mCenterPaint=null;
 	float orig_x=0;
 	float orig_y=0;
 	
@@ -43,10 +43,10 @@ public class SliderPickView extends View
 		mTextPaint.setColor(Color.WHITE);
 		mTextPaint.setTextSize(12);
 			
-		mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		mLinePaint.setColor(Color.GRAY);
-		mLinePaint.setStyle(Paint.Style.STROKE);
-		mLinePaint.setStrokeWidth(5);
+		mCenterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mCenterPaint.setColor(Color.DKGRAY);
+		mCenterPaint.setStyle(Paint.Style.FILL);
+		mCenterPaint.setStrokeWidth(1);
 	
 		invalidate();
 	}
@@ -54,16 +54,21 @@ public class SliderPickView extends View
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
-		float x=getWidth()/2.0f;
+		float xc=getWidth()/2.0f;
+		float yc=getHeight()/2.0f;
+		
+		float valueAmplitude=MaxValue-MinValue;
+		float R=Math.min(getWidth(), getHeight())/2.0f;
+		float radius=(CurrentValue-MinValue)/valueAmplitude*R;
+		canvas.drawCircle(xc,yc,radius,mCenterPaint);	
+		
 		float y1=1.0f/3.0f*getHeight()+5;
 		float y2=2.0f/3.0f*getHeight()+5;
 		String valuetext= Integer.toString((int)(CurrentValue*100.0f)/100)+ UnitText;
 		float textWidth=mTextPaint.measureText(Text);
 		float valueTextWidth=mTextPaint.measureText(valuetext);
-		canvas.drawText(Text, x-textWidth/2.0f, y1, mTextPaint);
-		canvas.drawText(valuetext, x-valueTextWidth/2.0f, y2, mTextPaint);
-		
-		canvas.drawOval(new RectF(5,5,getWidth()-5,getHeight()-5), mLinePaint);
+		canvas.drawText(Text, xc-textWidth/2.0f, y1, mTextPaint);
+		canvas.drawText(valuetext, xc-valueTextWidth/2.0f, y2, mTextPaint);	
 	}
 
 	private enum State {START, CHANGE, STOP};
@@ -130,9 +135,7 @@ public class SliderPickView extends View
 				break;
 			}			
 		}
-	}
-	
-	
+	}	
 
 	public void setMaxValue(float maxValue)
 	{
