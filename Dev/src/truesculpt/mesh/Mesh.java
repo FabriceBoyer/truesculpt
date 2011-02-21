@@ -76,8 +76,8 @@ public class Mesh
 	void ComputeFaceNormal(Face face, float[] normal)
 	{
 		// get triangle edge vectors and plane normal
-		MatrixUtils.minus(mVertexList.get(face.V1).Coord, mVertexList.get(face.V0).Coord, u);
-		MatrixUtils.minus(mVertexList.get(face.V2).Coord, mVertexList.get(face.V0).Coord, v);
+		MatrixUtils.minus(mVertexList.get(face.E1.V0).Coord, mVertexList.get(face.E0.V0).Coord, u);
+		MatrixUtils.minus(mVertexList.get(face.E2.V0).Coord, mVertexList.get(face.E0.V0).Coord, v);
 
 		MatrixUtils.cross(u, v, n); // cross product
 		MatrixUtils.normalize(n);
@@ -134,9 +134,9 @@ public class Mesh
 			file.write("# Face Definitions\n");
 			for (Face face : mFaceList)
 			{
-				int n0 = face.V0;
-				int n1 = face.V1;
-				int n2 = face.V2;
+				int n0 = face.E0.V0;
+				int n1 = face.E1.V0;
+				int n2 = face.E2.V0;
 
 				assertTrue(n0 >= 0);
 				assertTrue(n1 >= 0);
@@ -154,7 +154,6 @@ public class Mesh
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -178,9 +177,9 @@ public class Mesh
 
 		for (Face face : mFaceList)
 		{
-			Vertex V0 = mVertexList.get(face.V0);
-			Vertex V1 = mVertexList.get(face.V1);
-			Vertex V2 = mVertexList.get(face.V2);
+			Vertex V0 = mVertexList.get(face.E0.V0);
+			Vertex V1 = mVertexList.get(face.E1.V0);
+			Vertex V2 = mVertexList.get(face.E2.V0);
 
 			// get triangle edge vectors and plane normal
 			MatrixUtils.minus(V1.Coord, V0.Coord, u);
@@ -294,7 +293,8 @@ public class Mesh
 							face_n_ix[2] = val[2];
 							// m.addFaceNormals(face_n_ix);
 						}
-						mFaceList.add(new Face(face[0],face[1],face[2]));
+						
+						mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size()));
 						if (tok.hasMoreTokens())
 						{
 							val = Utils.parseIntTriple(tok.nextToken());
@@ -312,7 +312,7 @@ public class Mesh
 								face_n_ix[2] = val[2];
 								// m.addFaceNormals(face_n_ix);
 							}
-							mFaceList.add(new Face(face[0],face[1],face[2]));
+							mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size()));
 						}
 
 					} 
@@ -361,26 +361,26 @@ public class Mesh
 		mVertexList.add( new Vertex(0.0f, tau, -one));
 
 		// Counter clock wise (CCW) face definition
-		mFaceList.add( new Face(4, 8, 7));
-		mFaceList.add( new Face(4, 7, 9));
-		mFaceList.add( new Face(5, 6, 11));
-		mFaceList.add( new Face(5, 10, 6));
-		mFaceList.add( new Face(0, 4, 3));
-		mFaceList.add( new Face(0, 3, 5));
-		mFaceList.add( new Face(2, 7, 1));
-		mFaceList.add( new Face(2, 1, 6));
-		mFaceList.add( new Face(8, 0, 11));
-		mFaceList.add( new Face(8, 11, 1));
-		mFaceList.add( new Face(9, 10, 3));
-		mFaceList.add( new Face(9, 2, 10));
-		mFaceList.add( new Face(8, 4, 0));
-		mFaceList.add( new Face(11, 0, 5));
-		mFaceList.add( new Face(4, 9, 3));
-		mFaceList.add( new Face(5, 3, 10));
-		mFaceList.add( new Face(7, 8, 1));
-		mFaceList.add( new Face(6, 1, 11));
-		mFaceList.add( new Face(7, 2, 9));
-		mFaceList.add( new Face(6, 10, 2));
+		mFaceList.add( new Face(4, 8, 7, mFaceList.size()));
+		mFaceList.add( new Face(4, 7, 9, mFaceList.size()));
+		mFaceList.add( new Face(5, 6, 11, mFaceList.size()));
+		mFaceList.add( new Face(5, 10, 6, mFaceList.size()));
+		mFaceList.add( new Face(0, 4, 3, mFaceList.size()));
+		mFaceList.add( new Face(0, 3, 5, mFaceList.size()));
+		mFaceList.add( new Face(2, 7, 1, mFaceList.size()));
+		mFaceList.add( new Face(2, 1, 6, mFaceList.size()));
+		mFaceList.add( new Face(8, 0, 11, mFaceList.size()));
+		mFaceList.add( new Face(8, 11, 1, mFaceList.size()));
+		mFaceList.add( new Face(9, 10, 3, mFaceList.size()));
+		mFaceList.add( new Face(9, 2, 10, mFaceList.size()));
+		mFaceList.add( new Face(8, 4, 0, mFaceList.size()));
+		mFaceList.add( new Face(11, 0, 5, mFaceList.size()));
+		mFaceList.add( new Face(4, 9, 3, mFaceList.size()));
+		mFaceList.add( new Face(5, 3, 10, mFaceList.size()));
+		mFaceList.add( new Face(7, 8, 1, mFaceList.size()));
+		mFaceList.add( new Face(6, 1, 11, mFaceList.size()));
+		mFaceList.add( new Face(7, 2, 9, mFaceList.size()));
+		mFaceList.add( new Face(6, 10, 2, mFaceList.size()));
 
 		assertEquals(mFaceList.size(), 20);
 		assertEquals(mVertexList.size(), 12);
@@ -394,7 +394,6 @@ public class Mesh
 	{
 		Reset();
 		InitAsIcosahedron();
-		//TODO create edges
 		for (int i = 0; i < nSubdivionLevel; i++)
 		{
 			SubdivideAllFaces();			
@@ -434,7 +433,7 @@ public class Mesh
 		{
 			Face face = mFaceList.get(i);
 			
-			int nCollide = intersect_RayTriangle(R0, R1, mVertexList.get(face.V0).Coord,  mVertexList.get(face.V1).Coord,  mVertexList.get(face.V2).Coord, Ires);
+			int nCollide = intersect_RayTriangle(R0, R1, mVertexList.get(face.E0.V0).Coord,  mVertexList.get(face.E1.V0).Coord,  mVertexList.get(face.E2.V0).Coord, Ires);
 
 			if (nCollide == 1)
 			{
@@ -553,10 +552,10 @@ public class Mesh
 		{
 			int color = getManagers().getToolsManager().getColor();
 			Face face=mFaceList.get(triangleIndex);
-			Vertex vertex=mVertexList.get(face.V0);//arbitrarily chosen point in triangle
+			Vertex vertex=mVertexList.get(face.E0.V0);//arbitrarily chosen point in triangle
 			vertex.Color=color;
 			
-			UpdateVertexColor(face.V0);
+			UpdateVertexColor(face.E0.V0);
 
 			// First corona
 			if (getManagers().getToolsManager().getRadius() >= 50)
@@ -575,7 +574,7 @@ public class Mesh
 			float[] VOffset = new float[3];
 			
 			Face face=mFaceList.get(triangleIndex);
-			Vertex vertex=mVertexList.get(face.V0);// first triangle point arbitrarily chosen (should take closest or retessalate)
+			Vertex vertex=mVertexList.get(face.E0.V0);// first triangle point arbitrarily chosen (should take closest or retessalate)
 
 			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
 
@@ -584,7 +583,7 @@ public class Mesh
 			MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);
 			
 			ComputeVertexNormal(vertex);
-			UpdateVertexValue(face.V0);
+			UpdateVertexValue(face.E0.V0);
 
 			// First corona
 			if (getManagers().getToolsManager().getRadius() >= 50)
@@ -610,9 +609,9 @@ public class Mesh
 		{
 			Face face = mOrigFaceList.get(i);
 
-			int nA=face.V0;
-			int nB=face.V1;
-			int nC=face.V2;
+			int nA=face.E0.V0;
+			int nB=face.E1.V0;
+			int nC=face.E2.V0;
 			
 			Vertex A = mVertexList.get(nA);
 			Vertex B = mVertexList.get(nB);
@@ -631,10 +630,10 @@ public class Mesh
 			mVertexList.add(E);
 			mVertexList.add(F);
 
-			Face f0 = new Face(nA, nD, nF);
-			Face f1 = new Face(nD, nB, nE);
-			Face f2 = new Face(nE, nC, nF);
-			Face f3 = new Face(nD, nE, nF);
+			Face f0 = new Face(nA, nD, nF, mFaceList.size());
+			Face f1 = new Face(nD, nB, nE, mFaceList.size());
+			Face f2 = new Face(nE, nC, nF, mFaceList.size());
+			Face f3 = new Face(nD, nE, nF, mFaceList.size());
 
 			mFaceList.add(f0);
 			mFaceList.add(f1);
@@ -677,7 +676,7 @@ public class Mesh
 		if (nIndex >= 0)
 		{			
 			Face face=mFaceList.get(nIndex);
-			Vertex vertex=mVertexList.get(face.V0);//arbitrarily chosen point in triangle
+			Vertex vertex=mVertexList.get(face.E0.V0);//arbitrarily chosen point in triangle
 			int color=vertex.Color;
 			getManagers().getToolsManager().setColor(color, true);			
 		}		
