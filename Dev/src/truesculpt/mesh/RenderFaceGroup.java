@@ -56,9 +56,9 @@ public class RenderFaceGroup
 		mIndexBuffer = ibb.asShortBuffer();
 		for (Face face : mMesh.mFaceList)
 		{
-			mIndexBuffer.put((short)face.V0);
-			mIndexBuffer.put((short)face.V1);
-			mIndexBuffer.put((short)face.V2);
+			mIndexBuffer.put((short)face.E0.V0);
+			mIndexBuffer.put((short)face.E1.V0);
+			mIndexBuffer.put((short)face.E2.V0);
 		}
 
 		ByteBuffer nbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// normals contains 3 elem (x,y,z) in float(4 bytes)
