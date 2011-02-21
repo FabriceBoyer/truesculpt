@@ -18,7 +18,6 @@ import truesculpt.utils.Utils;
 
 public class Mesh
 {
-	ArrayList<HalfEdge> mEdgeList = new ArrayList<HalfEdge>();
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
 	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
@@ -50,10 +49,8 @@ public class Mesh
 	
 	public void ComputeBoundingSphereRadius()
 	{
-		int n = mVertexList.size();
-		for (int i = 0; i < n; i++)
+		for (Vertex vertex : mVertexList)
 		{
-			Vertex vertex = mVertexList.get(i);
 			float norm = MatrixUtils.magnitude(vertex.Coord);
 			if (norm > mBoundingSphereRadius)
 			{
@@ -160,15 +157,15 @@ public class Mesh
 
 	private void FinalizeInit()
 	{
-		// Set default vertex color
-		int color = getManagers().getToolsManager().getDefaultColor();
-		for (Vertex vertex : mVertexList)
-		{
-			vertex.Color = color;
-		}
-		
-		NormalizeAllVertices();
+		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
 
+		normalizeAllVertices();
+		
+		checkFacesNormals();
+	}
+
+	private void checkFacesNormals()
+	{
 		// check triangle normals are outside and correct if necessary
 		float[] u = new float[3];
 		float[] v = new float[3];
@@ -195,12 +192,15 @@ public class Mesh
 				assertTrue(false);
 			}
 		}
-	}	
-
-	public int getEdgeCount()
-	{
-		return mEdgeList.size();
 	}
+
+	private void setAllVerticesColor(int color)
+	{		
+		for (Vertex vertex : mVertexList)
+		{
+			vertex.Color = color;
+		}		
+	}	
 
 	public int getFaceCount()
 	{
@@ -399,15 +399,14 @@ public class Mesh
 			SubdivideAllFaces();			
 		}		
 		FinalizeInit();
+		SetAllEdgesSubdivionLevel(nSubdivionLevel);
 	}
 
 	// makes a sphere
-	void NormalizeAllVertices()
+	void normalizeAllVertices()
 	{
-		int n = mVertexList.size();
-		for (int i = 0; i < n; i++)
+		for (Vertex vertex : mVertexList)
 		{
-			Vertex vertex = mVertexList.get(i);
 			MatrixUtils.normalize(vertex.Coord);
 			MatrixUtils.copy(vertex.Coord, vertex.Normal);// Normal is coord because sphere is radius 1
 		}
@@ -595,18 +594,17 @@ public class Mesh
 	{
 		mVertexList.clear();
 		mFaceList.clear();
-		mEdgeList.clear();
 	}
 
+	//one triangle become four (cut on middle of each edge)
 	void SubdivideAllFaces()
 	{
+		//backup original face list and create a brand new one (no face is kept all divided), vertices are only addes none is removed
 		ArrayList<Face> mOrigFaceList = mFaceList;
 		mFaceList=new ArrayList<Face>();
-		int n = mOrigFaceList.size();
-		for (int i = 0; i < n; i++)
+		
+		for (Face face : mOrigFaceList)
 		{
-			Face face = mOrigFaceList.get(i);
-
 			int nA=face.E0.V0;
 			int nB=face.E1.V0;
 			int nC=face.E2.V0;
@@ -637,6 +635,16 @@ public class Mesh
 			mFaceList.add(f1);
 			mFaceList.add(f2);
 			mFaceList.add(f3);			
+		}
+	}
+	
+	void SetAllEdgesSubdivionLevel(int nLevel)
+	{
+		for (Face face : mFaceList)
+		{
+			face.E0.nSubdivionLevel=nLevel;
+			face.E1.nSubdivionLevel=nLevel;
+			face.E2.nSubdivionLevel=nLevel;		
 		}
 	}
 	

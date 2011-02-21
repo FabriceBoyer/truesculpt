@@ -8,7 +8,7 @@ public class HalfEdge
 	public int V0 = -1;//start
 	public int V1 = -1;//end
 	public int Face = -1;
-	public int nSubdivionLevel = 1;
+	public int nSubdivionLevel = -1;
 
 	public ArrayList<Integer> LinkedEdges = new ArrayList<Integer>();
 	float dLength=-1.0f;
