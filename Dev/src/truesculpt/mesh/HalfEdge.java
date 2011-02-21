@@ -8,9 +8,11 @@ public class HalfEdge
 	public int V0 = -1;//start
 	public int V1 = -1;//end
 	public int Face = -1;
+	
 	public int nSubdivionLevel = -1;
+	public HalfEdge NeighbourEdge=null;
+	public int VNextSplit=-1;
 
-	public ArrayList<Integer> LinkedEdges = new ArrayList<Integer>();
 	float dLength=-1.0f;
 
 	public HalfEdge(int v0, int v1, int face)
@@ -20,4 +22,5 @@ public class HalfEdge
 
 		Face=face;		
 	}
+	
 }

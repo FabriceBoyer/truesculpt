@@ -8,7 +8,8 @@ public class Vertex
 {
 	public float[] Coord = new float[3];
 	public float[] Normal = new float[3];
-	public ArrayList<Integer> LinkedEdges= new ArrayList<Integer>();
+	public ArrayList<HalfEdge> InLinkedEdges= new ArrayList<HalfEdge>();
+	public ArrayList<HalfEdge> OutLinkedEdges= new ArrayList<HalfEdge>();
 	public int Color = 0;
 
 	public Vertex(float x, float y, float z)
