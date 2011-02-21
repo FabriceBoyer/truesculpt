@@ -12,6 +12,8 @@ import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
+
+import junit.framework.Assert;
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
@@ -29,8 +31,8 @@ public class Mesh
 
 		InitAsSphere(5);
 
-		// String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
-		// ExportToOBJ(strFileName);
+		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
+		//ExportToOBJ(strFileName);
 
 		mRenderGroupList.add(new RenderFaceGroup(this));
 	}
@@ -155,10 +157,13 @@ public class Mesh
 		getManagers().getUtilsManager().ShowToastMessage("Sculpture successfully exported to " + strFileName);
 	}
 
-	private void FinalizeInit()
+	private void FinalizeSphereInit()
 	{
 		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
 
+		computeVerticesLinkedEdges();
+		linkNeighbourEdges();
+		
 		normalizeAllVertices();
 		
 		checkFacesNormals();
@@ -294,7 +299,7 @@ public class Mesh
 							// m.addFaceNormals(face_n_ix);
 						}
 						
-						mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size()));
+						mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size(),0));
 						if (tok.hasMoreTokens())
 						{
 							val = Utils.parseIntTriple(tok.nextToken());
@@ -312,7 +317,7 @@ public class Mesh
 								face_n_ix[2] = val[2];
 								// m.addFaceNormals(face_n_ix);
 							}
-							mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size()));
+							mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size(),0));
 						}
 
 					} 
@@ -361,26 +366,26 @@ public class Mesh
 		mVertexList.add( new Vertex(0.0f, tau, -one));
 
 		// Counter clock wise (CCW) face definition
-		mFaceList.add( new Face(4, 8, 7, mFaceList.size()));
-		mFaceList.add( new Face(4, 7, 9, mFaceList.size()));
-		mFaceList.add( new Face(5, 6, 11, mFaceList.size()));
-		mFaceList.add( new Face(5, 10, 6, mFaceList.size()));
-		mFaceList.add( new Face(0, 4, 3, mFaceList.size()));
-		mFaceList.add( new Face(0, 3, 5, mFaceList.size()));
-		mFaceList.add( new Face(2, 7, 1, mFaceList.size()));
-		mFaceList.add( new Face(2, 1, 6, mFaceList.size()));
-		mFaceList.add( new Face(8, 0, 11, mFaceList.size()));
-		mFaceList.add( new Face(8, 11, 1, mFaceList.size()));
-		mFaceList.add( new Face(9, 10, 3, mFaceList.size()));
-		mFaceList.add( new Face(9, 2, 10, mFaceList.size()));
-		mFaceList.add( new Face(8, 4, 0, mFaceList.size()));
-		mFaceList.add( new Face(11, 0, 5, mFaceList.size()));
-		mFaceList.add( new Face(4, 9, 3, mFaceList.size()));
-		mFaceList.add( new Face(5, 3, 10, mFaceList.size()));
-		mFaceList.add( new Face(7, 8, 1, mFaceList.size()));
-		mFaceList.add( new Face(6, 1, 11, mFaceList.size()));
-		mFaceList.add( new Face(7, 2, 9, mFaceList.size()));
-		mFaceList.add( new Face(6, 10, 2, mFaceList.size()));
+		mFaceList.add( new Face(4, 8, 7, mFaceList.size(),0));
+		mFaceList.add( new Face(4, 7, 9, mFaceList.size(),0));
+		mFaceList.add( new Face(5, 6, 11, mFaceList.size(),0));
+		mFaceList.add( new Face(5, 10, 6, mFaceList.size(),0));
+		mFaceList.add( new Face(0, 4, 3, mFaceList.size(),0));
+		mFaceList.add( new Face(0, 3, 5, mFaceList.size(),0));
+		mFaceList.add( new Face(2, 7, 1, mFaceList.size(),0));
+		mFaceList.add( new Face(2, 1, 6, mFaceList.size(),0));
+		mFaceList.add( new Face(8, 0, 11, mFaceList.size(),0));
+		mFaceList.add( new Face(8, 11, 1, mFaceList.size(),0));
+		mFaceList.add( new Face(9, 10, 3, mFaceList.size(),0));
+		mFaceList.add( new Face(9, 2, 10, mFaceList.size(),0));
+		mFaceList.add( new Face(8, 4, 0, mFaceList.size(),0));
+		mFaceList.add( new Face(11, 0, 5, mFaceList.size(),0));
+		mFaceList.add( new Face(4, 9, 3, mFaceList.size(),0));
+		mFaceList.add( new Face(5, 3, 10, mFaceList.size(),0));
+		mFaceList.add( new Face(7, 8, 1, mFaceList.size(),0));
+		mFaceList.add( new Face(6, 1, 11, mFaceList.size(),0));
+		mFaceList.add( new Face(7, 2, 9, mFaceList.size(),0));
+		mFaceList.add( new Face(6, 10, 2, mFaceList.size(),0));
 
 		assertEquals(mFaceList.size(), 20);
 		assertEquals(mVertexList.size(), 12);
@@ -390,16 +395,71 @@ public class Mesh
 		// n_edges = 30;
 	}
 
+	private void computeVerticesLinkedEdges()
+	{
+		//clear all
+		for (Vertex vertex : mVertexList)
+		{
+			vertex.InLinkedEdges.clear();
+			vertex.OutLinkedEdges.clear();
+		}
+		
+		//compute all
+		for (Face face : mFaceList)
+		{
+			UpdateVertexLinkedEdge(face.E0);
+			UpdateVertexLinkedEdge(face.E1);
+			UpdateVertexLinkedEdge(face.E2);
+		}
+	}
+	
+	private void UpdateVertexLinkedEdge(HalfEdge edge)
+	{
+		mVertexList.get(edge.V0).OutLinkedEdges.add(edge);
+		mVertexList.get(edge.V1).InLinkedEdges.add(edge);		
+	}
+	
+	//suppose linked edges of vertices are correct
+	//suboptimal, liks made several times
+	private void linkNeighbourEdges()
+	{
+		int n=mVertexList.size();
+		for (int i=0;i<n;i++)
+		{		
+			Vertex vertex=mVertexList.get(i);
+			for (HalfEdge e0 : vertex.OutLinkedEdges)
+			{
+				for (HalfEdge e1 : vertex.InLinkedEdges)
+				{
+					linkEdgesIfNeighbours(e0,e1);
+				}
+			}	
+		}					
+	}
+	
+	private boolean linkEdgesIfNeighbours(HalfEdge e0, HalfEdge e1)
+	{
+		boolean bRes=false;
+		
+		if ((e0.V0==e1.V1) && (e0.V1==e1.V0))
+		{
+			e0.NeighbourEdge=e1;
+			e1.NeighbourEdge=e0;
+			bRes=true;
+		}
+		
+		return bRes;		
+	}
+
 	void InitAsSphere(int nSubdivionLevel)
 	{
 		Reset();
 		InitAsIcosahedron();
 		for (int i = 0; i < nSubdivionLevel; i++)
 		{
-			SubdivideAllFaces();			
+			SubdivideAllFaces(i);			
 		}		
-		FinalizeInit();
-		SetAllEdgesSubdivionLevel(nSubdivionLevel);
+		FinalizeSphereInit();		
 	}
 
 	// makes a sphere
@@ -596,9 +656,28 @@ public class Mesh
 		mFaceList.clear();
 	}
 
-	//one triangle become four (cut on middle of each edge)
-	void SubdivideAllFaces()
+	//to share vertices between edges
+	private int getMiddleDivideVertexForEdge(HalfEdge edge)
 	{
+		int nRes=-1;
+		if (edge.VNextSplit!=-1)
+		{
+			nRes=edge.VNextSplit;
+		}
+		else
+		{
+			nRes=mVertexList.size();
+			mVertexList.add(new Vertex(mVertexList.get(edge.V0),mVertexList.get(edge.V1)));// takes mid point			
+		}		
+		return nRes;		
+	}
+	
+	//one triangle become four (cut on middle of each edge)
+	void SubdivideAllFaces(int nSubdivionLevel)
+	{
+		computeVerticesLinkedEdges();
+		linkNeighbourEdges();
+		
 		//backup original face list and create a brand new one (no face is kept all divided), vertices are only addes none is removed
 		ArrayList<Face> mOrigFaceList = mFaceList;
 		mFaceList=new ArrayList<Face>();
@@ -607,30 +686,22 @@ public class Mesh
 		{
 			int nA=face.E0.V0;
 			int nB=face.E1.V0;
-			int nC=face.E2.V0;
+			int nC=face.E2.V0;		
 			
-			Vertex A = mVertexList.get(nA);
-			Vertex B = mVertexList.get(nB);
-			Vertex C = mVertexList.get(nC);
-			
-			Vertex D = new Vertex(A, B);// takes mid point
-			Vertex E = new Vertex(B, C);
-			Vertex F = new Vertex(C, A);
-			
-			int nBase=mVertexList.size();
-			int nD=nBase+0;
-			int nE=nBase+1;
-			int nF=nBase+2;
-			
-			mVertexList.add(D);
-			mVertexList.add(E);
-			mVertexList.add(F);
+			int nD=getMiddleDivideVertexForEdge(face.E0);
+			int nE=getMiddleDivideVertexForEdge(face.E1);
+			int nF=getMiddleDivideVertexForEdge(face.E2);
 
-			Face f0 = new Face(nA, nD, nF, mFaceList.size());
-			Face f1 = new Face(nD, nB, nE, mFaceList.size());
-			Face f2 = new Face(nE, nC, nF, mFaceList.size());
-			Face f3 = new Face(nD, nE, nF, mFaceList.size());
-
+			Face f0 = new Face(nA, nD, nF, mFaceList.size(),nSubdivionLevel+1);
+			Face f1 = new Face(nD, nB, nE, mFaceList.size(),nSubdivionLevel+1);
+			Face f2 = new Face(nE, nC, nF, mFaceList.size(),nSubdivionLevel+1);
+			Face f3 = new Face(nD, nE, nF, mFaceList.size(),nSubdivionLevel+1);
+			
+			//update next split of neighbours
+			face.E0.NeighbourEdge.VNextSplit=nD;
+			face.E1.NeighbourEdge.VNextSplit=nE;
+			face.E2.NeighbourEdge.VNextSplit=nF;
+			
 			mFaceList.add(f0);
 			mFaceList.add(f1);
 			mFaceList.add(f2);
