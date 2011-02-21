@@ -2,11 +2,11 @@ package truesculpt.mesh;
 
 import java.util.ArrayList;
 
-//not oriented
+//oriented edge unique to a triangle
 public class HalfEdge
 {
-	public int V0 = -1;
-	public int V1 = -1;
+	public int V0 = -1;//start
+	public int V1 = -1;//end
 	public int Face = -1;
 	public int nSubdivionLevel = 1;
 

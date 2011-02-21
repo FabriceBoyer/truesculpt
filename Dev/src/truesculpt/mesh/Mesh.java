@@ -11,9 +11,7 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
 import javax.microedition.khronos.opengles.GL10;
-
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
@@ -168,6 +166,8 @@ public class Mesh
 		{
 			vertex.Color = color;
 		}
+		
+		NormalizeAllVertices();
 
 		// check triangle normals are outside and correct if necessary
 		float[] u = new float[3];
@@ -399,7 +399,6 @@ public class Mesh
 			SubdivideAllFaces();			
 		}		
 		FinalizeInit();
-		NormalizeAllVertices();
 	}
 
 	// makes a sphere
@@ -563,8 +562,7 @@ public class Mesh
 
 			}
 		}
-	}
-	
+	}	
 
 	// TODO place as an action
 	public void RiseSculptAction(int triangleIndex)
