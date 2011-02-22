@@ -55,6 +55,11 @@ public class MeshManager extends BaseManager
 
 	// Main Mesh test
 	Mesh mMesh = null;
+	
+	public Mesh getMesh()
+	{
+		return mMesh;
+	}
 
 	public MeshManager(Context baseContext)
 	{

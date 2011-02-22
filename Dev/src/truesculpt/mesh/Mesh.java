@@ -16,6 +16,7 @@ import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
+import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
@@ -23,7 +24,7 @@ import truesculpt.utils.Utils;
 public class Mesh
 {
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
-	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
+	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();	
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
 	Managers mManagers;
 
@@ -31,7 +32,7 @@ public class Mesh
 	{
 		mManagers = managers;
 
-		InitAsSphere(4);
+		InitAsSphere(5);
 
 		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		//ExportToOBJ(strFileName);
@@ -66,7 +67,7 @@ public class Mesh
 
 	// Based on close triangles normals * sin of their angle and normalize
 	// averaging normals of triangles around
-	void ComputeVertexNormal(Vertex vertex)
+	public void ComputeVertexNormal(Vertex vertex)
 	{
 		//reset normal
 		vertex.Normal[0]=0f;
@@ -80,9 +81,7 @@ public class Mesh
 			Assert.assertTrue(edge!=null);
 			MatrixUtils.minus(mVertexList.get(edge.V1).Coord, mVertexList.get(edge.V0).Coord, u);
 			
-			Face face=mFaceList.get(edge.Face);
-			HalfEdge otherEdge=face.GetPreviousEdge(edge);
-			Assert.assertTrue(otherEdge!=null);
+			HalfEdge otherEdge=mFaceList.get(edge.Face).GetPreviousEdge(edge);
 			MatrixUtils.minus(mVertexList.get(otherEdge.V0).Coord,
 							  mVertexList.get(otherEdge.V1).Coord,
 							  v);
@@ -707,7 +706,9 @@ public class Mesh
 			float maxDist=getManagers().getToolsManager().getRadius()/100f+0.1f;
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,maxDist);
 			
-			//update vertex pos 
+			// separate compute and apply of vertex pos otherwise compute is false
+			SculptAction action=new SculptAction();
+			getManagers().getActionsManager().AddUndoAction(action);
 			float[] VOffset = new float[3];
 			float[] temp=new float[3];
 			for (Integer i : vertices)
@@ -719,15 +720,11 @@ public class Mesh
 				float dist=MatrixUtils.magnitude(temp);
 
 				MatrixUtils.scalarMultiply(VOffset, (maxDist-dist)/maxDist*fMaxDeformation);
-				MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);				
+				action.AddVertexOffset(i,VOffset);
+		
 			}
-			//update normals and publish value after all updates
-			for (Integer i : vertices)
-			{
-				Vertex vertex=mVertexList.get(i);
-				ComputeVertexNormal(vertex);
-				UpdateVertexValue(i);
-			}
+			action.DoAction();
+			
 		}
 	}
 
@@ -833,5 +830,16 @@ public class Mesh
 			int color=vertex.Color;
 			getManagers().getToolsManager().setColor(color, true);			
 		}		
+	}
+	
+	
+	public ArrayList<Vertex> getVertexList()
+	{
+		return mVertexList;
+	}
+
+	public ArrayList<Face> getFaceList()
+	{
+		return mFaceList;
 	}
 }
