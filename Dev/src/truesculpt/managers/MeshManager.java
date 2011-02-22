@@ -207,9 +207,7 @@ public class MeshManager extends BaseManager
 	
 				//handle symmetry
 				if (bInitOver)
-				{
-					nIndex=PickRay();
-					
+				{					
 					switch (getManagers().getToolsManager().getSymmetryMode())
 					{
 					case X:
@@ -217,7 +215,8 @@ public class MeshManager extends BaseManager
 						rayPt2[0]*=-1;						
 						PickRay();
 						rayPt1[0]*=-1;
-						rayPt2[0]*=-1;	
+						rayPt2[0]*=-1;
+						nIndex=PickRay();
 						break;
 					case Y:
 						rayPt1[1]*=-1;
@@ -225,6 +224,7 @@ public class MeshManager extends BaseManager
 						PickRay();
 						rayPt1[1]*=-1;
 						rayPt2[1]*=-1;
+						nIndex=PickRay();
 						break;
 					case Z:
 						rayPt1[2]*=-1;
@@ -232,7 +232,11 @@ public class MeshManager extends BaseManager
 						PickRay();
 						rayPt1[2]*=-1;
 						rayPt2[2]*=-1;
-						break;					
+						nIndex=PickRay();
+						break;			
+					case NONE:
+						nIndex=PickRay();
+						break;
 					}
 				}
 	
