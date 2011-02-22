@@ -33,7 +33,7 @@ public class Mesh
 	{
 		mManagers = managers;
 
-		InitAsSphere(5);
+		InitAsSphere(4);
 
 		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		//ExportToOBJ(strFileName);
@@ -698,8 +698,7 @@ public class Mesh
 	public void RiseSculptAction(int triangleIndex)
 	{
 		if (triangleIndex >= 0)
-		{
-			
+		{			
 			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
 			
 			Face face=mFaceList.get(triangleIndex);
@@ -722,8 +721,7 @@ public class Mesh
 				float dist=MatrixUtils.magnitude(temp);
 
 				MatrixUtils.scalarMultiply(VOffset, (maxDist-dist)/maxDist*fMaxDeformation);
-				action.AddVertexOffset(i,VOffset,vertex);
-		
+				action.AddVertexOffset(i,VOffset,vertex);		
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
 			action.DoAction();			
