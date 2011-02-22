@@ -67,11 +67,7 @@ public class PointOfViewManager extends BaseManager
 
 	public void resetPOV()
 	{
-		mR = 3.0f;
-		mTheta = 0.0f;
-		mPhi = 0.0f;
-		
-		NotifyListeners();
+		SetAllAngles(0, 0, 3);		
 	}
 
 	public void SetAllAngles(float rotation, float elevation, float zoomDistance)

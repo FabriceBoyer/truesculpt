@@ -31,7 +31,7 @@ public class Mesh
 	{
 		mManagers = managers;
 
-		InitAsSphere(5);
+		InitAsSphere(4);
 
 		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
 		//ExportToOBJ(strFileName);
@@ -188,10 +188,10 @@ public class Mesh
 	{
 		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
 
+		normalizeAllVertices();
+		
 		computeVerticesLinkedEdges();
 		linkNeighbourEdges();
-		
-		normalizeAllVertices();
 		
 		checkFacesNormals();
 	}
@@ -684,7 +684,7 @@ public class Mesh
 						verticesToTest.add(nToAdd);
 					}
 				}
-			}	
+			}
 			
 			nCount=verticesToTest.size();
 		}		

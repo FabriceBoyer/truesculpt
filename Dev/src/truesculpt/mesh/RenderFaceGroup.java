@@ -87,7 +87,7 @@ public class RenderFaceGroup
 		ByteBuffer ndibb = ByteBuffer.allocateDirect(mVertexCount * 2 * 2);// line are 2 elements in short ( 2 bytes )
 		ndibb.order(ByteOrder.nativeOrder());
 		mDrawNormalIndexBuffer = ndibb.asShortBuffer();
-		for (int i=0;i<mVertexCount;i=i+2)
+		for (int i=0;i<(mVertexCount*2);i=i+2)
 		{
 			mDrawNormalIndexBuffer.put((short) i);
 			mDrawNormalIndexBuffer.put((short)(i+1));
@@ -125,7 +125,7 @@ public class RenderFaceGroup
 		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawNormalVertexBuffer);
 
-		gl.glDrawElements(GL10.GL_LINES, mVertexCount, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);		
+		gl.glDrawElements(GL10.GL_LINES, mVertexCount * 2, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);		
 	}
 
 	public FloatBuffer getColorBuffer()
