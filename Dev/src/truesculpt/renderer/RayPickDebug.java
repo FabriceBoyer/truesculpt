@@ -54,23 +54,24 @@ public class RayPickDebug
 		vbb.order(ByteOrder.nativeOrder());
 		mVertexBuffer = vbb.asFloatBuffer();
 		mVertexBuffer.put(vertices);
-		mVertexBuffer.position(0);
 
 		ByteBuffer cbb = ByteBuffer.allocateDirect(2 * 4 * 4);
 		cbb.order(ByteOrder.nativeOrder());
 		mColorBuffer = cbb.asFloatBuffer();
 		mColorBuffer.put(colors);
-		mColorBuffer.position(0);
 
 		ByteBuffer ibb = ByteBuffer.allocateDirect(2 * 2);
 		ibb.order(ByteOrder.nativeOrder());
 		mIndexBuffer = ibb.asShortBuffer();
 		mIndexBuffer.put(indices);
-		mIndexBuffer.position(0);
 	}
 
 	public void draw(GL10 gl)
 	{
+		mVertexBuffer.position(0);
+		mIndexBuffer.position(0);	
+		mColorBuffer.position(0);
+		
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
 		gl.glFrontFace(GL10.GL_CW);
@@ -86,6 +87,5 @@ public class RayPickDebug
 		mVertexBuffer.position(0);
 		mVertexBuffer.put(pt1);
 		mVertexBuffer.put(pt2);
-		mVertexBuffer.position(0);
 	}
 }
