@@ -121,6 +121,9 @@ public class ToolsManager extends BaseManager
 			this.mColor = color;
 			if (bAddUndoAction) AddUndoToolAction();		
 			
+			//Force mode if you change color
+			this.mSculptSubMode=ESculptToolSubMode.COLOR;
+				
 			NotifyListeners();
 		}
 	}
