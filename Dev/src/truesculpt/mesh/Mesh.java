@@ -68,7 +68,32 @@ public class Mesh
 	// averaging normals of triangles around
 	void ComputeVertexNormal(Vertex vertex)
 	{
+		//reset normal
+		vertex.Normal[0]=0f;
+		vertex.Normal[1]=0f;
+		vertex.Normal[2]=0f;
 		
+		//not ordered
+		for (HalfEdge edge: vertex.OutLinkedEdges)
+		{			
+			//optimize with prev/next in edge not face
+			Assert.assertTrue(edge!=null);
+			MatrixUtils.minus(mVertexList.get(edge.V1).Coord, mVertexList.get(edge.V0).Coord, u);
+			
+			Face face=mFaceList.get(edge.Face);
+			HalfEdge otherEdge=face.GetPreviousEdge(edge);
+			Assert.assertTrue(otherEdge!=null);
+			MatrixUtils.minus(mVertexList.get(otherEdge.V0).Coord,
+							  mVertexList.get(otherEdge.V1).Coord,
+							  v);
+
+			MatrixUtils.cross(u, v, n); // cross product
+			
+			MatrixUtils.plus(n, vertex.Normal, vertex.Normal);
+		}	
+		
+		//unit normal
+		MatrixUtils.normalize(vertex.Normal);
 	}
 	
 	//based on triangle only
@@ -679,25 +704,30 @@ public class Mesh
 			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
 			Vertex origVertex=mVertexList.get(nOrigVertex);
 			
-			float maxDist=getManagers().getToolsManager().getRadius()/100f;
+			float maxDist=getManagers().getToolsManager().getRadius()/100f+0.1f;
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,maxDist);
 			
+			//update vertex pos 
 			float[] VOffset = new float[3];
 			float[] temp=new float[3];
 			for (Integer i : vertices)
 			{
 				Vertex vertex=mVertexList.get(i);
-				MatrixUtils.copy(vertex.Normal, VOffset);
+				MatrixUtils.copy(origVertex.Normal, VOffset);
 				
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
 				float dist=MatrixUtils.magnitude(temp);
 
 				MatrixUtils.scalarMultiply(VOffset, (maxDist-dist)/maxDist*fMaxDeformation);
-				MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);
-				
+				MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);				
+			}
+			//update normals and publish value after all updates
+			for (Integer i : vertices)
+			{
+				Vertex vertex=mVertexList.get(i);
 				ComputeVertexNormal(vertex);
 				UpdateVertexValue(i);
-			}				
+			}
 		}
 	}
 
@@ -743,20 +773,15 @@ public class Mesh
 			int nE=getMiddleDivideVertexForEdge(face.E1);
 			int nF=getMiddleDivideVertexForEdge(face.E2);
 
-			Face f0 = new Face(nA, nD, nF, mFaceList.size(),nSubdivionLevel+1);
-			Face f1 = new Face(nD, nB, nE, mFaceList.size(),nSubdivionLevel+1);
-			Face f2 = new Face(nE, nC, nF, mFaceList.size(),nSubdivionLevel+1);
-			Face f3 = new Face(nD, nE, nF, mFaceList.size(),nSubdivionLevel+1);
+			mFaceList.add( new Face(nA, nD, nF, mFaceList.size(),nSubdivionLevel+1));
+			mFaceList.add( new Face(nD, nB, nE, mFaceList.size(),nSubdivionLevel+1));
+			mFaceList.add( new Face(nE, nC, nF, mFaceList.size(),nSubdivionLevel+1));
+			mFaceList.add( new Face(nD, nE, nF, mFaceList.size(),nSubdivionLevel+1));
 			
 			//update next split of neighbours
 			face.E0.NeighbourEdge.VNextSplit=nD;
 			face.E1.NeighbourEdge.VNextSplit=nE;
-			face.E2.NeighbourEdge.VNextSplit=nF;
-			
-			mFaceList.add(f0);
-			mFaceList.add(f1);
-			mFaceList.add(f2);
-			mFaceList.add(f3);			
+			face.E2.NeighbourEdge.VNextSplit=nF;	
 		}
 	}
 	
