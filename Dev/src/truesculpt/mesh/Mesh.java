@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -29,14 +28,11 @@ public class Mesh
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
 	Managers mManagers;
 
-	public Mesh(Managers managers)
+	public Mesh(Managers managers, int nSubdivisionLevel)
 	{
 		mManagers = managers;
 
-		InitAsSphere(4);
-
-		//String strFileName=getManagers().getUtilsManager().CreateObjExportFileName();
-		//ExportToOBJ(strFileName);
+		InitAsSphere(nSubdivisionLevel);
 
 		mRenderGroupList.add(new RenderFaceGroup(this));
 	}
@@ -126,7 +122,7 @@ public class Mesh
 	}
 
 	// From http://en.wikipedia.org/wiki/Wavefront_.obj_file
-	void ExportToOBJ(String strFileName)
+	public void ExportToOBJ(String strFileName)
 	{
 		try
 		{

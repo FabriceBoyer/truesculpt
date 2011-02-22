@@ -53,20 +53,17 @@ public class UtilsManager extends BaseManager
 		// TODO Auto-generated constructor stub
 	}
 
-	public String CreateObjExportFileName()
+	public String GetBaseFileName()
 	{
-		// TODO add sculpture name in filename
+		String name=getManagers().getMeshManager().getName();
 		Date date = new Date();
-		String strBasePath = Environment.getExternalStorageDirectory() + "/Truesculpt/ObjExport/";
+		String strBasePath = Environment.getExternalStorageDirectory() + "/Truesculpt/Sculptures/"+name+"/";
 
 		// have the object build the directory structure, if needed.
 		File basePath = new File(strBasePath);
 		basePath.mkdirs();
 
-		String strFileName = strBasePath + "Export_" + date.toGMTString() + ".obj";
-		strFileName = strFileName.replaceAll(":", "_");
-		strFileName = strFileName.replaceAll(" ", "_");
-		return strFileName;
+		return strBasePath;
 	}
 
 	private String CreateSnapshotFileName()
