@@ -610,8 +610,7 @@ public class Mesh
 	{
 		if (triangleIndex >= 0)
 		{
-			int color = getManagers().getToolsManager().getColor();
-						 
+			int color = getManagers().getToolsManager().getColor();						 
 			Face face=mFaceList.get(triangleIndex);
 			//TODO choose closest point in triangle from pick point
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(face.E0.V0,getManagers().getToolsManager().getRadius()/100f);
@@ -673,24 +672,22 @@ public class Mesh
 		if (triangleIndex >= 0)
 		{
 			float[] VOffset = new float[3];
+			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
 			
 			Face face=mFaceList.get(triangleIndex);
-			Vertex vertex=mVertexList.get(face.E0.V0);// first triangle point arbitrarily chosen (should take closest or retessalate)
-
-			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
-
-			MatrixUtils.copy(vertex.Normal, VOffset);
-			MatrixUtils.scalarMultiply(VOffset, fMaxDeformation);
-			MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);
+			//TODO choose closest point in triangle from pick point
+			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(face.E0.V0,getManagers().getToolsManager().getRadius()/100f);
 			
-			ComputeVertexNormal(vertex);
-			UpdateVertexValue(face.E0.V0);
-
-			// First corona
-			if (getManagers().getToolsManager().getRadius() >= 50)
-			{				
-				// update normals after rise up				
-			}			
+			for (Integer i : vertices)
+			{
+				Vertex vertex=mVertexList.get(i);
+				MatrixUtils.copy(vertex.Normal, VOffset);
+				MatrixUtils.scalarMultiply(VOffset, fMaxDeformation);
+				MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);
+				
+				ComputeVertexNormal(vertex);
+				UpdateVertexValue(i);
+			}				
 		}
 	}
 
