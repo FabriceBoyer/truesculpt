@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -609,20 +611,62 @@ public class Mesh
 		if (triangleIndex >= 0)
 		{
 			int color = getManagers().getToolsManager().getColor();
+						 
 			Face face=mFaceList.get(triangleIndex);
-			Vertex vertex=mVertexList.get(face.E0.V0);//arbitrarily chosen point in triangle
-			vertex.Color=color;
+			//TODO choose closest point in triangle from pick point
+			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(face.E0.V0,getManagers().getToolsManager().getRadius()/100f);
 			
-			UpdateVertexColor(face.E0.V0);
-
-			// First corona
-			if (getManagers().getToolsManager().getRadius() >= 50)
-			{				
-
-			}
+			for (Integer i : vertices)
+			{
+				Vertex vertex=mVertexList.get(i);
+				vertex.Color=color;			
+				UpdateVertexColor(i);
+			}			
 		}
 	}	
 
+	private HashSet <Integer> GetVerticesAtDistanceFromVertex(int nVertex, float distance)
+	{
+		HashSet <Integer> res=new HashSet <Integer>();
+		res.add(nVertex);//at at least this point
+		Vertex origVertex=mVertexList.get(nVertex);
+		
+		//init testList
+		ArrayList<Integer> verticesToTest=new ArrayList<Integer>();
+		for (HalfEdge edge : origVertex.OutLinkedEdges)
+		{
+			verticesToTest.add(edge.V1);
+		}
+		
+		float[] temp=new float[3];
+		int nCount=verticesToTest.size();
+		while (nCount>0)
+		{			
+			int nCurrIndex=verticesToTest.get(nCount-1);
+			verticesToTest.remove(nCount-1);
+			
+			Vertex currVertex=mVertexList.get(nCurrIndex);
+			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
+			float currDistance=MatrixUtils.magnitude(temp);
+			if (currDistance<distance)
+			{
+				res.add(nCurrIndex);
+				for (HalfEdge edge : currVertex.OutLinkedEdges)
+				{
+					int nToAdd=edge.V1;
+					if (!res.contains(nToAdd))//avoids looping
+					{
+						verticesToTest.add(nToAdd);
+					}
+				}
+			}	
+			
+			nCount=verticesToTest.size();
+		}		
+		
+		return res;		
+	}
+	
 	// TODO place as an action
 	public void RiseSculptAction(int triangleIndex)
 	{
