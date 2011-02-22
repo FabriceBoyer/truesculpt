@@ -1,20 +1,46 @@
 package truesculpt.actions;
 
+import java.util.ArrayList;
+
 import truesculpt.main.R;
+import truesculpt.mesh.Mesh;
+import truesculpt.mesh.Vertex;
+import truesculpt.utils.MatrixUtils;
 
 public class ColorizeAction extends BaseAction
 {
-	public ColorizeAction(String strDescription)
+	private class VertexColorChange
+	{
+		public VertexColorChange(int nIndex, int newColor, Vertex vertex)
+		{
+			super();
+			this.nIndex = nIndex;
+			this.newColor=newColor;
+			this.oldColor=vertex.Color;
+			this.vertex=vertex;
+		}
+		public int nIndex=-1;
+		int newColor=-1;
+		int oldColor=-1;
+		Vertex vertex=null;
+	}
+	private ArrayList<VertexColorChange> mVertexChanges=new ArrayList<VertexColorChange>() ;
+	public ColorizeAction()
 	{
 		super();
-		setDescription(strDescription);
+		setDescription("Painting");
 	}
 
 	@Override
 	public boolean DoAction()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Mesh mesh=getManagers().getMeshManager().getMesh();
+		for (VertexColorChange change : mVertexChanges)
+		{
+			change.vertex.Color=change.newColor;
+			mesh.UpdateVertexColor(change.nIndex);
+		}
+		return true;
 	}
 
 	@Override
@@ -32,8 +58,18 @@ public class ColorizeAction extends BaseAction
 	@Override
 	public boolean UndoAction()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Mesh mesh=getManagers().getMeshManager().getMesh();
+		for (VertexColorChange change : mVertexChanges)
+		{
+			change.vertex.Color=change.oldColor;
+			mesh.UpdateVertexColor(change.nIndex);
+		}
+		return true;
+	}
+	
+	public void AddVertexColorChange(Integer i, int newColor, Vertex vertex)
+	{
+		mVertexChanges.add(new VertexColorChange(i,newColor,vertex));		
 	}
 
 }
