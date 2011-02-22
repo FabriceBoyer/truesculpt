@@ -10,21 +10,23 @@ import truesculpt.utils.MatrixUtils;
 
 public class SculptAction extends BaseAction
 {
-	private class VertexChange
+	private class VertexCoordChange
 	{
-		public VertexChange(int nIndex, float[] offset, Vertex vertex)
+		public VertexCoordChange(int nIndex, float[] offset, Vertex vertex)
 		{
 			super();
-			this.nIndex = nIndex;			
-			MatrixUtils.copy(offset, Voffset);
+			this.nIndex = nIndex;
+			MatrixUtils.copy(vertex.Coord, Vorig);
+			MatrixUtils.plus(vertex.Coord, offset, Vnew);	
 			this.vertex=vertex;
 		}
 		public int nIndex=-1;
-		float[] Voffset=new float[3];
+		float[] Vorig=new float[3];
+		float[] Vnew=new float[3];
 		Vertex vertex=null;
 	}
 	
-	private ArrayList<VertexChange> mVertexChanges=new ArrayList<VertexChange>() ;
+	private ArrayList<VertexCoordChange> mVertexChanges=new ArrayList<VertexCoordChange>() ;
 	
 	public SculptAction()
 	{
@@ -37,12 +39,11 @@ public class SculptAction extends BaseAction
 	{
 		//update normals and publish value after all updates
 		Mesh mesh=getManagers().getMeshManager().getMesh();
-		for (VertexChange change : mVertexChanges)
+		for (VertexCoordChange change : mVertexChanges)
 		{
-			Vertex vertex=change.vertex;
-			MatrixUtils.plus(vertex.Coord, change.Voffset, vertex.Coord);	
+			MatrixUtils.copy(change.Vnew, change.vertex.Coord);
 		}
-		for (VertexChange change : mVertexChanges)
+		for (VertexCoordChange change : mVertexChanges)
 		{
 			mesh.ComputeVertexNormal(change.vertex);
 			mesh.UpdateVertexValue(change.nIndex);
@@ -67,12 +68,11 @@ public class SculptAction extends BaseAction
 	{
 		//update normals and publish value after all updates
 		Mesh mesh=getManagers().getMeshManager().getMesh();
-		for (VertexChange change : mVertexChanges)
+		for (VertexCoordChange change : mVertexChanges)
 		{
-			Vertex vertex=change.vertex;
-			MatrixUtils.minus(vertex.Coord, change.Voffset, vertex.Coord);	
+			MatrixUtils.copy(change.Vorig, change.vertex.Coord);
 		}
-		for (VertexChange change : mVertexChanges)
+		for (VertexCoordChange change : mVertexChanges)
 		{
 			mesh.ComputeVertexNormal(change.vertex);
 			mesh.UpdateVertexValue(change.nIndex);
@@ -82,6 +82,6 @@ public class SculptAction extends BaseAction
 
 	public void AddVertexOffset(Integer i, float[] vOffset, Vertex vertex)
 	{
-		mVertexChanges.add(new VertexChange(i,vOffset,vertex));		
+		mVertexChanges.add(new VertexCoordChange(i,vOffset,vertex));		
 	}
 }

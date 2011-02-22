@@ -16,6 +16,7 @@ import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
+import truesculpt.actions.ColorizeAction;
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
@@ -640,12 +641,14 @@ public class Mesh
 			Vertex origVertex=mVertexList.get(nOrigVertex);
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,getManagers().getToolsManager().getRadius()/100f);
 			
+			ColorizeAction action=new ColorizeAction();			
 			for (Integer i : vertices)
 			{
 				Vertex vertex=mVertexList.get(i);
-				vertex.Color=color;			
-				UpdateVertexColor(i);
-			}			
+				action.AddVertexColorChange(i, color, vertex);
+			}
+			getManagers().getActionsManager().AddUndoAction(action);
+			action.DoAction();			
 		}
 	}	
 
@@ -707,8 +710,7 @@ public class Mesh
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,maxDist);
 			
 			// separate compute and apply of vertex pos otherwise compute is false
-			SculptAction action=new SculptAction();
-			getManagers().getActionsManager().AddUndoAction(action);
+			SculptAction action=new SculptAction();			
 			float[] VOffset = new float[3];
 			float[] temp=new float[3];
 			for (Integer i : vertices)
@@ -723,8 +725,8 @@ public class Mesh
 				action.AddVertexOffset(i,VOffset,vertex);
 		
 			}
-			action.DoAction();
-			
+			getManagers().getActionsManager().AddUndoAction(action);
+			action.DoAction();			
 		}
 	}
 
