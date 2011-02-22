@@ -720,7 +720,7 @@ public class Mesh
 				float dist=MatrixUtils.magnitude(temp);
 
 				MatrixUtils.scalarMultiply(VOffset, (maxDist-dist)/maxDist*fMaxDeformation);
-				action.AddVertexOffset(i,VOffset);
+				action.AddVertexOffset(i,VOffset,vertex);
 		
 			}
 			action.DoAction();

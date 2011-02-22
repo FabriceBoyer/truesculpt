@@ -12,14 +12,16 @@ public class SculptAction extends BaseAction
 {
 	private class VertexChange
 	{
-		public VertexChange(int nIndex, float[] offset)
+		public VertexChange(int nIndex, float[] offset, Vertex vertex)
 		{
 			super();
-			this.nIndex = nIndex;
+			this.nIndex = nIndex;			
 			MatrixUtils.copy(offset, Voffset);
+			this.vertex=vertex;
 		}
 		public int nIndex=-1;
 		float[] Voffset=new float[3];
+		Vertex vertex=null;
 	}
 	
 	private ArrayList<VertexChange> mVertexChanges=new ArrayList<VertexChange>() ;
@@ -37,13 +39,12 @@ public class SculptAction extends BaseAction
 		Mesh mesh=getManagers().getMeshManager().getMesh();
 		for (VertexChange change : mVertexChanges)
 		{
-			Vertex vertex=mesh.getVertexList().get(change.nIndex);
+			Vertex vertex=change.vertex;
 			MatrixUtils.plus(vertex.Coord, change.Voffset, vertex.Coord);	
 		}
 		for (VertexChange change : mVertexChanges)
 		{
-			Vertex vertex=mesh.getVertexList().get(change.nIndex);
-			mesh.ComputeVertexNormal(vertex);
+			mesh.ComputeVertexNormal(change.vertex);
 			mesh.UpdateVertexValue(change.nIndex);
 		}
 		return true;
@@ -68,20 +69,19 @@ public class SculptAction extends BaseAction
 		Mesh mesh=getManagers().getMeshManager().getMesh();
 		for (VertexChange change : mVertexChanges)
 		{
-			Vertex vertex=mesh.getVertexList().get(change.nIndex);
+			Vertex vertex=change.vertex;
 			MatrixUtils.minus(vertex.Coord, change.Voffset, vertex.Coord);	
 		}
 		for (VertexChange change : mVertexChanges)
 		{
-			Vertex vertex=mesh.getVertexList().get(change.nIndex);
-			mesh.ComputeVertexNormal(vertex);
+			mesh.ComputeVertexNormal(change.vertex);
 			mesh.UpdateVertexValue(change.nIndex);
 		}
 		return true;
 	}
 
-	public void AddVertexOffset(Integer i, float[] vOffset)
+	public void AddVertexOffset(Integer i, float[] vOffset, Vertex vertex)
 	{
-		mVertexChanges.add(new VertexChange(i,vOffset));		
+		mVertexChanges.add(new VertexChange(i,vOffset,vertex));		
 	}
 }
