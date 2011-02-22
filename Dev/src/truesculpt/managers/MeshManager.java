@@ -205,47 +205,35 @@ public class MeshManager extends BaseManager
 	
 				mRay.setRayPos(rayPt1, rayPt2);
 	
+				//handle symmetry
 				if (bInitOver)
 				{
-					nIndex = mMesh.Pick(rayPt1, rayPt2,intersectPt);
-					if (nIndex >= 0)
+					nIndex=PickRay();
+					
+					switch (getManagers().getToolsManager().getSymmetryMode())
 					{
-						mPickHighlight.setPickHighlightPosition(intersectPt);
-	
-						// TODO place in actionManager
-						switch (getManagers().getToolsManager().getToolMode())
-						{
-							case SCULPT:
-							{
-								switch (getManagers().getToolsManager().getSculptSubMode())
-								{
-								case DRAW:
-									mMesh.RiseSculptAction(nIndex);
-									break;
-								case GRAB:
-									mMesh.InitGrabAction(nIndex);
-									break;	
-								case SMOOTH:
-									break;
-								case INFLATE:
-									break;
-								case COLOR:
-									mMesh.ColorizePaintAction(nIndex);
-									break;
-								case TEXTURE:
-									break;
-								case PICK_COLOR:
-									mMesh.PickColorAction(nIndex);
-									break;								
-								}
-							}
-						}					
+					case X:
+						rayPt1[0]*=-1;
+						rayPt2[0]*=-1;						
+						PickRay();
+						rayPt1[0]*=-1;
+						rayPt2[0]*=-1;	
+						break;
+					case Y:
+						rayPt1[1]*=-1;
+						rayPt2[1]*=-1;
+						PickRay();
+						rayPt1[1]*=-1;
+						rayPt2[1]*=-1;
+						break;
+					case Z:
+						rayPt1[2]*=-1;
+						rayPt2[2]*=-1;
+						PickRay();
+						rayPt1[2]*=-1;
+						rayPt2[2]*=-1;
+						break;					
 					}
-					else
-					{
-						float[] zero = { 0, 0, 0 };
-						mPickHighlight.setPickHighlightPosition(zero);
-					}	
 				}
 	
 				long tStop = SystemClock.uptimeMillis();
@@ -255,6 +243,50 @@ public class MeshManager extends BaseManager
 			}
 		}
 
+		return nIndex;
+	}
+	
+	private int PickRay()
+	{
+		int nIndex = mMesh.Pick(rayPt1, rayPt2,intersectPt);
+		if (nIndex >= 0)
+		{
+			mPickHighlight.setPickHighlightPosition(intersectPt);
+
+			// TODO place in actionManager
+			switch (getManagers().getToolsManager().getToolMode())
+			{
+				case SCULPT:
+				{
+					switch (getManagers().getToolsManager().getSculptSubMode())
+					{
+					case DRAW:
+						mMesh.RiseSculptAction(nIndex);
+						break;
+					case GRAB:
+						mMesh.InitGrabAction(nIndex);
+						break;	
+					case SMOOTH:
+						break;
+					case INFLATE:
+						break;
+					case COLOR:
+						mMesh.ColorizePaintAction(nIndex);
+						break;
+					case TEXTURE:
+						break;
+					case PICK_COLOR:
+						mMesh.PickColorAction(nIndex);
+						break;								
+					}
+				}
+			}					
+		}
+		else
+		{
+			float[] zero = { 0, 0, 0 };
+			mPickHighlight.setPickHighlightPosition(zero);
+		}	
 		return nIndex;
 	}
 
