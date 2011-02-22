@@ -39,7 +39,7 @@ public class ToolOverlay
 	private FloatBuffer mVertexBuffer;
 
 	int nVertices=100;	
-	float mDefaultTransparency=0.3f;
+	float mDefaultTransparency=0.2f;
 	float offset[]=new float[3];
 	float scale[]=new float[3];
 	boolean bShowOverlay=false;

@@ -17,22 +17,27 @@ import android.util.Log;
 public class MeshManager extends BaseManager
 {
 	private String Name="MyTrueSculpture";
-	private boolean bInitOver = false;
+	private boolean bInitOver = true;
 	float[] intersectPt = new float[3];
 	
-	Runnable mInitTask = new Runnable()
+	class MeshInitTash implements Runnable
 	{
+		public int nSubdivionLevel=0;
 		@Override
 		public void run()
 		{
-			mMesh=new Mesh(getManagers());
+			bInitOver=false;
+			
+			mMesh=new Mesh(getManagers(),nSubdivionLevel);
 
 			bInitOver = true;
 
 			mHandler.post(mNotifyTask); // to come back in UI thread
 		}
-	};
-
+	}
+	
+	MeshInitTash mInitTask = new MeshInitTash();
+	
 	private Handler mHandler = new Handler();
 	Runnable mNotifyTask = new Runnable()
 	{
@@ -178,8 +183,22 @@ public class MeshManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		 Thread thr = new Thread(null, mInitTask, "Mesh_Init");
-		 thr.start();	
+		NewMesh(4);
+	}
+	
+	public boolean NewMesh(int nSubdivionLevel)
+	{
+		boolean bRes=false;
+		mInitTask.nSubdivionLevel=nSubdivionLevel;
+		
+		if (bInitOver)
+		{
+			Thread thr = new Thread(null, mInitTask, "Mesh_Init");
+			thr.start();
+			bRes=true;
+		}
+		
+		return bRes;
 	}
 
 	@Override

@@ -6,9 +6,9 @@
     <TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sculpture_name"></TextView>
     <EditText android:layout_height="wrap_content" android:text="" android:layout_width="fill_parent" android:id="@+id/name_edit"></EditText>
     <Button android:id="@+id/new_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/new_file"></Button>
-    <Button android:id="@+id/button1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/open_file"></Button>
-    <Button android:id="@+id/save" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/save"></Button>
-    <Button android:id="@+id/share" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/share"></Button>
-    <Button android:layout_height="wrap_content" android:id="@+id/button4" android:layout_width="wrap_content" android:text="@string/choose_from_web_site"></Button>
-    <Button android:layout_height="wrap_content" android:id="@+id/button3" android:layout_width="wrap_content" android:text="@string/Publish_to_web_site"></Button>
+    <Button android:id="@+id/open_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/open_file"></Button>
+    <Button android:id="@+id/save_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/save"></Button>
+    <Button android:id="@+id/share_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/share"></Button>
+    <Button android:layout_height="wrap_content" android:id="@+id/open_from_web" android:layout_width="wrap_content" android:text="@string/choose_from_web_site"></Button>
+    <Button android:layout_height="wrap_content" android:id="@+id/publish_to_web" android:layout_width="wrap_content" android:text="@string/Publish_to_web_site"></Button>
 </LinearLayout>
