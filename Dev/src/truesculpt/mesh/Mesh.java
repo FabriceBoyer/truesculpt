@@ -612,8 +612,9 @@ public class Mesh
 		{
 			int color = getManagers().getToolsManager().getColor();						 
 			Face face=mFaceList.get(triangleIndex);
-			//TODO choose closest point in triangle from pick point
-			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(face.E0.V0,getManagers().getToolsManager().getRadius()/100f);
+			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
+			Vertex origVertex=mVertexList.get(nOrigVertex);
+			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,getManagers().getToolsManager().getRadius()/100f);
 			
 			for (Integer i : vertices)
 			{
@@ -671,18 +672,27 @@ public class Mesh
 	{
 		if (triangleIndex >= 0)
 		{
-			float[] VOffset = new float[3];
+			
 			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
 			
 			Face face=mFaceList.get(triangleIndex);
-			//TODO choose closest point in triangle from pick point
-			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(face.E0.V0,getManagers().getToolsManager().getRadius()/100f);
+			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
+			Vertex origVertex=mVertexList.get(nOrigVertex);
 			
+			float maxDist=getManagers().getToolsManager().getRadius()/100f;
+			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,maxDist);
+			
+			float[] VOffset = new float[3];
+			float[] temp=new float[3];
 			for (Integer i : vertices)
 			{
 				Vertex vertex=mVertexList.get(i);
 				MatrixUtils.copy(vertex.Normal, VOffset);
-				MatrixUtils.scalarMultiply(VOffset, fMaxDeformation);
+				
+				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
+				float dist=MatrixUtils.magnitude(temp);
+
+				MatrixUtils.scalarMultiply(VOffset, (maxDist-dist)/maxDist*fMaxDeformation);
 				MatrixUtils.plus(vertex.Coord, VOffset, vertex.Coord);
 				
 				ComputeVertexNormal(vertex);
