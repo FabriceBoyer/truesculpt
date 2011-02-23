@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="truesculpt.main" android:versionName="0.7" android:versionCode="7">
+      package="truesculpt.main" android:versionName="0.8" android:versionCode="8">
             
 <application android:label="@string/app_name" 
 	   		 android:name="TrueSculptApp"
-	   		 android:debuggable="false"
-	   		 android:theme="@style/Theme.TrueSculpt" android:icon="@drawable/logo">
+	   		 android:theme="@style/Theme.TrueSculpt" android:icon="@drawable/logo" android:debuggable="true">
 	    
 	<activity android:label="@string/app_name" 
 	          android:name="truesculpt.ui.panels.RendererMainPanel"
