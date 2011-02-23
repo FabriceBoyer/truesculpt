@@ -245,7 +245,7 @@ public class Mesh
 		return mVertexList.size();
 	}
 
-	void ImportFromOBJ(String strFileName) throws IOException
+	public void ImportFromOBJ(String strFileName) throws IOException
 	{
 		Reset();
 
@@ -367,6 +367,18 @@ public class Mesh
 		// m.calculateFaceNormals(coordinate_hand);
 		// m.calculateVertexNormals();
 		// // m.copyNormals();
+		
+		computeVerticesLinkedEdges();
+		linkNeighbourEdges();
+		
+		ComputeBoundingSphereRadius();
+		
+		ComputeAllVertexNormals();
+		
+		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
+		
+		
+		mRenderGroupList.add(new RenderFaceGroup(this));		
 	}
 
 	void InitAsIcosahedron()
@@ -728,6 +740,7 @@ public class Mesh
 	{
 		mVertexList.clear();
 		mFaceList.clear();
+		mRenderGroupList.clear();
 	}
 
 	//to share vertices between edges
@@ -838,4 +851,5 @@ public class Mesh
 	{
 		return mFaceList;
 	}
+
 }

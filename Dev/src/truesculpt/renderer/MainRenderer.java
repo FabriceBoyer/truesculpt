@@ -175,4 +175,5 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	{
 		mToolOverlay.updateTool(mManagers);		
 	}
+
 }

@@ -347,5 +347,10 @@ public class MeshManager extends BaseManager
 	public String getName()
 	{
 		return Name;
-	}	
+	}
+	
+	public boolean IsInitOver()
+	{		
+		return bInitOver;
+	}
 }
