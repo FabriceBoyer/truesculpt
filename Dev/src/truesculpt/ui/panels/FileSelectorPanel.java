@@ -45,8 +45,11 @@ public class FileSelectorPanel extends Activity
 			{
 				//TODO dialog for color and subdivion level and alert if new failed (already in init)
 				getManagers().getMeshManager().NewMesh(4);	
+				
 				String name=getManagers().getMeshManager().getName();
 				mEditNameText.setText(name);
+				
+				getManagers().getUsageStatisticsManager().TrackEvent("NewFile", "New", 1);
 			}
 		});
 		
@@ -59,7 +62,9 @@ public class FileSelectorPanel extends Activity
 				//TODO selector and open
 				
 				String name=getManagers().getMeshManager().getName();
-				mEditNameText.setText(name);				
+				mEditNameText.setText(name);	
+				
+				getManagers().getUsageStatisticsManager().TrackEvent("OpenFile", name, 1);
 			}
 		});
 		
@@ -92,7 +97,10 @@ public class FileSelectorPanel extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				getManagers().getToolsManager().TakeGLScreenshot();				
+				getManagers().getToolsManager().TakeGLScreenshot();	
+				
+				String name=getManagers().getMeshManager().getName();
+				getManagers().getUsageStatisticsManager().TrackEvent("Share", name, 1);
 			}
 		});
 		
@@ -101,9 +109,8 @@ public class FileSelectorPanel extends Activity
 		{			
 			@Override
 			public void onClick(View v)
-			{
-				// TODO Auto-generated method stub
-				
+			{				
+				getManagers().getUsageStatisticsManager().TrackEvent("OpenFromWeb", "", 1);				
 			}
 		});
 		
@@ -113,8 +120,8 @@ public class FileSelectorPanel extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				// TODO Auto-generated method stub
-				
+				String name=getManagers().getMeshManager().getName();
+				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);				
 			}
 		});
 	}
@@ -127,6 +134,9 @@ public class FileSelectorPanel extends Activity
 		
 		String strPictureFileName=getManagers().getUtilsManager().GetBaseFileName()+"Image.png";
 		//TODO snapshot for nice open
+		
+		String name=getManagers().getMeshManager().getName();
+		getManagers().getUsageStatisticsManager().TrackEvent("SaveFile", name, 1);
 	}
 	
 	@Override
