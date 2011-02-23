@@ -85,6 +85,6 @@
 <string name="sculpture_name">Name</string>
 <string name="save">Save</string>   
 <string name="show_files">Files</string>
-<string name="file_already_exist_wanna_override">File already exist, do you wan to override it ?</string>
+<string name="file_already_exist_wanna_override">File already exist, do you want to overwrite it ?</string>
            
 </resources>
