@@ -1,13 +1,16 @@
 package truesculpt.ui.panels;
 
 import java.io.File;
+import java.io.IOException;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.mesh.Mesh;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -50,6 +53,8 @@ public class FileSelectorPanel extends Activity
 				mEditNameText.setText(name);
 				
 				getManagers().getUsageStatisticsManager().TrackEvent("NewFile", "New", 1);
+				
+				finish();
 			}
 		});
 		
@@ -59,12 +64,40 @@ public class FileSelectorPanel extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				//TODO selector and open
-				
+				String strRootDir=getManagers().getUtilsManager().GetRootDirectory();
+				File rootDir=new File(strRootDir);
+				File[] listFiles=rootDir.listFiles();
+				for(File file : listFiles)
+				{
+					//TODO selector and open
+					//temp test with MyTrueSculpture
+					boolean bIsDir=file.isDirectory();
+					String strName=file.getName();
+					if (bIsDir && (strName.compareToIgnoreCase("MyTrueSculpture")==0))
+					{
+						String strObjFileName=strRootDir+"/"+file.getName()+"/"+"Mesh.obj";	
+						try
+						{
+							//TODO check for init over
+							Mesh mesh=getManagers().getMeshManager().getMesh();
+							if (mesh!=null && getManagers().getMeshManager().IsInitOver())
+							{
+								mesh.ImportFromOBJ(strObjFileName);
+							}
+							
+						} catch (IOException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}	
+					}
+				}
 				String name=getManagers().getMeshManager().getName();
 				mEditNameText.setText(name);	
 				
 				getManagers().getUsageStatisticsManager().TrackEvent("OpenFile", name, 1);
+				
+				finish();
 			}
 		});
 		
@@ -137,6 +170,8 @@ public class FileSelectorPanel extends Activity
 		
 		String name=getManagers().getMeshManager().getName();
 		getManagers().getUsageStatisticsManager().TrackEvent("SaveFile", name, 1);
+		
+		finish();
 	}
 	
 	@Override
@@ -161,7 +196,6 @@ public class FileSelectorPanel extends Activity
 				@Override
 				public void onClick(DialogInterface dialog, int id)
 				{
-
 					finish();
 				}
 			});

@@ -53,11 +53,15 @@ public class UtilsManager extends BaseManager
 		// TODO Auto-generated constructor stub
 	}
 
+	public String GetRootDirectory()
+	{
+		return Environment.getExternalStorageDirectory() + "/Truesculpt/Sculptures/";
+	}
+		
 	public String GetBaseFileName()
 	{
 		String name=getManagers().getMeshManager().getName();
-		Date date = new Date();
-		String strBasePath = Environment.getExternalStorageDirectory() + "/Truesculpt/Sculptures/"+name+"/";
+		String strBasePath = GetRootDirectory()+name+"/";
 
 		// have the object build the directory structure, if needed.
 		File basePath = new File(strBasePath);
@@ -68,15 +72,15 @@ public class UtilsManager extends BaseManager
 
 	private String CreateSnapshotFileName()
 	{
-		// TODO add sculpture name in filename
-		Date date = new Date();
 		String strBasePath = Environment.getExternalStorageDirectory() + "/Truesculpt/Screenshots/";
 
 		// have the object build the directory structure, if needed.
 		File basePath = new File(strBasePath);
 		basePath.mkdirs();
 
-		String strFileName = strBasePath + "Img_" + date.toGMTString() + ".png";
+		Date date = new Date();
+		String name=getManagers().getMeshManager().getName();
+		String strFileName = strBasePath + "Img_" + name + "_" + date.toGMTString() + ".png";
 		strFileName = strFileName.replaceAll(":", "_");
 		strFileName = strFileName.replaceAll(" ", "_");
 		return strFileName;
