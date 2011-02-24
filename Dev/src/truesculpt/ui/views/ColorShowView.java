@@ -88,7 +88,7 @@ public class ColorShowView extends View
 				else
 				{
 					mOldColor=mColor;	
-					UpdateColorValue(0,State.START);
+					UpdateColorValue(-1,State.START);
 				}
 				mLastTapTapTime = curTapTapTime;
 				
@@ -116,12 +116,16 @@ public class ColorShowView extends View
 	
 	private void UpdateColorValue(float pixelDist, State state)
 	{
-		float newHue=(360*pixelDist/PixelAmplitude)%360;
-		float [] VCol= new float[3];		
-		Color.colorToHSV(mColor,VCol);
-		VCol[0]=newHue;
-		int newColor=Color.HSVToColor(VCol);
-		setColor(newColor);
+		int newColor=mColor;
+		if (pixelDist>=0)
+		{
+			float newHue=(360*pixelDist/PixelAmplitude)%360;
+			float [] VCol= new float[3];		
+			Color.colorToHSV(mColor,VCol);
+			VCol[0]=newHue;
+			newColor=Color.HSVToColor(VCol);
+			setColor(newColor);
+		}
 		if (mColorListener!=null) 
 		{
 			switch (state)
