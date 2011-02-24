@@ -199,8 +199,9 @@ public class RendererMainPanel extends Activity implements Observer
 		mColorShow.SetDoubleClickListener(new ColorShowView.OnDoubleClickListener()
 		{
 			@Override
-			public void onDoubleClick(View v)
+			public void onDoubleClick(int color)
 			{
+				getManagers().getToolsManager().setColor(color,false);	
 				getManagers().getUtilsManager().ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
 		});
@@ -221,7 +222,6 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChangeStop(int color)
 			{
-				getManagers().getToolsManager().setColor(color,false);
 				getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});

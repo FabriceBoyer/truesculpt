@@ -13,7 +13,7 @@ public class ColorShowView extends View
 {
 	public interface OnDoubleClickListener
 	{
-		 void onDoubleClick(View v);	 
+		 void onDoubleClick(int color);	 
 	}
 	
 	private Paint mCenterPaint;
@@ -25,6 +25,7 @@ public class ColorShowView extends View
 	int mColor=0;
 	private long mLastTapTapTime=0;
 	private long mTapTapTimeThresold=500;//ms
+	int mOldColor=0;
 
 	public ColorShowView(Context c, AttributeSet attrs)
 	{
@@ -73,16 +74,21 @@ public class ColorShowView extends View
 			case MotionEvent.ACTION_DOWN:
 			{			
 				orig_x=x;
-				orig_y=y;
-				UpdateColorValue(x, y, 0,State.START);
+				orig_y=y;							
 				
 				long curTapTapTime = System.currentTimeMillis();
 				if ((curTapTapTime - mLastTapTapTime) < mTapTapTimeThresold)
 				{
 					if (mDoubleClickListener!=null)
 					{
-						mDoubleClickListener.onDoubleClick(this);
+						setColor(mOldColor);						
+						mDoubleClickListener.onDoubleClick(mColor);
 					}
+				}
+				else
+				{
+					mOldColor=mColor;	
+					UpdateColorValue(0,State.START);
 				}
 				mLastTapTapTime = curTapTapTime;
 				
@@ -91,13 +97,13 @@ public class ColorShowView extends View
 			}
 			case MotionEvent.ACTION_UP:		
 			{
-				UpdateColorValue(x, y, pixelDist,State.STOP);
+				UpdateColorValue(pixelDist,State.STOP);
 				bRes=true;
 				break;
 			}
 			case MotionEvent.ACTION_MOVE:
 			{
-				UpdateColorValue(x, y, pixelDist,State.CHANGE);
+				UpdateColorValue(pixelDist,State.CHANGE);
 				bRes=true;
 				break;
 			}
@@ -108,7 +114,7 @@ public class ColorShowView extends View
 	
 	private enum State {START, CHANGE, STOP};
 	
-	private void UpdateColorValue(float x, float y, float pixelDist, State state)
+	private void UpdateColorValue(float pixelDist, State state)
 	{
 		float newHue=(360*pixelDist/PixelAmplitude)%360;
 		float [] VCol= new float[3];		
