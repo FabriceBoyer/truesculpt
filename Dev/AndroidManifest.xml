@@ -30,6 +30,7 @@
 	<activity android:name="truesculpt.ui.panels.NewFilePanel" android:label="@string/newfile"></activity>
 	<activity android:name="truesculpt.ui.panels.OpenFilePanel" android:label="@string/openfile"></activity>
 	<activity android:name="truesculpt.ui.panels.SaveFilePanel" android:label="@string/savefile"></activity>
+	<activity android:name="truesculpt.ui.panels.WebFilePanel" android:label="@string/webfile"></activity>
 	
 </application>
 

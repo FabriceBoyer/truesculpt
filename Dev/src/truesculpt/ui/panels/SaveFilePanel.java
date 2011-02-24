@@ -18,8 +18,7 @@ public class SaveFilePanel extends Activity
 {
 	private EditText mEditNameText;
 	private Button mSaveBtn;
-	private Button mShareBtn;
-	private Button mPublishToWebBtn;
+	private Button mShareBtn;	
 	
 	private final int DIALOG_FILE_ALREADY_EXIST = 0;
 	
@@ -67,19 +66,7 @@ public class SaveFilePanel extends Activity
 				String name=getManagers().getMeshManager().getName();
 				getManagers().getUsageStatisticsManager().TrackEvent("Share", name, 1);
 			}
-		});
-
-		
-		mPublishToWebBtn=(Button)findViewById(R.id.publish_to_web);
-		mPublishToWebBtn.setOnClickListener(new View.OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{
-				String name=getManagers().getMeshManager().getName();
-				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);				
-			}
-		});
+		});	
 	
 	}
 	
