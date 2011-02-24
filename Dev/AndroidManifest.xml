@@ -27,6 +27,10 @@
 	<activity android:name="truesculpt.ui.panels.HistoryPanel" android:label="@string/history"></activity>
 	<activity android:name="truesculpt.ui.panels.StatisticsPanel" android:label="@string/statistics"></activity>
 	<activity android:name="truesculpt.ui.panels.FileSelectorPanel" android:label="@string/fileSelector"></activity>
+	<activity android:name="truesculpt.ui.panels.NewFilePanel" android:label="@string/newfile"></activity>
+	<activity android:name="truesculpt.ui.panels.OpenFilePanel" android:label="@string/openfile"></activity>
+	<activity android:name="truesculpt.ui.panels.SaveFilePanel" android:label="@string/savefile"></activity>
+	
 </application>
 
 	<uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"></uses-sdk>

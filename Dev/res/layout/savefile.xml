@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" 
+  android:orientation="vertical">
+    
+	<TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sculpture_name"></TextView>
+    <EditText android:layout_height="wrap_content" android:text="" android:layout_width="fill_parent" android:id="@+id/name_edit"></EditText>
+    <Button android:id="@+id/save_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/save"></Button>
+    <Button android:id="@+id/share_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/share"></Button>
+    
+    <Button android:layout_height="wrap_content" android:id="@+id/publish_to_web" android:layout_width="wrap_content" android:text="@string/Publish_to_web_site"></Button>
+
+     
+</LinearLayout>
