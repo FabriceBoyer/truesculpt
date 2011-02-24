@@ -62,17 +62,7 @@ public class OpenFilePanel extends Activity
 				finish();
 			}
 		});
-		
-		
-		mOpenFromWebBtn=(Button)findViewById(R.id.open_from_web);
-		mOpenFromWebBtn.setOnClickListener(new View.OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{				
-				getManagers().getUsageStatisticsManager().TrackEvent("OpenFromWeb", "", 1);				
-			}
-		});
+	
 	}
 	
 	public Managers getManagers()
