@@ -5,22 +5,28 @@ import java.io.File;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.mesh.Mesh;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SaveFilePanel extends Activity
+public class SaveFilePanel extends Activity implements Runnable
 {
 	private EditText mEditNameText;
 	private Button mSaveBtn;
 	private Button mShareBtn;	
+	private ProgressDialog waitDialog=null;
 	
 	private final int DIALOG_FILE_ALREADY_EXIST = 0;
+	private final int DIALOG_WAIT = 1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -70,6 +76,22 @@ public class SaveFilePanel extends Activity
 	
 	}
 	
+	public Managers getManagers()
+	{
+		return ((TrueSculptApp) getApplicationContext()).getManagers();
+	}
+	
+	public void SaveInternal()
+	{		
+		showDialog(DIALOG_WAIT);		
+		
+	    Thread thread = new Thread(this);
+	    thread.start();
+	
+		String name=getManagers().getMeshManager().getName();
+		getManagers().getUsageStatisticsManager().TrackEvent("SaveFile", name, 1);		
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id)
 	{
@@ -85,17 +107,24 @@ public class SaveFilePanel extends Activity
 				public void onClick(DialogInterface dialog, int id)
 				{
 					SaveInternal();
-					finish();
 				}
 			}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
 			{
 				@Override
 				public void onClick(DialogInterface dialog, int id)
 				{
-					finish();
 				}
 			});
 			dialog = builder.create();
+			break;
+		}
+		case DIALOG_WAIT:
+		{
+			waitDialog=new ProgressDialog(this);
+			waitDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			waitDialog.setMessage("Saving...");
+			waitDialog.setCancelable(false);
+			dialog=waitDialog;
 			break;
 		}
 		default:
@@ -104,25 +133,37 @@ public class SaveFilePanel extends Activity
 		return dialog;
 	}
 	
-	private void SaveInternal()
+	@Override
+	public void run()
 	{
 		String strBaseFileName=getManagers().getUtilsManager().GetBaseFileName();
 		String strObjFileName=strBaseFileName+"Mesh.obj";
-		getManagers().getMeshManager().getMesh().ExportToOBJ(strObjFileName);				
+		
+		Mesh mesh=getManagers().getMeshManager().getMesh();
+		if (mesh!=null && getManagers().getMeshManager().IsInitOver())
+		{
+			mesh.ExportToOBJ(strObjFileName);			
+		}
 		
 		String strPictureFileName=getManagers().getUtilsManager().GetBaseFileName()+"Image.png";
-		//TODO snapshot for nice open
+		//TODO snapshot for nice open		
 		
-		String name=getManagers().getMeshManager().getName();
-		getManagers().getUsageStatisticsManager().TrackEvent("SaveFile", name, 1);
-		
-		finish();
-	}
-	
-	public Managers getManagers()
+	    handler.sendEmptyMessage(0);
+	 }
+
+	private Handler handler = new Handler()
 	{
-		return ((TrueSculptApp) getApplicationContext()).getManagers();
-	}
+	    @Override
+	    public void handleMessage(Message msg) 
+	    {
+	    	if (waitDialog!=null)
+	    	{
+		    	waitDialog.dismiss();
+		    	waitDialog=null;
+	    	}	     
+	    	finish();
+	    }
+	};
 	
 	@Override
 	protected void onPause()
