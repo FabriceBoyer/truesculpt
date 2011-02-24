@@ -86,5 +86,7 @@
 <string name="save">Save</string>   
 <string name="show_files">Files</string>
 <string name="file_already_exist_wanna_override">File already exist, do you want to overwrite it ?</string>
-           
+<string name="newfile">New</string>
+<string name="openfile">Open</string>
+<string name="savefile">Save</string>           
 </resources>
