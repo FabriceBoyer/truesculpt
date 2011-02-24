@@ -371,8 +371,6 @@ public class Mesh
 		computeVerticesLinkedEdges();
 		linkNeighbourEdges();
 		
-		ComputeBoundingSphereRadius();
-		
 		ComputeAllVertexNormals();
 		
 		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
