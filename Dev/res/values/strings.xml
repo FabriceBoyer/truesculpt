@@ -89,5 +89,7 @@
 <string name="newfile">New</string>
 <string name="openfile">Open</string>
 <string name="savefile">Save</string>  
-<string name="webfile">Web</string>         
+<string name="webfile">Web</string>
+<string name="Subdivion_level">Subdivion level</string>        
+    
 </resources>
