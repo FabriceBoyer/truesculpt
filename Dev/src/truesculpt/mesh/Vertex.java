@@ -11,6 +11,7 @@ public class Vertex
 	public ArrayList<HalfEdge> InLinkedEdges= new ArrayList<HalfEdge>();
 	public ArrayList<HalfEdge> OutLinkedEdges= new ArrayList<HalfEdge>();
 	public int Color = 0;
+	public OctreeNode Box=null;
 
 	public Vertex(float x, float y, float z)
 	{

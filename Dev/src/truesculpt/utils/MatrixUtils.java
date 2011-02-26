@@ -372,6 +372,44 @@ public class MatrixUtils
 			vector[i] *= scalar;
 		}
 	}
+	
+	public static void scalarAdd(float[] vector, float scalar)
+	{
+		for (int i = 0; i < vector.length; i++)
+		{
+			vector[i] += scalar;
+		}
+	}
+	
+	/* true if  vector1 <= vector2*/
+	public static boolean isStrictlyInferior(float[] vector1, float[] vector2 )
+	{
+		boolean bRes=true;
+		for (int i = 0; i < 3; i++)
+		{
+			if (vector1[i]>=vector2[i]) 
+			{
+				bRes=false;
+				break;
+			}
+		}
+		return bRes;
+	}
+	
+	/* true if  vector1 <= vector2*/
+	public static boolean isInferiorOrEqual(float[] vector1, float[] vector2 )
+	{
+		boolean bRes=true;
+		for (int i = 0; i < 3; i++)
+		{
+			if (vector1[i]>vector2[i]) 
+			{
+				bRes=false;
+				break;
+			}
+		}
+		return bRes;
+	}
 
 	/**
 	 * Multiply a vector by a scalar. <b>Modifies the input vector</b>

@@ -726,6 +726,7 @@ public class Mesh
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
 				float dist=MatrixUtils.magnitude(temp);
 
+				//TODO advanced functions
 				MatrixUtils.scalarMultiply(VOffset, (maxDist-dist)/maxDist*fMaxDeformation);
 				action.AddVertexOffset(i,VOffset,vertex);		
 			}
@@ -850,4 +851,60 @@ public class Mesh
 		return mFaceList;
 	}
 
+	float square( float f ) { return (f*f) ;};
+
+	 // x1,y1,z1  P1 coordinates (point of line)
+	 // x2,y2,z2  P2 coordinates (point of line)
+	 // x3,y3,z3, r  P3 coordinates and radius (sphere)
+	boolean sphere_line_intersection (
+	    float x1, float y1 , float z1,
+	    float x2, float y2 , float z2,
+	    float x_sphere, float y_sphere , float z_sphere, float r_sphere )
+	{	
+		 float a, b, c, i ;
+	
+		 a =  square(x2 - x1) + square(y2 - y1) + square(z2 - z1);
+		 b =  2* ( (x2 - x1)*(x1 - x_sphere)
+		      + (y2 - y1)*(y1 - y_sphere)
+		      + (z2 - z1)*(z1 - z_sphere) ) ;
+		 c =  square(x_sphere) + square(y_sphere) +
+		      square(z_sphere) + square(x1) +
+		      square(y1) + square(z1) -
+		      2* ( x_sphere*x1 + y_sphere*y1 + z_sphere*z1 ) - square(r_sphere) ;
+		 i =   b * b - 4 * a * c ;
+	
+		 if ( i < 0.0 )
+		 {
+			  // no intersection	 
+			  return(false);
+		 }		
+		 else
+		 {		
+			 return true;
+		 }
+	}
+	
+
+	//from http://ompf.org/ray/ray_box.html, slabs test
+	boolean ray_box_intersects(OctreeNode box, float[] rayOrig, float[] rayDir) 
+	{
+		float l1	= (box.Min[0] - rayOrig[0]) * rayDir[0];
+		float l2	= (box.Max[0] - rayOrig[0]) * rayDir[0];
+		float lmin	= Math.min(l1,l2);
+		float lmax	= Math.max(l1,l2);
+
+		l1	= (box.Min[1] - rayOrig[1]) * rayDir[1];
+		l2	= (box.Max[1] - rayOrig[1]) * rayDir[1];
+		lmin	= Math.max(Math.min(l1,l2), lmin);
+		lmax	= Math.min(Math.max(l1,l2), lmax);
+		
+		l1	= (box.Min[2] - rayOrig[2]) * rayDir[2];
+		l2	= (box.Max[2] - rayOrig[2]) *rayDir[2];
+		lmin	= Math.max(Math.min(l1,l2), lmin);
+		lmax	= Math.min(Math.max(l1,l2), lmax);
+
+		return ((lmax >= 0.f) & (lmax >= lmin));
+	}
+	
+	
 }
