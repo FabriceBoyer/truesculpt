@@ -92,9 +92,9 @@ public class ActionsManager extends BaseManager
 		if (GetRedoActionCount()>0)
 		{
 			BaseAction action=mRedoActionsList.get(0);
-			action.DoAction();
 			mRedoActionsList.remove(0);
-			mUndoActionsList.add(0,action);//add at the top			
+			mUndoActionsList.add(0,action);//add at the top		
+			action.DoAction();	
 			NotifyListeners();
 		}
 	}
@@ -104,9 +104,9 @@ public class ActionsManager extends BaseManager
 		if (GetUndoActionCount()>0)
 		{
 			BaseAction action=mUndoActionsList.get(0);
-			action.UndoAction();
 			mUndoActionsList.remove(0);
 			mRedoActionsList.add(0,action);
+			action.UndoAction();
 			NotifyListeners();
 		}
 	}

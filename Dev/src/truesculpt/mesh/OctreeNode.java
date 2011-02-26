@@ -2,6 +2,8 @@ package truesculpt.mesh;
 
 import java.util.ArrayList;
 
+import junit.framework.Assert;
+
 import truesculpt.utils.MatrixUtils;
 
 public class OctreeNode
@@ -16,7 +18,7 @@ public class OctreeNode
 	
 	private float MAX_VERTICES=500;
 	
-	public void Subdivide()
+	public void RecurseSubdivide()
 	{
 		if (Vertices.size()>MAX_VERTICES)
 		{
@@ -73,6 +75,7 @@ public class OctreeNode
 			newCenter[2]-=newRadius;
 			NodeChilds.add(new OctreeNode(this,newCenter, newRadius));
 			
+			int nCount=0;
 			for (Vertex vertex : Vertices)
 			{
 				for (OctreeNode subBox : NodeChilds)
@@ -80,9 +83,12 @@ public class OctreeNode
 					if (subBox.IsVertexInsideBox(vertex))
 					{
 						subBox.AddVertex(vertex);
+						nCount++;
 					}
 				}
 			}
+			
+			Assert.assertTrue(Vertices.size()==nCount);
 			
 			//all vertices transfered in child, parent must be empty
 			Vertices.clear();
@@ -90,7 +96,7 @@ public class OctreeNode
 			//recurse
 			for (OctreeNode subBox : NodeChilds)
 			{
-				subBox.Subdivide();
+				subBox.RecurseSubdivide();
 			}
 		}
 	}
@@ -105,11 +111,11 @@ public class OctreeNode
 	{
 		super();
 		NodeParent = parent;
-		Center = center;
+		MatrixUtils.copy(center,Center);
 		Radius=newRadius;
 		
 		MatrixUtils.copy(center, Min);
-		MatrixUtils.scalarAdd(Min, newRadius);
+		MatrixUtils.scalarAdd(Min, -newRadius);
 		
 		MatrixUtils.copy(center, Max);
 		MatrixUtils.scalarAdd(Max, newRadius);
@@ -127,6 +133,16 @@ public class OctreeNode
 		{
 			return false;
 		}
+	}
+
+	public boolean IsLeaf()
+	{	
+		return NodeChilds.size()==0;
+	}
+	
+	public boolean IsEmpty()
+	{	
+		return Vertices.size()==0;
 	}
 	
 }

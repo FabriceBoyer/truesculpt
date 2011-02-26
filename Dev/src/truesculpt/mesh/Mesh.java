@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
@@ -26,6 +28,7 @@ public class Mesh
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
 	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();	
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
+	OctreeNode mRootBoxNode=new OctreeNode(null, new float[]{0f,0f,0f}, 5f);
 	Managers mManagers;
 
 	public Mesh(Managers managers, int nSubdivisionLevel)
@@ -34,7 +37,44 @@ public class Mesh
 
 		InitAsSphere(nSubdivisionLevel);
 
+		mRootBoxNode.Vertices.addAll(mVertexList);
+		mRootBoxNode.RecurseSubdivide();
+		CheckOctree();
+		
 		mRenderGroupList.add(new RenderFaceGroup(this));
+	}
+	
+	private void CheckOctree()
+	{
+		//check all vertices have a box
+		for (Vertex vertex : mVertexList)
+		{
+			Assert.assertTrue(vertex.Box!=null);
+		}
+		//count boxes
+		ArrayList<OctreeNode> boxes=new ArrayList<OctreeNode>();
+		RecurseBoxes(mRootBoxNode,boxes);
+		int nVertexCount=0;
+		int nNonEmptyBoxes=0;
+		for(OctreeNode box : boxes)
+		{
+			int n=box.Vertices.size();
+			nVertexCount+=n;
+			if (n>0) { nNonEmptyBoxes++; }
+		}
+		Assert.assertTrue(nVertexCount==mVertexList.size());
+	}
+	
+	private void RecurseBoxes(OctreeNode currBox, ArrayList<OctreeNode> boxes)
+	{
+		if (!currBox.IsLeaf())
+		{
+			boxes.addAll(currBox.NodeChilds);
+			for (OctreeNode box : currBox.NodeChilds)
+			{
+				RecurseBoxes(box,boxes);
+			}
+		}
 	}
 
 	void ComputeAllVertexNormals()
@@ -504,38 +544,104 @@ public class Mesh
 			MatrixUtils.copy(vertex.Coord, vertex.Normal);// Normal is coord because sphere is radius 1
 		}
 	}
+	
+	private void RecurseBoxesToTest(OctreeNode currBox, ArrayList<OctreeNode> BoxesToTest, float[] Rinit, float[] Rdir)
+	{
+		if (currBox.IsLeaf())
+		{
+			if(!currBox.IsEmpty())
+			{			
+				BoxesToTest.add(currBox);			
+			}
+		}
+		else
+		{
+			for (OctreeNode box : currBox.NodeChilds)
+			{
+				if (ray_box_intersects(box,Rinit,Rdir))
+				{
+					RecurseBoxesToTest(box,BoxesToTest,Rinit,Rdir);
+				}
+			}
+		}
+	}
 
-	public int Pick(float[] rayPt1, float[] rayPt2, float [] intersectPtReturn)
+	private void SortBoxesByDistance(ArrayList<OctreeNode> BoxesToTest, final float [] R0)
+	{		
+		Comparator<OctreeNode> comperator = new Comparator<OctreeNode>() 
+		{
+			@Override
+			public int compare(OctreeNode box1, OctreeNode box2) 
+			{
+				float[] diff=new float[3];
+				MatrixUtils.minus(box1.Center, R0, diff);
+				float dist1=MatrixUtils.magnitude(diff);
+				MatrixUtils.minus(box2.Center, R0, diff);
+				float dist2=MatrixUtils.magnitude(diff);
+				if (dist1<dist2)
+				{
+					return -1;
+				}
+				else if (dist1==dist2)
+				{
+					return 0;
+				}
+				else
+				{
+					return 1;					
+				}
+			}
+		};
+		Collections.sort(BoxesToTest, comperator);
+	}
+	public int Pick(float[] R0, float[] R1, float [] intersectPtReturn)
 	{
 		int nRes = -1;
-
-		float[] R0 = new float[3];
-		float[] R1 = new float[3];
 		float[] Ires = new float[3];
-
-		MatrixUtils.copy(rayPt1, R0);
-		MatrixUtils.copy(rayPt2, R1);
 
 		MatrixUtils.minus(R1, R0, dir);
 		float fSmallestDistanceToR0 = MatrixUtils.magnitude(dir);// ray is R0 to R1
 
-		int nFaceCount = getFaceCount();
-		for (int i=0;i<nFaceCount;i++)
+		ArrayList<OctreeNode> BoxesToTest=new ArrayList<OctreeNode>();
+		RecurseBoxesToTest(mRootBoxNode,BoxesToTest,R0,dir);
+		SortBoxesByDistance(BoxesToTest,R0);
+		HashSet <Integer> boxFaces= new HashSet <Integer>();
+		for (OctreeNode box : BoxesToTest )
 		{
-			Face face = mFaceList.get(i);
-			
-			int nCollide = intersect_RayTriangle(R0, R1, mVertexList.get(face.E0.V0).Coord,  mVertexList.get(face.E1.V0).Coord,  mVertexList.get(face.E2.V0).Coord, Ires);
-
-			if (nCollide == 1)
+			//fill face list of the box
+			boxFaces.clear();
+			for (Vertex vertex : box.Vertices)
 			{
-				MatrixUtils.minus(Ires, R0, dir);
-				float fDistanceToR0 = MatrixUtils.magnitude(dir);
-				if (fDistanceToR0 <= fSmallestDistanceToR0)
+				for (HalfEdge edge : vertex.OutLinkedEdges)
 				{
-					MatrixUtils.copy(Ires, intersectPtReturn);
-					nRes = i;
-					fSmallestDistanceToR0 = fDistanceToR0;
+					boxFaces.add(edge.Face);
 				}
+			}
+			
+			//intersection with triangles of the box
+			for (Integer i : boxFaces)
+			{
+				Face face = mFaceList.get(i);
+				
+				int nCollide = intersect_RayTriangle(R0, R1, mVertexList.get(face.E0.V0).Coord,  mVertexList.get(face.E1.V0).Coord,  mVertexList.get(face.E2.V0).Coord, Ires);
+	
+				if (nCollide == 1)
+				{
+					MatrixUtils.minus(Ires, R0, dir);
+					float fDistanceToR0 = MatrixUtils.magnitude(dir);
+					if (fDistanceToR0 <= fSmallestDistanceToR0)
+					{
+						MatrixUtils.copy(Ires, intersectPtReturn);
+						nRes = i;
+						fSmallestDistanceToR0 = fDistanceToR0;
+					}
+				}
+			}
+			
+			//intersection found stop loop
+			if (nRes>=0)
+			{
+				break;
 			}
 		}
 		return nRes;

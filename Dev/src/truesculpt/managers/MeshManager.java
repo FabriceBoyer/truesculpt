@@ -183,7 +183,7 @@ public class MeshManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		NewMesh(4);
+		NewMesh(5);
 	}
 	
 	public boolean NewMesh(int nSubdivionLevel)
