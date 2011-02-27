@@ -31,18 +31,6 @@ public class AboutPanel extends Activity
 		getManagers().getUsageStatisticsManager().TrackPageView("/AboutPanel");
 
 		setContentView(R.layout.about);
-
-		/*
-		final Button button = (Button) findViewById(R.id.Ok_btn);
-		button.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				finish();
-			}
-		});
-		*/
 		
 		TextView aboutText=(TextView)findViewById(R.id.about_text);
 		String aboutMsg= getString(R.string.about_text) +"\n" +
