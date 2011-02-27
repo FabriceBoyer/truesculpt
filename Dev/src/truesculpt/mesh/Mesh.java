@@ -28,7 +28,7 @@ public class Mesh
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
 	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();	
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
-	OctreeNode mRootBoxNode=new OctreeNode(null, new float[]{0f,0f,0f}, 5f);
+	OctreeNode mRootBoxNode=new OctreeNode(null, new float[]{0f,0f,0f}, 4f);
 	Managers mManagers;
 
 	public Mesh(Managers managers, int nSubdivisionLevel)
@@ -557,18 +557,18 @@ public class Mesh
 	
 	private void RecurseBoxesToTest(OctreeNode currBox, ArrayList<OctreeNode> BoxesToTest, final float[] Rinit, final float[] Rdir)
 	{
-		if (currBox.IsLeaf())
+		if (ray_box_intersects(currBox,Rinit,Rdir))
 		{
-			if(!currBox.IsEmpty())
-			{			
-				BoxesToTest.add(currBox);			
-			}
-		}
-		else
-		{
-			for (OctreeNode box : currBox.NodeChilds)
+			if (currBox.IsLeaf())
 			{
-				if (ray_box_intersects(box,Rinit,Rdir))
+				if(!currBox.IsEmpty())
+				{			
+					BoxesToTest.add(currBox);			
+				}
+			}
+			else
+			{			
+				for (OctreeNode box : currBox.NodeChilds)
 				{
 					RecurseBoxesToTest(box,BoxesToTest,Rinit,Rdir);
 				}
@@ -604,6 +604,9 @@ public class Mesh
 		};
 		Collections.sort(BoxesToTest, comperator);
 	}
+	
+	ArrayList<OctreeNode> BoxesToTest=new ArrayList<OctreeNode>();
+	HashSet <Integer> boxFaces= new HashSet <Integer>();
 	public int Pick(float[] R0, float[] R1, float [] intersectPtReturn)
 	{
 		int nRes = -1;
@@ -612,10 +615,10 @@ public class Mesh
 		MatrixUtils.minus(R1, R0, dir);
 		float fSmallestDistanceToR0 = MatrixUtils.magnitude(dir);// ray is R0 to R1
 
-		ArrayList<OctreeNode> BoxesToTest=new ArrayList<OctreeNode>();
+		BoxesToTest.clear();
 		RecurseBoxesToTest(mRootBoxNode,BoxesToTest,R0,dir);
 		SortBoxesByDistance(BoxesToTest,R0);
-		HashSet <Integer> boxFaces= new HashSet <Integer>();
+		boxFaces.clear();
 		for (OctreeNode box : BoxesToTest )
 		{
 			//fill face list of the box
