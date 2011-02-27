@@ -30,7 +30,7 @@ public class Mesh
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
 	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();	
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
-	OctreeNode mRootBoxNode=new OctreeNode(null, new float[]{0f,0f,0f}, 4f);
+	OctreeNode mRootBoxNode=null;
 	Managers mManagers;
 
 	public Mesh(Managers managers, int nSubdivisionLevel)
@@ -41,13 +41,20 @@ public class Mesh
 		
 		InitAsSphere(nSubdivisionLevel);
 
-		mRootBoxNode.Vertices.addAll(mVertexList);
-		mRootBoxNode.RecurseSubdivide();
-		//CheckOctree();
-		
+		ComputeBoundingSphereRadius();
+		InitOctree();		
 		mRenderGroupList.add(new RenderFaceGroup(this));
 		
 		getManagers().getMeshManager().NotifyListeners();
+	}
+	
+	private void InitOctree()
+	{
+
+		mRootBoxNode=new OctreeNode(null, new float[]{0f,0f,0f}, 4f);
+		mRootBoxNode.Vertices.addAll(mVertexList);
+		mRootBoxNode.RecurseSubdivide();
+		//CheckOctree();
 	}
 	
 	private void CheckOctree()
@@ -434,6 +441,8 @@ public class Mesh
 		
 		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());		
 		
+		ComputeBoundingSphereRadius();
+		InitOctree();				
 		mRenderGroupList.add(new RenderFaceGroup(this));		
 	}
 

@@ -115,7 +115,8 @@ public class SaveFilePanel extends Activity implements Runnable
 	
 	public void SaveInternal()
 	{		
-		showDialog(DIALOG_WAIT);		
+		mSaveBtn.setEnabled(false);
+		showDialog(DIALOG_WAIT);			
 		
 	    Thread thread = new Thread(this);
 	    thread.start();
@@ -205,7 +206,8 @@ public class SaveFilePanel extends Activity implements Runnable
 	    	{
 		    	waitDialog.dismiss();
 		    	waitDialog=null;
-	    	}	     
+	    	}	    
+	    	mSaveBtn.setEnabled(true);
 	    	finish();
 	    }
 	};

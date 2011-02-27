@@ -5,9 +5,7 @@
   android:layout_height="fill_parent" 
   android:orientation="vertical">
 
-         <Button android:id="@+id/open_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/open_file"></Button>
-         
-         <GridView xmlns:android="http://schemas.android.com/apk/res/android" 
+<GridView xmlns:android="http://schemas.android.com/apk/res/android" 
     android:id="@+id/openfilegridview"
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent"
