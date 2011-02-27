@@ -1,6 +1,12 @@
 package truesculpt.mesh;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 import java.util.ArrayList;
+
+import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
 
@@ -17,6 +23,9 @@ public class OctreeNode
 	public float Radius=-1;
 	
 	private float MAX_VERTICES=500;
+	
+	private ShortBuffer mDrawIndexBuffer = null;
+	private FloatBuffer mDrawVertexBuffer = null;
 	
 	public void RecurseSubdivide()
 	{
@@ -98,7 +107,18 @@ public class OctreeNode
 			{
 				subBox.RecurseSubdivide();
 			}
-		}
+		}		
+	}
+	
+	public void draw(GL10 gl)
+	{
+		mDrawIndexBuffer.position(0);
+		mDrawVertexBuffer.position(0);
+		
+		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
+		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawVertexBuffer);
+
+		gl.glDrawElements(GL10.GL_LINES, 24, GL10.GL_UNSIGNED_SHORT, mDrawIndexBuffer);		
 	}
 
 	private void AddVertex(Vertex vertex)
@@ -119,6 +139,93 @@ public class OctreeNode
 		
 		MatrixUtils.copy(center, Max);
 		MatrixUtils.scalarAdd(Max, newRadius);
+		
+		float[] temp=new float[3];
+		ByteBuffer ndvbb = ByteBuffer.allocateDirect( 8 * 3 * 4);//  normals contains 3 elem (x,y,z) in float(4 bytes)
+		ndvbb.order(ByteOrder.nativeOrder());
+		mDrawVertexBuffer = ndvbb.asFloatBuffer();	
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]+=Radius;
+		temp[1]+=Radius;
+		temp[2]+=Radius;
+		mDrawVertexBuffer.put(temp);		
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]-=Radius;
+		temp[1]+=Radius;
+		temp[2]+=Radius;
+		mDrawVertexBuffer.put(temp);
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]-=Radius;
+		temp[1]-=Radius;
+		temp[2]+=Radius;
+		mDrawVertexBuffer.put(temp);
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]+=Radius;
+		temp[1]-=Radius;
+		temp[2]+=Radius;
+		mDrawVertexBuffer.put(temp);
+			
+		
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]+=Radius;
+		temp[1]+=Radius;
+		temp[2]-=Radius;
+		mDrawVertexBuffer.put(temp);		
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]-=Radius;
+		temp[1]+=Radius;
+		temp[2]-=Radius;
+		mDrawVertexBuffer.put(temp);
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]-=Radius;
+		temp[1]-=Radius;
+		temp[2]-=Radius;
+		mDrawVertexBuffer.put(temp);
+		
+		MatrixUtils.copy(Center,temp);
+		temp[0]+=Radius;
+		temp[1]-=Radius;
+		temp[2]-=Radius;
+		mDrawVertexBuffer.put(temp);
+
+		ByteBuffer ndibb = ByteBuffer.allocateDirect(24 * 2);// line are 2 elements in short ( 2 bytes )
+		ndibb.order(ByteOrder.nativeOrder());
+		mDrawIndexBuffer = ndibb.asShortBuffer();			
+		mDrawIndexBuffer.put((short)0);
+		mDrawIndexBuffer.put((short)1);
+		mDrawIndexBuffer.put((short)2);	
+		mDrawIndexBuffer.put((short)3);
+		mDrawIndexBuffer.put((short)0);	
+		
+		mDrawIndexBuffer.put((short)4);
+		mDrawIndexBuffer.put((short)7);
+		mDrawIndexBuffer.put((short)3);	
+		mDrawIndexBuffer.put((short)0);
+		
+		mDrawIndexBuffer.put((short)1);
+		mDrawIndexBuffer.put((short)5);
+		mDrawIndexBuffer.put((short)4);	
+		mDrawIndexBuffer.put((short)0);
+		mDrawIndexBuffer.put((short)1);
+		
+		mDrawIndexBuffer.put((short)1);
+		mDrawIndexBuffer.put((short)5);
+		mDrawIndexBuffer.put((short)6);	
+		mDrawIndexBuffer.put((short)2);
+		mDrawIndexBuffer.put((short)1);
+		mDrawIndexBuffer.put((short)2);
+		
+		mDrawIndexBuffer.put((short)6);
+		mDrawIndexBuffer.put((short)7);
+		mDrawIndexBuffer.put((short)3);	
+		mDrawIndexBuffer.put((short)2);					
 	}
 	
 	public boolean IsVertexInsideBox(Vertex vertex)

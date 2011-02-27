@@ -151,6 +151,16 @@ public class Mesh
 		{
 			renderGroup.draw(gl);
 		}
+		
+		ArrayList<OctreeNode> boxes=new ArrayList<OctreeNode>();
+		RecurseBoxes(mRootBoxNode,boxes);		
+		for(OctreeNode box : boxes)
+		{
+			if (!box.IsEmpty())
+			{
+				box.draw(gl);
+			}
+		}		
 	}
 	
 	public void drawNormals(GL10 gl)
@@ -545,7 +555,7 @@ public class Mesh
 		}
 	}
 	
-	private void RecurseBoxesToTest(OctreeNode currBox, ArrayList<OctreeNode> BoxesToTest, float[] Rinit, float[] Rdir)
+	private void RecurseBoxesToTest(OctreeNode currBox, ArrayList<OctreeNode> BoxesToTest, final float[] Rinit, final float[] Rdir)
 	{
 		if (currBox.IsLeaf())
 		{
@@ -992,7 +1002,7 @@ public class Mesh
 	
 
 	//from http://ompf.org/ray/ray_box.html, slabs test
-	boolean ray_box_intersects(OctreeNode box, float[] rayOrig, float[] rayDir) 
+	boolean ray_box_intersects(OctreeNode box, final float[] rayOrig, final float[] rayDir) 
 	{
 		float l1	= (box.Min[0] - rayOrig[0]) * rayDir[0];
 		float l2	= (box.Max[0] - rayOrig[0]) * rayDir[0];
