@@ -256,7 +256,7 @@ public class ToolsManager extends BaseManager
 
 	//mesh init color
 	public int getDefaultColor()
-	{		
+	{		 
 		return Color.rgb(150, 150, 150);
 	}
 	
@@ -265,5 +265,24 @@ public class ToolsManager extends BaseManager
 	{
 		getManagers().getRendererManager().getMainRenderer().onToolChange();
 		super.NotifyListeners();		
+	}
+
+	public float getStrengthAbsoluteValue()
+	{		
+		return Math.abs(mStrength);
+	}
+
+	public void setStrengthAbsoluteValue(float value, boolean bAddUndoAction)
+	{
+		float sign=1;
+		if (mStrength<0) sign=-1;
+		setStrength(sign*Math.abs(value), bAddUndoAction);		
+	}
+	
+	public void setStrengthSignum(boolean bIsPositive, boolean bAddUndoAction)
+	{
+		float sign=-1;
+		if (bIsPositive) sign=1;
+		setStrength(Math.abs(mStrength)*sign, bAddUndoAction);		
 	}
 }

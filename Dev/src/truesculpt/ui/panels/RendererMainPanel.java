@@ -255,13 +255,13 @@ public class RendererMainPanel extends Activity implements Observer
 		mStrength = (SliderPickView)findViewById(R.id.StrengthPicker);
 		mStrength.setText("Strength");
 		mStrength.setMaxValue(100);
-		mStrength.setMinValue(-100);
+		mStrength.setMinValue(0);
 		mStrength.setSliderChangeListener(new OnSliderPickChangedListener()
 		{			
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				getManagers().getToolsManager().setStrength(value,false);				
+				getManagers().getToolsManager().setStrengthAbsoluteValue(value,false);				
 			}
 
 			@Override
@@ -273,7 +273,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStop(float value)
 			{
-				getManagers().getToolsManager().setStrength(value,false);
+				getManagers().getToolsManager().setStrengthAbsoluteValue(value,false);
 				getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
@@ -494,7 +494,7 @@ public class RendererMainPanel extends Activity implements Observer
 		
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
 		
-		mStrength.setCurrentValue(getManagers().getToolsManager().getStrength());
+		mStrength.setCurrentValue(getManagers().getToolsManager().getStrengthAbsoluteValue());
 		
 		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE);
 	}	
