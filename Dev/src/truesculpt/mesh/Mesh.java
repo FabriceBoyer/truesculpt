@@ -616,7 +616,7 @@ public class Mesh
 		float[] Ires = new float[3];
 
 		MatrixUtils.minus(R1, R0, dir);
-		float fSmallestDistanceToR0 = MatrixUtils.magnitude(dir);// ray is R0 to R1
+		float fSmallestSqDistanceToR0 = MatrixUtils.squaremagnitude(dir);// ray is R0 to R1
 
 		BoxesToTest.clear();
 		RecurseBoxesToTest(mRootBoxNode,BoxesToTest,R0,dir);
@@ -644,12 +644,12 @@ public class Mesh
 				if (nCollide == 1)
 				{
 					MatrixUtils.minus(Ires, R0, dir);
-					float fDistanceToR0 = MatrixUtils.magnitude(dir);
-					if (fDistanceToR0 <= fSmallestDistanceToR0)
+					float fSqDistanceToR0 = MatrixUtils.squaremagnitude(dir);
+					if (fSqDistanceToR0 <= fSmallestSqDistanceToR0)
 					{
 						MatrixUtils.copy(Ires, intersectPtReturn);
 						nRes = i;
-						fSmallestDistanceToR0 = fDistanceToR0;
+						fSmallestSqDistanceToR0 = fSqDistanceToR0;
 					}
 				}
 			}
@@ -780,7 +780,7 @@ public class Mesh
 		}
 	}	
 
-	private HashSet <Integer> GetVerticesAtDistanceFromVertex(int nVertex, float distance)
+	private HashSet <Integer> GetVerticesAtDistanceFromVertex(int nVertex, float sqDistance)
 	{
 		HashSet <Integer> res=new HashSet <Integer>();
 		res.add(nVertex);//at at least this point
@@ -802,8 +802,8 @@ public class Mesh
 			
 			Vertex currVertex=mVertexList.get(nCurrIndex);
 			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
-			float currDistance=MatrixUtils.magnitude(temp);
-			if (currDistance<distance)
+			float currSqDistance=MatrixUtils.squaremagnitude(temp);
+			if (currSqDistance<sqDistance)
 			{
 				res.add(nCurrIndex);
 				for (HalfEdge edge : currVertex.OutLinkedEdges)
@@ -833,8 +833,8 @@ public class Mesh
 			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
 			Vertex origVertex=mVertexList.get(nOrigVertex);
 			
-			float maxDist=getManagers().getToolsManager().getRadius()/100f+0.1f;
-			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,maxDist);
+			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
+			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,sqMaxDist);
 			
 			// separate compute and apply of vertex pos otherwise compute is false
 			SculptAction action=new SculptAction();			
@@ -846,10 +846,10 @@ public class Mesh
 				MatrixUtils.copy(origVertex.Normal, VOffset);
 				
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-				float dist=MatrixUtils.magnitude(temp);
+				float sqDist=MatrixUtils.squaremagnitude(temp);
 
 				//TODO advanced functions
-				MatrixUtils.scalarMultiply(VOffset, (maxDist-dist)/maxDist*fMaxDeformation);
+				MatrixUtils.scalarMultiply(VOffset, (sqMaxDist-sqDist)/sqMaxDist*fMaxDeformation);
 				action.AddVertexOffset(i,VOffset,vertex);		
 			}
 			getManagers().getActionsManager().AddUndoAction(action);

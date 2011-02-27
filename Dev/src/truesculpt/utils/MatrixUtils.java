@@ -128,6 +128,18 @@ public class MatrixUtils
 	}
 
 	/**
+	 * Compute the square magnitude (length) of a vector
+	 * 
+	 * @param vector
+	 *            The vector
+	 * @return The magnitude of the vector
+	 **/
+	public static float squaremagnitude(float[] vector)
+	{
+		return (float)(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+	}
+	
+	/**
 	 * Compute the magnitude (length) of a vector
 	 * 
 	 * @param vector
