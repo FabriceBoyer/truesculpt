@@ -26,9 +26,7 @@ public class MeshManager extends BaseManager
 		@Override
 		public void run()
 		{
-			NewMeshBlocking(nSubdivionLevel);
-			
-			mMesh.ComputeBoundingSphereRadius();			
+			NewMeshBlocking(nSubdivionLevel);						
 		}
 	}
 	
@@ -37,6 +35,8 @@ public class MeshManager extends BaseManager
 		bInitOver=false;
 		
 		mMesh=new Mesh(getManagers(),nSubdivionLevel);
+		
+		mMesh.ComputeBoundingSphereRadius();
 		
 		bInitOver = true;
 	}
