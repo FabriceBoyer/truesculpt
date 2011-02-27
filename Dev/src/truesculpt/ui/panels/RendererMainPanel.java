@@ -10,11 +10,13 @@ import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorShowView;
 import truesculpt.ui.views.SliderPickView;
+import truesculpt.ui.views.SliderPickView.OnDoubleClickListener;
 import truesculpt.ui.views.SliderPickView.OnSliderPickChangedListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -273,8 +275,16 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStop(float value)
 			{
-				getManagers().getToolsManager().setStrengthAbsoluteValue(value,false);
 				getManagers().getToolsManager().AddUndoToolAction();
+			}
+		});
+		mStrength.SetDoubleClickListener(new OnDoubleClickListener()
+		{			
+			@Override
+			public void onDoubleClick()
+			{
+				boolean bIsPositive=getManagers().getToolsManager().isStrengthPositive();
+				getManagers().getToolsManager().setStrengthSignum(!bIsPositive, false);				
 			}
 		});
 		
@@ -495,6 +505,9 @@ public class RendererMainPanel extends Activity implements Observer
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
 		
 		mStrength.setCurrentValue(getManagers().getToolsManager().getStrengthAbsoluteValue());
+		int strengthColor=Color.RED;
+		if (getManagers().getToolsManager().isStrengthPositive()) strengthColor=Color.BLUE;
+		mStrength.SetCircleBackColor(strengthColor);
 		
 		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE);
 	}	

@@ -88,7 +88,7 @@ public class ColorShowView extends View
 				else
 				{
 					mOldColor=mColor;	
-					UpdateColorValue(-1,State.START);
+					UpdateColorValue(0,State.START);
 				}
 				mLastTapTapTime = curTapTapTime;
 				
@@ -117,7 +117,7 @@ public class ColorShowView extends View
 	private void UpdateColorValue(float pixelDist, State state)
 	{
 		int newColor=mColor;
-		if (pixelDist>=0)
+		if (state!=State.START)
 		{
 			float newHue=(360*pixelDist/PixelAmplitude)%360;
 			float [] VCol= new float[3];		

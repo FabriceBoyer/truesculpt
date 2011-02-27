@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,19 +20,27 @@ public class SliderPickView extends View
 		void sliderChangeStop(float value);
 	}
 	
+	public interface OnDoubleClickListener
+	{
+		 void onDoubleClick();	 
+	}
+	
 	private String Text="Value : ";
 	private String UnitText=" %";
 	private float CurrentValue=0;
 	private float MaxValue=100;
 	private float MinValue=0;
-	private int PixelAmplitude=300;
-	
+	private int PixelAmplitude=300;	
 	private Paint mTextPaint=null;
 	private Paint mCenterPaint=null;
 	float orig_x=0;
 	float orig_y=0;
+	private long mLastTapTapTime=0;
+	private long mTapTapTimeThresold=500;//ms
+	private float mOldValue=0;
 	
 	private OnSliderPickChangedListener mListener=null;
+	private OnDoubleClickListener mDoubleClickListener=null;
 	
 	public SliderPickView(Context c, AttributeSet attrs)
 	{
@@ -87,10 +94,26 @@ public class SliderPickView extends View
 		switch (actionCode)
 		{
 			case MotionEvent.ACTION_DOWN:
-			{			
+			{		
 				orig_x=x;
 				orig_y=y;
-				UpdateSliderValue(x, y, State.START);
+				
+				long curTapTapTime = System.currentTimeMillis();
+				if ((curTapTapTime - mLastTapTapTime) < mTapTapTimeThresold)
+				{
+					if (mDoubleClickListener!=null)
+					{
+						setCurrentValue(mOldValue);						
+						mDoubleClickListener.onDoubleClick();
+					}
+				}
+				else
+				{
+					mOldValue=CurrentValue;	
+					UpdateSliderValue(x, y, State.START);
+				}
+				mLastTapTapTime = curTapTapTime;
+				
 				bRes=true;
 				break;
 			}
@@ -113,13 +136,17 @@ public class SliderPickView extends View
 
 	private void UpdateSliderValue(float x, float y, State state)
 	{
-		float distX=x-orig_x;
-		float distY=orig_y-y;
-		float pixelDist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
-		//pixelDist=pixelDist%PixelAmplitude;
-		float valueAmplitude=MaxValue-MinValue;
-		float newValue=MinValue+pixelDist*(valueAmplitude/PixelAmplitude);
-		setCurrentValue(newValue);
+		float newValue=CurrentValue;
+		if (state!=State.START)
+		{
+			float distX=x-orig_x;
+			float distY=orig_y-y;
+			float pixelDist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
+			//pixelDist=pixelDist%PixelAmplitude;
+			float valueAmplitude=MaxValue-MinValue;
+			newValue=MinValue+pixelDist*(valueAmplitude/PixelAmplitude);
+			setCurrentValue(newValue);
+		}
 		if (mListener!=null)
 		{
 			switch (state)
@@ -198,6 +225,13 @@ public class SliderPickView extends View
 	{
 		PixelAmplitude = pixelAmplitude;
 	}
-
+	public void SetDoubleClickListener(OnDoubleClickListener listener)
+	{
+		mDoubleClickListener=listener;
+	}
+	public void SetCircleBackColor(int color)
+	{
+		mCenterPaint.setColor(color);
+	}
 	
 }
