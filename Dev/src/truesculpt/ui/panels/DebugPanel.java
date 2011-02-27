@@ -40,8 +40,10 @@ public class DebugPanel extends Activity
 		long lLastRenderDuration = getManagers().getRendererManager().getMainRenderer().getLastFrameDurationMs();
 		String msg = "Last frame duration = " + Long.toString(lLastRenderDuration) + " ms\n";
 		msg += "Equivalent FPS is " + Integer.toString((int)(1.0f / lLastRenderDuration * 1000.0f)) + " images/s\n\n";
-		long lLastPickDuration = getManagers().getMeshManager().getLastPickDurationMs();
+		long lLastPickDuration = getManagers().getMeshManager().getLastPickDurationMs();		
 		msg += "Last picking duration = " + Long.toString(lLastPickDuration) + " ms\n";
+		long lLastSculptDuration = getManagers().getMeshManager().getLastSculptDurationMs();
+		msg += "Last sculpting duration = " + Long.toString(lLastSculptDuration) + " ms\n";
 		lastFrameText.setText(msg);
 
 		TextView meshStatText = (TextView) findViewById(R.id.MeshStatsText);
