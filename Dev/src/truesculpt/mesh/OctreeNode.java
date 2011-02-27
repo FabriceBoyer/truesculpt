@@ -296,6 +296,37 @@ public class OctreeNode
 		}
 	}
 	
-	//TODO : resubdividing and box simplification (removing empty node with only empty child) routines called from time to time
+	//resubdividing and box simplification routines called from time to time
+	public void CleaningTask()
+	{
+		RecurseSubdivide();
+		RecurseClean();
+	}
+
+	//simplification through removing of empty node with only empty child
+	public void RecurseClean()
+	{		
+		boolean bAllChildsEmpty=true;
+		for (OctreeNode box : NodeChilds)
+		{
+			if (box.IsLeaf())
+			{
+				if (!box.IsEmpty())			
+				{
+					bAllChildsEmpty=false;
+				}
+			}
+			else
+			{
+				bAllChildsEmpty=false;
+				box.RecurseClean();
+			}
+		}
+		
+		if (bAllChildsEmpty)
+		{
+			NodeChilds.clear();
+		}			
+	}
 	
 }
