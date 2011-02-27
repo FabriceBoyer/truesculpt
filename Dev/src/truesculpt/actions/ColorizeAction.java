@@ -38,7 +38,7 @@ public class ColorizeAction extends BaseAction
 		for (VertexColorChange change : mVertexChanges)
 		{
 			change.vertex.Color=change.newColor;
-			mesh.UpdateVertexColor(change.nIndex);
+			mesh.UpdateVertexColor(change.nIndex, change.vertex);
 		}
 		return true;
 	}
@@ -62,7 +62,7 @@ public class ColorizeAction extends BaseAction
 		for (VertexColorChange change : mVertexChanges)
 		{
 			change.vertex.Color=change.oldColor;
-			mesh.UpdateVertexColor(change.nIndex);
+			mesh.UpdateVertexColor(change.nIndex, change.vertex);
 		}
 		return true;
 	}

@@ -86,6 +86,7 @@ public class MeshManager extends BaseManager
 				if (getManagers().getOptionsManager().getDisplayDebugInfos())
 				{
 					mMesh.drawNormals(gl);
+					mMesh.drawOctree(gl);
 					
 					//pick debug
 					//mRay.draw(gl);
