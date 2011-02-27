@@ -46,7 +46,7 @@ public class SculptAction extends BaseAction
 		for (VertexCoordChange change : mVertexChanges)
 		{
 			mesh.ComputeVertexNormal(change.vertex);
-			mesh.UpdateVertexValue(change.nIndex);
+			mesh.UpdateVertexValue(change.nIndex, change.vertex);
 		}
 		return true;
 	}
@@ -75,7 +75,7 @@ public class SculptAction extends BaseAction
 		for (VertexCoordChange change : mVertexChanges)
 		{
 			mesh.ComputeVertexNormal(change.vertex);
-			mesh.UpdateVertexValue(change.nIndex);
+			mesh.UpdateVertexValue(change.nIndex, change.vertex);
 		}
 		return true;
 	}

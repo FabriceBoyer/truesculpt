@@ -922,9 +922,8 @@ public class Mesh
 		}
 	}
 	
-	public void UpdateVertexValue(int nVertexIndex)
+	public void UpdateVertexValue(int nVertexIndex, Vertex vertex)
 	{
-		Vertex vertex=mVertexList.get(nVertexIndex);
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
 			renderGroup.UpdateVertexValue( nVertexIndex, vertex.Coord, vertex.Normal);
@@ -932,9 +931,8 @@ public class Mesh
 		UpdateBoudingSphereRadius(vertex.Coord);				
 	}
 	
-	public void UpdateVertexColor( int nVertexIndex)
+	public void UpdateVertexColor( int nVertexIndex, Vertex vertex)
 	{
-		Vertex vertex=mVertexList.get(nVertexIndex);
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
 			renderGroup.UpdateVertexColor( nVertexIndex, vertex.Color);
