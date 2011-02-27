@@ -191,6 +191,8 @@ public class SaveFilePanel extends Activity implements Runnable
 			}
 		}
 		
+		getManagers().getUtilsManager().ShowToastMessage("Sculpture successfully exported to " + strBaseFileName);
+		
 	    handler.sendEmptyMessage(0);
 	 }
 

@@ -235,8 +235,6 @@ public class Mesh
 		{
 			e.printStackTrace();
 		}
-
-		getManagers().getUtilsManager().ShowToastMessage("Sculpture successfully exported to " + strFileName);
 	}
 
 	private void FinalizeSphereInit()
