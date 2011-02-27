@@ -285,4 +285,8 @@ public class ToolsManager extends BaseManager
 		if (bIsPositive) sign=1;
 		setStrength(Math.abs(mStrength)*sign, bAddUndoAction);		
 	}
+	public boolean isStrengthPositive()
+	{
+		return mStrength>0;
+	}
 }
