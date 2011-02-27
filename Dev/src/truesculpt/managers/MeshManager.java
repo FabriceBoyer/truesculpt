@@ -50,6 +50,7 @@ public class MeshManager extends BaseManager
 	};
 
 	long mLastPickDurationMs = -1;
+	long mLastSculptDurationMs = -1;
 	private float[] mModelView = new float[16];	
 	private PickHighlight mPickHighlight = new PickHighlight();
 	private float[] mProjection = new float[16];
@@ -110,6 +111,11 @@ public class MeshManager extends BaseManager
 	{
 		return mLastPickDurationMs;
 	}
+	
+	public long getLastSculptDurationMs()
+	{
+		return mLastSculptDurationMs;
+	}	
 
 	public int getVertexCount()
 	{
@@ -218,7 +224,7 @@ public class MeshManager extends BaseManager
 		{
 			synchronized (this)
 			{
-				long tStart = SystemClock.uptimeMillis();
+
 	
 				GetWorldCoords(rayPt2, screenX, screenY, 1.0f);// normalized z between -1 and 1
 				GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
@@ -260,8 +266,7 @@ public class MeshManager extends BaseManager
 					}
 				}
 	
-				long tStop = SystemClock.uptimeMillis();
-				mLastPickDurationMs = tStop - tStart;
+
 				
 				NotifyListeners();	
 			}
@@ -272,11 +277,16 @@ public class MeshManager extends BaseManager
 	
 	private int PickRay()
 	{
+		long tPickStart = SystemClock.uptimeMillis();
 		int nIndex = mMesh.Pick(rayPt1, rayPt2,intersectPt);
+		long tPickStop = SystemClock.uptimeMillis();
+		mLastPickDurationMs = tPickStop - tPickStart;
+		
 		if (nIndex >= 0)
 		{
 			mPickHighlight.setPickHighlightPosition(intersectPt);
 
+			long tSculptStart = SystemClock.uptimeMillis();
 			// TODO place in actionManager
 			switch (getManagers().getToolsManager().getToolMode())
 			{
@@ -304,7 +314,9 @@ public class MeshManager extends BaseManager
 						break;								
 					}
 				}
-			}					
+			}		
+			long tSculptStop = SystemClock.uptimeMillis();
+			mLastSculptDurationMs = tSculptStop - tSculptStart;
 		}
 		else
 		{
