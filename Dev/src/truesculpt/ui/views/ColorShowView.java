@@ -137,7 +137,7 @@ public class ColorShowView extends View
 				mColorListener.colorChanged(newColor);
 				break;
 			case STOP:
-				mColorListener.colorChangeStop(newColor);
+				mColorListener.colorChangeStop();
 				break;
 			}	
 		}

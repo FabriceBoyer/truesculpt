@@ -166,7 +166,7 @@ public class ColorPickerView extends View
 				mListener.colorChanged(color);
 				break;
 			case STOP:
-				mListener.colorChangeStop(color);
+				mListener.colorChangeStop();
 				break;
 			}					
 		}

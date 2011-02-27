@@ -222,7 +222,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 
 			@Override
-			public void colorChangeStop(int color)
+			public void colorChangeStop()
 			{
 				getManagers().getToolsManager().AddUndoToolAction();
 			}
