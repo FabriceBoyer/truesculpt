@@ -791,7 +791,7 @@ public class Mesh
 				//barycenter of colors
 				float alpha=(MaxDist-dist)/MaxDist;//[0;1]
 				VNewCol[0]=VTargetCol[0];
-				VNewCol[1]=(1-alpha)*VNewCol[1]+alpha*VTargetCol[1];
+				VNewCol[1]=VTargetCol[1];
 				VNewCol[2]=(1-alpha)*VNewCol[2]+alpha*VTargetCol[2];
 				
 				int newColor=Color.HSVToColor(VNewCol);
@@ -870,7 +870,7 @@ public class Mesh
 			{
 				Vertex vertex=mVertexList.get(i);
 				MatrixUtils.copy(origVertex.Normal, VOffset);
-				MatrixUtils.copy(vertex.Normal, VOffset);
+				//MatrixUtils.copy(vertex.Normal, VOffset);
 				
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
 				float sqDist=MatrixUtils.squaremagnitude(temp);
