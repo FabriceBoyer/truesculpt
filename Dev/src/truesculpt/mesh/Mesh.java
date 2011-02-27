@@ -927,7 +927,9 @@ public class Mesh
 	}
 	
 	public void UpdateVertexValue(int nVertexIndex, Vertex vertex)
-	{
+	{	
+		vertex.Box.Reboxing(vertex);//update octree
+		
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
 			renderGroup.UpdateVertexValue( nVertexIndex, vertex.Coord, vertex.Normal);
