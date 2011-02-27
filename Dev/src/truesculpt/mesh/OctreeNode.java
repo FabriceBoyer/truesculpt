@@ -126,6 +126,12 @@ public class OctreeNode
 		Vertices.add(vertex);
 		vertex.Box=this;		
 	}
+	
+	private void RemoveVertex(Vertex vertex)
+	{
+		Vertices.remove(vertex);
+		vertex.Box=null;		
+	}
 
 	public OctreeNode(OctreeNode parent, float[] center, float newRadius)
 	{
@@ -251,5 +257,45 @@ public class OctreeNode
 	{	
 		return Vertices.size()==0;
 	}
+
+	public void Reboxing(Vertex vertex)
+	{
+		if (!IsVertexInsideBox(vertex))
+		{			
+			//find parent going up
+			OctreeNode currBox=NodeParent;
+			while (currBox!=null && !currBox.IsVertexInsideBox(vertex) )
+			{				
+				currBox=currBox.NodeParent;
+			}			
+			
+			if (currBox!=null)
+			{
+				currBox.RecursePlaceVertexInChild(vertex);
+			}
+		}		
+	}
+	
+	private void RecursePlaceVertexInChild(Vertex vertex)
+	{
+		//find child going down
+		for (OctreeNode box : NodeChilds)
+		{
+			if (box.IsVertexInsideBox(vertex))
+			{
+				if (box.IsLeaf())
+				{
+					box.AddVertex(vertex);
+					break;
+				}
+				else
+				{
+					box.RecursePlaceVertexInChild(vertex);
+				}
+			}
+		}
+	}
+	
+	//TODO : resubdividing and box simplification (removing empty node with only empty child) routines called from time to time
 	
 }
