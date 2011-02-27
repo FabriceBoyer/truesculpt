@@ -47,14 +47,21 @@ public class OpenFileAdapter extends BaseAdapter
 		if (convertView == null)
 		{	
 			convertView = inflater.inflate(R.layout.openfileitem, null);
+			convertView.setLayoutParams(new GridView.LayoutParams(200,200));
+			//convertView.setPadding(8, 8, 8, 8);
 			TextView title = (TextView) convertView.findViewById(R.id.fileopentitle);
+
 			ImageView image = (ImageView) convertView.findViewById(R.id.fileopenimage);
-			image.setScaleType(ImageView.ScaleType.FIT_CENTER);			
-			
+			image.setScaleType(ImageView.ScaleType.FIT_CENTER);	
+
 			FileElem elem=mFileList.get(position);
 			title.setText(elem.name);
+			
 			Bitmap bmp = BitmapFactory.decodeFile(elem.imagefilename);
-			image.setImageBitmap(bmp);			
+			image.setImageBitmap(bmp);
+			
+			title.setEnabled(true);
+			title.setVisibility(View.VISIBLE);
 		} 
         
         return convertView;
