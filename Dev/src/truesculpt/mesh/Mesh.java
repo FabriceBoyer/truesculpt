@@ -822,6 +822,9 @@ public class Mesh
 		return res;		
 	}
 	
+	private float FWHM=(float) (2f*Math.sqrt(2*Math.log(2f)));//full width at half maximum
+	private float oneoversqrttwopi=(float) (1f/Math.sqrt(2f*Math.PI));
+	
 	// TODO place as an action
 	public void RiseSculptAction(int triangleIndex)
 	{
@@ -835,7 +838,8 @@ public class Mesh
 			
 			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,sqMaxDist);
-			
+			float sigma=(float) ((Math.sqrt(sqMaxDist)/2f)/FWHM);
+
 			// separate compute and apply of vertex pos otherwise compute is false
 			SculptAction action=new SculptAction();			
 			float[] VOffset = new float[3];
@@ -848,8 +852,8 @@ public class Mesh
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
 				float sqDist=MatrixUtils.squaremagnitude(temp);
 
-				//TODO advanced functions
-				MatrixUtils.scalarMultiply(VOffset, (sqMaxDist-sqDist)/sqMaxDist*fMaxDeformation);
+				//sculpting functions				
+				MatrixUtils.scalarMultiply(VOffset, (float) (oneoversqrttwopi/sigma*Math.exp(-sqDist/(2*sigma*sigma))*fMaxDeformation));
 				action.AddVertexOffset(i,VOffset,vertex);		
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
