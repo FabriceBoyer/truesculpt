@@ -48,7 +48,7 @@ public class OpenFileAdapter extends BaseAdapter
 		{	
 			convertView = inflater.inflate(R.layout.openfileitem, null);
 			convertView.setLayoutParams(new GridView.LayoutParams(200,200));
-			//convertView.setPadding(8, 8, 8, 8);
+			convertView.setPadding(8, 8, 8, 8);
 			TextView title = (TextView) convertView.findViewById(R.id.fileopentitle);
 
 			ImageView image = (ImageView) convertView.findViewById(R.id.fileopenimage);
