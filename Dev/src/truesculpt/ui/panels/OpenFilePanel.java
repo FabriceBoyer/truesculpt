@@ -24,7 +24,7 @@ public class OpenFilePanel extends Activity implements Runnable
 {
 	private ProgressDialog waitDialog=null;
 	private GridView gridview=null;
-	private String mStrObjFileName="";
+	private FileElem mSelectedElem=null;
 	private ArrayList<FileElem> mFileList= new ArrayList<FileElem>();
 	private final int DIALOG_WAIT = 1;
 		
@@ -71,8 +71,7 @@ public class OpenFilePanel extends Activity implements Runnable
 	    {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
 	        {
-	        	FileElem elem=mFileList.get((int) id);
-	            mStrObjFileName=elem.objfilename;
+	        	mSelectedElem=mFileList.get((int) id);
 	            OpenInternal();
 	        }
 	    });
@@ -102,7 +101,7 @@ public class OpenFilePanel extends Activity implements Runnable
 	@Override
 	public void run()
 	{	
-		if (mStrObjFileName!="")
+		if (mSelectedElem!=null)
 		{
 			try
 			{
@@ -110,8 +109,9 @@ public class OpenFilePanel extends Activity implements Runnable
 				Mesh mesh=getManagers().getMeshManager().getMesh();
 				if (mesh!=null && getManagers().getMeshManager().IsInitOver())
 				{
-					mesh.ImportFromOBJ(mStrObjFileName);		
-					mStrObjFileName="";
+					mesh.ImportFromOBJ(mSelectedElem.objfilename);		
+					getManagers().getMeshManager().setName(mSelectedElem.name);
+					mSelectedElem=null;
 				}
 				
 			} catch (IOException e)

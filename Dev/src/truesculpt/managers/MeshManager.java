@@ -16,7 +16,7 @@ import android.util.Log;
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager
 {
-	private String Name="MyTrueSculpture";
+	private String Name="";
 	private boolean bInitOver = true;
 	float[] intersectPt = new float[3];
 	
@@ -35,6 +35,8 @@ public class MeshManager extends BaseManager
 		bInitOver=false;
 		
 		mMesh=new Mesh(getManagers(),nSubdivionLevel);
+		
+		Name="MyTrueSculpture";
 		
 		bInitOver = true;
 	}
