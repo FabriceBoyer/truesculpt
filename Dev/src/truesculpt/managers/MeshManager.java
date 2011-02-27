@@ -217,9 +217,7 @@ public class MeshManager extends BaseManager
 		if (mMesh!=null)
 		{
 			synchronized (this)
-			{
-
-	
+			{	
 				GetWorldCoords(rayPt2, screenX, screenY, 1.0f);// normalized z between -1 and 1
 				GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
 	
@@ -259,8 +257,6 @@ public class MeshManager extends BaseManager
 						break;
 					}
 				}
-	
-
 				
 				NotifyListeners();	
 			}
