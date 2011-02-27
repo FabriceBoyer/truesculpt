@@ -557,7 +557,7 @@ public class Mesh
 	
 	private void RecurseBoxesToTest(OctreeNode currBox, ArrayList<OctreeNode> BoxesToTest, final float[] Rinit, final float[] Rdir)
 	{
-		if (ray_box_intersects(currBox,Rinit,Rdir))
+		if (ray_box_intersect(currBox,Rinit,Rdir,0,10))
 		{
 			if (currBox.IsLeaf())
 			{
@@ -1004,25 +1004,47 @@ public class Mesh
 	}
 	
 
-	//from http://ompf.org/ray/ray_box.html, slabs test
-	boolean ray_box_intersects(OctreeNode box, final float[] rayOrig, final float[] rayDir) 
+	// Smits’ method
+	boolean ray_box_intersect(OctreeNode box, final float[] rayOrig, final float[] rayDir, float t0, float t1) 
 	{
-		float l1	= (box.Min[0] - rayOrig[0]) * rayDir[0];
-		float l2	= (box.Max[0] - rayOrig[0]) * rayDir[0];
-		float lmin	= Math.min(l1,l2);
-		float lmax	= Math.max(l1,l2);
-
-		l1	= (box.Min[1] - rayOrig[1]) * rayDir[1];
-		l2	= (box.Max[1] - rayOrig[1]) * rayDir[1];
-		lmin	= Math.max(Math.min(l1,l2), lmin);
-		lmax	= Math.min(Math.max(l1,l2), lmax);
-		
-		l1	= (box.Min[2] - rayOrig[2]) * rayDir[2];
-		l2	= (box.Max[2] - rayOrig[2]) *rayDir[2];
-		lmin	= Math.max(Math.min(l1,l2), lmin);
-		lmax	= Math.min(Math.max(l1,l2), lmax);
-
-		return ((lmax >= 0.f) & (lmax >= lmin));
+		float tmin, tmax, tymin, tymax, tzmin, tzmax;
+		if (rayDir[0] >= 0) 
+		{
+			tmin = (box.Min[0] - rayOrig[0]) / rayDir[0];
+			tmax = (box.Max[0] - rayOrig[0]) / rayDir[0];
+		}
+		else 
+		{
+			tmin = (box.Max[0] - rayOrig[0]) / rayDir[0];
+			tmax = (box.Min[0] - rayOrig[0]) / rayDir[0];
+		}
+		if (rayDir[1] >= 0)
+		{
+			tymin = (box.Min[1] - rayOrig[1]) / rayDir[1];
+			tymax = (box.Max[1] - rayOrig[1]) / rayDir[1];
+		}
+		else 
+		{
+			tymin = (box.Max[1] - rayOrig[1]) / rayDir[1];
+			tymax = (box.Min[1] - rayOrig[1]) / rayDir[1];
+		}
+		if ( (tmin > tymax) || (tymin > tmax) )	return false;
+		if (tymin > tmin)tmin = tymin;
+		if (tymax < tmax) tmax = tymax;
+		if (rayDir[2] >= 0) 
+		{
+			tzmin = (box.Min[2] - rayOrig[2]) / rayDir[2];
+			tzmax = (box.Max[2] - rayOrig[2]) / rayDir[2];
+		}
+		else 
+		{
+			tzmin = (box.Max[2] - rayOrig[2]) / rayDir[2];
+			tzmax = (box.Min[2] - rayOrig[2]) / rayDir[2];
+		}
+		if ( (tmin > tzmax) || (tzmin > tmax) )	return false;
+		if (tzmin > tmin)tmin = tzmin;
+		if (tzmax < tmax)tmax = tzmax;
+		return ( (tmin < t1) && (tmax > t0) );
 	}
 	
 	
