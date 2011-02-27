@@ -36,8 +36,6 @@ public class MeshManager extends BaseManager
 		
 		mMesh=new Mesh(getManagers(),nSubdivionLevel);
 		
-		mMesh.ComputeBoundingSphereRadius();
-		
 		bInitOver = true;
 	}
 	
