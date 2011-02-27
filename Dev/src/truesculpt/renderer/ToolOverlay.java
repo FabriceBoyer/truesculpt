@@ -160,7 +160,6 @@ public class ToolOverlay
 			case DRAW:
 			case GRAB:
 			case SMOOTH:
-			case INFLATE:
 			{
 				bShowOverlay=true;
 				break;	

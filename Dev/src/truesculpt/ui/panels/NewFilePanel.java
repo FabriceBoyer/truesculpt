@@ -14,6 +14,7 @@ public class NewFilePanel extends Activity
 {
 	private Button mNewBtn;
 	private Spinner mSubdivion_level_spinner;
+	private Spinner mInitial_shape_spinner;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -36,12 +37,24 @@ public class NewFilePanel extends Activity
 			}
 		});
 		
-	    mSubdivion_level_spinner = (Spinner) findViewById(R.id.Subdivion_level_spinner);
-	    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-	            this, R.array.subdivision_levels, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    mSubdivion_level_spinner.setAdapter(adapter);
-	    mSubdivion_level_spinner.setSelection(5);
+		//TODO not implemented yet
+		{
+			mInitial_shape_spinner = (Spinner) findViewById(R.id.initial_shape);
+		    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+		            this, R.array.initial_shape, android.R.layout.simple_spinner_item);
+		    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    mInitial_shape_spinner.setAdapter(adapter);
+		    mInitial_shape_spinner.setSelection(0);
+		}
+		
+		{
+		    mSubdivion_level_spinner = (Spinner) findViewById(R.id.Subdivion_level_spinner);
+		    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+		            this, R.array.subdivision_levels, android.R.layout.simple_spinner_item);
+		    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    mSubdivion_level_spinner.setAdapter(adapter);
+		    mSubdivion_level_spinner.setSelection(5);
+		}
 
 	}
 	

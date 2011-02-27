@@ -247,10 +247,17 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 
 			@Override
-			public void sliderChangeStop(float value)
-			{
-				getManagers().getToolsManager().setRadius(value,false);	
+			public void sliderChangeStop()
+			{					
 				getManagers().getToolsManager().AddUndoToolAction();
+			}
+		});
+		mRadius.SetDoubleClickListener(new OnDoubleClickListener()
+		{			
+			@Override
+			public void onDoubleClick()
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);		
 			}
 		});
 		
@@ -273,7 +280,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 
 			@Override
-			public void sliderChangeStop(float value)
+			public void sliderChangeStop()
 			{
 				getManagers().getToolsManager().AddUndoToolAction();
 			}
