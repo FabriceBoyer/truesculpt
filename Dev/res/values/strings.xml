@@ -90,6 +90,7 @@
 <string name="openfile">Open</string>
 <string name="savefile">Save</string>  
 <string name="webfile">Web</string>
-<string name="Subdivion_level">Subdivion level</string>        
+<string name="Subdivion_level">Subdivion</string>      
+<string name="initial_shape">Initial shape</string>      
     
 </resources>

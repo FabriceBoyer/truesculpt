@@ -14,7 +14,7 @@ public class ToolsManager extends BaseManager
 	};
 
 	public enum ESculptToolSubMode {
-		DRAW, GRAB, INFLATE, SMOOTH, COLOR, TEXTURE, PICK_COLOR		
+		DRAW, GRAB, SMOOTH, COLOR, TEXTURE, PICK_COLOR		
 	};
 	
 	public enum EToolMode {

@@ -302,8 +302,6 @@ public class MeshManager extends BaseManager
 						break;	
 					case SMOOTH:
 						break;
-					case INFLATE:
-						break;
 					case COLOR:
 						mMesh.ColorizePaintAction(nIndex);
 						break;

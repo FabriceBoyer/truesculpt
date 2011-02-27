@@ -9,6 +9,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
+        android:text="@string/initial_shape"
+    />
+    <Spinner 
+        android:id="@+id/initial_shape"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/initial_shape"
+    />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
         android:text="@string/Subdivion_level"
     />
     <Spinner 
@@ -17,8 +29,12 @@
         android:layout_height="wrap_content"
         android:prompt="@string/Subdivion_level"
     />
-
-
-    <Button android:id="@+id/new_file" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/new_file"></Button>
+    <Button 
+    	android:id="@+id/new_file"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="@string/new_file"
+    />
+    
      
 </LinearLayout>

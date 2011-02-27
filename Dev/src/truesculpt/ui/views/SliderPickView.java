@@ -17,7 +17,7 @@ public class SliderPickView extends View
 	{
 		void sliderValueChanged(float value);
 		void sliderChangeStart();
-		void sliderChangeStop(float value);
+		void sliderChangeStop();
 	}
 	
 	public interface OnDoubleClickListener
@@ -158,7 +158,7 @@ public class SliderPickView extends View
 				mListener.sliderValueChanged(newValue);
 				break;
 			case STOP:
-				mListener.sliderChangeStop(newValue);
+				mListener.sliderChangeStop();
 				break;
 			}			
 		}
