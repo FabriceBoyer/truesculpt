@@ -28,7 +28,7 @@ public class MeshManager extends BaseManager
 		{
 			NewMeshBlocking(nSubdivionLevel);
 			
-			mHandler.post(mNotifyTask); // to come back in UI thread
+			mMesh.ComputeBoundingSphereRadius();			
 		}
 	}
 	
@@ -37,22 +37,11 @@ public class MeshManager extends BaseManager
 		bInitOver=false;
 		
 		mMesh=new Mesh(getManagers(),nSubdivionLevel);
-
+		
 		bInitOver = true;
 	}
 	
-	MeshInitTash mInitTask = new MeshInitTash();
-	
-	private Handler mHandler = new Handler();
-	Runnable mNotifyTask = new Runnable()
-	{
-		@Override
-		public void run()
-		{
-			mMesh.ComputeBoundingSphereRadius();
-			NotifyListeners();
-		}
-	};
+	MeshInitTash mInitTask = new MeshInitTash();	
 
 	long mLastPickDurationMs = -1;
 	long mLastSculptDurationMs = -1;

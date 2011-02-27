@@ -34,9 +34,11 @@ public class Mesh
 	Managers mManagers;
 
 	public Mesh(Managers managers, int nSubdivisionLevel)
-	{
+	{	
 		mManagers = managers;
-
+		
+		Reset();
+		
 		InitAsSphere(nSubdivisionLevel);
 
 		mRootBoxNode.Vertices.addAll(mVertexList);
@@ -44,6 +46,8 @@ public class Mesh
 		//CheckOctree();
 		
 		mRenderGroupList.add(new RenderFaceGroup(this));
+		
+		getManagers().getMeshManager().NotifyListeners();
 	}
 	
 	private void CheckOctree()
@@ -412,6 +416,8 @@ public class Mesh
 					}
 				}
 			}
+			
+			getManagers().getMeshManager().NotifyListeners();
 		}
 		catch (Exception ex)
 		{
@@ -428,8 +434,7 @@ public class Mesh
 		
 		ComputeAllVertexNormals();
 		
-		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
-		
+		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());		
 		
 		mRenderGroupList.add(new RenderFaceGroup(this));		
 	}
@@ -541,7 +546,6 @@ public class Mesh
 
 	void InitAsSphere(int nSubdivionLevel)
 	{
-		Reset();
 		InitAsIcosahedron();
 		for (int i = 0; i < nSubdivionLevel; i++)
 		{
@@ -890,7 +894,7 @@ public class Mesh
 		mVertexList.clear();
 		mFaceList.clear();
 		mRenderGroupList.clear();
-		getManagers().getActionsManager().ClearAll(false);
+		getManagers().getActionsManager().ClearAll();
 	}
 
 	//to share vertices between edges

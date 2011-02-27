@@ -180,12 +180,7 @@ public class OpenFilePanel extends Activity implements Runnable
 	    	if (waitDialog!=null)
 	    	{
 		    	waitDialog.dismiss();
-		    	waitDialog=null;
-		    	Mesh mesh=getManagers().getMeshManager().getMesh();
-				if (mesh!=null && getManagers().getMeshManager().IsInitOver())
-				{
-					mesh.ComputeBoundingSphereRadius();
-				}				
+		    	waitDialog=null;		
 	    	}	
 	    	finish();
 	    }

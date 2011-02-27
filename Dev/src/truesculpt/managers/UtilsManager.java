@@ -70,7 +70,7 @@ public class UtilsManager extends BaseManager
 		return strBasePath;
 	}
 
-	private String CreateSnapshotFileName()
+	public String CreateSnapshotFileName()
 	{
 		String strBasePath = Environment.getExternalStorageDirectory() + "/Truesculpt/Screenshots/";
 
@@ -85,7 +85,7 @@ public class UtilsManager extends BaseManager
 		strFileName = strFileName.replaceAll(" ", "_");
 		return strFileName;
 	}
-
+	
 	@Override
 	public void onCreate()
 	{
@@ -124,67 +124,7 @@ public class UtilsManager extends BaseManager
 		}
 	}
 
-	public void TakeGLScreenshot(GL10 gl)
-	{
-		getManagers().getUsageStatisticsManager().TrackEvent("Screenshot", "Count", 0);
-
-		int[] mViewPort = new int[4];
-		GL11 gl2 = (GL11) gl;
-		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
-
-		int width = mViewPort[2];
-		int height = mViewPort[3];
-
-		int size = width * height;
-		ByteBuffer buf = ByteBuffer.allocateDirect(size * 4);
-		buf.order(ByteOrder.nativeOrder());
-		gl.glReadPixels(0, 0, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, buf);
-		int data[] = new int[size];
-		buf.asIntBuffer().get(data);
-		buf = null;
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-		bitmap.setPixels(data, size - width, -width, 0, 0, width, height);
-		data = null;
-
-		short sdata[] = new short[size];
-		ShortBuffer sbuf = ShortBuffer.wrap(sdata);
-		bitmap.copyPixelsToBuffer(sbuf);
-		for (int i = 0; i < size; ++i)
-		{
-			// BGR-565 to RGB-565
-			short v = sdata[i];
-			sdata[i] = (short) ((v & 0x1f) << 11 | v & 0x7e0 | (v & 0xf800) >> 11);
-		}
-		sbuf.rewind();
-		bitmap.copyPixelsFromBuffer(sbuf);
-
-		String strSnapshotFileName = CreateSnapshotFileName();
-		try
-		{
-			FileOutputStream fos = new FileOutputStream(strSnapshotFileName);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-			fos.flush();
-			fos.close();
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			return;
-		}
-
-		String msg = getbaseContext().getString(R.string.snapshot_has_been_saved_to_) + strSnapshotFileName;
-		ShowToastMessage(msg);
-
-		// photo sound
-		MediaPlayer mp = MediaPlayer.create(getbaseContext(), R.raw.photo_shutter);
-		mp.start();
-
-		// temp for test
-		SetImageAsWallpaper(strSnapshotFileName);	
-		
-		ArrayList<String> filePaths=new ArrayList<String>();
-		filePaths.add(strSnapshotFileName);
-		Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);
-	}
+	
 	
 	public class MailRunnable implements Runnable
 	{

@@ -16,10 +16,21 @@
 
 package truesculpt.renderer;
 
+import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.main.Managers;
+import truesculpt.main.R;
+import truesculpt.utils.Utils;
+import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 
@@ -45,6 +56,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private float mRot;
 
 	private boolean mbTakeScreenshot = false;
+	private String mStrSnapshotName="";
 
 	public MainRenderer(Managers managers)
 	{
@@ -97,12 +109,64 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		if (mbTakeScreenshot)
 		{
-			getManagers().getUtilsManager().TakeGLScreenshot(gl);
+			TakeGLScreenshot(gl);
 			mbTakeScreenshot = false;
 		}
 
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs = tStop - tStart;
+	}
+	
+	public void TakeGLScreenshot(GL10 gl)
+	{
+		if (mStrSnapshotName!="")
+		{
+			getManagers().getUsageStatisticsManager().TrackEvent("Screenshot", "Count", 0);
+	
+			int[] mViewPort = new int[4];
+			GL11 gl2 = (GL11) gl;
+			gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
+	
+			int width = mViewPort[2];
+			int height = mViewPort[3];
+	
+			int size = width * height;
+			ByteBuffer buf = ByteBuffer.allocateDirect(size * 4);
+			buf.order(ByteOrder.nativeOrder());
+			gl.glReadPixels(0, 0, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, buf);
+			int data[] = new int[size];
+			buf.asIntBuffer().get(data);
+			buf = null;
+			Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+			bitmap.setPixels(data, size - width, -width, 0, 0, width, height);
+			data = null;
+	
+			short sdata[] = new short[size];
+			ShortBuffer sbuf = ShortBuffer.wrap(sdata);
+			bitmap.copyPixelsToBuffer(sbuf);
+			for (int i = 0; i < size; ++i)
+			{
+				// BGR-565 to RGB-565
+				short v = sdata[i];
+				sdata[i] = (short) ((v & 0x1f) << 11 | v & 0x7e0 | (v & 0xf800) >> 11);
+			}
+			sbuf.rewind();
+			bitmap.copyPixelsFromBuffer(sbuf);
+	
+			try
+			{
+				FileOutputStream fos = new FileOutputStream(mStrSnapshotName);
+				bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+				fos.flush();
+				fos.close();
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+				return;
+			}	
+			
+			mStrSnapshotName="";//reset
+		}
 	}
 
 	public void onPointOfViewChange()
@@ -166,8 +230,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	public void TakeGLScreenshotOfNextFrame()
+	public void TakeGLScreenshotOfNextFrame(String strSnapshotName)	
 	{
+		mStrSnapshotName=strSnapshotName;
 		this.mbTakeScreenshot = true;
 	}
 	

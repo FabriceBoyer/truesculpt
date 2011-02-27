@@ -1,17 +1,22 @@
 package truesculpt.ui.panels;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.mesh.Mesh;
+import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -67,7 +72,34 @@ public class SaveFilePanel extends Activity implements Runnable
 			@Override
 			public void onClick(View v)
 			{
-				getManagers().getToolsManager().TakeGLScreenshot();	
+				String strSnapshotFileName = getManagers().getUtilsManager().CreateSnapshotFileName();
+				
+				getManagers().getToolsManager().TakeGLScreenshot(strSnapshotFileName);				
+				
+				//String msg = getString(R.string.snapshot_has_been_saved_to_) + strSnapshotFileName;
+				//getManagers().getUtilsManager().ShowToastMessage(msg);
+
+				// photo sound
+				//MediaPlayer mp = MediaPlayer.create(SaveFilePanel.this, R.raw.photo_shutter);
+				//mp.start();
+				
+				//getManagers().getUtilsManager().SetImageAsWallpaper(strSnapshotFileName);	
+				
+				//wait for async snapshot to be taken
+				File snapshotFile=new File(strSnapshotFileName);
+				while (!snapshotFile.exists())
+				{
+					try
+					{
+						Thread.sleep(500);
+					} catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				ArrayList<String> filePaths=new ArrayList<String>();
+				filePaths.add(strSnapshotFileName);
+				Utils.SendEmail(SaveFilePanel.this, "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);
 				
 				String name=getManagers().getMeshManager().getName();
 				getManagers().getUsageStatisticsManager().TrackEvent("Share", name, 1);
@@ -145,8 +177,19 @@ public class SaveFilePanel extends Activity implements Runnable
 			mesh.ExportToOBJ(strObjFileName);			
 		}
 		
-		String strPictureFileName=getManagers().getUtilsManager().GetBaseFileName()+"Image.png";
-		//TODO snapshot for nice open		
+		String strPictureFileName=strBaseFileName+"Image.png";
+		getManagers().getToolsManager().TakeGLScreenshot(strPictureFileName);
+		File snapshotFile=new File(strPictureFileName);
+		while (!snapshotFile.exists())
+		{
+			try
+			{
+				Thread.sleep(500);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		
 	    handler.sendEmptyMessage(0);
 	 }
