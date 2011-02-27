@@ -8,7 +8,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.mesh.Mesh;
-import truesculpt.ui.views.OpenFileAdapter;
+import truesculpt.ui.adapters.OpenFileAdapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;

@@ -1,4 +1,4 @@
-package truesculpt.ui.views;
+package truesculpt.ui.adapters;
 
 import truesculpt.actions.BaseAction;
 import truesculpt.main.R;
