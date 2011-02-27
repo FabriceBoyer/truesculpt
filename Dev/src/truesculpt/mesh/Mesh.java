@@ -39,7 +39,7 @@ public class Mesh
 
 		mRootBoxNode.Vertices.addAll(mVertexList);
 		mRootBoxNode.RecurseSubdivide();
-		CheckOctree();
+		//CheckOctree();
 		
 		mRenderGroupList.add(new RenderFaceGroup(this));
 	}
@@ -150,16 +150,6 @@ public class Mesh
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
 			renderGroup.draw(gl);
-		}
-		
-		ArrayList<OctreeNode> boxes=new ArrayList<OctreeNode>();
-		RecurseBoxes(mRootBoxNode,boxes);		
-		for(OctreeNode box : boxes)
-		{
-			if (!box.IsEmpty())
-			{
-				box.draw(gl);
-			}
 		}		
 	}
 	
@@ -169,6 +159,19 @@ public class Mesh
 		{
 			renderGroup.drawNormals(gl);
 		}
+	}
+	
+	public void drawOctree(GL10 gl)
+	{
+		ArrayList<OctreeNode> boxes=new ArrayList<OctreeNode>();
+		RecurseBoxes(mRootBoxNode,boxes);		
+		for(OctreeNode box : boxes)
+		{
+			if (!box.IsEmpty())
+			{
+				box.draw(gl);
+			}
+		}	
 	}
 
 	// From http://en.wikipedia.org/wiki/Wavefront_.obj_file
