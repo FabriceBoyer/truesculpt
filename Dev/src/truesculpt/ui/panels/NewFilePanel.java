@@ -3,18 +3,26 @@ package truesculpt.ui.panels;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.mesh.Mesh;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class NewFilePanel extends Activity
+public class NewFilePanel extends Activity implements Runnable
 {
 	private Button mNewBtn;
 	private Spinner mSubdivion_level_spinner;
 	private Spinner mInitial_shape_spinner;
+	private ProgressDialog waitDialog=null;
+	
+	private final int DIALOG_WAIT = 1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -28,12 +36,7 @@ public class NewFilePanel extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				//TODO dialog for color and subdivion level and alert if new failed (already in init)
-				getManagers().getMeshManager().NewMesh(mSubdivion_level_spinner.getSelectedItemPosition());	
-				
-				getManagers().getUsageStatisticsManager().TrackEvent("NewFile", "New", 1);
-				
-				finish();
+				NewInternal();
 			}
 		});
 		
@@ -57,6 +60,68 @@ public class NewFilePanel extends Activity
 		}
 
 	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id)
+	{
+		Dialog dialog = null;
+		switch (id)
+		{		
+		case DIALOG_WAIT:
+		{
+			waitDialog=new ProgressDialog(this);
+			waitDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			waitDialog.setMessage("Creating...");
+			waitDialog.setCancelable(false);
+			dialog=waitDialog;
+			break;
+		}
+		default:
+			dialog = null;
+		}
+		return dialog;
+	}
+	
+	private void NewInternal()
+	{
+		showDialog(DIALOG_WAIT);
+		
+	    Thread thread = new Thread(NewFilePanel.this);
+	    thread.start();		
+	    
+		getManagers().getUsageStatisticsManager().TrackEvent("NewFile", "New", 1);	
+	}
+	
+	@Override
+	public void run()
+	{
+		Mesh mesh=getManagers().getMeshManager().getMesh();
+		if (mesh!=null && getManagers().getMeshManager().IsInitOver())
+		{
+			getManagers().getMeshManager().NewMeshBlocking(mSubdivion_level_spinner.getSelectedItemPosition());
+		}
+		
+		handler.sendEmptyMessage(0);		
+	}
+	
+	private Handler handler = new Handler()
+	{
+	    @Override
+	    public void handleMessage(Message msg) 
+	    {
+	    	if (waitDialog!=null)
+	    	{
+		    	waitDialog.dismiss();
+		    	waitDialog=null;
+		    	Mesh mesh=getManagers().getMeshManager().getMesh();
+				if (mesh!=null && getManagers().getMeshManager().IsInitOver())
+				{
+					mesh.ComputeBoundingSphereRadius();
+				}				
+	    	}	
+	    	finish();
+	    }
+	};
 	
 	public Managers getManagers()
 	{

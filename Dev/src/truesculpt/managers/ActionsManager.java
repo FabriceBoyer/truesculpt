@@ -111,10 +111,10 @@ public class ActionsManager extends BaseManager
 		}
 	}
 
-	public void ClearAll()
+	public void ClearAll(boolean bNotify)
 	{
 		mUndoActionsList.clear();
 		mRedoActionsList.clear();
-		NotifyListeners();		
+		if (bNotify) NotifyListeners();		
 	}
 }

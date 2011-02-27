@@ -884,12 +884,13 @@ public class Mesh
 		}
 	}
 
+	//notification not done, to do in calling thread with post
 	void Reset()
 	{
 		mVertexList.clear();
 		mFaceList.clear();
 		mRenderGroupList.clear();
-		getManagers().getActionsManager().ClearAll();
+		getManagers().getActionsManager().ClearAll(false);
 	}
 
 	//to share vertices between edges
