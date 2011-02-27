@@ -5,6 +5,7 @@ import java.util.Observable;
 import truesculpt.main.Managers;
 import truesculpt.main.TrueSculptApp;
 import android.content.Context;
+import android.os.Handler;
 
 public abstract class BaseManager extends Observable
 {
@@ -16,9 +17,16 @@ public abstract class BaseManager extends Observable
 		this.mbaseContext = baseContext;
 	}
 
-	/**
-	 * @return the mbaseContext
-	 */
+	public Handler mHandler = new Handler();
+	public Runnable mNotifyTask = new Runnable()
+	{
+		@Override
+		public void run()
+		{
+			notifyObservers(this);
+		}
+	};
+
 	public Context getbaseContext()
 	{
 		return mbaseContext;
@@ -36,7 +44,7 @@ public abstract class BaseManager extends Observable
 	public void NotifyListeners()
 	{
 		setChanged();
-		notifyObservers(this);
+		mHandler.post(mNotifyTask);
 	}
 
 }

@@ -1,5 +1,7 @@
 package truesculpt.managers;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import truesculpt.actions.ChangeToolAction;
 import truesculpt.utils.Utils;
 import android.content.Context;
@@ -221,9 +223,9 @@ public class ToolsManager extends BaseManager
 		}
 	}
 
-	public void TakeGLScreenshot()
+	public void TakeGLScreenshot(String strSnapshotName)
 	{
-		getManagers().getRendererManager().getMainRenderer().TakeGLScreenshotOfNextFrame();
+		getManagers().getRendererManager().getMainRenderer().TakeGLScreenshotOfNextFrame(strSnapshotName);
 		NotifyListeners();
 	}
 	
