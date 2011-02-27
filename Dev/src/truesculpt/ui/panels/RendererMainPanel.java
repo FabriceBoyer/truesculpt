@@ -335,7 +335,11 @@ public class RendererMainPanel extends Activity implements Observer
 			else
 			{
 				// Ask the user if they want to quit
-				new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.quit).setMessage(R.string.really_quit).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+				new AlertDialog.Builder(this)
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle(R.string.quit)
+				.setMessage(R.string.really_quit)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int which)
@@ -343,7 +347,15 @@ public class RendererMainPanel extends Activity implements Observer
 						finish();
 						System.exit(0);
 					}
-				}).setNegativeButton(R.string.no, null).show();
+				})
+				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+					}
+				})
+				.show();
 			}
 			return true;
 		} else

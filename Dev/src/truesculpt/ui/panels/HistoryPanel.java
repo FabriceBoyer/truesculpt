@@ -6,7 +6,7 @@ import java.util.Observer;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.ui.views.HistoryAdapter;
+import truesculpt.ui.adapters.HistoryAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ContextMenu;

@@ -1,4 +1,4 @@
-package truesculpt.ui.views;
+package truesculpt.ui.adapters;
 
 import java.util.ArrayList;
 import truesculpt.main.R;
