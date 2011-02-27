@@ -865,6 +865,7 @@ public class Mesh
 			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,sqMaxDist);
 			float sigma=(float) ((Math.sqrt(sqMaxDist)/2f)/FWHM);
+			float maxGaussian=Gaussian(sigma,0);
 
 			// separate compute and apply of vertex pos otherwise compute is false
 			SculptAction action=new SculptAction();			
@@ -880,12 +881,17 @@ public class Mesh
 				float sqDist=MatrixUtils.squaremagnitude(temp);
 
 				//sculpting functions				
-				MatrixUtils.scalarMultiply(VOffset, (float) (oneoversqrttwopi/sigma*Math.exp(-sqDist/(2*sigma*sigma))*fMaxDeformation));
+				MatrixUtils.scalarMultiply(VOffset, (float) (Gaussian(sigma,sqDist)/maxGaussian*fMaxDeformation));
 				action.AddVertexOffset(i,VOffset,vertex);		
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
 			action.DoAction();			
 		}
+	}
+	
+	private float Gaussian(float sigma, float sqDist)
+	{
+		return (float) (oneoversqrttwopi/sigma*Math.exp(-sqDist/(2*sigma*sigma)));
 	}
 
 	//notification not done, to do in calling thread with post
