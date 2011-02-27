@@ -26,14 +26,19 @@ public class MeshManager extends BaseManager
 		@Override
 		public void run()
 		{
-			bInitOver=false;
+			NewMeshBlocking(nSubdivionLevel);
 			
-			mMesh=new Mesh(getManagers(),nSubdivionLevel);
-
-			bInitOver = true;
-
 			mHandler.post(mNotifyTask); // to come back in UI thread
 		}
+	}
+	
+	public void NewMeshBlocking(int nSubdivionLevel)
+	{
+		bInitOver=false;
+		
+		mMesh=new Mesh(getManagers(),nSubdivionLevel);
+
+		bInitOver = true;
 	}
 	
 	MeshInitTash mInitTask = new MeshInitTash();
@@ -190,10 +195,10 @@ public class MeshManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		NewMesh(5);
+		NewMeshThreaded(5);
 	}
 	
-	public boolean NewMesh(int nSubdivionLevel)
+	public boolean NewMeshThreaded(int nSubdivionLevel)
 	{
 		boolean bRes=false;
 		mInitTask.nSubdivionLevel=nSubdivionLevel;

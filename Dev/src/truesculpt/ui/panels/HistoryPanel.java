@@ -90,7 +90,7 @@ public class HistoryPanel extends Activity implements Observer
 			@Override
 			public void onClick(View v)
 			{
-				getManagers().getActionsManager().ClearAll();
+				getManagers().getActionsManager().ClearAll(true);
 			}
 		});
 		
