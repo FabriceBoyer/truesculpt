@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.graphics.Color;
+
 import junit.framework.Assert;
 import truesculpt.actions.ColorizeAction;
 import truesculpt.actions.SculptAction;
@@ -763,17 +765,37 @@ public class Mesh
 	{
 		if (triangleIndex >= 0)
 		{
-			int color = getManagers().getToolsManager().getColor();						 
+			int targetColor = getManagers().getToolsManager().getColor();						 
 			Face face=mFaceList.get(triangleIndex);
 			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
 			Vertex origVertex=mVertexList.get(nOrigVertex);
-			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,getManagers().getToolsManager().getRadius()/100f);
+			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
+			float MaxDist=(float) Math.sqrt(sqMaxDist);
+			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,sqMaxDist);
+
+			float [] VNewCol=new float[3];
+			float [] VTargetCol=new float[3];
+			Color.colorToHSV(targetColor, VTargetCol);
+			float[] temp=new float[3];
 			
 			ColorizeAction action=new ColorizeAction();			
 			for (Integer i : vertices)
 			{
 				Vertex vertex=mVertexList.get(i);
-				action.AddVertexColorChange(i, color, vertex);
+				
+				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
+				float dist=MatrixUtils.magnitude(temp);								
+
+				Color.colorToHSV(vertex.Color, VNewCol);
+				
+				//barycenter of colors
+				float alpha=(MaxDist-dist)/MaxDist;//[0;1]
+				VNewCol[0]=VTargetCol[0];
+				VNewCol[1]=(1-alpha)*VNewCol[1]+alpha*VTargetCol[1];
+				VNewCol[2]=(1-alpha)*VNewCol[2]+alpha*VTargetCol[2];
+				
+				int newColor=Color.HSVToColor(VNewCol);
+				action.AddVertexColorChange(i, newColor, vertex);
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
 			action.DoAction();			
@@ -848,6 +870,7 @@ public class Mesh
 			{
 				Vertex vertex=mVertexList.get(i);
 				MatrixUtils.copy(origVertex.Normal, VOffset);
+				MatrixUtils.copy(vertex.Normal, VOffset);
 				
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
 				float sqDist=MatrixUtils.squaremagnitude(temp);
