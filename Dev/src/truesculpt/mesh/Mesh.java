@@ -147,19 +147,23 @@ public class Mesh
 	
 	public void ComputeFaceEdgesNormal(Face face)
 	{
+		Vertex A=mVertexList.get(face.E0.V0);
+		Vertex B=mVertexList.get(face.E0.V1);
+		Vertex C=mVertexList.get(face.E1.V1);
+		
 		//E0
-		MatrixUtils.minus(mVertexList.get(face.E0.V1).Coord, mVertexList.get(face.E0.V0).Coord, u);
-		MatrixUtils.minus(mVertexList.get(face.E2.V0).Coord, mVertexList.get(face.E2.V1).Coord, v);
+		MatrixUtils.minus(B.Coord, A.Coord, u);
+		MatrixUtils.minus(C.Coord, A.Coord, v);
 		MatrixUtils.cross(u, v, face.E0.Normal); 
 		
 		//E1
-		MatrixUtils.minus(mVertexList.get(face.E1.V1).Coord, mVertexList.get(face.E1.V0).Coord, u);
-		MatrixUtils.minus(mVertexList.get(face.E0.V0).Coord, mVertexList.get(face.E0.V1).Coord, v);
+		MatrixUtils.minus(C.Coord, B.Coord, u);
+		MatrixUtils.minus(A.Coord, B.Coord, v);
 		MatrixUtils.cross(u, v, face.E1.Normal);
 		
 		//E2
-		MatrixUtils.minus(mVertexList.get(face.E2.V1).Coord, mVertexList.get(face.E2.V0).Coord, u);
-		MatrixUtils.minus(mVertexList.get(face.E1.V0).Coord, mVertexList.get(face.E1.V1).Coord, v);
+		MatrixUtils.minus(A.Coord, C.Coord, u);
+		MatrixUtils.minus(B.Coord, C.Coord, v);
 		MatrixUtils.cross(u, v, face.E2.Normal);
 	}
 
