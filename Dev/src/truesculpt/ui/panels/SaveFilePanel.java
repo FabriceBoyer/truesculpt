@@ -72,37 +72,45 @@ public class SaveFilePanel extends Activity implements Runnable
 			@Override
 			public void onClick(View v)
 			{
-				String strSnapshotFileName = getManagers().getUtilsManager().CreateSnapshotFileName();
-				
-				getManagers().getToolsManager().TakeGLScreenshot(strSnapshotFileName);				
-				
-				//String msg = getString(R.string.snapshot_has_been_saved_to_) + strSnapshotFileName;
-				//getManagers().getUtilsManager().ShowToastMessage(msg);
-
-				// photo sound
-				//MediaPlayer mp = MediaPlayer.create(SaveFilePanel.this, R.raw.photo_shutter);
-				//mp.start();
-				
-				//getManagers().getUtilsManager().SetImageAsWallpaper(strSnapshotFileName);	
-				
-				//wait for async snapshot to be taken
-				File snapshotFile=new File(strSnapshotFileName);
-				while (!snapshotFile.exists())
-				{
-					try
-					{
-						Thread.sleep(500);
-					} catch (InterruptedException e)
-					{
-						e.printStackTrace();
-					}
-				}
-				ArrayList<String> filePaths=new ArrayList<String>();
-				filePaths.add(strSnapshotFileName);
-				Utils.SendEmail(SaveFilePanel.this, "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);
-				
-				String name=getManagers().getMeshManager().getName();
-				getManagers().getUsageStatisticsManager().TrackEvent("Share", name, 1);
+			    Thread thread = new Thread()
+			    {
+			    	@Override
+			    	public void run()
+			    	{
+						String strSnapshotFileName = getManagers().getUtilsManager().CreateSnapshotFileName();
+						
+						getManagers().getToolsManager().TakeGLScreenshot(strSnapshotFileName);				
+						
+						//String msg = getString(R.string.snapshot_has_been_saved_to_) + strSnapshotFileName;
+						//getManagers().getUtilsManager().ShowToastMessage(msg);
+		
+						// photo sound
+						//MediaPlayer mp = MediaPlayer.create(SaveFilePanel.this, R.raw.photo_shutter);
+						//mp.start();
+						
+						//getManagers().getUtilsManager().SetImageAsWallpaper(strSnapshotFileName);	
+						
+						//wait for async snapshot to be taken
+						File snapshotFile=new File(strSnapshotFileName);
+						while (!snapshotFile.exists())
+						{
+							try
+							{
+								Thread.sleep(500);
+							} catch (InterruptedException e)
+							{
+								e.printStackTrace();
+							}
+						}
+						ArrayList<String> filePaths=new ArrayList<String>();
+						filePaths.add(strSnapshotFileName);
+						Utils.SendEmail(SaveFilePanel.this, "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);
+						
+						String name=getManagers().getMeshManager().getName();
+						getManagers().getUsageStatisticsManager().TrackEvent("Share", name, 1);
+				    }
+				};
+				thread.start();
 			}
 		});	
 	
