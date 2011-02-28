@@ -16,7 +16,7 @@
          android:layout_height="wrap_content"
          android:gravity="center_horizontal"
          android:layout_gravity="center_horizontal|bottom"         
-         android:text="10dip"
+         android:text="8dip"
          android:checked="false"
 		 android:visibility="invisible"         
     /> 
