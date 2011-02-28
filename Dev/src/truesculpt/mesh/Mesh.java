@@ -179,7 +179,7 @@ public class Mesh
 	{
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
-			renderGroup.drawNormals(gl);
+			//renderGroup.drawNormals(gl);
 		}
 	}
 	

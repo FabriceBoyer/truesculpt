@@ -156,11 +156,12 @@ public class RenderFaceGroup
 		mNormalBuffer.position(nVertexIndex*3);
 		mNormalBuffer.put(normal, 0, 3);	
 		
-		mDrawNormalVertexBuffer.position(nVertexIndex*2*3);
-		mDrawNormalVertexBuffer.put(val);
-		mDrawNormalVertexBuffer.put(val[0]+normal[0]*mNormalScaleFactor);
-		mDrawNormalVertexBuffer.put(val[1]+normal[1]*mNormalScaleFactor);
-		mDrawNormalVertexBuffer.put(val[2]+normal[2]*mNormalScaleFactor);
+		//slow, activated only for debug		
+		//mDrawNormalVertexBuffer.position(nVertexIndex*2*3);
+		//mDrawNormalVertexBuffer.put(val);
+		//mDrawNormalVertexBuffer.put(val[0]+normal[0]*mNormalScaleFactor);
+		//mDrawNormalVertexBuffer.put(val[1]+normal[1]*mNormalScaleFactor);
+		//mDrawNormalVertexBuffer.put(val[2]+normal[2]*mNormalScaleFactor);
 	}
 	
 	public void UpdateVertexColor( int nVertexIndex, int color)
