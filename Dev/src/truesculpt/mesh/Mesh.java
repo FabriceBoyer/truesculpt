@@ -126,7 +126,6 @@ public class Mesh
 		for (HalfEdge edge: vertex.OutLinkedEdges)
 		{			
 			//optimize with prev/next in edge not face
-			Assert.assertTrue(edge!=null);
 			MatrixUtils.minus(mVertexList.get(edge.V1).Coord, mVertexList.get(edge.V0).Coord, u);
 			
 			HalfEdge otherEdge=mFaceList.get(edge.Face).GetPreviousEdge(edge);
@@ -150,10 +149,8 @@ public class Mesh
 		MatrixUtils.minus(mVertexList.get(face.E1.V0).Coord, mVertexList.get(face.E0.V0).Coord, u);
 		MatrixUtils.minus(mVertexList.get(face.E2.V0).Coord, mVertexList.get(face.E0.V0).Coord, v);
 
-		MatrixUtils.cross(u, v, n); // cross product
-		MatrixUtils.normalize(n);
-
-		MatrixUtils.copy(n, normal);
+		MatrixUtils.cross(u, v, normal); // cross product
+		MatrixUtils.normalize(normal);
 	}
 
 	public void draw(GL10 gl)
@@ -221,10 +218,6 @@ public class Mesh
 				int n0 = face.E0.V0;
 				int n1 = face.E1.V0;
 				int n2 = face.E2.V0;
-
-				assertTrue(n0 >= 0);
-				assertTrue(n1 >= 0);
-				assertTrue(n2 >= 0);
 
 				// A valid vertex index starts from 1 and match first vertex element of vertex list previously defined. Each face can contain more than three elements.
 				String str = "f " + String.valueOf(n0 + 1) + "//" + String.valueOf(n0 + 1) + " " + String.valueOf(n1 + 1) + "//" + String.valueOf(n1 + 1) + " " + String.valueOf(n2 + 1) + "//" + String.valueOf(n2 + 1) + "\n";
@@ -869,7 +862,7 @@ public class Mesh
 			
 			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
 			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,sqMaxDist);
-			float sigma=(float) ((Math.sqrt(sqMaxDist)/2f)/FWHM);
+			float sigma=(float) ((Math.sqrt(sqMaxDist)/1.5f)/FWHM);
 			float maxGaussian=Gaussian(sigma,0);
 
 			// separate compute and apply of vertex pos otherwise compute is false
