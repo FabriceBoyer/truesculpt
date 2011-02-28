@@ -86,6 +86,16 @@ public class UtilsManager extends BaseManager
 		return strFileName;
 	}
 	
+	public String GetDefaultFileName()
+	{
+		Date date = new Date();
+		String strFileName = "Sculpt_" + date.toGMTString();
+		strFileName = strFileName.replaceAll(":", "_");
+		strFileName = strFileName.replaceAll(" ", "_");
+		return strFileName;
+	}
+	
+	
 	@Override
 	public void onCreate()
 	{

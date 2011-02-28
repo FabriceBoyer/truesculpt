@@ -36,7 +36,7 @@ public class MeshManager extends BaseManager
 		
 		mMesh=new Mesh(getManagers(),nSubdivionLevel);
 		
-		Name="MyTrueSculpture";
+		Name=getManagers().getUtilsManager().GetDefaultFileName();
 		
 		bInitOver = true;
 		
