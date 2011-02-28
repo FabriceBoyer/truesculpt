@@ -31,7 +31,7 @@ public class OpenFileAdapter extends BaseAdapter
 
     public Object getItem(int position)
     {
-        return null;
+        return mFileList.get(position);
     }
 
     public long getItemId(int position)
