@@ -97,7 +97,7 @@ public class OctreeNode
 				}
 			}
 			
-			Assert.assertTrue(Vertices.size()==nCount);
+			//Assert.assertTrue(Vertices.size()==nCount);
 			
 			//all vertices transfered in child, parent must be empty
 			Vertices.clear();
