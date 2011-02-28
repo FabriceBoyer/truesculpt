@@ -119,9 +119,9 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mColor!=color)
 		{
-			if (bAddUndoAction) SetUndoInitialState();
+			//if (bAddUndoAction) SetUndoInitialState();
 			this.mColor = color;
-			if (bAddUndoAction) AddUndoToolAction();		
+			//if (bAddUndoAction) AddUndoToolAction();		
 			
 			//Force mode if you change color
 			this.mSculptSubMode=ESculptToolSubMode.COLOR;
@@ -156,9 +156,9 @@ public class ToolsManager extends BaseManager
 
 	public void setRadius(float radius, boolean bAddUndoAction)
 	{
-		if (bAddUndoAction)	SetUndoInitialState();
+		//if (bAddUndoAction)	SetUndoInitialState();
 		this.mRadius = radius;
-		if (bAddUndoAction)	AddUndoToolAction();
+		//if (bAddUndoAction)	AddUndoToolAction();
 		
 		if (mRadius > 100)
 		{
@@ -175,9 +175,9 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mSculptSubMode != sculptSubMode)
 		{
-			SetUndoInitialState();			
+			//SetUndoInitialState();			
 			this.mSculptSubMode = sculptSubMode;	
-			AddUndoToolAction();
+			//AddUndoToolAction();
 			
 			NotifyListeners();
 		}
@@ -187,9 +187,9 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mSymmetryMode != symmetryMode)
 		{
-			SetUndoInitialState();	
+			//SetUndoInitialState();	
 			this.mSymmetryMode = symmetryMode;		
-			AddUndoToolAction();
+			//AddUndoToolAction();
 			
 			NotifyListeners();
 		}
@@ -197,9 +197,9 @@ public class ToolsManager extends BaseManager
 
 	public void setStrength(float strength, boolean bAddUndoAction)
 	{
-		if (bAddUndoAction)	SetUndoInitialState();
+		//if (bAddUndoAction)	SetUndoInitialState();
 		this.mStrength = strength;
-		if (bAddUndoAction)	AddUndoToolAction();
+		//if (bAddUndoAction)	AddUndoToolAction();
 		
 		if (mStrength > 100)
 		{
