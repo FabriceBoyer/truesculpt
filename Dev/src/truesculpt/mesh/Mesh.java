@@ -821,12 +821,11 @@ public class Mesh
 	ArrayList<Vertex> verticesToTest=new ArrayList<Vertex>();
 	HashSet <Vertex> verticesRes=new HashSet <Vertex>();
 	
-	private HashSet<Vertex> GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet <Vertex> res)
+	private void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet <Vertex> res)
 	{
 		res.clear();
 		res.add(origVertex);//add at least this point
 		
-		//init testList
 		verticesToTest.clear();
 		for (HalfEdge edge : origVertex.OutLinkedEdges)
 		{			
@@ -856,9 +855,7 @@ public class Mesh
 			}
 			
 			nCount=verticesToTest.size();
-		}		
-		
-		return res;		
+		}				
 	}
 	
 	private float FWHM=(float) (2f*Math.sqrt(2*Math.log(2f)));//full width at half maximum
