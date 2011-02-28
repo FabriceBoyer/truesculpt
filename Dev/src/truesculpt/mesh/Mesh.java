@@ -338,7 +338,7 @@ public class Mesh
 						coord[0] = Float.parseFloat(tok.nextToken());
 						coord[1] = Float.parseFloat(tok.nextToken());
 						coord[2] = Float.parseFloat(tok.nextToken());
-						mVertexList.add(new Vertex(coord));
+						mVertexList.add(new Vertex(coord, mVertexList.size()));
 					}
 					else if (line.startsWith("vt "))
 					{
@@ -459,18 +459,18 @@ public class Mesh
 		float tau = (float) (t / Math.sqrt(1 + t * t));
 		float one = (float) (1 / Math.sqrt(1 + t * t));
 
-		mVertexList.add( new Vertex(tau, one, 0.0f));
-		mVertexList.add( new Vertex(-tau, one, 0.0f));
-		mVertexList.add( new Vertex(-tau, -one, 0.0f));
-		mVertexList.add( new Vertex(tau, -one, 0.0f));
-		mVertexList.add( new Vertex(one, 0.0f, tau));
-		mVertexList.add( new Vertex(one, 0.0f, -tau));
-		mVertexList.add( new Vertex(-one, 0.0f, -tau));
-		mVertexList.add( new Vertex(-one, 0.0f, tau));
-		mVertexList.add( new Vertex(0.0f, tau, one));
-		mVertexList.add( new Vertex(0.0f, -tau, one));
-		mVertexList.add( new Vertex(0.0f, -tau, -one));
-		mVertexList.add( new Vertex(0.0f, tau, -one));
+		mVertexList.add( new Vertex(tau, one, 0.0f, mVertexList.size()));
+		mVertexList.add( new Vertex(-tau, one, 0.0f, mVertexList.size()));
+		mVertexList.add( new Vertex(-tau, -one, 0.0f, mVertexList.size()));
+		mVertexList.add( new Vertex(tau, -one, 0.0f, mVertexList.size()));
+		mVertexList.add( new Vertex(one, 0.0f, tau, mVertexList.size()));
+		mVertexList.add( new Vertex(one, 0.0f, -tau, mVertexList.size()));
+		mVertexList.add( new Vertex(-one, 0.0f, -tau, mVertexList.size()));
+		mVertexList.add( new Vertex(-one, 0.0f, tau, mVertexList.size()));
+		mVertexList.add( new Vertex(0.0f, tau, one, mVertexList.size()));
+		mVertexList.add( new Vertex(0.0f, -tau, one, mVertexList.size()));
+		mVertexList.add( new Vertex(0.0f, -tau, -one, mVertexList.size()));
+		mVertexList.add( new Vertex(0.0f, tau, -one, mVertexList.size()));
 
 		// Counter clock wise (CCW) face definition
 		mFaceList.add( new Face(4, 8, 7, mFaceList.size(),0));
@@ -789,7 +789,7 @@ public class Mesh
 			Vertex origVertex=mVertexList.get(nOrigVertex);
 			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
 			float MaxDist=(float) Math.sqrt(sqMaxDist);
-			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,sqMaxDist);
+			GetVerticesAtDistanceFromVertex(origVertex,sqMaxDist,verticesRes);
 
 			float [] VNewCol=new float[3];
 			float [] VTargetCol=new float[3];
@@ -797,10 +797,8 @@ public class Mesh
 			float[] temp=new float[3];
 			
 			ColorizeAction action=new ColorizeAction();			
-			for (Integer i : vertices)
+			for (Vertex vertex : verticesRes)
 			{
-				Vertex vertex=mVertexList.get(i);
-				
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
 				float dist=MatrixUtils.magnitude(temp);								
 
@@ -813,45 +811,46 @@ public class Mesh
 				VNewCol[2]=(1-alpha)*VNewCol[2]+alpha*VTargetCol[2];
 				
 				int newColor=Color.HSVToColor(VNewCol);
-				action.AddVertexColorChange(i, newColor, vertex);
+				action.AddVertexColorChange(vertex.Index, newColor, vertex);
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
 			action.DoAction();			
 		}
 	}	
 
-	private HashSet <Integer> GetVerticesAtDistanceFromVertex(int nVertex, float sqDistance)
+	ArrayList<Vertex> verticesToTest=new ArrayList<Vertex>();
+	HashSet <Vertex> verticesRes=new HashSet <Vertex>();
+	
+	private HashSet<Vertex> GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet <Vertex> res)
 	{
-		HashSet <Integer> res=new HashSet <Integer>();
-		res.add(nVertex);//at at least this point
-		Vertex origVertex=mVertexList.get(nVertex);
+		res.clear();
+		res.add(origVertex);//add at least this point
 		
 		//init testList
-		ArrayList<Integer> verticesToTest=new ArrayList<Integer>();
+		verticesToTest.clear();
 		for (HalfEdge edge : origVertex.OutLinkedEdges)
-		{
-			verticesToTest.add(edge.V1);
+		{			
+			verticesToTest.add(mVertexList.get(edge.V1));
 		}
 		
 		float[] temp=new float[3];
 		int nCount=verticesToTest.size();
 		while (nCount>0)
 		{			
-			int nCurrIndex=verticesToTest.get(nCount-1);
+			Vertex currVertex=verticesToTest.get(nCount-1);
 			verticesToTest.remove(nCount-1);
 			
-			Vertex currVertex=mVertexList.get(nCurrIndex);
 			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
 			float currSqDistance=MatrixUtils.squaremagnitude(temp);
 			if (currSqDistance<sqDistance)
 			{
-				res.add(nCurrIndex);
+				res.add(currVertex);
 				for (HalfEdge edge : currVertex.OutLinkedEdges)
 				{
-					int nToAdd=edge.V1;
-					if (!res.contains(nToAdd))//avoids looping
+					Vertex vertexToAdd=mVertexList.get(edge.V1);
+					if (!res.contains(vertexToAdd))//avoids looping
 					{
-						verticesToTest.add(nToAdd);
+						verticesToTest.add(vertexToAdd);
 					}
 				}
 			}
@@ -877,7 +876,7 @@ public class Mesh
 			Vertex origVertex=mVertexList.get(nOrigVertex);
 			
 			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
-			HashSet <Integer> vertices=GetVerticesAtDistanceFromVertex(nOrigVertex,sqMaxDist);
+			GetVerticesAtDistanceFromVertex(origVertex,sqMaxDist,verticesRes);
 			float sigma=(float) ((Math.sqrt(sqMaxDist)/1.5f)/FWHM);
 			float maxGaussian=Gaussian(sigma,0);
 
@@ -885,9 +884,8 @@ public class Mesh
 			SculptAction action=new SculptAction();			
 			float[] VOffset = new float[3];
 			float[] temp=new float[3];
-			for (Integer i : vertices)
+			for (Vertex vertex : verticesRes)
 			{
-				Vertex vertex=mVertexList.get(i);
 				MatrixUtils.copy(origVertex.Normal, VOffset);
 				//MatrixUtils.copy(vertex.Normal, VOffset);
 				
@@ -898,7 +896,7 @@ public class Mesh
 				MatrixUtils.scalarMultiply(VOffset, (float) (Gaussian(sigma,sqDist)/maxGaussian*fMaxDeformation));
 				//if (MatrixUtils.magnitude(VOffset)>1e-3)
 				{
-					action.AddVertexOffset(i,VOffset,vertex);
+					action.AddVertexOffset(vertex.Index,VOffset,vertex);
 				}
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
@@ -931,7 +929,7 @@ public class Mesh
 		else
 		{
 			nRes=mVertexList.size();
-			mVertexList.add(new Vertex(mVertexList.get(edge.V0),mVertexList.get(edge.V1)));// takes mid point			
+			mVertexList.add(new Vertex(mVertexList.get(edge.V0),mVertexList.get(edge.V1),nRes));// takes mid point			
 		}		
 		return nRes;		
 	}
