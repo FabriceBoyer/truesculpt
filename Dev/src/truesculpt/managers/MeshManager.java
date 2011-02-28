@@ -39,6 +39,8 @@ public class MeshManager extends BaseManager
 		Name="MyTrueSculpture";
 		
 		bInitOver = true;
+		
+		NotifyListeners();
 	}
 	
 	MeshInitTash mInitTask = new MeshInitTash();	
