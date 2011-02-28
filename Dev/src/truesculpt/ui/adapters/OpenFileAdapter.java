@@ -21,9 +21,9 @@ public class OpenFileAdapter extends BaseAdapter
     
 	class ViewHolder
 	{
-		TextView title;
-		ImageView image;
-		Bitmap bmp;
+		TextView title=null;
+		ImageView image=null;
+		Bitmap bmp=null;
 	}
 	
     public OpenFileAdapter(Context context, ArrayList<FileElem> fileList) 
@@ -65,8 +65,8 @@ public class OpenFileAdapter extends BaseAdapter
 			convertView.setPadding(8, 8, 8, 8);
 			holder.title = (TextView) convertView.findViewById(R.id.fileopentitle);
 			holder.image = (ImageView) convertView.findViewById(R.id.fileopenimage);
-			holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);	
-			holder.bmp = BitmapFactory.decodeFile(elem.imagefilename);
+			holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);		
+			holder.bmp=null;
 			convertView.setTag(holder);
 		} 
 		else
@@ -74,8 +74,19 @@ public class OpenFileAdapter extends BaseAdapter
 			holder = (ViewHolder) convertView.getTag();
 		}         
 
-		holder.title.setText(elem.name);			
-		holder.image.setImageBitmap(holder.bmp);			
+		holder.title.setText(elem.name);	
+		if (holder.bmp==null)
+		{
+			try
+			{
+				holder.bmp = BitmapFactory.decodeFile(elem.imagefilename);
+			}
+			catch(Exception e)
+			{
+				holder.bmp=null;
+			}
+		}
+		holder.image.setImageBitmap(holder.bmp);
 		holder.title.setEnabled(true);
 		holder.title.setVisibility(View.VISIBLE);
 		
