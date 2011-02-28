@@ -187,14 +187,14 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
-				getManagers().getToolsManager().SetUndoInitialState();
+				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
 			{
 				getManagers().getToolsManager().setRadius(seekBar.getProgress(),false);
-				getManagers().getToolsManager().AddUndoToolAction();
+				//getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mRadiusSeekBar.setMax(100);// 0 to 100 pct
@@ -212,14 +212,14 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
-				getManagers().getToolsManager().SetUndoInitialState();
+				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
 			{				
 				getManagers().getToolsManager().setStrength(seekBar.getProgress()-100,false);
-				getManagers().getToolsManager().AddUndoToolAction();
+				//getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mStrengthSeekBar.setMax(200);// -100 to 100 pct
@@ -246,13 +246,13 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void colorChangeStart()
 			{
-				getManagers().getToolsManager().SetUndoInitialState();				
+				//getManagers().getToolsManager().SetUndoInitialState();				
 			}
 
 			@Override
 			public void colorChangeStop()
 			{
-				getManagers().getToolsManager().AddUndoToolAction();
+				//getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});		
 

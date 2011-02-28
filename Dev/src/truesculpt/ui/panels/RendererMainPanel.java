@@ -216,13 +216,13 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChangeStart()
 			{			
-				getManagers().getToolsManager().SetUndoInitialState();
+				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void colorChangeStop()
 			{
-				getManagers().getToolsManager().AddUndoToolAction();
+				//getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		
@@ -241,13 +241,13 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStart()
 			{			
-				getManagers().getToolsManager().SetUndoInitialState();
+				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop()
 			{					
-				getManagers().getToolsManager().AddUndoToolAction();
+				//getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mRadius.SetDoubleClickListener(new OnDoubleClickListener()
@@ -274,13 +274,13 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStart()
 			{				
-				getManagers().getToolsManager().SetUndoInitialState();
+				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop()
 			{
-				getManagers().getToolsManager().AddUndoToolAction();
+				//getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mStrength.SetDoubleClickListener(new OnDoubleClickListener()
