@@ -88,16 +88,6 @@ public class Mesh
 		}
 	}
 
-	void ComputeAllVertexNormals()
-	{
-		int n = mVertexList.size();
-		for (int i = 0; i < n; i++)
-		{
-			Vertex vertex = mVertexList.get(i);
-			ComputeVertexNormal(vertex);
-		}
-	}
-	
 	float mBoundingSphereRadius = 0.0f;
 	
 	public void ComputeBoundingSphereRadius()
@@ -113,6 +103,16 @@ public class Mesh
 		getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);
 	}
 
+	void ComputeAllVertexNormals()
+	{
+		ComputeAllFaceEdgesNormals();
+		
+		for (Vertex vertex : mVertexList)
+		{
+			ComputeVertexNormal(vertex);
+		}
+	}
+	
 	// Based on close triangles normals * sin of their angle and normalize
 	// averaging normals of triangles around
 	public void ComputeVertexNormal(Vertex vertex)
@@ -125,32 +125,42 @@ public class Mesh
 		//not ordered
 		for (HalfEdge edge: vertex.OutLinkedEdges)
 		{			
-			//optimize with prev/next in edge not face
-			MatrixUtils.minus(mVertexList.get(edge.V1).Coord, mVertexList.get(edge.V0).Coord, u);
-			
-			HalfEdge otherEdge=mFaceList.get(edge.Face).GetPreviousEdge(edge);
-			MatrixUtils.minus(mVertexList.get(otherEdge.V0).Coord,
-							  mVertexList.get(otherEdge.V1).Coord,
-							  v);
-
-			MatrixUtils.cross(u, v, n); // cross product
-			
-			MatrixUtils.plus(n, vertex.Normal, vertex.Normal);
+			MatrixUtils.plus(edge.Normal, vertex.Normal, vertex.Normal);
 		}	
 		
 		//unit normal
 		MatrixUtils.normalize(vertex.Normal);
 	}
 	
-	//based on triangle only
-	void ComputeFaceNormal(Face face, float[] normal)
+	public void ComputeAllFaceEdgesNormals()
 	{
-		// get triangle edge vectors and plane normal
-		MatrixUtils.minus(mVertexList.get(face.E1.V0).Coord, mVertexList.get(face.E0.V0).Coord, u);
-		MatrixUtils.minus(mVertexList.get(face.E2.V0).Coord, mVertexList.get(face.E0.V0).Coord, v);
-
-		MatrixUtils.cross(u, v, normal); // cross product
-		MatrixUtils.normalize(normal);
+		for (Face face : mFaceList)
+		{
+			ComputeFaceEdgesNormal(face);
+		}
+	}
+	
+	public void ComputeFaceEdgesNormal(Integer nFaceIndex)
+	{
+		ComputeFaceEdgesNormal(mFaceList.get(nFaceIndex));
+	}
+	
+	public void ComputeFaceEdgesNormal(Face face)
+	{
+		//E0
+		MatrixUtils.minus(mVertexList.get(face.E0.V1).Coord, mVertexList.get(face.E0.V0).Coord, u);
+		MatrixUtils.minus(mVertexList.get(face.E2.V0).Coord, mVertexList.get(face.E2.V1).Coord, v);
+		MatrixUtils.cross(u, v, face.E0.Normal); 
+		
+		//E1
+		MatrixUtils.minus(mVertexList.get(face.E1.V1).Coord, mVertexList.get(face.E1.V0).Coord, u);
+		MatrixUtils.minus(mVertexList.get(face.E0.V0).Coord, mVertexList.get(face.E0.V1).Coord, v);
+		MatrixUtils.cross(u, v, face.E1.Normal);
+		
+		//E2
+		MatrixUtils.minus(mVertexList.get(face.E2.V1).Coord, mVertexList.get(face.E2.V0).Coord, u);
+		MatrixUtils.minus(mVertexList.get(face.E1.V0).Coord, mVertexList.get(face.E1.V1).Coord, v);
+		MatrixUtils.cross(u, v, face.E2.Normal);
 	}
 
 	public void draw(GL10 gl)
@@ -239,10 +249,12 @@ public class Mesh
 	{
 		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
 
-		normalizeAllVertices();
+		normalizeAllVertices();		
 		
 		computeVerticesLinkedEdges();
 		linkNeighbourEdges();
+		
+		ComputeAllVertexNormals();
 		
 		checkFacesNormals();
 	}
@@ -880,7 +892,10 @@ public class Mesh
 
 				//sculpting functions				
 				MatrixUtils.scalarMultiply(VOffset, (float) (Gaussian(sigma,sqDist)/maxGaussian*fMaxDeformation));
-				action.AddVertexOffset(i,VOffset,vertex);		
+				//if (MatrixUtils.magnitude(VOffset)>1e-3)
+				{
+					action.AddVertexOffset(i,VOffset,vertex);
+				}
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
 			action.DoAction();			
@@ -1044,7 +1059,7 @@ public class Mesh
 	}
 	
 
-	// Smits’ method
+	// Smits method
 	boolean ray_box_intersect(OctreeNode box, final float[] rayOrig, final float[] rayDir, float t0, float t1) 
 	{
 		float tmin, tmax, tymin, tymax, tzmin, tzmax;

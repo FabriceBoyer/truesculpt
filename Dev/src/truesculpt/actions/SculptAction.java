@@ -1,8 +1,11 @@
 package truesculpt.actions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import truesculpt.main.R;
+import truesculpt.mesh.Face;
+import truesculpt.mesh.HalfEdge;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
 import truesculpt.utils.MatrixUtils;
@@ -33,15 +36,30 @@ public class SculptAction extends BaseAction
 		super();
 		setDescription("Sculpting");
 	}
-
+	
+	private HashSet <Integer> faces= new HashSet<Integer>();
 	@Override
 	public boolean DoAction()
-	{
-		//update normals and publish value after all updates
+	{ 		
+		
 		Mesh mesh=getManagers().getMeshManager().getMesh();
 		for (VertexCoordChange change : mVertexChanges)
 		{
 			MatrixUtils.copy(change.Vnew, change.vertex.Coord);
+		}
+		
+		//update normals and publish value after all updates
+		faces.clear();
+		for (VertexCoordChange change : mVertexChanges)
+		{
+			for (HalfEdge edge : change.vertex.OutLinkedEdges)
+			{
+				faces.add(edge.Face);
+			}
+		}
+		for (Integer index: faces)
+		{
+			mesh.ComputeFaceEdgesNormal(index);
 		}
 		for (VertexCoordChange change : mVertexChanges)
 		{
@@ -71,6 +89,19 @@ public class SculptAction extends BaseAction
 		for (VertexCoordChange change : mVertexChanges)
 		{
 			MatrixUtils.copy(change.Vorig, change.vertex.Coord);
+		}
+		//update normals and publish value after all updates
+		faces.clear();
+		for (VertexCoordChange change : mVertexChanges)
+		{
+			for (HalfEdge edge : change.vertex.OutLinkedEdges)
+			{
+				faces.add(edge.Face);
+			}
+		}
+		for (Integer index: faces)
+		{
+			mesh.ComputeFaceEdgesNormal(index);
 		}
 		for (VertexCoordChange change : mVertexChanges)
 		{
