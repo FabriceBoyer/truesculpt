@@ -86,14 +86,12 @@ public class RendererMainPanel extends Activity implements Observer
 		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		mGLSurfaceView.setRenderer(getManagers().getRendererManager().getMainRenderer());
 		mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-
-		UpdateGLView();
-
+		
 		getManagers().getPointOfViewManager().addObserver(RendererMainPanel.this);
 		getManagers().getMeshManager().addObserver(RendererMainPanel.this);
 		getManagers().getToolsManager().addObserver(RendererMainPanel.this);
 		getManagers().getActionsManager().addObserver(this);
-	
+
 		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
 		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() 
 		{
@@ -297,6 +295,7 @@ public class RendererMainPanel extends Activity implements Observer
 		
 		mToolsSlidingDrawer.open();
 		
+		UpdateGLView();
 		UpdateButtonsView();	
 	}
 	

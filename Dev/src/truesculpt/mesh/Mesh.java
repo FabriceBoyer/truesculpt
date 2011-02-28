@@ -44,8 +44,6 @@ public class Mesh
 		ComputeBoundingSphereRadius();
 		InitOctree();		
 		mRenderGroupList.add(new RenderFaceGroup(this));
-		
-		getManagers().getMeshManager().NotifyListeners();
 	}
 	
 	private void InitOctree()
@@ -421,8 +419,6 @@ public class Mesh
 					}
 				}
 			}
-			
-			getManagers().getMeshManager().NotifyListeners();
 		}
 		catch (Exception ex)
 		{
@@ -443,7 +439,9 @@ public class Mesh
 		
 		ComputeBoundingSphereRadius();
 		InitOctree();				
-		mRenderGroupList.add(new RenderFaceGroup(this));		
+		mRenderGroupList.add(new RenderFaceGroup(this));	
+		
+		getManagers().getMeshManager().NotifyListeners();
 	}
 
 	void InitAsIcosahedron()
