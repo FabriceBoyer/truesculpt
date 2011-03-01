@@ -210,7 +210,10 @@ public class Mesh
 			file.write("# List of Vertices, with (x,y,z[,w]) coordinates, w is optional\n");
 			for (Vertex vertex : mVertexList)
 			{
-				String str = "v " + String.valueOf(vertex.Coord[0]) + " " + String.valueOf(vertex.Coord[1]) + " " + String.valueOf(vertex.Coord[2]) + "\n";
+				String str = "v " + String.valueOf(vertex.Coord[0]) + " " +
+									String.valueOf(vertex.Coord[1]) + " " + 
+									String.valueOf(vertex.Coord[2]) + " " + 
+									String.valueOf(vertex.Color) + "\n";
 				file.write(str);
 			}
 
@@ -337,8 +340,15 @@ public class Mesh
 						tok.nextToken();
 						coord[0] = Float.parseFloat(tok.nextToken());
 						coord[1] = Float.parseFloat(tok.nextToken());
-						coord[2] = Float.parseFloat(tok.nextToken());
-						mVertexList.add(new Vertex(coord, mVertexList.size()));
+						coord[2] = Float.parseFloat(tok.nextToken());						
+						Vertex vertex=new Vertex(coord, mVertexList.size());
+						mVertexList.add(vertex);
+						
+						if (tok.hasMoreTokens())
+						{
+							int color= Integer.parseInt(tok.nextToken());
+							vertex.Color=color;
+						}						
 					}
 					else if (line.startsWith("vt "))
 					{
@@ -434,20 +444,15 @@ public class Mesh
 			System.err.println("Error parsing file:");
 			System.err.println(input.getLineNumber() + " : " + line);
 		}
-		// if (!file_normal) {
-		// m.calculateFaceNormals(coordinate_hand);
-		// m.calculateVertexNormals();
-		// // m.copyNormals();
 		
 		computeVerticesLinkedEdges();
 		linkNeighbourEdges();
 		
 		ComputeAllVertexNormals();
 		
-		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());		
-		
 		ComputeBoundingSphereRadius();
-		InitOctree();				
+		InitOctree();	
+		
 		mRenderGroupList.add(new RenderFaceGroup(this));	
 		
 		getManagers().getMeshManager().NotifyListeners();
