@@ -12,6 +12,7 @@ import truesculpt.ui.adapters.OpenFileAdapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,7 +33,8 @@ public class OpenFilePanel extends Activity implements Runnable
 	{
 		public String name;
 		public String objfilename;
-		public String imagefilename;		
+		public String imagefilename;
+		public Bitmap bmp=null;
 	};
 	
 	@Override
