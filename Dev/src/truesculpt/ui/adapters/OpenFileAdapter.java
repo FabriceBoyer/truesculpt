@@ -57,14 +57,12 @@ public class OpenFileAdapter extends BaseAdapter
 		
 		if (convertView == null)
 		{	
-			holder = new ViewHolder();
-			
+			holder = new ViewHolder();			
 			convertView = inflater.inflate(R.layout.openfileitem, null);
 			convertView.setLayoutParams(new GridView.LayoutParams(200,200));
-			convertView.setPadding(8, 8, 8, 8);
 			holder.title = (TextView) convertView.findViewById(R.id.fileopentitle);
 			holder.image = (ImageView) convertView.findViewById(R.id.fileopenimage);
-			holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);		
+			holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			convertView.setTag(holder);
 		} 
 		else
