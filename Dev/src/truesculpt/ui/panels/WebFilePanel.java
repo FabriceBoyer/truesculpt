@@ -6,18 +6,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 
@@ -65,46 +72,35 @@ public class WebFilePanel extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				String name=getManagers().getMeshManager().getName();
+				String name="lap1";//getManagers().getMeshManager().getName();
+				getManagers().getMeshManager().setName(name);
+				
 				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);	
 				
 				//get upload url
 				String strUploadURL = "";				
-				URL url;
 				try
 				{
 					String fetchURL=mStrBaseWebSite+"/upload";
-					url = new URL(fetchURL);
 					
-					InputStream stream = url.openStream();
-					InputStreamReader reader = new InputStreamReader(stream);
-					BufferedReader buffReader = new BufferedReader(reader);
-					String strTemp = buffReader.readLine();					
-					while (strTemp != null)
-					{
-						System.out.println( "reading fetch url line: " + strTemp );
-						strUploadURL += strTemp;
-						strTemp = buffReader.readLine();
-					}
-					buffReader.close();			
+		            HttpGet httpget = new HttpGet(fetchURL);
+		            System.out.println("executing request " + httpget.getURI());
+		            HttpClient httpclient = new DefaultHttpClient();
+		            // Create a response handler
+		            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+		            strUploadURL = httpclient.execute(httpget, responseHandler);
 				} 
-				catch (MalformedURLException e)
-				{
-					System.out.println( "catched MalformedURLException" );
-					e.printStackTrace();
-				} 
-				catch (IOException e)
-				{
+				catch (Exception e)
+				{					
 					e.printStackTrace();
 				}
 						
 				System.out.println( "received upload url: " + strUploadURL );
 				
-				//add root (returned value is relative)
-				strUploadURL=mStrBaseWebSite+strUploadURL;
+				strUploadURL = strUploadURL.substring(0,strUploadURL.length()-2);
 				
 				//add title as a parameter of the url
-				strUploadURL+="?title="+name;
+				//strUploadURL=strUploadURL+"?title="+name;
 				
 				System.out.println( "formatted upload url: " + strUploadURL );
 				
@@ -115,34 +111,34 @@ public class WebFilePanel extends Activity
 				
 				try
 				{
-					uploadPicture(strPictureFileName,strUploadURL);
+					uploadPicture(strPictureFileName,strUploadURL,name);
 				} 
-				catch (ParseException e)
-				{
-					e.printStackTrace();
-				}
-				catch (IOException e)
-				{
+				catch (Exception e)
+				{					
 					e.printStackTrace();
 				}
 			}			
 		});
 	}
 	
-	private void uploadPicture( String picturePath, String uploadURL) throws ParseException, IOException 
+	private void uploadPicture( String picturePath, String uploadURL, String title) throws ParseException, IOException, URISyntaxException 
 	{
 	    HttpClient httpclient = new DefaultHttpClient();
-	    httpclient.getParams( ).setParameter( CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1 );
+	    //httpclient.getParams( ).setParameter( CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1 );
 
 	    HttpPost httppost = new HttpPost( uploadURL );
+	    //BasicHttpParams basicHttpParams = new BasicHttpParams();
+	    //basicHttpParams.setParameter("title", title);
+	   // httppost.setParams(basicHttpParams);
+
 	    File file = new File( picturePath );
 
-	    MultipartEntity mpEntity  = new MultipartEntity( );
+	    MultipartEntity mpEntity  = new MultipartEntity( HttpMultipartMode.BROWSER_COMPATIBLE );
 	    ContentBody cbFile        = new FileBody( file, "image/png" );
-	    ContentBody cbMessage     = new StringBody( "Test" );
+	    //ContentBody cbMessage     = new StringBody( "Test" );
 
 	    mpEntity.addPart( "file",       cbFile        );
-	    mpEntity.addPart( "message",      cbMessage     );        
+	    //mpEntity.addPart( "message",      cbMessage     );        
 
 	    httppost.setEntity( mpEntity );
 
