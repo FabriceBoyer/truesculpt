@@ -91,10 +91,12 @@ public class UpdateManager extends BaseManager
 
 					strLatestVersion = elem;
 				}
-			} catch (MalformedURLException e)
+			}
+			catch (MalformedURLException e)
 			{
 				e.printStackTrace();
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
