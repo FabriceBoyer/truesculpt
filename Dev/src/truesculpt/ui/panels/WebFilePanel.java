@@ -26,6 +26,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.mesh.Mesh;
+import truesculpt.ui.adapters.JavaScriptInterface;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -40,6 +41,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
+
 //TODO thread all waiting phases
 public class WebFilePanel extends Activity
 {
@@ -48,107 +50,6 @@ public class WebFilePanel extends Activity
 	private Button mPublishToWebBtn;	
 	private WebView mWebView;
 	
-	public class JavaScriptInterface
-	{
-	    Context mContext;
-
-	    JavaScriptInterface(Context c)
-	    {
-	        mContext = c;
-	    }
-
-	    public void openObjFileInAndroid(final String name, final String strImagefileURL, final String strObjectFileURL) 
-	    {
-			Log.i("WEB", "openObjFileInAndroid image : " + strImagefileURL + "\n object : " + strObjectFileURL );
-			
-			String newName=getManagers().getUtilsManager().GetRootDirectory()+name;
-			File newFileName=new File(newName);
-			if (newFileName.exists())		  
-		    {
-				AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
-				builder.setMessage("File already exist, do you want to overwrite ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int id)
-					{
-						ImportFile(name, strImagefileURL, strObjectFileURL );
-					}
-				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int id)
-					{
-						
-					}
-				});
-				builder.show();	
-		    }
-		    else
-		    {
-				//ensure dir
-		    	newFileName.mkdirs();
-		    	ImportFile(name, strImagefileURL, strObjectFileURL);
-		    }
-	    }
-	}
-	
-	public void ImportFile(String name, String strImagefileURL, String strObjectfileURL)
-	{
-		String newName="web_"+name;
-		Mesh mesh=getManagers().getMeshManager().getMesh();
-		if (mesh!=null && getManagers().getMeshManager().IsInitOver())
-		{
-			getManagers().getMeshManager().setName(newName);
-			
-			try
-			{
-				//import image from URL to disk
-				String imageFile=getManagers().getUtilsManager().GetBaseFileName()+"Image.png";
-				URLtoDisk(strImagefileURL,imageFile);
-				
-				//import obj from URL to disk
-				String objectFile=getManagers().getUtilsManager().GetBaseFileName()+"Mesh.obj";
-				URLtoDisk(strObjectfileURL,objectFile);			
-			
-				mesh.ImportFromOBJ(objectFile);				
-			} 
-			catch (IOException e)
-			{			
-				e.printStackTrace();
-			}					
-		}		
-	}
-	
-	public void URLtoDisk(String url, String disk) throws ClientProtocolException, IOException
-	{
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpGet httpget = new HttpGet(url);
-		HttpResponse response = httpclient.execute(httpget);
-		HttpEntity entity = response.getEntity();
-		if (entity != null)
-		{
-			InputStream stream = entity.getContent();
-			byte buf[] = new byte[1024 * 1024];
-			int numBytesRead;
-			BufferedOutputStream fos = new BufferedOutputStream(new
-			FileOutputStream(disk));
-			do
-			{
-				numBytesRead = stream.read(buf);
-				if (numBytesRead > 0)
-				{
-					fos.write(buf, 0, numBytesRead);
-				}
-			} 
-			while (numBytesRead > 0);
-			fos.flush();
-			fos.close();
-			stream.close();
-			buf = null;
-			httpclient.getConnectionManager().shutdown();
-		}
-	}
 	
 	private class MyWebViewClient extends WebViewClient
 	{
@@ -186,7 +87,7 @@ public class WebFilePanel extends Activity
 		mWebView.setWebViewClient(new MyWebViewClient());
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-		mWebView.addJavascriptInterface(new JavaScriptInterface(this), "Android");
+		mWebView.addJavascriptInterface(new JavaScriptInterface(this, getManagers()), "Android");
 		mWebView.loadUrl(mStrBaseWebSite);
 		
 		mPublishToWebBtn=(Button)findViewById(R.id.publish_to_web);
@@ -219,7 +120,7 @@ public class WebFilePanel extends Activity
 					}
 					
 			    	AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
-					builder.setMessage(" You will upload " + size + " ko of data\nWhen clicking the ok button you accept to publish your sculpture under the terms of the http://creativecommons.org/licenses/by-nc-sa/3.0/ creative commons share alike, non commercial license. Do you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+					builder.setMessage("You will upload " + size + " ko of data\nWhen clicking the ok button you accept to publish your sculpture under the terms of the http://creativecommons.org/licenses/by-nc-sa/3.0/ creative commons share alike, non commercial license. Do you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 					{
 						@Override
 						public void onClick(DialogInterface dialog, int id)
