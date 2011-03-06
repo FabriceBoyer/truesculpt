@@ -25,7 +25,8 @@ public class JavaScriptInterface
 {
     Context mContext;
     Managers mManagers;
-
+	private String mStrBaseWebSite="http://truesculpt.appspot.com";
+	
     public JavaScriptInterface(Context c, Managers managers)
     {
         mContext = c;
@@ -34,11 +35,11 @@ public class JavaScriptInterface
 
     public void openObjFileInAndroid(final String name, final String strImagefileURL, final String strObjectFileURL) 
     {
-		Log.i("WEB", "openObjFileInAndroid image : " + strImagefileURL + "\n object : " + strObjectFileURL );
+		Log.i("WEB", "openObjFileInAndroid image : " + strImagefileURL + "\nobject : " + strObjectFileURL );
 		
-		String newName=getManagers().getUtilsManager().GetRootDirectory()+name;
-		File newFileName=new File(newName);
-		if (newFileName.exists())		  
+		final String newName="web_"+name;
+		File newFile=new File(getManagers().getUtilsManager().GetRootDirectory()+newName);
+		if (newFile.exists())		  
 	    {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 			builder.setMessage("File already exist, do you want to overwrite ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
@@ -46,7 +47,7 @@ public class JavaScriptInterface
 				@Override
 				public void onClick(DialogInterface dialog, int id)
 				{
-					ImportFile(name, strImagefileURL, strObjectFileURL );
+					ImportFile(newName, strImagefileURL, strObjectFileURL );
 				}
 			})
 			.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
@@ -62,8 +63,8 @@ public class JavaScriptInterface
 	    else
 	    {
 			//ensure dir
-	    	newFileName.mkdirs();
-	    	ImportFile(name, strImagefileURL, strObjectFileURL);
+	    	newFile.mkdirs();
+	    	ImportFile(newName, strImagefileURL, strObjectFileURL);
 	    }
     }
     
@@ -75,11 +76,10 @@ public class JavaScriptInterface
 
 	public void ImportFile(String name, String strImagefileURL, String strObjectfileURL)
 	{
-		String newName="web_"+name;
 		Mesh mesh=getManagers().getMeshManager().getMesh();
 		if (mesh!=null && getManagers().getMeshManager().IsInitOver())
 		{
-			getManagers().getMeshManager().setName(newName);
+			getManagers().getMeshManager().setName(name);
 			
 			try
 			{
@@ -89,7 +89,7 @@ public class JavaScriptInterface
 				
 				//import obj from URL to disk
 				String objectFile=getManagers().getUtilsManager().GetBaseFileName()+"Mesh.obj";
-				URLtoDisk(strObjectfileURL,objectFile);			
+				URLtoDisk(mStrBaseWebSite+strObjectfileURL,objectFile);			
 			
 				mesh.ImportFromOBJ(objectFile);				
 			} 
@@ -102,6 +102,8 @@ public class JavaScriptInterface
 	
 	public void URLtoDisk(String url, String disk) throws ClientProtocolException, IOException
 	{
+		Log.i("WEB","Saving from " + url + " to " + disk);
+		
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpGet httpget = new HttpGet(url);
 		HttpResponse response = httpclient.execute(httpget);
