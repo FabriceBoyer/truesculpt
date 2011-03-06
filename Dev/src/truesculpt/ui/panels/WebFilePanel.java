@@ -72,12 +72,11 @@ public class WebFilePanel extends Activity
 		{			
 			@Override
 			public void onClick(View v)
-			{
-				String name="lap1";//getManagers().getMeshManager().getName();
-				getManagers().getMeshManager().setName(name);
+			{		
+				String name=getManagers().getMeshManager().getName();
 				
-				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);	
-				
+				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);				
+
 				String strUploadURL = "";
 				try
 				{					
@@ -95,50 +94,16 @@ public class WebFilePanel extends Activity
 				catch (Exception e)
 				{					
 					e.printStackTrace();
-				}
-
-				/*
-				//get upload url
-				String strUploadURL = "";				
-				try
-				{
-					String fetchURL=mStrBaseWebSite+"/upload";
-					
-		            HttpGet httpget = new HttpGet(fetchURL);
-		            System.out.println("executing request " + httpget.getURI());
-		            HttpClient httpclient = new DefaultHttpClient();
-		            // Create a response handler
-		            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-		            strUploadURL = httpclient.execute(httpget, responseHandler);
-				} 
-				catch (Exception e)
-				{					
-					e.printStackTrace();
-				}
-						
-				System.out.println( "received upload url: " + strUploadURL );
-				
-				strUploadURL = strUploadURL.substring(0,strUploadURL.length()-2);
-				
-				//add title as a parameter of the url
-				//strUploadURL=strUploadURL+"?title="+name;
-				
-				System.out.println( "formatted upload url: " + strUploadURL );
-				
-				*/
-				
-				//add title as a parameter of the url
-				//strUploadURL=strUploadURL+"?title="+name;
+				}		
 				
 				//upload saved file
 				String strBaseFileName=getManagers().getUtilsManager().GetBaseFileName();
 				String strObjFileName=strBaseFileName+"Mesh.obj";			
-				String strPictureFileName=strBaseFileName+"Image.png";
-				
+				String strPictureFileName=strBaseFileName+"Image.png";				
 				
 				try
 				{
-					uploadPicture(strPictureFileName,strUploadURL,name);
+					uploadPicture(strPictureFileName,strUploadURL,name,"");
 				} 
 				catch (Exception e)
 				{					
@@ -148,51 +113,26 @@ public class WebFilePanel extends Activity
 		});
 	}
 	
-	private void uploadPicture( String picturePath, String uploadURL, String title) throws ParseException, IOException, URISyntaxException 
+	private void uploadPicture( String picturePath, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException 
 	{
 	    HttpClient httpclient = new DefaultHttpClient();
-	    //httpclient.getParams( ).setParameter( CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1 );
 
 	    HttpPost httppost = new HttpPost( uploadURL );
 	    httppost.addHeader("title", title);
+	    httppost.addHeader("description", description);
 	    
-	    //BasicHttpParams basicHttpParams = new BasicHttpParams();
-	    //basicHttpParams.setParameter("title", title);
-	    //httppost.setParams(basicHttpParams);
-
 	    File file = new File( picturePath );
 
 	    MultipartEntity mpEntity  = new MultipartEntity( HttpMultipartMode.STRICT );
 	    ContentBody cbFile        = new FileBody( file);
-	    //ContentBody cbTitle     = new StringBody( title );
 
 	    mpEntity.addPart( "file",       cbFile        );
-	    //mpEntity.addPart( "title",      cbTitle     );        
-
+        
 	    httppost.setEntity( mpEntity );
 
 	    System.out.println( "executing request " + httppost.getRequestLine( ) );
-	    HttpResponse response = httpclient.execute( httppost );
-	    
-	    /*
-	    HttpEntity resEntity = response.getEntity( );
-
-	    // DEBUG
-	    System.out.println( response.getStatusLine( ) );
-	    if (resEntity != null) 
-	    {
-	      System.out.println( EntityUtils.toString( resEntity ) );
-	    } 
-
-	    if (resEntity != null) 
-	    {
-	      resEntity.consumeContent( );
-	    } 
-
-	    httpclient.getConnectionManager( ).shutdown( );
-	    */
+	    HttpResponse response = httpclient.execute( httppost );  
 	}
-
 	
 	public Managers getManagers()
 	{
