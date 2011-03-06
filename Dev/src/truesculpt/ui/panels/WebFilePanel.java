@@ -126,7 +126,7 @@ public class WebFilePanel extends Activity
 					
 				    final SpannableString msg = new SpannableString("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\n" +
 				    		"When clicking the yes button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license\n" +
-				    		"http://creativecommons.org/licenses/by-nc-sa/3.0/" +
+				    		"http://creativecommons.org/licenses/by-nc-sa/3.0" +
 				    		"\n\nDo you want to proceed ?");
 				    Linkify.addLinks(msg, Linkify.ALL);
 
