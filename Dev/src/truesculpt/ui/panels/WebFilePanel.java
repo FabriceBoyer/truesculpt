@@ -120,7 +120,7 @@ public class WebFilePanel extends Activity
 					}
 					
 			    	AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
-					builder.setMessage("You will upload " + size + " ko of data\nWhen clicking the ok button you accept to publish your sculpture under the terms of the http://creativecommons.org/licenses/by-nc-sa/3.0/ creative commons share alike, non commercial license. Do you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+					builder.setMessage("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\nWhen clicking the ok button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license ( http://creativecommons.org/licenses/by-nc-sa/3.0/)\nDo you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 					{
 						@Override
 						public void onClick(DialogInterface dialog, int id)
