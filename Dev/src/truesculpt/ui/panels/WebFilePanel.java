@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -77,6 +78,26 @@ public class WebFilePanel extends Activity
 				
 				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);	
 				
+				String strUploadURL = "";
+				try
+				{					
+					String myHeader="uploadUrl";
+					HttpClient httpClient = new DefaultHttpClient();
+					HttpPost httpPost = new HttpPost(mStrBaseWebSite+"/upload");
+					HttpResponse httpResponse = httpClient.execute(httpPost);
+					Header[] headers = httpResponse.getHeaders(myHeader);
+					for (int i = 0; i < headers.length; i++) 
+					{
+						Header header = headers[i];
+						if(header.getName().equals(myHeader)) strUploadURL = header.getValue();
+					}
+				} 
+				catch (Exception e)
+				{					
+					e.printStackTrace();
+				}
+
+				/*
 				//get upload url
 				String strUploadURL = "";				
 				try
@@ -104,10 +125,16 @@ public class WebFilePanel extends Activity
 				
 				System.out.println( "formatted upload url: " + strUploadURL );
 				
+				*/
+				
+				//add title as a parameter of the url
+				//strUploadURL=strUploadURL+"?title="+name;
+				
 				//upload saved file
 				String strBaseFileName=getManagers().getUtilsManager().GetBaseFileName();
 				String strObjFileName=strBaseFileName+"Mesh.obj";			
 				String strPictureFileName=strBaseFileName+"Image.png";
+				
 				
 				try
 				{
@@ -127,24 +154,27 @@ public class WebFilePanel extends Activity
 	    //httpclient.getParams( ).setParameter( CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1 );
 
 	    HttpPost httppost = new HttpPost( uploadURL );
+	    httppost.addHeader("title", title);
+	    
 	    //BasicHttpParams basicHttpParams = new BasicHttpParams();
 	    //basicHttpParams.setParameter("title", title);
-	   // httppost.setParams(basicHttpParams);
+	    //httppost.setParams(basicHttpParams);
 
 	    File file = new File( picturePath );
 
-	    MultipartEntity mpEntity  = new MultipartEntity( HttpMultipartMode.BROWSER_COMPATIBLE );
-	    ContentBody cbFile        = new FileBody( file, "image/png" );
-	    //ContentBody cbMessage     = new StringBody( "Test" );
+	    MultipartEntity mpEntity  = new MultipartEntity( HttpMultipartMode.STRICT );
+	    ContentBody cbFile        = new FileBody( file);
+	    //ContentBody cbTitle     = new StringBody( title );
 
 	    mpEntity.addPart( "file",       cbFile        );
-	    //mpEntity.addPart( "message",      cbMessage     );        
+	    //mpEntity.addPart( "title",      cbTitle     );        
 
 	    httppost.setEntity( mpEntity );
 
-	    // DEBUG
 	    System.out.println( "executing request " + httppost.getRequestLine( ) );
 	    HttpResponse response = httpclient.execute( httppost );
+	    
+	    /*
 	    HttpEntity resEntity = response.getEntity( );
 
 	    // DEBUG
@@ -160,6 +190,7 @@ public class WebFilePanel extends Activity
 	    } 
 
 	    httpclient.getConnectionManager( ).shutdown( );
+	    */
 	}
 
 	
