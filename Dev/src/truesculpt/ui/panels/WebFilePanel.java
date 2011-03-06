@@ -29,10 +29,14 @@ import truesculpt.mesh.Mesh;
 import truesculpt.ui.adapters.JavaScriptInterface;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ParseException;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,6 +44,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 //TODO thread all waiting phases
@@ -119,8 +124,14 @@ public class WebFilePanel extends Activity
 						e.printStackTrace();
 					}
 					
-			    	AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
-					builder.setMessage("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\nWhen clicking the ok button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license (http://creativecommons.org/licenses/by-nc-sa/3.0/)\n\nDo you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+				    final SpannableString msg = new SpannableString("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\n" +
+				    		"When clicking the yes button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license\n" +
+				    		"http://creativecommons.org/licenses/by-nc-sa/3.0/" +
+				    		"\n\nDo you want to proceed ?");
+				    Linkify.addLinks(msg, Linkify.ALL);
+
+				    AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
+					builder.setMessage(msg).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 					{
 						@Override
 						public void onClick(DialogInterface dialog, int id)
@@ -136,7 +147,12 @@ public class WebFilePanel extends Activity
 							
 						}
 					});
-					builder.show();					
+					AlertDialog dlg = builder.create();
+					dlg.show();
+					
+					// Make the textview clickable. Must be called after show()
+				    ((TextView)dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
 			    }
 			    else
 			    {
