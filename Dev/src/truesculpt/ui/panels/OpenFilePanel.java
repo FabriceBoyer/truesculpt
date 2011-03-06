@@ -107,18 +107,16 @@ public class OpenFilePanel extends Activity implements Runnable
 		{
 			try
 			{
-				//TODO check for init over
 				Mesh mesh=getManagers().getMeshManager().getMesh();
 				if (mesh!=null && getManagers().getMeshManager().IsInitOver())
 				{
 					mesh.ImportFromOBJ(mSelectedElem.objfilename);		
 					getManagers().getMeshManager().setName(mSelectedElem.name);
 					mSelectedElem=null;
-				}
-				
-			} catch (IOException e)
+				}				
+			} 
+			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}				
 		}
