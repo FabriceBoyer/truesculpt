@@ -1,71 +1,93 @@
 package truesculpt.ui.panels;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.util.EntityUtils;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.mesh.Mesh;
 import android.app.Activity;
+import android.content.Context;
 import android.net.ParseException;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
-import truesculpt.utils.Utils;
 
 public class WebFilePanel extends Activity
 {
-	private Button mOpenFromWebBtn;
-	private Button mPublishToWebBtn;
 	private String mStrBaseWebSite="http://truesculpt.appspot.com";
+	
+	private Button mPublishToWebBtn;	
+	private WebView mWebView;
+	
+	public class JavaScriptInterface
+	{
+	    Context mContext;
+
+	    JavaScriptInterface(Context c)
+	    {
+	        mContext = c;
+	    }
+
+	    public void openObjFileInAndroid(String imagefile, String objectFile) 
+	    {
+	       
+	    }
+	}
+	
+	private class MyWebViewClient extends WebViewClient
+	{
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url)
+		{
+			view.loadUrl(url);
+			return true;
+		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+	    // Check if the key event was the BACK key and if there's history
+	    if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack())
+	    {
+	        mWebView.goBack();
+	        return true;
+	    }
+	    // If it wasn't the BACK key or there's no web page history, bubble up to the default
+	    // system behavior (probably exit the activity)
+	    return super.onKeyDown(keyCode, event);
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.webfile);			
+		setContentView(R.layout.webfile);	
 		
-		mOpenFromWebBtn=(Button)findViewById(R.id.open_from_web);
-		mOpenFromWebBtn.setOnClickListener(new View.OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{				
-				getManagers().getUsageStatisticsManager().TrackEvent("OpenFromWeb", "", 1);
-				Utils.ShowURLInBrowser(WebFilePanel.this, mStrBaseWebSite);
-				//TODO use webview and webapps javascript interaction to load obj into app
-				//http://developer.android.com/guide/webapps/webview.html
-				//WebView webView = (WebView) findViewById(R.id.webview);
-				//webView.addJavascriptInterface(new JavaScriptInterface(this), "Android");
-			}
-		});
+		getManagers().getUsageStatisticsManager().TrackEvent("OpenFromWeb", "", 1);
+		
+		mWebView = (WebView) findViewById(R.id.webview);	
+		mWebView.setWebViewClient(new MyWebViewClient());
+		WebSettings webSettings = mWebView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
+		mWebView.addJavascriptInterface(new JavaScriptInterface(this), "Android");
+		mWebView.loadUrl(mStrBaseWebSite);
 		
 		mPublishToWebBtn=(Button)findViewById(R.id.publish_to_web);
 		mPublishToWebBtn.setOnClickListener(new View.OnClickListener()
@@ -103,17 +125,19 @@ public class WebFilePanel extends Activity
 				
 				try
 				{
-					uploadPicture(strPictureFileName,strUploadURL,name,"");
+					uploadPicture(strPictureFileName, strObjFileName, strUploadURL,name,"");
 				} 
 				catch (Exception e)
 				{					
 					e.printStackTrace();
 				}
+				
+				mWebView.loadUrl(mStrBaseWebSite);
 			}			
 		});
 	}
 	
-	private void uploadPicture( String picturePath, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException 
+	private void uploadPicture( String picturePath, String objectPath, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException 
 	{
 	    HttpClient httpclient = new DefaultHttpClient();
 
@@ -121,17 +145,20 @@ public class WebFilePanel extends Activity
 	    httppost.addHeader("title", title);
 	    httppost.addHeader("description", description);
 	    
-	    File file = new File( picturePath );
+	    File imagefile = new File( picturePath );
+	    File objectfile = new File( objectPath );
 
 	    MultipartEntity mpEntity  = new MultipartEntity( HttpMultipartMode.STRICT );
-	    ContentBody cbFile        = new FileBody( file);
+	    ContentBody cbImageFile        = new FileBody( imagefile);
+	    ContentBody cbObjectFile        = new FileBody( objectfile);
 
-	    mpEntity.addPart( "file",       cbFile        );
+	    mpEntity.addPart( "imagefile", cbImageFile );
+	    mpEntity.addPart( "objectfile", cbObjectFile );
         
 	    httppost.setEntity( mpEntity );
 
 	    System.out.println( "executing request " + httppost.getRequestLine( ) );
-	    HttpResponse response = httpclient.execute( httppost );  
+	    httpclient.execute( httppost );  
 	}
 	
 	public Managers getManagers()

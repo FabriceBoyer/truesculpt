@@ -5,6 +5,12 @@
   android:layout_height="fill_parent" 
   android:orientation="vertical">
 
-    <Button android:layout_height="wrap_content" android:id="@+id/publish_to_web" android:layout_width="fill_parent" android:text="@string/Publish_to_web_site"></Button>
-    <Button android:layout_height="wrap_content" android:id="@+id/open_from_web" android:layout_width="fill_parent" android:text="@string/choose_from_web_site"></Button>
+    <Button android:layout_height="wrap_content" android:id="@+id/publish_to_web" android:layout_width="fill_parent" android:text="@string/Publish_to_web_site"></Button>    
+    		
+	<WebView
+ 	 android:id="@+id/webview" 
+     android:layout_height="fill_parent"
+     android:layout_width="fill_parent"
+    />
+    
 </LinearLayout>
