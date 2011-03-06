@@ -20,7 +20,6 @@
     
     <string-array name="initial_shape">
         <item>Sphere</item>
-        <item>Cube</item>
     </string-array>
     
     
