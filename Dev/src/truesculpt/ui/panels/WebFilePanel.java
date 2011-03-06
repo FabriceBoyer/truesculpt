@@ -205,8 +205,8 @@ public class WebFilePanel extends Activity
 	    httppost.addHeader("description", description);
 
 	    MultipartEntity mpEntity = new MultipartEntity( HttpMultipartMode.STRICT );
-	    ContentBody cbImageFile = new FileBody( imagefile);
-	    ContentBody cbObjectFile = new FileBody( objectfile);
+	    ContentBody cbImageFile = new FileBody( imagefile, "image/png");
+	    ContentBody cbObjectFile = new FileBody( objectfile, "text/plain");
 
 	    mpEntity.addPart( "imagefile", cbImageFile );
 	    mpEntity.addPart( "objectfile", cbObjectFile );
