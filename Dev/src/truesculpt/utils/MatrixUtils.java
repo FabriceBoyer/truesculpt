@@ -1,6 +1,5 @@
 package truesculpt.utils;
 
-import truesculpt.utils.various.FixedPointUtils;
 import android.util.Log;
 
 public class MatrixUtils
@@ -39,22 +38,6 @@ public class MatrixUtils
 		result[2] = p1[0] * p2[1] - p2[0] * p1[1];
 	}
 
-	/**
-	 * Compute the cross product of two vectors
-	 * 
-	 * @param v1
-	 *            The first vector
-	 * @param v2
-	 *            The second vector
-	 * @param result
-	 *            Where to store the cross product
-	 **/
-	public static void cross(int[] p1, int[] p2, int[] result)
-	{
-		result[0] = FixedPointUtils.multiply(p1[1], p2[2]) - FixedPointUtils.multiply(p2[1], p1[2]);
-		result[1] = FixedPointUtils.multiply(p1[2], p2[0]) - FixedPointUtils.multiply(p2[2], p1[0]);
-		result[2] = FixedPointUtils.multiply(p1[0], p2[1]) - FixedPointUtils.multiply(p2[0], p1[1]);
-	}
 
 	/**
 	 * Compute the dot product of two vectors
@@ -151,17 +134,6 @@ public class MatrixUtils
 		return (float) Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
 	}
 
-	/**
-	 * Compute the magnitude (length) of a vector
-	 * 
-	 * @param vector
-	 *            The vector
-	 * @return The magnitude of the vector
-	 **/
-	public static int magnitude(int[] vector)
-	{
-		return FixedPointUtils.sqrt(FixedPointUtils.multiply(vector[0], vector[0]) + FixedPointUtils.multiply(vector[1], vector[1]) + FixedPointUtils.multiply(vector[2], vector[2]));
-	}
 
 	/**
 	 * Subtracts two vectors (a-b).
@@ -250,16 +222,7 @@ public class MatrixUtils
 		scalarMultiply(vector, 1 / magnitude(vector));
 	}
 
-	/**
-	 * Converts this vector into a normalized (unit length) vector <b>Modifies the input parameter</b>
-	 * 
-	 * @param vector
-	 *            The vector to normalize
-	 **/
-	public static void normalize(int[] vector)
-	{
-		scalarMultiply(vector, 1 / magnitude(vector));
-	}
+	
 
 	/**
 	 * Adds two vectors (a+b).
@@ -423,22 +386,7 @@ public class MatrixUtils
 		return bRes;
 	}
 
-	/**
-	 * Multiply a vector by a scalar. <b>Modifies the input vector</b>
-	 * 
-	 * @param vector
-	 *            The vector
-	 * @param scalar
-	 *            The scalar
-	 **/
-	public static void scalarMultiply(int[] vector, int scalar)
-	{
-		for (int i = 0; i < vector.length; i++)
-		{
-			vector[i] = FixedPointUtils.multiply(vector[i], scalar);
-		}
-	}
-
+	
 	public static void transpose(float[] m, float[] result)
 	{
 		for (int i = 0; i < 4; i++)
