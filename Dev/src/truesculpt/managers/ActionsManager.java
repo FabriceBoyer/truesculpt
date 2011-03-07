@@ -9,7 +9,7 @@ import android.content.Context;
 //For undo redo and analytical description of sculpture
 public class ActionsManager extends BaseManager
 {
-	private int MAX_UNDO_SIZE=100;
+	private int MAX_UNDO_SIZE=20;
 	private List<BaseAction> mUndoActionsList = new ArrayList<BaseAction>(MAX_UNDO_SIZE);
 	private List<BaseAction> mRedoActionsList = new ArrayList<BaseAction>(MAX_UNDO_SIZE);
 		
