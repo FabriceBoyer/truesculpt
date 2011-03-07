@@ -1,10 +1,13 @@
 package truesculpt.ui.adapters;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -85,11 +88,11 @@ public class JavaScriptInterface
 			{
 				//import image from URL to disk
 				String imageFile=getManagers().getUtilsManager().GetBaseFileName()+"Image.png";
-				URLtoDisk(strImagefileURL,imageFile);
+				URLtoDisk(strImagefileURL,imageFile,false);
 				
 				//import obj from URL to disk
 				String objectFile=getManagers().getUtilsManager().GetBaseFileName()+"Mesh.obj";
-				URLtoDisk(mStrBaseWebSite+strObjectfileURL,objectFile);			
+				URLtoDisk(mStrBaseWebSite+strObjectfileURL,objectFile,true);			
 			
 				mesh.ImportFromOBJ(objectFile);				
 			} 
@@ -100,7 +103,7 @@ public class JavaScriptInterface
 		}		
 	}
 	
-	public void URLtoDisk(String url, String disk) throws ClientProtocolException, IOException
+	public void URLtoDisk(String url, String disk, boolean bIsZipped) throws ClientProtocolException, IOException
 	{
 		Log.i("WEB","Saving from " + url + " to " + disk);
 		
@@ -110,11 +113,18 @@ public class JavaScriptInterface
 		HttpEntity entity = response.getEntity();
 		if (entity != null)
 		{
-			InputStream stream = entity.getContent();
+			InputStream stream = null;
+			if (bIsZipped)
+			{
+				stream = new GZIPInputStream(entity.getContent());
+			}
+			else
+			{
+				stream = entity.getContent();
+			}
 			byte buf[] = new byte[1024 * 1024];
 			int numBytesRead;
-			BufferedOutputStream fos = new BufferedOutputStream(new
-			FileOutputStream(disk));
+			BufferedOutputStream fos = new BufferedOutputStream(new	FileOutputStream(disk));
 			do
 			{
 				numBytesRead = stream.read(buf);

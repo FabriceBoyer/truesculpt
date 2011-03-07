@@ -1,13 +1,21 @@
 package truesculpt.ui.panels;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -111,48 +119,62 @@ public class WebFilePanel extends Activity
 				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);	
 				
 			    if (imagefile.exists() && objectfile.exists())
-			    {
-			    	long size=0;
+			    {			    	
 					try
-					{
+					{				
+						final File zippedObject= File.createTempFile("object","zip");		
+				   	    zippedObject.deleteOnExit();
+				   	    
+				   	    BufferedReader in = new BufferedReader(new FileReader(objectfile));
+				   	    BufferedOutputStream out = new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(zippedObject)));
+				   	    System.out.println("Compressing file");
+				   	    int c;
+				   	    while ((c = in.read()) != -1)
+				   	    {
+				   	      out.write(c);
+				   	    }
+				   	    in.close();
+				   	    out.close();					
+			   	    
+				   	    long size=0;
+					
 						size = new FileInputStream(imagefile).getChannel().size();
-						size += new FileInputStream(objectfile).getChannel().size();
-						size /=1000;
+						size += new FileInputStream(zippedObject).getChannel().size();
+						size /=1000;				
+					
+					    final SpannableString msg = new SpannableString("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\n" +
+					    		"When clicking the yes button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license\n" +
+					    		"http://creativecommons.org/licenses/by-nc-sa/3.0" +
+					    		"\n\nDo you want to proceed ?");
+					    Linkify.addLinks(msg, Linkify.ALL);
+	
+					    AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
+						builder.setMessage(msg).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog, int id)
+							{
+								PublishPicture(imagefile,zippedObject,name);
+							}
+						})
+						.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog, int id)
+							{
+								
+							}
+						});
+						AlertDialog dlg = builder.create();
+						dlg.show();
+						
+						// Make the textview clickable. Must be called after show()
+					    ((TextView)dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
 					} 
 					catch (Exception e)
 					{						
 						e.printStackTrace();
 					}
-					
-				    final SpannableString msg = new SpannableString("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\n" +
-				    		"When clicking the yes button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license\n" +
-				    		"http://creativecommons.org/licenses/by-nc-sa/3.0" +
-				    		"\n\nDo you want to proceed ?");
-				    Linkify.addLinks(msg, Linkify.ALL);
-
-				    AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
-					builder.setMessage(msg).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int id)
-						{
-							PublishPicture(imagefile,objectfile,name);
-						}
-					})
-					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int id)
-						{
-							
-						}
-					});
-					AlertDialog dlg = builder.create();
-					dlg.show();
-					
-					// Make the textview clickable. Must be called after show()
-				    ((TextView)dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-
 			    }
 			    else
 			    {
@@ -178,7 +200,7 @@ public class WebFilePanel extends Activity
 		});
 	}
 	
-	public void PublishPicture(File imagefile, File objectfile, String name)
+	public void PublishPicture(File imagefile, File zipobjectfile, String name)
 	{
 		String strUploadURL = "";
 		try
@@ -202,7 +224,7 @@ public class WebFilePanel extends Activity
 		//upload saved file				
 		try
 		{
-			uploadPicture(imagefile, objectfile, strUploadURL,name,"");
+			uploadPicture(imagefile, zipobjectfile, strUploadURL,name,"");
 		} 
 		catch (Exception e)
 		{					
@@ -212,17 +234,17 @@ public class WebFilePanel extends Activity
 		mWebView.loadUrl(mStrBaseWebSite);
 	}
 	
-	private void uploadPicture( File imagefile, File objectfile, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException 
+	private void uploadPicture( File imagefile, File zipobjectfile, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException 
 	{
 	    HttpClient httpclient = new DefaultHttpClient();
 
 	    HttpPost httppost = new HttpPost( uploadURL );
 	    httppost.addHeader("title", title);
-	    httppost.addHeader("description", description);
-
+	    httppost.addHeader("description", description);	    
+	 
 	    MultipartEntity mpEntity = new MultipartEntity( HttpMultipartMode.STRICT );
 	    ContentBody cbImageFile = new FileBody( imagefile, "image/png");
-	    ContentBody cbObjectFile = new FileBody( objectfile, "text/plain");
+	    ContentBody cbObjectFile = new FileBody( zipobjectfile, "application/zip");
 
 	    mpEntity.addPart( "imagefile", cbImageFile );
 	    mpEntity.addPart( "objectfile", cbObjectFile );
