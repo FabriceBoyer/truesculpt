@@ -917,6 +917,7 @@ public class Mesh
 		mVertexList.clear();
 		mFaceList.clear();
 		mRenderGroupList.clear();
+		mRootBoxNode=null;
 		getManagers().getActionsManager().ClearAll();
 		System.gc();
 	}
