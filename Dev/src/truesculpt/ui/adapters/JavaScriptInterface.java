@@ -41,7 +41,7 @@ public class JavaScriptInterface
 		Log.i("WEB", "openObjFileInAndroid image : " + strImagefileURL + "\nobject : " + strObjectFileURL );
 		
 		final String newName="web_"+name;
-		File newFile=new File(getManagers().getUtilsManager().GetRootDirectory()+newName);
+		final File newFile=new File(getManagers().getUtilsManager().GetRootDirectory()+newName);
 		if (newFile.exists())		  
 	    {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -65,14 +65,14 @@ public class JavaScriptInterface
 	    }
 	    else
 	    {
-			//ensure dir
-	    	newFile.mkdirs();
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 			builder.setMessage("You will download and import this sculpture into your library\nAre you sure you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 			{
 				@Override
 				public void onClick(DialogInterface dialog, int id)
 				{
+					//ensure dir
+			    	newFile.mkdirs();
 					ImportFile(newName, strImagefileURL, strObjectFileURL );
 				}
 			})
