@@ -918,6 +918,7 @@ public class Mesh
 		mFaceList.clear();
 		mRenderGroupList.clear();
 		getManagers().getActionsManager().ClearAll();
+		System.gc();
 	}
 
 	//to share vertices between edges

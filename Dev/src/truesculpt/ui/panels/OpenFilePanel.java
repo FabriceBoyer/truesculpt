@@ -34,7 +34,6 @@ public class OpenFilePanel extends Activity implements Runnable
 		public String name;
 		public String objfilename;
 		public String imagefilename;
-		public Bitmap bmp=null;
 	};
 	
 	@Override

@@ -71,18 +71,16 @@ public class OpenFileAdapter extends BaseAdapter
 		}         
 
 		holder.title.setText(elem.name);	
-		if (elem.bmp==null)
+		Bitmap bmp=null;
+		try
 		{
-			try
-			{
-				elem.bmp = BitmapFactory.decodeFile(elem.imagefilename);
-			}
-			catch(Exception e)
-			{
-				elem.bmp=null;
-			}
+			bmp = BitmapFactory.decodeFile(elem.imagefilename);
 		}
-		holder.image.setImageBitmap(elem.bmp);
+		catch(Exception e)
+		{
+			bmp=null;
+		}
+		if (bmp!=null)	holder.image.setImageBitmap(bmp);
 		holder.title.setEnabled(true);
 		holder.title.setVisibility(View.VISIBLE);
 		
