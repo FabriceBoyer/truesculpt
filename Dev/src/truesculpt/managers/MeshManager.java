@@ -1,5 +1,7 @@
 package truesculpt.managers;
 
+import java.io.IOException;
+
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
@@ -58,11 +60,6 @@ public class MeshManager extends BaseManager
 	// Main Mesh test
 	Mesh mMesh = null;
 	
-	public Mesh getMesh()
-	{
-		return mMesh;
-	}
-
 	public MeshManager(Context baseContext)
 	{
 		super(baseContext);
@@ -76,7 +73,7 @@ public class MeshManager extends BaseManager
 	{
 		synchronized (this)
 		{
-			if (mMesh != null  && bInitOver)
+			if (IsInitOver())
 			{
 				mMesh.draw(gl);
 				
@@ -96,7 +93,7 @@ public class MeshManager extends BaseManager
 	public int getFacesCount()
 	{
 		int nCount = -1;
-		if (mMesh != null)
+		if (IsInitOver())
 		{
 			nCount = mMesh.getFaceCount();
 		}
@@ -116,7 +113,7 @@ public class MeshManager extends BaseManager
 	public int getVertexCount()
 	{
 		int nCount = -1;
-		if (mMesh != null)
+		if (IsInitOver())
 		{
 			nCount = mMesh.getVertexCount();
 		}
@@ -216,7 +213,7 @@ public class MeshManager extends BaseManager
 	public int Pick(float screenX, float screenY)
 	{
 		int nIndex = -1;
-		if (mMesh!=null)
+		if (IsInitOver())
 		{
 			synchronized (this)
 			{	
@@ -354,6 +351,27 @@ public class MeshManager extends BaseManager
 	
 	public boolean IsInitOver()
 	{		
-		return bInitOver;
+		return (mMesh!=null) && bInitOver;
+	}
+
+	public void ImportFromOBJ(String objfilename) throws IOException
+	{
+		if (IsInitOver())
+		{
+			mMesh.ImportFromOBJ(objfilename);
+		}		
+	}
+
+	public void ExportToOBJ(String strObjFileName)
+	{
+		if (IsInitOver())
+		{
+			mMesh.ExportToOBJ(strObjFileName);
+		}		
+	}
+
+	public Mesh getMesh()
+	{
+		return mMesh;
 	}
 }

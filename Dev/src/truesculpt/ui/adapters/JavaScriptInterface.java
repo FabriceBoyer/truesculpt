@@ -78,9 +78,8 @@ public class JavaScriptInterface
     
 
 	public void ImportFile(String name, String strImagefileURL, String strObjectfileURL)
-	{
-		Mesh mesh=getManagers().getMeshManager().getMesh();
-		if (mesh!=null && getManagers().getMeshManager().IsInitOver())
+	{		
+		if (getManagers().getMeshManager().IsInitOver())
 		{
 			getManagers().getMeshManager().setName(name);
 			
@@ -94,7 +93,7 @@ public class JavaScriptInterface
 				String objectFile=getManagers().getUtilsManager().GetBaseFileName()+"Mesh.obj";
 				URLtoDisk(mStrBaseWebSite+strObjectfileURL,objectFile,true);			
 			
-				mesh.ImportFromOBJ(objectFile);				
+				getManagers().getMeshManager().ImportFromOBJ(objectFile);				
 			} 
 			catch (IOException e)
 			{			

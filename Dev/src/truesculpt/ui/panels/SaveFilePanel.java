@@ -254,10 +254,9 @@ public class SaveFilePanel extends Activity implements Runnable
 		String strBaseFileName=getManagers().getUtilsManager().GetBaseFileName();
 		String strObjFileName=strBaseFileName+"Mesh.obj";
 		
-		Mesh mesh=getManagers().getMeshManager().getMesh();
-		if (mesh!=null && getManagers().getMeshManager().IsInitOver())
+		if (getManagers().getMeshManager().IsInitOver())
 		{
-			mesh.ExportToOBJ(strObjFileName);			
+			getManagers().getMeshManager().ExportToOBJ(strObjFileName);			
 		}
 		
 		String strPictureFileName=strBaseFileName+"Image.png";

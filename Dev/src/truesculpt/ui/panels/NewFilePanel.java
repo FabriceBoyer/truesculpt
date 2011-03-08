@@ -95,8 +95,7 @@ public class NewFilePanel extends Activity implements Runnable
 	@Override
 	public void run()
 	{
-		Mesh mesh=getManagers().getMeshManager().getMesh();
-		if (mesh!=null && getManagers().getMeshManager().IsInitOver())
+		if ( getManagers().getMeshManager().IsInitOver())
 		{
 			getManagers().getMeshManager().NewMeshBlocking(mSubdivion_level_spinner.getSelectedItemPosition());
 		}
