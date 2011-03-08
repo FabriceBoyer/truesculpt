@@ -110,18 +110,26 @@ public class UtilsManager extends BaseManager
 
 	}
 
-	public void SetImageAsWallpaper(String strFileName)
+	public boolean SetImageAsWallpaper(String strFileName)
 	{
+		boolean bRes=false;
+		
 		Bitmap bitmap = BitmapFactory.decodeFile(strFileName);
 
-		try
+		if (bitmap!=null)
 		{
-			WallpaperManager wp = (WallpaperManager) getbaseContext().getSystemService(Context.WALLPAPER_SERVICE);
-			wp.setBitmap(bitmap);
-		} catch (IOException e)
-		{
-			e.printStackTrace();
+			try
+			{
+				WallpaperManager wp = (WallpaperManager) getbaseContext().getSystemService(Context.WALLPAPER_SERVICE);
+				wp.setBitmap(bitmap);
+				bRes=true;
+				
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
+		return bRes;
 	}
 
 	// to come back in UI thread from a manager
