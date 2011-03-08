@@ -10,7 +10,7 @@
     android:id="@+id/openfilegridview"
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent"
-    android:columnWidth="90dp"
+    android:columnWidth="100dp"
     android:numColumns="auto_fit"
     android:gravity="center"
 />
