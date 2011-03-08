@@ -45,7 +45,7 @@ public class JavaScriptInterface
 		if (newFile.exists())		  
 	    {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			builder.setMessage("File already exist, do you want to overwrite ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			builder.setMessage("Sculpture named " +newName+" already exist\nDo you want to overwrite it ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 			{
 				@Override
 				public void onClick(DialogInterface dialog, int id)
@@ -67,7 +67,24 @@ public class JavaScriptInterface
 	    {
 			//ensure dir
 	    	newFile.mkdirs();
-	    	ImportFile(newName, strImagefileURL, strObjectFileURL);
+	    	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+			builder.setMessage("You will download and import this sculpture into your library\nAre you sure you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int id)
+				{
+					ImportFile(newName, strImagefileURL, strObjectFileURL );
+				}
+			})
+			.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int id)
+				{
+					
+				}
+			});
+			builder.show();	
 	    }
     }
     
