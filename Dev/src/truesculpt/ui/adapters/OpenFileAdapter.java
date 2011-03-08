@@ -59,7 +59,7 @@ public class OpenFileAdapter extends BaseAdapter
 		{	
 			holder = new ViewHolder();			
 			convertView = inflater.inflate(R.layout.openfileitem, null);
-			convertView.setLayoutParams(new GridView.LayoutParams(90,200));
+			convertView.setLayoutParams(new GridView.LayoutParams(100,200));
 			holder.title = (TextView) convertView.findViewById(R.id.fileopentitle);
 			holder.image = (ImageView) convertView.findViewById(R.id.fileopenimage);
 			holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -71,16 +71,32 @@ public class OpenFileAdapter extends BaseAdapter
 		}         
 
 		holder.title.setText(elem.name);	
-		Bitmap bmp=null;
-		try
+		if (elem.bmp==null)
 		{
-			bmp = BitmapFactory.decodeFile(elem.imagefilename);
+			try
+			{
+				Bitmap src=BitmapFactory.decodeFile(elem.imagefilename);
+				float w=src.getWidth();
+				float h=src.getHeight();
+				float ratio=w/h;
+				if (ratio>100/200)
+				{
+					w=100;
+					h= (w/ratio);
+				}
+				else
+				{
+					h=200;
+					w=(h*ratio);					
+				}
+				elem.bmp = Bitmap.createScaledBitmap(src,(int)w,(int)h,false);
+			}
+			catch(Exception e)
+			{
+				elem.bmp=null;
+			}
 		}
-		catch(Exception e)
-		{
-			bmp=null;
-		}
-		if (bmp!=null)	holder.image.setImageBitmap(bmp);
+		holder.image.setImageBitmap(elem.bmp);
 		holder.title.setEnabled(true);
 		holder.title.setVisibility(View.VISIBLE);
 		
