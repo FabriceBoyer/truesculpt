@@ -79,7 +79,7 @@
 <string name="spacer"> </string>
 <string name="Website">Website</string>
 <string name="donate">If you like this software and want to show your support, feel free to donate on the website or buy the "donate version" of the application on the android market</string>
-<string name="share">Share</string>
+<string name="share_by_mail">Share by mail</string>
 <string name="new_file">New</string>
 <string name="open_file">Open</string>
 <string name="sculpture_name">Name</string>
@@ -91,6 +91,8 @@
 <string name="savefile">Save</string>  
 <string name="webfile">Web</string>
 <string name="Subdivion_level">Subdivion</string>      
-<string name="initial_shape">Initial shape</string>      
+<string name="initial_shape">Initial shape</string>    
+<string name="set_as_wallpaper">Set as wallpaper</string>
+<string name="wallpaper_successfully_set">Wallpaper successfully set</string> 
     
 </resources>

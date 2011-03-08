@@ -159,7 +159,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 				bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 				fos.flush();
 				fos.close();
-			} catch (Exception e)
+			} 
+			catch (Exception e)
 			{
 				e.printStackTrace();
 				return;

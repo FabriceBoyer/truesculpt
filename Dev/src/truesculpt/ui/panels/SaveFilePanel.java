@@ -28,6 +28,8 @@ public class SaveFilePanel extends Activity implements Runnable
 	private EditText mEditNameText;
 	private Button mSaveBtn;
 	private Button mShareBtn;	
+	private Button mScreenshotBtn;
+	private Button mWallpaperBtn;
 	private ProgressDialog waitDialog=null;
 	
 	private final int DIALOG_FILE_ALREADY_EXIST = 0;
@@ -66,54 +68,126 @@ public class SaveFilePanel extends Activity implements Runnable
 			}
 		});
 		
+		//snapshot actions threaded because glview needs to be updated for snapshot to be taken
+		
 		mShareBtn=(Button)findViewById(R.id.share_file);
 		mShareBtn.setOnClickListener(new View.OnClickListener()
 		{			
 			@Override
 			public void onClick(View v)
 			{
-			    Thread thread = new Thread()
-			    {
-			    	@Override
-			    	public void run()
-			    	{
-						String strSnapshotFileName = getManagers().getUtilsManager().CreateSnapshotFileName();
+				Thread thread=new Thread()
+				{
+					@Override
+					public void run()
+					{
+						String strSnapshotFileName=MakeSnapshot();
 						
-						getManagers().getToolsManager().TakeGLScreenshot(strSnapshotFileName);				
-						
-						//String msg = getString(R.string.snapshot_has_been_saved_to_) + strSnapshotFileName;
-						//getManagers().getUtilsManager().ShowToastMessage(msg);
-		
-						// photo sound
-						//MediaPlayer mp = MediaPlayer.create(SaveFilePanel.this, R.raw.photo_shutter);
-						//mp.start();
-						
-						//getManagers().getUtilsManager().SetImageAsWallpaper(strSnapshotFileName);	
-						
-						//wait for async snapshot to be taken
-						File snapshotFile=new File(strSnapshotFileName);
-						while (!snapshotFile.exists())
-						{
-							try
-							{
-								Thread.sleep(500);
-							} catch (InterruptedException e)
-							{
-								e.printStackTrace();
-							}
-						}
 						ArrayList<String> filePaths=new ArrayList<String>();
 						filePaths.add(strSnapshotFileName);
 						Utils.SendEmail(SaveFilePanel.this, "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);
 						
 						String name=getManagers().getMeshManager().getName();
 						getManagers().getUsageStatisticsManager().TrackEvent("Share", name, 1);
-				    }
+					}
+				};
+				thread.start();
+			
+			}
+		});	
+		
+		mWallpaperBtn=(Button)findViewById(R.id.set_as_wallpaper);
+		mWallpaperBtn.setOnClickListener(new View.OnClickListener()
+		{			
+			@Override
+			public void onClick(View v)
+			{
+				Thread thread=new Thread()
+				{
+					@Override
+					public void run()
+					{
+						String strSnapshotFileName=MakeSnapshot();
+						
+						try
+						{
+							while (!getManagers().getUtilsManager().SetImageAsWallpaper(strSnapshotFileName))
+							{							
+								Thread.sleep(500);
+							}
+						}
+						catch (InterruptedException e)
+						{
+							e.printStackTrace();
+						}				
+						
+						String msg = getString(R.string.wallpaper_successfully_set);
+						getManagers().getUtilsManager().ShowToastMessage(msg);
+						
+						String name=getManagers().getMeshManager().getName();
+						getManagers().getUsageStatisticsManager().TrackEvent("SetAsWallpaper", name, 1);	
+					}
+				};
+				thread.start();
+			}
+		});	
+		
+		mScreenshotBtn=(Button)findViewById(R.id.make_screenshot);
+		mScreenshotBtn.setOnClickListener(new View.OnClickListener()
+		{			
+			@Override
+			public void onClick(View v)
+			{
+				Thread thread=new Thread()
+				{
+					@Override
+					public void run()
+					{						
+						String strSnapshotFileName=MakeSnapshot();
+						
+						String msg = getString(R.string.snapshot_has_been_saved_to_) + strSnapshotFileName;
+						getManagers().getUtilsManager().ShowToastMessage(msg);
+		
+						// photo sound
+						MediaPlayer mp = MediaPlayer.create(SaveFilePanel.this, R.raw.photo_shutter);
+						mp.start();					
+						
+						String name=getManagers().getMeshManager().getName();
+						getManagers().getUsageStatisticsManager().TrackEvent("Screenshot", name, 1);
+					}
 				};
 				thread.start();
 			}
 		});	
 	
+	}
+	
+	private String MakeSnapshot()
+	{		
+		String strSnapshotFileName = getManagers().getUtilsManager().CreateSnapshotFileName();
+		
+		getManagers().getToolsManager().TakeGLScreenshot(strSnapshotFileName);	
+		WaitForSnapshot(strSnapshotFileName);
+		
+		return strSnapshotFileName;    
+	}
+	
+
+	private void WaitForSnapshot(String strSnapshotFileName)
+	{
+		//wait for async snapshot to be taken
+		File snapshotFile=new File(strSnapshotFileName);
+		while (!snapshotFile.exists())
+		{
+			try
+			{
+				Thread.sleep(100);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		//file is not necessarily closed
 	}
 	
 	public Managers getManagers()
