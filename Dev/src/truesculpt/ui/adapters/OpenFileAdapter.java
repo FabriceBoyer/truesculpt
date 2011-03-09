@@ -25,8 +25,9 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
     
     class ViewHolder
 	{
-		TextView title=null;
-		ImageView image=null;
+    	public TextView title=null;
+		public ImageView image=null;
+		public FileElem currElem=null;
 	}
 	
     public OpenFileAdapter(Context context, ArrayList<FileElem> fileList) 
@@ -88,14 +89,17 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
 			holder = (ViewHolder) convertView.getTag();
 		}         
 
-		holder.title.setText(elem.name);	
+		holder.currElem=elem;
+			
 		if (elem.bmp==null)
 		{
 			mImageLoader.queueImageLoad(holder, elem);
 		}
+		
 		holder.image.setImageBitmap(elem.bmp);
+		holder.title.setText(elem.name);					
 		holder.title.setEnabled(true);
-		holder.title.setVisibility(View.VISIBLE);
+		holder.title.setVisibility(View.VISIBLE);		
 		
         return convertView;
     }
@@ -111,7 +115,10 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
     		public void run() 
     		{
 		    	// set the bitmap in the ImageView
-    			holder.image.setImageBitmap(aBitmap);
+    			if (holder.currElem==elem)
+    			{
+    				holder.image.setImageBitmap(aBitmap);
+    			}
     			elem.bmp=aBitmap;
     		}
 		});
