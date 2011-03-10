@@ -33,7 +33,7 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
     public OpenFileAdapter(Context context, ArrayList<FileElem> fileList) 
     {
     	mImageLoader = new ImageLoader(this);
-    	mImageLoader.setPriority(Thread.MIN_PRIORITY);
+    	//mImageLoader.setPriority(Thread.MIN_PRIORITY);
     	mImageLoader.start();
     	while (!mImageLoader.IsReady())
     	{
