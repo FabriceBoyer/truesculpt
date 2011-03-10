@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import truesculpt.main.R;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
-import truesculpt.utils.MatrixUtils;
 
 public class ColorizeAction extends BaseAction
 {

@@ -1,6 +1,5 @@
 package truesculpt.managers;
 
-import truesculpt.actions.ChangePOVAction;
 import truesculpt.managers.ToolsManager.EPovToolSubMode;
 import truesculpt.managers.ToolsManager.EToolMode;
 import android.content.Context;

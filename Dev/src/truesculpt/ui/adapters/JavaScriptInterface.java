@@ -1,12 +1,10 @@
 package truesculpt.ui.adapters;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpEntity;
@@ -18,7 +16,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
-import truesculpt.mesh.Mesh;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;

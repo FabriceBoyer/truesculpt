@@ -1,18 +1,10 @@
 package truesculpt.managers;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
-
-import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
@@ -21,7 +13,6 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.os.Environment;
 import android.os.Handler;
 import android.widget.Toast;

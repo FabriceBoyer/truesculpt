@@ -3,7 +3,6 @@ package truesculpt.ui.panels;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.mesh.Mesh;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;

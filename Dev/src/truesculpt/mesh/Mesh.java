@@ -14,9 +14,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.StringTokenizer;
-import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.Color;
+import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
 import truesculpt.actions.ColorizeAction;
@@ -24,6 +23,7 @@ import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
+import android.graphics.Color;
 
 public class Mesh
 {
