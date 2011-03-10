@@ -88,8 +88,7 @@ public class SaveFilePanel extends Activity implements Runnable
 						getManagers().getUsageStatisticsManager().TrackEvent("Share", name, 1);
 					}
 				};
-				thread.start();
-			
+				thread.start();			
 			}
 		});	
 		
