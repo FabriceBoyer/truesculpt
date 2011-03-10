@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import junit.framework.Assert;
-
 import truesculpt.utils.MatrixUtils;
 
 public class OctreeNode

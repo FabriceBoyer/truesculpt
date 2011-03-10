@@ -1,13 +1,11 @@
 package truesculpt.ui.panels;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.mesh.Mesh;
 import truesculpt.ui.adapters.OpenFileAdapter;
 import android.app.Activity;
 import android.app.Dialog;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import truesculpt.main.R;
-import truesculpt.mesh.Face;
 import truesculpt.mesh.HalfEdge;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;

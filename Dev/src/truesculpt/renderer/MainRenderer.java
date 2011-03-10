@@ -20,17 +20,13 @@ import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.main.Managers;
-import truesculpt.main.R;
-import truesculpt.utils.Utils;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 

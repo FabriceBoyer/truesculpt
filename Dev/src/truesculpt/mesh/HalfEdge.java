@@ -1,6 +1,5 @@
 package truesculpt.mesh;
 
-import java.util.ArrayList;
 
 //oriented edge unique to a triangle
 public class HalfEdge

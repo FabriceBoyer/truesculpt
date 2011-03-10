@@ -1,7 +1,5 @@
 package truesculpt.managers;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import truesculpt.actions.ChangeToolAction;
 import truesculpt.utils.Utils;
 import android.content.Context;

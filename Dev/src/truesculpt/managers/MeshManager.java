@@ -11,7 +11,6 @@ import truesculpt.renderer.RayPickDebug;
 import truesculpt.utils.MatrixUtils;
 import android.content.Context;
 import android.opengl.Matrix;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 
