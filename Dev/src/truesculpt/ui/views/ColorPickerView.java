@@ -160,17 +160,16 @@ public class ColorPickerView extends View
 			switch (state)
 			{
 			case START:
-				mListener.colorChangeStart();
+				mListener.colorChangeStart(color);
 				break;
 			case CHANGE:
 				mListener.colorChanged(color);
 				break;
 			case STOP:
-				mListener.colorChangeStop();
+				mListener.colorChangeStop(color);
 				break;
 			}					
 		}
-		SetColor(color);
 	}
 
 	public void SetColor(int color)
