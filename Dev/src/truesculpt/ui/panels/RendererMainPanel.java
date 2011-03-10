@@ -214,13 +214,13 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 
 			@Override
-			public void colorChangeStart()
-			{			
+			public void colorChangeStart(int color)
+			{		
 				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
-			public void colorChangeStop()
+			public void colorChangeStop(int color)
 			{
 				//getManagers().getToolsManager().AddUndoToolAction();
 			}
@@ -239,13 +239,13 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 
 			@Override
-			public void sliderChangeStart()
-			{			
+			public void sliderChangeStart(float value)
+			{	
 				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
-			public void sliderChangeStop()
+			public void sliderChangeStop(float value)
 			{					
 				//getManagers().getToolsManager().AddUndoToolAction();
 			}
@@ -253,8 +253,9 @@ public class RendererMainPanel extends Activity implements Observer
 		mRadius.SetDoubleClickListener(new OnDoubleClickListener()
 		{			
 			@Override
-			public void onDoubleClick()
+			public void onDoubleClick(float value)
 			{
+				getManagers().getToolsManager().setRadius(value,false);	
 				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);		
 			}
 		});
@@ -272,13 +273,13 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 
 			@Override
-			public void sliderChangeStart()
+			public void sliderChangeStart(float value)
 			{				
 				//getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
-			public void sliderChangeStop()
+			public void sliderChangeStop(float value)
 			{
 				//getManagers().getToolsManager().AddUndoToolAction();
 			}
@@ -286,8 +287,9 @@ public class RendererMainPanel extends Activity implements Observer
 		mStrength.SetDoubleClickListener(new OnDoubleClickListener()
 		{			
 			@Override
-			public void onDoubleClick()
+			public void onDoubleClick(float value)
 			{
+				getManagers().getToolsManager().setStrengthAbsoluteValue(value,false);	
 				boolean bIsPositive=getManagers().getToolsManager().isStrengthPositive();
 				getManagers().getToolsManager().setStrengthSignum(!bIsPositive, false);				
 			}

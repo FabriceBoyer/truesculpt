@@ -82,12 +82,12 @@ public class ImageLoader extends Thread
 			final FileElem elem )
 	{		
 		// Wrap DownloadTask into another Runnable to track the statistics
-		handler.post(new Runnable()
+		handler.postAtFrontOfQueue(new Runnable()
 		{
 			public void run()
 			{
-				try {
-					
+				try 
+				{					
 					synchronized (holder)
 					{
 						// make sure this thread is the only one performing activities on
@@ -100,7 +100,8 @@ public class ImageLoader extends Thread
 						signalUI(holder, elem, lBitmap);
 					}
 				} 
-				catch(Exception e){
+				catch(Exception e)
+				{
 					e.printStackTrace();
 				}
 			}

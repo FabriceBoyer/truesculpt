@@ -244,13 +244,13 @@ public class ToolsPanel extends Activity implements Observer
 			}
 
 			@Override
-			public void colorChangeStart()
+			public void colorChangeStart(int color)
 			{
 				//getManagers().getToolsManager().SetUndoInitialState();				
 			}
 
 			@Override
-			public void colorChangeStop()
+			public void colorChangeStop(int color)
 			{
 				//getManagers().getToolsManager().AddUndoToolAction();
 			}

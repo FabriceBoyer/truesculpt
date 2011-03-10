@@ -815,7 +815,8 @@ public class Mesh
 				VNewCol[1]=VTargetCol[1];
 				VNewCol[2]=(1-alpha)*VNewCol[2]+alpha*VTargetCol[2];
 				
-				int newColor=Color.HSVToColor(VNewCol);
+				//int newColor=Color.HSVToColor(VNewCol);
+				int newColor=targetColor;
 				action.AddVertexColorChange(vertex.Index, newColor, vertex);
 			}
 			getManagers().getActionsManager().AddUndoAction(action);

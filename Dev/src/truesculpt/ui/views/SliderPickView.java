@@ -16,13 +16,13 @@ public class SliderPickView extends View
 	public interface OnSliderPickChangedListener
 	{
 		void sliderValueChanged(float value);
-		void sliderChangeStart();
-		void sliderChangeStop();
+		void sliderChangeStart(float value);
+		void sliderChangeStop(float value);
 	}
 	
 	public interface OnDoubleClickListener
 	{
-		 void onDoubleClick();	 
+		 void onDoubleClick(float value);	 
 	}
 	
 	private String Text="Value : ";
@@ -103,8 +103,7 @@ public class SliderPickView extends View
 				{
 					if (mDoubleClickListener!=null)
 					{
-						setCurrentValue(mOldValue);						
-						mDoubleClickListener.onDoubleClick();
+						mDoubleClickListener.onDoubleClick(mOldValue);
 					}
 				}
 				else
@@ -137,28 +136,26 @@ public class SliderPickView extends View
 	private void UpdateSliderValue(float x, float y, State state)
 	{
 		float newValue=CurrentValue;
-		if (state!=State.START)
-		{
-			float distX=x-orig_x;
-			float distY=orig_y-y;
-			float pixelDist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
-			//pixelDist=pixelDist%PixelAmplitude;
-			float valueAmplitude=MaxValue-MinValue;
-			newValue=MinValue+pixelDist*(valueAmplitude/PixelAmplitude);
-			setCurrentValue(newValue);
-		}
+		
+		float distX=x-orig_x;
+		float distY=orig_y-y;
+		float pixelDist=(float) Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2));
+		//pixelDist=pixelDist%PixelAmplitude;
+		float valueAmplitude=MaxValue-MinValue;
+		newValue=MinValue+pixelDist*(valueAmplitude/PixelAmplitude);
+	
 		if (mListener!=null)
 		{
 			switch (state)
 			{
 			case START:
-				mListener.sliderChangeStart();
+				mListener.sliderChangeStart(newValue);
 				break;
 			case CHANGE:
 				mListener.sliderValueChanged(newValue);
 				break;
 			case STOP:
-				mListener.sliderChangeStop();
+				mListener.sliderChangeStop(newValue);
 				break;
 			}			
 		}

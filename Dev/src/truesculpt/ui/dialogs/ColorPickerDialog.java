@@ -27,8 +27,8 @@ public class ColorPickerDialog extends Dialog
 	public interface OnColorChangedListener
 	{
 		void colorChanged(int color);
-		void colorChangeStart();
-		void colorChangeStop();
+		void colorChangeStart(int color);
+		void colorChangeStop(int color);
 	}
 
 	private int mInitialColor;
@@ -56,15 +56,15 @@ public class ColorPickerDialog extends Dialog
 			}
 
 			@Override
-			public void colorChangeStart()
+			public void colorChangeStart(int color)
 			{
-				mListener.colorChangeStart();				
+				mListener.colorChangeStart(color);				
 			}
 
 			@Override
-			public void colorChangeStop()
+			public void colorChangeStop(int color)
 			{
-				mListener.colorChangeStop();				
+				mListener.colorChangeStop(color);				
 			}
 		};
 

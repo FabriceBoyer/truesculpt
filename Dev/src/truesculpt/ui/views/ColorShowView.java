@@ -81,8 +81,7 @@ public class ColorShowView extends View
 				{
 					if (mDoubleClickListener!=null)
 					{
-						setColor(mOldColor);						
-						mDoubleClickListener.onDoubleClick(mColor);
+						mDoubleClickListener.onDoubleClick(mOldColor);
 					}
 				}
 				else
@@ -117,27 +116,25 @@ public class ColorShowView extends View
 	private void UpdateColorValue(float pixelDist, State state)
 	{
 		int newColor=mColor;
-		if (state!=State.START)
-		{
-			float newHue=(360*pixelDist/PixelAmplitude)%360;
-			float [] VCol= new float[3];		
-			Color.colorToHSV(mColor,VCol);
-			VCol[0]=newHue;
-			newColor=Color.HSVToColor(VCol);
-			setColor(newColor);
-		}
+		
+		float newHue=(360*pixelDist/PixelAmplitude)%360;
+		float [] VCol= new float[3];		
+		Color.colorToHSV(mColor,VCol);
+		VCol[0]=newHue;
+		newColor=Color.HSVToColor(VCol);
+		
 		if (mColorListener!=null) 
 		{
 			switch (state)
 			{
 			case START:
-				mColorListener.colorChangeStart();
+				mColorListener.colorChangeStart(newColor);
 				break;
 			case CHANGE:
 				mColorListener.colorChanged(newColor);
 				break;
 			case STOP:
-				mColorListener.colorChangeStop();
+				mColorListener.colorChangeStop(newColor);
 				break;
 			}	
 		}
