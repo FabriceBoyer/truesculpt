@@ -79,11 +79,14 @@ public class ToolsPanel extends Activity implements Observer
 		case SMOOTH:
 			nIndex=2;
 			break;
-		case COLOR:
+		case INFLATE:
 			nIndex=3;
 			break;
-		case PICK_COLOR:
+		case COLOR:
 			nIndex=4;
+			break;
+		case PICK_COLOR:
+			nIndex=5;
 		}
 		toolSpinner.setSelection(nIndex);
 	}
@@ -111,6 +114,12 @@ public class ToolsPanel extends Activity implements Observer
 		map.put("image", String.valueOf(R.drawable.smooth));
 		listItem.add(map);
 
+		map = new HashMap<String, String>();
+		map.put("title", "Inflate");
+		map.put("description", "Inflate");
+		map.put("image", String.valueOf(R.drawable.inflate));
+		listItem.add(map);
+		
 		map = new HashMap<String, String>();
 		map.put("title", "Color");
 		map.put("description", "Color");
@@ -145,9 +154,12 @@ public class ToolsPanel extends Activity implements Observer
 					mode=ESculptToolSubMode.SMOOTH;
 					break;
 				case 3:
-					mode=ESculptToolSubMode.COLOR;
+					mode=ESculptToolSubMode.INFLATE;
 					break;
 				case 4:
+					mode=ESculptToolSubMode.COLOR;
+					break;
+				case 5:
 					mode=ESculptToolSubMode.PICK_COLOR;
 					break;	
 				}
