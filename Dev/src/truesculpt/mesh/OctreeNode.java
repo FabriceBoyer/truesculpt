@@ -271,6 +271,8 @@ public class OctreeNode
 			{
 				currBox.RecursePlaceVertexInChild(vertex);
 			}
+			
+			RecurseClean();
 		}		
 	}
 	
@@ -284,6 +286,7 @@ public class OctreeNode
 				if (box.IsLeaf())
 				{
 					box.AddVertex(vertex);
+					box.RecurseSubdivide();
 					break;
 				}
 				else
