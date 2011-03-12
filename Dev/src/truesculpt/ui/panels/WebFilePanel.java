@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -199,7 +200,10 @@ public class WebFilePanel extends Activity
 			for (int i = 0; i < headers.length; i++) 
 			{
 				Header header = headers[i];
-				if(header.getName().equals(myHeader)) strUploadURL = header.getValue();
+				if(header.getName().equals(myHeader))
+				{
+					strUploadURL = header.getValue();
+				}
 			}
 		} 
 		catch (Exception e)
@@ -215,9 +219,7 @@ public class WebFilePanel extends Activity
 		catch (Exception e)
 		{					
 			e.printStackTrace();
-		}
-		
-		mWebView.loadUrl(mStrBaseWebSite);
+		}		
 	}
 	
 	private void uploadPicture( File imagefile, File zipobjectfile, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException 
@@ -238,7 +240,21 @@ public class WebFilePanel extends Activity
 	    httppost.setEntity( mpEntity );
 
 	    System.out.println( "executing request " + httppost.getRequestLine() );
-	    httpclient.execute( httppost );  
+	    HttpResponse httpResponse=httpclient.execute( httppost ); 
+	    
+		String myHeader="displayURL";
+		Header[] headers = httpResponse.getHeaders(myHeader);
+		for (int i = 0; i < headers.length; i++) 
+		{
+			Header header = headers[i];
+			if(header.getName().equals(myHeader))
+			{
+				String newURL=mStrBaseWebSite+header.getValue();
+				Log.d("WEB", "Loading web site " + newURL);
+				mWebView.loadUrl(newURL);
+			}
+		}
+	  
 	}
 	
 	public Managers getManagers()
