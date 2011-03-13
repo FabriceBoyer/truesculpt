@@ -501,10 +501,6 @@ public class Mesh
 
 		assertEquals(mFaceList.size(), 20);
 		assertEquals(mVertexList.size(), 12);
-
-		// n_vertices = 12;
-		// n_faces = 20;
-		// n_edges = 30;
 	}
 
 	private void computeVerticesLinkedEdges()
@@ -532,7 +528,7 @@ public class Mesh
 	}
 	
 	//suppose linked edges of vertices are correct
-	//suboptimal, liks made several times
+	//suboptimal, links made several times
 	private void linkNeighbourEdges()
 	{
 		int n=mVertexList.size();
@@ -1019,8 +1015,7 @@ public class Mesh
 			int color=vertex.Color;
 			getManagers().getToolsManager().setColor(color, true);			
 		}		
-	}
-	
+	}	
 	
 	public ArrayList<Vertex> getVertexList()
 	{
