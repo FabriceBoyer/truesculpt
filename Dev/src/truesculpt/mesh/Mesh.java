@@ -1058,8 +1058,7 @@ public class Mesh
 		 {		
 			 return true;
 		 }
-	}
-	
+	}	
 
 	// Smits method
 	boolean ray_box_intersect(OctreeNode box, final float[] rayOrig, final float[] rayDir, float t0, float t1) 
@@ -1102,7 +1101,6 @@ public class Mesh
 		if (tzmin > tmin)tmin = tzmin;
 		if (tzmax < tmax)tmax = tzmax;
 		return ( (tmin < t1) && (tmax > t0) );
-	}
-	
+	}	
 	
 }
