@@ -113,6 +113,11 @@ public class Mesh
 		}
 	}
 	
+	public void ComputeVertexNormal(Integer vertex)
+	{
+		ComputeVertexNormal(mVertexList.get(vertex));
+	}
+	
 	// Based on close triangles normals * sin of their angle and normalize
 	// averaging normals of triangles around
 	public void ComputeVertexNormal(Vertex vertex)
@@ -981,22 +986,27 @@ public class Mesh
 		}
 	}
 	
-	public void UpdateVertexValue(int nVertexIndex, Vertex vertex)
+	public void UpdateVertexValue(Integer vertex)
+	{	
+		UpdateVertexValue(mVertexList.get(vertex));
+	}
+	
+	public void UpdateVertexValue(Vertex vertex)
 	{	
 		vertex.Box.Reboxing(vertex);//update octree
 		
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
-			renderGroup.UpdateVertexValue( nVertexIndex, vertex.Coord, vertex.Normal);
+			renderGroup.UpdateVertexValue( vertex.Index, vertex.Coord, vertex.Normal);
 		}
 		UpdateBoudingSphereRadius(vertex.Coord);				
 	}
 	
-	public void UpdateVertexColor( int nVertexIndex, Vertex vertex)
+	public void UpdateVertexColor( Vertex vertex)
 	{
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
-			renderGroup.UpdateVertexColor( nVertexIndex, vertex.Color);
+			renderGroup.UpdateVertexColor( vertex.Index, vertex.Color);
 		}		
 	}
 

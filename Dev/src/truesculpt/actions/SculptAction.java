@@ -37,6 +37,7 @@ public class SculptAction extends BaseAction
 	}
 	
 	private HashSet <Integer> faces= new HashSet<Integer>();
+	private HashSet <Integer> vertices= new HashSet<Integer>();
 	@Override
 	public boolean DoAction()
 	{ 		
@@ -49,21 +50,25 @@ public class SculptAction extends BaseAction
 		
 		//update normals and publish value after all updates
 		faces.clear();
+		vertices.clear();
 		for (VertexCoordChange change : mVertexChanges)
 		{
+			vertices.add(change.vertex.Index);
 			for (HalfEdge edge : change.vertex.OutLinkedEdges)
 			{
 				faces.add(edge.Face);
+				vertices.add(edge.V1);
 			}
 		}
 		for (Integer index: faces)
 		{
 			mesh.ComputeFaceEdgesNormal(index);
 		}
-		for (VertexCoordChange change : mVertexChanges)
+		//outer bound of modified vertices must update it's normal too (face changed)
+		for (Integer index : vertices)
 		{
-			mesh.ComputeVertexNormal(change.vertex);
-			mesh.UpdateVertexValue(change.nIndex, change.vertex);
+			mesh.ComputeVertexNormal(index);
+			mesh.UpdateVertexValue(index);
 		}
 		return true;
 	}
@@ -91,21 +96,24 @@ public class SculptAction extends BaseAction
 		}
 		//update normals and publish value after all updates
 		faces.clear();
+		vertices.clear();
 		for (VertexCoordChange change : mVertexChanges)
 		{
+			vertices.add(change.vertex.Index);
 			for (HalfEdge edge : change.vertex.OutLinkedEdges)
 			{
 				faces.add(edge.Face);
+				vertices.add(edge.V1);
 			}
 		}
 		for (Integer index: faces)
 		{
 			mesh.ComputeFaceEdgesNormal(index);
 		}
-		for (VertexCoordChange change : mVertexChanges)
+		for (Integer index : vertices)
 		{
-			mesh.ComputeVertexNormal(change.vertex);
-			mesh.UpdateVertexValue(change.nIndex, change.vertex);
+			mesh.ComputeVertexNormal(index);
+			mesh.UpdateVertexValue(index);
 		}
 		return true;
 	}
