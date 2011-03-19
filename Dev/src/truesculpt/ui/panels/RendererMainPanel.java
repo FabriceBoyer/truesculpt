@@ -354,6 +354,14 @@ public class RendererMainPanel extends Activity implements Observer
 					{
 					}
 				})
+				.setNeutralButton(R.string.save, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.SaveFilePanel.class, false);
+					}
+				})
 				.show();
 			}
 			return true;
