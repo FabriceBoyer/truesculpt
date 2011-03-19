@@ -788,7 +788,7 @@ public class Mesh
 			Face face=mFaceList.get(triangleIndex);
 			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
 			Vertex origVertex=mVertexList.get(nOrigVertex);
-			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
+			float sqMaxDist=(float) Math.pow((MAX_RADIUS-MIN_RADIUS)*getManagers().getToolsManager().getRadius()/100f+MIN_RADIUS,2);
 			float MaxDist=(float) Math.sqrt(sqMaxDist);
 			GetVerticesAtDistanceFromVertex(origVertex,sqMaxDist,verticesRes);
 
@@ -863,18 +863,22 @@ public class Mesh
 	private float FWHM=(float) (2f*Math.sqrt(2*Math.log(2f)));//full width at half maximum
 	private float oneoversqrttwopi=(float) (1f/Math.sqrt(2f*Math.PI));
 	
+	private float MAX_DEFORMATION=0.2f;
+	private float MIN_RADIUS=0.01f;//meters
+	private float MAX_RADIUS=1f;//meters
+	
 	// TODO place as an action
 	public void RiseSculptAction(int triangleIndex)
 	{
 		if (triangleIndex >= 0)
 		{			
-			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * 0.2f;// strength is -100 to 100
+			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
 			
 			Face face=mFaceList.get(triangleIndex);
 			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
 			Vertex origVertex=mVertexList.get(nOrigVertex);
 			
-			float sqMaxDist=(float) Math.pow(getManagers().getToolsManager().getRadius()/100f+0.1f,2);
+			float sqMaxDist=(float) Math.pow((MAX_RADIUS-MIN_RADIUS)*getManagers().getToolsManager().getRadius()/100f+MIN_RADIUS,2);
 			GetVerticesAtDistanceFromVertex(origVertex,sqMaxDist,verticesRes);
 			float sigma=(float) ((Math.sqrt(sqMaxDist)/1.5f)/FWHM);
 			float maxGaussian=Gaussian(sigma,0);
