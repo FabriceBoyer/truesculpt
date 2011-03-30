@@ -188,7 +188,7 @@ public class UpdateManager extends BaseManager
 		return res;
 	};
 	
-	
+	//TODO Improve by redirecting to market and reading update needs from market
 	public void CheckUpdate(Context context)
 	{
 		boolean bStartUpdateActivity = false;
