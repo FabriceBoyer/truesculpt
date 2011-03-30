@@ -44,7 +44,8 @@ public class UpdateManager extends BaseManager
 			{
 				PackageInfo info = pm.getPackageInfo(getbaseContext().getPackageName(), 0);
 				strCurrVersion = info.versionName;
-			} catch (NameNotFoundException e)
+			}
+			catch (NameNotFoundException e)
 			{
 				e.printStackTrace();
 			}
@@ -132,7 +133,8 @@ public class UpdateManager extends BaseManager
 				majLat = Integer.parseInt(tempVer[0]);
 				minLat = Integer.parseInt(tempVer[1]);
 			}
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			res = EUpdateStatus.UNDEFINED;
@@ -160,7 +162,8 @@ public class UpdateManager extends BaseManager
 			{
 				bIsBeta = true;
 			}
-		} else
+		}
+		else
 		{
 			res = EUpdateStatus.UNDEFINED;
 			return res;
@@ -169,7 +172,8 @@ public class UpdateManager extends BaseManager
 		if (bIsBeta)
 		{
 			res = EUpdateStatus.IS_A_BETA;
-		} else
+		} 
+		else
 		{
 			if (bUpdateNeeded)
 			{
