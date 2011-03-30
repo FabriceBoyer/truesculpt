@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import truesculpt.utils.Utils;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -185,6 +187,34 @@ public class UpdateManager extends BaseManager
 
 		return res;
 	};
+	
+	
+	public void CheckUpdate(Context context)
+	{
+		boolean bStartUpdateActivity = false;
+		if (getManagers().getOptionsManager().getCheckUpdateAtStartup() == true)
+		{
+			bStartUpdateActivity = true;
+		}
+
+		long timeOfLastUpdate = getManagers().getOptionsManager().getLastSoftwareUpdateCheckDate();
+		long today = System.currentTimeMillis();
+		long timeSinceLastUpdate = today - timeOfLastUpdate;
+
+		long timeThresold = 31;
+		timeThresold *= 24;
+		timeThresold *= 3600;
+		timeThresold *= 1000;// one month in millis
+		if (timeSinceLastUpdate > timeThresold)
+		{
+			bStartUpdateActivity = true;// mandatory updates
+		}
+
+		if (bStartUpdateActivity)
+		{
+			Utils.StartMyActivity(context, truesculpt.ui.panels.UpdatePanel.class, false);
+		}
+	}
 
 	@Override
 	public void onCreate()

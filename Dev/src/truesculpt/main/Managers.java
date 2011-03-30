@@ -17,15 +17,14 @@ import truesculpt.managers.TouchManager;
 import truesculpt.managers.UpdateManager;
 import truesculpt.managers.UsageStatisticsManager;
 import truesculpt.managers.UtilsManager;
-import truesculpt.managers.WebManager;
 import android.content.Context;
 
 public class Managers
 {
-
+	private ArrayList<BaseManager> mManagersList = new ArrayList<BaseManager>();
+	
 	private ActionsManager mActionsManager = null;
 	private FileManager mFileManager = null;
-	private ArrayList<BaseManager> mManagersList = new ArrayList<BaseManager>();
 	private MemoryManager mMemoryManager = null;
 	private MeshManager mMeshManager = null;
 	private OptionsManager mOptionsManager = null;
@@ -38,8 +37,6 @@ public class Managers
 	private UsageStatisticsManager mUsageStatisticsManager = null;
 	private SleepPowerManager mPowerManager = null;
 	private UtilsManager mUtilsManager = null;
-
-	private WebManager mWebManager = null;
 
 	public Managers()
 	{
@@ -169,14 +166,6 @@ public class Managers
 		return mUtilsManager;
 	}
 
-	/**
-	 * @return the mWebManager
-	 */
-	public WebManager getWebManager()
-	{
-		return mWebManager;
-	}
-
 	public void Init(Context baseContext)
 	{
 
@@ -191,7 +180,6 @@ public class Managers
 		mToolsManager = new ToolsManager(baseContext);
 		mTouchManager = new TouchManager(baseContext);
 		mUpdateManager = new UpdateManager(baseContext);
-		mWebManager = new WebManager(baseContext);
 		mUsageStatisticsManager = new UsageStatisticsManager(baseContext);
 		mFileManager = new FileManager(baseContext);
 		mPowerManager = new SleepPowerManager(baseContext);
@@ -209,7 +197,6 @@ public class Managers
 		mManagersList.add(mTouchManager);
 		mManagersList.add(mUpdateManager);
 		mManagersList.add(mUsageStatisticsManager);
-		mManagersList.add(mWebManager);
 		mManagersList.add(mPowerManager);
 		mManagersList.add(mUtilsManager);
 

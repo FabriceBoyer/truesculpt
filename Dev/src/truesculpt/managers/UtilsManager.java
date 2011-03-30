@@ -1,9 +1,12 @@
 package truesculpt.managers;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
@@ -173,30 +176,40 @@ public class UtilsManager extends BaseManager
 		dialog.show();
 	}
 	
-	public void CheckUpdate(Context context)
-	{
-		boolean bStartUpdateActivity = false;
-		if (getManagers().getOptionsManager().getCheckUpdateAtStartup() == true)
-		{
-			bStartUpdateActivity = true;
-		}
+	
+	
+	
+	public static class Installation {
+	    private static String sID = null;
+	    private static final String INSTALLATION = "INSTALLATION";
 
-		long timeOfLastUpdate = getManagers().getOptionsManager().getLastSoftwareUpdateCheckDate();
-		long today = System.currentTimeMillis();
-		long timeSinceLastUpdate = today - timeOfLastUpdate;
+	    public synchronized static String id(Context context) {
+	        if (sID == null) {  
+	            File installation = new File(context.getFilesDir(), INSTALLATION);
+	            try {
+	                if (!installation.exists())
+	                    writeInstallationFile(installation);
+	                sID = readInstallationFile(installation);
+	            } catch (Exception e) {
+	                throw new RuntimeException(e);
+	            }
+	        }
+	        return sID;
+	    }
 
-		long timeThresold = 31;
-		timeThresold *= 24;
-		timeThresold *= 3600;
-		timeThresold *= 1000;// one month in millis
-		if (timeSinceLastUpdate > timeThresold)
-		{
-			bStartUpdateActivity = true;// mandatory updates
-		}
+	    private static String readInstallationFile(File installation) throws IOException {
+	        RandomAccessFile f = new RandomAccessFile(installation, "r");
+	        byte[] bytes = new byte[(int) f.length()];
+	        f.readFully(bytes);
+	        f.close();
+	        return new String(bytes);
+	    }
 
-		if (bStartUpdateActivity)
-		{
-			Utils.StartMyActivity(context, truesculpt.ui.panels.UpdatePanel.class, false);
-		}
+	    private static void writeInstallationFile(File installation) throws IOException {
+	        FileOutputStream out = new FileOutputStream(installation);
+	        String id = UUID.randomUUID().toString();
+	        out.write(id.getBytes());
+	        out.close();
+	    }
 	}
 }

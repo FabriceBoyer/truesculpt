@@ -73,7 +73,7 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getUtilsManager().InitHandler();
 		
 		ShowSplashScreen();
-		getManagers().getUtilsManager().CheckUpdate(getBaseContext());
+		getManagers().getUpdateManager().CheckUpdate(getBaseContext());
 		ShowTutorial();
 
 		updateFullscreenWindowStatus();
