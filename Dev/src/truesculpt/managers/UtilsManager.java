@@ -52,6 +52,25 @@ public class UtilsManager extends BaseManager
 		return Environment.getExternalStorageDirectory() + "/Truesculpt/Sculptures/";
 	}
 		
+	public String GetObjectFileName()
+	{
+		return GetBaseFileName()+"Mesh.obj";
+	}
+	public String GetImageFileName()
+	{
+		return GetBaseFileName()+"Image.png";
+	}
+	
+	public boolean CheckSculptureExist(String name)
+	{
+		boolean bRes=false;
+		
+		File file = new File(GetRootDirectory()+name);
+		bRes=file.exists();
+		
+		return bRes;
+	}
+	
 	public String GetBaseFileName()
 	{
 		String name=getManagers().getMeshManager().getName();

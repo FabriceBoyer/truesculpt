@@ -57,6 +57,12 @@ public class OptionsManager extends BaseManager
 	{
 		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
 	}
+	
+	public String getLastUsedFile()
+	{
+		return settings.getString("LastUsedFile", "");
+	}
+
 
 	public boolean getPreventSleepMode()
 	{
@@ -99,6 +105,13 @@ public class OptionsManager extends BaseManager
 
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putLong("LastSoftwareUpdateCheckDate", today);
+		editor.commit();
+	}
+	
+	public void setLastUsedFile(String lastUsedFile)
+	{
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("LastUsedFile", lastUsedFile);
 		editor.commit();
 	}
 }

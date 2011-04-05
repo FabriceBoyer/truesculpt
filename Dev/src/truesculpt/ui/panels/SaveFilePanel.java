@@ -49,7 +49,7 @@ public class SaveFilePanel extends Activity implements Runnable
 			public void onClick(View v)
 			{
 				getManagers().getMeshManager().setName(mEditNameText.getText().toString());	
-				String strObjFileName=getManagers().getUtilsManager().GetBaseFileName()+"Mesh.obj";					
+				String strObjFileName=getManagers().getUtilsManager().GetObjectFileName();					
 				
 				//check dir does not already exist
 				File file=new File(strObjFileName);				
@@ -248,14 +248,14 @@ public class SaveFilePanel extends Activity implements Runnable
 	public void run()
 	{
 		String strBaseFileName=getManagers().getUtilsManager().GetBaseFileName();
-		String strObjFileName=strBaseFileName+"Mesh.obj";
+		String strObjFileName=getManagers().getUtilsManager().GetObjectFileName();
 		
 		if (getManagers().getMeshManager().IsInitOver())
 		{
 			getManagers().getMeshManager().ExportToOBJ(strObjFileName);			
 		}
 		
-		String strPictureFileName=strBaseFileName+"Image.png";
+		String strPictureFileName=getManagers().getUtilsManager().GetImageFileName();
 		getManagers().getToolsManager().TakeGLScreenshot(strPictureFileName);
 		File snapshotFile=new File(strPictureFileName);
 		while (!snapshotFile.exists())

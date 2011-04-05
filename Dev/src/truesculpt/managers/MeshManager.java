@@ -24,10 +24,21 @@ public class MeshManager extends BaseManager
 	class MeshInitTash implements Runnable
 	{
 		public int nSubdivionLevel=0;
+		public String strLastUsedFile="";
+		
 		@Override
 		public void run()
 		{
-			NewMeshBlocking(nSubdivionLevel);						
+			if (getManagers().getOptionsManager().getLoadLastUsedFileAtStartup()
+				&& strLastUsedFile!=""
+				&& getManagers().getUtilsManager().CheckSculptureExist(strLastUsedFile))
+			{
+				OpenMeshBlocking(strLastUsedFile);
+			}
+			else
+			{
+				NewMeshBlocking(nSubdivionLevel);
+			}
 		}
 	}
 	
@@ -44,7 +55,28 @@ public class MeshManager extends BaseManager
 		NotifyListeners();
 	}
 	
-	MeshInitTash mInitTask = new MeshInitTash();	
+	public void OpenMeshBlocking(String name)
+	{
+		bInitOver=false;
+		
+		mMesh=new Mesh(getManagers(),-1);
+		Name=name;
+		
+		try
+		{
+			mMesh.ImportFromOBJ(getManagers().getUtilsManager().GetObjectFileName());
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		bInitOver = true;
+		
+		NotifyListeners();
+	}
+	
+	MeshInitTash mInitTask = new MeshInitTash();//TODO move in a panel to get a waiting spinner
 
 	long mLastPickDurationMs = -1;
 	long mLastSculptDurationMs = -1;
@@ -181,14 +213,16 @@ public class MeshManager extends BaseManager
 
 	@Override
 	public void onCreate()
-	{
-		NewMeshThreaded(5);
+	{		
+		InitMeshThreaded(5,getManagers().getOptionsManager().getLastUsedFile());//TODO adapt init level to power of machine
+		
 	}
 	
-	public boolean NewMeshThreaded(int nSubdivionLevel)
+	public boolean InitMeshThreaded(int nSubdivionLevel,String lastUsedFile)
 	{
 		boolean bRes=false;
 		mInitTask.nSubdivionLevel=nSubdivionLevel;
+		mInitTask.strLastUsedFile=lastUsedFile;
 		
 		if (bInitOver)
 		{
