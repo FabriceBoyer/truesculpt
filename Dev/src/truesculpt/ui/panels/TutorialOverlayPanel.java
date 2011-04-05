@@ -5,8 +5,10 @@ import truesculpt.main.TrueSculptApp;
 import android.app.Activity;
 import android.os.Bundle;
 
-//about mesh, cpu , fps,... not only debug data
-public class StatisticsPanel extends Activity
+//news republic like tutorial with text, arrows and interest zone
+//TODO XML to describe text position in percent and value, arrow positions, and cutout zone position and radius
+//page suivante en clickant
+public class TutorialOverlayPanel extends Activity
 {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -26,4 +28,5 @@ public class StatisticsPanel extends Activity
 	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
+
 }
