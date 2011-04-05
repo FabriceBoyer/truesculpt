@@ -566,12 +566,15 @@ public class Mesh
 
 	void InitAsSphere(int nSubdivionLevel)
 	{
-		InitAsIcosahedron();
-		for (int i = 0; i < nSubdivionLevel; i++)
+		if (nSubdivionLevel>=0)
 		{
-			SubdivideAllFaces(i);			
-		}		
-		FinalizeSphereInit();		
+			InitAsIcosahedron();
+			for (int i = 0; i < nSubdivionLevel; i++)
+			{
+				SubdivideAllFaces(i);			
+			}		
+			FinalizeSphereInit();
+		}
 	}
 
 	// makes a sphere
