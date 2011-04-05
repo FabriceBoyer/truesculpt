@@ -44,6 +44,17 @@ public class AboutPanel extends Activity
 			@Override
 			public void onClick(View v)
 			{
+				finish();
+				Utils.StartMyActivity(AboutPanel.this, truesculpt.ui.panels.TutorialOverlayPanel.class, false);
+			}
+		});
+		
+		final Button buttonHelp = (Button) findViewById(R.id.help);
+		buttonHelp.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
 				Utils.StartMyActivity(AboutPanel.this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
 			}
 		});
@@ -81,12 +92,7 @@ public class AboutPanel extends Activity
 			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
 			return true;
 		}
-		case R.id.show_tutorial_wizard_panel:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
-			return true;
-		}
-
+	
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -327,11 +327,13 @@ public class RendererMainPanel extends Activity implements Observer
 		// Handle the back button
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
+			/*
 			if (mToolsSlidingDrawer.isOpened())
 			{
 				mToolsSlidingDrawer.close();
 			}
 			else
+			*/
 			{
 				// Ask the user if they want to quit
 				new AlertDialog.Builder(this)
@@ -466,7 +468,7 @@ public class RendererMainPanel extends Activity implements Observer
 		switch (nRes)
 		{
 		case 1://Tap tap
-			commuteSliderState();
+			//commuteSliderState();
 			break;
 		}
 		return super.onTouchEvent(event);
@@ -496,7 +498,7 @@ public class RendererMainPanel extends Activity implements Observer
 	{
 		if (getManagers().getOptionsManager().getViewTutorialAtStartup() == true)
 		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
+			Utils.StartMyActivity(this, truesculpt.ui.panels.TutorialOverlayPanel.class, false);
 		}
 	}
 
