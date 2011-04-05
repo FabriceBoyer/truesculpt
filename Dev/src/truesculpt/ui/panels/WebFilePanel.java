@@ -88,7 +88,9 @@ public class WebFilePanel extends Activity
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		mWebView.addJavascriptInterface(new JavaScriptInterface(this, getManagers()), "Android");
-		mWebView.loadUrl(mStrBaseWebSite);
+		
+		int nVersionCode=getManagers().getUpdateManager().getCurrentVersionCode();
+		mWebView.loadUrl(mStrBaseWebSite+"?version="+nVersionCode);
 		
 		mPublishToWebBtn=(Button)findViewById(R.id.publish_to_web);
 		mPublishToWebBtn.setOnClickListener(new View.OnClickListener()

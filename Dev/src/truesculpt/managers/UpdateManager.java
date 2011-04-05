@@ -31,10 +31,27 @@ public class UpdateManager extends BaseManager
 		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public int getCurrentVersionCode()
+	{		
+		int nCurrVersionCode = -1;
+
+		PackageManager pm = getbaseContext().getPackageManager();
+		try
+		{
+			PackageInfo info = pm.getPackageInfo(getbaseContext().getPackageName(), 0);
+			nCurrVersionCode = info.versionCode;
+		}
+		catch (NameNotFoundException e)
+		{
+			e.printStackTrace();
+		}		
+
+		return nCurrVersionCode;
+	}
 
 	public String getCurrentVersion()
 	{
-
 		if (mCurrentVersion.length() == 0)
 		{
 			String strCurrVersion = "0.0";
