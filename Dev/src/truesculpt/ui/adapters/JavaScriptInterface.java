@@ -43,7 +43,7 @@ public class JavaScriptInterface
 		if (newFile.exists())		  
 	    {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			builder.setMessage("Sculpture named " +newName+" already exist in your local directory. This represents "+ nSize + " ko of data to download.\nDo you want to overwrite your local data ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			builder.setMessage("Sculpture named " +newName+" already exist in your local directory.\n\n This represents "+ nSize + " ko of data to download.\n\nDo you want to overwrite your local data ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 			{
 				@Override
 				public void onClick(DialogInterface dialog, int id)
@@ -65,7 +65,7 @@ public class JavaScriptInterface
 	    {
 	    	
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			builder.setMessage("You will download and import this sculpture into your library. This represents "+ nSize + " ko of data to download.\nAre you sure you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			builder.setMessage("You will download and import this sculpture into your library.\n\n This represents "+ nSize + " ko of data to download.\n\nAre you sure you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 			{
 				@Override
 				public void onClick(DialogInterface dialog, int id)
