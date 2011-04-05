@@ -33,16 +33,17 @@ public class JavaScriptInterface
         mManagers=managers;
     }
 
-    public void openObjFileInAndroid(final String name, final String strImagefileURL, final String strObjectFileURL) 
+    public void openObjFileInAndroid(final String name, final String strImagefileURL, final String strObjectFileURL, final String size) 
     {
 		Log.i("WEB", "openObjFileInAndroid image : " + strImagefileURL + "\nobject : " + strObjectFileURL );
 		
 		final String newName="web_"+name;
 		final File newFile=new File(getManagers().getUtilsManager().GetRootDirectory()+newName);
+		int nSize=Integer.parseInt(size)/1000;
 		if (newFile.exists())		  
 	    {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			builder.setMessage("Sculpture named " +newName+" already exist\nDo you want to overwrite it ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			builder.setMessage("Sculpture named " +newName+" already exist in your local directory. This represents "+ nSize + " ko of data to download.\nDo you want to overwrite your local data ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 			{
 				@Override
 				public void onClick(DialogInterface dialog, int id)
@@ -62,8 +63,9 @@ public class JavaScriptInterface
 	    }
 	    else
 	    {
+	    	
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			builder.setMessage("You will download and import this sculpture into your library\nAre you sure you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+			builder.setMessage("You will download and import this sculpture into your library. This represents "+ nSize + " ko of data to download.\nAre you sure you want to proceed ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 			{
 				@Override
 				public void onClick(DialogInterface dialog, int id)
