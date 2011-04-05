@@ -23,6 +23,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.UtilsManager;
 import truesculpt.ui.adapters.JavaScriptInterface;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -230,7 +231,8 @@ public class WebFilePanel extends Activity
 
 	    HttpPost httppost = new HttpPost( uploadURL );
 	    httppost.addHeader("title", title);
-	    httppost.addHeader("description", description);	    
+	    httppost.addHeader("description", description);
+	    httppost.addHeader("installationID", UtilsManager.Installation.id(this));	    
 	 
 	    MultipartEntity mpEntity = new MultipartEntity( HttpMultipartMode.STRICT );
 	    ContentBody cbImageFile = new FileBody( imagefile, "image/png");
