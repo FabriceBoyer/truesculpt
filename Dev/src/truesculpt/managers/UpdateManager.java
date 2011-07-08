@@ -233,7 +233,7 @@ public class UpdateManager extends BaseManager
 
 		if (bStartUpdateActivity)
 		{
-			Utils.StartMyActivity(context, truesculpt.ui.panels.UpdatePanel.class, false);
+			Utils.StartMyActivity(context, truesculpt.ui.panels.UpdatePanel.class, true);
 		}
 	}
 

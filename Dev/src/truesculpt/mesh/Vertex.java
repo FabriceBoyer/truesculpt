@@ -1,7 +1,6 @@
 package truesculpt.mesh;
 
 import java.util.ArrayList;
-
 import truesculpt.utils.MatrixUtils;
 
 public class Vertex
@@ -37,6 +36,7 @@ public class Vertex
 		MatrixUtils.copy(temp, Coord);
 		Index=index;
 	}
+	
 	public Vertex(Vertex V0, Vertex V1, Vertex V2, int index)
 	{
 		float[] temp = new float[3];
