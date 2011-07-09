@@ -9,6 +9,7 @@
     <EditText android:layout_height="wrap_content" android:text="" android:layout_width="fill_parent" android:id="@+id/name_edit"></EditText>
     <Button android:id="@+id/save_file" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/save"></Button>
     <Button android:id="@+id/share_file" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/share_by_mail"></Button>
+    <Button android:id="@+id/open_save_folder" android:layout_height="wrap_content" android:text="@string/open_save_folder" android:layout_width="fill_parent"></Button>
     <Button android:id="@+id/make_screenshot" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/screenshot"></Button>
     <Button android:id="@+id/set_as_wallpaper" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/set_as_wallpaper"></Button>
     
