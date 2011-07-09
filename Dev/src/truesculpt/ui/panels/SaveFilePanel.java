@@ -12,7 +12,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +27,7 @@ public class SaveFilePanel extends Activity implements Runnable
 	private EditText mEditNameText;
 	private Button mSaveBtn;
 	private Button mShareBtn;	
+	private Button mOpenFolderBtn;
 	private Button mScreenshotBtn;
 	private Button mWallpaperBtn;
 	private ProgressDialog waitDialog=null;
@@ -91,6 +94,29 @@ public class SaveFilePanel extends Activity implements Runnable
 				thread.start();			
 			}
 		});	
+		
+		mOpenFolderBtn=(Button)findViewById(R.id.open_save_folder);
+		mOpenFolderBtn.setOnClickListener(new View.OnClickListener()
+		{			
+			@Override
+			public void onClick(View v)
+			{
+				String strPath="file://"+getManagers().getUtilsManager().GetRootDirectory();
+				try
+				{
+					Intent myIntent = new Intent("org.openintents.action.PICK_FILE",Uri.parse(strPath));
+					startActivity(myIntent);	
+				}
+				catch (Exception e)
+				{
+					getManagers().getUtilsManager().ShowToastMessage("Failed to open a proper folder viewer for " + strPath +
+							"\n You need to install an OpenOntents compatible file browser like OIFileManager");
+					e.printStackTrace();
+				}	
+
+			}
+		});	
+		
 		
 		mWallpaperBtn=(Button)findViewById(R.id.set_as_wallpaper);
 		mWallpaperBtn.setOnClickListener(new View.OnClickListener()
