@@ -22,5 +22,4 @@ function WriteLink( link, text )
 var rootDir="./";
 
 document.write('<meta http-equiv="content-type" content="text/html; charset=UTF-8">');
-document.write('<link href="http://fonts.googleapis.com/css?family=Lobster&v1" rel="stylesheet" type="text/css">');
 document.write('<link rel="stylesheet" type="text/css" href="./theme.css" />');
