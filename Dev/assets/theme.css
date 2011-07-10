@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Lobster&v1);
+
 body
 {
 font-size:12px;
@@ -7,6 +9,7 @@ margin:0px;
 overflow:auto;
 background-image:url('');
 background-repeat:repeat-x;
+
 }
 
 body,p,h1,h2,h3,h4,table,td,th,ul,ol,textarea,input
@@ -14,7 +17,7 @@ body,p,h1,h2,h3,h4,table,td,th,ul,ol,textarea,input
 font-family:verdana,helvetica,arial,sans-serif;
 }
 
-h1 {font-family:'Lobster';text-align:center;font-size:200%;margin-top:0px;font-weight:normal}
+h1 {font-family:'Lobster';text-align:center;font-size:200%;margin-top:0px;font-weight:normal;text-shadow: 4px 4px 4px #aaa;}
 h2 {font-size:160%;margin-top:10px;margin-bottom:10px;font-weight:normal}
 h3 {font-size:120%;font-weight:normal}
 h4 {font-size:100%;}
