@@ -33,7 +33,6 @@ public class TutorialWizardPanel extends Activity
 	private final int DIALOG_SEE_WIZARD_AGAIN_ID = 0;
 	private WebView mWebView = null;
 
-	//TODO use javascript interface to have a button inside , avoid showing everytime
 	private void ExitConfirmation()
 	{
 		if (getSeeAgainOption() == true)
