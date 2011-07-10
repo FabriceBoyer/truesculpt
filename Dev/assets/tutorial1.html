@@ -1,43 +1,104 @@
 <html>
-
   <head>
-
+	<link href='http://fonts.googleapis.com/css?family=Lobster&v1' rel='stylesheet' type='text/css'>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<!--<meta http-equiv="refresh" content="1" >-->
+	<script type="text/javascript" src="./script.js"></script>
+	<link rel="stylesheet" type="text/css" href="./theme.css" />
     <title>Tools</title>
-
   </head>
-
   <body>
-  
-  Sculpting tools
-  <img height="42" width="42" src="file:///android_asset/draw.png"></img> 
-  <br>
-  <img height="42" width="42" src="file:///android_asset/grab.png"></img>
-  <br>
-  <img height="42" width="42" src="file:///android_asset/inflate.png"></img>
-  <br>
-  <img height="42" width="42" src="file:///android_asset/paint_palette.png"></img>
-  <br>
-  <img height="42" width="42" src="file:///android_asset/colorpicker.png"></img>
-  <br>
-  
-  Adjustement tools
-  <img height="42" width="42" src="file:///android_asset/color_chooser.png"></img>
-  <br>
-  <img height="42" width="42" src="file:///android_asset/radius_chooser.png"></img>
-  <br>
-  <img height="42" width="42" src="file:///android_asset/strength_chooser.png"></img>
-  <br>
-  
-  <br>
-  General tools
-  <br>
-  <img height="42" width="42" src="file:///android_asset/no_symmetry.png"></img>
-  <br>
-  <img height="42" width="42" src="file:///android_asset/undo.png"></img>
-  <br>
-  <img height="42" width="42" src="file:///android_asset/resize.png"></img>
-  <br>
-  
-  </body>
+	<div align="center">
+    <h1>Sculpting Tools</h1>	
+	List of tools available in the main sculpting tools combo box. Theses tools are enabled when pressing and dragging over the sculpture. If you press and drag in the void aread you enable the move mode allowing you to move the point of view around your object.
+    <table>
+      <tbody>
+        <tr>
+          <td> <script>WriteImage('draw.png',42,42)</script> </td>
+          <td>
+		  Base drawing mode, where pressing with your finger over the sculpture will change it's shape (grow along sculpture normal)
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('grab.png',42,42)</script> </td>
+          <td>
+		  Grab mode, where the picked point is stretched and moved
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('inflate.png',42,42)</script> </td>
+          <td>
+		  Inflate mode, where the picked area is inflated as a ballon (grow along sphere normal)
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('paint_palette.png',42,42)</script> </td>
+          <td>
+		  Paint mode, the sculpture is colored according to the one chosen in the color picker, takes radius into account, strength is ignored
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('colorpicker.png',42,42)</script> </td>
+          <td>
+		  Pick the color on the sculpture and set the color picker accordingly. The mode is then switched to paint
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+	
+    <h1>Adjustment Tools</h1>
+	<table>
+      <tbody>
+	     <tr>
+          <td> <script>WriteImage('color_chooser.png',42,42)</script> </td>
+          <td>
+		  Color used when painting mode is activated. Press button and drag to change hue value (colors are cycled through rainbow). Double press quickly to display an advanced color picker menu that will allow you to change saturation and light values.
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('radius_chooser.png',42,42)</script> </td>
+          <td>
+		  Choose the sculpting radius used by draw, grab, inflate and paint mode. Press the button and drag to change the value. Double press quickly to display a tool dialog with adjustment slider
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('strength_chooser.png',42,42)</script> </td>
+          <td>
+		    Choose the deformation strength used by draw, grab and inflate mode. Press the button and drag to change the value. Double press quickly to change deformation direction : blue expands, red shrinks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+	<h1>General Tools</h1>
+		<table>
+      <tbody>
+	     <tr>
+          <td> <script>WriteImage('no_symmetry.png',42,42)</script> </td>
+          <td>
+		  Enables the symmetry mode along the X axis. A green transparent symmetry plane appears (move if you don't see it). Everything happening on one side of the plane (paint, sculpt,...) happens on the other side. Usefull for symmetrical objects (faces, biological objects, ...). Long press to display a tool dialog allowing you to choose Y and Z symmetry planes
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('undo.png',42,42)</script> </td>
+          <td>
+		  Undo/Redo button, press to undo your last actions. Redo is only available id Undo has been activated at least once. Doing a new action after an undo will delete your redo list. Long press to display a dialog with list of your undo actions
+          </td>
+        </tr>
+        <tr>
+          <td> <script>WriteImage('resize.png',42,42)</script> </td>
+          <td>
+		  Resets your point of view to the default position. Long press to display a dialog allowing yo choose your position/zoom with slider. Drag and drop in a void area to move around sculpture. Pinch two fingers to zoom in/out		  
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
+	<br><br>
+	<script>WriteLink('tutorial0.html','Previous')</script> &nbsp&nbsp
+	<script>WriteLink('tutorial0.html','Menu')</script> &nbsp&nbsp
+	<script>WriteLink('tutorial2.html','Next')</script>
+	</div>
+  </body>
 </html>

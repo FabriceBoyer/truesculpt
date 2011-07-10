@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -93,6 +94,8 @@ public class TutorialWizardPanel extends Activity
 
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.setWebViewClient(new MyWebViewClient());
+		WebSettings webSettings = mWebView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
 
 		prevBtn = (Button) findViewById(R.id.prevBtn);
 		prevBtn.setOnClickListener(new View.OnClickListener()
