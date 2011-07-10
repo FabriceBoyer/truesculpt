@@ -32,11 +32,22 @@ public class AboutPanel extends Activity
 
 		setContentView(R.layout.about);
 		
+		final String strWebSiteURL="http://code.google.com/p/truesculpt";
 		TextView aboutText=(TextView)findViewById(R.id.about_text);
 		String aboutMsg= getString(R.string.about_text) +"\n" +
-		getString(R.string.Website) + " : " + "\n" + "http://code.google.com/p/truesculpt";
+		getString(R.string.Website) + " : " + "\n" + strWebSiteURL;
 		aboutText.setText(aboutMsg);
 		Linkify.addLinks(aboutText, Linkify.ALL);		
+		
+		final Button buttonDonate = (Button) findViewById(R.id.donateBtn);
+		buttonDonate.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Utils.ShowURLInBrowser(AboutPanel.this, strWebSiteURL);
+			}
+		});
 		
 		final Button buttonTutorial = (Button) findViewById(R.id.tutorials);
 		buttonTutorial.setOnClickListener(new View.OnClickListener()
