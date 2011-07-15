@@ -4,7 +4,7 @@
             
 <application android:label="@string/app_name" 
 	   		 android:name="TrueSculptApp"
-	   		 android:theme="@style/Theme.TrueSculpt" android:icon="@drawable/logo" android:debuggable="true">
+	   		 android:theme="@style/Theme.TrueSculpt" android:icon="@drawable/logo" android:debuggable="false">
 	    
 	<activity android:label="@string/app_name" 
 	          android:name="truesculpt.ui.panels.RendererMainPanel"
