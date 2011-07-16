@@ -191,14 +191,17 @@ public class Mesh
 	public void drawOctree(GL10 gl)
 	{
 		ArrayList<OctreeNode> boxes=new ArrayList<OctreeNode>();
-		RecurseBoxes(mRootBoxNode,boxes);		
-		for(OctreeNode box : boxes)
+		if (mRootBoxNode!=null)
 		{
-			if (!box.IsEmpty())
+			RecurseBoxes(mRootBoxNode,boxes);		
+			for(OctreeNode box : boxes)
 			{
-				box.draw(gl);
-			}
-		}	
+				if (!box.IsEmpty())
+				{
+					box.draw(gl);
+				}
+			}	
+		}
 	}
 
 	// From http://en.wikipedia.org/wiki/Wavefront_.obj_file
