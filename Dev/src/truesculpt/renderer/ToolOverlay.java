@@ -175,7 +175,7 @@ public class ToolOverlay
 	private void updateGeometry(float fSmallRadius, float fBigRadius, float fHeight )
 	{
 		float angle=0;
-		float incr=360f/(float)nVertices;
+		float incr=360f/nVertices;
 		boolean bIsTop=false;
 		mVertexBuffer.position(0);
 		for (int i=0;i<nVertices;i++)

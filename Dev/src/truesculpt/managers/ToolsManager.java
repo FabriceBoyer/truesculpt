@@ -36,6 +36,7 @@ public class ToolsManager extends BaseManager
 		float m_Strength;
 		
 		
+		@Override
 		public String toString() 
 		{
 			String msg="";

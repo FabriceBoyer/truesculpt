@@ -119,7 +119,7 @@ public class MatrixUtils
 	 **/
 	public static float squaremagnitude(float[] vector)
 	{
-		return (float)(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+		return (vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
 	}
 	
 	/**

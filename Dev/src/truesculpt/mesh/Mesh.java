@@ -907,7 +907,7 @@ public class Mesh
 				float sqDist=MatrixUtils.squaremagnitude(temp);
 
 				//sculpting functions				
-				MatrixUtils.scalarMultiply(VOffset, (float) (Gaussian(sigma,sqDist)/maxGaussian*fMaxDeformation));
+				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma,sqDist)/maxGaussian*fMaxDeformation));
 				//if (MatrixUtils.magnitude(VOffset)>1e-3)
 				{
 					action.AddVertexOffset(vertex.Index,VOffset,vertex);
