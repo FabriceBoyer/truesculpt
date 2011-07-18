@@ -31,12 +31,12 @@ public class OptionsManager extends BaseManager
 
 	public boolean getDisplaySplashScreenAtStartup()
 	{
-		return settings.getBoolean("DisplaySplashScreenAtStartup", true);
+		return settings.getBoolean("DisplaySplashScreenAtStartup", false);
 	}
 
 	public boolean getFullScreenApplication()
 	{
-		return settings.getBoolean("FullScreenApplication", true);
+		return settings.getBoolean("FullScreenApplication", false);
 	}
 
 	public boolean getGatherUsageData()
@@ -76,7 +76,7 @@ public class OptionsManager extends BaseManager
 
 	public boolean getViewTutorialAtStartup()
 	{
-		return settings.getBoolean("ViewTutorialAtStartup", true);
+		return settings.getBoolean("ViewTutorialAtStartup", false);
 	}
 
 	@Override
