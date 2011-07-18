@@ -69,7 +69,8 @@ public class OpenFilePanel extends Activity implements Runnable
 	    gridview.setAdapter(new OpenFileAdapter(this, mFileList));
 	    gridview.setOnItemClickListener(new OnItemClickListener() 
 	    {
-	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
+	        @Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
 	        {
 	        	mSelectedElem=mFileList.get((int) id);
 	            OpenInternal();

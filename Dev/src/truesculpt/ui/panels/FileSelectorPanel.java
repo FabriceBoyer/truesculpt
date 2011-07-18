@@ -12,6 +12,7 @@ import android.widget.TabHost;
 //to open and close, link to website, MRU, 
 public class FileSelectorPanel extends TabActivity
 {	
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.fileselector);

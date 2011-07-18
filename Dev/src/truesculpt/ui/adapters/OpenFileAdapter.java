@@ -52,23 +52,27 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
     	inflater = LayoutInflater.from(context);
     }
 
-    public int getCount()
+    @Override
+	public int getCount()
     {
         return mFileList.size();
     }
 
-    public Object getItem(int position)
+    @Override
+	public Object getItem(int position)
     {
         return mFileList.get(position);
     }
 
-    public long getItemId(int position)
+    @Override
+	public long getItemId(int position)
     {
         return position;
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent)
+    @Override
+	public View getView(int position, View convertView, ViewGroup parent)
     {		
     	ViewHolder holder;
 		
@@ -104,7 +108,8 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
         return convertView;
     }
     
-    public void handleImageLoaded( 	
+    @Override
+	public void handleImageLoaded( 	
     		final ViewHolder holder,
     		final FileElem elem,
     		final Bitmap aBitmap) 
@@ -112,7 +117,8 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
 		// The enqueue the following in the UI thread
 		mHandler.post(new Runnable()
 		{
-    		public void run() 
+    		@Override
+			public void run() 
     		{
 		    	// set the bitmap in the ImageView
     			if (holder.currElem==elem)

@@ -58,6 +58,7 @@ public class ImageLoader extends Thread
 		// Use the handler to schedule a quit on the looper
 		handler.post(new Runnable()
 		{			
+			@Override
 			public void run()
 			{
 				// This runs on the ImageLoader thread
@@ -84,6 +85,7 @@ public class ImageLoader extends Thread
 		// Wrap DownloadTask into another Runnable to track the statistics
 		handler.postAtFrontOfQueue(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				try 
