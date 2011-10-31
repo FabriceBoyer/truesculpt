@@ -32,6 +32,8 @@
 			 	<ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RedoBtn" android:src="@drawable/redo"></ImageButton>
 			 	
 			 	<ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ResetPOVBtn" android:src="@drawable/resize"></ImageButton>
+			 	
+			 	<ImageButton android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/FilesBtn" android:src="@drawable/largetiles"></ImageButton>
 		 	
 	   </LinearLayout>   
 	</SlidingDrawer>

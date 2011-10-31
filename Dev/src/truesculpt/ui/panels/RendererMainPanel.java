@@ -45,6 +45,8 @@ public class RendererMainPanel extends Activity implements Observer
 	private SliderPickView mStrength;
 	private ImageButton mResetPOVbutton;	
 	private ToggleButton mSymmetrySwitcher;
+	private ImageButton mFilesBtn;
+	
 
 	public Managers getManagers()
 	{
@@ -290,6 +292,24 @@ public class RendererMainPanel extends Activity implements Observer
 				getManagers().getToolsManager().setStrengthAbsoluteValue(value,false);	
 				boolean bIsPositive=getManagers().getToolsManager().isStrengthPositive();
 				getManagers().getToolsManager().setStrengthSignum(!bIsPositive, false);				
+			}
+		});
+		
+		mFilesBtn = (ImageButton) findViewById(R.id.FilesBtn);
+		mFilesBtn.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.FileSelectorPanel.class, false);				
+			}
+		});
+		mFilesBtn.setOnLongClickListener(new View.OnLongClickListener()
+		{			
+			@Override
+			public boolean onLongClick(View v)
+			{				
+				return false;
 			}
 		});
 		
