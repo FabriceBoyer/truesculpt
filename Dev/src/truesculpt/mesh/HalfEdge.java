@@ -8,7 +8,7 @@ public class HalfEdge
 	public int V1 = -1;//end
 	public int Face = -1;
 	
-	public int nSubdivionLevel = -1;
+	public int nSubdivisionLevel = -1;
 	public HalfEdge NeighbourEdge=null;
 	public int VNextSplit=-1;
 

@@ -337,22 +337,27 @@ public class Mesh
 		String line = null;
 		try
 		{
+			int[] face = new int[3];
+			int[] val = new int[3];;
+			float[] coord = new float[3];
+			float[] norm = new float[3];
+			
 			for (line = input.readLine(); line != null; line = input.readLine())
 			{
 				if (line.length() > 0)
 				{
 					if (line.startsWith("v "))
 					{
-						float[] coord = new float[3];
 						StringTokenizer tok = new StringTokenizer(line);
 						tok.nextToken();
 						coord[0] = Float.parseFloat(tok.nextToken());
 						coord[1] = Float.parseFloat(tok.nextToken());
 						coord[2] = Float.parseFloat(tok.nextToken());						
 						Vertex vertex=new Vertex(coord, mVertexList.size());
+						
 						mVertexList.add(vertex);
 						
-						if (tok.hasMoreTokens())
+						if (tok.hasMoreTokens())//not in norm, specific obj hack
 						{
 							int color= Integer.parseInt(tok.nextToken());
 							vertex.Color=color;
@@ -360,88 +365,35 @@ public class Mesh
 					}
 					else if (line.startsWith("vt "))
 					{
-						float[] coord = new float[2];
 						StringTokenizer tok = new StringTokenizer(line);
 						tok.nextToken();
 						coord[0] = Float.parseFloat(tok.nextToken());
 						coord[1] = Float.parseFloat(tok.nextToken());
+						
 						// m.addTextureCoordinate(coord);
 					}
 					else if (line.startsWith("f "))
 					{
-						int[] face = new int[3];
-						int[] face_n_ix = new int[3];
-						int[] face_tx_ix = new int[3];
-						int[] val;
-
 						StringTokenizer tok = new StringTokenizer(line);
 						tok.nextToken();
-						val = Utils.parseIntTriple(tok.nextToken());
+						Utils.parseIntTriple(tok.nextToken(),val);
 						face[0] = val[0];
-						if (val.length > 1 && val[1] > -1)
-						{
-							face_tx_ix[0] = val[1];
-						}
-						if (val.length > 2 && val[2] > -1)
-						{
-							face_n_ix[0] = val[2];
-						}
-
-						val = Utils.parseIntTriple(tok.nextToken());
+						Utils.parseIntTriple(tok.nextToken(),val);
 						face[1] = val[0];
-						if (val.length > 1 && val[1] > -1)
-						{
-							face_tx_ix[1] = val[1];
-						}
-						if (val.length > 2 && val[2] > -1)
-						{
-							face_n_ix[1] = val[2];
-						}
-
-						val = Utils.parseIntTriple(tok.nextToken());
+						Utils.parseIntTriple(tok.nextToken(),val);
 						face[2] = val[0];
-						if (val.length > 1 && val[1] > -1)
-						{
-							face_tx_ix[2] = val[1];
-							// m.addTextureIndices(face_tx_ix);
-						}
-						if (val.length > 2 && val[2] > -1)
-						{
-							face_n_ix[2] = val[2];
-							// m.addFaceNormals(face_n_ix);
-						}
 						
 						mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size(),0));
-						if (tok.hasMoreTokens())
-						{
-							val = Utils.parseIntTriple(tok.nextToken());
-							face[1] = face[2];
-							face[2] = val[0];
-							if (val.length > 1 && val[1] > -1)
-							{
-								face_tx_ix[1] = face_tx_ix[2];
-								face_tx_ix[2] = val[1];
-								// m.addTextureIndices(face_tx_ix);
-							}
-							if (val.length > 2 && val[2] > -1)
-							{
-								face_n_ix[1] = face_n_ix[2];
-								face_n_ix[2] = val[2];
-								// m.addFaceNormals(face_n_ix);
-							}
-							mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size(),0));
-						}
-
 					} 
 					else if (line.startsWith("vn "))
 					{
 						nCount++;
-						float[] norm = new float[3];
 						StringTokenizer tok = new StringTokenizer(line);
 						tok.nextToken();
 						norm[0] = Float.parseFloat(tok.nextToken());
 						norm[1] = Float.parseFloat(tok.nextToken());
 						norm[2] = Float.parseFloat(tok.nextToken());
+						
 						// m.addNormal(norm);
 					}
 				}
@@ -986,9 +938,9 @@ public class Mesh
 	{
 		for (Face face : mFaceList)
 		{
-			face.E0.nSubdivionLevel=nLevel;
-			face.E1.nSubdivionLevel=nLevel;
-			face.E2.nSubdivionLevel=nLevel;		
+			face.E0.nSubdivisionLevel=nLevel;
+			face.E1.nSubdivisionLevel=nLevel;
+			face.E2.nSubdivisionLevel=nLevel;		
 		}
 	}
 	
