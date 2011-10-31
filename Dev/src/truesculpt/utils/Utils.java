@@ -42,21 +42,24 @@ public class Utils
 		return Integer.parseInt(val);
 	}
 
-	public static int[] parseIntTriple(String face)
+	public static void parseIntTriple(String face, int[] res)
 	{
 		int ix = face.indexOf("/");
 		if (ix == -1)
 		{
-			return new int[] { Integer.parseInt(face) - 1 };
+			res[0]= Integer.parseInt(face) - 1 ;
 		} else
 		{
 			int ix2 = face.indexOf("/", ix + 1);
 			if (ix2 == -1)
 			{
-				return new int[] { Integer.parseInt(face.substring(0, ix)) - 1, Integer.parseInt(face.substring(ix + 1)) - 1 };
+				res[0]= Integer.parseInt(face.substring(0, ix)) - 1;
+				res[1]= Integer.parseInt(face.substring(ix + 1)) - 1;
 			} else
 			{
-				return new int[] { parseInt(face.substring(0, ix)) - 1, parseInt(face.substring(ix + 1, ix2)) - 1, parseInt(face.substring(ix2 + 1)) - 1 };
+				res[0]=parseInt(face.substring(0, ix)) - 1;
+				res[1]=parseInt(face.substring(ix + 1, ix2)) - 1;
+				res[2]=parseInt(face.substring(ix2 + 1)) - 1;
 			}
 		}
 	}

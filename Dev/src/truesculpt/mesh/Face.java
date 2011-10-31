@@ -8,15 +8,15 @@ public class Face
 	public HalfEdge E2 = null;
 
 	// CCW definition	
-	public Face(int v0, int v1, int v2, int nFaceIndex, int nSubdivionLevel)
+	public Face(int v0, int v1, int v2, int nFaceIndex, int nSubdivisionLevel)
 	{
 		E0=new HalfEdge(v0, v1, nFaceIndex);
 		E1=new HalfEdge(v1, v2, nFaceIndex);
 		E2=new HalfEdge(v2, v0, nFaceIndex);	
 		
-		E0.nSubdivionLevel=nSubdivionLevel;
-		E1.nSubdivionLevel=nSubdivionLevel;
-		E2.nSubdivionLevel=nSubdivionLevel;
+		E0.nSubdivisionLevel=nSubdivisionLevel;
+		E1.nSubdivisionLevel=nSubdivisionLevel;
+		E2.nSubdivisionLevel=nSubdivisionLevel;
 	}
 	
 	public HalfEdge GetNextEdge(HalfEdge edge)
