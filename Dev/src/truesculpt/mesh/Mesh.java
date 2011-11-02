@@ -897,17 +897,6 @@ public class Mesh
 		}
 	}
 
-	public void PickColorAction(int nIndex)
-	{
-		if (nIndex >= 0)
-		{
-			Face face = mFaceList.get(nIndex);
-			Vertex vertex = mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
-			int color = vertex.Color;
-			getManagers().getToolsManager().setColor(color, true);
-		}
-	}
-
 	public ArrayList<Vertex> getVertexList()
 	{
 		return mVertexList;

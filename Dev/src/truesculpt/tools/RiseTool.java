@@ -6,6 +6,7 @@ import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
 import truesculpt.utils.MatrixUtils;
+import android.os.SystemClock;
 
 public class RiseTool extends SculptingTool
 {
@@ -18,9 +19,45 @@ public class RiseTool extends SculptingTool
 	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
+		long tSculptStart = SystemClock.uptimeMillis();
 		super.Pick(xScreen, yScreen);
 		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+
+		// switch (getManagers().getToolsManager().getSymmetryMode())
+		// {
+		// case X:
+		// rayPt1[0] *= -1;
+		// rayPt2[0] *= -1;
+		// PickRay();
+		// rayPt1[0] *= -1;
+		// rayPt2[0] *= -1;
+		// nIndex = PickRay();
+		// break;
+		// case Y:
+		// rayPt1[1] *= -1;
+		// rayPt2[1] *= -1;
+		// PickRay();
+		// rayPt1[1] *= -1;
+		// rayPt2[1] *= -1;
+		// nIndex = PickRay();
+		// break;
+		// case Z:
+		// rayPt1[2] *= -1;
+		// rayPt2[2] *= -1;
+		// PickRay();
+		// rayPt1[2] *= -1;
+		// rayPt2[2] *= -1;
+		// nIndex = PickRay();
+		// break;
+		// case NONE:
+		// nIndex = PickRay();
+		// break;
+		// }
+		// }
+
 		RiseSculptAction(nIndex);
+		long tSculptStop = SystemClock.uptimeMillis();
+		mLastSculptDurationMs = tSculptStop - tSculptStart;
 	}
 
 	private void RiseSculptAction(int triangleIndex)
