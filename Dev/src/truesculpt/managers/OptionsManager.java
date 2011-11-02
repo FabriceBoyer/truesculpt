@@ -90,7 +90,6 @@ public class OptionsManager extends BaseManager
 	@Override
 	public void onDestroy()
 	{
-		// TODO Auto-generated method stub
 
 	}
 

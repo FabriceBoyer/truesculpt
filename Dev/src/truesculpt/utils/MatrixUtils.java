@@ -189,8 +189,7 @@ public class MatrixUtils
 	}
 
 	/**
-	 * Multiply two matrices by each other and store the result. result = m1 x
-	 * m2
+	 * Multiply two matrices by each other and store the result. result = m1 x m2
 	 * 
 	 * @param m1
 	 *            The first matrix
@@ -211,8 +210,7 @@ public class MatrixUtils
 	}
 
 	/**
-	 * Converts this vector into a normalized (unit length) vector <b>Modifies
-	 * the input parameter</b>
+	 * Converts this vector into a normalized (unit length) vector <b>Modifies the input parameter</b>
 	 * 
 	 * @param vector
 	 *            The vector to normalize

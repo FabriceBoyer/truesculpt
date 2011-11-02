@@ -71,9 +71,7 @@ public class ImageLoader extends Thread
 	}
 
 	/**
-	 * Method queues the image at path to load Note that the actual loading
-	 * takes place in the UI thread the ImageView and ViewSwitcher are just
-	 * references for the UI thread.
+	 * Method queues the image at path to load Note that the actual loading takes place in the UI thread the ImageView and ViewSwitcher are just references for the UI thread.
 	 * 
 	 * @param aPath
 	 *            - Path where the bitmap is located to load
@@ -114,8 +112,7 @@ public class ImageLoader extends Thread
 	}
 
 	/**
-	 * Method is called when the bitmap is loaded. The UI thread adds the bitmap
-	 * to the imageview.
+	 * Method is called when the bitmap is loaded. The UI thread adds the bitmap to the imageview.
 	 * 
 	 * @param aViewSwitcher
 	 *            - The ViewSwitcher that needs to display the imageview

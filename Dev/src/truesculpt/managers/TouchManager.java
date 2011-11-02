@@ -10,10 +10,10 @@ import android.view.MotionEvent;
 public class TouchManager extends BaseManager
 {
 
-	private float fDemultRotateFactor = 2.5f;
+	private final float fDemultRotateFactor = 2.5f;
 
-	private float fDemultZoomFactor = fDemultRotateFactor * 20.0f;
-	private float fTapTapTimeThresold = 500.0f;// ms
+	private final float fDemultZoomFactor = fDemultRotateFactor * 20.0f;
+	private final float fTapTapTimeThresold = 500.0f;// ms
 	private float mElevInit = 0.0f;
 	private float mLastFingerSpacing = 0.0f;
 	private long mLastTapTapTime = 0;
@@ -105,7 +105,6 @@ public class TouchManager extends BaseManager
 	@Override
 	public void onDestroy()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
@@ -142,7 +141,7 @@ public class TouchManager extends BaseManager
 			initPOVValues(event, false);
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 
-			int nRes = getManagers().getMeshManager().Pick(x, y);
+			int nRes = getManagers().getMeshManager().Pick(x, y);// not tool pick, but mesh pick
 			if (nRes < 0)
 			{
 				getManagers().getToolsManager().setToolMode(EToolMode.POV);
@@ -150,6 +149,8 @@ public class TouchManager extends BaseManager
 			else
 			{
 				getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);
+				getManagers().getToolsManager().getCurrentTool().Start();
+				getManagers().getToolsManager().getCurrentTool().Pick(x, y);
 			}
 
 			break;
@@ -173,6 +174,7 @@ public class TouchManager extends BaseManager
 		case MotionEvent.ACTION_UP:
 		{
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
+			getManagers().getToolsManager().getCurrentTool().Stop();
 			break;
 		}
 		case MotionEvent.ACTION_MOVE:
@@ -202,7 +204,7 @@ public class TouchManager extends BaseManager
 
 			case SCULPT:
 			{
-				getManagers().getMeshManager().Pick(x, y);
+				getManagers().getToolsManager().getCurrentTool().Pick(x, y);
 				break;
 			}
 			}

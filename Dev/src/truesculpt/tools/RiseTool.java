@@ -11,9 +11,9 @@ public class RiseTool extends SculptingTool
 	}
 
 	@Override
-	public void Pick(int nIndex)
+	public void Pick(float xScreen, float yScreen)
 	{
-		super.Pick(nIndex);
+		super.Pick(xScreen, yScreen);
 
 	}
 

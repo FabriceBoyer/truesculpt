@@ -14,12 +14,10 @@ import android.os.Bundle;
 import android.view.View;
 
 /**
- * <h3>Application that displays the values of the acceleration sensor
- * graphically.</h3>
+ * <h3>Application that displays the values of the acceleration sensor graphically.</h3>
  * 
  * <p>
- * This demonstrates the {@link android.hardware.SensorManager
- * android.hardware.SensorManager} class.
+ * This demonstrates the {@link android.hardware.SensorManager android.hardware.SensorManager} class.
  * 
  * <h4>Demo</h4>
  * OS / Sensors
@@ -221,9 +219,7 @@ public class DebugSensorsPanel extends Activity
 	private SensorManager mSensorManager;
 
 	/**
-	 * Initialization of the Activity after it is first created. Must at least
-	 * call {@link android.app.Activity#setContentView setContentView()} to
-	 * describe what is to be displayed in the screen.
+	 * Initialization of the Activity after it is first created. Must at least call {@link android.app.Activity#setContentView setContentView()} to describe what is to be displayed in the screen.
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

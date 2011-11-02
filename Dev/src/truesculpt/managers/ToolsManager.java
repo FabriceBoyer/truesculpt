@@ -3,6 +3,8 @@ package truesculpt.managers;
 import java.util.List;
 
 import truesculpt.actions.ChangeToolAction;
+import truesculpt.tools.ColorizeTool;
+import truesculpt.tools.PickColorTool;
 import truesculpt.tools.RiseTool;
 import truesculpt.tools.ToolsBase;
 import truesculpt.utils.Utils;
@@ -28,7 +30,7 @@ public class ToolsManager extends BaseManager
 
 	public enum ESymmetryMode
 	{
-		NONE, X, Y, Z
+		NONE, X, Y, Z, XY, XZ, YZ
 	};
 
 	public class GlobalToolState
@@ -66,6 +68,8 @@ public class ToolsManager extends BaseManager
 
 		// TODO load from plugins or xml library
 		mToolsLibrary.add(new RiseTool(getManagers()));
+		mToolsLibrary.add(new ColorizeTool(getManagers()));
+		mToolsLibrary.add(new PickColorTool(getManagers()));
 
 		UpdateCurrentTool();
 	}
@@ -83,6 +87,8 @@ public class ToolsManager extends BaseManager
 		case COLOR:
 		case TEXTURE:
 		case PICK_COLOR:
+			break;
+		default:
 			break;
 		}
 
@@ -131,14 +137,12 @@ public class ToolsManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onDestroy()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
