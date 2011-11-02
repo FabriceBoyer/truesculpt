@@ -42,7 +42,7 @@ public class DebugPanel extends Activity
 		msg += "Equivalent FPS is " + Integer.toString((int) (1.0f / lLastRenderDuration * 1000.0f)) + " images/s\n\n";
 		long lLastPickDuration = getManagers().getMeshManager().getLastPickDurationMs();
 		msg += "Last picking duration = " + Long.toString(lLastPickDuration) + " ms\n";
-		long lLastSculptDuration = getManagers().getMeshManager().getLastSculptDurationMs();
+		long lLastSculptDuration = getManagers().getToolsManager().getCurrentTool().getLastSculptDurationMs();
 		msg += "Last sculpting duration = " + Long.toString(lLastSculptDuration) + " ms\n";
 		lastFrameText.setText(msg);
 

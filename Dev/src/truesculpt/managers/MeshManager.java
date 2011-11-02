@@ -77,7 +77,7 @@ public class MeshManager extends BaseManager
 	MeshInitTash mInitTask = new MeshInitTash();// TODO move in a panel to get a waiting spinner
 
 	long mLastPickDurationMs = -1;
-	long mLastSculptDurationMs = -1;
+
 	private final float[] mModelView = new float[16];
 	private final PickHighlight mPickHighlight = new PickHighlight();
 	private final float[] mProjection = new float[16];
@@ -132,11 +132,6 @@ public class MeshManager extends BaseManager
 	public long getLastPickDurationMs()
 	{
 		return mLastPickDurationMs;
-	}
-
-	public long getLastSculptDurationMs()
-	{
-		return mLastSculptDurationMs;
 	}
 
 	public int getVertexCount()
@@ -252,41 +247,6 @@ public class MeshManager extends BaseManager
 
 				nIndex = PickRay();
 
-				// // handle symmetry
-				// if (bInitOver)
-				// {
-				// switch (getManagers().getToolsManager().getSymmetryMode())
-				// {
-				// case X:
-				// rayPt1[0] *= -1;
-				// rayPt2[0] *= -1;
-				// PickRay();
-				// rayPt1[0] *= -1;
-				// rayPt2[0] *= -1;
-				// nIndex = PickRay();
-				// break;
-				// case Y:
-				// rayPt1[1] *= -1;
-				// rayPt2[1] *= -1;
-				// PickRay();
-				// rayPt1[1] *= -1;
-				// rayPt2[1] *= -1;
-				// nIndex = PickRay();
-				// break;
-				// case Z:
-				// rayPt1[2] *= -1;
-				// rayPt2[2] *= -1;
-				// PickRay();
-				// rayPt1[2] *= -1;
-				// rayPt2[2] *= -1;
-				// nIndex = PickRay();
-				// break;
-				// case NONE:
-				// nIndex = PickRay();
-				// break;
-				// }
-				// }
-
 				NotifyListeners();
 			}
 		}
@@ -304,36 +264,6 @@ public class MeshManager extends BaseManager
 		if (nIndex >= 0)
 		{
 			mPickHighlight.setPickHighlightPosition(intersectPt);
-			//
-			// long tSculptStart = SystemClock.uptimeMillis();
-			// // TODO place in actionManager
-			// switch (getManagers().getToolsManager().getToolMode())
-			// {
-			// case SCULPT:
-			// {
-			// switch (getManagers().getToolsManager().getSculptSubMode())
-			// {
-			// case DRAW:
-			// mMesh.RiseSculptAction(nIndex);
-			// break;
-			// case GRAB:
-			// mMesh.InitGrabAction(nIndex);
-			// break;
-			// case SMOOTH:
-			// break;
-			// case COLOR:
-			// mMesh.ColorizePaintAction(nIndex);
-			// break;
-			// case TEXTURE:
-			// break;
-			// case PICK_COLOR:
-			// mMesh.PickColorAction(nIndex);
-			// break;
-			// }
-			// }
-			// }
-			// long tSculptStop = SystemClock.uptimeMillis();
-			// mLastSculptDurationMs = tSculptStop - tSculptStart;
 		}
 		else
 		{

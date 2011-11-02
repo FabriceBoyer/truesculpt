@@ -16,6 +16,8 @@ public class ToolsBase implements ITools
 
 	protected HashSet<Vertex> verticesRes = new HashSet<Vertex>();
 
+	protected long mLastSculptDurationMs = -1;
+
 	private Managers mManagers = null;
 
 	public ToolsBase(Managers managers)
@@ -44,6 +46,11 @@ public class ToolsBase implements ITools
 	public Managers getManagers()
 	{
 		return mManagers;
+	}
+
+	public long getLastSculptDurationMs()
+	{
+		return mLastSculptDurationMs;
 	}
 
 }
