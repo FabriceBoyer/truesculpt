@@ -1,6 +1,6 @@
 package truesculpt.managers;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import truesculpt.actions.ChangeToolAction;
 import truesculpt.tools.ColorizeTool;
@@ -60,7 +60,7 @@ public class ToolsManager extends BaseManager
 	private float mRadius = 50.0f;// pct
 	private float mStrength = 50.0f;// pct
 	private ToolsBase mCurrentTool = null;
-	private List<ToolsBase> mToolsLibrary;
+	private final ArrayList<ToolsBase> mToolsLibrary = new ArrayList<ToolsBase>();
 
 	public ToolsManager(Context baseContext)
 	{
