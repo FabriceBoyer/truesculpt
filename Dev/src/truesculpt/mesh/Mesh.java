@@ -28,54 +28,57 @@ import android.graphics.Color;
 public class Mesh
 {
 	ArrayList<Face> mFaceList = new ArrayList<Face>();
-	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();	
+	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
 	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
-	OctreeNode mRootBoxNode=null;
+	OctreeNode mRootBoxNode = null;
 	Managers mManagers;
 
 	public Mesh(Managers managers, int nSubdivisionLevel)
-	{	
+	{
 		mManagers = managers;
-		
+
 		Reset();
-		
+
 		InitAsSphere(nSubdivisionLevel);
 
 		ComputeBoundingSphereRadius();
-		InitOctree();		 
+		InitOctree();
 		mRenderGroupList.add(new RenderFaceGroup(this));
 	}
-	
+
 	private void InitOctree()
 	{
 
-		mRootBoxNode=new OctreeNode(null, new float[]{0f,0f,0f}, 4f);
+		mRootBoxNode = new OctreeNode(null, new float[] { 0f, 0f, 0f }, 4f);
 		mRootBoxNode.Vertices.addAll(mVertexList);
 		mRootBoxNode.RecurseSubdivide();
-		//CheckOctree();
+		// CheckOctree();
 	}
-	
+
 	private void CheckOctree()
 	{
-		//check all vertices have a box
+		// check all vertices have a box
 		for (Vertex vertex : mVertexList)
 		{
-			Assert.assertTrue(vertex.Box!=null);
+			Assert.assertTrue(vertex.Box != null);
 		}
-		//count boxes
-		ArrayList<OctreeNode> boxes=new ArrayList<OctreeNode>();
-		RecurseBoxes(mRootBoxNode,boxes);
-		int nVertexCount=0;
-		int nNonEmptyBoxes=0;
-		for(OctreeNode box : boxes)
+		// count boxes
+		ArrayList<OctreeNode> boxes = new ArrayList<OctreeNode>();
+		RecurseBoxes(mRootBoxNode, boxes);
+		int nVertexCount = 0;
+		int nNonEmptyBoxes = 0;
+		for (OctreeNode box : boxes)
 		{
-			int n=box.Vertices.size();
-			nVertexCount+=n;
-			if (n>0) { nNonEmptyBoxes++; }
+			int n = box.Vertices.size();
+			nVertexCount += n;
+			if (n > 0)
+			{
+				nNonEmptyBoxes++;
+			}
 		}
-		Assert.assertTrue(nVertexCount==mVertexList.size());
+		Assert.assertTrue(nVertexCount == mVertexList.size());
 	}
-	
+
 	private void RecurseBoxes(OctreeNode currBox, ArrayList<OctreeNode> boxes)
 	{
 		if (!currBox.IsLeaf())
@@ -83,13 +86,13 @@ public class Mesh
 			boxes.addAll(currBox.NodeChilds);
 			for (OctreeNode box : currBox.NodeChilds)
 			{
-				RecurseBoxes(box,boxes);
+				RecurseBoxes(box, boxes);
 			}
 		}
 	}
 
 	float mBoundingSphereRadius = 0.0f;
-	
+
 	public void ComputeBoundingSphereRadius()
 	{
 		for (Vertex vertex : mVertexList)
@@ -106,37 +109,37 @@ public class Mesh
 	void ComputeAllVertexNormals()
 	{
 		ComputeAllFaceEdgesNormals();
-		
+
 		for (Vertex vertex : mVertexList)
 		{
 			ComputeVertexNormal(vertex);
 		}
 	}
-	
+
 	public void ComputeVertexNormal(Integer vertex)
 	{
 		ComputeVertexNormal(mVertexList.get(vertex));
 	}
-	
+
 	// Based on close triangles normals * sin of their angle and normalize
 	// averaging normals of triangles around
 	public void ComputeVertexNormal(Vertex vertex)
 	{
-		//reset normal
-		vertex.Normal[0]=0f;
-		vertex.Normal[1]=0f;
-		vertex.Normal[2]=0f;
-		
-		//not ordered
-		for (HalfEdge edge: vertex.OutLinkedEdges)
-		{			
+		// reset normal
+		vertex.Normal[0] = 0f;
+		vertex.Normal[1] = 0f;
+		vertex.Normal[2] = 0f;
+
+		// not ordered
+		for (HalfEdge edge : vertex.OutLinkedEdges)
+		{
 			MatrixUtils.plus(edge.Normal, vertex.Normal, vertex.Normal);
-		}	
-		
-		//unit normal
+		}
+
+		// unit normal
 		MatrixUtils.normalize(vertex.Normal);
 	}
-	
+
 	public void ComputeAllFaceEdgesNormals()
 	{
 		for (Face face : mFaceList)
@@ -144,29 +147,29 @@ public class Mesh
 			ComputeFaceEdgesNormal(face);
 		}
 	}
-	
+
 	public void ComputeFaceEdgesNormal(Integer nFaceIndex)
 	{
 		ComputeFaceEdgesNormal(mFaceList.get(nFaceIndex));
 	}
-	
+
 	public void ComputeFaceEdgesNormal(Face face)
 	{
-		Vertex A=mVertexList.get(face.E0.V0);
-		Vertex B=mVertexList.get(face.E0.V1);
-		Vertex C=mVertexList.get(face.E1.V1);
-		
-		//E0
+		Vertex A = mVertexList.get(face.E0.V0);
+		Vertex B = mVertexList.get(face.E0.V1);
+		Vertex C = mVertexList.get(face.E1.V1);
+
+		// E0
 		MatrixUtils.minus(B.Coord, A.Coord, u);
 		MatrixUtils.minus(C.Coord, A.Coord, v);
-		MatrixUtils.cross(u, v, face.E0.Normal); 
-		
-		//E1
+		MatrixUtils.cross(u, v, face.E0.Normal);
+
+		// E1
 		MatrixUtils.minus(C.Coord, B.Coord, u);
 		MatrixUtils.minus(A.Coord, B.Coord, v);
 		MatrixUtils.cross(u, v, face.E1.Normal);
-		
-		//E2
+
+		// E2
 		MatrixUtils.minus(A.Coord, C.Coord, u);
 		MatrixUtils.minus(B.Coord, C.Coord, v);
 		MatrixUtils.cross(u, v, face.E2.Normal);
@@ -177,30 +180,30 @@ public class Mesh
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
 			renderGroup.draw(gl);
-		}		
+		}
 	}
-	
+
 	public void drawNormals(GL10 gl)
 	{
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
-			//renderGroup.drawNormals(gl);
+			// renderGroup.drawNormals(gl);
 		}
 	}
-	
+
 	public void drawOctree(GL10 gl)
 	{
-		ArrayList<OctreeNode> boxes=new ArrayList<OctreeNode>();
-		if (mRootBoxNode!=null)
+		ArrayList<OctreeNode> boxes = new ArrayList<OctreeNode>();
+		if (mRootBoxNode != null)
 		{
-			RecurseBoxes(mRootBoxNode,boxes);		
-			for(OctreeNode box : boxes)
+			RecurseBoxes(mRootBoxNode, boxes);
+			for (OctreeNode box : boxes)
 			{
 				if (!box.IsEmpty())
 				{
 					box.draw(gl);
 				}
-			}	
+			}
 		}
 	}
 
@@ -218,10 +221,7 @@ public class Mesh
 			file.write("# List of Vertices, with (x,y,z[,w]) coordinates, w is optional\n");
 			for (Vertex vertex : mVertexList)
 			{
-				String str = "v " + String.valueOf(vertex.Coord[0]) + " " +
-									String.valueOf(vertex.Coord[1]) + " " + 
-									String.valueOf(vertex.Coord[2]) + " " + 
-									String.valueOf(vertex.Color) + "\n";
+				String str = "v " + String.valueOf(vertex.Coord[0]) + " " + String.valueOf(vertex.Coord[1]) + " " + String.valueOf(vertex.Coord[2]) + " " + String.valueOf(vertex.Color) + "\n";
 				file.write(str);
 			}
 
@@ -244,7 +244,9 @@ public class Mesh
 				int n1 = face.E1.V0;
 				int n2 = face.E2.V0;
 
-				// A valid vertex index starts from 1 and match first vertex element of vertex list previously defined. Each face can contain more than three elements.
+				// A valid vertex index starts from 1 and match first vertex
+				// element of vertex list previously defined. Each face can
+				// contain more than three elements.
 				String str = "f " + String.valueOf(n0 + 1) + "//" + String.valueOf(n0 + 1) + " " + String.valueOf(n1 + 1) + "//" + String.valueOf(n1 + 1) + " " + String.valueOf(n2 + 1) + "//" + String.valueOf(n2 + 1) + "\n";
 
 				file.write(str);
@@ -264,13 +266,13 @@ public class Mesh
 	{
 		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
 
-		normalizeAllVertices();		
-		
+		normalizeAllVertices();
+
 		computeVerticesLinkedEdges();
 		linkNeighbourEdges();
-		
+
 		ComputeAllVertexNormals();
-		
+
 		checkFacesNormals();
 	}
 
@@ -296,7 +298,9 @@ public class Mesh
 
 			dir = V0.Coord;
 
-			boolean bColinear = MatrixUtils.dot(dir, n) > 0;// dir and normal have same direction
+			boolean bColinear = MatrixUtils.dot(dir, n) > 0;// dir and normal
+															// have same
+															// direction
 			if (!bColinear)// swap two edges
 			{
 				assertTrue(false);
@@ -305,12 +309,12 @@ public class Mesh
 	}
 
 	private void setAllVerticesColor(int color)
-	{		
+	{
 		for (Vertex vertex : mVertexList)
 		{
 			vertex.Color = color;
-		}		
-	}	
+		}
+	}
 
 	public int getFaceCount()
 	{
@@ -338,10 +342,11 @@ public class Mesh
 		try
 		{
 			int[] face = new int[3];
-			int[] val = new int[3];;
+			int[] val = new int[3];
+			;
 			float[] coord = new float[3];
 			float[] norm = new float[3];
-			
+
 			for (line = input.readLine(); line != null; line = input.readLine())
 			{
 				if (line.length() > 0)
@@ -352,16 +357,17 @@ public class Mesh
 						tok.nextToken();
 						coord[0] = Float.parseFloat(tok.nextToken());
 						coord[1] = Float.parseFloat(tok.nextToken());
-						coord[2] = Float.parseFloat(tok.nextToken());						
-						Vertex vertex=new Vertex(coord, mVertexList.size());
-						
+						coord[2] = Float.parseFloat(tok.nextToken());
+						Vertex vertex = new Vertex(coord, mVertexList.size());
+
 						mVertexList.add(vertex);
-						
-						if (tok.hasMoreTokens())//not in norm, specific obj hack
+
+						if (tok.hasMoreTokens())// not in norm, specific obj
+												// hack
 						{
-							int color= Integer.parseInt(tok.nextToken());
-							vertex.Color=color;
-						}						
+							int color = Integer.parseInt(tok.nextToken());
+							vertex.Color = color;
+						}
 					}
 					else if (line.startsWith("vt "))
 					{
@@ -369,22 +375,22 @@ public class Mesh
 						tok.nextToken();
 						coord[0] = Float.parseFloat(tok.nextToken());
 						coord[1] = Float.parseFloat(tok.nextToken());
-						
+
 						// m.addTextureCoordinate(coord);
 					}
 					else if (line.startsWith("f "))
 					{
 						StringTokenizer tok = new StringTokenizer(line);
 						tok.nextToken();
-						Utils.parseIntTriple(tok.nextToken(),val);
+						Utils.parseIntTriple(tok.nextToken(), val);
 						face[0] = val[0];
-						Utils.parseIntTriple(tok.nextToken(),val);
+						Utils.parseIntTriple(tok.nextToken(), val);
 						face[1] = val[0];
-						Utils.parseIntTriple(tok.nextToken(),val);
+						Utils.parseIntTriple(tok.nextToken(), val);
 						face[2] = val[0];
-						
-						mFaceList.add(new Face(face[0],face[1],face[2],mFaceList.size(),0));
-					} 
+
+						mFaceList.add(new Face(face[0], face[1], face[2], mFaceList.size(), 0));
+					}
 					else if (line.startsWith("vn "))
 					{
 						nCount++;
@@ -393,7 +399,7 @@ public class Mesh
 						norm[0] = Float.parseFloat(tok.nextToken());
 						norm[1] = Float.parseFloat(tok.nextToken());
 						norm[2] = Float.parseFloat(tok.nextToken());
-						
+
 						// m.addNormal(norm);
 					}
 				}
@@ -404,17 +410,17 @@ public class Mesh
 			System.err.println("Error parsing file:");
 			System.err.println(input.getLineNumber() + " : " + line);
 		}
-		
+
 		computeVerticesLinkedEdges();
 		linkNeighbourEdges();
-		
+
 		ComputeAllVertexNormals();
-		
+
 		ComputeBoundingSphereRadius();
-		InitOctree();	
-		
-		mRenderGroupList.add(new RenderFaceGroup(this));	
-		
+		InitOctree();
+
+		mRenderGroupList.add(new RenderFaceGroup(this));
+
 		getManagers().getMeshManager().NotifyListeners();
 	}
 
@@ -424,40 +430,40 @@ public class Mesh
 		float tau = (float) (t / Math.sqrt(1 + t * t));
 		float one = (float) (1 / Math.sqrt(1 + t * t));
 
-		mVertexList.add( new Vertex(tau, one, 0.0f, mVertexList.size()));
-		mVertexList.add( new Vertex(-tau, one, 0.0f, mVertexList.size()));
-		mVertexList.add( new Vertex(-tau, -one, 0.0f, mVertexList.size()));
-		mVertexList.add( new Vertex(tau, -one, 0.0f, mVertexList.size()));
-		mVertexList.add( new Vertex(one, 0.0f, tau, mVertexList.size()));
-		mVertexList.add( new Vertex(one, 0.0f, -tau, mVertexList.size()));
-		mVertexList.add( new Vertex(-one, 0.0f, -tau, mVertexList.size()));
-		mVertexList.add( new Vertex(-one, 0.0f, tau, mVertexList.size()));
-		mVertexList.add( new Vertex(0.0f, tau, one, mVertexList.size()));
-		mVertexList.add( new Vertex(0.0f, -tau, one, mVertexList.size()));
-		mVertexList.add( new Vertex(0.0f, -tau, -one, mVertexList.size()));
-		mVertexList.add( new Vertex(0.0f, tau, -one, mVertexList.size()));
+		mVertexList.add(new Vertex(tau, one, 0.0f, mVertexList.size()));
+		mVertexList.add(new Vertex(-tau, one, 0.0f, mVertexList.size()));
+		mVertexList.add(new Vertex(-tau, -one, 0.0f, mVertexList.size()));
+		mVertexList.add(new Vertex(tau, -one, 0.0f, mVertexList.size()));
+		mVertexList.add(new Vertex(one, 0.0f, tau, mVertexList.size()));
+		mVertexList.add(new Vertex(one, 0.0f, -tau, mVertexList.size()));
+		mVertexList.add(new Vertex(-one, 0.0f, -tau, mVertexList.size()));
+		mVertexList.add(new Vertex(-one, 0.0f, tau, mVertexList.size()));
+		mVertexList.add(new Vertex(0.0f, tau, one, mVertexList.size()));
+		mVertexList.add(new Vertex(0.0f, -tau, one, mVertexList.size()));
+		mVertexList.add(new Vertex(0.0f, -tau, -one, mVertexList.size()));
+		mVertexList.add(new Vertex(0.0f, tau, -one, mVertexList.size()));
 
 		// Counter clock wise (CCW) face definition
-		mFaceList.add( new Face(4, 8, 7, mFaceList.size(),0));
-		mFaceList.add( new Face(4, 7, 9, mFaceList.size(),0));
-		mFaceList.add( new Face(5, 6, 11, mFaceList.size(),0));
-		mFaceList.add( new Face(5, 10, 6, mFaceList.size(),0));
-		mFaceList.add( new Face(0, 4, 3, mFaceList.size(),0));
-		mFaceList.add( new Face(0, 3, 5, mFaceList.size(),0));
-		mFaceList.add( new Face(2, 7, 1, mFaceList.size(),0));
-		mFaceList.add( new Face(2, 1, 6, mFaceList.size(),0));
-		mFaceList.add( new Face(8, 0, 11, mFaceList.size(),0));
-		mFaceList.add( new Face(8, 11, 1, mFaceList.size(),0));
-		mFaceList.add( new Face(9, 10, 3, mFaceList.size(),0));
-		mFaceList.add( new Face(9, 2, 10, mFaceList.size(),0));
-		mFaceList.add( new Face(8, 4, 0, mFaceList.size(),0));
-		mFaceList.add( new Face(11, 0, 5, mFaceList.size(),0));
-		mFaceList.add( new Face(4, 9, 3, mFaceList.size(),0));
-		mFaceList.add( new Face(5, 3, 10, mFaceList.size(),0));
-		mFaceList.add( new Face(7, 8, 1, mFaceList.size(),0));
-		mFaceList.add( new Face(6, 1, 11, mFaceList.size(),0));
-		mFaceList.add( new Face(7, 2, 9, mFaceList.size(),0));
-		mFaceList.add( new Face(6, 10, 2, mFaceList.size(),0));
+		mFaceList.add(new Face(4, 8, 7, mFaceList.size(), 0));
+		mFaceList.add(new Face(4, 7, 9, mFaceList.size(), 0));
+		mFaceList.add(new Face(5, 6, 11, mFaceList.size(), 0));
+		mFaceList.add(new Face(5, 10, 6, mFaceList.size(), 0));
+		mFaceList.add(new Face(0, 4, 3, mFaceList.size(), 0));
+		mFaceList.add(new Face(0, 3, 5, mFaceList.size(), 0));
+		mFaceList.add(new Face(2, 7, 1, mFaceList.size(), 0));
+		mFaceList.add(new Face(2, 1, 6, mFaceList.size(), 0));
+		mFaceList.add(new Face(8, 0, 11, mFaceList.size(), 0));
+		mFaceList.add(new Face(8, 11, 1, mFaceList.size(), 0));
+		mFaceList.add(new Face(9, 10, 3, mFaceList.size(), 0));
+		mFaceList.add(new Face(9, 2, 10, mFaceList.size(), 0));
+		mFaceList.add(new Face(8, 4, 0, mFaceList.size(), 0));
+		mFaceList.add(new Face(11, 0, 5, mFaceList.size(), 0));
+		mFaceList.add(new Face(4, 9, 3, mFaceList.size(), 0));
+		mFaceList.add(new Face(5, 3, 10, mFaceList.size(), 0));
+		mFaceList.add(new Face(7, 8, 1, mFaceList.size(), 0));
+		mFaceList.add(new Face(6, 1, 11, mFaceList.size(), 0));
+		mFaceList.add(new Face(7, 2, 9, mFaceList.size(), 0));
+		mFaceList.add(new Face(6, 10, 2, mFaceList.size(), 0));
 
 		assertEquals(mFaceList.size(), 20);
 		assertEquals(mVertexList.size(), 12);
@@ -465,14 +471,14 @@ public class Mesh
 
 	private void computeVerticesLinkedEdges()
 	{
-		//clear all
+		// clear all
 		for (Vertex vertex : mVertexList)
 		{
 			vertex.InLinkedEdges.clear();
 			vertex.OutLinkedEdges.clear();
 		}
-		
-		//compute all
+
+		// compute all
 		for (Face face : mFaceList)
 		{
 			UpdateVertexLinkedEdge(face.E0);
@@ -480,54 +486,54 @@ public class Mesh
 			UpdateVertexLinkedEdge(face.E2);
 		}
 	}
-	
+
 	private void UpdateVertexLinkedEdge(HalfEdge edge)
 	{
 		mVertexList.get(edge.V0).OutLinkedEdges.add(edge);
-		mVertexList.get(edge.V1).InLinkedEdges.add(edge);		
+		mVertexList.get(edge.V1).InLinkedEdges.add(edge);
 	}
-	
-	//suppose linked edges of vertices are correct
-	//suboptimal, links made several times
+
+	// suppose linked edges of vertices are correct
+	// suboptimal, links made several times
 	private void linkNeighbourEdges()
 	{
-		int n=mVertexList.size();
-		for (int i=0;i<n;i++)
-		{		
-			Vertex vertex=mVertexList.get(i);
+		int n = mVertexList.size();
+		for (int i = 0; i < n; i++)
+		{
+			Vertex vertex = mVertexList.get(i);
 			for (HalfEdge e0 : vertex.OutLinkedEdges)
 			{
 				for (HalfEdge e1 : vertex.InLinkedEdges)
 				{
-					linkEdgesIfNeighbours(e0,e1);
+					linkEdgesIfNeighbours(e0, e1);
 				}
-			}	
-		}					
+			}
+		}
 	}
-	
+
 	private boolean linkEdgesIfNeighbours(HalfEdge e0, HalfEdge e1)
 	{
-		boolean bRes=false;
-		
-		if ((e0.V0==e1.V1) && (e0.V1==e1.V0))
+		boolean bRes = false;
+
+		if ((e0.V0 == e1.V1) && (e0.V1 == e1.V0))
 		{
-			e0.NeighbourEdge=e1;
-			e1.NeighbourEdge=e0;
-			bRes=true;
+			e0.NeighbourEdge = e1;
+			e1.NeighbourEdge = e0;
+			bRes = true;
 		}
-		
-		return bRes;		
+
+		return bRes;
 	}
 
 	void InitAsSphere(int nSubdivionLevel)
 	{
-		if (nSubdivionLevel>=0)
+		if (nSubdivionLevel >= 0)
 		{
 			InitAsIcosahedron();
 			for (int i = 0; i < nSubdivionLevel; i++)
 			{
-				SubdivideAllFaces(i);			
-			}		
+				SubdivideAllFaces(i);
+			}
 			FinalizeSphereInit();
 		}
 	}
@@ -538,77 +544,84 @@ public class Mesh
 		for (Vertex vertex : mVertexList)
 		{
 			MatrixUtils.normalize(vertex.Coord);
-			MatrixUtils.copy(vertex.Coord, vertex.Normal);// Normal is coord because sphere is radius 1
+			MatrixUtils.copy(vertex.Coord, vertex.Normal);// Normal is coord
+															// because sphere is
+															// radius 1
 		}
 	}
-	
+
 	private void RecurseBoxesToTest(OctreeNode currBox, ArrayList<OctreeNode> BoxesToTest, final float[] Rinit, final float[] Rdir)
 	{
-		if (ray_box_intersect(currBox,Rinit,Rdir,0,10))
+		if (ray_box_intersect(currBox, Rinit, Rdir, 0, 10))
 		{
 			if (currBox.IsLeaf())
 			{
-				if(!currBox.IsEmpty())
-				{			
-					BoxesToTest.add(currBox);			
+				if (!currBox.IsEmpty())
+				{
+					BoxesToTest.add(currBox);
 				}
 			}
 			else
-			{			
+			{
 				for (OctreeNode box : currBox.NodeChilds)
 				{
-					RecurseBoxesToTest(box,BoxesToTest,Rinit,Rdir);
+					RecurseBoxesToTest(box, BoxesToTest, Rinit, Rdir);
 				}
 			}
 		}
 	}
 
-	private void SortBoxesByDistance(ArrayList<OctreeNode> BoxesToTest, final float [] R0)
-	{		
-		Comparator<OctreeNode> comperator = new Comparator<OctreeNode>() 
+	private void SortBoxesByDistance(ArrayList<OctreeNode> BoxesToTest, final float[] R0)
+	{
+		Comparator<OctreeNode> comperator = new Comparator<OctreeNode>()
 		{
 			@Override
-			public int compare(OctreeNode box1, OctreeNode box2) 
+			public int compare(OctreeNode box1, OctreeNode box2)
 			{
-				float[] diff=new float[3];
+				float[] diff = new float[3];
 				MatrixUtils.minus(box1.Center, R0, diff);
-				float dist1=MatrixUtils.magnitude(diff);
+				float dist1 = MatrixUtils.magnitude(diff);
 				MatrixUtils.minus(box2.Center, R0, diff);
-				float dist2=MatrixUtils.magnitude(diff);
-				if (dist1<dist2)
+				float dist2 = MatrixUtils.magnitude(diff);
+				if (dist1 < dist2)
 				{
 					return -1;
 				}
-				else if (dist1==dist2)
+				else if (dist1 == dist2)
 				{
 					return 0;
 				}
 				else
 				{
-					return 1;					
+					return 1;
 				}
 			}
 		};
 		Collections.sort(BoxesToTest, comperator);
 	}
-	
-	ArrayList<OctreeNode> BoxesToTest=new ArrayList<OctreeNode>();
-	HashSet <Integer> boxFaces= new HashSet <Integer>();
-	public int Pick(float[] R0, float[] R1, float [] intersectPtReturn)
+
+	ArrayList<OctreeNode> BoxesToTest = new ArrayList<OctreeNode>();
+	HashSet<Integer> boxFaces = new HashSet<Integer>();
+
+	public int Pick(float[] R0, float[] R1, float[] intersectPtReturn)
 	{
 		int nRes = -1;
 		float[] Ires = new float[3];
 
 		MatrixUtils.minus(R1, R0, dir);
-		float fSmallestSqDistanceToR0 = MatrixUtils.squaremagnitude(dir);// ray is R0 to R1
+		float fSmallestSqDistanceToR0 = MatrixUtils.squaremagnitude(dir);// ray
+																			// is
+																			// R0
+																			// to
+																			// R1
 
 		BoxesToTest.clear();
-		RecurseBoxesToTest(mRootBoxNode,BoxesToTest,R0,dir);
-		SortBoxesByDistance(BoxesToTest,R0);
+		RecurseBoxesToTest(mRootBoxNode, BoxesToTest, R0, dir);
+		SortBoxesByDistance(BoxesToTest, R0);
 		boxFaces.clear();
-		for (OctreeNode box : BoxesToTest )
+		for (OctreeNode box : BoxesToTest)
 		{
-			//fill face list of the box
+			// fill face list of the box
 			boxFaces.clear();
 			for (Vertex vertex : box.Vertices)
 			{
@@ -617,14 +630,14 @@ public class Mesh
 					boxFaces.add(edge.Face);
 				}
 			}
-			
-			//intersection with triangles of the box
+
+			// intersection with triangles of the box
 			for (Integer i : boxFaces)
 			{
 				Face face = mFaceList.get(i);
-				
-				int nCollide = intersect_RayTriangle(R0, R1, mVertexList.get(face.E0.V0).Coord,  mVertexList.get(face.E1.V0).Coord,  mVertexList.get(face.E2.V0).Coord, Ires);
-	
+
+				int nCollide = intersect_RayTriangle(R0, R1, mVertexList.get(face.E0.V0).Coord, mVertexList.get(face.E1.V0).Coord, mVertexList.get(face.E2.V0).Coord, Ires);
+
 				if (nCollide == 1)
 				{
 					MatrixUtils.minus(Ires, R0, dir);
@@ -637,20 +650,21 @@ public class Mesh
 					}
 				}
 			}
-			
-			//intersection found stop loop
-			if (nRes>=0)
+
+			// intersection found stop loop
+			if (nRes >= 0)
 			{
 				break;
 			}
 		}
 		return nRes;
 	}
-	
+
 	// recycled vectors for time critical function where new are too long
 	static float[] dir = new float[3];
 	static float[] n = new float[3];
-	static float SMALL_NUM = 0.00000001f; // anything that avoids division overflow
+	static float SMALL_NUM = 0.00000001f; // anything that avoids division
+											// overflow
 	static float[] u = new float[3];
 	static float[] v = new float[3];
 	static float[] w = new float[3];
@@ -680,7 +694,10 @@ public class Mesh
 
 		MatrixUtils.minus(R1, R0, dir); // ray direction vector
 
-		boolean bBackCullTriangle = MatrixUtils.dot(dir, n) > 0;// ray dir and normal have same direction
+		boolean bBackCullTriangle = MatrixUtils.dot(dir, n) > 0;// ray dir and
+																// normal have
+																// same
+																// direction
 		if (bBackCullTriangle)
 		{
 			return 0;
@@ -694,7 +711,8 @@ public class Mesh
 			if (a == 0)
 			{
 				return 2;
-			} else
+			}
+			else
 			{
 				return 0; // ray disjoint from plane
 			}
@@ -736,236 +754,249 @@ public class Mesh
 
 		return 1; // I is in T
 	}
-	
+
 	public void InitGrabAction(int nTriangleIndex)
 	{
 
-	}	
+	}
 
 	// TODO place as an action
 	public void ColorizePaintAction(int triangleIndex)
 	{
 		if (triangleIndex >= 0)
 		{
-			int targetColor = getManagers().getToolsManager().getColor();						 
-			Face face=mFaceList.get(triangleIndex);
-			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
-			Vertex origVertex=mVertexList.get(nOrigVertex);
-			float sqMaxDist=(float) Math.pow((MAX_RADIUS-MIN_RADIUS)*getManagers().getToolsManager().getRadius()/100f+MIN_RADIUS,2);
-			float MaxDist=(float) Math.sqrt(sqMaxDist);
-			GetVerticesAtDistanceFromVertex(origVertex,sqMaxDist,verticesRes);
+			int targetColor = getManagers().getToolsManager().getColor();
+			Face face = mFaceList.get(triangleIndex);
+			int nOrigVertex = face.E0.V0;// TODO choose closest point in
+											// triangle from pick point
+			Vertex origVertex = mVertexList.get(nOrigVertex);
+			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
+			float MaxDist = (float) Math.sqrt(sqMaxDist);
+			GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
 
-			float [] VNewCol=new float[3];
-			float [] VTargetCol=new float[3];
+			float[] VNewCol = new float[3];
+			float[] VTargetCol = new float[3];
 			Color.colorToHSV(targetColor, VTargetCol);
-			float[] temp=new float[3];
-			
-			ColorizeAction action=new ColorizeAction();			
+			float[] temp = new float[3];
+
+			ColorizeAction action = new ColorizeAction();
 			for (Vertex vertex : verticesRes)
 			{
 				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-				float dist=MatrixUtils.magnitude(temp);								
+				float dist = MatrixUtils.magnitude(temp);
 
 				Color.colorToHSV(vertex.Color, VNewCol);
-				
-				//barycenter of colors
-				float alpha=(MaxDist-dist)/MaxDist;//[0;1]
-				VNewCol[0]=VTargetCol[0];
-				VNewCol[1]=VTargetCol[1];
-				VNewCol[2]=(1-alpha)*VNewCol[2]+alpha*VTargetCol[2];
-				
-				//int newColor=Color.HSVToColor(VNewCol);
-				int newColor=targetColor;
+
+				// barycenter of colors
+				float alpha = (MaxDist - dist) / MaxDist;// [0;1]
+				VNewCol[0] = VTargetCol[0];
+				VNewCol[1] = VTargetCol[1];
+				VNewCol[2] = (1 - alpha) * VNewCol[2] + alpha * VTargetCol[2];
+
+				// int newColor=Color.HSVToColor(VNewCol);
+				int newColor = targetColor;
 				action.AddVertexColorChange(vertex.Index, newColor, vertex);
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
-			action.DoAction();			
+			action.DoAction();
 		}
-	}	
+	}
 
-	ArrayList<Vertex> verticesToTest=new ArrayList<Vertex>();
-	HashSet <Vertex> verticesRes=new HashSet <Vertex>();
-	
-	private void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet <Vertex> res)
+	ArrayList<Vertex> verticesToTest = new ArrayList<Vertex>();
+	HashSet<Vertex> verticesRes = new HashSet<Vertex>();
+
+	private void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet<Vertex> res)
 	{
 		res.clear();
-		res.add(origVertex);//add at least this point
-		
+		res.add(origVertex);// add at least this point
+
 		verticesToTest.clear();
 		for (HalfEdge edge : origVertex.OutLinkedEdges)
-		{			
+		{
 			verticesToTest.add(mVertexList.get(edge.V1));
 		}
-		
-		float[] temp=new float[3];
-		int nCount=verticesToTest.size();
-		while (nCount>0)
-		{			
-			Vertex currVertex=verticesToTest.get(nCount-1);
-			verticesToTest.remove(nCount-1);
-			
+
+		float[] temp = new float[3];
+		int nCount = verticesToTest.size();
+		while (nCount > 0)
+		{
+			Vertex currVertex = verticesToTest.get(nCount - 1);
+			verticesToTest.remove(nCount - 1);
+
 			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
-			float currSqDistance=MatrixUtils.squaremagnitude(temp);
-			if (currSqDistance<sqDistance)
+			float currSqDistance = MatrixUtils.squaremagnitude(temp);
+			if (currSqDistance < sqDistance)
 			{
 				res.add(currVertex);
 				for (HalfEdge edge : currVertex.OutLinkedEdges)
 				{
-					Vertex vertexToAdd=mVertexList.get(edge.V1);
-					if (!res.contains(vertexToAdd))//avoids looping
+					Vertex vertexToAdd = mVertexList.get(edge.V1);
+					if (!res.contains(vertexToAdd))// avoids looping
 					{
 						verticesToTest.add(vertexToAdd);
 					}
 				}
 			}
-			
-			nCount=verticesToTest.size();
-		}				
+
+			nCount = verticesToTest.size();
+		}
 	}
-	
-	private float FWHM=(float) (2f*Math.sqrt(2*Math.log(2f)));//full width at half maximum
-	private float oneoversqrttwopi=(float) (1f/Math.sqrt(2f*Math.PI));
-	
-	private float MAX_DEFORMATION=0.2f;
-	private float MIN_RADIUS=0.01f;//meters
-	private float MAX_RADIUS=1f;//meters
-	
+
+	private float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full
+																	// width at
+																	// half
+																	// maximum
+	private float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
+
+	private float MAX_DEFORMATION = 0.2f;
+	private float MIN_RADIUS = 0.01f;// meters
+	private float MAX_RADIUS = 1f;// meters
+
 	// TODO place as an action
 	public void RiseSculptAction(int triangleIndex)
 	{
 		if (triangleIndex >= 0)
-		{			
-			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
-			
-			Face face=mFaceList.get(triangleIndex);
-			int nOrigVertex=face.E0.V0;//TODO choose closest point in triangle from pick point
-			Vertex origVertex=mVertexList.get(nOrigVertex);
-			
-			float sqMaxDist=(float) Math.pow((MAX_RADIUS-MIN_RADIUS)*getManagers().getToolsManager().getRadius()/100f+MIN_RADIUS,2);
-			GetVerticesAtDistanceFromVertex(origVertex,sqMaxDist,verticesRes);
-			float sigma=(float) ((Math.sqrt(sqMaxDist)/1.5f)/FWHM);
-			float maxGaussian=Gaussian(sigma,0);
+		{
+			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength
+																												// is
+																												// -100
+																												// to
+																												// 100
 
-			// separate compute and apply of vertex pos otherwise compute is false
-			SculptAction action=new SculptAction();			
+			Face face = mFaceList.get(triangleIndex);
+			int nOrigVertex = face.E0.V0;// TODO choose closest point in
+											// triangle from pick point
+			Vertex origVertex = mVertexList.get(nOrigVertex);
+
+			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
+			GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
+			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
+			float maxGaussian = Gaussian(sigma, 0);
+
+			// separate compute and apply of vertex pos otherwise compute is
+			// false
+			SculptAction action = new SculptAction();
 			float[] VOffset = new float[3];
-			float[] temp=new float[3];
+			float[] temp = new float[3];
 			for (Vertex vertex : verticesRes)
 			{
 				MatrixUtils.copy(origVertex.Normal, VOffset);
-				//MatrixUtils.copy(vertex.Normal, VOffset);
-				
-				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-				float sqDist=MatrixUtils.squaremagnitude(temp);
+				// MatrixUtils.copy(vertex.Normal, VOffset);
 
-				//sculpting functions				
-				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma,sqDist)/maxGaussian*fMaxDeformation));
-				//if (MatrixUtils.magnitude(VOffset)>1e-3)
+				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
+				float sqDist = MatrixUtils.squaremagnitude(temp);
+
+				// sculpting functions
+				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, sqDist) / maxGaussian * fMaxDeformation));
+				// if (MatrixUtils.magnitude(VOffset)>1e-3)
 				{
-					action.AddVertexOffset(vertex.Index,VOffset,vertex);
+					action.AddVertexOffset(vertex.Index, VOffset, vertex);
 				}
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
-			action.DoAction();			
+			action.DoAction();
 		}
 	}
-	
+
 	private float Gaussian(float sigma, float sqDist)
 	{
-		return (float) (oneoversqrttwopi/sigma*Math.exp(-sqDist/(2*sigma*sigma)));
+		return (float) (oneoversqrttwopi / sigma * Math.exp(-sqDist / (2 * sigma * sigma)));
 	}
 
-	//notification not done, to do in calling thread with post
+	// notification not done, to do in calling thread with post
 	void Reset()
 	{
 		mVertexList.clear();
 		mFaceList.clear();
 		mRenderGroupList.clear();
-		mRootBoxNode=null;
+		mRootBoxNode = null;
 		getManagers().getActionsManager().ClearAll();
 		System.gc();
 	}
 
-	//to share vertices between edges
+	// to share vertices between edges
 	private int getMiddleDivideVertexForEdge(HalfEdge edge)
 	{
-		int nRes=-1;
-		if (edge.VNextSplit!=-1)
+		int nRes = -1;
+		if (edge.VNextSplit != -1)
 		{
-			nRes=edge.VNextSplit;
+			nRes = edge.VNextSplit;
 		}
 		else
 		{
-			nRes=mVertexList.size();
-			mVertexList.add(new Vertex(mVertexList.get(edge.V0),mVertexList.get(edge.V1),nRes));// takes mid point			
-		}		
-		return nRes;		
+			nRes = mVertexList.size();
+			mVertexList.add(new Vertex(mVertexList.get(edge.V0), mVertexList.get(edge.V1), nRes));// takes
+																									// mid
+																									// point
+		}
+		return nRes;
 	}
-	
-	//one triangle become four (cut on middle of each edge)
+
+	// one triangle become four (cut on middle of each edge)
 	void SubdivideAllFaces(int nSubdivionLevel)
 	{
 		computeVerticesLinkedEdges();
 		linkNeighbourEdges();
-		
-		//backup original face list and create a brand new one (no face is kept all divided), vertices are only addes none is removed
+
+		// backup original face list and create a brand new one (no face is kept
+		// all divided), vertices are only addes none is removed
 		ArrayList<Face> mOrigFaceList = mFaceList;
-		mFaceList=new ArrayList<Face>();
-		
+		mFaceList = new ArrayList<Face>();
+
 		for (Face face : mOrigFaceList)
 		{
-			int nA=face.E0.V0;
-			int nB=face.E1.V0;
-			int nC=face.E2.V0;		
-			
-			int nD=getMiddleDivideVertexForEdge(face.E0);
-			int nE=getMiddleDivideVertexForEdge(face.E1);
-			int nF=getMiddleDivideVertexForEdge(face.E2);
+			int nA = face.E0.V0;
+			int nB = face.E1.V0;
+			int nC = face.E2.V0;
 
-			mFaceList.add( new Face(nA, nD, nF, mFaceList.size(),nSubdivionLevel+1));
-			mFaceList.add( new Face(nD, nB, nE, mFaceList.size(),nSubdivionLevel+1));
-			mFaceList.add( new Face(nE, nC, nF, mFaceList.size(),nSubdivionLevel+1));
-			mFaceList.add( new Face(nD, nE, nF, mFaceList.size(),nSubdivionLevel+1));
-			
-			//update next split of neighbours
-			face.E0.NeighbourEdge.VNextSplit=nD;
-			face.E1.NeighbourEdge.VNextSplit=nE;
-			face.E2.NeighbourEdge.VNextSplit=nF;	
+			int nD = getMiddleDivideVertexForEdge(face.E0);
+			int nE = getMiddleDivideVertexForEdge(face.E1);
+			int nF = getMiddleDivideVertexForEdge(face.E2);
+
+			mFaceList.add(new Face(nA, nD, nF, mFaceList.size(), nSubdivionLevel + 1));
+			mFaceList.add(new Face(nD, nB, nE, mFaceList.size(), nSubdivionLevel + 1));
+			mFaceList.add(new Face(nE, nC, nF, mFaceList.size(), nSubdivionLevel + 1));
+			mFaceList.add(new Face(nD, nE, nF, mFaceList.size(), nSubdivionLevel + 1));
+
+			// update next split of neighbours
+			face.E0.NeighbourEdge.VNextSplit = nD;
+			face.E1.NeighbourEdge.VNextSplit = nE;
+			face.E2.NeighbourEdge.VNextSplit = nF;
 		}
 	}
-	
+
 	void SetAllEdgesSubdivionLevel(int nLevel)
 	{
 		for (Face face : mFaceList)
 		{
-			face.E0.nSubdivisionLevel=nLevel;
-			face.E1.nSubdivisionLevel=nLevel;
-			face.E2.nSubdivisionLevel=nLevel;		
+			face.E0.nSubdivisionLevel = nLevel;
+			face.E1.nSubdivisionLevel = nLevel;
+			face.E2.nSubdivisionLevel = nLevel;
 		}
 	}
-	
+
 	public void UpdateVertexValue(Integer vertex)
-	{	
+	{
 		UpdateVertexValue(mVertexList.get(vertex));
 	}
-	
+
 	public void UpdateVertexValue(Vertex vertex)
-	{	
-		vertex.Box.Reboxing(vertex);//update octree
-		
+	{
+		vertex.Box.Reboxing(vertex);// update octree
+
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
-			renderGroup.UpdateVertexValue( vertex.Index, vertex.Coord, vertex.Normal);
+			renderGroup.UpdateVertexValue(vertex.Index, vertex.Coord, vertex.Normal);
 		}
-		UpdateBoudingSphereRadius(vertex.Coord);				
+		UpdateBoudingSphereRadius(vertex.Coord);
 	}
-	
-	public void UpdateVertexColor( Vertex vertex)
+
+	public void UpdateVertexColor(Vertex vertex)
 	{
 		for (RenderFaceGroup renderGroup : mRenderGroupList)
 		{
-			renderGroup.UpdateVertexColor( vertex.Index, vertex.Color);
-		}		
+			renderGroup.UpdateVertexColor(vertex.Index, vertex.Color);
+		}
 	}
 
 	void UpdateBoudingSphereRadius(float[] val)
@@ -974,21 +1005,30 @@ public class Mesh
 		if (norm > mBoundingSphereRadius)
 		{
 			mBoundingSphereRadius = norm;
-			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into accoutn, TODO read from conf
-		} 
+			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes
+																						// near
+																						// clip
+																						// into
+																						// accoutn,
+																						// TODO
+																						// read
+																						// from
+																						// conf
+		}
 	}
 
 	public void PickColorAction(int nIndex)
 	{
 		if (nIndex >= 0)
-		{			
-			Face face=mFaceList.get(nIndex);
-			Vertex vertex=mVertexList.get(face.E0.V0);//arbitrarily chosen point in triangle
-			int color=vertex.Color;
-			getManagers().getToolsManager().setColor(color, true);			
-		}		
-	}	
-	
+		{
+			Face face = mFaceList.get(nIndex);
+			Vertex vertex = mVertexList.get(face.E0.V0);// arbitrarily chosen
+														// point in triangle
+			int color = vertex.Color;
+			getManagers().getToolsManager().setColor(color, true);
+		}
+	}
+
 	public ArrayList<Vertex> getVertexList()
 	{
 		return mVertexList;
@@ -999,49 +1039,44 @@ public class Mesh
 		return mFaceList;
 	}
 
-	float square( float f ) { return (f*f) ;};
+	float square(float f)
+	{
+		return (f * f);
+	};
 
-	 // x1,y1,z1  P1 coordinates (point of line)
-	 // x2,y2,z2  P2 coordinates (point of line)
-	 // x3,y3,z3, r  P3 coordinates and radius (sphere)
-	boolean sphere_line_intersection (
-	    float x1, float y1 , float z1,
-	    float x2, float y2 , float z2,
-	    float x_sphere, float y_sphere , float z_sphere, float r_sphere )
-	{	
-		 float a, b, c, i ;
-	
-		 a =  square(x2 - x1) + square(y2 - y1) + square(z2 - z1);
-		 b =  2* ( (x2 - x1)*(x1 - x_sphere)
-		      + (y2 - y1)*(y1 - y_sphere)
-		      + (z2 - z1)*(z1 - z_sphere) ) ;
-		 c =  square(x_sphere) + square(y_sphere) +
-		      square(z_sphere) + square(x1) +
-		      square(y1) + square(z1) -
-		      2* ( x_sphere*x1 + y_sphere*y1 + z_sphere*z1 ) - square(r_sphere) ;
-		 i =   b * b - 4 * a * c ;
-	
-		 if ( i < 0.0 )
-		 {
-			  // no intersection	 
-			  return(false);
-		 }		
-		 else
-		 {		
-			 return true;
-		 }
-	}	
+	// x1,y1,z1 P1 coordinates (point of line)
+	// x2,y2,z2 P2 coordinates (point of line)
+	// x3,y3,z3, r P3 coordinates and radius (sphere)
+	boolean sphere_line_intersection(float x1, float y1, float z1, float x2, float y2, float z2, float x_sphere, float y_sphere, float z_sphere, float r_sphere)
+	{
+		float a, b, c, i;
+
+		a = square(x2 - x1) + square(y2 - y1) + square(z2 - z1);
+		b = 2 * ((x2 - x1) * (x1 - x_sphere) + (y2 - y1) * (y1 - y_sphere) + (z2 - z1) * (z1 - z_sphere));
+		c = square(x_sphere) + square(y_sphere) + square(z_sphere) + square(x1) + square(y1) + square(z1) - 2 * (x_sphere * x1 + y_sphere * y1 + z_sphere * z1) - square(r_sphere);
+		i = b * b - 4 * a * c;
+
+		if (i < 0.0)
+		{
+			// no intersection
+			return (false);
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 	// Smits method
-	boolean ray_box_intersect(OctreeNode box, final float[] rayOrig, final float[] rayDir, float t0, float t1) 
+	boolean ray_box_intersect(OctreeNode box, final float[] rayOrig, final float[] rayDir, float t0, float t1)
 	{
 		float tmin, tmax, tymin, tymax, tzmin, tzmax;
-		if (rayDir[0] >= 0) 
+		if (rayDir[0] >= 0)
 		{
 			tmin = (box.Min[0] - rayOrig[0]) / rayDir[0];
 			tmax = (box.Max[0] - rayOrig[0]) / rayDir[0];
 		}
-		else 
+		else
 		{
 			tmin = (box.Max[0] - rayOrig[0]) / rayDir[0];
 			tmax = (box.Min[0] - rayOrig[0]) / rayDir[0];
@@ -1051,28 +1086,34 @@ public class Mesh
 			tymin = (box.Min[1] - rayOrig[1]) / rayDir[1];
 			tymax = (box.Max[1] - rayOrig[1]) / rayDir[1];
 		}
-		else 
+		else
 		{
 			tymin = (box.Max[1] - rayOrig[1]) / rayDir[1];
 			tymax = (box.Min[1] - rayOrig[1]) / rayDir[1];
 		}
-		if ( (tmin > tymax) || (tymin > tmax) )	return false;
-		if (tymin > tmin)tmin = tymin;
-		if (tymax < tmax) tmax = tymax;
-		if (rayDir[2] >= 0) 
+		if ((tmin > tymax) || (tymin > tmax))
+			return false;
+		if (tymin > tmin)
+			tmin = tymin;
+		if (tymax < tmax)
+			tmax = tymax;
+		if (rayDir[2] >= 0)
 		{
 			tzmin = (box.Min[2] - rayOrig[2]) / rayDir[2];
 			tzmax = (box.Max[2] - rayOrig[2]) / rayDir[2];
 		}
-		else 
+		else
 		{
 			tzmin = (box.Max[2] - rayOrig[2]) / rayDir[2];
 			tzmax = (box.Min[2] - rayOrig[2]) / rayDir[2];
 		}
-		if ( (tmin > tzmax) || (tzmin > tmax) )	return false;
-		if (tzmin > tmin)tmin = tzmin;
-		if (tzmax < tmax)tmax = tzmax;
-		return ( (tmin < t1) && (tmax > t0) );
-	}	
-	
+		if ((tmin > tzmax) || (tzmin > tmax))
+			return false;
+		if (tzmin > tmin)
+			tmin = tzmin;
+		if (tzmax < tmax)
+			tmax = tzmax;
+		return ((tmin < t1) && (tmax > t0));
+	}
+
 }

@@ -34,7 +34,8 @@ public class TutorialWizardPanel extends Activity
 		if (getSeeAgainOption() == true)
 		{
 			showDialog(DIALOG_SEE_WIZARD_AGAIN_ID);
-		} else
+		}
+		else
 		{
 			finish();
 		}
@@ -63,7 +64,7 @@ public class TutorialWizardPanel extends Activity
 		mWebView.setWebViewClient(new MyWebViewClient());
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-	
+
 		String strUrl = "file:///android_asset/tutorial0.html";
 		mWebView.loadUrl(strUrl);
 	}
@@ -102,7 +103,7 @@ public class TutorialWizardPanel extends Activity
 		}
 		return dialog;
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
@@ -111,7 +112,7 @@ public class TutorialWizardPanel extends Activity
 		{
 			ExitConfirmation();
 			return true;
-		} 
+		}
 		else
 		{
 			return super.onKeyDown(keyCode, event);

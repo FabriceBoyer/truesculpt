@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import truesculpt.utils.Utils;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -19,7 +18,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 public class UpdateManager extends BaseManager
 {
 
-	public enum EUpdateStatus {
+	public enum EUpdateStatus
+	{
 		IS_A_BETA, UNDEFINED, UP_TO_DATE, UPDATE_NEEDED
 	}
 
@@ -31,9 +31,9 @@ public class UpdateManager extends BaseManager
 		super(baseContext);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public int getCurrentVersionCode()
-	{		
+	{
 		int nCurrVersionCode = -1;
 
 		PackageManager pm = getbaseContext().getPackageManager();
@@ -45,7 +45,7 @@ public class UpdateManager extends BaseManager
 		catch (NameNotFoundException e)
 		{
 			e.printStackTrace();
-		}		
+		}
 
 		return nCurrVersionCode;
 	}
@@ -150,7 +150,7 @@ public class UpdateManager extends BaseManager
 				majLat = Integer.parseInt(tempVer[0]);
 				minLat = Integer.parseInt(tempVer[1]);
 			}
-		} 
+		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
@@ -166,16 +166,19 @@ public class UpdateManager extends BaseManager
 			if (majLat > majCurr)
 			{
 				bUpdateNeeded = true;
-			} else if (majLat == majCurr)
+			}
+			else if (majLat == majCurr)
 			{
 				if (minLat > minCurr)
 				{
 					bUpdateNeeded = true;
-				} else if (minLat < minCurr)
+				}
+				else if (minLat < minCurr)
 				{
 					bIsBeta = true;
 				}
-			} else if (majLat < majCurr)
+			}
+			else if (majLat < majCurr)
 			{
 				bIsBeta = true;
 			}
@@ -189,13 +192,14 @@ public class UpdateManager extends BaseManager
 		if (bIsBeta)
 		{
 			res = EUpdateStatus.IS_A_BETA;
-		} 
+		}
 		else
 		{
 			if (bUpdateNeeded)
 			{
 				res = EUpdateStatus.UPDATE_NEEDED;
-			} else
+			}
+			else
 			{
 				res = EUpdateStatus.UP_TO_DATE;
 			}
@@ -208,8 +212,9 @@ public class UpdateManager extends BaseManager
 
 		return res;
 	};
-	
-	//TODO Improve by redirecting to market and reading update needs from market
+
+	// TODO Improve by redirecting to market and reading update needs from
+	// market
 	public void CheckUpdate(Context context)
 	{
 		boolean bStartUpdateActivity = false;

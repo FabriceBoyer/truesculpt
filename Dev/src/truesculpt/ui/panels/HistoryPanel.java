@@ -10,14 +10,14 @@ import truesculpt.ui.adapters.HistoryAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 //For history of action manager
 public class HistoryPanel extends Activity implements Observer
@@ -48,7 +48,7 @@ public class HistoryPanel extends Activity implements Observer
 		setContentView(R.layout.history);
 
 		getManagers().getActionsManager().addObserver(this);
-		
+
 		mHistoryListView = (ListView) findViewById(R.id.historyListView);
 
 		adapter = new HistoryAdapter(getApplicationContext(), getManagers().getActionsManager());
@@ -62,8 +62,7 @@ public class HistoryPanel extends Activity implements Observer
 			}
 		});
 		registerForContextMenu(mHistoryListView);
-		
-		
+
 		mRedoButton = (ImageButton) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -73,7 +72,7 @@ public class HistoryPanel extends Activity implements Observer
 				getManagers().getActionsManager().Redo();
 			}
 		});
-		
+
 		mUndoButton = (ImageButton) findViewById(R.id.UndoBtn);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -83,7 +82,7 @@ public class HistoryPanel extends Activity implements Observer
 				getManagers().getActionsManager().Undo();
 			}
 		});
-		
+
 		mClearButton = (ImageButton) findViewById(R.id.ClearBtn);
 		mClearButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -93,64 +92,66 @@ public class HistoryPanel extends Activity implements Observer
 				getManagers().getActionsManager().ClearAll();
 			}
 		});
-		
+
 		UpdateButtonsView();
 
 	}
-	
+
 	private void UpdateButtonsView()
 	{
-		if (getManagers().getActionsManager().GetUndoActionCount()<=0) 
+		if (getManagers().getActionsManager().GetUndoActionCount() <= 0)
 		{
-			mUndoButton.setEnabled(false);			
+			mUndoButton.setEnabled(false);
 		}
 		else
 		{
 			mUndoButton.setEnabled(true);
 		}
-		
-		
-		if (getManagers().getActionsManager().GetRedoActionCount()<=0) 
+
+		if (getManagers().getActionsManager().GetRedoActionCount() <= 0)
 		{
-			mRedoButton.setEnabled(false);			
+			mRedoButton.setEnabled(false);
 		}
 		else
 		{
 			mRedoButton.setEnabled(true);
 		}
-		
+
 	}
-	
+
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
-	  super.onCreateContextMenu(menu, v, menuInfo);
-	  MenuInflater inflater = getMenuInflater();
-	  inflater.inflate(R.menu.history_item_context_menu, menu);	  
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.history_item_context_menu, menu);
 	}
-	
+
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-	  
-	  switch (item.getItemId()) {
-	  case R.id.undo_this_item:
-		  //TODO use undo functions
-		  //getManagers().getActionsManager().Remove(info.position);//update through observable		 
-	    return true;
-	  case R.id.undo_up_to_this_point:
-		  //TODO use undo functions
-		  //getManagers().getActionsManager().RemoveUpTo(info.position);		 
-	    return true;
-	  default:
-	    return super.onContextItemSelected(item);
-	  }
+	public boolean onContextItemSelected(MenuItem item)
+	{
+
+		switch (item.getItemId())
+		{
+		case R.id.undo_this_item:
+			// TODO use undo functions
+			// getManagers().getActionsManager().Remove(info.position);//update
+			// through observable
+			return true;
+		case R.id.undo_up_to_this_point:
+			// TODO use undo functions
+			// getManagers().getActionsManager().RemoveUpTo(info.position);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 
 	@Override
 	public void update(Observable observable, Object data)
 	{
-		 adapter.notifyDataSetChanged();
-		 UpdateButtonsView();
+		adapter.notifyDataSetChanged();
+		UpdateButtonsView();
 	}
 
 }

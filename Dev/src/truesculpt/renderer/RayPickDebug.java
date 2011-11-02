@@ -53,9 +53,9 @@ public class RayPickDebug
 	public void draw(GL10 gl)
 	{
 		mVertexBuffer.position(0);
-		mIndexBuffer.position(0);	
+		mIndexBuffer.position(0);
 		mColorBuffer.position(0);
-		
+
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
 		gl.glFrontFace(GL10.GL_CW);

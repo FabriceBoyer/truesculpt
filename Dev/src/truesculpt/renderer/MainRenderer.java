@@ -36,7 +36,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private float mRot;
 
 	private boolean mbTakeScreenshot = false;
-	private String mStrSnapshotName="";
+	private String mStrSnapshotName = "";
 
 	public MainRenderer(Managers managers)
 	{
@@ -58,7 +58,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	public void onDrawFrame(GL10 gl)
 	{
 		long tStart = SystemClock.uptimeMillis();
-		
+
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -73,17 +73,18 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		// only if point of view changed
 		getManagers().getMeshManager().setCurrentModelView(gl);
 
-		if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use cache
+		if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use
+																		// cache
 		{
 			mAxis.draw(gl);
-		}		
+		}
 
 		// main draw call
 		getManagers().getMeshManager().draw(gl);
-				
-		mToolOverlay.draw(gl,mManagers);		
-		
-		mSymmetryPlane.draw(gl,mManagers);
+
+		mToolOverlay.draw(gl, mManagers);
+
+		mSymmetryPlane.draw(gl, mManagers);
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
@@ -96,20 +97,20 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		long tStop = SystemClock.uptimeMillis();
 		mLastFrameDurationMs = tStop - tStart;
 	}
-	
+
 	public void TakeGLScreenshot(GL10 gl)
 	{
-		if (mStrSnapshotName!="")
+		if (mStrSnapshotName != "")
 		{
 			getManagers().getUsageStatisticsManager().TrackEvent("Screenshot", "Count", 0);
-	
+
 			int[] mViewPort = new int[4];
 			GL11 gl2 = (GL11) gl;
 			gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
-	
+
 			int width = mViewPort[2];
 			int height = mViewPort[3];
-	
+
 			int size = width * height;
 			ByteBuffer buf = ByteBuffer.allocateDirect(size * 4);
 			buf.order(ByteOrder.nativeOrder());
@@ -120,7 +121,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 			Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 			bitmap.setPixels(data, size - width, -width, 0, 0, width, height);
 			data = null;
-	
+
 			short sdata[] = new short[size];
 			ShortBuffer sbuf = ShortBuffer.wrap(sdata);
 			bitmap.copyPixelsToBuffer(sbuf);
@@ -132,21 +133,21 @@ public class MainRenderer implements GLSurfaceView.Renderer
 			}
 			sbuf.rewind();
 			bitmap.copyPixelsFromBuffer(sbuf);
-	
+
 			try
 			{
 				FileOutputStream fos = new FileOutputStream(mStrSnapshotName);
 				bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 				fos.flush();
 				fos.close();
-			} 
+			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
 				return;
-			}	
-			
-			mStrSnapshotName="";//reset
+			}
+
+			mStrSnapshotName = "";// reset
 		}
 	}
 
@@ -163,7 +164,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glViewport(0, 0, width, height);
 
 		/*
-		 * Set our projection matrix. This doesn't have to be done each time we draw, but usually a new projection needs to be set when the viewport is resized.
+		 * Set our projection matrix. This doesn't have to be done each time we
+		 * draw, but usually a new projection needs to be set when the viewport
+		 * is resized.
 		 */
 
 		float ratio = (float) width / height;
@@ -205,21 +208,21 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glShadeModel(GL10.GL_SMOOTH);
-		
-		//transparency
-		gl.glEnable (GL10.GL_BLEND); 
+
+		// transparency
+		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	public void TakeGLScreenshotOfNextFrame(String strSnapshotName)	
+	public void TakeGLScreenshotOfNextFrame(String strSnapshotName)
 	{
-		mStrSnapshotName=strSnapshotName;
+		mStrSnapshotName = strSnapshotName;
 		this.mbTakeScreenshot = true;
 	}
-	
+
 	public void onToolChange()
 	{
-		mToolOverlay.updateTool(mManagers);		
+		mToolOverlay.updateTool(mManagers);
 	}
 
 }

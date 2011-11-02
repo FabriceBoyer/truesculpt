@@ -38,7 +38,6 @@ public class MatrixUtils
 		result[2] = p1[0] * p2[1] - p2[0] * p1[1];
 	}
 
-
 	/**
 	 * Compute the dot product of two vectors
 	 * 
@@ -121,7 +120,7 @@ public class MatrixUtils
 	{
 		return (vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
 	}
-	
+
 	/**
 	 * Compute the magnitude (length) of a vector
 	 * 
@@ -133,7 +132,6 @@ public class MatrixUtils
 	{
 		return (float) Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
 	}
-
 
 	/**
 	 * Subtracts two vectors (a-b).
@@ -191,7 +189,8 @@ public class MatrixUtils
 	}
 
 	/**
-	 * Multiply two matrices by each other and store the result. result = m1 x m2
+	 * Multiply two matrices by each other and store the result. result = m1 x
+	 * m2
 	 * 
 	 * @param m1
 	 *            The first matrix
@@ -212,7 +211,8 @@ public class MatrixUtils
 	}
 
 	/**
-	 * Converts this vector into a normalized (unit length) vector <b>Modifies the input parameter</b>
+	 * Converts this vector into a normalized (unit length) vector <b>Modifies
+	 * the input parameter</b>
 	 * 
 	 * @param vector
 	 *            The vector to normalize
@@ -221,8 +221,6 @@ public class MatrixUtils
 	{
 		scalarMultiply(vector, 1 / magnitude(vector));
 	}
-
-	
 
 	/**
 	 * Adds two vectors (a+b).
@@ -347,7 +345,7 @@ public class MatrixUtils
 			vector[i] *= scalar;
 		}
 	}
-	
+
 	public static void scalarAdd(float[] vector, float scalar)
 	{
 		for (int i = 0; i < vector.length; i++)
@@ -355,38 +353,37 @@ public class MatrixUtils
 			vector[i] += scalar;
 		}
 	}
-	
-	/* true if  vector1 <= vector2*/
-	public static boolean isStrictlyInferior(float[] vector1, float[] vector2 )
+
+	/* true if vector1 <= vector2 */
+	public static boolean isStrictlyInferior(float[] vector1, float[] vector2)
 	{
-		boolean bRes=true;
+		boolean bRes = true;
 		for (int i = 0; i < 3; i++)
 		{
-			if (vector1[i]>=vector2[i]) 
+			if (vector1[i] >= vector2[i])
 			{
-				bRes=false;
-				break;
-			}
-		}
-		return bRes;
-	}
-	
-	/* true if  vector1 <= vector2*/
-	public static boolean isInferiorOrEqual(float[] vector1, float[] vector2 )
-	{
-		boolean bRes=true;
-		for (int i = 0; i < 3; i++)
-		{
-			if (vector1[i]>vector2[i]) 
-			{
-				bRes=false;
+				bRes = false;
 				break;
 			}
 		}
 		return bRes;
 	}
 
-	
+	/* true if vector1 <= vector2 */
+	public static boolean isInferiorOrEqual(float[] vector1, float[] vector2)
+	{
+		boolean bRes = true;
+		for (int i = 0; i < 3; i++)
+		{
+			if (vector1[i] > vector2[i])
+			{
+				bRes = false;
+				break;
+			}
+		}
+		return bRes;
+	}
+
 	public static void transpose(float[] m, float[] result)
 	{
 		for (int i = 0; i < 4; i++)

@@ -22,7 +22,7 @@ import android.content.Context;
 public class Managers
 {
 	private ArrayList<BaseManager> mManagersList = new ArrayList<BaseManager>();
-	
+
 	private ActionsManager mActionsManager = null;
 	private FileManager mFileManager = null;
 	private MemoryManager mMemoryManager = null;

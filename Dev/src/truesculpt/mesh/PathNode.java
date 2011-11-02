@@ -1,7 +1,6 @@
 package truesculpt.mesh;
 
-
 public class PathNode
 {
-	float[] Coord= new float[3];	
+	float[] Coord = new float[3];
 }

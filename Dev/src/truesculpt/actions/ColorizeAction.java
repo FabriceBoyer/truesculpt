@@ -14,16 +14,19 @@ public class ColorizeAction extends BaseAction
 		{
 			super();
 			this.nIndex = nIndex;
-			this.newColor=newColor;
-			this.oldColor=vertex.Color;
-			this.vertex=vertex;
+			this.newColor = newColor;
+			this.oldColor = vertex.Color;
+			this.vertex = vertex;
 		}
-		public int nIndex=-1;
-		int newColor=-1;
-		int oldColor=-1;
-		Vertex vertex=null;
+
+		public int nIndex = -1;
+		int newColor = -1;
+		int oldColor = -1;
+		Vertex vertex = null;
 	}
-	private ArrayList<VertexColorChange> mVertexChanges=new ArrayList<VertexColorChange>() ;
+
+	private ArrayList<VertexColorChange> mVertexChanges = new ArrayList<VertexColorChange>();
+
 	public ColorizeAction()
 	{
 		super();
@@ -33,10 +36,10 @@ public class ColorizeAction extends BaseAction
 	@Override
 	public boolean DoAction()
 	{
-		Mesh mesh=getManagers().getMeshManager().getMesh();
+		Mesh mesh = getManagers().getMeshManager().getMesh();
 		for (VertexColorChange change : mVertexChanges)
 		{
-			change.vertex.Color=change.newColor;
+			change.vertex.Color = change.newColor;
 			mesh.UpdateVertexColor(change.vertex);
 		}
 		return true;
@@ -57,18 +60,18 @@ public class ColorizeAction extends BaseAction
 	@Override
 	public boolean UndoAction()
 	{
-		Mesh mesh=getManagers().getMeshManager().getMesh();
+		Mesh mesh = getManagers().getMeshManager().getMesh();
 		for (VertexColorChange change : mVertexChanges)
 		{
-			change.vertex.Color=change.oldColor;
+			change.vertex.Color = change.oldColor;
 			mesh.UpdateVertexColor(change.vertex);
 		}
 		return true;
 	}
-	
+
 	public void AddVertexColorChange(Integer i, int newColor, Vertex vertex)
 	{
-		mVertexChanges.add(new VertexColorChange(i,newColor,vertex));		
+		mVertexChanges.add(new VertexColorChange(i, newColor, vertex));
 	}
 
 }

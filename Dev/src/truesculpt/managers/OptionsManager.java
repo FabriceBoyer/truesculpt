@@ -46,7 +46,9 @@ public class OptionsManager extends BaseManager
 
 	public long getLastSoftwareUpdateCheckDate()
 	{
-		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init default values
+		if (settings.contains("LastSoftwareUpdateCheckDate") == false) // init
+																		// default
+																		// values
 		{
 			updateLastSoftwareUpdateCheckDate();
 		}
@@ -57,12 +59,11 @@ public class OptionsManager extends BaseManager
 	{
 		return settings.getBoolean("LoadLastUsedFileAtStartup", true);
 	}
-	
+
 	public String getLastUsedFile()
 	{
 		return settings.getString("LastUsedFile", "");
 	}
-
 
 	public boolean getPreventSleepMode()
 	{
@@ -82,7 +83,8 @@ public class OptionsManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		// Nothing done here because other managers use this class at create time
+		// Nothing done here because other managers use this class at create
+		// time
 	}
 
 	@Override
@@ -107,7 +109,7 @@ public class OptionsManager extends BaseManager
 		editor.putLong("LastSoftwareUpdateCheckDate", today);
 		editor.commit();
 	}
-	
+
 	public void setLastUsedFile(String lastUsedFile)
 	{
 		SharedPreferences.Editor editor = settings.edit();

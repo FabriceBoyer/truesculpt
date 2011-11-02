@@ -9,7 +9,6 @@ import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
 import truesculpt.utils.MatrixUtils;
 
-
 public class SculptAction extends BaseAction
 {
 	private class VertexCoordChange
@@ -19,36 +18,38 @@ public class SculptAction extends BaseAction
 			super();
 			this.nIndex = nIndex;
 			MatrixUtils.copy(vertex.Coord, Vorig);
-			MatrixUtils.plus(vertex.Coord, offset, Vnew);	
-			this.vertex=vertex;
+			MatrixUtils.plus(vertex.Coord, offset, Vnew);
+			this.vertex = vertex;
 		}
-		public int nIndex=-1;
-		float[] Vorig=new float[3];
-		float[] Vnew=new float[3];
-		Vertex vertex=null;
+
+		public int nIndex = -1;
+		float[] Vorig = new float[3];
+		float[] Vnew = new float[3];
+		Vertex vertex = null;
 	}
-	
-	private ArrayList<VertexCoordChange> mVertexChanges=new ArrayList<VertexCoordChange>() ;
-	
+
+	private ArrayList<VertexCoordChange> mVertexChanges = new ArrayList<VertexCoordChange>();
+
 	public SculptAction()
 	{
 		super();
 		setDescription("Sculpting");
 	}
-	
-	private HashSet <Integer> faces= new HashSet<Integer>();
-	private HashSet <Integer> vertices= new HashSet<Integer>();
+
+	private HashSet<Integer> faces = new HashSet<Integer>();
+	private HashSet<Integer> vertices = new HashSet<Integer>();
+
 	@Override
 	public boolean DoAction()
-	{ 		
-		
-		Mesh mesh=getManagers().getMeshManager().getMesh();
+	{
+
+		Mesh mesh = getManagers().getMeshManager().getMesh();
 		for (VertexCoordChange change : mVertexChanges)
 		{
 			MatrixUtils.copy(change.Vnew, change.vertex.Coord);
 		}
-		
-		//update normals and publish value after all updates
+
+		// update normals and publish value after all updates
 		faces.clear();
 		vertices.clear();
 		for (VertexCoordChange change : mVertexChanges)
@@ -60,11 +61,12 @@ public class SculptAction extends BaseAction
 				vertices.add(edge.V1);
 			}
 		}
-		for (Integer index: faces)
+		for (Integer index : faces)
 		{
 			mesh.ComputeFaceEdgesNormal(index);
 		}
-		//outer bound of modified vertices must update it's normal too (face changed)
+		// outer bound of modified vertices must update it's normal too (face
+		// changed)
 		for (Integer index : vertices)
 		{
 			mesh.ComputeVertexNormal(index);
@@ -88,13 +90,13 @@ public class SculptAction extends BaseAction
 	@Override
 	public boolean UndoAction()
 	{
-		//update normals and publish value after all updates
-		Mesh mesh=getManagers().getMeshManager().getMesh();
+		// update normals and publish value after all updates
+		Mesh mesh = getManagers().getMeshManager().getMesh();
 		for (VertexCoordChange change : mVertexChanges)
 		{
 			MatrixUtils.copy(change.Vorig, change.vertex.Coord);
 		}
-		//update normals and publish value after all updates
+		// update normals and publish value after all updates
 		faces.clear();
 		vertices.clear();
 		for (VertexCoordChange change : mVertexChanges)
@@ -106,7 +108,7 @@ public class SculptAction extends BaseAction
 				vertices.add(edge.V1);
 			}
 		}
-		for (Integer index: faces)
+		for (Integer index : faces)
 		{
 			mesh.ComputeFaceEdgesNormal(index);
 		}
@@ -120,6 +122,6 @@ public class SculptAction extends BaseAction
 
 	public void AddVertexOffset(Integer i, float[] vOffset, Vertex vertex)
 	{
-		mVertexChanges.add(new VertexCoordChange(i,vOffset,vertex));		
+		mVertexChanges.add(new VertexCoordChange(i, vOffset, vertex));
 	}
 }

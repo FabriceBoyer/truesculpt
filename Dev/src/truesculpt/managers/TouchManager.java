@@ -25,7 +25,7 @@ public class TouchManager extends BaseManager
 
 	public TouchManager(Context baseContext)
 	{
-		super(baseContext);	
+		super(baseContext);
 	}
 
 	/** Show an event in the LogCat view, for debugging */
@@ -112,8 +112,8 @@ public class TouchManager extends BaseManager
 	// ScaleGestureDetector mScaleGestureDetector = new ScaleGestureDetector();
 	public int onTouchEvent(MotionEvent event)
 	{
-		int nReturn=0;
-		
+		int nReturn = 0;
+
 		// String msg="Pressure = " + Float.toString(event.getPressure());
 		// String msg="(x,y) = (" + Float.toString(event.getX()) +","
 		// +Float.toString(event.getY()) + ")";
@@ -135,7 +135,7 @@ public class TouchManager extends BaseManager
 			if (curTapTapTime - mLastTapTapTime < fTapTapTimeThresold)
 			{
 				StartTapTapAction();
-				nReturn=1;
+				nReturn = 1;
 			}
 			mLastTapTapTime = curTapTapTime;
 
@@ -179,38 +179,38 @@ public class TouchManager extends BaseManager
 		{
 			switch (getManagers().getToolsManager().getToolMode())
 			{
-				case POV:
+			case POV:
+			{
+				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE)
 				{
-					if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE)
-					{
-						float angleRot = mRotInit + (x - mLastX) / fDemultRotateFactor;
-						float angleElev = mElevInit + (y - mLastY) / fDemultRotateFactor;
-						float dist = getManagers().getPointOfViewManager().getZoomDistance();
-	
-						getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
-					}
-					if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM)
-					{
-						float fingersSpacing = getDistanceBetweenFingers(event);
-						float dist = mZoomInit - (fingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
-	
-						getManagers().getPointOfViewManager().setZoomDistance(dist);
-					}
-	
-					break;
+					float angleRot = mRotInit + (x - mLastX) / fDemultRotateFactor;
+					float angleElev = mElevInit + (y - mLastY) / fDemultRotateFactor;
+					float dist = getManagers().getPointOfViewManager().getZoomDistance();
+
+					getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
 				}
-	
-				case SCULPT:
+				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM)
 				{
-					getManagers().getMeshManager().Pick(x, y);
-					break;
+					float fingersSpacing = getDistanceBetweenFingers(event);
+					float dist = mZoomInit - (fingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
+
+					getManagers().getPointOfViewManager().setZoomDistance(dist);
 				}
+
+				break;
+			}
+
+			case SCULPT:
+			{
+				getManagers().getMeshManager().Pick(x, y);
+				break;
+			}
 			}
 
 			break;
 		}
 		}
-		
+
 		return nReturn;
 	}
 
@@ -218,14 +218,14 @@ public class TouchManager extends BaseManager
 	{
 		switch (getManagers().getToolsManager().getToolMode())
 		{
-			case POV:
-			{
-				break;
-			}
-			case SCULPT:
-			{
-				break;
-			}
+		case POV:
+		{
+			break;
+		}
+		case SCULPT:
+		{
+			break;
+		}
 		}
 	}
 }

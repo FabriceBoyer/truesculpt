@@ -42,16 +42,14 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 //TODO thread all waiting phases
 public class WebFilePanel extends Activity
 {
-	private String mStrBaseWebSite="http://truesculpt.appspot.com";
-	
-	private Button mPublishToWebBtn;	
+	private String mStrBaseWebSite = "http://truesculpt.appspot.com";
+
+	private Button mPublishToWebBtn;
 	private WebView mWebView;
-	
-	
+
 	private class MyWebViewClient extends WebViewClient
 	{
 		@Override
@@ -61,120 +59,117 @@ public class WebFilePanel extends Activity
 			return true;
 		}
 	}
-	
+
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) 
+	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-	    // Check if the key event was the BACK key and if there's history
-	    if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack())
-	    {
-	        mWebView.goBack();
-	        return true;
-	    }
-	    // If it wasn't the BACK key or there's no web page history, bubble up to the default
-	    // system behavior (probably exit the activity)
-	    return super.onKeyDown(keyCode, event);
+		// Check if the key event was the BACK key and if there's history
+		if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack())
+		{
+			mWebView.goBack();
+			return true;
+		}
+		// If it wasn't the BACK key or there's no web page history, bubble up
+		// to the default
+		// system behavior (probably exit the activity)
+		return super.onKeyDown(keyCode, event);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.webfile);	
-		
+		setContentView(R.layout.webfile);
+
 		getManagers().getUsageStatisticsManager().TrackEvent("OpenFromWeb", "", 1);
-		
-		mWebView = (WebView) findViewById(R.id.webview);	
+
+		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.setWebViewClient(new MyWebViewClient());
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		mWebView.addJavascriptInterface(new JavaScriptInterface(this, getManagers()), "Android");
-		
-		int nVersionCode=getManagers().getUpdateManager().getCurrentVersionCode();
-		mWebView.loadUrl(mStrBaseWebSite+"?version="+nVersionCode);
-		
-		mPublishToWebBtn=(Button)findViewById(R.id.publish_to_web);
+
+		int nVersionCode = getManagers().getUpdateManager().getCurrentVersionCode();
+		mWebView.loadUrl(mStrBaseWebSite + "?version=" + nVersionCode);
+
+		mPublishToWebBtn = (Button) findViewById(R.id.publish_to_web);
 		mPublishToWebBtn.setOnClickListener(new View.OnClickListener()
-		{			
+		{
 			@Override
 			public void onClick(View v)
-			{		
-				final String name=getManagers().getMeshManager().getName();
-			    final File imagefile = new File( getManagers().getUtilsManager().GetImageFileName() );
-			    final File objectfile = new File( getManagers().getUtilsManager().GetObjectFileName() );
-			    
-				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);	
-				
-			    if (imagefile.exists() && objectfile.exists())
-			    {			    	
+			{
+				final String name = getManagers().getMeshManager().getName();
+				final File imagefile = new File(getManagers().getUtilsManager().GetImageFileName());
+				final File objectfile = new File(getManagers().getUtilsManager().GetObjectFileName());
+
+				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);
+
+				if (imagefile.exists() && objectfile.exists())
+				{
 					try
-					{				
-						final File zippedObject= File.createTempFile("object","zip");		
-				   	    zippedObject.deleteOnExit();
-				   	    
-				   	    BufferedReader in = new BufferedReader(new FileReader(objectfile));
-				   	    BufferedOutputStream out = new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(zippedObject)));
-				   	    System.out.println("Compressing file");
-				   	    int c;
-				   	    while ((c = in.read()) != -1)
-				   	    {
-				   	      out.write(c);
-				   	    }
-				   	    in.close();
-				   	    out.close();					
-			   	    
-				   	    long size=0;
-					
+					{
+						final File zippedObject = File.createTempFile("object", "zip");
+						zippedObject.deleteOnExit();
+
+						BufferedReader in = new BufferedReader(new FileReader(objectfile));
+						BufferedOutputStream out = new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(zippedObject)));
+						System.out.println("Compressing file");
+						int c;
+						while ((c = in.read()) != -1)
+						{
+							out.write(c);
+						}
+						in.close();
+						out.close();
+
+						long size = 0;
+
 						size = new FileInputStream(imagefile).getChannel().size();
 						size += new FileInputStream(zippedObject).getChannel().size();
-						size /=1000;				
-					
-					    final SpannableString msg = new SpannableString("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\n" +
-					    		"When clicking the yes button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license\n" +
-					    		"http://creativecommons.org/licenses/by-nc-sa/3.0" +
-					    		"\n\nDo you want to proceed ?");
-					    Linkify.addLinks(msg, Linkify.ALL);
-	
-					    AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
+						size /= 1000;
+
+						final SpannableString msg = new SpannableString("You will upload your latest saved version of this scupture representing " + size + " ko of data\n\n" + "When clicking the yes button you accept to publish your sculpture under the terms of the creative commons share alike, non commercial license\n" + "http://creativecommons.org/licenses/by-nc-sa/3.0" + "\n\nDo you want to proceed ?");
+						Linkify.addLinks(msg, Linkify.ALL);
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
 						builder.setMessage(msg).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 						{
 							@Override
 							public void onClick(DialogInterface dialog, int id)
 							{
-								PublishPicture(imagefile,zippedObject,name);
+								PublishPicture(imagefile, zippedObject, name);
 							}
-						})
-						.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+						}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
 						{
 							@Override
 							public void onClick(DialogInterface dialog, int id)
 							{
-								
+
 							}
 						});
 						AlertDialog dlg = builder.create();
 						dlg.show();
-						
-						// Make the textview clickable. Must be called after show()
-					    ((TextView)dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-					} 
+
+						// Make the textview clickable. Must be called after
+						// show()
+						((TextView) dlg.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+					}
 					catch (Exception e)
-					{						
+					{
 						e.printStackTrace();
 					}
-			    }
-			    else
-			    {
-			    	AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
+				}
+				else
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder(WebFilePanel.this);
 					builder.setMessage("File has not been saved, you need to save it before publishing\nDo you want to proceed to save window ?").setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 					{
 						@Override
 						public void onClick(DialogInterface dialog, int id)
 						{
-							((FileSelectorPanel)getParent()).getTabHost().setCurrentTab(2);
+							((FileSelectorPanel) getParent()).getTabHost().setCurrentTab(2);
 						}
-					})
-					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
 					{
 						@Override
 						public void onClick(DialogInterface dialog, int id)
@@ -182,82 +177,82 @@ public class WebFilePanel extends Activity
 						}
 					});
 					builder.show();
-			    }
-			}			
+				}
+			}
 		});
 	}
-	
+
 	public void PublishPicture(File imagefile, File zipobjectfile, String name)
 	{
 		String strUploadURL = "";
 		try
-		{					
-			String myHeader="uploadUrl";
+		{
+			String myHeader = "uploadUrl";
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(mStrBaseWebSite+"/upload");
+			HttpPost httpPost = new HttpPost(mStrBaseWebSite + "/upload");
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			Header[] headers = httpResponse.getHeaders(myHeader);
-			for (int i = 0; i < headers.length; i++) 
+			for (int i = 0; i < headers.length; i++)
 			{
 				Header header = headers[i];
-				if(header.getName().equals(myHeader))
+				if (header.getName().equals(myHeader))
 				{
 					strUploadURL = header.getValue();
 				}
 			}
-		} 
+		}
 		catch (Exception e)
-		{					
+		{
 			e.printStackTrace();
-		}		
-		
-		//upload saved file				
+		}
+
+		// upload saved file
 		try
 		{
-			uploadPicture(imagefile, zipobjectfile, strUploadURL,name,"");
-		} 
+			uploadPicture(imagefile, zipobjectfile, strUploadURL, name, "");
+		}
 		catch (Exception e)
-		{					
+		{
 			e.printStackTrace();
-		}		
+		}
 	}
-	
-	private void uploadPicture( File imagefile, File zipobjectfile, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException 
+
+	private void uploadPicture(File imagefile, File zipobjectfile, String uploadURL, String title, String description) throws ParseException, IOException, URISyntaxException
 	{
-	    HttpClient httpclient = new DefaultHttpClient();
+		HttpClient httpclient = new DefaultHttpClient();
 
-	    HttpPost httppost = new HttpPost( uploadURL );
-	    httppost.addHeader("title", title);
-	    httppost.addHeader("description", description);
-	    httppost.addHeader("installationID", UtilsManager.Installation.id(this));	    
-	 
-	    MultipartEntity mpEntity = new MultipartEntity( HttpMultipartMode.STRICT );
-	    ContentBody cbImageFile = new FileBody( imagefile, "image/png");
-	    ContentBody cbObjectFile = new FileBody( zipobjectfile, "application/zip");
+		HttpPost httppost = new HttpPost(uploadURL);
+		httppost.addHeader("title", title);
+		httppost.addHeader("description", description);
+		httppost.addHeader("installationID", UtilsManager.Installation.id(this));
 
-	    mpEntity.addPart( "imagefile", cbImageFile );
-	    mpEntity.addPart( "objectfile", cbObjectFile );
-        
-	    httppost.setEntity( mpEntity );
+		MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.STRICT);
+		ContentBody cbImageFile = new FileBody(imagefile, "image/png");
+		ContentBody cbObjectFile = new FileBody(zipobjectfile, "application/zip");
 
-	    System.out.println( "executing request " + httppost.getRequestLine() );
-	    HttpResponse httpResponse=httpclient.execute( httppost ); 
-	    
-		String myHeader="displayURL";
+		mpEntity.addPart("imagefile", cbImageFile);
+		mpEntity.addPart("objectfile", cbObjectFile);
+
+		httppost.setEntity(mpEntity);
+
+		System.out.println("executing request " + httppost.getRequestLine());
+		HttpResponse httpResponse = httpclient.execute(httppost);
+
+		String myHeader = "displayURL";
 		Header[] headers = httpResponse.getHeaders(myHeader);
-		for (int i = 0; i < headers.length; i++) 
+		for (int i = 0; i < headers.length; i++)
 		{
 			Header header = headers[i];
-			if(header.getName().equals(myHeader))
+			if (header.getName().equals(myHeader))
 			{
-				String newURL=mStrBaseWebSite+header.getValue();
+				String newURL = mStrBaseWebSite + header.getValue();
 				Log.d("WEB", "Loading web site " + newURL);
 				mWebView.loadUrl(newURL);
 			}
 		}
-	  
+
 	}
-	
+
 	public Managers getManagers()
 	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();

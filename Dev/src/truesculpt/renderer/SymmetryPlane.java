@@ -19,23 +19,16 @@ public class SymmetryPlane
 	private FloatBuffer mColorBuffer;
 	private ShortBuffer mIndexBuffer;
 	private FloatBuffer mVertexBuffer;
-	private float mTransp=0.3f;
-	
+	private float mTransp = 0.3f;
+
 	public SymmetryPlane()
 	{
 		float zero = 0.0f;
 		float one = 1.0f;
-		float large=3.0f;
-		float vertices[] = { large, large, zero,
-							-large, large, zero,
-							-large, -large, zero,
-							large, -large, zero };
-		float colors[] = { zero, one, zero, mTransp,
-							zero, one, zero, mTransp,
-							zero, one, zero, mTransp,
-							zero, one, zero, mTransp};
-		short indices[] = { 0, 1, 3,
-							1, 2, 3};
+		float large = 3.0f;
+		float vertices[] = { large, large, zero, -large, large, zero, -large, -large, zero, large, -large, zero };
+		float colors[] = { zero, one, zero, mTransp, zero, one, zero, mTransp, zero, one, zero, mTransp, zero, one, zero, mTransp };
+		short indices[] = { 0, 1, 3, 1, 2, 3 };
 
 		// Buffers to be passed to gl*Pointer() functions
 		// must be direct, i.e., they must be placed on the
@@ -63,13 +56,13 @@ public class SymmetryPlane
 		mIndexBuffer.put(indices);
 		mIndexBuffer.position(0);
 	}
-	
-	public void draw(GL10 gl,Managers managers)
+
+	public void draw(GL10 gl, Managers managers)
 	{
 		gl.glPushMatrix();
-		if (managers.getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE)
-		{			
-			float quarter=90;//degrees
+		if (managers.getToolsManager().getSymmetryMode() != ESymmetryMode.NONE)
+		{
+			float quarter = 90;// degrees
 			switch (managers.getToolsManager().getSymmetryMode())
 			{
 			case X:
@@ -78,45 +71,45 @@ public class SymmetryPlane
 			case Y:
 				gl.glRotatef(quarter, 1, 0, 0);
 				break;
-			case Z:				
-				break;				
-			}		
+			case Z:
+				break;
+			}
 			draw(gl);
-		}		
+		}
 		gl.glPopMatrix();
 	}
 
 	public void draw(GL10 gl)
 	{
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-		
+
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
-		
-		//two sided plane
+
+		// two sided plane
 		gl.glFrontFace(GL10.GL_CCW);
-		gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);		
+		gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 		gl.glFrontFace(GL10.GL_CW);
 		gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
-	}	
-	
+	}
+
 	public void setColor(int color)
 	{
 		float[] VCol = new float[4];
 		Utils.ColorIntToFloatVector(color, VCol);
-		VCol[3]=mTransp;
+		VCol[3] = mTransp;
 		mColorBuffer.position(0);
-		mColorBuffer.put(VCol,0,4);
-		mColorBuffer.put(VCol,0,4);	
-		mColorBuffer.put(VCol,0,4);	
-		mColorBuffer.put(VCol,0,4);			
+		mColorBuffer.put(VCol, 0, 4);
+		mColorBuffer.put(VCol, 0, 4);
+		mColorBuffer.put(VCol, 0, 4);
+		mColorBuffer.put(VCol, 0, 4);
 	}
-	
+
 	public void scalePlaneSize(float factor)
 	{
-		
+
 	}
-	
+
 }
