@@ -164,9 +164,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glViewport(0, 0, width, height);
 
 		/*
-		 * Set our projection matrix. This doesn't have to be done each time we
-		 * draw, but usually a new projection needs to be set when the viewport
-		 * is resized.
+		 * Set our projection matrix. This doesn't have to be done each time we draw, but usually a new projection needs to be set when the viewport is resized.
 		 */
 
 		float ratio = (float) width / height;

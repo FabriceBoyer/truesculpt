@@ -16,7 +16,7 @@ public class ToolsBase implements ITools
 
 	}
 
-	public void Pick(int nIndex)
+	public void Pick(float xScreen, float yScreen)
 	{
 
 	}

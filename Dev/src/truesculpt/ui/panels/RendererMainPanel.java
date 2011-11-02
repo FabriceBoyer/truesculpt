@@ -347,8 +347,7 @@ public class RendererMainPanel extends Activity implements Observer
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			/*
-			 * if (mToolsSlidingDrawer.isOpened()) {
-			 * mToolsSlidingDrawer.close(); } else
+			 * if (mToolsSlidingDrawer.isOpened()) { mToolsSlidingDrawer.close(); } else
 			 */
 			{
 				// Ask the user if they want to quit
@@ -409,14 +408,7 @@ public class RendererMainPanel extends Activity implements Observer
 			return true;
 		}
 		/*
-		 * case R.id.show_tools_panel: { commuteSliderState();
-		 * //Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class,
-		 * false); return true; } case R.id.show_history: {
-		 * Utils.StartMyActivity(this, truesculpt.ui.panels.HistoryPanel.class,
-		 * false); return true; } case R.id.show_point_of_view_panel: {
-		 * Utils.StartMyActivity(this,
-		 * truesculpt.ui.panels.PointOfViewPanel.class, false); return true; }
-		 * case R.id.quit: { this.finish(); return true; }
+		 * case R.id.show_tools_panel: { commuteSliderState(); //Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false); return true; } case R.id.show_history: { Utils.StartMyActivity(this, truesculpt.ui.panels.HistoryPanel.class, false); return true; } case R.id.show_point_of_view_panel: { Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class, false); return true; } case R.id.quit: { this.finish(); return true; }
 		 */
 		default:
 			return super.onOptionsItemSelected(item);
@@ -464,8 +456,7 @@ public class RendererMainPanel extends Activity implements Observer
 		int nRes = getManagers().getTouchManager().onTouchEvent(event);
 		switch (nRes)
 		{
-		case 1:// Tap tap
-				// commuteSliderState();
+		case 1:// Tap tap commuteSliderState();
 			break;
 		}
 		return super.onTouchEvent(event);

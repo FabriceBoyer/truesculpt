@@ -17,9 +17,8 @@ public class PaintingTool extends ToolsBase
 	}
 
 	@Override
-	public void Pick(int nIndex)
+	public void Pick(float xScreen, float yScreen)
 	{
-		// TODO Auto-generated method stub
 
 	}
 

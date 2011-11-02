@@ -79,11 +79,11 @@ public class MeshManager extends BaseManager
 
 	long mLastPickDurationMs = -1;
 	long mLastSculptDurationMs = -1;
-	private float[] mModelView = new float[16];
-	private PickHighlight mPickHighlight = new PickHighlight();
-	private float[] mProjection = new float[16];
-	private RayPickDebug mRay = new RayPickDebug();
-	private int[] mViewPort = new int[4];
+	private final float[] mModelView = new float[16];
+	private final PickHighlight mPickHighlight = new PickHighlight();
+	private final float[] mProjection = new float[16];
+	private final RayPickDebug mRay = new RayPickDebug();
+	private final int[] mViewPort = new int[4];
 	float[] rayPt1 = new float[3];
 	float[] rayPt2 = new float[3];
 
@@ -151,9 +151,7 @@ public class MeshManager extends BaseManager
 	}
 
 	/**
-	 * Calculates the transform from screen coordinate system to world
-	 * coordinate system coordinates for a specific point, given a camera
-	 * position.
+	 * Calculates the transform from screen coordinate system to world coordinate system coordinates for a specific point, given a camera position.
 	 * 
 	 * @return position in WCS.
 	 */
@@ -213,15 +211,7 @@ public class MeshManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		InitMeshThreaded(5, getManagers().getOptionsManager().getLastUsedFile());// TODO
-																					// adapt
-																					// init
-																					// level
-																					// to
-																					// power
-																					// of
-																					// machine
-
+		InitMeshThreaded(5, getManagers().getOptionsManager().getLastUsedFile());// TODO adapt init level to power of machine
 	}
 
 	public boolean InitMeshThreaded(int nSubdivionLevel, String lastUsedFile)
@@ -243,7 +233,6 @@ public class MeshManager extends BaseManager
 	@Override
 	public void onDestroy()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
@@ -256,47 +245,48 @@ public class MeshManager extends BaseManager
 		{
 			synchronized (this)
 			{
-				GetWorldCoords(rayPt2, screenX, screenY, 1.0f);// normalized z
-																// between -1
-																// and 1
+				// normalized z between -1 and 1
+				GetWorldCoords(rayPt2, screenX, screenY, 1.0f);
 				GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
 
 				mRay.setRayPos(rayPt1, rayPt2);
 
-				// handle symmetry
-				if (bInitOver)
-				{
-					switch (getManagers().getToolsManager().getSymmetryMode())
-					{
-					case X:
-						rayPt1[0] *= -1;
-						rayPt2[0] *= -1;
-						PickRay();
-						rayPt1[0] *= -1;
-						rayPt2[0] *= -1;
-						nIndex = PickRay();
-						break;
-					case Y:
-						rayPt1[1] *= -1;
-						rayPt2[1] *= -1;
-						PickRay();
-						rayPt1[1] *= -1;
-						rayPt2[1] *= -1;
-						nIndex = PickRay();
-						break;
-					case Z:
-						rayPt1[2] *= -1;
-						rayPt2[2] *= -1;
-						PickRay();
-						rayPt1[2] *= -1;
-						rayPt2[2] *= -1;
-						nIndex = PickRay();
-						break;
-					case NONE:
-						nIndex = PickRay();
-						break;
-					}
-				}
+				nIndex = PickRay();
+
+				// // handle symmetry
+				// if (bInitOver)
+				// {
+				// switch (getManagers().getToolsManager().getSymmetryMode())
+				// {
+				// case X:
+				// rayPt1[0] *= -1;
+				// rayPt2[0] *= -1;
+				// PickRay();
+				// rayPt1[0] *= -1;
+				// rayPt2[0] *= -1;
+				// nIndex = PickRay();
+				// break;
+				// case Y:
+				// rayPt1[1] *= -1;
+				// rayPt2[1] *= -1;
+				// PickRay();
+				// rayPt1[1] *= -1;
+				// rayPt2[1] *= -1;
+				// nIndex = PickRay();
+				// break;
+				// case Z:
+				// rayPt1[2] *= -1;
+				// rayPt2[2] *= -1;
+				// PickRay();
+				// rayPt1[2] *= -1;
+				// rayPt2[2] *= -1;
+				// nIndex = PickRay();
+				// break;
+				// case NONE:
+				// nIndex = PickRay();
+				// break;
+				// }
+				// }
 
 				NotifyListeners();
 			}
@@ -315,36 +305,36 @@ public class MeshManager extends BaseManager
 		if (nIndex >= 0)
 		{
 			mPickHighlight.setPickHighlightPosition(intersectPt);
-
-			long tSculptStart = SystemClock.uptimeMillis();
-			// TODO place in actionManager
-			switch (getManagers().getToolsManager().getToolMode())
-			{
-			case SCULPT:
-			{
-				switch (getManagers().getToolsManager().getSculptSubMode())
-				{
-				case DRAW:
-					mMesh.RiseSculptAction(nIndex);
-					break;
-				case GRAB:
-					mMesh.InitGrabAction(nIndex);
-					break;
-				case SMOOTH:
-					break;
-				case COLOR:
-					mMesh.ColorizePaintAction(nIndex);
-					break;
-				case TEXTURE:
-					break;
-				case PICK_COLOR:
-					mMesh.PickColorAction(nIndex);
-					break;
-				}
-			}
-			}
-			long tSculptStop = SystemClock.uptimeMillis();
-			mLastSculptDurationMs = tSculptStop - tSculptStart;
+			//
+			// long tSculptStart = SystemClock.uptimeMillis();
+			// // TODO place in actionManager
+			// switch (getManagers().getToolsManager().getToolMode())
+			// {
+			// case SCULPT:
+			// {
+			// switch (getManagers().getToolsManager().getSculptSubMode())
+			// {
+			// case DRAW:
+			// mMesh.RiseSculptAction(nIndex);
+			// break;
+			// case GRAB:
+			// mMesh.InitGrabAction(nIndex);
+			// break;
+			// case SMOOTH:
+			// break;
+			// case COLOR:
+			// mMesh.ColorizePaintAction(nIndex);
+			// break;
+			// case TEXTURE:
+			// break;
+			// case PICK_COLOR:
+			// mMesh.PickColorAction(nIndex);
+			// break;
+			// }
+			// }
+			// }
+			// long tSculptStop = SystemClock.uptimeMillis();
+			// mLastSculptDurationMs = tSculptStop - tSculptStart;
 		}
 		else
 		{

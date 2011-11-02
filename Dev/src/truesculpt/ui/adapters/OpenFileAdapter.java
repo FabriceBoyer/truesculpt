@@ -130,7 +130,7 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
 	@Override
 	protected void finalize() throws Throwable
 	{
-		// TODO Auto-generated method stub
+
 		super.finalize();
 
 		// stop the thread we started

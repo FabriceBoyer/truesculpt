@@ -26,14 +26,12 @@ public class RendererManager extends BaseManager
 	@Override
 	public void onCreate()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onDestroy()
 	{
-		// TODO Auto-generated method stub
 
 	}
 }
