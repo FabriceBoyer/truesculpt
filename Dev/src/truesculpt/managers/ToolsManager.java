@@ -4,8 +4,12 @@ import java.util.ArrayList;
 
 import truesculpt.actions.ChangeToolAction;
 import truesculpt.tools.ColorizeTool;
+import truesculpt.tools.GrabTool;
+import truesculpt.tools.InflateTool;
 import truesculpt.tools.PickColorTool;
 import truesculpt.tools.RiseTool;
+import truesculpt.tools.SelectionTool;
+import truesculpt.tools.SmoothTool;
 import truesculpt.tools.ToolsBase;
 import truesculpt.utils.Utils;
 import android.content.Context;
@@ -68,7 +72,11 @@ public class ToolsManager extends BaseManager
 
 		// TODO load from plugins or xml library
 		mToolsLibrary.add(new RiseTool(getManagers()));
+		mToolsLibrary.add(new GrabTool(getManagers()));
+		mToolsLibrary.add(new SmoothTool(getManagers()));
+		mToolsLibrary.add(new InflateTool(getManagers()));
 		mToolsLibrary.add(new ColorizeTool(getManagers()));
+		mToolsLibrary.add(new SelectionTool(getManagers()));// temp for test, replace texture
 		mToolsLibrary.add(new PickColorTool(getManagers()));
 
 		UpdateCurrentTool();
@@ -82,13 +90,22 @@ public class ToolsManager extends BaseManager
 			mCurrentTool = mToolsLibrary.get(0);
 			break;
 		case GRAB:
-		case SMOOTH:
-		case INFLATE:
-		case COLOR:
-		case TEXTURE:
-		case PICK_COLOR:
+			mCurrentTool = mToolsLibrary.get(1);
 			break;
-		default:
+		case SMOOTH:
+			mCurrentTool = mToolsLibrary.get(2);
+			break;
+		case INFLATE:
+			mCurrentTool = mToolsLibrary.get(3);
+			break;
+		case COLOR:
+			mCurrentTool = mToolsLibrary.get(4);
+			break;
+		case TEXTURE:
+			mCurrentTool = mToolsLibrary.get(5);
+			break;
+		case PICK_COLOR:
+			mCurrentTool = mToolsLibrary.get(6);
 			break;
 		}
 
@@ -311,16 +328,14 @@ public class ToolsManager extends BaseManager
 	public void setStrengthAbsoluteValue(float value, boolean bAddUndoAction)
 	{
 		float sign = 1;
-		if (mStrength < 0)
-			sign = -1;
+		if (mStrength < 0) sign = -1;
 		setStrength(sign * Math.abs(value), bAddUndoAction);
 	}
 
 	public void setStrengthSignum(boolean bIsPositive, boolean bAddUndoAction)
 	{
 		float sign = -1;
-		if (bIsPositive)
-			sign = 1;
+		if (bIsPositive) sign = 1;
 		setStrength(Math.abs(mStrength) * sign, bAddUndoAction);
 	}
 
