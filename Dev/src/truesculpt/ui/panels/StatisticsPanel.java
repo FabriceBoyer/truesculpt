@@ -21,7 +21,7 @@ public class StatisticsPanel extends Activity
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
-	
+
 	public Managers getManagers()
 	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();

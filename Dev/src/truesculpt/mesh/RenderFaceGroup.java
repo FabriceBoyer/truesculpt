@@ -23,14 +23,21 @@ public class RenderFaceGroup
 	private int mVertexCount = 0;
 
 	private Mesh mMesh = null;
-	float mNormalScaleFactor=0.1f;
-	
+	float mNormalScaleFactor = 0.1f;
+
 	public RenderFaceGroup(Mesh mesh)
 	{
 		mMesh = mesh;
 
 		mVertexCount = mMesh.mVertexList.size();
-		ByteBuffer vbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// vertices contains 3 elem (x,y,z) in float(4 bytes)
+		ByteBuffer vbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// vertices
+																			// contains
+																			// 3
+																			// elem
+																			// (x,y,z)
+																			// in
+																			// float(4
+																			// bytes)
 		vbb.order(ByteOrder.nativeOrder());
 		mVertexBuffer = vbb.asFloatBuffer();
 		for (Vertex vertex : mMesh.mVertexList)
@@ -40,7 +47,17 @@ public class RenderFaceGroup
 			mVertexBuffer.put(vertex.Coord[2]);
 		}
 
-		ByteBuffer cbb = ByteBuffer.allocateDirect(mVertexCount * 4 * 4); // color is a 4 elem group (RGBA) in float (4 bytes)
+		ByteBuffer cbb = ByteBuffer.allocateDirect(mVertexCount * 4 * 4); // color
+																			// is
+																			// a
+																			// 4
+																			// elem
+																			// group
+																			// (RGBA)
+																			// in
+																			// float
+																			// (4
+																			// bytes)
 		cbb.order(ByteOrder.nativeOrder());
 		mColorBuffer = cbb.asFloatBuffer();
 		float[] VCol = new float[4];
@@ -51,17 +68,36 @@ public class RenderFaceGroup
 		}
 
 		mFacesCount = mMesh.mFaceList.size();
-		ByteBuffer ibb = ByteBuffer.allocateDirect(mFacesCount * 3 * 2);// faces are 3 vertex indices (i,j,k) of the vertextable in short ( 2 bytes )
+		ByteBuffer ibb = ByteBuffer.allocateDirect(mFacesCount * 3 * 2);// faces
+																		// are 3
+																		// vertex
+																		// indices
+																		// (i,j,k)
+																		// of
+																		// the
+																		// vertextable
+																		// in
+																		// short
+																		// ( 2
+																		// bytes
+																		// )
 		ibb.order(ByteOrder.nativeOrder());
 		mIndexBuffer = ibb.asShortBuffer();
 		for (Face face : mMesh.mFaceList)
 		{
-			mIndexBuffer.put((short)face.E0.V0);
-			mIndexBuffer.put((short)face.E1.V0);
-			mIndexBuffer.put((short)face.E2.V0);
+			mIndexBuffer.put((short) face.E0.V0);
+			mIndexBuffer.put((short) face.E1.V0);
+			mIndexBuffer.put((short) face.E2.V0);
 		}
 
-		ByteBuffer nbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// normals contains 3 elem (x,y,z) in float(4 bytes)
+		ByteBuffer nbb = ByteBuffer.allocateDirect(mVertexCount * 3 * 4);// normals
+																			// contains
+																			// 3
+																			// elem
+																			// (x,y,z)
+																			// in
+																			// float(4
+																			// bytes)
 		nbb.order(ByteOrder.nativeOrder());
 		mNormalBuffer = nbb.asFloatBuffer();
 		for (Vertex vertex : mMesh.mVertexList)
@@ -71,46 +107,64 @@ public class RenderFaceGroup
 			mNormalBuffer.put(vertex.Normal[2]);
 		}
 
-		//Beware memory consuming
-		ByteBuffer ndvbb = ByteBuffer.allocateDirect(mVertexCount * 2 * 3 * 4);//  normals contains 3 elem (x,y,z) in float(4 bytes)
+		// Beware memory consuming
+		ByteBuffer ndvbb = ByteBuffer.allocateDirect(mVertexCount * 2 * 3 * 4);// normals
+																				// contains
+																				// 3
+																				// elem
+																				// (x,y,z)
+																				// in
+																				// float(4
+																				// bytes)
 		ndvbb.order(ByteOrder.nativeOrder());
 		mDrawNormalVertexBuffer = ndvbb.asFloatBuffer();
 		for (Vertex vertex : mMesh.mVertexList)
 		{
 			mDrawNormalVertexBuffer.put(vertex.Coord);
-			
-			mDrawNormalVertexBuffer.put(vertex.Coord[0]+vertex.Normal[0]*mNormalScaleFactor);
-			mDrawNormalVertexBuffer.put(vertex.Coord[1]+vertex.Normal[1]*mNormalScaleFactor);
-			mDrawNormalVertexBuffer.put(vertex.Coord[2]+vertex.Normal[2]*mNormalScaleFactor);
+
+			mDrawNormalVertexBuffer.put(vertex.Coord[0] + vertex.Normal[0] * mNormalScaleFactor);
+			mDrawNormalVertexBuffer.put(vertex.Coord[1] + vertex.Normal[1] * mNormalScaleFactor);
+			mDrawNormalVertexBuffer.put(vertex.Coord[2] + vertex.Normal[2] * mNormalScaleFactor);
 		}
 
-		ByteBuffer ndibb = ByteBuffer.allocateDirect(mVertexCount * 2 * 2);// line are 2 elements in short ( 2 bytes )
+		ByteBuffer ndibb = ByteBuffer.allocateDirect(mVertexCount * 2 * 2);// line
+																			// are
+																			// 2
+																			// elements
+																			// in
+																			// short
+																			// (
+																			// 2
+																			// bytes
+																			// )
 		ndibb.order(ByteOrder.nativeOrder());
 		mDrawNormalIndexBuffer = ndibb.asShortBuffer();
-		for (int i=0;i<(mVertexCount*2);i=i+2)
+		for (int i = 0; i < (mVertexCount * 2); i = i + 2)
 		{
 			mDrawNormalIndexBuffer.put((short) i);
-			mDrawNormalIndexBuffer.put((short)(i+1));
+			mDrawNormalIndexBuffer.put((short) (i + 1));
 		}
 	}
 
 	public void draw(GL10 gl)
 	{
-		//reinit position once here to avoid doing it in each update (but not great to do it here)
+		// reinit position once here to avoid doing it in each update (but not
+		// great to do it here)
 		mVertexBuffer.position(0);
 		mColorBuffer.position(0);
 		mIndexBuffer.position(0);
 		mNormalBuffer.position(0);
-		
+
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 		gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
 
-		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
+		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to
+									// previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, mColorBuffer);
 		gl.glNormalPointer(GL10.GL_FLOAT, 0, mNormalBuffer);
 
-		//Wireframe : use GL10.GL_LINES
+		// Wireframe : use GL10.GL_LINES
 		gl.glDrawElements(GL10.GL_TRIANGLES, mFacesCount * 3, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
 		gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
@@ -121,11 +175,12 @@ public class RenderFaceGroup
 	{
 		mDrawNormalIndexBuffer.position(0);
 		mDrawNormalVertexBuffer.position(0);
-		
-		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to previous format
+
+		gl.glFrontFace(GL10.GL_CCW);// counter clock wise is specific to
+									// previous format
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mDrawNormalVertexBuffer);
 
-		gl.glDrawElements(GL10.GL_LINES, mVertexCount * 2, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);		
+		gl.glDrawElements(GL10.GL_LINES, mVertexCount * 2, GL10.GL_UNSIGNED_SHORT, mDrawNormalIndexBuffer);
 	}
 
 	public FloatBuffer getColorBuffer()
@@ -147,28 +202,28 @@ public class RenderFaceGroup
 	{
 		return mVertexBuffer;
 	}
-	
+
 	public void UpdateVertexValue(int nVertexIndex, float[] val, float[] normal)
 	{
-		mVertexBuffer.position(nVertexIndex*3);
+		mVertexBuffer.position(nVertexIndex * 3);
 		mVertexBuffer.put(val, 0, 3);
-		
-		mNormalBuffer.position(nVertexIndex*3);
-		mNormalBuffer.put(normal, 0, 3);	
-		
-		//slow, activated only for debug		
-		//mDrawNormalVertexBuffer.position(nVertexIndex*2*3);
-		//mDrawNormalVertexBuffer.put(val);
-		//mDrawNormalVertexBuffer.put(val[0]+normal[0]*mNormalScaleFactor);
-		//mDrawNormalVertexBuffer.put(val[1]+normal[1]*mNormalScaleFactor);
-		//mDrawNormalVertexBuffer.put(val[2]+normal[2]*mNormalScaleFactor);
+
+		mNormalBuffer.position(nVertexIndex * 3);
+		mNormalBuffer.put(normal, 0, 3);
+
+		// slow, activated only for debug
+		// mDrawNormalVertexBuffer.position(nVertexIndex*2*3);
+		// mDrawNormalVertexBuffer.put(val);
+		// mDrawNormalVertexBuffer.put(val[0]+normal[0]*mNormalScaleFactor);
+		// mDrawNormalVertexBuffer.put(val[1]+normal[1]*mNormalScaleFactor);
+		// mDrawNormalVertexBuffer.put(val[2]+normal[2]*mNormalScaleFactor);
 	}
-	
-	public void UpdateVertexColor( int nVertexIndex, int color)
+
+	public void UpdateVertexColor(int nVertexIndex, int color)
 	{
-		mColorBuffer.position(nVertexIndex*4);
+		mColorBuffer.position(nVertexIndex * 4);
 		float[] VCol = new float[4];
 		Utils.ColorIntToFloatVector(color, VCol);
-		mColorBuffer.put(VCol,0,4);		
+		mColorBuffer.put(VCol, 0, 4);
 	}
 }

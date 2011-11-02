@@ -69,7 +69,10 @@ public class UpdatePanel extends Activity
 		text = (TextView) findViewById(R.id.UpdateStatusText);
 		text.setText(R.string.looking_for_updates_);
 
-		Thread thr = new Thread(null, mLookUpTask, "Update_Lookup");// network access can be long
+		Thread thr = new Thread(null, mLookUpTask, "Update_Lookup");// network
+																	// access
+																	// can be
+																	// long
 		thr.start();
 	}
 
@@ -114,7 +117,8 @@ public class UpdatePanel extends Activity
 			{
 				msg += getString(R.string.no_update_is_needed_) + " \n";
 			}
-		} else
+		}
+		else
 		{
 			msg += getString(R.string.unable_to_get_update_status) + " \n";
 		}

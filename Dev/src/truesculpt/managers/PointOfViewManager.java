@@ -50,7 +50,7 @@ public class PointOfViewManager extends BaseManager
 	public void NotifyListeners()
 	{
 		getManagers().getRendererManager().getMainRenderer().onPointOfViewChange();
-		super.NotifyListeners();		
+		super.NotifyListeners();
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class PointOfViewManager extends BaseManager
 
 	public void resetPOV()
 	{
-		SetAllAngles(0, 0, 3);		
+		SetAllAngles(0, 0, 3);
 	}
 
 	public void SetAllAngles(float rotation, float elevation, float zoomDistance)

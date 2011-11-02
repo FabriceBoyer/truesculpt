@@ -18,14 +18,14 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class ToolsPanel extends Activity implements Observer
 {
@@ -36,7 +36,7 @@ public class ToolsPanel extends Activity implements Observer
 	private TextView mStrengthText;
 	private Spinner mToolSpinner;
 	private Spinner mSymmetrySpinner;
-	
+
 	public Managers getManagers()
 	{
 		return ((TrueSculptApp) getApplicationContext()).getManagers();
@@ -44,53 +44,53 @@ public class ToolsPanel extends Activity implements Observer
 
 	public static void UpdateSymmetrySpinner(Spinner symSpinner, final Context context)
 	{
-		ESymmetryMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSymmetryMode();
-		int nIndex=0;
+		ESymmetryMode mode = ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().getSymmetryMode();
+		int nIndex = 0;
 		switch (mode)
 		{
 		case NONE:
-			nIndex=0;
+			nIndex = 0;
 			break;
 		case X:
-			nIndex=1;
+			nIndex = 1;
 			break;
 		case Y:
-			nIndex=2;
+			nIndex = 2;
 			break;
 		case Z:
-			nIndex=3;
+			nIndex = 3;
 			break;
 		}
 		symSpinner.setSelection(nIndex);
 	}
-			
+
 	public static void UpdateToolSpinner(Spinner toolSpinner, final Context context)
 	{
-		ESculptToolSubMode mode=((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getSculptSubMode();
-		int nIndex=0;
+		ESculptToolSubMode mode = ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().getSculptSubMode();
+		int nIndex = 0;
 		switch (mode)
 		{
 		case DRAW:
-			nIndex=0;
+			nIndex = 0;
 			break;
 		case GRAB:
-			nIndex=1;
+			nIndex = 1;
 			break;
 		case SMOOTH:
-			nIndex=2;
+			nIndex = 2;
 			break;
 		case INFLATE:
-			nIndex=3;
+			nIndex = 3;
 			break;
 		case COLOR:
-			nIndex=4;
+			nIndex = 4;
 			break;
 		case PICK_COLOR:
-			nIndex=5;
+			nIndex = 5;
 		}
 		toolSpinner.setSelection(nIndex);
 	}
-	
+
 	public static void InitToolSpinner(Spinner toolSpinner, final Context context)
 	{
 		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
@@ -119,7 +119,7 @@ public class ToolsPanel extends Activity implements Observer
 		map.put("description", "Inflate");
 		map.put("image", String.valueOf(R.drawable.inflate));
 		listItem.add(map);
-		
+
 		map = new HashMap<String, String>();
 		map.put("title", "Color");
 		map.put("description", "Color");
@@ -131,50 +131,49 @@ public class ToolsPanel extends Activity implements Observer
 		map.put("description", "Pick color");
 		map.put("image", String.valueOf(R.drawable.colorpicker));
 		listItem.add(map);
-			
+
 		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
-		adapter.setDropDownViewResource(R.layout.toolitem);		
-		toolSpinner.setAdapter(adapter);			
+		adapter.setDropDownViewResource(R.layout.toolitem);
+		toolSpinner.setAdapter(adapter);
 		toolSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				ESculptToolSubMode mode=ESculptToolSubMode.DRAW;
-				
-				switch ((int)arg3)
+				ESculptToolSubMode mode = ESculptToolSubMode.DRAW;
+
+				switch ((int) arg3)
 				{
 				case 0:
-					mode=ESculptToolSubMode.DRAW;
+					mode = ESculptToolSubMode.DRAW;
 					break;
 				case 1:
-					mode=ESculptToolSubMode.GRAB;
+					mode = ESculptToolSubMode.GRAB;
 					break;
 				case 2:
-					mode=ESculptToolSubMode.SMOOTH;
+					mode = ESculptToolSubMode.SMOOTH;
 					break;
 				case 3:
-					mode=ESculptToolSubMode.INFLATE;
+					mode = ESculptToolSubMode.INFLATE;
 					break;
 				case 4:
-					mode=ESculptToolSubMode.COLOR;
+					mode = ESculptToolSubMode.COLOR;
 					break;
 				case 5:
-					mode=ESculptToolSubMode.PICK_COLOR;
-					break;	
+					mode = ESculptToolSubMode.PICK_COLOR;
+					break;
 				}
-				
-				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setSculptSubMode(mode);
+
+				((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().setSculptSubMode(mode);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0)
 			{
-				
+
 			}
 		});
 	}
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -193,20 +192,20 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
-				getManagers().getToolsManager().setRadius(progress,false);
+				getManagers().getToolsManager().setRadius(progress, false);
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
-				//getManagers().getToolsManager().SetUndoInitialState();
+				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
 			{
-				getManagers().getToolsManager().setRadius(seekBar.getProgress(),false);
-				//getManagers().getToolsManager().AddUndoToolAction();
+				getManagers().getToolsManager().setRadius(seekBar.getProgress(), false);
+				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mRadiusSeekBar.setMax(100);// 0 to 100 pct
@@ -218,20 +217,20 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
-				getManagers().getToolsManager().setStrength(progress - 100,false);
+				getManagers().getToolsManager().setStrength(progress - 100, false);
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
-				//getManagers().getToolsManager().SetUndoInitialState();
+				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
-			{				
-				getManagers().getToolsManager().setStrength(seekBar.getProgress()-100,false);
-				//getManagers().getToolsManager().AddUndoToolAction();
+			{
+				getManagers().getToolsManager().setStrength(seekBar.getProgress() - 100, false);
+				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mStrengthSeekBar.setMax(200);// -100 to 100 pct
@@ -252,21 +251,21 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void colorChanged(int color)
 			{
-				getManagers().getToolsManager().setColor(color,false);
+				getManagers().getToolsManager().setColor(color, false);
 			}
 
 			@Override
 			public void colorChangeStart(int color)
 			{
-				//getManagers().getToolsManager().SetUndoInitialState();				
+				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void colorChangeStop(int color)
 			{
-				//getManagers().getToolsManager().AddUndoToolAction();
+				// getManagers().getToolsManager().AddUndoToolAction();
 			}
-		});		
+		});
 
 		Button mScreenshotButton = (Button) findViewById(R.id.screenshot);
 		mScreenshotButton.setOnClickListener(new View.OnClickListener()
@@ -301,10 +300,10 @@ public class ToolsPanel extends Activity implements Observer
 		});
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		InitToolSpinner(mToolSpinner,this);
-		
+		InitToolSpinner(mToolSpinner, this);
+
 		mSymmetrySpinner = (Spinner) findViewById(R.id.SymmetrySpinner);
-		InitSymmetrySpinner(mSymmetrySpinner, this);		
+		InitSymmetrySpinner(mSymmetrySpinner, this);
 
 		UpdateView();
 	}
@@ -319,31 +318,31 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				ESymmetryMode mode=ESymmetryMode.NONE;
-				
-				switch ((int)arg3)
+				ESymmetryMode mode = ESymmetryMode.NONE;
+
+				switch ((int) arg3)
 				{
 				case 0:
-					mode=ESymmetryMode.NONE;
+					mode = ESymmetryMode.NONE;
 					break;
 				case 1:
-					mode=ESymmetryMode.X;
+					mode = ESymmetryMode.X;
 					break;
 				case 2:
-					mode=ESymmetryMode.Y;
+					mode = ESymmetryMode.Y;
 					break;
 				case 3:
-					mode=ESymmetryMode.Z;
+					mode = ESymmetryMode.Z;
 					break;
 				}
-				
-				((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().setSymmetryMode(mode);
+
+				((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().setSymmetryMode(mode);
 			}
-			
+
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0)
 			{
-				
+
 			}
 		});
 	}
@@ -385,8 +384,8 @@ public class ToolsPanel extends Activity implements Observer
 		mRadiusText.setText("Radius = " + Integer.toString((int) fRadius) + " %");
 
 		mColorPickerView.SetColor(getManagers().getToolsManager().getColor());
-		
-		UpdateToolSpinner(mToolSpinner,this);
-		UpdateSymmetrySpinner(mSymmetrySpinner,this);
+
+		UpdateToolSpinner(mToolSpinner, this);
+		UpdateSymmetrySpinner(mSymmetrySpinner, this);
 	}
 }

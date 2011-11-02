@@ -28,10 +28,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
-import android.widget.Spinner;
-import android.widget.ToggleButton;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
+import android.widget.Spinner;
+import android.widget.ToggleButton;
 
 public class RendererMainPanel extends Activity implements Observer
 {
@@ -43,10 +43,9 @@ public class RendererMainPanel extends Activity implements Observer
 	private Spinner mToolSpinner;
 	private SliderPickView mRadius;
 	private SliderPickView mStrength;
-	private ImageButton mResetPOVbutton;	
+	private ImageButton mResetPOVbutton;
 	private ToggleButton mSymmetrySwitcher;
 	private ImageButton mFilesBtn;
-	
 
 	public Managers getManagers()
 	{
@@ -66,14 +65,14 @@ public class RendererMainPanel extends Activity implements Observer
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
-	{	
+	{
 		// StrictMode.enableDefaults();
-		
+
 		super.onCreate(savedInstanceState);
 
 		getManagers().getUsageStatisticsManager().TrackPageView("/RendererMainPanel");
 		getManagers().getUtilsManager().InitHandler();
-		
+
 		ShowSplashScreen();
 		getManagers().getUpdateManager().CheckUpdate(getBaseContext());
 		ShowTutorial();
@@ -86,31 +85,33 @@ public class RendererMainPanel extends Activity implements Observer
 		mGLSurfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
 		mGLSurfaceView.setRenderer(getManagers().getRendererManager().getMainRenderer());
 		mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-		
+
 		getManagers().getPointOfViewManager().addObserver(this);
 		getManagers().getMeshManager().addObserver(this);
 		getManagers().getToolsManager().addObserver(this);
 		getManagers().getActionsManager().addObserver(this);
 
 		mToolsSlidingDrawer = (SlidingDrawer) findViewById(R.id.toolsSlidingDrawer);
-		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() 
+		mToolsSlidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener()
 		{
 			@Override
-			public void onDrawerOpened() {
-				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.down_arrow);
+			public void onDrawerOpened()
+			{
+				// mToolsSlideHandleButton.setBackgroundResource(R.drawable.down_arrow);
 			}
 		});
 		mToolsSlidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener()
 		{
 			@Override
-			public void onDrawerClosed() {
-				//mToolsSlideHandleButton.setBackgroundResource(R.drawable.up_arrow);
+			public void onDrawerClosed()
+			{
+				// mToolsSlideHandleButton.setBackgroundResource(R.drawable.up_arrow);
 			}
 		});
-		
+
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		ToolsPanel.InitToolSpinner(mToolSpinner,this);
-		
+		ToolsPanel.InitToolSpinner(mToolSpinner, this);
+
 		mRedoButton = (ImageButton) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -121,7 +122,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		mRedoButton.setOnLongClickListener(new View.OnLongClickListener()
-		{			
+		{
 			@Override
 			public boolean onLongClick(View v)
 			{
@@ -129,7 +130,7 @@ public class RendererMainPanel extends Activity implements Observer
 				return false;
 			}
 		});
-		
+
 		mUndoButton = (ImageButton) findViewById(R.id.UndoBtn);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -140,7 +141,7 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 		mUndoButton.setOnLongClickListener(new View.OnLongClickListener()
-		{			
+		{
 			@Override
 			public boolean onLongClick(View v)
 			{
@@ -148,18 +149,18 @@ public class RendererMainPanel extends Activity implements Observer
 				return false;
 			}
 		});
-		
+
 		mResetPOVbutton = (ImageButton) findViewById(R.id.ResetPOVBtn);
 		mResetPOVbutton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				getManagers().getPointOfViewManager().resetPOV();				
+				getManagers().getPointOfViewManager().resetPOV();
 			}
 		});
 		mResetPOVbutton.setOnLongClickListener(new View.OnLongClickListener()
-		{			
+		{
 			@Override
 			public boolean onLongClick(View v)
 			{
@@ -167,25 +168,25 @@ public class RendererMainPanel extends Activity implements Observer
 				return false;
 			}
 		});
-		
-		mSymmetrySwitcher= (ToggleButton) findViewById(R.id.SymmetrySwitcher);
+
+		mSymmetrySwitcher = (ToggleButton) findViewById(R.id.SymmetrySwitcher);
 		mSymmetrySwitcher.setOnClickListener(new View.OnClickListener()
-		{	
+		{
 			@Override
 			public void onClick(View v)
 			{
-				if (getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE)
+				if (getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE)
 				{
 					getManagers().getToolsManager().setSymmetryMode(ESymmetryMode.NONE);
 				}
 				else
 				{
 					getManagers().getToolsManager().setSymmetryMode(ESymmetryMode.X);
-				}				
+				}
 			}
 		});
 		mSymmetrySwitcher.setOnLongClickListener(new View.OnLongClickListener()
-		{			
+		{
 			@Override
 			public boolean onLongClick(View v)
 			{
@@ -193,132 +194,130 @@ public class RendererMainPanel extends Activity implements Observer
 				return false;
 			}
 		});
-		
-		
+
 		mColorShow = (ColorShowView) findViewById(R.id.ColorShowView);
 		mColorShow.SetDoubleClickListener(new ColorShowView.OnDoubleClickListener()
 		{
 			@Override
 			public void onDoubleClick(int color)
 			{
-				getManagers().getToolsManager().setColor(color,false);	
+				getManagers().getToolsManager().setColor(color, false);
 				getManagers().getUtilsManager().ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
 		});
 		mColorShow.SetColorChangeListener(new OnColorChangedListener()
-		{			
+		{
 			@Override
 			public void colorChanged(int color)
 			{
-				getManagers().getToolsManager().setColor(color,false);				
+				getManagers().getToolsManager().setColor(color, false);
 			}
 
 			@Override
 			public void colorChangeStart(int color)
-			{		
-				//getManagers().getToolsManager().SetUndoInitialState();
+			{
+				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void colorChangeStop(int color)
 			{
-				//getManagers().getToolsManager().AddUndoToolAction();
+				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
-		
-		mRadius = (SliderPickView)findViewById(R.id.RadiusPicker);
+
+		mRadius = (SliderPickView) findViewById(R.id.RadiusPicker);
 		mRadius.setText("Radius");
 		mRadius.setMaxValue(100);
 		mRadius.setMinValue(0);
 		mRadius.setSliderChangeListener(new OnSliderPickChangedListener()
-		{			
+		{
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				getManagers().getToolsManager().setRadius(value,false);				
+				getManagers().getToolsManager().setRadius(value, false);
 			}
 
 			@Override
 			public void sliderChangeStart(float value)
-			{	
-				//getManagers().getToolsManager().SetUndoInitialState();
+			{
+				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop(float value)
-			{					
-				//getManagers().getToolsManager().AddUndoToolAction();
+			{
+				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mRadius.SetDoubleClickListener(new OnDoubleClickListener()
-		{			
+		{
 			@Override
 			public void onDoubleClick(float value)
 			{
-				getManagers().getToolsManager().setRadius(value,false);	
-				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);		
+				getManagers().getToolsManager().setRadius(value, false);
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);
 			}
 		});
-		
-		mStrength = (SliderPickView)findViewById(R.id.StrengthPicker);
+
+		mStrength = (SliderPickView) findViewById(R.id.StrengthPicker);
 		mStrength.setText("Strength");
 		mStrength.setMaxValue(100);
 		mStrength.setMinValue(0);
 		mStrength.setSliderChangeListener(new OnSliderPickChangedListener()
-		{			
+		{
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				getManagers().getToolsManager().setStrengthAbsoluteValue(value,false);				
+				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
 			}
 
 			@Override
 			public void sliderChangeStart(float value)
-			{				
-				//getManagers().getToolsManager().SetUndoInitialState();
+			{
+				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop(float value)
 			{
-				//getManagers().getToolsManager().AddUndoToolAction();
+				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 		mStrength.SetDoubleClickListener(new OnDoubleClickListener()
-		{			
+		{
 			@Override
 			public void onDoubleClick(float value)
 			{
-				getManagers().getToolsManager().setStrengthAbsoluteValue(value,false);	
-				boolean bIsPositive=getManagers().getToolsManager().isStrengthPositive();
-				getManagers().getToolsManager().setStrengthSignum(!bIsPositive, false);				
+				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
+				boolean bIsPositive = getManagers().getToolsManager().isStrengthPositive();
+				getManagers().getToolsManager().setStrengthSignum(!bIsPositive, false);
 			}
 		});
-		
+
 		mFilesBtn = (ImageButton) findViewById(R.id.FilesBtn);
 		mFilesBtn.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.FileSelectorPanel.class, false);				
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.FileSelectorPanel.class, false);
 			}
 		});
 		mFilesBtn.setOnLongClickListener(new View.OnLongClickListener()
-		{			
+		{
 			@Override
 			public boolean onLongClick(View v)
-			{				
+			{
 				return false;
 			}
 		});
-		
+
 		mToolsSlidingDrawer.open();
-		
+
 		UpdateGLView();
-		UpdateButtonsView();	
+		UpdateButtonsView();
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -348,49 +347,40 @@ public class RendererMainPanel extends Activity implements Observer
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			/*
-			if (mToolsSlidingDrawer.isOpened())
-			{
-				mToolsSlidingDrawer.close();
-			}
-			else
-			*/
+			 * if (mToolsSlidingDrawer.isOpened()) {
+			 * mToolsSlidingDrawer.close(); } else
+			 */
 			{
 				// Ask the user if they want to quit
-				new AlertDialog.Builder(this)
-				.setIcon(android.R.drawable.ic_dialog_alert)
-				.setTitle(R.string.quit)
-				.setMessage(R.string.really_quit)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+				new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.quit).setMessage(R.string.really_quit).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
-						//save last used file
+						// save last used file
 						getManagers().getOptionsManager().setLastUsedFile(getManagers().getMeshManager().getName());
-						
+
 						finish();
 						System.exit(0);
 					}
-				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
 					}
-				})
-				.setNeutralButton(R.string.save, new DialogInterface.OnClickListener()
+				}).setNeutralButton(R.string.save, new DialogInterface.OnClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
 						Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.SaveFilePanel.class, false);
 					}
-				})
-				.show();
+				}).show();
 			}
 			return true;
-		} else
+		}
+		else
 		{
 			return super.onKeyDown(keyCode, event);
 		}
@@ -406,41 +396,28 @@ public class RendererMainPanel extends Activity implements Observer
 			Utils.StartMyActivity(this, truesculpt.ui.panels.FileSelectorPanel.class, false);
 			return true;
 		}
-	
+
 		case R.id.show_options:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.OptionsPanel.class, false);
 			return true;
 		}
-	
+
 		case R.id.show_about_panel:
 		{
 			Utils.StartMyActivity(this, truesculpt.ui.panels.AboutPanel.class, false);
 			return true;
 		}
 		/*
-		case R.id.show_tools_panel:
-		{
-			commuteSliderState();
-			//Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class, false);
-			return true;
-		}
-		case R.id.show_history:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.HistoryPanel.class, false);
-			return true;
-		}			
-	 	case R.id.show_point_of_view_panel: 
-	 	{ 
-	 		Utils.StartMyActivity(this, truesculpt.ui.panels.PointOfViewPanel.class, false); 
-	 		return true; 
-	 	} 
-	 	case R.id.quit:
-	 	{ 
-	 		this.finish();
-	 		return true;
-	 	}
-		*/
+		 * case R.id.show_tools_panel: { commuteSliderState();
+		 * //Utils.StartMyActivity(this, truesculpt.ui.panels.ToolsPanel.class,
+		 * false); return true; } case R.id.show_history: {
+		 * Utils.StartMyActivity(this, truesculpt.ui.panels.HistoryPanel.class,
+		 * false); return true; } case R.id.show_point_of_view_panel: {
+		 * Utils.StartMyActivity(this,
+		 * truesculpt.ui.panels.PointOfViewPanel.class, false); return true; }
+		 * case R.id.quit: { this.finish(); return true; }
+		 */
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -487,8 +464,8 @@ public class RendererMainPanel extends Activity implements Observer
 		int nRes = getManagers().getTouchManager().onTouchEvent(event);
 		switch (nRes)
 		{
-		case 1://Tap tap
-			//commuteSliderState();
+		case 1:// Tap tap
+				// commuteSliderState();
 			break;
 		}
 		return super.onTouchEvent(event);
@@ -530,38 +507,39 @@ public class RendererMainPanel extends Activity implements Observer
 	}
 
 	private void UpdateButtonsView()
-	{	
-		if (getManagers().getActionsManager().GetUndoActionCount()<=0) 
+	{
+		if (getManagers().getActionsManager().GetUndoActionCount() <= 0)
 		{
-			mUndoButton.setEnabled(false);			
+			mUndoButton.setEnabled(false);
 		}
 		else
 		{
 			mUndoButton.setEnabled(true);
-		}		
-		
-		if (getManagers().getActionsManager().GetRedoActionCount()<=0) 
+		}
+
+		if (getManagers().getActionsManager().GetRedoActionCount() <= 0)
 		{
-			mRedoButton.setEnabled(false);			
+			mRedoButton.setEnabled(false);
 		}
 		else
 		{
 			mRedoButton.setEnabled(true);
 		}
-		
+
 		mColorShow.setColor(getManagers().getToolsManager().getColor());
-		
-		ToolsPanel.UpdateToolSpinner(mToolSpinner,this);
-		
+
+		ToolsPanel.UpdateToolSpinner(mToolSpinner, this);
+
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
-		
+
 		mStrength.setCurrentValue(getManagers().getToolsManager().getStrengthAbsoluteValue());
-		int strengthColor=Color.RED;
-		if (getManagers().getToolsManager().isStrengthPositive()) strengthColor=Color.BLUE;
+		int strengthColor = Color.RED;
+		if (getManagers().getToolsManager().isStrengthPositive())
+			strengthColor = Color.BLUE;
 		mStrength.SetCircleBackColor(strengthColor);
-		
-		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode()!=ESymmetryMode.NONE);
-	}	
+
+		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE);
+	}
 
 	public void updateFullscreenWindowStatus()
 	{

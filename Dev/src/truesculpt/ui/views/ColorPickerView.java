@@ -18,9 +18,9 @@ public class ColorPickerView extends View
 	private static final int CENTER_X = 100;
 	private static final int CENTER_Y = 100;
 	private static final float PI = 3.1415926f;
-	private Paint mCenterPaint=null;
+	private Paint mCenterPaint = null;
 	private final int[] mColors;
-	private OnColorChangedListener mListener=null;
+	private OnColorChangedListener mListener = null;
 	private Paint mPaint;
 
 	public ColorPickerView(Context c, AttributeSet attrs)
@@ -98,19 +98,22 @@ public class ColorPickerView extends View
 		setMeasuredDimension(CENTER_X * 2, CENTER_Y * 2);
 	}
 
-	private enum State {START, CHANGE, STOP};
-	
+	private enum State
+	{
+		START, CHANGE, STOP
+	};
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		boolean bRes=false;
+		boolean bRes = false;
 		float x = event.getX() - CENTER_X;
 		float y = event.getY() - CENTER_Y;
-		float R=(float) java.lang.Math.sqrt(x * x + y * y);
+		float R = (float) java.lang.Math.sqrt(x * x + y * y);
 		boolean inCenter = R <= CENTER_RADIUS;
 
 		if (!inCenter)
-		{			
+		{
 			float angle = (float) java.lang.Math.atan2(y, x);
 			// need to turn angle [-PI ... PI] into unit [0....1]
 			float unit = angle / (2 * PI);
@@ -118,44 +121,44 @@ public class ColorPickerView extends View
 			{
 				unit += 1;
 			}
-			int col=interpColor(mColors, unit);
-			
+			int col = interpColor(mColors, unit);
+
 			int action = event.getAction();
 			int actionCode = action & MotionEvent.ACTION_MASK;
 			switch (actionCode)
 			{
-				case MotionEvent.ACTION_DOWN:
-				{			
-					UpdateColor(col, State.START);
-					break;
-				}
-				case MotionEvent.ACTION_UP:		
-				{
-					UpdateColor(col, State.STOP);
-					bRes=true;
-					break;
-				}
-				case MotionEvent.ACTION_MOVE:
-				{
-					UpdateColor(col, State.CHANGE);
-					bRes=true;
-					break;
-				}
-			}			
-			
-			bRes=true;
+			case MotionEvent.ACTION_DOWN:
+			{
+				UpdateColor(col, State.START);
+				break;
+			}
+			case MotionEvent.ACTION_UP:
+			{
+				UpdateColor(col, State.STOP);
+				bRes = true;
+				break;
+			}
+			case MotionEvent.ACTION_MOVE:
+			{
+				UpdateColor(col, State.CHANGE);
+				bRes = true;
+				break;
+			}
+			}
+
+			bRes = true;
 		}
 		else
 		{
-			bRes=super.onTouchEvent(event);
+			bRes = super.onTouchEvent(event);
 		}
-		 
-		return bRes;	
+
+		return bRes;
 	}
-	
+
 	private void UpdateColor(int color, State state)
 	{
-		if (mListener!=null)
+		if (mListener != null)
 		{
 			switch (state)
 			{
@@ -168,7 +171,7 @@ public class ColorPickerView extends View
 			case STOP:
 				mListener.colorChangeStop(color);
 				break;
-			}					
+			}
 		}
 	}
 

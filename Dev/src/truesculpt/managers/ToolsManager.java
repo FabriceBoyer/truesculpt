@@ -9,26 +9,28 @@ import truesculpt.utils.Utils;
 import android.content.Context;
 import android.graphics.Color;
 
-
-
 public class ToolsManager extends BaseManager
 {
-	public enum EPovToolSubMode {
+	public enum EPovToolSubMode
+	{
 		PAN, ROTATE, ZOOM
 	};
 
-	public enum ESculptToolSubMode {
-		DRAW, GRAB, SMOOTH, INFLATE, COLOR, TEXTURE, PICK_COLOR		
+	public enum ESculptToolSubMode
+	{
+		DRAW, GRAB, SMOOTH, INFLATE, COLOR, TEXTURE, PICK_COLOR
 	};
-	
-	public enum EToolMode {
+
+	public enum EToolMode
+	{
 		POV, SCULPT
 	};
-	
-	public enum ESymmetryMode {
-		NONE,X,Y,Z
+
+	public enum ESymmetryMode
+	{
+		NONE, X, Y, Z
 	};
-		
+
 	public class GlobalToolState
 	{
 		EToolMode m_toolmode;
@@ -38,20 +40,13 @@ public class ToolsManager extends BaseManager
 		int m_Color;
 		float m_Radius;
 		float m_Strength;
-		
-		
+
 		@Override
-		public String toString() 
+		public String toString()
 		{
-			String msg="";
-			msg=m_toolmode+"/"+
-			m_subSculptTool+"/"+
-			m_subPOVTool+"/"+
-			m_symmetrymode+"/"+
-			Utils.ColorIntToString(m_Color)+"/"+
-			Float.toString(m_Radius)+"/"+
-			Float.toString(m_Strength);
-			return msg;		
+			String msg = "";
+			msg = m_toolmode + "/" + m_subSculptTool + "/" + m_subPOVTool + "/" + m_symmetrymode + "/" + Utils.ColorIntToString(m_Color) + "/" + Float.toString(m_Radius) + "/" + Float.toString(m_Strength);
+			return msg;
 		}
 	};
 
@@ -59,28 +54,28 @@ public class ToolsManager extends BaseManager
 	private EToolMode mMode = EToolMode.POV;
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
 	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.DRAW;
-	private ESymmetryMode mSymmetryMode=ESymmetryMode.NONE;
+	private ESymmetryMode mSymmetryMode = ESymmetryMode.NONE;
 	private float mRadius = 50.0f;// pct
 	private float mStrength = 50.0f;// pct
-	private ToolsBase mCurrentTool=null;
+	private ToolsBase mCurrentTool = null;
 	private List<ToolsBase> mToolsLibrary;
 
 	public ToolsManager(Context baseContext)
 	{
 		super(baseContext);
-		
-		//TODO load from plugins or xml library
+
+		// TODO load from plugins or xml library
 		mToolsLibrary.add(new RiseTool(getManagers()));
-		
+
 		UpdateCurrentTool();
 	}
-	
+
 	private void UpdateCurrentTool()
 	{
 		switch (mSculptSubMode)
 		{
 		case DRAW:
-			mCurrentTool=mToolsLibrary.get(0);
+			mCurrentTool = mToolsLibrary.get(0);
 			break;
 		case GRAB:
 		case SMOOTH:
@@ -90,14 +85,14 @@ public class ToolsManager extends BaseManager
 		case PICK_COLOR:
 			break;
 		}
-		
+
 	}
 
 	public int getColor()
 	{
 		return mColor;
 	}
-	
+
 	public EPovToolSubMode getPovSubMode()
 	{
 		return mPovSubMode;
@@ -112,7 +107,7 @@ public class ToolsManager extends BaseManager
 	{
 		return mSculptSubMode;
 	}
-	
+
 	public ESymmetryMode getSymmetryMode()
 	{
 		return mSymmetryMode;
@@ -128,7 +123,8 @@ public class ToolsManager extends BaseManager
 		return mMode;
 	}
 
-	public ToolsBase getCurrentTool() {
+	public ToolsBase getCurrentTool()
+	{
 		return mCurrentTool;
 	}
 
@@ -148,29 +144,29 @@ public class ToolsManager extends BaseManager
 
 	public void setColor(int color, boolean bAddUndoAction)
 	{
-		if (this.mColor!=color)
+		if (this.mColor != color)
 		{
-			//if (bAddUndoAction) SetUndoInitialState();
+			// if (bAddUndoAction) SetUndoInitialState();
 			this.mColor = color;
-			//if (bAddUndoAction) AddUndoToolAction();		
-			
-			//Force mode if you change color
-			this.mSculptSubMode=ESculptToolSubMode.COLOR;
-				
+			// if (bAddUndoAction) AddUndoToolAction();
+
+			// Force mode if you change color
+			this.mSculptSubMode = ESculptToolSubMode.COLOR;
+
 			NotifyListeners();
 		}
 	}
-	
-	GlobalToolState prevState=null;
-	
+
+	GlobalToolState prevState = null;
+
 	public void SetUndoInitialState()
 	{
-		prevState=GetGlobalToolState();
+		prevState = GetGlobalToolState();
 	}
-	
+
 	public void AddUndoToolAction()
 	{
-		if (prevState!=null)
+		if (prevState != null)
 		{
 			getManagers().getActionsManager().AddUndoAction(new ChangeToolAction(GetGlobalToolState(), prevState));
 		}
@@ -180,18 +176,18 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mPovSubMode != mPovSubMode)
 		{
-			this.mPovSubMode = mPovSubMode;			
-			
+			this.mPovSubMode = mPovSubMode;
+
 			NotifyListeners();
 		}
 	}
 
 	public void setRadius(float radius, boolean bAddUndoAction)
 	{
-		//if (bAddUndoAction)	SetUndoInitialState();
+		// if (bAddUndoAction) SetUndoInitialState();
 		this.mRadius = radius;
-		//if (bAddUndoAction)	AddUndoToolAction();
-		
+		// if (bAddUndoAction) AddUndoToolAction();
+
 		if (mRadius > 100)
 		{
 			mRadius = 100;
@@ -207,34 +203,34 @@ public class ToolsManager extends BaseManager
 	{
 		if (this.mSculptSubMode != sculptSubMode)
 		{
-			//SetUndoInitialState();			
-			this.mSculptSubMode = sculptSubMode;	
-			//AddUndoToolAction();
-			
+			// SetUndoInitialState();
+			this.mSculptSubMode = sculptSubMode;
+			// AddUndoToolAction();
+
 			UpdateCurrentTool();
-			
+
 			NotifyListeners();
 		}
 	}
-		
+
 	public void setSymmetryMode(ESymmetryMode symmetryMode)
 	{
 		if (this.mSymmetryMode != symmetryMode)
 		{
-			//SetUndoInitialState();	
-			this.mSymmetryMode = symmetryMode;		
-			//AddUndoToolAction();
-			
+			// SetUndoInitialState();
+			this.mSymmetryMode = symmetryMode;
+			// AddUndoToolAction();
+
 			NotifyListeners();
 		}
 	}
 
 	public void setStrength(float strength, boolean bAddUndoAction)
 	{
-		//if (bAddUndoAction)	SetUndoInitialState();
+		// if (bAddUndoAction) SetUndoInitialState();
 		this.mStrength = strength;
-		//if (bAddUndoAction)	AddUndoToolAction();
-		
+		// if (bAddUndoAction) AddUndoToolAction();
+
 		if (mStrength > 100)
 		{
 			mStrength = 100;
@@ -252,7 +248,7 @@ public class ToolsManager extends BaseManager
 		if (this.mMode != mode)
 		{
 			mMode = mode;
-			
+
 			NotifyListeners();
 		}
 	}
@@ -262,67 +258,70 @@ public class ToolsManager extends BaseManager
 		getManagers().getRendererManager().getMainRenderer().TakeGLScreenshotOfNextFrame(strSnapshotName);
 		NotifyListeners();
 	}
-	
+
 	public GlobalToolState GetGlobalToolState()
 	{
-		GlobalToolState state=new GlobalToolState();
-		state.m_toolmode=mMode;
-		state.m_subPOVTool=mPovSubMode;
-		state.m_subSculptTool=mSculptSubMode;
-		state.m_symmetrymode=mSymmetryMode;
-		state.m_Color=mColor;
-		state.m_Radius=mRadius;
-		state.m_Strength=mStrength;
-		return state;		
+		GlobalToolState state = new GlobalToolState();
+		state.m_toolmode = mMode;
+		state.m_subPOVTool = mPovSubMode;
+		state.m_subSculptTool = mSculptSubMode;
+		state.m_symmetrymode = mSymmetryMode;
+		state.m_Color = mColor;
+		state.m_Radius = mRadius;
+		state.m_Strength = mStrength;
+		return state;
 	}
 
-	//TODO store data with this class?
+	// TODO store data with this class?
 	public void SetGlobalToolState(GlobalToolState state)
 	{
-		mMode=state.m_toolmode;
-		mPovSubMode=state.m_subPOVTool;
-		mSculptSubMode=state.m_subSculptTool;
-		mSymmetryMode=state.m_symmetrymode;	
-		mColor=state.m_Color;
-		mRadius=state.m_Radius;
-		mStrength=state.m_Strength;
-		
+		mMode = state.m_toolmode;
+		mPovSubMode = state.m_subPOVTool;
+		mSculptSubMode = state.m_subSculptTool;
+		mSymmetryMode = state.m_symmetrymode;
+		mColor = state.m_Color;
+		mRadius = state.m_Radius;
+		mStrength = state.m_Strength;
+
 		NotifyListeners();
 	}
 
-	//mesh init color
+	// mesh init color
 	public int getDefaultColor()
-	{		 
+	{
 		return Color.rgb(150, 150, 150);
 	}
-	
+
 	@Override
 	public void NotifyListeners()
 	{
 		getManagers().getRendererManager().getMainRenderer().onToolChange();
-		super.NotifyListeners();		
+		super.NotifyListeners();
 	}
 
 	public float getStrengthAbsoluteValue()
-	{		
+	{
 		return Math.abs(mStrength);
 	}
 
 	public void setStrengthAbsoluteValue(float value, boolean bAddUndoAction)
 	{
-		float sign=1;
-		if (mStrength<0) sign=-1;
-		setStrength(sign*Math.abs(value), bAddUndoAction);		
+		float sign = 1;
+		if (mStrength < 0)
+			sign = -1;
+		setStrength(sign * Math.abs(value), bAddUndoAction);
 	}
-	
+
 	public void setStrengthSignum(boolean bIsPositive, boolean bAddUndoAction)
 	{
-		float sign=-1;
-		if (bIsPositive) sign=1;
-		setStrength(Math.abs(mStrength)*sign, bAddUndoAction);		
+		float sign = -1;
+		if (bIsPositive)
+			sign = 1;
+		setStrength(Math.abs(mStrength) * sign, bAddUndoAction);
 	}
+
 	public boolean isStrengthPositive()
 	{
-		return mStrength>0;
+		return mStrength > 0;
 	}
 }

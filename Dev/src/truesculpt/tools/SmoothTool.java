@@ -6,7 +6,7 @@ public class SmoothTool extends SculptingTool
 {
 	public SmoothTool(Managers managers)
 	{
-		super(managers);		
+		super(managers);
 	}
 
 }

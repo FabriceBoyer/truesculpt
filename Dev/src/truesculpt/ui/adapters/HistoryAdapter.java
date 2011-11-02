@@ -63,7 +63,8 @@ public class HistoryAdapter extends BaseAdapter
 			holder.description = (TextView) convertView.findViewById(R.id.description);
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			convertView.setTag(holder);
-		} else
+		}
+		else
 		{
 			holder = (ViewHolder) convertView.getTag();
 		}

@@ -17,21 +17,19 @@ import android.util.Log;
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager
 {
-	private String Name="";
+	private String Name = "";
 	private boolean bInitOver = true;
 	float[] intersectPt = new float[3];
-	
+
 	class MeshInitTash implements Runnable
 	{
-		public int nSubdivionLevel=0;
-		public String strLastUsedFile="";
-		
+		public int nSubdivionLevel = 0;
+		public String strLastUsedFile = "";
+
 		@Override
 		public void run()
 		{
-			if (getManagers().getOptionsManager().getLoadLastUsedFileAtStartup()
-				&& strLastUsedFile!=""
-				&& getManagers().getUtilsManager().CheckSculptureExist(strLastUsedFile))
+			if (getManagers().getOptionsManager().getLoadLastUsedFileAtStartup() && strLastUsedFile != "" && getManagers().getUtilsManager().CheckSculptureExist(strLastUsedFile))
 			{
 				OpenMeshBlocking(strLastUsedFile);
 			}
@@ -41,63 +39,64 @@ public class MeshManager extends BaseManager
 			}
 		}
 	}
-	
+
 	public void NewMeshBlocking(int nSubdivionLevel)
 	{
-		bInitOver=false;
-		
-		mMesh=new Mesh(getManagers(),nSubdivionLevel);
-		
-		Name=getManagers().getUtilsManager().GetDefaultFileName();
-		
+		bInitOver = false;
+
+		mMesh = new Mesh(getManagers(), nSubdivionLevel);
+
+		Name = getManagers().getUtilsManager().GetDefaultFileName();
+
 		bInitOver = true;
-		
+
 		NotifyListeners();
 	}
-	
+
 	public void OpenMeshBlocking(String name)
 	{
-		bInitOver=false;
-		
-		mMesh=new Mesh(getManagers(),-1);
-		Name=name;
-		
+		bInitOver = false;
+
+		mMesh = new Mesh(getManagers(), -1);
+		Name = name;
+
 		try
 		{
 			mMesh.ImportFromOBJ(getManagers().getUtilsManager().GetObjectFileName());
-		} 
+		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		bInitOver = true;
-		
+
 		NotifyListeners();
 	}
-	
-	MeshInitTash mInitTask = new MeshInitTash();//TODO move in a panel to get a waiting spinner
+
+	MeshInitTash mInitTask = new MeshInitTash();// TODO move in a panel to get a
+												// waiting spinner
 
 	long mLastPickDurationMs = -1;
 	long mLastSculptDurationMs = -1;
-	private float[] mModelView = new float[16];	
+	private float[] mModelView = new float[16];
 	private PickHighlight mPickHighlight = new PickHighlight();
 	private float[] mProjection = new float[16];
-	private RayPickDebug mRay = new RayPickDebug();	
+	private RayPickDebug mRay = new RayPickDebug();
 	private int[] mViewPort = new int[4];
 	float[] rayPt1 = new float[3];
 	float[] rayPt2 = new float[3];
 
 	// Main Mesh test
 	Mesh mMesh = null;
-	
+
 	public MeshManager(Context baseContext)
 	{
 		super(baseContext);
-		
-		intersectPt[0]=0f;
-		intersectPt[1]=0f;
-		intersectPt[2]=1f;
+
+		intersectPt[0] = 0f;
+		intersectPt[1] = 0f;
+		intersectPt[2] = 1f;
 	}
 
 	public void draw(GL10 gl)
@@ -107,16 +106,16 @@ public class MeshManager extends BaseManager
 			if (IsInitOver())
 			{
 				mMesh.draw(gl);
-				
+
 				if (getManagers().getOptionsManager().getDisplayDebugInfos())
 				{
 					mMesh.drawNormals(gl);
 					mMesh.drawOctree(gl);
-					
-					//pick debug
-					//mRay.draw(gl);
-					//mPickHighlight.draw(gl);
-				}				
+
+					// pick debug
+					// mRay.draw(gl);
+					// mPickHighlight.draw(gl);
+				}
 			}
 		}
 	}
@@ -135,11 +134,11 @@ public class MeshManager extends BaseManager
 	{
 		return mLastPickDurationMs;
 	}
-	
+
 	public long getLastSculptDurationMs()
 	{
 		return mLastSculptDurationMs;
-	}	
+	}
 
 	public int getVertexCount()
 	{
@@ -152,7 +151,9 @@ public class MeshManager extends BaseManager
 	}
 
 	/**
-	 * Calculates the transform from screen coordinate system to world coordinate system coordinates for a specific point, given a camera position.
+	 * Calculates the transform from screen coordinate system to world
+	 * coordinate system coordinates for a specific point, given a camera
+	 * position.
 	 * 
 	 * @return position in WCS.
 	 */
@@ -209,28 +210,33 @@ public class MeshManager extends BaseManager
 		worldPos[2] = outPoint[2] / outPoint[3];
 	}
 
-
-
 	@Override
 	public void onCreate()
-	{		
-		InitMeshThreaded(5,getManagers().getOptionsManager().getLastUsedFile());//TODO adapt init level to power of machine
-		
-	}
-	
-	public boolean InitMeshThreaded(int nSubdivionLevel,String lastUsedFile)
 	{
-		boolean bRes=false;
-		mInitTask.nSubdivionLevel=nSubdivionLevel;
-		mInitTask.strLastUsedFile=lastUsedFile;
-		
+		InitMeshThreaded(5, getManagers().getOptionsManager().getLastUsedFile());// TODO
+																					// adapt
+																					// init
+																					// level
+																					// to
+																					// power
+																					// of
+																					// machine
+
+	}
+
+	public boolean InitMeshThreaded(int nSubdivionLevel, String lastUsedFile)
+	{
+		boolean bRes = false;
+		mInitTask.nSubdivionLevel = nSubdivionLevel;
+		mInitTask.strLastUsedFile = lastUsedFile;
+
 		if (bInitOver)
 		{
 			Thread thr = new Thread(null, mInitTask, "Mesh_Init");
 			thr.start();
-			bRes=true;
+			bRes = true;
 		}
-		
+
 		return bRes;
 	}
 
@@ -249,61 +255,63 @@ public class MeshManager extends BaseManager
 		if (IsInitOver())
 		{
 			synchronized (this)
-			{	
-				GetWorldCoords(rayPt2, screenX, screenY, 1.0f);// normalized z between -1 and 1
+			{
+				GetWorldCoords(rayPt2, screenX, screenY, 1.0f);// normalized z
+																// between -1
+																// and 1
 				GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
-	
+
 				mRay.setRayPos(rayPt1, rayPt2);
-	
-				//handle symmetry
+
+				// handle symmetry
 				if (bInitOver)
-				{					
+				{
 					switch (getManagers().getToolsManager().getSymmetryMode())
 					{
 					case X:
-						rayPt1[0]*=-1;
-						rayPt2[0]*=-1;						
+						rayPt1[0] *= -1;
+						rayPt2[0] *= -1;
 						PickRay();
-						rayPt1[0]*=-1;
-						rayPt2[0]*=-1;
-						nIndex=PickRay();
+						rayPt1[0] *= -1;
+						rayPt2[0] *= -1;
+						nIndex = PickRay();
 						break;
 					case Y:
-						rayPt1[1]*=-1;
-						rayPt2[1]*=-1;
+						rayPt1[1] *= -1;
+						rayPt2[1] *= -1;
 						PickRay();
-						rayPt1[1]*=-1;
-						rayPt2[1]*=-1;
-						nIndex=PickRay();
+						rayPt1[1] *= -1;
+						rayPt2[1] *= -1;
+						nIndex = PickRay();
 						break;
 					case Z:
-						rayPt1[2]*=-1;
-						rayPt2[2]*=-1;
+						rayPt1[2] *= -1;
+						rayPt2[2] *= -1;
 						PickRay();
-						rayPt1[2]*=-1;
-						rayPt2[2]*=-1;
-						nIndex=PickRay();
-						break;			
+						rayPt1[2] *= -1;
+						rayPt2[2] *= -1;
+						nIndex = PickRay();
+						break;
 					case NONE:
-						nIndex=PickRay();
+						nIndex = PickRay();
 						break;
 					}
 				}
-				
-				NotifyListeners();	
+
+				NotifyListeners();
 			}
 		}
 
 		return nIndex;
 	}
-	
+
 	private int PickRay()
 	{
 		long tPickStart = SystemClock.uptimeMillis();
-		int nIndex = mMesh.Pick(rayPt1, rayPt2,intersectPt);
+		int nIndex = mMesh.Pick(rayPt1, rayPt2, intersectPt);
 		long tPickStop = SystemClock.uptimeMillis();
 		mLastPickDurationMs = tPickStop - tPickStart;
-		
+
 		if (nIndex >= 0)
 		{
 			mPickHighlight.setPickHighlightPosition(intersectPt);
@@ -312,29 +320,29 @@ public class MeshManager extends BaseManager
 			// TODO place in actionManager
 			switch (getManagers().getToolsManager().getToolMode())
 			{
-				case SCULPT:
+			case SCULPT:
+			{
+				switch (getManagers().getToolsManager().getSculptSubMode())
 				{
-					switch (getManagers().getToolsManager().getSculptSubMode())
-					{
-					case DRAW:
-						mMesh.RiseSculptAction(nIndex);
-						break;
-					case GRAB:
-						mMesh.InitGrabAction(nIndex);
-						break;	
-					case SMOOTH:
-						break;
-					case COLOR:
-						mMesh.ColorizePaintAction(nIndex);
-						break;
-					case TEXTURE:
-						break;
-					case PICK_COLOR:
-						mMesh.PickColorAction(nIndex);
-						break;								
-					}
+				case DRAW:
+					mMesh.RiseSculptAction(nIndex);
+					break;
+				case GRAB:
+					mMesh.InitGrabAction(nIndex);
+					break;
+				case SMOOTH:
+					break;
+				case COLOR:
+					mMesh.ColorizePaintAction(nIndex);
+					break;
+				case TEXTURE:
+					break;
+				case PICK_COLOR:
+					mMesh.PickColorAction(nIndex);
+					break;
 				}
-			}		
+			}
+			}
 			long tSculptStop = SystemClock.uptimeMillis();
 			mLastSculptDurationMs = tSculptStop - tSculptStart;
 		}
@@ -342,10 +350,9 @@ public class MeshManager extends BaseManager
 		{
 			float[] zero = { 0, 0, 0 };
 			mPickHighlight.setPickHighlightPosition(zero);
-		}	
+		}
 		return nIndex;
 	}
-
 
 	// TODO test for GL11 instance of to handle not GL11 devices
 	// TODO use GL11ES calls independent of redraw with gl param
@@ -366,8 +373,8 @@ public class MeshManager extends BaseManager
 		GL11 gl2 = (GL11) gl;
 		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
 	}
-	
-	public void getLastPickingPoint(float [] point)
+
+	public void getLastPickingPoint(float[] point)
 	{
 		MatrixUtils.copy(intersectPt, point);
 	}
@@ -381,10 +388,10 @@ public class MeshManager extends BaseManager
 	{
 		return Name;
 	}
-	
+
 	public boolean IsInitOver()
-	{		
-		return (mMesh!=null) && bInitOver;
+	{
+		return (mMesh != null) && bInitOver;
 	}
 
 	public void ImportFromOBJ(String objfilename) throws IOException
@@ -392,7 +399,7 @@ public class MeshManager extends BaseManager
 		if (IsInitOver())
 		{
 			mMesh.ImportFromOBJ(objfilename);
-		}		
+		}
 	}
 
 	public void ExportToOBJ(String strObjFileName)
@@ -400,7 +407,7 @@ public class MeshManager extends BaseManager
 		if (IsInitOver())
 		{
 			mMesh.ExportToOBJ(strObjFileName);
-		}		
+		}
 	}
 
 	public Mesh getMesh()

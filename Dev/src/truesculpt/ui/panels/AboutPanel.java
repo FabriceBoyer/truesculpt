@@ -31,14 +31,13 @@ public class AboutPanel extends Activity
 		getManagers().getUsageStatisticsManager().TrackPageView("/AboutPanel");
 
 		setContentView(R.layout.about);
-		
-		final String strWebSiteURL="http://code.google.com/p/truesculpt";
-		TextView aboutText=(TextView)findViewById(R.id.about_text);
-		String aboutMsg= getString(R.string.about_text) +"\n" +
-		getString(R.string.Website) + " : " + "\n" + strWebSiteURL;
+
+		final String strWebSiteURL = "http://code.google.com/p/truesculpt";
+		TextView aboutText = (TextView) findViewById(R.id.about_text);
+		String aboutMsg = getString(R.string.about_text) + "\n" + getString(R.string.Website) + " : " + "\n" + strWebSiteURL;
 		aboutText.setText(aboutMsg);
-		Linkify.addLinks(aboutText, Linkify.ALL);		
-		
+		Linkify.addLinks(aboutText, Linkify.ALL);
+
 		final Button buttonDonate = (Button) findViewById(R.id.donateBtn);
 		buttonDonate.setOnClickListener(new View.OnClickListener()
 		{
@@ -48,7 +47,7 @@ public class AboutPanel extends Activity
 				Utils.ShowURLInBrowser(AboutPanel.this, strWebSiteURL);
 			}
 		});
-		
+
 		final Button buttonTutorial = (Button) findViewById(R.id.tutorials);
 		buttonTutorial.setOnClickListener(new View.OnClickListener()
 		{
@@ -59,7 +58,7 @@ public class AboutPanel extends Activity
 				Utils.StartMyActivity(AboutPanel.this, truesculpt.ui.panels.TutorialOverlayPanel.class, false);
 			}
 		});
-		
+
 		final Button buttonHelp = (Button) findViewById(R.id.help);
 		buttonHelp.setOnClickListener(new View.OnClickListener()
 		{
@@ -69,15 +68,15 @@ public class AboutPanel extends Activity
 				Utils.StartMyActivity(AboutPanel.this, truesculpt.ui.panels.TutorialWizardPanel.class, false);
 			}
 		});
-		
+
 		TextView currVersionText = (TextView) findViewById(R.id.current_version);
 		String strCurrVersion = getManagers().getUpdateManager().getCurrentVersion();
-		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n";		 
+		String msg = getString(R.string.current_version_is_) + " " + strCurrVersion + " \n";
 		currVersionText.setText(msg);
-		Linkify.addLinks(currVersionText, Linkify.ALL);		
-		
+		Linkify.addLinks(currVersionText, Linkify.ALL);
+
 		TextView licenseText = (TextView) findViewById(R.id.licence);
-		Linkify.addLinks(licenseText, Linkify.ALL);		
+		Linkify.addLinks(licenseText, Linkify.ALL);
 	}
 
 	@Override
@@ -103,7 +102,7 @@ public class AboutPanel extends Activity
 			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
 			return true;
 		}
-	
+
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -112,7 +111,7 @@ public class AboutPanel extends Activity
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		//finish();
+		// finish();
 		return super.onTouchEvent(event);
 	}
 

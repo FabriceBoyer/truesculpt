@@ -68,7 +68,7 @@ public class PickHighlight
 		gl.glDrawElements(GL10.GL_TRIANGLES, 36, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
 		gl.glPopMatrix();
-		
+
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 

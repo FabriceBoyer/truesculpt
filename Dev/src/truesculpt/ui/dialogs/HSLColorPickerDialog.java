@@ -47,7 +47,7 @@ public class HSLColorPickerDialog
 
 	public HSLColorPickerDialog(Context context, int color, OnAmbilWarnaListener listener)
 	{
-		this.mContext=context;
+		this.mContext = context;
 		this.listener = listener;
 		this.warnaLama = color;
 		this.warnaBaru = color;
@@ -213,7 +213,7 @@ public class HSLColorPickerDialog
 	{
 		dialog.show();
 	}
-	
+
 	public Context getContext()
 	{
 		return mContext;

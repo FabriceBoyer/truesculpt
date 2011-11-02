@@ -23,10 +23,10 @@ import android.widget.Toast;
 public class UtilsManager extends BaseManager
 {
 	private Handler mHandler = null;
-	
+
 	public void InitHandler()
 	{
-		mHandler= new Handler();
+		mHandler = new Handler();
 	}
 
 	Runnable mShowMessageTask = new Runnable()
@@ -51,30 +51,31 @@ public class UtilsManager extends BaseManager
 	{
 		return Environment.getExternalStorageDirectory() + "/Truesculpt/Sculptures/";
 	}
-		
+
 	public String GetObjectFileName()
 	{
-		return GetBaseFileName()+"Mesh.obj";
+		return GetBaseFileName() + "Mesh.obj";
 	}
+
 	public String GetImageFileName()
 	{
-		return GetBaseFileName()+"Image.png";
+		return GetBaseFileName() + "Image.png";
 	}
-	
+
 	public boolean CheckSculptureExist(String name)
 	{
-		boolean bRes=false;
-		
-		File file = new File(GetRootDirectory()+name);
-		bRes=file.exists();
-		
+		boolean bRes = false;
+
+		File file = new File(GetRootDirectory() + name);
+		bRes = file.exists();
+
 		return bRes;
 	}
-	
+
 	public String GetBaseFileName()
 	{
-		String name=getManagers().getMeshManager().getName();
-		String strBasePath = GetRootDirectory()+name+"/";
+		String name = getManagers().getMeshManager().getName();
+		String strBasePath = GetRootDirectory() + name + "/";
 
 		// have the object build the directory structure, if needed.
 		File basePath = new File(strBasePath);
@@ -92,13 +93,13 @@ public class UtilsManager extends BaseManager
 		basePath.mkdirs();
 
 		Date date = new Date();
-		String name=getManagers().getMeshManager().getName();
+		String name = getManagers().getMeshManager().getName();
 		String strFileName = strBasePath + "Img_" + name + "_" + date.toGMTString() + ".png";
 		strFileName = strFileName.replaceAll(":", "_");
 		strFileName = strFileName.replaceAll(" ", "_");
 		return strFileName;
 	}
-	
+
 	public String GetDefaultFileName()
 	{
 		Date date = new Date();
@@ -107,8 +108,7 @@ public class UtilsManager extends BaseManager
 		strFileName = strFileName.replaceAll(" ", "_");
 		return strFileName;
 	}
-	
-	
+
 	@Override
 	public void onCreate()
 	{
@@ -125,19 +125,20 @@ public class UtilsManager extends BaseManager
 
 	public boolean SetImageAsWallpaper(String strFileName)
 	{
-		boolean bRes=false;
-		
+		boolean bRes = false;
+
 		Bitmap bitmap = BitmapFactory.decodeFile(strFileName);
 
-		if (bitmap!=null)
+		if (bitmap != null)
 		{
 			try
 			{
 				WallpaperManager wp = (WallpaperManager) getbaseContext().getSystemService(Context.WALLPAPER_SERVICE);
 				wp.setBitmap(bitmap);
-				bRes=true;
-				
-			} catch (IOException e)
+				bRes = true;
+
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
@@ -149,35 +150,35 @@ public class UtilsManager extends BaseManager
 	public void ShowToastMessage(String msg)
 	{
 		mShowMsg = msg;
-		if (mHandler!=null)
+		if (mHandler != null)
 		{
 			mHandler.post(mShowMessageTask);
 		}
 	}
 
-	
-	
 	public class MailRunnable implements Runnable
 	{
-		public ArrayList<String> filePaths=new ArrayList<String>();			
-		
+		public ArrayList<String> filePaths = new ArrayList<String>();
+
 		@Override
 		public void run()
 		{
-			Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);				
-		}		
-		
+			Utils.SendEmail(getbaseContext(), "fabrice.boyer@gmail.com", "", "My sculpture", "Check it out it's really great", filePaths);
+		}
+
 		public void AddFilePath(String path)
 		{
 			filePaths.add(path);
 		}
 	}
-	
+
 	public void ShowHSLColorPickerDialog(Context context)
 	{
-		// initialColor is the initially-selected color to be shown in the rectangle on the left of the arrow.
-		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware of the initial 0xff which is the alpha.
-		HSLColorPickerDialog dialog = new HSLColorPickerDialog(context, ((TrueSculptApp)(context.getApplicationContext())).getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
+		// initialColor is the initially-selected color to be shown in the
+		// rectangle on the left of the arrow.
+		// for example, 0xff000000 is black, 0xff0000ff is blue. Please be aware
+		// of the initial 0xff which is the alpha.
+		HSLColorPickerDialog dialog = new HSLColorPickerDialog(context, ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().getColor(), new OnAmbilWarnaListener()
 		{
 			@Override
 			public void onCancel(HSLColorPickerDialog dialog)
@@ -188,47 +189,52 @@ public class UtilsManager extends BaseManager
 			@Override
 			public void onOk(HSLColorPickerDialog dialog, int color)
 			{
-				((TrueSculptApp)(dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color,true);
+				((TrueSculptApp) (dialog.getContext().getApplicationContext())).getManagers().getToolsManager().setColor(color, true);
 			}
 		});
 
 		dialog.show();
 	}
-	
-	
-	
-	
-	public static class Installation {
-	    private static String sID = null;
-	    private static final String INSTALLATION = "INSTALLATION";
 
-	    public synchronized static String id(Context context) {
-	        if (sID == null) {  
-	            File installation = new File(context.getFilesDir(), INSTALLATION);
-	            try {
-	                if (!installation.exists())
-	                    writeInstallationFile(installation);
-	                sID = readInstallationFile(installation);
-	            } catch (Exception e) {
-	                throw new RuntimeException(e);
-	            }
-	        }
-	        return sID;
-	    }
+	public static class Installation
+	{
+		private static String sID = null;
+		private static final String INSTALLATION = "INSTALLATION";
 
-	    private static String readInstallationFile(File installation) throws IOException {
-	        RandomAccessFile f = new RandomAccessFile(installation, "r");
-	        byte[] bytes = new byte[(int) f.length()];
-	        f.readFully(bytes);
-	        f.close();
-	        return new String(bytes);
-	    }
+		public synchronized static String id(Context context)
+		{
+			if (sID == null)
+			{
+				File installation = new File(context.getFilesDir(), INSTALLATION);
+				try
+				{
+					if (!installation.exists())
+						writeInstallationFile(installation);
+					sID = readInstallationFile(installation);
+				}
+				catch (Exception e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+			return sID;
+		}
 
-	    private static void writeInstallationFile(File installation) throws IOException {
-	        FileOutputStream out = new FileOutputStream(installation);
-	        String id = UUID.randomUUID().toString();
-	        out.write(id.getBytes());
-	        out.close();
-	    }
+		private static String readInstallationFile(File installation) throws IOException
+		{
+			RandomAccessFile f = new RandomAccessFile(installation, "r");
+			byte[] bytes = new byte[(int) f.length()];
+			f.readFully(bytes);
+			f.close();
+			return new String(bytes);
+		}
+
+		private static void writeInstallationFile(File installation) throws IOException
+		{
+			FileOutputStream out = new FileOutputStream(installation);
+			String id = UUID.randomUUID().toString();
+			out.write(id.getBytes());
+			out.close();
+		}
 	}
 }

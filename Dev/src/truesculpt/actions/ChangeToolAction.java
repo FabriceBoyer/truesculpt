@@ -7,14 +7,14 @@ public class ChangeToolAction extends BaseAction
 {
 	private GlobalToolState m_CurrState;
 	private GlobalToolState m_InitState;
-	
+
 	public ChangeToolAction(GlobalToolState CurrState, GlobalToolState InitState)
 	{
-		m_CurrState=CurrState;
-		m_InitState=InitState;
-		
+		m_CurrState = CurrState;
+		m_InitState = InitState;
+
 		String strDescription = m_CurrState.toString();
-		
+
 		setDescription(strDescription);
 	}
 
