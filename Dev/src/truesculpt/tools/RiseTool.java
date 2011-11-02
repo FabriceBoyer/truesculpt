@@ -14,7 +14,8 @@ public class RiseTool extends SculptingTool
 	public void Pick(float xScreen, float yScreen)
 	{
 		super.Pick(xScreen, yScreen);
-
+		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+		getManagers().getMeshManager().getMesh().RiseSculptAction(nIndex);
 	}
 
 }
