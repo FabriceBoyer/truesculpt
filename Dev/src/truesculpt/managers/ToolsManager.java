@@ -1,6 +1,10 @@
 package truesculpt.managers;
 
+import java.util.List;
+
 import truesculpt.actions.ChangeToolAction;
+import truesculpt.tools.RiseTool;
+import truesculpt.tools.ToolsBase;
 import truesculpt.utils.Utils;
 import android.content.Context;
 import android.graphics.Color;
@@ -58,11 +62,35 @@ public class ToolsManager extends BaseManager
 	private ESymmetryMode mSymmetryMode=ESymmetryMode.NONE;
 	private float mRadius = 50.0f;// pct
 	private float mStrength = 50.0f;// pct
+	private ToolsBase mCurrentTool=null;
+	private List<ToolsBase> mToolsLibrary;
 
 	public ToolsManager(Context baseContext)
 	{
 		super(baseContext);
-		// TODO Auto-generated constructor stub
+		
+		//TODO load from plugins or xml library
+		mToolsLibrary.add(new RiseTool());
+		
+		UpdateCurrentTool();
+	}
+	
+	private void UpdateCurrentTool()
+	{
+		switch (mSculptSubMode)
+		{
+		case DRAW:
+			mCurrentTool=mToolsLibrary.get(0);
+			break;
+		case GRAB:
+		case SMOOTH:
+		case INFLATE:
+		case COLOR:
+		case TEXTURE:
+		case PICK_COLOR:
+			break;
+		}
+		
 	}
 
 	public int getColor()
@@ -100,6 +128,10 @@ public class ToolsManager extends BaseManager
 		return mMode;
 	}
 
+	public ToolsBase getCurrentTool() {
+		return mCurrentTool;
+	}
+
 	@Override
 	public void onCreate()
 	{
@@ -135,6 +167,7 @@ public class ToolsManager extends BaseManager
 	{
 		prevState=GetGlobalToolState();
 	}
+	
 	public void AddUndoToolAction()
 	{
 		if (prevState!=null)
@@ -177,6 +210,8 @@ public class ToolsManager extends BaseManager
 			//SetUndoInitialState();			
 			this.mSculptSubMode = sculptSubMode;	
 			//AddUndoToolAction();
+			
+			UpdateCurrentTool();
 			
 			NotifyListeners();
 		}

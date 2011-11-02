@@ -25,8 +25,7 @@ public class TouchManager extends BaseManager
 
 	public TouchManager(Context baseContext)
 	{
-		super(baseContext);
-		// TODO Auto-generated constructor stub
+		super(baseContext);	
 	}
 
 	/** Show an event in the LogCat view, for debugging */
@@ -65,7 +64,6 @@ public class TouchManager extends BaseManager
 		return (float) Math.sqrt(x * x + y * y);
 	}
 
-	// handle correct main finger
 	private void initPOVValues(MotionEvent event, boolean bZoomGestureEnd)
 	{
 		int nIndex = 0;
@@ -175,7 +173,6 @@ public class TouchManager extends BaseManager
 		case MotionEvent.ACTION_UP:
 		{
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
-			//getManagers().getActionsManager().AddUndoAction(new ChangePOVAction(mRotInit, mElevInit, mZoomInit, getManagers().getPointOfViewManager().getRotationAngle(), getManagers().getPointOfViewManager().getElevationAngle(), getManagers().getPointOfViewManager().getZoomDistance()));
 			break;
 		}
 		case MotionEvent.ACTION_MOVE:
