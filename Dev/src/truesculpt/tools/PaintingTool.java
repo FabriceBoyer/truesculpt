@@ -1,25 +1,30 @@
 package truesculpt.tools;
 
-import truesculpt.mesh.Mesh;
+import truesculpt.main.Managers;
 
-public class PaintingTool implements ToolsBase {
 
-	@Override
-	public void Start(Mesh mesh) {
-		// TODO Auto-generated method stub
-		
+public class PaintingTool extends ToolsBase {
+
+	public PaintingTool(Managers managers) 
+	{
+		super(managers);
 	}
 
 	@Override
-	public void Pick(float x, float y) {
+	public void Start() {
+		super.Start();
+	}
+
+	@Override
+	public void Pick(int nIndex) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void Stop() {
-		// TODO Auto-generated method stub
-		
+		super.Stop();
+
 	}
 
 }

@@ -1,5 +1,12 @@
 package truesculpt.tools;
 
-public class SmoothTool extends SculptingTool {
+import truesculpt.main.Managers;
+
+public class SmoothTool extends SculptingTool
+{
+	public SmoothTool(Managers managers)
+	{
+		super(managers);		
+	}
 
 }

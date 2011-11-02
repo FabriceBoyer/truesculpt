@@ -70,7 +70,7 @@ public class ToolsManager extends BaseManager
 		super(baseContext);
 		
 		//TODO load from plugins or xml library
-		mToolsLibrary.add(new RiseTool());
+		mToolsLibrary.add(new RiseTool(getManagers()));
 		
 		UpdateCurrentTool();
 	}
