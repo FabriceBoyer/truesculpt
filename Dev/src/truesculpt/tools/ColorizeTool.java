@@ -1,5 +1,12 @@
 package truesculpt.tools;
 
-public class ColorizeTool extends PaintingTool {
+import truesculpt.main.Managers;
+
+public class ColorizeTool extends PaintingTool
+{
+	public ColorizeTool(Managers managers)
+	{
+		super(managers);
+	}
 
 }
