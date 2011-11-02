@@ -74,8 +74,7 @@ public class MeshManager extends BaseManager
 		NotifyListeners();
 	}
 
-	MeshInitTash mInitTask = new MeshInitTash();// TODO move in a panel to get a
-												// waiting spinner
+	MeshInitTash mInitTask = new MeshInitTash();// TODO move in a panel to get a waiting spinner
 
 	long mLastPickDurationMs = -1;
 	long mLastSculptDurationMs = -1;

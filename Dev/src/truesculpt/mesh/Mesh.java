@@ -18,20 +18,18 @@ import java.util.StringTokenizer;
 import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
-import truesculpt.actions.ColorizeAction;
-import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
-import android.graphics.Color;
 
 public class Mesh
 {
-	ArrayList<Face> mFaceList = new ArrayList<Face>();
-	ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
-	ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
-	OctreeNode mRootBoxNode = null;
-	Managers mManagers;
+	public ArrayList<Face> mFaceList = new ArrayList<Face>();
+	public ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
+	public ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
+	public OctreeNode mRootBoxNode = null;
+
+	private final Managers mManagers;
 
 	public Mesh(Managers managers, int nSubdivisionLevel)
 	{
@@ -755,57 +753,9 @@ public class Mesh
 		return 1; // I is in T
 	}
 
-	public void InitGrabAction(int nTriangleIndex)
-	{
-
-	}
-
-	// TODO place as an action
-	public void ColorizePaintAction(int triangleIndex)
-	{
-		if (triangleIndex >= 0)
-		{
-			int targetColor = getManagers().getToolsManager().getColor();
-			Face face = mFaceList.get(triangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in
-											// triangle from pick point
-			Vertex origVertex = mVertexList.get(nOrigVertex);
-			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-			float MaxDist = (float) Math.sqrt(sqMaxDist);
-			GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
-
-			float[] VNewCol = new float[3];
-			float[] VTargetCol = new float[3];
-			Color.colorToHSV(targetColor, VTargetCol);
-			float[] temp = new float[3];
-
-			ColorizeAction action = new ColorizeAction();
-			for (Vertex vertex : verticesRes)
-			{
-				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-				float dist = MatrixUtils.magnitude(temp);
-
-				Color.colorToHSV(vertex.Color, VNewCol);
-
-				// barycenter of colors
-				float alpha = (MaxDist - dist) / MaxDist;// [0;1]
-				VNewCol[0] = VTargetCol[0];
-				VNewCol[1] = VTargetCol[1];
-				VNewCol[2] = (1 - alpha) * VNewCol[2] + alpha * VTargetCol[2];
-
-				// int newColor=Color.HSVToColor(VNewCol);
-				int newColor = targetColor;
-				action.AddVertexColorChange(vertex.Index, newColor, vertex);
-			}
-			getManagers().getActionsManager().AddUndoAction(action);
-			action.DoAction();
-		}
-	}
-
 	ArrayList<Vertex> verticesToTest = new ArrayList<Vertex>();
-	HashSet<Vertex> verticesRes = new HashSet<Vertex>();
 
-	private void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet<Vertex> res)
+	public void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet<Vertex> res)
 	{
 		res.clear();
 		res.add(origVertex);// add at least this point
@@ -842,67 +792,6 @@ public class Mesh
 		}
 	}
 
-	private float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full
-																	// width at
-																	// half
-																	// maximum
-	private float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
-
-	private float MAX_DEFORMATION = 0.2f;
-	private float MIN_RADIUS = 0.01f;// meters
-	private float MAX_RADIUS = 1f;// meters
-
-	// TODO place as an action
-	public void RiseSculptAction(int triangleIndex)
-	{
-		if (triangleIndex >= 0)
-		{
-			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength
-																												// is
-																												// -100
-																												// to
-																												// 100
-
-			Face face = mFaceList.get(triangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in
-											// triangle from pick point
-			Vertex origVertex = mVertexList.get(nOrigVertex);
-
-			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-			GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
-			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
-			float maxGaussian = Gaussian(sigma, 0);
-
-			// separate compute and apply of vertex pos otherwise compute is
-			// false
-			SculptAction action = new SculptAction();
-			float[] VOffset = new float[3];
-			float[] temp = new float[3];
-			for (Vertex vertex : verticesRes)
-			{
-				MatrixUtils.copy(origVertex.Normal, VOffset);
-				// MatrixUtils.copy(vertex.Normal, VOffset);
-
-				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-				float sqDist = MatrixUtils.squaremagnitude(temp);
-
-				// sculpting functions
-				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, sqDist) / maxGaussian * fMaxDeformation));
-				// if (MatrixUtils.magnitude(VOffset)>1e-3)
-				{
-					action.AddVertexOffset(vertex.Index, VOffset, vertex);
-				}
-			}
-			getManagers().getActionsManager().AddUndoAction(action);
-			action.DoAction();
-		}
-	}
-
-	private float Gaussian(float sigma, float sqDist)
-	{
-		return (float) (oneoversqrttwopi / sigma * Math.exp(-sqDist / (2 * sigma * sigma)));
-	}
-
 	// notification not done, to do in calling thread with post
 	void Reset()
 	{
@@ -925,9 +814,7 @@ public class Mesh
 		else
 		{
 			nRes = mVertexList.size();
-			mVertexList.add(new Vertex(mVertexList.get(edge.V0), mVertexList.get(edge.V1), nRes));// takes
-																									// mid
-																									// point
+			mVertexList.add(new Vertex(mVertexList.get(edge.V0), mVertexList.get(edge.V1), nRes));// takes mid point
 		}
 		return nRes;
 	}
@@ -1005,15 +892,8 @@ public class Mesh
 		if (norm > mBoundingSphereRadius)
 		{
 			mBoundingSphereRadius = norm;
-			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes
-																						// near
-																						// clip
-																						// into
-																						// accoutn,
-																						// TODO
-																						// read
-																						// from
-																						// conf
+			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into account,
+			// TODO read from conf
 		}
 	}
 
@@ -1022,8 +902,7 @@ public class Mesh
 		if (nIndex >= 0)
 		{
 			Face face = mFaceList.get(nIndex);
-			Vertex vertex = mVertexList.get(face.E0.V0);// arbitrarily chosen
-														// point in triangle
+			Vertex vertex = mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
 			int color = vertex.Color;
 			getManagers().getToolsManager().setColor(color, true);
 		}
@@ -1091,12 +970,9 @@ public class Mesh
 			tymin = (box.Max[1] - rayOrig[1]) / rayDir[1];
 			tymax = (box.Min[1] - rayOrig[1]) / rayDir[1];
 		}
-		if ((tmin > tymax) || (tymin > tmax))
-			return false;
-		if (tymin > tmin)
-			tmin = tymin;
-		if (tymax < tmax)
-			tmax = tymax;
+		if ((tmin > tymax) || (tymin > tmax)) return false;
+		if (tymin > tmin) tmin = tymin;
+		if (tymax < tmax) tmax = tymax;
 		if (rayDir[2] >= 0)
 		{
 			tzmin = (box.Min[2] - rayOrig[2]) / rayDir[2];
@@ -1107,12 +983,9 @@ public class Mesh
 			tzmin = (box.Max[2] - rayOrig[2]) / rayDir[2];
 			tzmax = (box.Min[2] - rayOrig[2]) / rayDir[2];
 		}
-		if ((tmin > tzmax) || (tzmin > tmax))
-			return false;
-		if (tzmin > tmin)
-			tmin = tzmin;
-		if (tzmax < tmax)
-			tmax = tzmax;
+		if ((tmin > tzmax) || (tzmin > tmax)) return false;
+		if (tzmin > tmin) tmin = tzmin;
+		if (tzmax < tmax) tmax = tzmax;
 		return ((tmin < t1) && (tmax > t0));
 	}
 
