@@ -4,7 +4,6 @@ import android.content.Context;
 
 public class PointOfViewManager extends BaseManager
 {
-	private float mPhi = 0.0f;
 
 	// looked from point
 	private float mR = 0.0f;
@@ -13,7 +12,10 @@ public class PointOfViewManager extends BaseManager
 	private float mRmax = 9.0f;
 	private float mRmin = 2.0f;
 
+	private float mPhi = 0.0f;
 	private float mTheta = 0.0f;
+	private float mXPanOffset = 0.0f;
+	private float mYPanOffset = 0.0f;
 
 	public PointOfViewManager(Context baseContext)
 	{
@@ -68,6 +70,7 @@ public class PointOfViewManager extends BaseManager
 	public void resetPOV()
 	{
 		SetAllAngles(0, 0, 3);
+		setPanOffset(0, 0);
 	}
 
 	public void SetAllAngles(float rotation, float elevation, float zoomDistance)
@@ -155,6 +158,24 @@ public class PointOfViewManager extends BaseManager
 		{
 			mR = mRmin;
 		}
+	}
+
+	// TODO Saturate values
+	public void setPanOffset(float x, float y)
+	{
+		mXPanOffset = x;
+		mYPanOffset = y;
+		NotifyListeners();
+	}
+
+	public float getYPanOffset()
+	{
+		return mYPanOffset;
+	}
+
+	public float getXPanOffset()
+	{
+		return mXPanOffset;
 	}
 
 }

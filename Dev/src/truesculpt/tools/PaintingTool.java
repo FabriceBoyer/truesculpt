@@ -11,9 +11,9 @@ public class PaintingTool extends ToolsBase
 	}
 
 	@Override
-	public void Start()
+	public void Start(float xScreen, float yScreen)
 	{
-		super.Start();
+		super.Start(xScreen, yScreen);
 	}
 
 	@Override
