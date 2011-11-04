@@ -171,7 +171,7 @@ public class TouchManager extends BaseManager
 			mYPanInit = getManagers().getPointOfViewManager().getYPanOffset();
 			mLastXPan = (event.getX(0) + event.getX(1)) / 2;
 			mLastYPan = (event.getY(0) + event.getY(1)) / 2;
-			Log.d("PAN", "Pan init XInit=" + mXPanInit + ", YInit=" + mXPanInit + ", XLast=" + mLastXPan + ", YLast=" + mLastYPan);
+			// Log.d("PAN", "Pan init XInit=" + mXPanInit + ", YInit=" + mXPanInit + ", XLast=" + mLastXPan + ", YLast=" + mLastYPan);
 
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ZOOM_AND_PAN);
 			break;
@@ -217,7 +217,7 @@ public class TouchManager extends BaseManager
 					float currXPan = mXPanInit + (xCenter - mLastXPan) / fDemultPanFactor;
 					float currYPan = mYPanInit - (yCenter - mLastYPan) / fDemultPanFactor;
 					getManagers().getPointOfViewManager().setPanOffset(currXPan, currYPan);
-					Log.d("PAN", "New Pan X=" + currXPan + ", Y=" + mLastYPan + ", XCenter=" + xCenter + ", YCenter=" + yCenter);
+					// Log.d("PAN", "New Pan X=" + currXPan + ", Y=" + mLastYPan + ", XCenter=" + xCenter + ", YCenter=" + yCenter);
 				}
 
 				break;
