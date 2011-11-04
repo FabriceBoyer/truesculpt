@@ -19,7 +19,7 @@ public class ToolsManager extends BaseManager
 {
 	public enum EPovToolSubMode
 	{
-		PAN, ROTATE, ZOOM
+		ROTATE, ZOOM_AND_PAN
 	};
 
 	public enum ESculptToolSubMode

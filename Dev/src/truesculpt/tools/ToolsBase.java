@@ -26,7 +26,7 @@ public class ToolsBase implements ITools
 	}
 
 	@Override
-	public void Start()
+	public void Start(float xScreen, float yScreen)
 	{
 
 	}

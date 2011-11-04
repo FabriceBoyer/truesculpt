@@ -13,15 +13,20 @@ public class TouchManager extends BaseManager
 	private final float fDemultRotateFactor = 2.5f;
 
 	private final float fDemultZoomFactor = fDemultRotateFactor * 20.0f;
+	private final float fDemultPanFactor = fDemultRotateFactor * 40.0f;
 	private final float fTapTapTimeThresold = 500.0f;// ms
 	private float mElevInit = 0.0f;
 	private float mLastFingerSpacing = 0.0f;
 	private long mLastTapTapTime = 0;
 	private float mLastX = 0.0f;
 	private float mLastY = 0.0f;
+	private float mLastXPan = 0.0f;
+	private float mLastYPan = 0.0f;
 
 	private float mRotInit = 0.0f;
 	private float mZoomInit = 0.0f;
+	private float mXPanInit = 0.0f;
+	private float mYPanInit = 0.0f;
 
 	public TouchManager(Context baseContext)
 	{
@@ -86,7 +91,7 @@ public class TouchManager extends BaseManager
 			nIndex = 0;
 		}
 
-		Log.i("POINTER", "Init POV values with finger index=" + Integer.toString(nIndex));
+		// Log.i("POINTER", "Init POV values with finger index=" + Integer.toString(nIndex));
 		float x = event.getX(nIndex);
 		float y = event.getY(nIndex);
 
@@ -118,7 +123,7 @@ public class TouchManager extends BaseManager
 		// +Float.toString(event.getY()) + ")";
 		// Log.i(Global.TAG,msg);
 
-		dumpEvent(event);
+		// dumpEvent(event);
 
 		float x = event.getX();
 		float y = event.getY();
@@ -149,8 +154,7 @@ public class TouchManager extends BaseManager
 			else
 			{
 				getManagers().getToolsManager().setToolMode(EToolMode.SCULPT);
-				getManagers().getToolsManager().getCurrentTool().Start();
-				getManagers().getToolsManager().getCurrentTool().Pick(x, y);
+				getManagers().getToolsManager().getCurrentTool().Start(x, y);
 			}
 
 			break;
@@ -158,10 +162,18 @@ public class TouchManager extends BaseManager
 
 		case MotionEvent.ACTION_POINTER_DOWN:
 		{
+			// Zoom
 			mZoomInit = getManagers().getPointOfViewManager().getZoomDistance();
 			mLastFingerSpacing = getDistanceBetweenFingers(event);
 
-			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ZOOM);
+			// Pan
+			mXPanInit = getManagers().getPointOfViewManager().getXPanOffset();
+			mYPanInit = getManagers().getPointOfViewManager().getYPanOffset();
+			mLastXPan = (event.getX(0) + event.getX(1)) / 2;
+			mLastYPan = (event.getY(0) + event.getY(1)) / 2;
+			Log.d("PAN", "Pan init XInit=" + mXPanInit + ", YInit=" + mXPanInit + ", XLast=" + mLastXPan + ", YLast=" + mLastYPan);
+
+			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ZOOM_AND_PAN);
 			break;
 		}
 		case MotionEvent.ACTION_POINTER_UP:
@@ -191,12 +203,21 @@ public class TouchManager extends BaseManager
 
 					getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
 				}
-				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM)
+				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM_AND_PAN)
 				{
-					float fingersSpacing = getDistanceBetweenFingers(event);
-					float dist = mZoomInit - (fingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
+					// Zoom
+					float currFingersSpacing = getDistanceBetweenFingers(event);
+					float newZoomDist = mZoomInit - (currFingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
 
-					getManagers().getPointOfViewManager().setZoomDistance(dist);
+					getManagers().getPointOfViewManager().setZoomDistance(newZoomDist);
+
+					// Pan
+					float xCenter = (event.getX(0) + event.getX(1)) / 2;
+					float yCenter = (event.getY(0) + event.getY(1)) / 2;
+					float currXPan = mXPanInit + (xCenter - mLastXPan) / fDemultPanFactor;
+					float currYPan = mYPanInit - (yCenter - mLastYPan) / fDemultPanFactor;
+					getManagers().getPointOfViewManager().setPanOffset(currXPan, currYPan);
+					Log.d("PAN", "New Pan X=" + currXPan + ", Y=" + mLastYPan + ", XCenter=" + xCenter + ", YCenter=" + yCenter);
 				}
 
 				break;

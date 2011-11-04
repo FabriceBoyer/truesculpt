@@ -25,11 +25,13 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	float matDiffuse[] = new float[] { 1, 1, 1, 1 };
 	float matSpecular[] = new float[] { 1, 1, 1, 1 };
 
-	private ReferenceAxis mAxis = new ReferenceAxis();
-	private SymmetryPlane mSymmetryPlane = new SymmetryPlane();
-	private ToolOverlay mToolOverlay = new ToolOverlay();
+	private final ReferenceAxis mAxis = new ReferenceAxis();
+	private final SymmetryPlane mSymmetryPlane = new SymmetryPlane();
+	private final ToolOverlay mToolOverlay = new ToolOverlay();
 
 	private float mDistance;
+	private float mXPanOffset;
+	private float mYPanOffset;
 	private float mElevation;
 	private long mLastFrameDurationMs = 0;
 	private Managers mManagers = null;
@@ -63,7 +65,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		gl.glTranslatef(0, 0, -mDistance);
+		gl.glTranslatef(mXPanOffset, mYPanOffset, -mDistance);
 		gl.glRotatef(mElevation, 1, 0, 0);
 		gl.glRotatef(mRot, 0, 1, 0);
 
@@ -73,8 +75,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		// only if point of view changed
 		getManagers().getMeshManager().setCurrentModelView(gl);
 
-		if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use
-																		// cache
+		if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use cache
 		{
 			mAxis.draw(gl);
 		}
@@ -156,6 +157,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		mRot = getManagers().getPointOfViewManager().getRotationAngle();
 		mDistance = getManagers().getPointOfViewManager().getZoomDistance();
 		mElevation = getManagers().getPointOfViewManager().getElevationAngle();
+		mXPanOffset = getManagers().getPointOfViewManager().getXPanOffset();
+		mYPanOffset = getManagers().getPointOfViewManager().getYPanOffset();
 	}
 
 	@Override
