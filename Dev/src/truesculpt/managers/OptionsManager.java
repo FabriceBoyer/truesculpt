@@ -67,7 +67,7 @@ public class OptionsManager extends BaseManager
 
 	public boolean getPreventSleepMode()
 	{
-		return settings.getBoolean("PreventSleepMode", true);
+		return settings.getBoolean("PreventSleepMode", false);
 	}
 
 	public boolean getUseSensorsToChangePOV()

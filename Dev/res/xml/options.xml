@@ -12,8 +12,8 @@
 <CheckBoxPreference android:key="GatherUsageData" android:title="@string/Gather_usage_data" android:defaultValue="true"></CheckBoxPreference>
 <CheckBoxPreference android:key="UseSensorsToChangePOV" android:title="@string/UseSensorsToChangePOV" android:defaultValue="false"></CheckBoxPreference>
 <CheckBoxPreference android:key="DisplayDebugInfos" android:title="@string/DisplayDebugInfos" android:defaultValue="false"></CheckBoxPreference>
-<CheckBoxPreference android:key="PreventSleepMode" android:title="@string/PreventSleepMode" android:defaultValue="true"></CheckBoxPreference>
-<CheckBoxPreference android:title="@string/FullScreenApplication" android:key="FullScreenApplication" android:defaultValue="false"></CheckBoxPreference>
+<CheckBoxPreference android:key="PreventSleepMode" android:title="@string/PreventSleepMode" android:defaultValue="false"></CheckBoxPreference>
+<CheckBoxPreference android:key="FullScreenApplication" android:title="@string/FullScreenApplication" android:defaultValue="false"></CheckBoxPreference>
 </PreferenceCategory>
 
 
