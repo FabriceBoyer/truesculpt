@@ -31,8 +31,7 @@ public class ColorizeTool extends PaintingTool
 
 			int targetColor = getManagers().getToolsManager().getColor();
 			Face face = mesh.mFaceList.get(triangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in
-											// triangle from pick point
+			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 			float MaxDist = (float) Math.sqrt(sqMaxDist);
