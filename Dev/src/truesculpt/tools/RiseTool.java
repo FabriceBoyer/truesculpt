@@ -56,6 +56,7 @@ public class RiseTool extends SculptingTool
 		// }
 
 		RiseSculptAction(nIndex);
+
 		long tSculptStop = SystemClock.uptimeMillis();
 		mLastSculptDurationMs = tSculptStop - tSculptStart;
 	}
@@ -68,8 +69,7 @@ public class RiseTool extends SculptingTool
 			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
 
 			Face face = mesh.mFaceList.get(triangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in
-											// triangle from pick point
+			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
 
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
@@ -77,8 +77,7 @@ public class RiseTool extends SculptingTool
 			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
 			float maxGaussian = Gaussian(sigma, 0);
 
-			// separate compute and apply of vertex pos otherwise compute is
-			// false
+			// separate compute and apply of vertex pos otherwise compute is false
 			SculptAction action = new SculptAction();
 			float[] VOffset = new float[3];
 			float[] temp = new float[3];

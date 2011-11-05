@@ -41,7 +41,7 @@ public class FileSelectorPanel extends TabActivity
 		spec = tabHost.newTabSpec("Web").setIndicator("", res.getDrawable(R.drawable.earth)).setContent(intent);
 		tabHost.addTab(spec);
 
-		tabHost.setCurrentTab(0);
+		tabHost.setCurrentTab(2);// save shown by default
 	}
 
 	public Managers getManagers()
