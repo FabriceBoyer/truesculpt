@@ -1,5 +1,6 @@
 package truesculpt.tools;
 
+import android.os.SystemClock;
 import truesculpt.main.Managers;
 
 public class SelectionTool extends ToolsBase
@@ -21,13 +22,25 @@ public class SelectionTool extends ToolsBase
 	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
+		long tSculptStart = SystemClock.uptimeMillis();
+		super.Pick(xScreen, yScreen);
+		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 
+		SelectAction(nIndex);
+
+		long tSculptStop = SystemClock.uptimeMillis();
+		mLastSculptDurationMs = tSculptStop - tSculptStart;
 	}
 
 	@Override
 	public void Stop()
 	{
 		super.Stop();
+
+	}
+
+	private void SelectAction(int triangleIndex)
+	{
 
 	}
 

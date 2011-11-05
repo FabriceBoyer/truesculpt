@@ -18,9 +18,9 @@ import android.graphics.Color;
  */
 public class ToolOverlay
 {
-	private FloatBuffer mColorBuffer;
-	private ShortBuffer mIndexBuffer;
-	private FloatBuffer mVertexBuffer;
+	private final FloatBuffer mColorBuffer;
+	private final ShortBuffer mIndexBuffer;
+	private final FloatBuffer mVertexBuffer;
 
 	int nVertices = 100;
 	float mDefaultTransparency = 0.2f;
@@ -125,8 +125,7 @@ public class ToolOverlay
 
 	public void updateTool(Managers mManagers)
 	{
-		float strength = mManagers.getToolsManager().getStrength();// -100 to
-																	// 100
+		float strength = mManagers.getToolsManager().getStrength();// -100 to 100
 		float radius = mManagers.getToolsManager().getRadius();// 0 to 100;
 
 		float signedNormalizedStrength = strength / 100f;
@@ -134,8 +133,7 @@ public class ToolOverlay
 		float smallRadius = bigRadius * 0.8f;// bigRadius*(1f-Math.abs(signedNormalizedStrength));
 		float height = 0f;
 		int color = Color.BLUE;
-		if (signedNormalizedStrength < 0)
-			color = Color.RED;
+		if (signedNormalizedStrength < 0) color = Color.RED;
 		float[] VCol = new float[3];
 		Color.colorToHSV(color, VCol);
 		VCol[2] = Math.abs(signedNormalizedStrength) * VCol[2];
