@@ -209,6 +209,15 @@ public class RenderFaceGroup
 		return mVertexBuffer;
 	}
 
+	public void UpdateVertexValue(int nVertexIndex, float[] val)
+	{
+		synchronized (this)
+		{
+			mVertexBuffer.position(nVertexIndex * 3);
+			mVertexBuffer.put(val, 0, 3);
+		}
+	}
+
 	public void UpdateVertexValue(int nVertexIndex, float[] val, float[] normal)
 	{
 		synchronized (this)

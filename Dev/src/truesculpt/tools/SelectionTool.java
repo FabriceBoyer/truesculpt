@@ -63,15 +63,14 @@ public class SelectionTool extends ToolsBase
 
 		if (nIndex >= 0)
 		{
-			mPath.AddNode(nIndex, xScreen, yScreen);
 			Mesh mesh = getManagers().getMeshManager().getMesh();
 
 			int highlightColor = Color.rgb(200, 200, 0);// some kind of yellow
 
 			Face face = mesh.mFaceList.get(nIndex);
 			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
-
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
+
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 
 			verticesRes.clear();

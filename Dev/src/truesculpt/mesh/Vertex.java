@@ -13,6 +13,7 @@ public class Vertex
 	public ArrayList<HalfEdge> OutLinkedEdges = new ArrayList<HalfEdge>();
 	public int Color = 0;
 	public OctreeNode Box = null;
+	public float mLastTempSqDistance = -1;// temp data
 
 	public Vertex(float x, float y, float z, int index)
 	{

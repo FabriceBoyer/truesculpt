@@ -268,7 +268,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void colorChanged(int color)
 			{
-				getManagers().getToolsManager().setColor(color, false);
+				getManagers().getToolsManager().setColor(color, false, true);
 			}
 
 			@Override
