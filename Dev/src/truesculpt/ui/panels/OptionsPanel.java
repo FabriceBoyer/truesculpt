@@ -21,6 +21,8 @@ public class OptionsPanel extends PreferenceActivity
 	{
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		getManagers().getUsageStatisticsManager().TrackPageView("/OptionsPanel");
 
 		// must be in same package than manager ?

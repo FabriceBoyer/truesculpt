@@ -26,7 +26,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
@@ -78,7 +77,7 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getUpdateManager().CheckUpdate(getBaseContext());
 		ShowTutorial();
 
-		updateFullscreenWindowStatus();
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 
 		setContentView(R.layout.main);
 
@@ -531,14 +530,6 @@ public class RendererMainPanel extends Activity implements Observer
 		mStrength.SetCircleBackColor(strengthColor);
 
 		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE);
-	}
-
-	public void updateFullscreenWindowStatus()
-	{
-		if (getManagers().getOptionsManager().getFullScreenApplication())
-		{
-			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		}
 	}
 
 	private void UpdateGLView()

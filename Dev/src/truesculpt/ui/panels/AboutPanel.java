@@ -28,6 +28,8 @@ public class AboutPanel extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		getManagers().getUsageStatisticsManager().TrackPageView("/AboutPanel");
 
 		setContentView(R.layout.about);

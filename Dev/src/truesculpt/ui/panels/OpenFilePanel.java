@@ -40,6 +40,9 @@ public class OpenFilePanel extends Activity implements Runnable
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		setContentView(R.layout.openfile);
 
 		mFileList.clear();

@@ -1,6 +1,8 @@
 package truesculpt.ui.panels;
 
+import truesculpt.main.Managers;
 import truesculpt.main.R;
+import truesculpt.main.TrueSculptApp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +17,7 @@ public class SplashPanel extends Activity
 	// time in milliseconds
 	private static final long SPLASHTIME = 5000;
 
-	private Runnable mCloseActivityTask = new Runnable()
+	private final Runnable mCloseActivityTask = new Runnable()
 	{
 		@Override
 		public void run()
@@ -25,7 +27,7 @@ public class SplashPanel extends Activity
 	};
 
 	// handler for splash screen
-	private Handler mHandler = new Handler();
+	private final Handler mHandler = new Handler();
 
 	private ImageView mSplash;
 
@@ -34,6 +36,8 @@ public class SplashPanel extends Activity
 	public void onCreate(Bundle icicle)
 	{
 		super.onCreate(icicle);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 
 		mSplash = new ImageView(this);
 		setContentView(mSplash);
@@ -48,6 +52,11 @@ public class SplashPanel extends Activity
 	{
 		finish();
 		return super.onTouchEvent(event);
+	}
+
+	public Managers getManagers()
+	{
+		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 
 }
