@@ -757,7 +757,6 @@ public class Mesh
 
 	public void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet<Vertex> res)
 	{
-		res.clear();
 		res.add(origVertex);// add at least this point
 
 		verticesToTest.clear();

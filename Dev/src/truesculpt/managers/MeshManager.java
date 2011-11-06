@@ -246,8 +246,6 @@ public class MeshManager extends BaseManager
 				mRay.setRayPos(rayPt1, rayPt2);
 
 				nIndex = PickRay();
-
-				NotifyListeners();
 			}
 		}
 
