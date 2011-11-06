@@ -50,7 +50,7 @@ public class PickColorTool extends PaintingTool
 			Face face = mesh.mFaceList.get(nTriangleIndex);
 			Vertex vertex = mesh.mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
 			int color = vertex.Color;
-			getManagers().getToolsManager().setColor(color, true);
+			getManagers().getToolsManager().setColor(color, true, false);
 
 			getManagers().getMeshManager().NotifyListeners();
 		}

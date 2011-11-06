@@ -201,7 +201,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDoubleClick(int color)
 			{
-				getManagers().getToolsManager().setColor(color, false);
+				getManagers().getToolsManager().setColor(color, false, true);
 				getManagers().getUtilsManager();
 				UtilsManager.ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
@@ -211,7 +211,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChanged(int color)
 			{
-				getManagers().getToolsManager().setColor(color, false);
+				getManagers().getToolsManager().setColor(color, false, true);
 			}
 
 			@Override

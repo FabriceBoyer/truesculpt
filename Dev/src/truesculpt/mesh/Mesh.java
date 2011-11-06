@@ -24,6 +24,7 @@ public class Mesh
 	private OctreeNode mRootBoxNode = null;
 	private final float[] u = new float[3];
 	private final float[] v = new float[3];
+	private final float[] n = new float[3];
 	private final float[] dir = new float[3];
 	private final float[] temp = new float[3];
 	private final float[] Ires = new float[3];
@@ -231,11 +232,6 @@ public class Mesh
 	private void checkFacesNormals()
 	{
 		// check triangle normals are outside and correct if necessary
-		float[] u = new float[3];
-		float[] v = new float[3];
-		float[] n = new float[3];
-		float[] dir = new float[3];
-
 		for (Face face : mFaceList)
 		{
 			Vertex V0 = mVertexList.get(face.E0.V0);
@@ -248,11 +244,9 @@ public class Mesh
 
 			MatrixUtils.cross(u, v, n); // cross product
 
-			dir = V0.Coord;
+			MatrixUtils.copy(V0.Coord, dir);
 
-			boolean bColinear = MatrixUtils.dot(dir, n) > 0;// dir and normal
-															// have same
-															// direction
+			boolean bColinear = MatrixUtils.dot(dir, n) > 0;// dir and normal have same direction
 			if (!bColinear)// swap two edges
 			{
 				assertTrue(false);
@@ -551,6 +545,7 @@ public class Mesh
 			float currSqDistance = MatrixUtils.squaremagnitude(temp);
 			if (currSqDistance < sqDistance)
 			{
+				currVertex.mLastTempSqDistance = currSqDistance;
 				res.add(currVertex);
 				for (HalfEdge edge : currVertex.OutLinkedEdges)
 				{
@@ -588,6 +583,7 @@ public class Mesh
 			float currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord);
 			if (currSqDistance < sqDistance)
 			{
+				currVertex.mLastTempSqDistance = currSqDistance;
 				res.add(currVertex);
 				for (HalfEdge edge : currVertex.OutLinkedEdges)
 				{

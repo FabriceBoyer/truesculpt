@@ -163,7 +163,7 @@ public class ToolsManager extends BaseManager
 
 	}
 
-	public void setColor(int color, boolean bAddUndoAction)
+	public void setColor(int color, boolean bAddUndoAction, boolean bChangeMode)
 	{
 		if (this.mColor != color)
 		{
@@ -171,8 +171,11 @@ public class ToolsManager extends BaseManager
 			this.mColor = color;
 			// if (bAddUndoAction) AddUndoToolAction();
 
-			// Force mode if you change color
-			// this.mSculptSubMode = ESculptToolSubMode.COLOR;
+			if (bChangeMode)
+			{
+				// Force mode if you change color
+				setSculptSubMode(ESculptToolSubMode.COLOR);
+			}
 
 			NotifyListeners();
 		}
