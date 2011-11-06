@@ -115,10 +115,10 @@ public class MeshMathsUtils
 		if (c2 <= c1) return MatrixUtils.squaredistance(P, S1);
 
 		float b = c1 / c2;
-		MatrixUtils.scalarMultiply(v, b);
+		MatrixUtils.scalarMultiply(v, b, temp);
 		MatrixUtils.plus(S0, temp, temp2);
 
-		return MatrixUtils.squaredistance(P, temp);
+		return MatrixUtils.squaredistance(P, temp2);
 
 	}
 
