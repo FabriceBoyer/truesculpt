@@ -8,7 +8,6 @@ import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.PaintingTool;
 import truesculpt.utils.MatrixUtils;
 import android.graphics.Color;
-import android.os.SystemClock;
 
 public class ColorizeTool extends PaintingTool
 {
@@ -20,13 +19,11 @@ public class ColorizeTool extends PaintingTool
 	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
-		long tSculptStart = SystemClock.uptimeMillis();
 		super.Pick(xScreen, yScreen);
 
 		ColorizePaintAction(xScreen, yScreen);
 
-		long tSculptStop = SystemClock.uptimeMillis();
-		mLastSculptDurationMs = tSculptStop - tSculptStart;
+		EndPick();
 	}
 
 	@Override

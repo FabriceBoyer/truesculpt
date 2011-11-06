@@ -7,7 +7,6 @@ import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
-import android.os.SystemClock;
 
 public class RiseTool extends SculptingTool
 {
@@ -39,13 +38,56 @@ public class RiseTool extends SculptingTool
 	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
-		long tSculptStart = SystemClock.uptimeMillis();
 		super.Pick(xScreen, yScreen);
 
 		RiseSculptAction(xScreen, yScreen);
 
-		long tSculptStop = SystemClock.uptimeMillis();
-		mLastSculptDurationMs = tSculptStop - tSculptStart;
+		EndPick();
+	}
+
+	private void RiseSculptAction(float xScreen, float yScreen)
+	{
+		int triangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+
+		if (triangleIndex >= 0)
+		{
+			Mesh mesh = getManagers().getMeshManager().getMesh();
+
+			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
+
+			Face face = mesh.mFaceList.get(triangleIndex);
+			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
+
+			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
+
+			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
+			verticesRes.clear();
+			mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
+			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
+			float maxGaussian = Gaussian(sigma, 0);
+
+			// separate compute and apply of vertex pos otherwise compute is false
+			SculptAction action = new SculptAction();
+			float[] VOffset = new float[3];
+			float[] temp = new float[3];
+			for (Vertex vertex : verticesRes)
+			{
+				MatrixUtils.copy(origVertex.Normal, VOffset);
+				// MatrixUtils.copy(vertex.Normal, VOffset);
+
+				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
+				float sqDist = MatrixUtils.squaremagnitude(temp);
+
+				// sculpting functions
+				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, sqDist) / maxGaussian * fMaxDeformation));
+				// if (MatrixUtils.magnitude(VOffset)>1e-3)
+				{
+					action.AddVertexOffset(vertex.Index, VOffset, vertex);
+				}
+			}
+
+			getManagers().getMeshManager().NotifyListeners();
+		}
 	}
 
 	// switch (getManagers().getToolsManager().getSymmetryMode())
@@ -79,47 +121,4 @@ public class RiseTool extends SculptingTool
 	// break;
 	// }
 	// }
-
-	private void RiseSculptAction(float xScreen, float yScreen)
-	{
-		int triangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
-
-		if (triangleIndex >= 0)
-		{
-			Mesh mesh = getManagers().getMeshManager().getMesh();
-			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
-
-			Face face = mesh.mFaceList.get(triangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
-			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
-
-			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-			verticesRes.clear();
-			mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
-			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
-			float maxGaussian = Gaussian(sigma, 0);
-
-			// separate compute and apply of vertex pos otherwise compute is false
-			SculptAction action = new SculptAction();
-			float[] VOffset = new float[3];
-			float[] temp = new float[3];
-			for (Vertex vertex : verticesRes)
-			{
-				MatrixUtils.copy(origVertex.Normal, VOffset);
-				// MatrixUtils.copy(vertex.Normal, VOffset);
-
-				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-				float sqDist = MatrixUtils.squaremagnitude(temp);
-
-				// sculpting functions
-				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, sqDist) / maxGaussian * fMaxDeformation));
-				// if (MatrixUtils.magnitude(VOffset)>1e-3)
-				{
-					action.AddVertexOffset(vertex.Index, VOffset, vertex);
-				}
-			}
-
-			getManagers().getMeshManager().NotifyListeners();
-		}
-	}
 }
