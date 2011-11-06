@@ -186,7 +186,7 @@ public class TouchManager extends BaseManager
 		case MotionEvent.ACTION_UP:
 		{
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
-			getManagers().getToolsManager().getCurrentTool().Stop();
+			getManagers().getToolsManager().getCurrentTool().Stop(x, y);
 			break;
 		}
 		case MotionEvent.ACTION_MOVE:

@@ -7,6 +7,7 @@ import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
+import truesculpt.tools.base.ToolsBase;
 import android.graphics.Color;
 import android.os.SystemClock;
 
@@ -14,6 +15,7 @@ public class SelectionTool extends ToolsBase
 {
 
 	protected HashSet<Vertex> cumulatedVerticesRes = new HashSet<Vertex>();
+	private Vertex mLastVertex = null;
 
 	public SelectionTool(Managers managers)
 	{
@@ -27,6 +29,7 @@ public class SelectionTool extends ToolsBase
 		super.Start(xScreen, yScreen);
 
 		cumulatedVerticesRes.clear();
+		mLastVertex = null;
 	}
 
 	@Override
@@ -45,9 +48,9 @@ public class SelectionTool extends ToolsBase
 	}
 
 	@Override
-	public void Stop()
+	public void Stop(float xScreen, float yScreen)
 	{
-		super.Stop();
+		super.Stop(xScreen, yScreen);
 
 		Mesh mesh = getManagers().getMeshManager().getMesh();
 
@@ -61,6 +64,7 @@ public class SelectionTool extends ToolsBase
 		}
 
 		cumulatedVerticesRes.clear();
+		mLastVertex = null;
 
 		getManagers().getMeshManager().NotifyListeners();
 
@@ -81,12 +85,19 @@ public class SelectionTool extends ToolsBase
 
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-			verticesRes.clear();
-			mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
 
+			verticesRes.clear();
+			if (mLastVertex != null)
+			{
+				mesh.GetVerticesAtDistanceFromVertexLine(origVertex, mLastVertex, sqMaxDist, verticesRes);
+			}
+			else
+			{
+				mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
+			}
 			cumulatedVerticesRes.addAll(verticesRes);
 
-			// temporary highlight
+			// selection preview highlight (not in data mesh only in gpu)
 			for (Vertex vertex : verticesRes)
 			{
 				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
@@ -94,6 +105,8 @@ public class SelectionTool extends ToolsBase
 					renderGroup.UpdateVertexColor(vertex.Index, highlightColor);
 				}
 			}
+
+			mLastVertex = origVertex;
 		}
 	}
 

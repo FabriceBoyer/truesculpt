@@ -10,7 +10,7 @@ import truesculpt.tools.PickColorTool;
 import truesculpt.tools.RiseTool;
 import truesculpt.tools.SelectionTool;
 import truesculpt.tools.SmoothTool;
-import truesculpt.tools.ToolsBase;
+import truesculpt.tools.base.ToolsBase;
 import truesculpt.utils.Utils;
 import android.content.Context;
 import android.graphics.Color;
@@ -172,7 +172,7 @@ public class ToolsManager extends BaseManager
 			// if (bAddUndoAction) AddUndoToolAction();
 
 			// Force mode if you change color
-			this.mSculptSubMode = ESculptToolSubMode.COLOR;
+			// this.mSculptSubMode = ESculptToolSubMode.COLOR;
 
 			NotifyListeners();
 		}

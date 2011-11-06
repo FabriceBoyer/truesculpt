@@ -90,6 +90,7 @@ public class ToolsPanel extends Activity implements Observer
 			break;
 		case PICK_COLOR:
 			nIndex = 6;
+			break;
 		}
 		toolSpinner.setSelection(nIndex);
 	}
