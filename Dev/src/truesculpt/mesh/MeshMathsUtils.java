@@ -13,13 +13,14 @@ public class MeshMathsUtils
 	// recycled vectors for time critical function where new are too long
 	static float[] dir = new float[3];
 	static float[] n = new float[3];
-	static float SMALL_NUM = 0.00000001f; // anything that avoids division
-											// overflow
+	static float SMALL_NUM = 0.00000001f; // anything that avoids division overflow
 	static float[] u = new float[3];
 	static float[] v = new float[3];
 	static float[] w = new float[3];
 	static float[] w0 = new float[3];
 	static float[] zero = { 0, 0, 0 };
+	static float[] temp = new float[3];
+	static float[] temp2 = new float[3];
 
 	// intersect_RayTriangle(): intersect a ray with a 3D triangle
 	// Input: a ray R (R0 and R1), and a triangle T (V0,V1)
@@ -44,10 +45,7 @@ public class MeshMathsUtils
 
 		MatrixUtils.minus(R1, R0, dir); // ray direction vector
 
-		boolean bBackCullTriangle = MatrixUtils.dot(dir, n) > 0;// ray dir and
-																// normal have
-																// same
-																// direction
+		boolean bBackCullTriangle = MatrixUtils.dot(dir, n) > 0;// ray dir and normal have same direction
 		if (bBackCullTriangle)
 		{
 			return 0;
@@ -62,10 +60,7 @@ public class MeshMathsUtils
 			{
 				return 2;
 			}
-			else
-			{
-				return 0; // ray disjoint from plane
-			}
+			return 0; // ray disjoint from plane
 		}
 
 		// get intersect point of ray with triangle plane
@@ -108,21 +103,23 @@ public class MeshMathsUtils
 	// dist_Point_to_Segment(): get the distance of a point to a segment.
 	// Input: a Point P and a Segment S (in any dimension)
 	// Return: the shortest distance from P to S
-	public static float dist_Point_to_Segment(Vertex Point, Vertex S0, Vertex S1)
+	public static float dist_Point_to_Segment(float[] P, float[] S0, float[] S1)
 	{
-		// Vector v = S.P1 - S.P0;
-		// Vector w = P - S.P0;
-		//
-		// double c1 = dot(w, v);
-		// if (c1 <= 0) return d(P, S.P0);
-		//
-		// double c2 = dot(v, v);
-		// if (c2 <= c1) return d(P, S.P1);
-		//
-		// double b = c1 / c2;
-		// Point Pb = S.P0 + b * v;
-		// return d(P, Pb);
-		return 0;
+		MatrixUtils.minus(S1, S0, v);
+		MatrixUtils.minus(P, S0, w);
+
+		float c1 = MatrixUtils.dot(w, v);
+		if (c1 <= 0) return MatrixUtils.distance(P, S0);
+
+		float c2 = MatrixUtils.dot(v, v);
+		if (c2 <= c1) return MatrixUtils.distance(P, S1);
+
+		float b = c1 / c2;
+		MatrixUtils.scalarMultiply(v, b);
+		MatrixUtils.plus(S0, temp, temp2);
+
+		return MatrixUtils.distance(P, temp);
+
 	}
 
 	// x1,y1,z1 P1 coordinates (point of line)
@@ -142,10 +139,7 @@ public class MeshMathsUtils
 			// no intersection
 			return (false);
 		}
-		else
-		{
-			return true;
-		}
+		return true;
 	}
 
 	// Smits method

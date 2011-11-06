@@ -14,7 +14,7 @@ public class ToolsBase implements ITools
 	protected final float MIN_RADIUS = 0.01f;// meters
 	protected final float MAX_RADIUS = 1f;// meters
 
-	protected HashSet<Vertex> verticesRes = new HashSet<Vertex>();
+	protected final HashSet<Vertex> verticesRes = new HashSet<Vertex>();
 
 	protected long mLastSculptDurationMs = -1;
 

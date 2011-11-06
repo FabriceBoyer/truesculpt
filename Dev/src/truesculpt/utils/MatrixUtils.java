@@ -4,6 +4,7 @@ import android.util.Log;
 
 public class MatrixUtils
 {
+	static float[] temp = new float[3];
 
 	/**
 	 * Copy a vector from <code>from</code> into <code>to</code>
@@ -131,6 +132,19 @@ public class MatrixUtils
 	public static float magnitude(float[] vector)
 	{
 		return (float) Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+	}
+
+	/**
+	 * Compute the distance between two points
+	 * 
+	 * @param vector
+	 *            The vector
+	 * @return The distance of the vector
+	 **/
+	public static float distance(float[] P0, float[] P1)
+	{
+		minus(P0, P1, temp);
+		return magnitude(temp);
 	}
 
 	/**

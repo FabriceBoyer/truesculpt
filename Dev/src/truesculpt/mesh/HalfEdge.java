@@ -13,7 +13,7 @@ public class HalfEdge
 
 	float Length = -1.0f;
 
-	// unormalized (raw cross product) at V0
+	// unnormalized (raw cross product) at V0
 	public float[] Normal = new float[3];
 
 	public HalfEdge(int v0, int v1, int face)

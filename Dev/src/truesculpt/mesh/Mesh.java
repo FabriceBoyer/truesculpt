@@ -21,10 +21,18 @@ public class Mesh
 	public ArrayList<Face> mFaceList = new ArrayList<Face>();
 	public ArrayList<Vertex> mVertexList = new ArrayList<Vertex>();
 	public ArrayList<RenderFaceGroup> mRenderGroupList = new ArrayList<RenderFaceGroup>();
-	public OctreeNode mRootBoxNode = null;
-	static float[] u = new float[3];
-	static float[] v = new float[3];
-	static float[] dir = new float[3];
+	private OctreeNode mRootBoxNode = null;
+	private final float[] u = new float[3];
+	private final float[] v = new float[3];
+	private final float[] dir = new float[3];
+	private final float[] temp = new float[3];
+	private final float[] Ires = new float[3];
+	private final ArrayList<OctreeNode> BoxesToTest = new ArrayList<OctreeNode>();
+	private float mBoundingSphereRadius = 0.0f;
+	private final HashSet<Integer> boxFaces = new HashSet<Integer>();
+	private final ArrayList<Vertex> verticesToTest = new ArrayList<Vertex>();
+	private final HashSet<Vertex> verticesAlreadyTested = new HashSet<Vertex>();
+
 	private final Managers mManagers;
 
 	public Mesh(Managers managers, int nSubdivisionLevel)
@@ -84,8 +92,6 @@ public class Mesh
 			}
 		}
 	}
-
-	float mBoundingSphereRadius = 0.0f;
 
 	public void ComputeBoundingSphereRadius()
 	{
@@ -212,10 +218,10 @@ public class Mesh
 		getManagers().getToolsManager();
 		setAllVerticesColor(ToolsManager.getDefaultColor());
 
-		normalizeAllVertices();
+		NormalizeAllVertices();
 
-		computeVerticesLinkedEdges();
-		linkNeighbourEdges();
+		ComputeVerticesLinkedEdges();
+		LinkNeighbourEdges();
 
 		ComputeAllVertexNormals();
 
@@ -283,8 +289,8 @@ public class Mesh
 
 		MeshSerializer.Import(strFileName, this);
 
-		computeVerticesLinkedEdges();
-		linkNeighbourEdges();
+		ComputeVerticesLinkedEdges();
+		LinkNeighbourEdges();
 
 		ComputeAllVertexNormals();
 
@@ -341,7 +347,7 @@ public class Mesh
 		assertEquals(mVertexList.size(), 12);
 	}
 
-	private void computeVerticesLinkedEdges()
+	private void ComputeVerticesLinkedEdges()
 	{
 		// clear all
 		for (Vertex vertex : mVertexList)
@@ -367,7 +373,7 @@ public class Mesh
 
 	// suppose linked edges of vertices are correct
 	// suboptimal, links made several times
-	private void linkNeighbourEdges()
+	private void LinkNeighbourEdges()
 	{
 		int n = mVertexList.size();
 		for (int i = 0; i < n; i++)
@@ -377,13 +383,13 @@ public class Mesh
 			{
 				for (HalfEdge e1 : vertex.InLinkedEdges)
 				{
-					linkEdgesIfNeighbours(e0, e1);
+					LinkEdgesIfNeighbours(e0, e1);
 				}
 			}
 		}
 	}
 
-	private static boolean linkEdgesIfNeighbours(HalfEdge e0, HalfEdge e1)
+	private static boolean LinkEdgesIfNeighbours(HalfEdge e0, HalfEdge e1)
 	{
 		boolean bRes = false;
 
@@ -397,7 +403,7 @@ public class Mesh
 		return bRes;
 	}
 
-	void InitAsSphere(int nSubdivionLevel)
+	private void InitAsSphere(int nSubdivionLevel)
 	{
 		if (nSubdivionLevel >= 0)
 		{
@@ -411,7 +417,7 @@ public class Mesh
 	}
 
 	// makes a sphere
-	void normalizeAllVertices()
+	private void NormalizeAllVertices()
 	{
 		for (Vertex vertex : mVertexList)
 		{
@@ -470,13 +476,9 @@ public class Mesh
 		Collections.sort(BoxesToTest, comperator);
 	}
 
-	ArrayList<OctreeNode> BoxesToTest = new ArrayList<OctreeNode>();
-	HashSet<Integer> boxFaces = new HashSet<Integer>();
-
 	public int Pick(float[] R0, float[] R1, float[] intersectPtReturn)
 	{
 		int nRes = -1;
-		float[] Ires = new float[3];
 
 		MatrixUtils.minus(R1, R0, dir);
 		float fSmallestSqDistanceToR0 = MatrixUtils.squaremagnitude(dir);// ray is R0 to R1
@@ -526,24 +528,24 @@ public class Mesh
 		return nRes;
 	}
 
-	ArrayList<Vertex> verticesToTest = new ArrayList<Vertex>();
-
 	public void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet<Vertex> res)
 	{
 		res.add(origVertex);// add at least this point
 
 		verticesToTest.clear();
+		verticesAlreadyTested.clear();
+
 		for (HalfEdge edge : origVertex.OutLinkedEdges)
 		{
 			verticesToTest.add(mVertexList.get(edge.V1));
 		}
 
-		float[] temp = new float[3];
 		int nCount = verticesToTest.size();
 		while (nCount > 0)
 		{
 			Vertex currVertex = verticesToTest.get(nCount - 1);
 			verticesToTest.remove(nCount - 1);
+			verticesAlreadyTested.add(currVertex);
 
 			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
 			float currSqDistance = MatrixUtils.squaremagnitude(temp);
@@ -553,7 +555,7 @@ public class Mesh
 				for (HalfEdge edge : currVertex.OutLinkedEdges)
 				{
 					Vertex vertexToAdd = mVertexList.get(edge.V1);
-					if (!res.contains(vertexToAdd))// avoids looping
+					if (!verticesAlreadyTested.contains(vertexToAdd))// avoids looping
 					{
 						verticesToTest.add(vertexToAdd);
 					}
@@ -564,22 +566,24 @@ public class Mesh
 		}
 	}
 
-	public void GetVerticesAtDistanceFromVertexLine(Vertex vNew, Vertex vLast, float sqDistance, HashSet<Vertex> res)
+	public void GetVerticesAtDistanceFromSegment(Vertex vNew, Vertex vLast, float sqDistance, HashSet<Vertex> res)
 	{
-		res.add(vNew);
+		res.add(vNew);// add at least this point
 
 		verticesToTest.clear();
+		verticesAlreadyTested.clear();
+
 		for (HalfEdge edge : vNew.OutLinkedEdges)
 		{
 			verticesToTest.add(mVertexList.get(edge.V1));
 		}
 
-		float[] temp = new float[3];
 		int nCount = verticesToTest.size();
 		while (nCount > 0)
 		{
 			Vertex currVertex = verticesToTest.get(nCount - 1);
 			verticesToTest.remove(nCount - 1);
+			verticesAlreadyTested.add(currVertex);
 
 			MatrixUtils.minus(currVertex.Coord, vNew.Coord, temp);
 			float currSqDistance = MatrixUtils.squaremagnitude(temp);
@@ -589,7 +593,7 @@ public class Mesh
 				for (HalfEdge edge : currVertex.OutLinkedEdges)
 				{
 					Vertex vertexToAdd = mVertexList.get(edge.V1);
-					if (!res.contains(vertexToAdd))// avoids looping
+					if (!verticesAlreadyTested.contains(vertexToAdd))// avoids looping
 					{
 						verticesToTest.add(vertexToAdd);
 					}
@@ -601,7 +605,7 @@ public class Mesh
 	}
 
 	// notification not done, to do in calling thread with post
-	void Reset()
+	private void Reset()
 	{
 		mVertexList.clear();
 		mFaceList.clear();
@@ -612,7 +616,7 @@ public class Mesh
 	}
 
 	// to share vertices between edges
-	private int getMiddleDivideVertexForEdge(HalfEdge edge)
+	private int GetMiddleDivideVertexForEdge(HalfEdge edge)
 	{
 		int nRes = -1;
 		if (edge.VNextSplit != -1)
@@ -628,10 +632,10 @@ public class Mesh
 	}
 
 	// one triangle become four (cut on middle of each edge)
-	void SubdivideAllFaces(int nSubdivionLevel)
+	private void SubdivideAllFaces(int nSubdivionLevel)
 	{
-		computeVerticesLinkedEdges();
-		linkNeighbourEdges();
+		ComputeVerticesLinkedEdges();
+		LinkNeighbourEdges();
 
 		// backup original face list and create a brand new one (no face is kept
 		// all divided), vertices are only addes none is removed
@@ -644,9 +648,9 @@ public class Mesh
 			int nB = face.E1.V0;
 			int nC = face.E2.V0;
 
-			int nD = getMiddleDivideVertexForEdge(face.E0);
-			int nE = getMiddleDivideVertexForEdge(face.E1);
-			int nF = getMiddleDivideVertexForEdge(face.E2);
+			int nD = GetMiddleDivideVertexForEdge(face.E0);
+			int nE = GetMiddleDivideVertexForEdge(face.E1);
+			int nF = GetMiddleDivideVertexForEdge(face.E2);
 
 			mFaceList.add(new Face(nA, nD, nF, mFaceList.size(), nSubdivionLevel + 1));
 			mFaceList.add(new Face(nD, nB, nE, mFaceList.size(), nSubdivionLevel + 1));
@@ -675,7 +679,7 @@ public class Mesh
 		UpdateVertexValue(mVertexList.get(vertex));
 	}
 
-	public void UpdateVertexValue(Vertex vertex)
+	private void UpdateVertexValue(Vertex vertex)
 	{
 		vertex.Box.Reboxing(vertex);// update octree
 
@@ -694,7 +698,7 @@ public class Mesh
 		}
 	}
 
-	void UpdateBoudingSphereRadius(float[] val)
+	private void UpdateBoudingSphereRadius(float[] val)
 	{
 		float norm = MatrixUtils.magnitude(val);
 		if (norm > mBoundingSphereRadius)
@@ -703,16 +707,6 @@ public class Mesh
 			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into account,
 			// TODO read from conf
 		}
-	}
-
-	public ArrayList<Vertex> getVertexList()
-	{
-		return mVertexList;
-	}
-
-	public ArrayList<Face> getFaceList()
-	{
-		return mFaceList;
 	}
 
 }

@@ -93,7 +93,7 @@ public class SelectionTool extends ToolsBase
 			verticesRes.clear();
 			if (mLastVertex != null)
 			{
-				mesh.GetVerticesAtDistanceFromVertexLine(origVertex, mLastVertex, sqMaxDist, verticesRes);
+				mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
 			}
 			else
 			{
