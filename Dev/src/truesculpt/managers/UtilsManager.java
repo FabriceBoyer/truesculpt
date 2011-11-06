@@ -22,8 +22,6 @@ import android.widget.Toast;
 
 public class UtilsManager extends BaseManager
 {
-	private Handler mHandler = null;
-
 	public void InitHandler()
 	{
 		mHandler = new Handler();
@@ -47,7 +45,7 @@ public class UtilsManager extends BaseManager
 		// TODO Auto-generated constructor stub
 	}
 
-	public String GetRootDirectory()
+	public static String GetRootDirectory()
 	{
 		return Environment.getExternalStorageDirectory() + "/Truesculpt/Sculptures/";
 	}
@@ -62,7 +60,7 @@ public class UtilsManager extends BaseManager
 		return GetBaseFileName() + "Image.png";
 	}
 
-	public boolean CheckSculptureExist(String name)
+	public static boolean CheckSculptureExist(String name)
 	{
 		boolean bRes = false;
 
@@ -100,7 +98,7 @@ public class UtilsManager extends BaseManager
 		return strFileName;
 	}
 
-	public String GetDefaultFileName()
+	public static String GetDefaultFileName()
 	{
 		Date date = new Date();
 		String strFileName = "Sculpt_" + date.toGMTString();
@@ -170,7 +168,7 @@ public class UtilsManager extends BaseManager
 		}
 	}
 
-	public void ShowHSLColorPickerDialog(Context context)
+	public static void ShowHSLColorPickerDialog(Context context)
 	{
 		// initialColor is the initially-selected color to be shown in the
 		// rectangle on the left of the arrow.
@@ -206,8 +204,7 @@ public class UtilsManager extends BaseManager
 				File installation = new File(context.getFilesDir(), INSTALLATION);
 				try
 				{
-					if (!installation.exists())
-						writeInstallationFile(installation);
+					if (!installation.exists()) writeInstallationFile(installation);
 					sID = readInstallationFile(installation);
 				}
 				catch (Exception e)

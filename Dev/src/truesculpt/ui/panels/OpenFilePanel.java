@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.UtilsManager;
 import truesculpt.ui.adapters.OpenFileAdapter;
 import android.app.Activity;
 import android.app.Dialog;
@@ -24,7 +25,7 @@ public class OpenFilePanel extends Activity implements Runnable
 	private ProgressDialog waitDialog = null;
 	private GridView gridview = null;
 	private FileElem mSelectedElem = null;
-	private ArrayList<FileElem> mFileList = new ArrayList<FileElem>();
+	private final ArrayList<FileElem> mFileList = new ArrayList<FileElem>();
 	private final int DIALOG_WAIT = 1;
 
 	public class FileElem
@@ -42,7 +43,8 @@ public class OpenFilePanel extends Activity implements Runnable
 		setContentView(R.layout.openfile);
 
 		mFileList.clear();
-		String strRootDir = getManagers().getUtilsManager().GetRootDirectory();
+		getManagers().getUtilsManager();
+		String strRootDir = UtilsManager.GetRootDirectory();
 		File rootDir = new File(strRootDir);
 		File[] listFiles = rootDir.listFiles();
 		for (File file : listFiles)
@@ -133,7 +135,7 @@ public class OpenFilePanel extends Activity implements Runnable
 		getManagers().getUsageStatisticsManager().TrackEvent("OpenFile", name, 1);
 	}
 
-	private Handler handler = new Handler()
+	private final Handler handler = new Handler()
 	{
 		@Override
 		public void handleMessage(Message msg)

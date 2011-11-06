@@ -34,7 +34,7 @@ public class TouchManager extends BaseManager
 	}
 
 	/** Show an event in the LogCat view, for debugging */
-	private void dumpEvent(MotionEvent event)
+	private static void dumpEvent(MotionEvent event)
 	{
 		String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE", "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
 		StringBuilder sb = new StringBuilder();
@@ -62,7 +62,7 @@ public class TouchManager extends BaseManager
 		Log.d("POINTER", sb.toString());
 	}
 
-	private float getDistanceBetweenFingers(MotionEvent event)
+	private static float getDistanceBetweenFingers(MotionEvent event)
 	{
 		float x = event.getX(0) - event.getX(1);
 		float y = event.getY(0) - event.getY(1);

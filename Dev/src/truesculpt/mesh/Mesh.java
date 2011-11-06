@@ -19,6 +19,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
 import truesculpt.main.Managers;
+import truesculpt.managers.ToolsManager;
 import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
 
@@ -121,7 +122,7 @@ public class Mesh
 
 	// Based on close triangles normals * sin of their angle and normalize
 	// averaging normals of triangles around
-	public void ComputeVertexNormal(Vertex vertex)
+	public static void ComputeVertexNormal(Vertex vertex)
 	{
 		// reset normal
 		vertex.Normal[0] = 0f;
@@ -262,7 +263,8 @@ public class Mesh
 
 	private void FinalizeSphereInit()
 	{
-		setAllVerticesColor(getManagers().getToolsManager().getDefaultColor());
+		getManagers().getToolsManager();
+		setAllVerticesColor(ToolsManager.getDefaultColor());
 
 		normalizeAllVertices();
 
@@ -509,7 +511,7 @@ public class Mesh
 		}
 	}
 
-	private boolean linkEdgesIfNeighbours(HalfEdge e0, HalfEdge e1)
+	private static boolean linkEdgesIfNeighbours(HalfEdge e0, HalfEdge e1)
 	{
 		boolean bRes = false;
 
@@ -569,7 +571,7 @@ public class Mesh
 		}
 	}
 
-	private void SortBoxesByDistance(ArrayList<OctreeNode> BoxesToTest, final float[] R0)
+	private static void SortBoxesByDistance(ArrayList<OctreeNode> BoxesToTest, final float[] R0)
 	{
 		Comparator<OctreeNode> comperator = new Comparator<OctreeNode>()
 		{
@@ -942,7 +944,7 @@ public class Mesh
 		return mFaceList;
 	}
 
-	float square(float f)
+	static float square(float f)
 	{
 		return (f * f);
 	};
@@ -950,7 +952,7 @@ public class Mesh
 	// x1,y1,z1 P1 coordinates (point of line)
 	// x2,y2,z2 P2 coordinates (point of line)
 	// x3,y3,z3, r P3 coordinates and radius (sphere)
-	boolean sphere_line_intersection(float x1, float y1, float z1, float x2, float y2, float z2, float x_sphere, float y_sphere, float z_sphere, float r_sphere)
+	static boolean sphere_line_intersection(float x1, float y1, float z1, float x2, float y2, float z2, float x_sphere, float y_sphere, float z_sphere, float r_sphere)
 	{
 		float a, b, c, i;
 
@@ -971,7 +973,7 @@ public class Mesh
 	}
 
 	// Smits method
-	boolean ray_box_intersect(OctreeNode box, final float[] rayOrig, final float[] rayDir, float t0, float t1)
+	static boolean ray_box_intersect(OctreeNode box, final float[] rayOrig, final float[] rayDir, float t0, float t1)
 	{
 		float tmin, tmax, tymin, tymax, tzmin, tzmax;
 		if (rayDir[0] >= 0)

@@ -7,6 +7,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
+import truesculpt.managers.UtilsManager;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorShowView;
 import truesculpt.ui.views.SliderPickView;
@@ -202,7 +203,8 @@ public class RendererMainPanel extends Activity implements Observer
 			public void onDoubleClick(int color)
 			{
 				getManagers().getToolsManager().setColor(color, false);
-				getManagers().getUtilsManager().ShowHSLColorPickerDialog(RendererMainPanel.this);
+				getManagers().getUtilsManager();
+				UtilsManager.ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
 		});
 		mColorShow.SetColorChangeListener(new OnColorChangedListener()
@@ -525,8 +527,7 @@ public class RendererMainPanel extends Activity implements Observer
 
 		mStrength.setCurrentValue(getManagers().getToolsManager().getStrengthAbsoluteValue());
 		int strengthColor = Color.RED;
-		if (getManagers().getToolsManager().isStrengthPositive())
-			strengthColor = Color.BLUE;
+		if (getManagers().getToolsManager().isStrengthPositive()) strengthColor = Color.BLUE;
 		mStrength.SetCircleBackColor(strengthColor);
 
 		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE);

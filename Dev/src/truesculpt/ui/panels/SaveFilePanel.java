@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.managers.UtilsManager;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -102,7 +103,8 @@ public class SaveFilePanel extends Activity implements Runnable
 			@Override
 			public void onClick(View v)
 			{
-				String strPath = "file://" + getManagers().getUtilsManager().GetRootDirectory();
+				getManagers().getUtilsManager();
+				String strPath = "file://" + UtilsManager.GetRootDirectory();
 				try
 				{
 					Intent myIntent = new Intent("org.openintents.action.PICK_FILE", Uri.parse(strPath));
@@ -193,7 +195,7 @@ public class SaveFilePanel extends Activity implements Runnable
 		return strSnapshotFileName;
 	}
 
-	private void WaitForSnapshot(String strSnapshotFileName)
+	private static void WaitForSnapshot(String strSnapshotFileName)
 	{
 		// wait for async snapshot to be taken
 		File snapshotFile = new File(strSnapshotFileName);
@@ -300,7 +302,7 @@ public class SaveFilePanel extends Activity implements Runnable
 		handler.sendEmptyMessage(0);
 	}
 
-	private Handler handler = new Handler()
+	private final Handler handler = new Handler()
 	{
 		@Override
 		public void handleMessage(Message msg)

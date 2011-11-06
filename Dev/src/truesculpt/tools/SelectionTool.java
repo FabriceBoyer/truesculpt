@@ -7,6 +7,7 @@ import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
+import truesculpt.tools.base.Path;
 import truesculpt.tools.base.ToolsBase;
 import android.graphics.Color;
 import android.os.SystemClock;
@@ -16,6 +17,7 @@ public class SelectionTool extends ToolsBase
 
 	protected HashSet<Vertex> cumulatedVerticesRes = new HashSet<Vertex>();
 	private Vertex mLastVertex = null;
+	private final Path mPath = new Path();
 
 	public SelectionTool(Managers managers)
 	{
@@ -30,6 +32,7 @@ public class SelectionTool extends ToolsBase
 
 		cumulatedVerticesRes.clear();
 		mLastVertex = null;
+		mPath.Clear();
 	}
 
 	@Override
