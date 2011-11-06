@@ -67,9 +67,6 @@ public class SelectionTool extends ToolsBase
 			}
 		}
 
-		cumulatedVerticesRes.clear();
-		mLastVertex = null;
-
 		getManagers().getMeshManager().NotifyListeners();
 
 		// getManagers().getActionsManager().AddUndoAction(action);

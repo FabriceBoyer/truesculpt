@@ -356,6 +356,22 @@ public class MatrixUtils
 	}
 
 	/**
+	 * Multiply a vector by a scalar. <b>Do not modify the input vector</b>
+	 * 
+	 * @param vector
+	 *            The vector
+	 * @param scalar
+	 *            The scalar
+	 **/
+	public static void scalarMultiply(float[] vector, float scalar, float[] res)
+	{
+		for (int i = 0; i < vector.length; i++)
+		{
+			res[i] = vector[i] * scalar;
+		}
+	}
+
+	/**
 	 * Multiply a vector by a scalar. <b>Modifies the input vector</b>
 	 * 
 	 * @param vector
