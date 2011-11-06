@@ -59,6 +59,8 @@ public class RiseTool extends SculptingTool
 
 		long tSculptStop = SystemClock.uptimeMillis();
 		mLastSculptDurationMs = tSculptStop - tSculptStart;
+
+		getManagers().getMeshManager().NotifyListeners();
 	}
 
 	private void RiseSculptAction(int triangleIndex)
@@ -73,6 +75,7 @@ public class RiseTool extends SculptingTool
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
 
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
+			verticesRes.clear();
 			mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
 			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
 			float maxGaussian = Gaussian(sigma, 0);

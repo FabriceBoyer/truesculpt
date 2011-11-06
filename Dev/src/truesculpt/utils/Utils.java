@@ -17,7 +17,7 @@ public class Utils
 		VColor[0] = Color.red(color) / 255.0f;
 		VColor[1] = Color.green(color) / 255.0f;
 		VColor[2] = Color.blue(color) / 255.0f;
-		VColor[3] = 1.0f;
+		VColor[3] = Color.alpha(color) / 255.0f;
 	}
 
 	public static String ColorIntToString(int color)

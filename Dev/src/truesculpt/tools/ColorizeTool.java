@@ -21,6 +21,7 @@ public class ColorizeTool extends PaintingTool
 		super.Pick(xScreen, yScreen);
 		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 		ColorizePaintAction(nIndex);
+		getManagers().getMeshManager().NotifyListeners();
 	}
 
 	private void ColorizePaintAction(int triangleIndex)
@@ -35,6 +36,7 @@ public class ColorizeTool extends PaintingTool
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 			float MaxDist = (float) Math.sqrt(sqMaxDist);
+			verticesRes.clear();
 			mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
 
 			float[] VNewCol = new float[3];

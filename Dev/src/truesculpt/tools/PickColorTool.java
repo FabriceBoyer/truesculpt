@@ -18,6 +18,7 @@ public class PickColorTool extends PaintingTool
 		super.Pick(xScreen, yScreen);
 		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 		PickColorAction(nIndex);
+		getManagers().getMeshManager().NotifyListeners();
 	}
 
 	private void PickColorAction(int nIndex)
