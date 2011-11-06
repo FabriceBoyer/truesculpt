@@ -45,7 +45,7 @@ import android.widget.TextView;
 //TODO thread all waiting phases
 public class WebFilePanel extends Activity
 {
-	private String mStrBaseWebSite = "http://truesculpt.appspot.com";
+	private final String mStrBaseWebSite = "http://truesculpt.appspot.com";
 
 	private Button mPublishToWebBtn;
 	private WebView mWebView;
@@ -79,6 +79,9 @@ public class WebFilePanel extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		setContentView(R.layout.webfile);
 
 		getManagers().getUsageStatisticsManager().TrackEvent("OpenFromWeb", "", 1);

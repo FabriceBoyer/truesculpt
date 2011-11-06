@@ -37,6 +37,9 @@ public class PointOfViewPanel extends Activity implements Observer
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		setContentView(R.layout.pointofview);
 
 		mElevationSeekBar = (SeekBar) findViewById(R.id.Elevation);

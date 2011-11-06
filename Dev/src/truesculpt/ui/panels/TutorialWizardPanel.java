@@ -56,6 +56,8 @@ public class TutorialWizardPanel extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		getManagers().getUsageStatisticsManager().TrackPageView("/TutorialWizardPanel");
 
 		setContentView(R.layout.tutorialwizard);

@@ -11,8 +11,9 @@ public class StatisticsPanel extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 	}
 
 	@Override

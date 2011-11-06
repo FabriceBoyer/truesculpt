@@ -131,7 +131,7 @@ public class MatrixUtils
 	 **/
 	public static float magnitude(float[] vector)
 	{
-		return (float) Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+		return (float) Math.sqrt(squaremagnitude(vector));
 	}
 
 	/**

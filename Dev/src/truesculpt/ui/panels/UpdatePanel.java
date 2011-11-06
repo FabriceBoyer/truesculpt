@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class UpdatePanel extends Activity
 {
 
-	private Handler mHandler = new Handler();
+	private final Handler mHandler = new Handler();
 
 	Runnable mLookUpTask = new Runnable()
 	{
@@ -51,6 +51,8 @@ public class UpdatePanel extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 
 		getManagers().getUsageStatisticsManager().TrackPageView("/UpdatePanel");
 

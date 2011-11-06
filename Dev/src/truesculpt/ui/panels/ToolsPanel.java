@@ -194,6 +194,8 @@ public class ToolsPanel extends Activity implements Observer
 	{
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		getManagers().getUsageStatisticsManager().TrackPageView("/ToolsPanel");
 
 		setContentView(R.layout.tools);

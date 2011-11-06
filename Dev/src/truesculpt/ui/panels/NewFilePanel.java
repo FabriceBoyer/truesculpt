@@ -27,6 +27,9 @@ public class NewFilePanel extends Activity implements Runnable
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		setContentView(R.layout.newfile);
 
 		mNewBtn = (Button) findViewById(R.id.new_file);
@@ -100,7 +103,7 @@ public class NewFilePanel extends Activity implements Runnable
 		handler.sendEmptyMessage(0);
 	}
 
-	private Handler handler = new Handler()
+	private final Handler handler = new Handler()
 	{
 		@Override
 		public void handleMessage(Message msg)

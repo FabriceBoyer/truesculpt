@@ -119,7 +119,6 @@ public class MeshMathsUtils
 		MatrixUtils.plus(S0, temp, temp2);
 
 		return MatrixUtils.squaredistance(P, temp2);
-
 	}
 
 	// x1,y1,z1 P1 coordinates (point of line)

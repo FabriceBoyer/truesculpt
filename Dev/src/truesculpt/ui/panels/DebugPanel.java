@@ -23,6 +23,9 @@ public class DebugPanel extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		setContentView(R.layout.debug);
 
 		final Button button = (Button) findViewById(R.id.show_sensors);

@@ -1,5 +1,7 @@
 package truesculpt.ui.panels;
 
+import truesculpt.main.Managers;
+import truesculpt.main.TrueSculptApp;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -35,18 +37,18 @@ public class DebugSensorsPanel extends Activity
 	private class GraphView extends View implements SensorListener
 	{
 		private Bitmap mBitmap;
-		private Canvas mCanvas = new Canvas();
-		private int mColors[] = new int[3 * 2];
+		private final Canvas mCanvas = new Canvas();
+		private final int mColors[] = new int[3 * 2];
 		private float mHeight;
-		private float mLastValues[] = new float[3 * 2];
+		private final float mLastValues[] = new float[3 * 2];
 		private float mLastX;
 		private float mMaxX;
-		private float mOrientationValues[] = new float[3];
-		private Paint mPaint = new Paint();
-		private Path mPath = new Path();
-		private RectF mRect = new RectF();
-		private float mScale[] = new float[2];
-		private float mSpeed = 1.0f;
+		private final float mOrientationValues[] = new float[3];
+		private final Paint mPaint = new Paint();
+		private final Path mPath = new Path();
+		private final RectF mRect = new RectF();
+		private final float mScale[] = new float[2];
+		private final float mSpeed = 1.0f;
 		private float mWidth;
 		private float mYOffset;
 
@@ -227,6 +229,8 @@ public class DebugSensorsPanel extends Activity
 		// Be sure to call the super class.
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		mGraphView = new GraphView(this);
 		setContentView(mGraphView);
@@ -244,5 +248,10 @@ public class DebugSensorsPanel extends Activity
 	{
 		mSensorManager.unregisterListener(mGraphView);
 		super.onStop();
+	}
+
+	public Managers getManagers()
+	{
+		return ((TrueSculptApp) getApplicationContext()).getManagers();
 	}
 }

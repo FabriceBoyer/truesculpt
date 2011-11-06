@@ -16,6 +16,9 @@ public class FileSelectorPanel extends TabActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		setContentView(R.layout.fileselector);
 
 		Resources res = getResources(); // Resource object to get Drawables

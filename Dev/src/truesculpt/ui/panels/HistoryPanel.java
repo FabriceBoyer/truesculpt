@@ -45,6 +45,9 @@ public class HistoryPanel extends Activity implements Observer
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
+
 		setContentView(R.layout.history);
 
 		getManagers().getActionsManager().addObserver(this);

@@ -18,6 +18,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 public class UtilsManager extends BaseManager
@@ -190,6 +192,14 @@ public class UtilsManager extends BaseManager
 		});
 
 		dialog.show();
+	}
+
+	public void updateFullscreenWindowStatus(Window wnd)
+	{
+		if (getManagers().getOptionsManager().getFullScreenApplication())
+		{
+			wnd.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
 	}
 
 	public static class Installation

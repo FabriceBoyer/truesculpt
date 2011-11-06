@@ -13,14 +13,14 @@ public class TutorialOverlayPanel extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-
 		super.onCreate(savedInstanceState);
+
+		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-
 		super.onDestroy();
 	}
 
