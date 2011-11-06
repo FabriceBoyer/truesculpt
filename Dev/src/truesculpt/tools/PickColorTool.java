@@ -35,6 +35,8 @@ public class PickColorTool extends PaintingTool
 		super.Pick(xScreen, yScreen);
 
 		PickColorAction(xScreen, yScreen);
+
+		EndPick();
 	}
 
 	private void PickColorAction(float xScreen, float yScreen)

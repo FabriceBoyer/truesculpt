@@ -20,6 +20,8 @@ public class SmoothTool extends SculptingTool
 	public void Pick(float xScreen, float yScreen)
 	{
 		super.Pick(xScreen, yScreen);
+
+		EndPick();
 	}
 
 	@Override

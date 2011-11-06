@@ -1,28 +1,18 @@
 package truesculpt.tools;
 
-import java.util.HashSet;
-
 import truesculpt.main.Managers;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
-import truesculpt.tools.base.Path;
 import truesculpt.tools.base.ToolsBase;
 import android.graphics.Color;
-import android.os.SystemClock;
 
 public class SelectionTool extends ToolsBase
 {
-
-	protected HashSet<Vertex> cumulatedVerticesRes = new HashSet<Vertex>();
-	private Vertex mLastVertex = null;
-	private final Path mPath = new Path();
-
 	public SelectionTool(Managers managers)
 	{
 		super(managers);
-
 	}
 
 	@Override
@@ -30,23 +20,17 @@ public class SelectionTool extends ToolsBase
 	{
 		super.Start(xScreen, yScreen);
 
-		cumulatedVerticesRes.clear();
-		mLastVertex = null;
-		mPath.Clear();
-
 		SelectAction(xScreen, yScreen);
 	}
 
 	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
-		long tSculptStart = SystemClock.uptimeMillis();
 		super.Pick(xScreen, yScreen);
 
 		SelectAction(xScreen, yScreen);
 
-		long tSculptStop = SystemClock.uptimeMillis();
-		mLastSculptDurationMs = tSculptStop - tSculptStart;
+		EndPick();
 	}
 
 	@Override
