@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
+import truesculpt.managers.UtilsManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +26,7 @@ public class JavaScriptInterface
 {
 	Context mContext;
 	Managers mManagers;
-	private String mStrBaseWebSite = "http://truesculpt.appspot.com";
+	private final String mStrBaseWebSite = "http://truesculpt.appspot.com";
 
 	public JavaScriptInterface(Context c, Managers managers)
 	{
@@ -38,7 +39,8 @@ public class JavaScriptInterface
 		Log.i("WEB", "openObjFileInAndroid image : " + strImagefileURL + "\nobject : " + strObjectFileURL);
 
 		final String newName = "web_" + name;
-		final File newFile = new File(getManagers().getUtilsManager().GetRootDirectory() + newName);
+		getManagers().getUtilsManager();
+		final File newFile = new File(UtilsManager.GetRootDirectory() + newName);
 		int nSize = Integer.parseInt(size) / 1000;
 		if (newFile.exists())
 		{
@@ -115,7 +117,7 @@ public class JavaScriptInterface
 		}
 	}
 
-	public void URLtoDisk(String url, String disk, boolean bIsZipped) throws ClientProtocolException, IOException
+	public static void URLtoDisk(String url, String disk, boolean bIsZipped) throws ClientProtocolException, IOException
 	{
 		Log.i("WEB", "Saving from " + url + " to " + disk);
 

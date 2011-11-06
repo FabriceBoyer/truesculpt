@@ -308,7 +308,7 @@ public class ToolsManager extends BaseManager
 	}
 
 	// mesh init color
-	public int getDefaultColor()
+	public static int getDefaultColor()
 	{
 		return Color.rgb(150, 150, 150);
 	}

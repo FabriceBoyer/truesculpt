@@ -29,7 +29,8 @@ public class MeshManager extends BaseManager
 		@Override
 		public void run()
 		{
-			if (getManagers().getOptionsManager().getLoadLastUsedFileAtStartup() && strLastUsedFile != "" && getManagers().getUtilsManager().CheckSculptureExist(strLastUsedFile))
+			getManagers().getUtilsManager();
+			if (getManagers().getOptionsManager().getLoadLastUsedFileAtStartup() && strLastUsedFile != "" && UtilsManager.CheckSculptureExist(strLastUsedFile))
 			{
 				OpenMeshBlocking(strLastUsedFile);
 			}
@@ -46,7 +47,8 @@ public class MeshManager extends BaseManager
 
 		mMesh = new Mesh(getManagers(), nSubdivionLevel);
 
-		Name = getManagers().getUtilsManager().GetDefaultFileName();
+		getManagers().getUtilsManager();
+		Name = UtilsManager.GetDefaultFileName();
 
 		bInitOver = true;
 

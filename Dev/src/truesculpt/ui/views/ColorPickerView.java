@@ -21,7 +21,7 @@ public class ColorPickerView extends View
 	private Paint mCenterPaint = null;
 	private final int[] mColors;
 	private OnColorChangedListener mListener = null;
-	private Paint mPaint;
+	private final Paint mPaint;
 
 	public ColorPickerView(Context c, AttributeSet attrs)
 	{
@@ -40,7 +40,7 @@ public class ColorPickerView extends View
 		mCenterPaint.setStrokeWidth(5);
 	}
 
-	private int ave(int s, int d, float p)
+	private static int ave(int s, int d, float p)
 	{
 		return s + java.lang.Math.round(p * (d - s));
 	}

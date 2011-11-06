@@ -10,6 +10,7 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.ESculptToolSubMode;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
+import truesculpt.managers.UtilsManager;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
@@ -256,7 +257,8 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onClick(View v)
 			{
-				getManagers().getUtilsManager().ShowHSLColorPickerDialog(ToolsPanel.this);
+				getManagers().getUtilsManager();
+				UtilsManager.ShowHSLColorPickerDialog(ToolsPanel.this);
 			}
 		});
 		mColorPickerView.SetColorChangeListener(new OnColorChangedListener()
