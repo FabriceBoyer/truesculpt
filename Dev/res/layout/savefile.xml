@@ -21,10 +21,11 @@
 
     <Button
         android:id="@+id/save_file"
-        android:layout_width="150dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/save" >
+        android:text="@string/save"
+        android:drawableLeft="@drawable/save"
+  		android:gravity="center_vertical|center_horizontal" >
 
     </Button>
 
