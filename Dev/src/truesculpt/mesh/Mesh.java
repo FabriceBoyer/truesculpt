@@ -791,6 +791,42 @@ public class Mesh
 		}
 	}
 
+	public void GetVerticesAtDistanceFromVertexLine(Vertex vNew, Vertex vLast, float sqDistance, HashSet<Vertex> res)
+	{
+		res.add(vNew);
+
+		verticesToTest.clear();
+		for (HalfEdge edge : vNew.OutLinkedEdges)
+		{
+			verticesToTest.add(mVertexList.get(edge.V1));
+		}
+
+		float[] temp = new float[3];
+		int nCount = verticesToTest.size();
+		while (nCount > 0)
+		{
+			Vertex currVertex = verticesToTest.get(nCount - 1);
+			verticesToTest.remove(nCount - 1);
+
+			MatrixUtils.minus(currVertex.Coord, vNew.Coord, temp);
+			float currSqDistance = MatrixUtils.squaremagnitude(temp);
+			if (currSqDistance < sqDistance)
+			{
+				res.add(currVertex);
+				for (HalfEdge edge : currVertex.OutLinkedEdges)
+				{
+					Vertex vertexToAdd = mVertexList.get(edge.V1);
+					if (!res.contains(vertexToAdd))// avoids looping
+					{
+						verticesToTest.add(vertexToAdd);
+					}
+				}
+			}
+
+			nCount = verticesToTest.size();
+		}
+	}
+
 	// notification not done, to do in calling thread with post
 	void Reset()
 	{

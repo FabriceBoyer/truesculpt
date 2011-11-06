@@ -1,4 +1,4 @@
-package truesculpt.mesh;
+package truesculpt.tools.base;
 
 public class PathNode
 {

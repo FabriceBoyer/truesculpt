@@ -1,4 +1,4 @@
-package truesculpt.tools;
+package truesculpt.tools.base;
 
 public interface ITools
 {
@@ -6,5 +6,5 @@ public interface ITools
 
 	public void Pick(float xScreen, float yScreen);
 
-	public void Stop();
+	public void Stop(float xScreen, float yScreen);
 }

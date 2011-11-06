@@ -1,11 +1,11 @@
-package truesculpt.tools;
+package truesculpt.tools.base;
 
 import truesculpt.main.Managers;
 
-public class SculptingTool extends ToolsBase
+public class PaintingTool extends ToolsBase
 {
 
-	public SculptingTool(Managers managers)
+	public PaintingTool(Managers managers)
 	{
 		super(managers);
 	}
@@ -14,7 +14,6 @@ public class SculptingTool extends ToolsBase
 	public void Start(float xScreen, float yScreen)
 	{
 		super.Start(xScreen, yScreen);
-
 	}
 
 	@Override
@@ -24,9 +23,10 @@ public class SculptingTool extends ToolsBase
 	}
 
 	@Override
-	public void Stop()
+	public void Stop(float xScreen, float yScreen)
 	{
-		super.Stop();
+		super.Stop(xScreen, yScreen);
+
 	}
 
 }

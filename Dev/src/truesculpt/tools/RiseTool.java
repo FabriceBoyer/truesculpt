@@ -5,6 +5,7 @@ import truesculpt.main.Managers;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
+import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
 import android.os.SystemClock;
 

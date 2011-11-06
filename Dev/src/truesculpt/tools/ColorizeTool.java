@@ -5,6 +5,7 @@ import truesculpt.main.Managers;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
+import truesculpt.tools.base.PaintingTool;
 import truesculpt.utils.MatrixUtils;
 import android.graphics.Color;
 
@@ -19,19 +20,36 @@ public class ColorizeTool extends PaintingTool
 	public void Pick(float xScreen, float yScreen)
 	{
 		super.Pick(xScreen, yScreen);
-		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
-		ColorizePaintAction(nIndex);
-		getManagers().getMeshManager().NotifyListeners();
+
+		ColorizePaintAction(xScreen, yScreen);
 	}
 
-	private void ColorizePaintAction(int triangleIndex)
+	@Override
+	public void Start(float xScreen, float yScreen)
 	{
-		if (triangleIndex >= 0)
+		super.Start(xScreen, yScreen);
+
+		ColorizePaintAction(xScreen, yScreen);
+	}
+
+	@Override
+	public void Stop(float xScreen, float yScreen)
+	{
+		super.Stop(xScreen, yScreen);
+
+		ColorizePaintAction(xScreen, yScreen);
+	}
+
+	private void ColorizePaintAction(float xScreen, float yScreen)
+	{
+		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+
+		if (nIndex >= 0)
 		{
 			Mesh mesh = getManagers().getMeshManager().getMesh();
 
 			int targetColor = getManagers().getToolsManager().getColor();
-			Face face = mesh.mFaceList.get(triangleIndex);
+			Face face = mesh.mFaceList.get(nIndex);
 			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
@@ -64,6 +82,9 @@ public class ColorizeTool extends PaintingTool
 			}
 			getManagers().getActionsManager().AddUndoAction(action);
 			action.DoAction();
+
+			getManagers().getMeshManager().NotifyListeners();
 		}
+
 	}
 }

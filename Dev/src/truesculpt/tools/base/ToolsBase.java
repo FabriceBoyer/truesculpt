@@ -1,4 +1,4 @@
-package truesculpt.tools;
+package truesculpt.tools.base;
 
 import java.util.HashSet;
 
@@ -38,7 +38,7 @@ public class ToolsBase implements ITools
 	}
 
 	@Override
-	public void Stop()
+	public void Stop(float xScreen, float yScreen)
 	{
 
 	}
