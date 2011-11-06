@@ -135,6 +135,19 @@ public class MatrixUtils
 	}
 
 	/**
+	 * Compute the square distance between two points
+	 * 
+	 * @param vector
+	 *            The vector
+	 * @return The square distance of the vector
+	 **/
+	public static float squaredistance(float[] P0, float[] P1)
+	{
+		minus(P0, P1, temp);
+		return squaremagnitude(temp);
+	}
+
+	/**
 	 * Compute the distance between two points
 	 * 
 	 * @param vector

@@ -11,16 +11,16 @@ public class MeshMathsUtils
 	};
 
 	// recycled vectors for time critical function where new are too long
-	static float[] dir = new float[3];
-	static float[] n = new float[3];
-	static float SMALL_NUM = 0.00000001f; // anything that avoids division overflow
-	static float[] u = new float[3];
-	static float[] v = new float[3];
-	static float[] w = new float[3];
-	static float[] w0 = new float[3];
-	static float[] zero = { 0, 0, 0 };
-	static float[] temp = new float[3];
-	static float[] temp2 = new float[3];
+	private static float[] dir = new float[3];
+	private static float[] n = new float[3];
+	private static float SMALL_NUM = 0.00000001f; // anything that avoids division overflow
+	private static float[] u = new float[3];
+	private static float[] v = new float[3];
+	private static float[] w = new float[3];
+	private static float[] w0 = new float[3];
+	private static float[] zero = { 0, 0, 0 };
+	private static float[] temp = new float[3];
+	private static float[] temp2 = new float[3];
 
 	// intersect_RayTriangle(): intersect a ray with a 3D triangle
 	// Input: a ray R (R0 and R1), and a triangle T (V0,V1)
@@ -103,22 +103,22 @@ public class MeshMathsUtils
 	// dist_Point_to_Segment(): get the distance of a point to a segment.
 	// Input: a Point P and a Segment S (in any dimension)
 	// Return: the shortest distance from P to S
-	public static float dist_Point_to_Segment(float[] P, float[] S0, float[] S1)
+	public static float squaredist_Point_to_Segment(float[] P, float[] S0, float[] S1)
 	{
 		MatrixUtils.minus(S1, S0, v);
 		MatrixUtils.minus(P, S0, w);
 
 		float c1 = MatrixUtils.dot(w, v);
-		if (c1 <= 0) return MatrixUtils.distance(P, S0);
+		if (c1 <= 0) return MatrixUtils.squaredistance(P, S0);
 
 		float c2 = MatrixUtils.dot(v, v);
-		if (c2 <= c1) return MatrixUtils.distance(P, S1);
+		if (c2 <= c1) return MatrixUtils.squaredistance(P, S1);
 
 		float b = c1 / c2;
 		MatrixUtils.scalarMultiply(v, b);
 		MatrixUtils.plus(S0, temp, temp2);
 
-		return MatrixUtils.distance(P, temp);
+		return MatrixUtils.squaredistance(P, temp);
 
 	}
 

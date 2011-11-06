@@ -585,8 +585,7 @@ public class Mesh
 			verticesToTest.remove(nCount - 1);
 			verticesAlreadyTested.add(currVertex);
 
-			MatrixUtils.minus(currVertex.Coord, vNew.Coord, temp);
-			float currSqDistance = MatrixUtils.squaremagnitude(temp);
+			float currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord);
 			if (currSqDistance < sqDistance)
 			{
 				res.add(currVertex);

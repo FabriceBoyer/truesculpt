@@ -33,6 +33,8 @@ public class SelectionTool extends ToolsBase
 		cumulatedVerticesRes.clear();
 		mLastVertex = null;
 		mPath.Clear();
+
+		SelectAction(xScreen, yScreen);
 	}
 
 	@Override
@@ -40,21 +42,19 @@ public class SelectionTool extends ToolsBase
 	{
 		long tSculptStart = SystemClock.uptimeMillis();
 		super.Pick(xScreen, yScreen);
-		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 
-		mPath.AddNode(nIndex, xScreen, yScreen);
-		SelectAction(nIndex);
+		SelectAction(xScreen, yScreen);
 
 		long tSculptStop = SystemClock.uptimeMillis();
 		mLastSculptDurationMs = tSculptStop - tSculptStart;
-
-		getManagers().getMeshManager().NotifyListeners();
 	}
 
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
 		super.Stop(xScreen, yScreen);
+
+		SelectAction(xScreen, yScreen);
 
 		Mesh mesh = getManagers().getMeshManager().getMesh();
 
@@ -76,15 +76,18 @@ public class SelectionTool extends ToolsBase
 		// action.DoAction();
 	}
 
-	private void SelectAction(int triangleIndex)
+	private void SelectAction(float xScreen, float yScreen)
 	{
-		if (triangleIndex >= 0)
+		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+
+		if (nIndex >= 0)
 		{
+			mPath.AddNode(nIndex, xScreen, yScreen);
 			Mesh mesh = getManagers().getMeshManager().getMesh();
 
 			int highlightColor = Color.rgb(200, 200, 0);// some kind of yellow
 
-			Face face = mesh.mFaceList.get(triangleIndex);
+			Face face = mesh.mFaceList.get(nIndex);
 			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
 
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
@@ -111,6 +114,8 @@ public class SelectionTool extends ToolsBase
 			}
 
 			mLastVertex = origVertex;
+
+			getManagers().getMeshManager().NotifyListeners();
 		}
 	}
 
