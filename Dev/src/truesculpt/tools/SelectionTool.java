@@ -67,10 +67,10 @@ public class SelectionTool extends ToolsBase
 			}
 		}
 
-		getManagers().getMeshManager().NotifyListeners();
-
 		// getManagers().getActionsManager().AddUndoAction(action);
 		// action.DoAction();
+
+		getManagers().getMeshManager().NotifyListeners();
 	}
 
 	private void SelectAction(float xScreen, float yScreen)

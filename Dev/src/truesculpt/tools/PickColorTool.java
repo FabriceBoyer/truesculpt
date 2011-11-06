@@ -39,13 +39,13 @@ public class PickColorTool extends PaintingTool
 
 	private void PickColorAction(float xScreen, float yScreen)
 	{
-		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+		int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 
-		if (nIndex >= 0)
+		if (nTriangleIndex >= 0)
 		{
 			Mesh mesh = getManagers().getMeshManager().getMesh();
 
-			Face face = mesh.mFaceList.get(nIndex);
+			Face face = mesh.mFaceList.get(nTriangleIndex);
 			Vertex vertex = mesh.mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
 			int color = vertex.Color;
 			getManagers().getToolsManager().setColor(color, true);

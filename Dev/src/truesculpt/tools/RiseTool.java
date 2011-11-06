@@ -18,54 +18,72 @@ public class RiseTool extends SculptingTool
 	}
 
 	@Override
+	public void Start(float xScreen, float yScreen)
+	{
+		super.Start(xScreen, yScreen);
+
+		RiseSculptAction(xScreen, yScreen);
+	}
+
+	@Override
+	public void Stop(float xScreen, float yScreen)
+	{
+		super.Stop(xScreen, yScreen);
+
+		RiseSculptAction(xScreen, yScreen);
+
+		// getManagers().getActionsManager().AddUndoAction(action);
+		// action.DoAction();
+	}
+
+	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
 		long tSculptStart = SystemClock.uptimeMillis();
 		super.Pick(xScreen, yScreen);
-		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 
-		// switch (getManagers().getToolsManager().getSymmetryMode())
-		// {
-		// case X:
-		// rayPt1[0] *= -1;
-		// rayPt2[0] *= -1;
-		// PickRay();
-		// rayPt1[0] *= -1;
-		// rayPt2[0] *= -1;
-		// nIndex = PickRay();
-		// break;
-		// case Y:
-		// rayPt1[1] *= -1;
-		// rayPt2[1] *= -1;
-		// PickRay();
-		// rayPt1[1] *= -1;
-		// rayPt2[1] *= -1;
-		// nIndex = PickRay();
-		// break;
-		// case Z:
-		// rayPt1[2] *= -1;
-		// rayPt2[2] *= -1;
-		// PickRay();
-		// rayPt1[2] *= -1;
-		// rayPt2[2] *= -1;
-		// nIndex = PickRay();
-		// break;
-		// case NONE:
-		// nIndex = PickRay();
-		// break;
-		// }
-		// }
-
-		RiseSculptAction(nIndex);
+		RiseSculptAction(xScreen, yScreen);
 
 		long tSculptStop = SystemClock.uptimeMillis();
 		mLastSculptDurationMs = tSculptStop - tSculptStart;
-
-		getManagers().getMeshManager().NotifyListeners();
 	}
 
-	private void RiseSculptAction(int triangleIndex)
+	// switch (getManagers().getToolsManager().getSymmetryMode())
+	// {
+	// case X:
+	// rayPt1[0] *= -1;
+	// rayPt2[0] *= -1;
+	// PickRay();
+	// rayPt1[0] *= -1;
+	// rayPt2[0] *= -1;
+	// nIndex = PickRay();
+	// break;
+	// case Y:
+	// rayPt1[1] *= -1;
+	// rayPt2[1] *= -1;
+	// PickRay();
+	// rayPt1[1] *= -1;
+	// rayPt2[1] *= -1;
+	// nIndex = PickRay();
+	// break;
+	// case Z:
+	// rayPt1[2] *= -1;
+	// rayPt2[2] *= -1;
+	// PickRay();
+	// rayPt1[2] *= -1;
+	// rayPt2[2] *= -1;
+	// nIndex = PickRay();
+	// break;
+	// case NONE:
+	// nIndex = PickRay();
+	// break;
+	// }
+	// }
+
+	private void RiseSculptAction(float xScreen, float yScreen)
 	{
+		int triangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+
 		if (triangleIndex >= 0)
 		{
 			Mesh mesh = getManagers().getMeshManager().getMesh();
@@ -100,14 +118,8 @@ public class RiseTool extends SculptingTool
 					action.AddVertexOffset(vertex.Index, VOffset, vertex);
 				}
 			}
-			getManagers().getActionsManager().AddUndoAction(action);
-			action.DoAction();
+
+			getManagers().getMeshManager().NotifyListeners();
 		}
 	}
-
-	private float Gaussian(float sigma, float sqDist)
-	{
-		return (float) (oneoversqrttwopi / sigma * Math.exp(-sqDist / (2 * sigma * sigma)));
-	}
-
 }

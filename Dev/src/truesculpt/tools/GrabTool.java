@@ -9,7 +9,24 @@ public class GrabTool extends SculptingTool
 	public GrabTool(Managers managers)
 	{
 		super(managers);
+	}
 
+	@Override
+	public void Start(float xScreen, float yScreen)
+	{
+		super.Start(xScreen, yScreen);
+	}
+
+	@Override
+	public void Pick(float xScreen, float yScreen)
+	{
+		super.Pick(xScreen, yScreen);
+	}
+
+	@Override
+	public void Stop(float xScreen, float yScreen)
+	{
+		super.Stop(xScreen, yScreen);
 	}
 
 }

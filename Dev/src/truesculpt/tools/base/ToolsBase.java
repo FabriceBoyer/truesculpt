@@ -8,7 +8,7 @@ import truesculpt.mesh.Vertex;
 public class ToolsBase implements ITools
 {
 	protected final float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full width at half maximum
-	protected final float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
+	protected final static float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
 
 	protected final float MAX_DEFORMATION = 0.2f;
 	protected final float MIN_RADIUS = 0.01f;// meters
@@ -53,4 +53,8 @@ public class ToolsBase implements ITools
 		return mLastSculptDurationMs;
 	}
 
+	protected static float Gaussian(float sigma, float sqDist)
+	{
+		return (float) (oneoversqrttwopi / sigma * Math.exp(-sqDist / (2 * sigma * sigma)));
+	}
 }
