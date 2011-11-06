@@ -102,21 +102,18 @@ public class MeshManager extends BaseManager
 
 	public void draw(GL10 gl)
 	{
-		synchronized (this)
+		if (IsInitOver())
 		{
-			if (IsInitOver())
+			mMesh.draw(gl);
+
+			if (getManagers().getOptionsManager().getDisplayDebugInfos())
 			{
-				mMesh.draw(gl);
+				mMesh.drawNormals(gl);
+				mMesh.drawOctree(gl);
 
-				if (getManagers().getOptionsManager().getDisplayDebugInfos())
-				{
-					mMesh.drawNormals(gl);
-					mMesh.drawOctree(gl);
-
-					// pick debug
-					// mRay.draw(gl);
-					// mPickHighlight.draw(gl);
-				}
+				// pick debug
+				// mRay.draw(gl);
+				// mPickHighlight.draw(gl);
 			}
 		}
 	}
@@ -239,16 +236,13 @@ public class MeshManager extends BaseManager
 		int nIndex = -1;
 		if (IsInitOver())
 		{
-			synchronized (this)
-			{
-				// normalized z between -1 and 1
-				GetWorldCoords(rayPt2, screenX, screenY, 1.0f);
-				GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
+			// normalized z between -1 and 1
+			GetWorldCoords(rayPt2, screenX, screenY, 1.0f);
+			GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
 
-				mRay.setRayPos(rayPt1, rayPt2);
+			mRay.setRayPos(rayPt1, rayPt2);
 
-				nIndex = PickRay();
-			}
+			nIndex = PickRay();
 		}
 
 		return nIndex;

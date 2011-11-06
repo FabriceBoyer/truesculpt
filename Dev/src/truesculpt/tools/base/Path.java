@@ -8,7 +8,10 @@ public class Path
 
 	public void AddNode(int nTriangleIndex, float xScreen, float yScreen)
 	{
-		mNodesList.add(new PathNode(nTriangleIndex, xScreen, yScreen));
+		if (nTriangleIndex >= 0)
+		{
+			mNodesList.add(new PathNode(nTriangleIndex, xScreen, yScreen));
+		}
 	}
 
 	public void Clear()
