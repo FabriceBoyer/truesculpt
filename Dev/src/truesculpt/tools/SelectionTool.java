@@ -42,6 +42,7 @@ public class SelectionTool extends ToolsBase
 		super.Pick(xScreen, yScreen);
 		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 
+		mPath.AddNode(nIndex, xScreen, yScreen);
 		SelectAction(nIndex);
 
 		long tSculptStop = SystemClock.uptimeMillis();
