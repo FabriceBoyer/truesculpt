@@ -47,6 +47,7 @@ public class SelectionTool extends ToolsBase
 		{
 			for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
 			{
+				vertex.mLastTempSqDistance = -1.f;// reinit
 				renderGroup.UpdateVertexColor(vertex.Index, vertex.Color);
 			}
 		}
@@ -89,6 +90,8 @@ public class SelectionTool extends ToolsBase
 			{
 				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
 				{
+					int val = 255 - (int) (255.f * vertex.mLastTempSqDistance / sqMaxDist);
+					highlightColor = Color.rgb(val, val, 0);
 					renderGroup.UpdateVertexColor(vertex.Index, highlightColor);
 				}
 			}
@@ -98,5 +101,4 @@ public class SelectionTool extends ToolsBase
 			getManagers().getMeshManager().NotifyListeners();
 		}
 	}
-
 }

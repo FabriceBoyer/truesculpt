@@ -543,7 +543,7 @@ public class Mesh
 
 			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
 			float currSqDistance = MatrixUtils.squaremagnitude(temp);
-			if (currSqDistance < sqDistance && currSqDistance > currVertex.mLastTempSqDistance)
+			if (currSqDistance < sqDistance && currSqDistance < currVertex.mLastTempSqDistance)
 			{
 				currVertex.mLastTempSqDistance = currSqDistance;
 				res.add(currVertex);
@@ -581,7 +581,7 @@ public class Mesh
 			verticesAlreadyTested.add(currVertex);
 
 			float currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord);
-			if (currSqDistance < sqDistance)
+			if (currSqDistance < sqDistance && currSqDistance < currVertex.mLastTempSqDistance)
 			{
 				currVertex.mLastTempSqDistance = currSqDistance;
 				res.add(currVertex);
