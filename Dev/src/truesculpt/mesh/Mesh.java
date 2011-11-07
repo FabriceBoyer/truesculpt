@@ -543,7 +543,7 @@ public class Mesh
 
 			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
 			float currSqDistance = MatrixUtils.squaremagnitude(temp);
-			if (currSqDistance < sqDistance)
+			if (currSqDistance < sqDistance && currSqDistance > currVertex.mLastTempSqDistance)
 			{
 				currVertex.mLastTempSqDistance = currSqDistance;
 				res.add(currVertex);

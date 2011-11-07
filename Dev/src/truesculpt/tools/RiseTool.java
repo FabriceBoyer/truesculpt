@@ -39,14 +39,15 @@ public class RiseTool extends SculptingTool
 
 		Mesh mesh = getManagers().getMeshManager().getMesh();
 
-		// // switch back to initial value
-		// for (Vertex vertex : cumulatedVerticesRes)
-		// {
-		// for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
-		// {
-		// renderGroup.UpdateVertexValue(vertex.Index, vertex.Coord);
-		// }
-		// }
+		// final value
+		for (Vertex vertex : cumulatedVerticesRes)
+		{
+			for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+			{
+				vertex.mLastTempSqDistance = -1.f;// reinit
+				// renderGroup.UpdateVertexValue(vertex.Index, vertex.Coord);
+			}
+		}
 
 		// getManagers().getActionsManager().AddUndoAction(action);
 		// mAction.DoAction();
