@@ -1,4 +1,4 @@
-package truesculpt.tools;
+package truesculpt.tools.painting;
 
 import truesculpt.actions.ColorizeAction;
 import truesculpt.main.Managers;

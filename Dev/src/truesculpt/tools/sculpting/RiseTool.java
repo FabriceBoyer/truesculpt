@@ -1,4 +1,4 @@
-package truesculpt.tools;
+package truesculpt.tools.sculpting;
 
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
