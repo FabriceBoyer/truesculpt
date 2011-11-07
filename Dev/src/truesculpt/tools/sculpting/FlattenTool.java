@@ -1,12 +1,13 @@
-package truesculpt.tools.painting;
+package truesculpt.tools.sculpting;
 
 import truesculpt.main.Managers;
-import truesculpt.tools.base.PaintingTool;
+import truesculpt.tools.base.SculptingTool;
 import android.graphics.drawable.Drawable;
 
-public class TexturePaintTool extends PaintingTool
+public class FlattenTool extends SculptingTool
 {
-	public TexturePaintTool(Managers managers)
+
+	public FlattenTool(Managers managers)
 	{
 		super(managers);
 	}
@@ -33,4 +34,5 @@ public class TexturePaintTool extends PaintingTool
 	{
 		return null;
 	}
+
 }

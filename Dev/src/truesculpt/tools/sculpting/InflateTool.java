@@ -1,16 +1,15 @@
 package truesculpt.tools.sculpting;
 
-import android.graphics.drawable.Drawable;
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
+import android.graphics.drawable.Drawable;
 
 public class InflateTool extends SculptingTool
 {
-
 	public InflateTool(Managers managers)
 	{
 		super(managers);
@@ -19,21 +18,21 @@ public class InflateTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		for (Vertex vertex : mVerticesRes)
+		if (mAction != null)
 		{
-			// Inflate
-			MatrixUtils.copy(vertex.Coord, VNormal);
-			MatrixUtils.normalize(VNormal);
-			MatrixUtils.copy(VNormal, VOffset);
-
-			// Gaussian
-			// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
-
-			// Linear
-			MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
-
-			if (mAction != null)
+			for (Vertex vertex : mVerticesRes)
 			{
+				// Inflate
+				MatrixUtils.copy(vertex.Coord, VNormal);
+				MatrixUtils.normalize(VNormal);
+				MatrixUtils.copy(VNormal, VOffset);
+
+				// Gaussian
+				// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
+
+				// Linear
+				MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
+
 				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
 
 				// preview
