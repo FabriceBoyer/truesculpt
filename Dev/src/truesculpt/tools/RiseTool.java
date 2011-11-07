@@ -2,8 +2,6 @@ package truesculpt.tools;
 
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
-import truesculpt.mesh.Face;
-import truesculpt.mesh.Mesh;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
@@ -11,10 +9,6 @@ import truesculpt.utils.MatrixUtils;
 
 public class RiseTool extends SculptingTool
 {
-	private final float[] VOffset = new float[3];
-	private final float[] VNormal = new float[3];
-	private SculptAction mAction = null;
-
 	public RiseTool(Managers managers)
 	{
 		super(managers);
@@ -26,93 +20,37 @@ public class RiseTool extends SculptingTool
 		super.Start(xScreen, yScreen);
 
 		mAction = new SculptAction();
-
-		RiseSculptAction(xScreen, yScreen);
 	}
 
 	@Override
-	public void Stop(float xScreen, float yScreen)
+	protected void Work()
 	{
-		RiseSculptAction(xScreen, yScreen);
-
-		if (mAction != null)
+		for (Vertex vertex : verticesRes)
 		{
-			getManagers().getActionsManager().AddUndoAction(mAction);
-			mAction.DoAction();
-			mAction = null;
-		}
+			// Rise
+			MatrixUtils.copy(vertex.Normal, VOffset);
 
-		super.Stop(xScreen, yScreen);
-	}
+			// Gaussian
+			MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
 
-	@Override
-	public void Pick(float xScreen, float yScreen)
-	{
-		super.Pick(xScreen, yScreen);
+			// Linear
+			// MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
 
-		RiseSculptAction(xScreen, yScreen);
-
-		EndPick();
-	}
-
-	private void RiseSculptAction(float xScreen, float yScreen)
-	{
-		int triangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
-
-		if (triangleIndex >= 0)
-		{
-			Mesh mesh = getManagers().getMeshManager().getMesh();
-
-			float fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
-
-			Face face = mesh.mFaceList.get(triangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
-			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
-
-			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-
-			verticesRes.clear();
-			mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
-			cumulatedVerticesRes.addAll(verticesRes);
-
-			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
-			float maxGaussian = Gaussian(sigma, 0);
-
-			// preview only, no data mesh impact, only gpu data modified
-			for (Vertex vertex : verticesRes)
+			if (mAction != null)
 			{
-				// Rise
-				// MatrixUtils.copy(vertex.VNormal, VOffset);
+				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
 
-				// Inflate
-				MatrixUtils.copy(vertex.Coord, VNormal);
-				MatrixUtils.normalize(VNormal);
-				MatrixUtils.copy(VNormal, VOffset);
-
-				// Gaussian
-				// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
-
-				// Linear
-				MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
-
-				if (mAction != null)
+				// preview
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
+				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
 				{
-					mAction.AddVertexOffset(vertex.Index, VOffset, vertex);
-
-					// preview
-					MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-					MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
-					for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
-					{
-						renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
-					}
+					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 				}
 			}
-			mLastVertex = origVertex;
-
-			getManagers().getMeshManager().NotifyListeners();
 		}
 	}
+
 }
 
 // switch (getManagers().getToolsManager().getSymmetryMode())

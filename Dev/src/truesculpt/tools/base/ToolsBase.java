@@ -2,11 +2,14 @@ package truesculpt.tools.base;
 
 import java.util.HashSet;
 
+import truesculpt.actions.BaseAction;
 import truesculpt.main.Managers;
+import truesculpt.mesh.Face;
+import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
 import android.os.SystemClock;
 
-public class ToolsBase implements ITools
+public abstract class ToolsBase implements ITools
 {
 	protected final float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full width at half maximum
 	protected final static float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
@@ -21,47 +24,98 @@ public class ToolsBase implements ITools
 	protected final Path mPath = new Path();
 	protected long mLastSculptDurationMs = -1;
 	protected long tSculptStart = -1;
+	protected BaseAction mAction = null;
+	protected Mesh mesh = null;
+
+	protected int nTriangleIndex = -1;
+	protected float fMaxDeformation = -1;
+	protected float sqMaxDist = -1;
+	protected float MaxDist = -1;
+
+	protected float sigma = -1;
+	protected float maxGaussian = -1;
 
 	private Managers mManagers = null;
 
 	public ToolsBase(Managers managers)
 	{
 		mManagers = managers;
+
+		mesh = getManagers().getMeshManager().getMesh();
 	}
 
-	@Override
-	public void Start(float xScreen, float yScreen)
+	abstract protected void Work();
+
+	private void ResetData()
 	{
 		verticesRes.clear();
 		cumulatedVerticesRes.clear();
 		mLastVertex = null;
 		mPath.Clear();
+		mAction = null;
+	}
+
+	@Override
+	public void Start(float xScreen, float yScreen)
+	{
+		ResetData();
+
+		sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
+		MaxDist = (float) Math.sqrt(sqMaxDist);
+		fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
+		sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
+		maxGaussian = Gaussian(sigma, 0);
 	}
 
 	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
 		tSculptStart = SystemClock.uptimeMillis();
-	}
 
-	public void EndPick()
-	{
+		nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+
+		if (nTriangleIndex >= 0)
+		{
+			Face face = mesh.mFaceList.get(nTriangleIndex);
+			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
+			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
+
+			verticesRes.clear();
+			mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
+			cumulatedVerticesRes.addAll(verticesRes);
+
+			// Main tool call
+			Work();
+
+			mLastVertex = origVertex;
+
+			getManagers().getMeshManager().NotifyListeners();
+		}
+
 		mLastSculptDurationMs = SystemClock.uptimeMillis() - tSculptStart;
 	}
 
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
+		if (mAction != null)
+		{
+			getManagers().getActionsManager().AddUndoAction(mAction);
+			mAction.DoAction();
+		}
+
 		// last distance reset
 		for (Vertex vertex : cumulatedVerticesRes)
 		{
 			vertex.mLastTempSqDistance = -1.f;
 		}
 
+		ResetData();
+
 		getManagers().getMeshManager().NotifyListeners();
 	}
 
-	public Managers getManagers()
+	protected Managers getManagers()
 	{
 		return mManagers;
 	}

@@ -1,7 +1,11 @@
 package truesculpt.tools;
 
+import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
+import truesculpt.mesh.RenderFaceGroup;
+import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
+import truesculpt.utils.MatrixUtils;
 
 public class InflateTool extends SculptingTool
 {
@@ -18,17 +22,33 @@ public class InflateTool extends SculptingTool
 	}
 
 	@Override
-	public void Pick(float xScreen, float yScreen)
+	protected void Work()
 	{
-		super.Pick(xScreen, yScreen);
+		for (Vertex vertex : verticesRes)
+		{
+			// Inflate
+			MatrixUtils.copy(vertex.Coord, VNormal);
+			MatrixUtils.normalize(VNormal);
+			MatrixUtils.copy(VNormal, VOffset);
 
-		EndPick();
+			// Gaussian
+			// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
+
+			// Linear
+			MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
+
+			if (mAction != null)
+			{
+				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
+
+				// preview
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
+				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+				{
+					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
+				}
+			}
+		}
 	}
-
-	@Override
-	public void Stop(float xScreen, float yScreen)
-	{
-		super.Stop(xScreen, yScreen);
-	}
-
 }
