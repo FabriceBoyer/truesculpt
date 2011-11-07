@@ -24,7 +24,7 @@ public class InflateTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		for (Vertex vertex : verticesRes)
+		for (Vertex vertex : mVerticesRes)
 		{
 			// Inflate
 			MatrixUtils.copy(vertex.Coord, VNormal);
@@ -44,7 +44,7 @@ public class InflateTool extends SculptingTool
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
 				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
-				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 				}

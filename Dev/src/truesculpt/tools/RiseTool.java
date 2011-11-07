@@ -25,7 +25,7 @@ public class RiseTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		for (Vertex vertex : verticesRes)
+		for (Vertex vertex : mVerticesRes)
 		{
 			// Rise
 			MatrixUtils.copy(vertex.Normal, VOffset);
@@ -43,7 +43,7 @@ public class RiseTool extends SculptingTool
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
 				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
-				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 				}

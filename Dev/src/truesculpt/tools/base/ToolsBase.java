@@ -18,14 +18,14 @@ public abstract class ToolsBase implements ITools
 	protected final float MIN_RADIUS = 0.01f;// meters
 	protected final float MAX_RADIUS = 1f;// meters
 
-	protected final HashSet<Vertex> verticesRes = new HashSet<Vertex>();
-	protected final HashSet<Vertex> cumulatedVerticesRes = new HashSet<Vertex>();
+	protected final HashSet<Vertex> mVerticesRes = new HashSet<Vertex>();
+	protected final HashSet<Vertex> mCumulatedVerticesRes = new HashSet<Vertex>();
 	protected Vertex mLastVertex = null;
 	protected final Path mPath = new Path();
 	protected long mLastSculptDurationMs = -1;
-	protected long tSculptStart = -1;
+
 	protected BaseAction mAction = null;
-	protected Mesh mesh = null;
+	protected Mesh mMesh = null;
 
 	protected int nTriangleIndex = -1;
 	protected float fMaxDeformation = -1;
@@ -35,21 +35,20 @@ public abstract class ToolsBase implements ITools
 	protected float sigma = -1;
 	protected float maxGaussian = -1;
 
+	private long tSculptStart = -1;
 	private Managers mManagers = null;
 
 	public ToolsBase(Managers managers)
 	{
 		mManagers = managers;
-
-		mesh = getManagers().getMeshManager().getMesh();
 	}
 
 	abstract protected void Work();
 
 	private void ResetData()
 	{
-		verticesRes.clear();
-		cumulatedVerticesRes.clear();
+		mVerticesRes.clear();
+		mCumulatedVerticesRes.clear();
 		mLastVertex = null;
 		mPath.Clear();
 		mAction = null;
@@ -59,6 +58,8 @@ public abstract class ToolsBase implements ITools
 	public void Start(float xScreen, float yScreen)
 	{
 		ResetData();
+
+		mMesh = getManagers().getMeshManager().getMesh();
 
 		sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 		MaxDist = (float) Math.sqrt(sqMaxDist);
@@ -74,15 +75,15 @@ public abstract class ToolsBase implements ITools
 
 		nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 
-		if (nTriangleIndex >= 0)
+		if (nTriangleIndex >= 0 && mMesh != null)
 		{
-			Face face = mesh.mFaceList.get(nTriangleIndex);
+			Face face = mMesh.mFaceList.get(nTriangleIndex);
 			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
-			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
+			Vertex origVertex = mMesh.mVertexList.get(nOrigVertex);
 
-			verticesRes.clear();
-			mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
-			cumulatedVerticesRes.addAll(verticesRes);
+			mVerticesRes.clear();
+			mMesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, mVerticesRes);
+			mCumulatedVerticesRes.addAll(mVerticesRes);
 
 			// Main tool call
 			Work();
@@ -105,7 +106,7 @@ public abstract class ToolsBase implements ITools
 		}
 
 		// last distance reset
-		for (Vertex vertex : cumulatedVerticesRes)
+		for (Vertex vertex : mCumulatedVerticesRes)
 		{
 			vertex.mLastTempSqDistance = -1.f;
 		}
