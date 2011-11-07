@@ -263,16 +263,6 @@ public class MeshManager extends BaseManager
 				nIndex = PickRay();
 				break;
 			}
-
-			if (nIndex >= 0)
-			{
-				mPickHighlight.setPickHighlightPosition(intersectPt);
-			}
-			else
-			{
-				float[] zero = { 0, 0, 0 };
-				mPickHighlight.setPickHighlightPosition(zero);
-			}
 		}
 
 		return nIndex;
@@ -285,6 +275,16 @@ public class MeshManager extends BaseManager
 		int nIndex = mMesh.Pick(rayPt1, rayPt2, intersectPt);
 
 		mLastPickDurationMs = SystemClock.uptimeMillis() - tPickStart;
+
+		if (nIndex >= 0)
+		{
+			mPickHighlight.setPickHighlightPosition(intersectPt);
+		}
+		else
+		{
+			float[] zero = { 0, 0, 0 };
+			mPickHighlight.setPickHighlightPosition(zero);
+		}
 
 		return nIndex;
 	}
