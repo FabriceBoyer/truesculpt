@@ -32,6 +32,7 @@ public class ToolsBase implements ITools
 	@Override
 	public void Start(float xScreen, float yScreen)
 	{
+		verticesRes.clear();
 		cumulatedVerticesRes.clear();
 		mLastVertex = null;
 		mPath.Clear();
