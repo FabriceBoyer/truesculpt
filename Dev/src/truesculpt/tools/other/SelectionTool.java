@@ -1,4 +1,4 @@
-package truesculpt.tools;
+package truesculpt.tools.other;
 
 import truesculpt.main.Managers;
 import truesculpt.mesh.RenderFaceGroup;

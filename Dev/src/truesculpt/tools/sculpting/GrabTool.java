@@ -1,12 +1,13 @@
-package truesculpt.tools;
+package truesculpt.tools.sculpting;
 
 import android.graphics.drawable.Drawable;
 import truesculpt.main.Managers;
 import truesculpt.tools.base.SculptingTool;
 
-public class SmoothTool extends SculptingTool
+public class GrabTool extends SculptingTool
 {
-	public SmoothTool(Managers managers)
+
+	public GrabTool(Managers managers)
 	{
 		super(managers);
 	}
@@ -34,4 +35,5 @@ public class SmoothTool extends SculptingTool
 	{
 		return null;
 	}
+
 }

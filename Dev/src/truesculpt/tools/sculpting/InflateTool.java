@@ -1,4 +1,4 @@
-package truesculpt.tools;
+package truesculpt.tools.sculpting;
 
 import android.graphics.drawable.Drawable;
 import truesculpt.actions.SculptAction;
