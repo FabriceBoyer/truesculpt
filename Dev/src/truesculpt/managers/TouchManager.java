@@ -1,6 +1,7 @@
 package truesculpt.managers;
 
 import truesculpt.managers.ToolsManager.EPovToolSubMode;
+import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.managers.ToolsManager.EToolMode;
 import android.content.Context;
 import android.util.Log;
@@ -146,7 +147,7 @@ public class TouchManager extends BaseManager
 			initPOVValues(event, false);
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ROTATE);
 
-			int nRes = getManagers().getMeshManager().Pick(x, y);// not tool pick, but mesh pick
+			int nRes = getManagers().getMeshManager().Pick(x, y, ESymmetryMode.NONE);// not tool pick, but mesh pick
 			if (nRes < 0)
 			{
 				getManagers().getToolsManager().setToolMode(EToolMode.POV);

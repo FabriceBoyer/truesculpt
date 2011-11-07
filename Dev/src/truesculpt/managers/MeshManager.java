@@ -231,7 +231,7 @@ public class MeshManager extends BaseManager
 
 	// TODO threaded to improve GUI reactivity
 	// pick is not an action
-	public int Pick(float screenX, float screenY)
+	public int Pick(float screenX, float screenY, ToolsManager.ESymmetryMode symmetryMode)
 	{
 		int nIndex = -1;
 		if (IsInitOver())
@@ -242,7 +242,27 @@ public class MeshManager extends BaseManager
 
 			mRay.setRayPos(rayPt1, rayPt2);
 
-			nIndex = PickRay();
+			switch (symmetryMode)
+			{
+			case X:
+				rayPt1[0] *= -1;
+				rayPt2[0] *= -1;
+				nIndex = PickRay();
+				break;
+			case Y:
+				rayPt1[1] *= -1;
+				rayPt2[1] *= -1;
+				nIndex = PickRay();
+				break;
+			case Z:
+				rayPt1[2] *= -1;
+				rayPt2[2] *= -1;
+				nIndex = PickRay();
+				break;
+			case NONE:
+				nIndex = PickRay();
+				break;
+			}
 		}
 
 		return nIndex;
