@@ -120,8 +120,10 @@ public abstract class ToolsBase implements ITools
 			{
 				currLastVertex = mLastVertexSymmetry;
 			}
+
 			mMesh.GetVerticesAtDistanceFromSegment(origVertex, currLastVertex, sqMaxDist, mVerticesRes);
-			mCumulatedVerticesRes.addAll(mVerticesRes);
+
+			mCumulatedVerticesRes.addAll(mVerticesRes);// shared for symmetry and regular pick
 
 			// Main tool call
 			Work();
