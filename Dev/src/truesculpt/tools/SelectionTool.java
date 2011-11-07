@@ -36,18 +36,14 @@ public class SelectionTool extends ToolsBase
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
-		super.Stop(xScreen, yScreen);
-
 		SelectAction(xScreen, yScreen);
 
 		Mesh mesh = getManagers().getMeshManager().getMesh();
-
 		// switch back to initial color
 		for (Vertex vertex : cumulatedVerticesRes)
 		{
 			for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
 			{
-				vertex.mLastTempSqDistance = -1.f;// reinit
 				renderGroup.UpdateVertexColor(vertex.Index, vertex.Color);
 			}
 		}
@@ -55,34 +51,27 @@ public class SelectionTool extends ToolsBase
 		// getManagers().getActionsManager().AddUndoAction(action);
 		// action.DoAction();
 
-		getManagers().getMeshManager().NotifyListeners();
+		super.Stop(xScreen, yScreen);
 	}
 
 	private void SelectAction(float xScreen, float yScreen)
 	{
-		int nIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+		int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
 
-		if (nIndex >= 0)
+		if (nTriangleIndex >= 0)
 		{
 			Mesh mesh = getManagers().getMeshManager().getMesh();
 
 			int highlightColor = Color.rgb(200, 200, 0);// some kind of yellow
 
-			Face face = mesh.mFaceList.get(nIndex);
+			Face face = mesh.mFaceList.get(nTriangleIndex);
 			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
 			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
 
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 
 			verticesRes.clear();
-			if (mLastVertex != null)
-			{
-				mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
-			}
-			else
-			{
-				mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
-			}
+			mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
 			cumulatedVerticesRes.addAll(verticesRes);
 
 			// selection preview highlight (not in data mesh only in gpu)

@@ -52,7 +52,13 @@ public class ToolsBase implements ITools
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
+		// last distance reset
+		for (Vertex vertex : cumulatedVerticesRes)
+		{
+			vertex.mLastTempSqDistance = -1.f;
+		}
 
+		getManagers().getMeshManager().NotifyListeners();
 	}
 
 	public Managers getManagers()

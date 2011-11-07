@@ -522,49 +522,6 @@ public class Mesh
 		return nRes;
 	}
 
-	public void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqMaxDistance, HashSet<Vertex> res)
-	{
-		res.add(origVertex);// add at least this point
-
-		verticesToTest.clear();
-		verticesAlreadyTested.clear();
-
-		for (HalfEdge edge : origVertex.OutLinkedEdges)
-		{
-			verticesToTest.add(mVertexList.get(edge.V1));
-		}
-
-		int nCount = verticesToTest.size();
-		while (nCount > 0)
-		{
-			Vertex currVertex = verticesToTest.get(nCount - 1);
-			verticesToTest.remove(nCount - 1);
-			verticesAlreadyTested.add(currVertex);
-
-			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
-			float currSqDistance = MatrixUtils.squaremagnitude(temp);
-			if (currSqDistance < sqMaxDistance)
-			{
-				float lastSqDist = currVertex.mLastTempSqDistance;
-				if (lastSqDist < 0 || (lastSqDist >= 0 && currSqDistance < lastSqDist))
-				{
-					currVertex.mLastTempSqDistance = currSqDistance;
-					res.add(currVertex);
-					for (HalfEdge edge : currVertex.OutLinkedEdges)
-					{
-						Vertex vertexToAdd = mVertexList.get(edge.V1);
-						if (!verticesAlreadyTested.contains(vertexToAdd))// avoids looping
-						{
-							verticesToTest.add(vertexToAdd);
-						}
-					}
-				}
-			}
-
-			nCount = verticesToTest.size();
-		}
-	}
-
 	public void GetVerticesAtDistanceFromSegment(Vertex vNew, Vertex vLast, float sqMaxDistance, HashSet<Vertex> res)
 	{
 		res.add(vNew);// add at least this point
@@ -584,7 +541,16 @@ public class Mesh
 			verticesToTest.remove(nCount - 1);
 			verticesAlreadyTested.add(currVertex);
 
-			float currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord);
+			float currSqDistance = -1;
+			if (vLast != null)
+			{
+				currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord);
+			}
+			else
+			{
+				MatrixUtils.minus(currVertex.Coord, vNew.Coord, temp);
+				currSqDistance = MatrixUtils.squaremagnitude(temp);
+			}
 			if (currSqDistance < sqMaxDistance)
 			{
 				float lastSqDist = currVertex.mLastTempSqDistance;

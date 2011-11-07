@@ -4,13 +4,16 @@ import truesculpt.actions.ColorizeAction;
 import truesculpt.main.Managers;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
+import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.PaintingTool;
-import truesculpt.utils.MatrixUtils;
 import android.graphics.Color;
+import android.util.Log;
 
 public class ColorizeTool extends PaintingTool
 {
+	private ColorizeAction mAction = null;
+
 	public ColorizeTool(Managers managers)
 	{
 		super(managers);
@@ -31,15 +34,28 @@ public class ColorizeTool extends PaintingTool
 	{
 		super.Start(xScreen, yScreen);
 
+		mAction = new ColorizeAction();
+
 		ColorizePaintAction(xScreen, yScreen);
 	}
 
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
-		super.Stop(xScreen, yScreen);
-
 		ColorizePaintAction(xScreen, yScreen);
+
+		if (mAction != null)
+		{
+			getManagers().getActionsManager().AddUndoAction(mAction);
+			mAction.DoAction();
+			mAction = null;
+		}
+		else
+		{
+			Log.e("COLORIZETOOL", "Anormal null action");
+		}
+
+		super.Stop(xScreen, yScreen);
 	}
 
 	private void ColorizePaintAction(float xScreen, float yScreen)
@@ -57,18 +73,16 @@ public class ColorizeTool extends PaintingTool
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 			float MaxDist = (float) Math.sqrt(sqMaxDist);
 			verticesRes.clear();
-			mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
+			mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
+			cumulatedVerticesRes.addAll(verticesRes);
 
 			float[] VNewCol = new float[3];
 			float[] VTargetCol = new float[3];
 			Color.colorToHSV(targetColor, VTargetCol);
-			float[] temp = new float[3];
 
-			ColorizeAction action = new ColorizeAction();
 			for (Vertex vertex : verticesRes)
 			{
-				MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-				float dist = MatrixUtils.magnitude(temp);
+				float dist = (float) Math.sqrt(vertex.mLastTempSqDistance);
 
 				Color.colorToHSV(vertex.Color, VNewCol);
 
@@ -80,10 +94,15 @@ public class ColorizeTool extends PaintingTool
 
 				// int newColor=Color.HSVToColor(VNewCol);
 				int newColor = targetColor;
-				action.AddVertexColorChange(vertex.Index, newColor, vertex);
+				mAction.AddVertexColorChange(vertex.Index, newColor, vertex);
+
+				// preview
+				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+				{
+					renderGroup.UpdateVertexColor(vertex.Index, newColor);
+				}
 			}
-			getManagers().getActionsManager().AddUndoAction(action);
-			action.DoAction();
+			mLastVertex = origVertex;
 
 			getManagers().getMeshManager().NotifyListeners();
 		}
