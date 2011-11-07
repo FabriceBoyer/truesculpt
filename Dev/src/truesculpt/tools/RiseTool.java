@@ -8,7 +8,6 @@ import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
-import android.util.Log;
 
 public class RiseTool extends SculptingTool
 {
@@ -41,10 +40,6 @@ public class RiseTool extends SculptingTool
 			getManagers().getActionsManager().AddUndoAction(mAction);
 			mAction.DoAction();
 			mAction = null;
-		}
-		else
-		{
-			Log.e("RISETOOL", "Anormal Stop null action");
 		}
 
 		super.Stop(xScreen, yScreen);
@@ -93,10 +88,6 @@ public class RiseTool extends SculptingTool
 				if (mAction != null)
 				{
 					mAction.AddVertexOffset(vertex.Index, VOffset, vertex);
-				}
-				else
-				{
-					Log.e("RISETOOL", "Anormal Pick null action");
 				}
 
 				// preview
