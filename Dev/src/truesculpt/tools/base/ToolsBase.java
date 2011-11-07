@@ -22,6 +22,7 @@ public abstract class ToolsBase implements ITools
 	protected final HashSet<Vertex> mVerticesRes = new HashSet<Vertex>();
 	protected final HashSet<Vertex> mCumulatedVerticesRes = new HashSet<Vertex>();
 	protected Vertex mLastVertex = null;
+	protected Vertex mLastVertexSymmetry = null;
 	protected final Path mPath = new Path();
 	protected long mLastSculptDurationMs = -1;
 
@@ -51,6 +52,7 @@ public abstract class ToolsBase implements ITools
 		mVerticesRes.clear();
 		mCumulatedVerticesRes.clear();
 		mLastVertex = null;
+		mLastVertexSymmetry = null;
 		mPath.Clear();
 		mAction = null;
 	}
@@ -74,12 +76,11 @@ public abstract class ToolsBase implements ITools
 	{
 		tSculptStart = SystemClock.uptimeMillis();
 
-		PickInternal(xScreen, yScreen, ESymmetryMode.NONE);
-
 		// symmetry handling
 		switch (getManagers().getToolsManager().getSymmetryMode())
 		{
 		case NONE:
+			// nop
 			break;
 		case X:
 			PickInternal(xScreen, yScreen, ESymmetryMode.X);
@@ -91,18 +92,14 @@ public abstract class ToolsBase implements ITools
 			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
 			break;
 		case XY:
-			PickInternal(xScreen, yScreen, ESymmetryMode.X);
-			PickInternal(xScreen, yScreen, ESymmetryMode.Y);
-			break;
 		case YZ:
-			PickInternal(xScreen, yScreen, ESymmetryMode.Y);
-			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
-			break;
 		case XZ:
-			PickInternal(xScreen, yScreen, ESymmetryMode.X);
-			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
+			// not handled at present time
 			break;
 		}
+
+		// Regular pick always done
+		PickInternal(xScreen, yScreen, ESymmetryMode.NONE);
 
 		mLastSculptDurationMs = SystemClock.uptimeMillis() - tSculptStart;
 	}
@@ -118,13 +115,25 @@ public abstract class ToolsBase implements ITools
 			Vertex origVertex = mMesh.mVertexList.get(nOrigVertex);
 
 			mVerticesRes.clear();
-			mMesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, mVerticesRes);
+			Vertex currLastVertex = mLastVertex;
+			if (mode != ESymmetryMode.NONE)
+			{
+				currLastVertex = mLastVertexSymmetry;
+			}
+			mMesh.GetVerticesAtDistanceFromSegment(origVertex, currLastVertex, sqMaxDist, mVerticesRes);
 			mCumulatedVerticesRes.addAll(mVerticesRes);
 
 			// Main tool call
 			Work();
 
-			mLastVertex = origVertex;
+			if (mode != ESymmetryMode.NONE)
+			{
+				mLastVertexSymmetry = origVertex;
+			}
+			else
+			{
+				mLastVertex = origVertex;
+			}
 
 			getManagers().getMeshManager().NotifyListeners();
 		}
