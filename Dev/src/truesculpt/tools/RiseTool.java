@@ -1,12 +1,12 @@
 package truesculpt.tools;
 
-import android.graphics.drawable.Drawable;
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
+import android.graphics.drawable.Drawable;
 
 public class RiseTool extends SculptingTool
 {
@@ -61,37 +61,4 @@ public class RiseTool extends SculptingTool
 	{
 		return null;
 	}
-
 }
-
-// switch (getManagers().getToolsManager().getSymmetryMode())
-// {
-// case X:
-// rayPt1[0] *= -1;
-// rayPt2[0] *= -1;
-// PickRay();
-// rayPt1[0] *= -1;
-// rayPt2[0] *= -1;
-// nIndex = PickRay();
-// break;
-// case Y:
-// rayPt1[1] *= -1;
-// rayPt2[1] *= -1;
-// PickRay();
-// rayPt1[1] *= -1;
-// rayPt2[1] *= -1;
-// nIndex = PickRay();
-// break;
-// case Z:
-// rayPt1[2] *= -1;
-// rayPt2[2] *= -1;
-// PickRay();
-// rayPt1[2] *= -1;
-// rayPt2[2] *= -1;
-// nIndex = PickRay();
-// break;
-// case NONE:
-// nIndex = PickRay();
-// break;
-// }
-// }

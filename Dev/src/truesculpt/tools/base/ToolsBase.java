@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import truesculpt.actions.BaseAction;
 import truesculpt.main.Managers;
+import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
@@ -73,7 +74,42 @@ public abstract class ToolsBase implements ITools
 	{
 		tSculptStart = SystemClock.uptimeMillis();
 
-		nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
+		PickInternal(xScreen, yScreen, ESymmetryMode.NONE);
+
+		// symmetry handling
+		switch (getManagers().getToolsManager().getSymmetryMode())
+		{
+		case NONE:
+			break;
+		case X:
+			PickInternal(xScreen, yScreen, ESymmetryMode.X);
+			break;
+		case Y:
+			PickInternal(xScreen, yScreen, ESymmetryMode.Y);
+			break;
+		case Z:
+			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
+			break;
+		case XY:
+			PickInternal(xScreen, yScreen, ESymmetryMode.X);
+			PickInternal(xScreen, yScreen, ESymmetryMode.Y);
+			break;
+		case YZ:
+			PickInternal(xScreen, yScreen, ESymmetryMode.Y);
+			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
+			break;
+		case XZ:
+			PickInternal(xScreen, yScreen, ESymmetryMode.X);
+			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
+			break;
+		}
+
+		mLastSculptDurationMs = SystemClock.uptimeMillis() - tSculptStart;
+	}
+
+	private void PickInternal(float xScreen, float yScreen, ESymmetryMode mode)
+	{
+		nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, mode);
 
 		if (nTriangleIndex >= 0 && mMesh != null)
 		{
@@ -92,8 +128,6 @@ public abstract class ToolsBase implements ITools
 
 			getManagers().getMeshManager().NotifyListeners();
 		}
-
-		mLastSculptDurationMs = SystemClock.uptimeMillis() - tSculptStart;
 	}
 
 	@Override
