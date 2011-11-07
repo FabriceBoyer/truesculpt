@@ -8,7 +8,6 @@ import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.PaintingTool;
 import android.graphics.Color;
-import android.util.Log;
 
 public class ColorizeTool extends PaintingTool
 {
@@ -50,10 +49,6 @@ public class ColorizeTool extends PaintingTool
 			mAction.DoAction();
 			mAction = null;
 		}
-		else
-		{
-			Log.e("COLORIZETOOL", "Anormal null action");
-		}
 
 		super.Stop(xScreen, yScreen);
 	}
@@ -94,7 +89,10 @@ public class ColorizeTool extends PaintingTool
 
 				// int newColor=Color.HSVToColor(VNewCol);
 				int newColor = targetColor;
-				mAction.AddVertexColorChange(vertex.Index, newColor, vertex);
+				if (mAction != null)
+				{
+					mAction.AddVertexColorChange(vertex.Index, newColor, vertex);
+				}
 
 				// preview
 				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)

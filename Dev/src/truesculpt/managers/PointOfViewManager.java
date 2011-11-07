@@ -69,7 +69,7 @@ public class PointOfViewManager extends BaseManager
 
 	public void resetPOV()
 	{
-		SetAllAngles(0, 0, 3);
+		SetAllAngles(0, 0, 2);
 		setPanOffset(0, 0);
 	}
 
