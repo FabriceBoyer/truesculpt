@@ -19,9 +19,9 @@ public class SelectionTool extends ToolsBase
 	public void Stop(float xScreen, float yScreen)
 	{
 		// switch back to initial color
-		for (Vertex vertex : cumulatedVerticesRes)
+		for (Vertex vertex : mCumulatedVerticesRes)
 		{
-			for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 			{
 				renderGroup.UpdateVertexColor(vertex.Index, vertex.Color);
 			}
@@ -34,9 +34,9 @@ public class SelectionTool extends ToolsBase
 	protected void Work()
 	{
 		// selection preview highlight (not in data mesh only in gpu)
-		for (Vertex vertex : verticesRes)
+		for (Vertex vertex : mVerticesRes)
 		{
-			for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 			{
 				int val = 255 - (int) (255.f * vertex.mLastTempSqDistance / sqMaxDist);
 				highlightColor = Color.rgb(val, val, 0);

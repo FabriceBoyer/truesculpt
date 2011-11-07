@@ -32,7 +32,7 @@ public class ColorizeTool extends PaintingTool
 	@Override
 	protected void Work()
 	{
-		for (Vertex vertex : verticesRes)
+		for (Vertex vertex : mVerticesRes)
 		{
 			float dist = (float) Math.sqrt(vertex.mLastTempSqDistance);
 
@@ -51,7 +51,7 @@ public class ColorizeTool extends PaintingTool
 				((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
 
 				// preview
-				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexColor(vertex.Index, newColor);
 				}
