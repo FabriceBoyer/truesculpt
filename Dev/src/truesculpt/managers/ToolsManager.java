@@ -61,8 +61,8 @@ public class ToolsManager extends BaseManager
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
 	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.DRAW;
 	private ESymmetryMode mSymmetryMode = ESymmetryMode.NONE;
-	private float mRadius = 10.0f;// pct
-	private float mStrength = 50.0f;// pct
+	private float mRadius = 20.0f;// pct
+	private float mStrength = 30.0f;// pct
 	private ToolsBase mCurrentTool = null;
 	private final ArrayList<ToolsBase> mToolsLibrary = new ArrayList<ToolsBase>();
 

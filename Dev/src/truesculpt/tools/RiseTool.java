@@ -81,21 +81,31 @@ public class RiseTool extends SculptingTool
 			// preview only, no data mesh impact, only gpu data modified
 			for (Vertex vertex : verticesRes)
 			{
-				MatrixUtils.copy(vertex.Normal, VOffset);
-				MatrixUtils.copy(vertex.Normal, VNormal);
-				// sculpting
-				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
+				// Rise
+				// MatrixUtils.copy(vertex.VNormal, VOffset);
+
+				// Inflate
+				MatrixUtils.copy(vertex.Coord, VNormal);
+				MatrixUtils.normalize(VNormal);
+				MatrixUtils.copy(VNormal, VOffset);
+
+				// Gaussian
+				// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
+
+				// Linear
+				MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
+
 				if (mAction != null)
 				{
 					mAction.AddVertexOffset(vertex.Index, VOffset, vertex);
-				}
 
-				// preview
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
-				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
-				{
-					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
+					// preview
+					MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+					MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
+					for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+					{
+						renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
+					}
 				}
 			}
 			mLastVertex = origVertex;
