@@ -13,7 +13,7 @@ import android.util.Log;
 public class RiseTool extends SculptingTool
 {
 	private final float[] VOffset = new float[3];
-	private final float[] temp = new float[3];
+	private final float[] VNormal = new float[3];
 	private SculptAction mAction = null;
 
 	public RiseTool(Managers managers)
@@ -44,7 +44,7 @@ public class RiseTool extends SculptingTool
 		}
 		else
 		{
-			Log.e("RISETOOL", "Anormal null action");
+			Log.e("RISETOOL", "Anormal Stop null action");
 		}
 
 		super.Stop(xScreen, yScreen);
@@ -87,16 +87,24 @@ public class RiseTool extends SculptingTool
 			for (Vertex vertex : verticesRes)
 			{
 				MatrixUtils.copy(vertex.Normal, VOffset);
-
+				MatrixUtils.copy(vertex.Normal, VNormal);
 				// sculpting
 				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
-				mAction.AddVertexOffset(vertex.Index, VOffset, vertex);
+				if (mAction != null)
+				{
+					mAction.AddVertexOffset(vertex.Index, VOffset, vertex);
+				}
+				else
+				{
+					Log.e("RISETOOL", "Anormal Pick null action");
+				}
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
 				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
 				{
-					renderGroup.UpdateVertexValue(vertex.Index, VOffset);
+					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 				}
 			}
 			mLastVertex = origVertex;
