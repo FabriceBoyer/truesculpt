@@ -28,17 +28,18 @@ public class SliderPickView extends View
 	}
 
 	private String Text = "Value : ";
-	private String UnitText = " %";
+	private final String UnitText = " %";
 	private float CurrentValue = 0;
 	private float MaxValue = 100;
 	private float MinValue = 0;
 	private int PixelAmplitude = 300;
+	private final int PixelDeadZone = 100;
 	private Paint mTextPaint = null;
 	private Paint mCenterPaint = null;
 	float orig_x = 0;
 	float orig_y = 0;
 	private long mLastTapTapTime = 0;
-	private long mTapTapTimeThresold = 500;// ms
+	private final long mTapTapTimeThresold = 500;// ms
 	private float mOldValue = 0;
 
 	private OnSliderPickChangedListener mListener = null;
@@ -147,7 +148,14 @@ public class SliderPickView extends View
 		float pixelDist = (float) Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 		// pixelDist=pixelDist%PixelAmplitude;
 		float valueAmplitude = MaxValue - MinValue;
-		newValue = MinValue + pixelDist * (valueAmplitude / PixelAmplitude);
+		if (pixelDist >= PixelDeadZone)
+		{
+			newValue = MinValue + (pixelDist - PixelDeadZone) * (valueAmplitude / PixelAmplitude);
+		}
+		else
+		{
+			newValue = MinValue;
+		}
 
 		if (mListener != null)
 		{
@@ -191,10 +199,8 @@ public class SliderPickView extends View
 		CurrentValue = currentValue;
 
 		// Saturation
-		if (currentValue < MinValue)
-			CurrentValue = MinValue;
-		if (currentValue > MaxValue)
-			CurrentValue = MaxValue;
+		if (currentValue < MinValue) CurrentValue = MinValue;
+		if (currentValue > MaxValue) CurrentValue = MaxValue;
 
 		invalidate();
 	}
