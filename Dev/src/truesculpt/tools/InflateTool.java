@@ -16,12 +16,6 @@ public class InflateTool extends SculptingTool
 	}
 
 	@Override
-	public void Start(float xScreen, float yScreen)
-	{
-		super.Start(xScreen, yScreen);
-	}
-
-	@Override
 	protected void Work()
 	{
 		for (Vertex vertex : mVerticesRes)
