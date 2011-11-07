@@ -1,8 +1,6 @@
 package truesculpt.tools;
 
 import truesculpt.main.Managers;
-import truesculpt.mesh.Face;
-import truesculpt.mesh.Mesh;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.ToolsBase;
@@ -10,35 +8,16 @@ import android.graphics.Color;
 
 public class SelectionTool extends ToolsBase
 {
+	int highlightColor = Color.rgb(200, 200, 0);// some kind of yellow
+
 	public SelectionTool(Managers managers)
 	{
 		super(managers);
 	}
 
 	@Override
-	public void Start(float xScreen, float yScreen)
-	{
-		super.Start(xScreen, yScreen);
-
-		SelectAction(xScreen, yScreen);
-	}
-
-	@Override
-	public void Pick(float xScreen, float yScreen)
-	{
-		super.Pick(xScreen, yScreen);
-
-		SelectAction(xScreen, yScreen);
-
-		EndPick();
-	}
-
-	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
-		SelectAction(xScreen, yScreen);
-
-		Mesh mesh = getManagers().getMeshManager().getMesh();
 		// switch back to initial color
 		for (Vertex vertex : cumulatedVerticesRes)
 		{
@@ -48,46 +27,21 @@ public class SelectionTool extends ToolsBase
 			}
 		}
 
-		// getManagers().getActionsManager().AddUndoAction(action);
-		// action.DoAction();
-
 		super.Stop(xScreen, yScreen);
 	}
 
-	private void SelectAction(float xScreen, float yScreen)
+	@Override
+	protected void Work()
 	{
-		int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen);
-
-		if (nTriangleIndex >= 0)
+		// selection preview highlight (not in data mesh only in gpu)
+		for (Vertex vertex : verticesRes)
 		{
-			Mesh mesh = getManagers().getMeshManager().getMesh();
-
-			int highlightColor = Color.rgb(200, 200, 0);// some kind of yellow
-
-			Face face = mesh.mFaceList.get(nTriangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
-			Vertex origVertex = mesh.mVertexList.get(nOrigVertex);
-
-			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-
-			verticesRes.clear();
-			mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
-			cumulatedVerticesRes.addAll(verticesRes);
-
-			// selection preview highlight (not in data mesh only in gpu)
-			for (Vertex vertex : verticesRes)
+			for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
 			{
-				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
-				{
-					int val = 255 - (int) (255.f * vertex.mLastTempSqDistance / sqMaxDist);
-					highlightColor = Color.rgb(val, val, 0);
-					renderGroup.UpdateVertexColor(vertex.Index, highlightColor);
-				}
+				int val = 255 - (int) (255.f * vertex.mLastTempSqDistance / sqMaxDist);
+				highlightColor = Color.rgb(val, val, 0);
+				renderGroup.UpdateVertexColor(vertex.Index, highlightColor);
 			}
-
-			mLastVertex = origVertex;
-
-			getManagers().getMeshManager().NotifyListeners();
 		}
 	}
 }

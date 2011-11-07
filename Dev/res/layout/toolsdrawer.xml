@@ -14,7 +14,7 @@
 		
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@+id/contentLayout"
-			android:gravity="right"	        
+			android:gravity="left"	        
 	        android:layout_width="50dip"
 	        android:layout_height="fill_parent"	  
 	        android:orientation="vertical"      

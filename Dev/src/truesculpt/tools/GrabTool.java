@@ -18,17 +18,9 @@ public class GrabTool extends SculptingTool
 	}
 
 	@Override
-	public void Pick(float xScreen, float yScreen)
+	protected void Work()
 	{
-		super.Pick(xScreen, yScreen);
 
-		EndPick();
-	}
-
-	@Override
-	public void Stop(float xScreen, float yScreen)
-	{
-		super.Stop(xScreen, yScreen);
 	}
 
 }
