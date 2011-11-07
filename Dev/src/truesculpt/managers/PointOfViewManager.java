@@ -11,7 +11,7 @@ public class PointOfViewManager extends BaseManager
 	// to be recomputed to adapt to max size of object
 	private float mRmax = 9.0f;
 	private float mRmin = 2.0f;
-
+	private final float mRDefault = 2.5f;// sphere is 1, zNear is 1 + margin for tool overlay
 	private float mPhi = 0.0f;
 	private float mTheta = 0.0f;
 	private float mXPanOffset = 0.0f;
@@ -69,7 +69,7 @@ public class PointOfViewManager extends BaseManager
 
 	public void resetPOV()
 	{
-		SetAllAngles(0, 0, 2);
+		SetAllAngles(0, 0, mRDefault);
 		setPanOffset(0, 0);
 	}
 
