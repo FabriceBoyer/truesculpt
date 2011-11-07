@@ -6,6 +6,7 @@ import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.PaintingTool;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 
 public class ColorizeTool extends PaintingTool
 {
@@ -55,5 +56,23 @@ public class ColorizeTool extends PaintingTool
 				}
 			}
 		}
+	}
+
+	@Override
+	public String GetDescription()
+	{
+		return null;
+	}
+
+	@Override
+	public Drawable GetIcon()
+	{
+		return null;
+	}
+
+	@Override
+	public String GetName()
+	{
+		return null;
 	}
 }

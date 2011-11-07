@@ -1,5 +1,6 @@
 package truesculpt.tools;
 
+import android.graphics.drawable.Drawable;
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.mesh.RenderFaceGroup;
@@ -44,5 +45,23 @@ public class InflateTool extends SculptingTool
 				}
 			}
 		}
+	}
+
+	@Override
+	public String GetDescription()
+	{
+		return null;
+	}
+
+	@Override
+	public Drawable GetIcon()
+	{
+		return null;
+	}
+
+	@Override
+	public String GetName()
+	{
+		return null;
 	}
 }

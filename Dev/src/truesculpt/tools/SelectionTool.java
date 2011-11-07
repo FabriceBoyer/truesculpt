@@ -5,6 +5,7 @@ import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.ToolsBase;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 
 public class SelectionTool extends ToolsBase
 {
@@ -43,5 +44,23 @@ public class SelectionTool extends ToolsBase
 				renderGroup.UpdateVertexColor(vertex.Index, highlightColor);
 			}
 		}
+	}
+
+	@Override
+	public String GetDescription()
+	{
+		return null;
+	}
+
+	@Override
+	public Drawable GetIcon()
+	{
+		return null;
+	}
+
+	@Override
+	public String GetName()
+	{
+		return null;
 	}
 }
