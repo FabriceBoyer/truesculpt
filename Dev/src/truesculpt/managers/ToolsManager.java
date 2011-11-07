@@ -59,7 +59,7 @@ public class ToolsManager extends BaseManager
 	private int mColor = Color.rgb(255, 0, 0);
 	private EToolMode mMode = EToolMode.POV;
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
-	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.DRAW;
+	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.INFLATE;
 	private ESymmetryMode mSymmetryMode = ESymmetryMode.NONE;
 	private float mRadius = 20.0f;// pct
 	private float mStrength = 30.0f;// pct

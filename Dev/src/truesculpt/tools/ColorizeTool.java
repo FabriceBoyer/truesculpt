@@ -25,8 +25,6 @@ public class ColorizeTool extends PaintingTool
 
 		targetColor = getManagers().getToolsManager().getColor();
 		Color.colorToHSV(targetColor, VTargetCol);
-
-		mAction = new ColorizeAction();
 	}
 
 	@Override

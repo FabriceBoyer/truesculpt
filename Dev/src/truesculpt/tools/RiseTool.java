@@ -15,14 +15,6 @@ public class RiseTool extends SculptingTool
 	}
 
 	@Override
-	public void Start(float xScreen, float yScreen)
-	{
-		super.Start(xScreen, yScreen);
-
-		mAction = new SculptAction();
-	}
-
-	@Override
 	protected void Work()
 	{
 		for (Vertex vertex : mVerticesRes)

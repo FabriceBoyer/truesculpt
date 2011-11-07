@@ -11,12 +11,6 @@ public class SmoothTool extends SculptingTool
 	}
 
 	@Override
-	public void Start(float xScreen, float yScreen)
-	{
-		super.Start(xScreen, yScreen);
-	}
-
-	@Override
 	protected void Work()
 	{
 

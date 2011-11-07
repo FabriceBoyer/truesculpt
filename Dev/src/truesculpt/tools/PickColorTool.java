@@ -3,9 +3,9 @@ package truesculpt.tools;
 import truesculpt.main.Managers;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Vertex;
-import truesculpt.tools.base.PaintingTool;
+import truesculpt.tools.base.ToolsBase;
 
-public class PickColorTool extends PaintingTool
+public class PickColorTool extends ToolsBase
 {
 	public PickColorTool(Managers managers)
 	{
