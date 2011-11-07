@@ -92,12 +92,12 @@ public class ColorizeTool extends PaintingTool
 				if (mAction != null)
 				{
 					mAction.AddVertexColorChange(vertex.Index, newColor, vertex);
-				}
 
-				// preview
-				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
-				{
-					renderGroup.UpdateVertexColor(vertex.Index, newColor);
+					// preview
+					for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
+					{
+						renderGroup.UpdateVertexColor(vertex.Index, newColor);
+					}
 				}
 			}
 			mLastVertex = origVertex;
