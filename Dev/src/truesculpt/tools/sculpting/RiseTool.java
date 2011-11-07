@@ -18,19 +18,19 @@ public class RiseTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		for (Vertex vertex : mVerticesRes)
+		if (mAction != null)
 		{
-			// Rise
-			MatrixUtils.copy(vertex.Normal, VOffset);
-
-			// Gaussian
-			MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
-
-			// Linear
-			// MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
-
-			if (mAction != null)
+			for (Vertex vertex : mVerticesRes)
 			{
+				// Rise
+				MatrixUtils.copy(vertex.Normal, VOffset);
+
+				// Gaussian
+				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
+
+				// Linear
+				// MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
+
 				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
 
 				// preview

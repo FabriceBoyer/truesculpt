@@ -31,22 +31,23 @@ public class ColorizeTool extends PaintingTool
 	@Override
 	protected void Work()
 	{
-		for (Vertex vertex : mVerticesRes)
+		if (mAction != null)
 		{
-			float dist = (float) Math.sqrt(vertex.mLastTempSqDistance);
-
-			Color.colorToHSV(vertex.Color, VNewCol);
-
-			// barycenter of colors
-			float alpha = (MaxDist - dist) / MaxDist;// [0;1]
-			VNewCol[0] = VTargetCol[0];
-			VNewCol[1] = VTargetCol[1];
-			VNewCol[2] = (1 - alpha) * VNewCol[2] + alpha * VTargetCol[2];
-
-			// int newColor=Color.HSVToColor(VNewCol);
-			int newColor = targetColor;
-			if (mAction != null)
+			for (Vertex vertex : mVerticesRes)
 			{
+				float dist = (float) Math.sqrt(vertex.mLastTempSqDistance);
+
+				Color.colorToHSV(vertex.Color, VNewCol);
+
+				// barycenter of colors
+				float alpha = (MaxDist - dist) / MaxDist;// [0;1]
+				VNewCol[0] = VTargetCol[0];
+				VNewCol[1] = VTargetCol[1];
+				VNewCol[2] = (1 - alpha) * VNewCol[2] + alpha * VTargetCol[2];
+
+				// int newColor=Color.HSVToColor(VNewCol);
+				int newColor = targetColor;
+
 				((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
 
 				// preview
