@@ -8,6 +8,7 @@ import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
+import android.util.Log;
 
 public class RiseTool extends SculptingTool
 {
@@ -33,28 +34,20 @@ public class RiseTool extends SculptingTool
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
-		super.Stop(xScreen, yScreen);
-
 		RiseSculptAction(xScreen, yScreen);
 
-		Mesh mesh = getManagers().getMeshManager().getMesh();
-
-		// final value
-		for (Vertex vertex : cumulatedVerticesRes)
+		if (mAction != null)
 		{
-			for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
-			{
-				vertex.mLastTempSqDistance = -1.f;// reinit
-				// renderGroup.UpdateVertexValue(vertex.Index, vertex.Coord);
-			}
+			getManagers().getActionsManager().AddUndoAction(mAction);
+			mAction.DoAction();
+			mAction = null;
+		}
+		else
+		{
+			Log.e("RISETOOL", "Anormal null action");
 		}
 
-		// getManagers().getActionsManager().AddUndoAction(action);
-		// mAction.DoAction();
-
-		mAction = null;
-
-		getManagers().getMeshManager().NotifyListeners();
+		super.Stop(xScreen, yScreen);
 	}
 
 	@Override
@@ -84,14 +77,7 @@ public class RiseTool extends SculptingTool
 			float sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 
 			verticesRes.clear();
-			if (mLastVertex != null)
-			{
-				mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
-			}
-			else
-			{
-				mesh.GetVerticesAtDistanceFromVertex(origVertex, sqMaxDist, verticesRes);
-			}
+			mesh.GetVerticesAtDistanceFromSegment(origVertex, mLastVertex, sqMaxDist, verticesRes);
 			cumulatedVerticesRes.addAll(verticesRes);
 
 			float sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
@@ -104,30 +90,15 @@ public class RiseTool extends SculptingTool
 
 				// sculpting
 				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				mAction.AddVertexOffset(vertex.Index, VOffset, vertex);
 
+				// preview
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
 				for (RenderFaceGroup renderGroup : mesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexValue(vertex.Index, VOffset);
 				}
 			}
-
-			// for (Vertex vertex : verticesRes)
-			// {
-			// MatrixUtils.copy(origVertex.Normal, VOffset);
-			// // MatrixUtils.copy(vertex.Normal, VOffset);
-			//
-			// MatrixUtils.minus(vertex.Coord, origVertex.Coord, temp);
-			// float sqDist = MatrixUtils.squaremagnitude(temp);
-			//
-			// // sculpting functions
-			// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, sqDist) / maxGaussian * fMaxDeformation));
-			// // if (MatrixUtils.magnitude(VOffset)>1e-3)
-			// {
-			// action.AddVertexOffset(vertex.Index, VOffset, vertex);
-			// }
-			// }
-
 			mLastVertex = origVertex;
 
 			getManagers().getMeshManager().NotifyListeners();

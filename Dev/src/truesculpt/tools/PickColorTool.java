@@ -24,9 +24,9 @@ public class PickColorTool extends PaintingTool
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
-		super.Stop(xScreen, yScreen);
-
 		PickColorAction(xScreen, yScreen);
+
+		super.Stop(xScreen, yScreen);
 	}
 
 	@Override
