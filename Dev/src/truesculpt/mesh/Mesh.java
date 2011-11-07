@@ -522,7 +522,7 @@ public class Mesh
 		return nRes;
 	}
 
-	public void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqDistance, HashSet<Vertex> res)
+	public void GetVerticesAtDistanceFromVertex(Vertex origVertex, float sqMaxDistance, HashSet<Vertex> res)
 	{
 		res.add(origVertex);// add at least this point
 
@@ -543,16 +543,20 @@ public class Mesh
 
 			MatrixUtils.minus(currVertex.Coord, origVertex.Coord, temp);
 			float currSqDistance = MatrixUtils.squaremagnitude(temp);
-			if (currSqDistance < sqDistance && currSqDistance < currVertex.mLastTempSqDistance)
+			if (currSqDistance < sqMaxDistance)
 			{
-				currVertex.mLastTempSqDistance = currSqDistance;
-				res.add(currVertex);
-				for (HalfEdge edge : currVertex.OutLinkedEdges)
+				float lastSqDist = currVertex.mLastTempSqDistance;
+				if (lastSqDist < 0 || (lastSqDist >= 0 && currSqDistance < lastSqDist))
 				{
-					Vertex vertexToAdd = mVertexList.get(edge.V1);
-					if (!verticesAlreadyTested.contains(vertexToAdd))// avoids looping
+					currVertex.mLastTempSqDistance = currSqDistance;
+					res.add(currVertex);
+					for (HalfEdge edge : currVertex.OutLinkedEdges)
 					{
-						verticesToTest.add(vertexToAdd);
+						Vertex vertexToAdd = mVertexList.get(edge.V1);
+						if (!verticesAlreadyTested.contains(vertexToAdd))// avoids looping
+						{
+							verticesToTest.add(vertexToAdd);
+						}
 					}
 				}
 			}
@@ -561,7 +565,7 @@ public class Mesh
 		}
 	}
 
-	public void GetVerticesAtDistanceFromSegment(Vertex vNew, Vertex vLast, float sqDistance, HashSet<Vertex> res)
+	public void GetVerticesAtDistanceFromSegment(Vertex vNew, Vertex vLast, float sqMaxDistance, HashSet<Vertex> res)
 	{
 		res.add(vNew);// add at least this point
 
@@ -581,16 +585,20 @@ public class Mesh
 			verticesAlreadyTested.add(currVertex);
 
 			float currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord);
-			if (currSqDistance < sqDistance && currSqDistance < currVertex.mLastTempSqDistance)
+			if (currSqDistance < sqMaxDistance)
 			{
-				currVertex.mLastTempSqDistance = currSqDistance;
-				res.add(currVertex);
-				for (HalfEdge edge : currVertex.OutLinkedEdges)
+				float lastSqDist = currVertex.mLastTempSqDistance;
+				if (lastSqDist < 0 || (lastSqDist >= 0 && currSqDistance < lastSqDist))
 				{
-					Vertex vertexToAdd = mVertexList.get(edge.V1);
-					if (!verticesAlreadyTested.contains(vertexToAdd))// avoids looping
+					currVertex.mLastTempSqDistance = currSqDistance;
+					res.add(currVertex);
+					for (HalfEdge edge : currVertex.OutLinkedEdges)
 					{
-						verticesToTest.add(vertexToAdd);
+						Vertex vertexToAdd = mVertexList.get(edge.V1);
+						if (!verticesAlreadyTested.contains(vertexToAdd))// avoids looping
+						{
+							verticesToTest.add(vertexToAdd);
+						}
 					}
 				}
 			}
