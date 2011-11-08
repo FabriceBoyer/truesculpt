@@ -3,7 +3,7 @@ package truesculpt.tools.base;
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 
-public abstract class SculptingTool extends ToolsBase
+public abstract class SculptingTool extends SelectionTool
 {
 	protected final float[] VOffset = new float[3];
 	protected final float[] VNormal = new float[3];

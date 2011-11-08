@@ -3,11 +3,11 @@ package truesculpt.managers;
 import java.util.ArrayList;
 
 import truesculpt.actions.ChangeToolAction;
-import truesculpt.tools.base.ToolsBase;
+import truesculpt.tools.base.BaseTool;
+import truesculpt.tools.other.GrabTool;
+import truesculpt.tools.other.HighlightTool;
 import truesculpt.tools.other.PickColorTool;
-import truesculpt.tools.other.SelectionTool;
 import truesculpt.tools.painting.ColorizeTool;
-import truesculpt.tools.sculpting.GrabTool;
 import truesculpt.tools.sculpting.InflateTool;
 import truesculpt.tools.sculpting.RiseTool;
 import truesculpt.tools.sculpting.SmoothTool;
@@ -63,8 +63,8 @@ public class ToolsManager extends BaseManager
 	private ESymmetryMode mSymmetryMode = ESymmetryMode.NONE;
 	private float mRadius = 20.0f;// pct
 	private float mStrength = 30.0f;// pct
-	private ToolsBase mCurrentTool = null;
-	private final ArrayList<ToolsBase> mToolsLibrary = new ArrayList<ToolsBase>();
+	private BaseTool mCurrentTool = null;
+	private final ArrayList<BaseTool> mToolsLibrary = new ArrayList<BaseTool>();
 
 	public ToolsManager(Context baseContext)
 	{
@@ -76,7 +76,7 @@ public class ToolsManager extends BaseManager
 		mToolsLibrary.add(new SmoothTool(getManagers()));
 		mToolsLibrary.add(new InflateTool(getManagers()));
 		mToolsLibrary.add(new ColorizeTool(getManagers()));
-		mToolsLibrary.add(new SelectionTool(getManagers()));// temp for test, replace texture
+		mToolsLibrary.add(new HighlightTool(getManagers()));// temp for test, replace texture
 		mToolsLibrary.add(new PickColorTool(getManagers()));
 
 		UpdateCurrentTool();
@@ -146,7 +146,7 @@ public class ToolsManager extends BaseManager
 		return mMode;
 	}
 
-	public ToolsBase getCurrentTool()
+	public BaseTool getCurrentTool()
 	{
 		return mCurrentTool;
 	}

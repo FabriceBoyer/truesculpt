@@ -1,21 +1,24 @@
 package truesculpt.tools.other;
 
-import android.graphics.drawable.Drawable;
 import truesculpt.main.Managers;
+import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Face;
+import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
-import truesculpt.tools.base.ToolsBase;
+import truesculpt.tools.base.BaseTool;
+import android.graphics.drawable.Drawable;
 
-public class PickColorTool extends ToolsBase
+public class PickColorTool extends BaseTool
 {
 	public PickColorTool(Managers managers)
 	{
 		super(managers);
 	}
 
-	@Override
-	protected void Work()
+	private void Work(float xScreen, float yScreen)
 	{
+		Mesh mMesh = getManagers().getMeshManager().getMesh();
+		int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, ESymmetryMode.NONE);
 		Face face = mMesh.mFaceList.get(nTriangleIndex);
 		Vertex vertex = mMesh.mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
 		int color = vertex.Color;
@@ -40,5 +43,23 @@ public class PickColorTool extends ToolsBase
 	public String GetName()
 	{
 		return null;
+	}
+
+	@Override
+	public void Start(float xScreen, float yScreen)
+	{
+		Work(xScreen, yScreen);
+	}
+
+	@Override
+	public void Pick(float xScreen, float yScreen)
+	{
+		Work(xScreen, yScreen);
+	}
+
+	@Override
+	public void Stop(float xScreen, float yScreen)
+	{
+		Work(xScreen, yScreen);
 	}
 }
