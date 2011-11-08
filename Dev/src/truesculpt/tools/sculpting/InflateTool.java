@@ -31,13 +31,13 @@ public class InflateTool extends SculptingTool
 				// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
 
 				// Linear
-				MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
+				MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / mSquareMaxDistance)) * mMaxDeformation);
 
 				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
+				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);

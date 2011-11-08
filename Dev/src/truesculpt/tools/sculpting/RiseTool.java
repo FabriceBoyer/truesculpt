@@ -26,7 +26,7 @@ public class RiseTool extends SculptingTool
 				MatrixUtils.copy(vertex.Normal, VOffset);
 
 				// Gaussian
-				MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
+				MatrixUtils.scalarMultiply(VOffset, (Gaussian(mSigma, vertex.mLastTempSqDistance) / mMaxGaussian * mMaxDeformation));
 
 				// Linear
 				// MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
@@ -35,7 +35,7 @@ public class RiseTool extends SculptingTool
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / sqMaxDist);
+				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);

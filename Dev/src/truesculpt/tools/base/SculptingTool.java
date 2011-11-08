@@ -5,6 +5,9 @@ import truesculpt.main.Managers;
 
 public abstract class SculptingTool extends SelectionTool
 {
+	protected final float MAX_DEFORMATION = 0.2f;
+	protected float mMaxDeformation = -1;
+
 	protected final float[] VOffset = new float[3];
 	protected final float[] VNormal = new float[3];
 
@@ -17,6 +20,8 @@ public abstract class SculptingTool extends SelectionTool
 	public void Start(float xScreen, float yScreen)
 	{
 		super.Start(xScreen, yScreen);
+
+		mMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
 
 		mAction = new SculptAction();
 	}

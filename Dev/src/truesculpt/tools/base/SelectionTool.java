@@ -6,7 +6,6 @@ import truesculpt.actions.BaseAction;
 import truesculpt.main.Managers;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Face;
-import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
 import android.os.SystemClock;
 
@@ -15,7 +14,6 @@ public abstract class SelectionTool extends BaseTool
 	protected final float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full width at half maximum
 	protected final static float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
 
-	protected final float MAX_DEFORMATION = 0.2f;
 	protected final float MIN_RADIUS = 0.01f;// meters
 	protected final float MAX_RADIUS = 1f;// meters
 
@@ -24,17 +22,12 @@ public abstract class SelectionTool extends BaseTool
 	protected Vertex mLastVertex = null;
 	protected Vertex mLastVertexSymmetry = null;
 	protected final Path mPath = new Path();
-
+	protected int mTriangleIndex = -1;
+	protected float mSquareMaxDistance = -1;
+	protected float mMaxDistance = -1;
 	protected BaseAction mAction = null;
-	protected Mesh mMesh = null;
-
-	protected int nTriangleIndex = -1;
-	protected float fMaxDeformation = -1;
-	protected float sqMaxDist = -1;
-	protected float MaxDist = -1;
-
-	protected float sigma = -1;
-	protected float maxGaussian = -1;
+	protected float mSigma = -1;
+	protected float mMaxGaussian = -1;
 
 	public SelectionTool(Managers managers)
 	{
@@ -56,20 +49,22 @@ public abstract class SelectionTool extends BaseTool
 	@Override
 	public void Start(float xScreen, float yScreen)
 	{
+		super.Start(xScreen, yScreen);
+
 		ResetData();
 
-		mMesh = getManagers().getMeshManager().getMesh();
+		mSquareMaxDistance = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
+		mMaxDistance = (float) Math.sqrt(mSquareMaxDistance);
 
-		sqMaxDist = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-		MaxDist = (float) Math.sqrt(sqMaxDist);
-		fMaxDeformation = getManagers().getToolsManager().getStrength() / 100.0f * MAX_DEFORMATION;// strength is -100 to 100
-		sigma = (float) ((Math.sqrt(sqMaxDist) / 1.5f) / FWHM);
-		maxGaussian = Gaussian(sigma, 0);
+		mSigma = (float) ((Math.sqrt(mSquareMaxDistance) / 1.5f) / FWHM);
+		mMaxGaussian = Gaussian(mSigma, 0);
 	}
 
 	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
+		super.Pick(xScreen, yScreen);
+
 		tSculptStart = SystemClock.uptimeMillis();
 
 		// symmetry handling
@@ -102,11 +97,11 @@ public abstract class SelectionTool extends BaseTool
 
 	private void PickInternal(float xScreen, float yScreen, ESymmetryMode mode)
 	{
-		nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, mode);
+		mTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, mode);
 
-		if (nTriangleIndex >= 0 && mMesh != null)
+		if (mTriangleIndex >= 0 && mMesh != null)
 		{
-			Face face = mMesh.mFaceList.get(nTriangleIndex);
+			Face face = mMesh.mFaceList.get(mTriangleIndex);
 			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
 			Vertex origVertex = mMesh.mVertexList.get(nOrigVertex);
 
@@ -117,7 +112,7 @@ public abstract class SelectionTool extends BaseTool
 				currLastVertex = mLastVertexSymmetry;
 			}
 
-			mMesh.GetVerticesAtDistanceFromSegment(origVertex, currLastVertex, sqMaxDist, mVerticesRes);
+			mMesh.GetVerticesAtDistanceFromSegment(origVertex, currLastVertex, mSquareMaxDistance, mVerticesRes);
 
 			mCumulatedVerticesRes.addAll(mVerticesRes);// shared for symmetry and regular pick
 
@@ -140,6 +135,8 @@ public abstract class SelectionTool extends BaseTool
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
+		super.Stop(xScreen, yScreen);
+
 		if (mAction != null)
 		{
 			getManagers().getActionsManager().AddUndoAction(mAction);

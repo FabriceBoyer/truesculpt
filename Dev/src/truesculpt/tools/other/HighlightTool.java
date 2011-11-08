@@ -39,7 +39,7 @@ public class HighlightTool extends SelectionTool
 		{
 			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 			{
-				int val = 255 - (int) (255.f * vertex.mLastTempSqDistance / sqMaxDist);
+				int val = 255 - (int) (255.f * vertex.mLastTempSqDistance / mSquareMaxDistance);
 				highlightColor = Color.rgb(val, val, 0);
 				renderGroup.UpdateVertexColor(vertex.Index, highlightColor);
 			}

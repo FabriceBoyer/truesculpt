@@ -12,23 +12,6 @@ public class GrabTool extends BaseTool
 	}
 
 	@Override
-	public void Start(float xScreen, float yScreen)
-	{
-
-	}
-
-	protected void Work()
-	{
-
-	}
-
-	@Override
-	public void Stop(float xScreen, float yScreen)
-	{
-
-	}
-
-	@Override
 	public String GetDescription()
 	{
 		return null;
@@ -47,8 +30,21 @@ public class GrabTool extends BaseTool
 	}
 
 	@Override
+	public void Start(float xScreen, float yScreen)
+	{
+		super.Start(xScreen, yScreen);
+	}
+
+	@Override
 	public void Pick(float xScreen, float yScreen)
 	{
+		super.Pick(xScreen, yScreen);
+	}
+
+	@Override
+	public void Stop(float xScreen, float yScreen)
+	{
+		super.Stop(xScreen, yScreen);
 	}
 
 }
