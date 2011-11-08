@@ -10,7 +10,7 @@ import truesculpt.mesh.Mesh;
 import truesculpt.mesh.Vertex;
 import android.os.SystemClock;
 
-public abstract class ToolsBase implements ITools
+public abstract class SelectionTool extends BaseTool
 {
 	protected final float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full width at half maximum
 	protected final static float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
@@ -24,7 +24,6 @@ public abstract class ToolsBase implements ITools
 	protected Vertex mLastVertex = null;
 	protected Vertex mLastVertexSymmetry = null;
 	protected final Path mPath = new Path();
-	protected long mLastSculptDurationMs = -1;
 
 	protected BaseAction mAction = null;
 	protected Mesh mMesh = null;
@@ -37,12 +36,9 @@ public abstract class ToolsBase implements ITools
 	protected float sigma = -1;
 	protected float maxGaussian = -1;
 
-	private long tSculptStart = -1;
-	private Managers mManagers = null;
-
-	public ToolsBase(Managers managers)
+	public SelectionTool(Managers managers)
 	{
-		mManagers = managers;
+		super(managers);
 	}
 
 	abstract protected void Work();
@@ -159,16 +155,6 @@ public abstract class ToolsBase implements ITools
 		ResetData();
 
 		getManagers().getMeshManager().NotifyListeners();
-	}
-
-	protected Managers getManagers()
-	{
-		return mManagers;
-	}
-
-	public long getLastSculptDurationMs()
-	{
-		return mLastSculptDurationMs;
 	}
 
 	protected static float Gaussian(float sigma, float sqDist)

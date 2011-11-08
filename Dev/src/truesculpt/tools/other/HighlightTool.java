@@ -3,15 +3,15 @@ package truesculpt.tools.other;
 import truesculpt.main.Managers;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
-import truesculpt.tools.base.ToolsBase;
+import truesculpt.tools.base.SelectionTool;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
-public class SelectionTool extends ToolsBase
+public class HighlightTool extends SelectionTool
 {
 	int highlightColor = Color.rgb(200, 200, 0);// some kind of yellow
 
-	public SelectionTool(Managers managers)
+	public HighlightTool(Managers managers)
 	{
 		super(managers);
 	}

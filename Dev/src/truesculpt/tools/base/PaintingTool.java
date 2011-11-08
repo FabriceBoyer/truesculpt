@@ -3,7 +3,7 @@ package truesculpt.tools.base;
 import truesculpt.actions.ColorizeAction;
 import truesculpt.main.Managers;
 
-public abstract class PaintingTool extends ToolsBase
+public abstract class PaintingTool extends SelectionTool
 {
 	public PaintingTool(Managers managers)
 	{
