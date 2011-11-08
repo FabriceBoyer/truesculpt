@@ -10,7 +10,7 @@ import android.graphics.drawable.Drawable;
 
 public class ColorizeTool extends PaintingTool
 {
-	private int targetColor = Color.BLACK;
+	private int mTargetColor = Color.BLACK;
 	private final float[] VNewCol = new float[3];
 	private final float[] VTargetCol = new float[3];
 
@@ -24,8 +24,8 @@ public class ColorizeTool extends PaintingTool
 	{
 		super.Start(xScreen, yScreen);
 
-		targetColor = getManagers().getToolsManager().getColor();
-		Color.colorToHSV(targetColor, VTargetCol);
+		mTargetColor = getManagers().getToolsManager().getColor();
+		Color.colorToHSV(mTargetColor, VTargetCol);
 	}
 
 	@Override
@@ -40,13 +40,13 @@ public class ColorizeTool extends PaintingTool
 				Color.colorToHSV(vertex.Color, VNewCol);
 
 				// barycenter of colors
-				float alpha = (MaxDist - dist) / MaxDist;// [0;1]
+				float alpha = (mMaxDistance - dist) / mMaxDistance;// [0;1]
 				VNewCol[0] = VTargetCol[0];
 				VNewCol[1] = VTargetCol[1];
 				VNewCol[2] = (1 - alpha) * VNewCol[2] + alpha * VTargetCol[2];
 
 				// int newColor=Color.HSVToColor(VNewCol);
-				int newColor = targetColor;
+				int newColor = mTargetColor;
 
 				((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
 
