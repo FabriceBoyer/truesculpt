@@ -72,20 +72,18 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 			}
 
 			float fAngleThresold = 90.0f;
+			float fAngleGain = 3;
 			MatrixUtils.minus(event.values, lastAngles, diffAngles);
 
 			// eliminate bad points
 			if (diffAngles[0] < fAngleThresold && diffAngles[1] < fAngleThresold)
 			{
-				float rotation = -(event.values[0] - origAngles[0]);
-				float elevation = +(event.values[1] - origAngles[1]);
+				float rotation = -(event.values[0] - origAngles[0]) * fAngleGain;
+				float elevation = +(event.values[1] - origAngles[1]) * fAngleGain;
 
 				MatrixUtils.copy(event.values, lastAngles);
 
-				getManagers().getPointOfViewManager().setRotationAngle(rotation);
-				getManagers().getPointOfViewManager().setElevationAngle(elevation);
-
-				NotifyListeners();
+				getManagers().getPointOfViewManager().SetAllAngles(rotation, elevation, getManagers().getPointOfViewManager().getZoomDistance());// notification done here
 			}
 		}
 	}
@@ -94,9 +92,10 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 	{
 		stop();
 		start();
+		getManagers().getTouchManager().UpdateUseSensors();
 	}
 
-	public void start()
+	private void start()
 	{
 		if (getManagers().getOptionsManager().getUseSensorsToChangePOV() && mSensorManager == null)
 		{
@@ -109,7 +108,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 		}
 	}
 
-	public void stop()
+	private void stop()
 	{
 		if (mSensorManager != null)
 		{
