@@ -216,9 +216,9 @@ public class ToolsManager extends BaseManager
 		{
 			mRadius = 100;
 		}
-		if (mRadius < 0)
+		if (mRadius < 1)
 		{
-			mRadius = 0;
+			mRadius = 1;
 		}
 		NotifyListeners();
 	}
@@ -330,9 +330,13 @@ public class ToolsManager extends BaseManager
 
 	public void setStrengthAbsoluteValue(float value, boolean bAddUndoAction)
 	{
-		float sign = 1;
-		if (mStrength < 0) sign = -1;
-		setStrength(sign * Math.abs(value), bAddUndoAction);
+		float sign = isStrengthPositive() ? 1 : -1;
+		float absValue = Math.abs(value);
+		if (absValue < 1)
+		{
+			absValue = 1;
+		}
+		setStrength(sign * absValue, bAddUndoAction);
 	}
 
 	public void setStrengthSignum(boolean bIsPositive, boolean bAddUndoAction)
