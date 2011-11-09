@@ -94,6 +94,20 @@ public class MatrixUtils
 	}
 
 	/**
+	 * Set a point to 0
+	 * 
+	 * @param pt
+	 *            The point <b>Modified</b>
+	 **/
+	public static void zero(float[] pt)
+	{
+		for (int i = 0; i < pt.length; i++)
+		{
+			pt[i] = 0.0f;
+		}
+	}
+
+	/**
 	 * Create the identity matrix I
 	 * 
 	 * @param matrix

@@ -45,7 +45,7 @@ public class ColorPickerView extends View
 		return s + java.lang.Math.round(p * (d - s));
 	}
 
-	private int interpColor(int colors[], float unit)
+	private static int interpColor(int colors[], float unit)
 	{
 		if (unit <= 0)
 		{
