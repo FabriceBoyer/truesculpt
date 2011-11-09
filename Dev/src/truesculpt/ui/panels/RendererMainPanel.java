@@ -240,18 +240,19 @@ public class RendererMainPanel extends Activity implements Observer
 		mRadius.setSliderChangeListener(new OnSliderPickChangedListener()
 		{
 			@Override
+			public void sliderChangeStart(float value)
+			{
+				mBigTextOverlay.setTextColor(Color.WHITE);
+				mBigTextOverlay.setVisibility(View.VISIBLE);
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()));
+				// getManagers().getToolsManager().SetUndoInitialState();
+			}
+
+			@Override
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setRadius(value, false);
 				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()));
-			}
-
-			@Override
-			public void sliderChangeStart(float value)
-			{
-				mBigTextOverlay.setVisibility(View.VISIBLE);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()));
-				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
@@ -278,18 +279,24 @@ public class RendererMainPanel extends Activity implements Observer
 		mStrength.setSliderChangeListener(new OnSliderPickChangedListener()
 		{
 			@Override
+			public void sliderChangeStart(float value)
+			{
+				int textColor = Color.RED;
+				if (getManagers().getToolsManager().isStrengthPositive())
+				{
+					textColor = Color.BLUE;
+				}
+				mBigTextOverlay.setTextColor(textColor);
+				mBigTextOverlay.setVisibility(View.VISIBLE);
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()));
+				// getManagers().getToolsManager().SetUndoInitialState();
+			}
+
+			@Override
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
 				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()));
-			}
-
-			@Override
-			public void sliderChangeStart(float value)
-			{
-				mBigTextOverlay.setVisibility(View.VISIBLE);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()));
-				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
