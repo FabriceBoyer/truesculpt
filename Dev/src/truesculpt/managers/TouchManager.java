@@ -29,9 +29,18 @@ public class TouchManager extends BaseManager
 	private float mXPanInit = 0.0f;
 	private float mYPanInit = 0.0f;
 
+	private boolean m_bUseSensors = false;
+
 	public TouchManager(Context baseContext)
 	{
 		super(baseContext);
+
+		UpdateUseSensors();
+	}
+
+	public void UpdateUseSensors()
+	{
+		m_bUseSensors = getManagers().getOptionsManager().getUseSensorsToChangePOV();
 	}
 
 	/** Show an event in the LogCat view, for debugging */
@@ -198,29 +207,32 @@ public class TouchManager extends BaseManager
 			{
 			case POV:
 			{
-				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE)
+				if (!m_bUseSensors)
 				{
-					float angleRot = mRotInit + (x - mLastX) / fDemultRotateFactor;
-					float angleElev = mElevInit + (y - mLastY) / fDemultRotateFactor;
-					float dist = getManagers().getPointOfViewManager().getZoomDistance();
+					if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ROTATE)
+					{
+						float angleRot = mRotInit + (x - mLastX) / fDemultRotateFactor;
+						float angleElev = mElevInit + (y - mLastY) / fDemultRotateFactor;
+						float dist = getManagers().getPointOfViewManager().getZoomDistance();
 
-					getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
-				}
-				if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM_AND_PAN)
-				{
-					// Zoom
-					float currFingersSpacing = getDistanceBetweenFingers(event);
-					float newZoomDist = mZoomInit - (currFingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
+						getManagers().getPointOfViewManager().SetAllAngles(angleRot, angleElev, dist);
+					}
+					if (getManagers().getToolsManager().getPovSubMode() == EPovToolSubMode.ZOOM_AND_PAN)
+					{
+						// Zoom
+						float currFingersSpacing = getDistanceBetweenFingers(event);
+						float newZoomDist = mZoomInit - (currFingersSpacing - mLastFingerSpacing) / fDemultZoomFactor;
 
-					getManagers().getPointOfViewManager().setZoomDistance(newZoomDist);
+						getManagers().getPointOfViewManager().setZoomDistance(newZoomDist);
 
-					// Pan
-					float xCenter = (event.getX(0) + event.getX(1)) / 2;
-					float yCenter = (event.getY(0) + event.getY(1)) / 2;
-					float currXPan = mXPanInit + (xCenter - mLastXPan) / fDemultPanFactor;
-					float currYPan = mYPanInit - (yCenter - mLastYPan) / fDemultPanFactor;
-					getManagers().getPointOfViewManager().setPanOffset(currXPan, currYPan);
-					// Log.d("PAN", "New Pan X=" + currXPan + ", Y=" + mLastYPan + ", XCenter=" + xCenter + ", YCenter=" + yCenter);
+						// Pan
+						float xCenter = (event.getX(0) + event.getX(1)) / 2;
+						float yCenter = (event.getY(0) + event.getY(1)) / 2;
+						float currXPan = mXPanInit + (xCenter - mLastXPan) / fDemultPanFactor;
+						float currYPan = mYPanInit - (yCenter - mLastYPan) / fDemultPanFactor;
+						getManagers().getPointOfViewManager().setPanOffset(currXPan, currYPan);
+						// Log.d("PAN", "New Pan X=" + currXPan + ", Y=" + mLastYPan + ", XCenter=" + xCenter + ", YCenter=" + yCenter);
+					}
 				}
 
 				break;
