@@ -5,7 +5,7 @@ import truesculpt.main.Managers;
 
 public abstract class SculptingTool extends SelectionTool
 {
-	protected final float MAX_DEFORMATION = 0.2f;
+	public final static float MAX_DEFORMATION = 0.2f;
 	protected float mMaxDeformation = -1;
 
 	protected final float[] VOffset = new float[3];
