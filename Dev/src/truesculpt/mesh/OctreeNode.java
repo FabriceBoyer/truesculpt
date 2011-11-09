@@ -20,7 +20,7 @@ public class OctreeNode
 	public float[] Max = new float[3];
 	public float Radius = -1;
 
-	private float MAX_VERTICES = 100;
+	private final float MAX_VERTICES = 100;
 
 	private ShortBuffer mDrawIndexBuffer = null;
 	private FloatBuffer mDrawVertexBuffer = null;
@@ -244,10 +244,7 @@ public class OctreeNode
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	public boolean IsLeaf()

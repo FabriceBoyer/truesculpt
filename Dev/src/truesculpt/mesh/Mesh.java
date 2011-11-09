@@ -72,9 +72,9 @@ public class Mesh
 		int nNonEmptyBoxes = 0;
 		for (OctreeNode box : boxes)
 		{
-			int n = box.Vertices.size();
-			nVertexCount += n;
-			if (n > 0)
+			int nVertices = box.Vertices.size();
+			nVertexCount += nVertices;
+			if (nVertices > 0)
 			{
 				nNonEmptyBoxes++;
 			}

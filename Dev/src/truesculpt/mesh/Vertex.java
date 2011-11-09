@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import truesculpt.utils.MatrixUtils;
 
+//TODO create overloaded operators for all common vectorial operations (add, sub, multiply,...)
+
 public class Vertex
 {
 	public int Index = -1;
