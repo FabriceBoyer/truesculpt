@@ -39,7 +39,7 @@ public class SliderPickView extends View
 	float orig_x = 0;
 	float orig_y = 0;
 	private long mLastTapTapTime = 0;
-	private final long mTapTapTimeThresold = 500;// ms
+	private final long mTapTapTimeThresold = 300;// ms
 	private float mOldValue = 0;
 
 	private OnSliderPickChangedListener mListener = null;
