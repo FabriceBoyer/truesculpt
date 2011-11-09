@@ -26,12 +26,6 @@ public class PickColorTool extends BaseTool
 	}
 
 	@Override
-	public String GetDescription()
-	{
-		return null;
-	}
-
-	@Override
 	public Drawable GetIcon()
 	{
 		return null;
@@ -40,7 +34,7 @@ public class PickColorTool extends BaseTool
 	@Override
 	public String GetName()
 	{
-		return null;
+		return "Pick Color";
 	}
 
 	@Override

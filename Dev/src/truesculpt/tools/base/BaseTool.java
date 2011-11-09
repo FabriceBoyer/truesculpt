@@ -2,6 +2,7 @@ package truesculpt.tools.base;
 
 import truesculpt.main.Managers;
 import truesculpt.mesh.Mesh;
+import android.graphics.drawable.Drawable;
 
 abstract public class BaseTool implements ITools
 {
@@ -39,5 +40,23 @@ abstract public class BaseTool implements ITools
 	public long getLastSculptDurationMs()
 	{
 		return mLastSculptDurationMs;
+	}
+
+	@Override
+	public String GetName()
+	{
+		return "BaseTool";
+	}
+
+	@Override
+	public String GetDescription()
+	{
+		return GetName();
+	}
+
+	@Override
+	public Drawable GetIcon()
+	{
+		return null;
 	}
 }

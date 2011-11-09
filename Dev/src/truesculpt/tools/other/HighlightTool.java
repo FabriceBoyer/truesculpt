@@ -47,12 +47,6 @@ public class HighlightTool extends SelectionTool
 	}
 
 	@Override
-	public String GetDescription()
-	{
-		return null;
-	}
-
-	@Override
 	public Drawable GetIcon()
 	{
 		return null;
@@ -61,6 +55,6 @@ public class HighlightTool extends SelectionTool
 	@Override
 	public String GetName()
 	{
-		return null;
+		return "Highlight";
 	}
 }

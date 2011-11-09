@@ -19,13 +19,7 @@ public class TexturePaintTool extends PaintingTool
 	@Override
 	public String GetName()
 	{
-		return null;
-	}
-
-	@Override
-	public String GetDescription()
-	{
-		return null;
+		return "Paint";
 	}
 
 	@Override
