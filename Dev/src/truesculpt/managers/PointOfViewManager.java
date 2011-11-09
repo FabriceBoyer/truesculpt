@@ -1,5 +1,6 @@
 package truesculpt.managers;
 
+import truesculpt.tools.base.SculptingTool;
 import android.content.Context;
 
 public class PointOfViewManager extends BaseManager
@@ -116,7 +117,7 @@ public class PointOfViewManager extends BaseManager
 
 	public void setRmin(float mRmin)
 	{
-		this.mRmin = mRmin;
+		this.mRmin = mRmin + SculptingTool.MAX_DEFORMATION;
 		setZoomDistance(mR);// refresh distance with saturations and notify
 	}
 
