@@ -31,6 +31,7 @@ import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class RendererMainPanel extends Activity implements Observer
@@ -46,6 +47,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private ImageButton mResetPOVbutton;
 	private ToggleButton mSymmetrySwitcher;
 	private ImageButton mFilesBtn;
+	private TextView mBigTextOverlay;
 
 	public Managers getManagers()
 	{
@@ -108,6 +110,10 @@ public class RendererMainPanel extends Activity implements Observer
 				// mToolsSlideHandleButton.setBackgroundResource(R.drawable.up_arrow);
 			}
 		});
+
+		mBigTextOverlay = (TextView) findViewById(R.id.bigTextValueOverlay);
+		mBigTextOverlay.setText("0%");
+		mBigTextOverlay.setVisibility(View.INVISIBLE);
 
 		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
 		ToolsPanel.InitToolSpinner(mToolSpinner, this);
@@ -237,17 +243,21 @@ public class RendererMainPanel extends Activity implements Observer
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setRadius(value, false);
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()));
 			}
 
 			@Override
 			public void sliderChangeStart(float value)
 			{
+				mBigTextOverlay.setVisibility(View.VISIBLE);
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()));
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop(float value)
 			{
+				mBigTextOverlay.setVisibility(View.INVISIBLE);
 				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
@@ -271,17 +281,21 @@ public class RendererMainPanel extends Activity implements Observer
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()));
 			}
 
 			@Override
 			public void sliderChangeStart(float value)
 			{
+				mBigTextOverlay.setVisibility(View.VISIBLE);
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()));
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderChangeStop(float value)
 			{
+				mBigTextOverlay.setVisibility(View.INVISIBLE);
 				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
