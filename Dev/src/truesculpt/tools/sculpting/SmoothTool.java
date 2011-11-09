@@ -1,8 +1,8 @@
 package truesculpt.tools.sculpting;
 
-import android.graphics.drawable.Drawable;
 import truesculpt.main.Managers;
 import truesculpt.tools.base.SculptingTool;
+import android.graphics.drawable.Drawable;
 
 public class SmoothTool extends SculptingTool
 {
@@ -18,12 +18,6 @@ public class SmoothTool extends SculptingTool
 	}
 
 	@Override
-	public String GetDescription()
-	{
-		return null;
-	}
-
-	@Override
 	public Drawable GetIcon()
 	{
 		return null;
@@ -32,6 +26,6 @@ public class SmoothTool extends SculptingTool
 	@Override
 	public String GetName()
 	{
-		return null;
+		return "Smooth";
 	}
 }

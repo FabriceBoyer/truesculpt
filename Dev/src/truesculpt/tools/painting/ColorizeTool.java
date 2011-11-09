@@ -60,12 +60,6 @@ public class ColorizeTool extends PaintingTool
 	}
 
 	@Override
-	public String GetDescription()
-	{
-		return null;
-	}
-
-	@Override
 	public Drawable GetIcon()
 	{
 		return null;
@@ -74,6 +68,6 @@ public class ColorizeTool extends PaintingTool
 	@Override
 	public String GetName()
 	{
-		return null;
+		return "Colorize";
 	}
 }

@@ -20,13 +20,7 @@ public class FlattenTool extends SculptingTool
 	@Override
 	public String GetName()
 	{
-		return null;
-	}
-
-	@Override
-	public String GetDescription()
-	{
-		return null;
+		return "Flatten";
 	}
 
 	@Override
