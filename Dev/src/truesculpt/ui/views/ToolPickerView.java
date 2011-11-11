@@ -119,7 +119,7 @@ public class ToolPickerView extends ImageView
 			Log.i("TOOLPICKER", "New value=" + newValue + ", CurrentValue=" + mCurrentValue + ", pixelDist=" + pixelDist);
 		}
 
-		if (newValue != mCurrentValue)
+		// if (newValue != mCurrentValue)
 		{
 			if (mListener != null)
 			{
