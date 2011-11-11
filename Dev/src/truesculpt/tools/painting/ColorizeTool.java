@@ -2,11 +2,11 @@ package truesculpt.tools.painting;
 
 import truesculpt.actions.ColorizeAction;
 import truesculpt.main.Managers;
+import truesculpt.main.R;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.PaintingTool;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 
 public class ColorizeTool extends PaintingTool
 {
@@ -60,9 +60,9 @@ public class ColorizeTool extends PaintingTool
 	}
 
 	@Override
-	public Drawable GetIcon()
+	public int GetIcon()
 	{
-		return null;
+		return R.drawable.paint_palette;
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package truesculpt.tools.other;
 
 import truesculpt.main.Managers;
+import truesculpt.main.R;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.BaseTool;
-import android.graphics.drawable.Drawable;
 
 public class PickColorTool extends BaseTool
 {
@@ -26,9 +26,9 @@ public class PickColorTool extends BaseTool
 	}
 
 	@Override
-	public Drawable GetIcon()
+	public int GetIcon()
 	{
-		return null;
+		return R.drawable.colorpicker;
 	}
 
 	@Override

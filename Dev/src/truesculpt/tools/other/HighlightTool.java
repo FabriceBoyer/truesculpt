@@ -1,11 +1,11 @@
 package truesculpt.tools.other;
 
 import truesculpt.main.Managers;
+import truesculpt.main.R;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SelectionTool;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 
 public class HighlightTool extends SelectionTool
 {
@@ -47,9 +47,9 @@ public class HighlightTool extends SelectionTool
 	}
 
 	@Override
-	public Drawable GetIcon()
+	public int GetIcon()
 	{
-		return null;
+		return R.drawable.flash;
 	}
 
 	@Override

@@ -8,9 +8,9 @@ import java.util.Observer;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.ToolsManager.ESculptToolSubMode;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.managers.UtilsManager;
+import truesculpt.tools.base.BaseTool;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorPickerView;
 import android.app.Activity;
@@ -67,33 +67,8 @@ public class ToolsPanel extends Activity implements Observer
 
 	public static void UpdateToolSpinner(Spinner toolSpinner, final Context context)
 	{
-		ESculptToolSubMode mode = ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().getSculptSubMode();
-		int nIndex = 0;
-		switch (mode)
-		{
-		case DRAW:
-			nIndex = 0;
-			break;
-		case GRAB:
-			nIndex = 1;
-			break;
-		case SMOOTH:
-			nIndex = 2;
-			break;
-		case INFLATE:
-			nIndex = 3;
-			break;
-		case COLOR:
-			nIndex = 4;
-			break;
-		case TEXTURE:
-			nIndex = 5;
-			break;
-		case PICK_COLOR:
-			nIndex = 6;
-			break;
-		}
-		toolSpinner.setSelection(nIndex);
+		int nToolIndex = ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().getCurrentToolIndex();
+		toolSpinner.setSelection(nToolIndex);
 	}
 
 	public static void InitToolSpinner(Spinner toolSpinner, final Context context)
@@ -101,47 +76,16 @@ public class ToolsPanel extends Activity implements Observer
 		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
 
-		map = new HashMap<String, String>();
-		map.put("title", "Draw");
-		map.put("description", "Draw");
-		map.put("image", String.valueOf(R.drawable.draw));
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("title", "Grab");
-		map.put("description", "Grab");
-		map.put("image", String.valueOf(R.drawable.grab));
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("title", "Smooth");
-		map.put("description", "Smooth");
-		map.put("image", String.valueOf(R.drawable.smooth));
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("title", "Inflate");
-		map.put("description", "Inflate");
-		map.put("image", String.valueOf(R.drawable.inflate));
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("title", "Color");
-		map.put("description", "Color");
-		map.put("image", String.valueOf(R.drawable.paint_palette));
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("title", "Texture");
-		map.put("description", "Texture");
-		map.put("image", String.valueOf(R.drawable.brush));
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("title", "Pick color");
-		map.put("description", "Pick color");
-		map.put("image", String.valueOf(R.drawable.colorpicker));
-		listItem.add(map);
+		int nLibrarySize = ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().GetToolsLibrarySize();
+		for (int i = 0; i < nLibrarySize; i++)
+		{
+			BaseTool tool = ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().GetToolAtIndex(i);
+			map = new HashMap<String, String>();
+			map.put("title", tool.GetName());
+			map.put("description", tool.GetDescription());
+			map.put("image", String.valueOf(tool.GetIcon()));
+			listItem.add(map);
+		}
 
 		SimpleAdapter adapter = new SimpleAdapter(context, listItem, R.layout.reducedtoolitem, new String[] { "image", "title", "description" }, new int[] { R.id.image, R.id.title, R.id.description });
 		adapter.setDropDownViewResource(R.layout.toolitem);
@@ -151,34 +95,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				ESculptToolSubMode mode = ESculptToolSubMode.DRAW;
-
-				switch ((int) arg3)
-				{
-				case 0:
-					mode = ESculptToolSubMode.DRAW;
-					break;
-				case 1:
-					mode = ESculptToolSubMode.GRAB;
-					break;
-				case 2:
-					mode = ESculptToolSubMode.SMOOTH;
-					break;
-				case 3:
-					mode = ESculptToolSubMode.INFLATE;
-					break;
-				case 4:
-					mode = ESculptToolSubMode.COLOR;
-					break;
-				case 5:
-					mode = ESculptToolSubMode.TEXTURE;
-					break;
-				case 6:
-					mode = ESculptToolSubMode.PICK_COLOR;
-					break;
-				}
-
-				((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().setSculptSubMode(mode);
+				((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().setCurrentToolFromIndex((int) arg3);
 			}
 
 			@Override

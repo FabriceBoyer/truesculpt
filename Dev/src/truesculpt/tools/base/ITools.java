@@ -1,6 +1,5 @@
 package truesculpt.tools.base;
 
-import android.graphics.drawable.Drawable;
 
 public interface ITools
 {
@@ -14,5 +13,7 @@ public interface ITools
 
 	abstract public String GetDescription();
 
-	abstract public Drawable GetIcon();
+	abstract public int GetIcon();
+
+	abstract public boolean RequiresToolOverlay();
 }

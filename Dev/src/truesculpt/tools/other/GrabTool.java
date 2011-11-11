@@ -1,8 +1,8 @@
 package truesculpt.tools.other;
 
 import truesculpt.main.Managers;
+import truesculpt.main.R;
 import truesculpt.tools.base.BaseTool;
-import android.graphics.drawable.Drawable;
 
 public class GrabTool extends BaseTool
 {
@@ -12,9 +12,9 @@ public class GrabTool extends BaseTool
 	}
 
 	@Override
-	public Drawable GetIcon()
+	public int GetIcon()
 	{
-		return null;
+		return R.drawable.grab;
 	}
 
 	@Override

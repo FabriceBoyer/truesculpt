@@ -1,8 +1,8 @@
 package truesculpt.tools.base;
 
 import truesculpt.main.Managers;
+import truesculpt.main.R;
 import truesculpt.mesh.Mesh;
-import android.graphics.drawable.Drawable;
 
 abstract public class BaseTool implements ITools
 {
@@ -55,8 +55,14 @@ abstract public class BaseTool implements ITools
 	}
 
 	@Override
-	public Drawable GetIcon()
+	public int GetIcon()
 	{
-		return null;
+		return R.drawable.flash;
+	}
+
+	@Override
+	public boolean RequiresToolOverlay()
+	{
+		return false;
 	}
 }
