@@ -25,4 +25,10 @@ public abstract class SculptingTool extends SelectionTool
 
 		mAction = new SculptAction();
 	}
+
+	@Override
+	public boolean RequiresToolOverlay()
+	{
+		return true;
+	}
 }

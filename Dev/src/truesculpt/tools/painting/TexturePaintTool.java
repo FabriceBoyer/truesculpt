@@ -1,8 +1,8 @@
 package truesculpt.tools.painting;
 
 import truesculpt.main.Managers;
+import truesculpt.main.R;
 import truesculpt.tools.base.PaintingTool;
-import android.graphics.drawable.Drawable;
 
 public class TexturePaintTool extends PaintingTool
 {
@@ -23,8 +23,8 @@ public class TexturePaintTool extends PaintingTool
 	}
 
 	@Override
-	public Drawable GetIcon()
+	public int GetIcon()
 	{
-		return null;
+		return R.drawable.brush;
 	}
 }

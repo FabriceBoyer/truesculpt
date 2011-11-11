@@ -4,12 +4,13 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.tools.base.SculptingTool;
 
-public class FlattenTool extends SculptingTool
+public class PinchTool extends SculptingTool
 {
 
-	public FlattenTool(Managers managers)
+	public PinchTool(Managers managers)
 	{
 		super(managers);
+
 	}
 
 	@Override
@@ -18,15 +19,15 @@ public class FlattenTool extends SculptingTool
 	}
 
 	@Override
-	public String GetName()
+	public int GetIcon()
 	{
-		return "Flatten";
+		return R.drawable.pinch;
 	}
 
 	@Override
-	public int GetIcon()
+	public String GetName()
 	{
-		return R.drawable.flatten;
+		return "Pinch";
 	}
 
 }

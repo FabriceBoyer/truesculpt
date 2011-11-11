@@ -2,12 +2,12 @@ package truesculpt.tools.sculpting;
 
 import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
+import truesculpt.main.R;
 import truesculpt.mesh.HalfEdge;
 import truesculpt.mesh.RenderFaceGroup;
 import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
-import android.graphics.drawable.Drawable;
 
 public class SmoothTool extends SculptingTool
 {
@@ -49,9 +49,9 @@ public class SmoothTool extends SculptingTool
 	}
 
 	@Override
-	public Drawable GetIcon()
+	public int GetIcon()
 	{
-		return null;
+		return R.drawable.smooth;
 	}
 
 	@Override

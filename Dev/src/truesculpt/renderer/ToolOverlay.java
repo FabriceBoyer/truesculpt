@@ -22,63 +22,63 @@ public class ToolOverlay
 	private final ShortBuffer mIndexBuffer;
 	private final FloatBuffer mVertexBuffer;
 
-	int nVertices = 100;
+	int mnVertices = 100;
 	float mDefaultTransparency = 0.2f;
-	float offset[] = new float[3];
-	float scale[] = new float[3];
-	boolean bShowOverlay = false;
+	float mOffset[] = new float[3];
+	float mScale[] = new float[3];
+	boolean mbShowOverlay = false;
 
 	public ToolOverlay()
 	{
-		ByteBuffer vbb = ByteBuffer.allocateDirect(nVertices * 3 * 4);
+		ByteBuffer vbb = ByteBuffer.allocateDirect(mnVertices * 3 * 4);
 		vbb.order(ByteOrder.nativeOrder());
 		mVertexBuffer = vbb.asFloatBuffer();
-		for (int i = 0; i < nVertices; i++)
+		for (int i = 0; i < mnVertices; i++)
 		{
 			mVertexBuffer.put(0.0f);
 			mVertexBuffer.put(0.0f);
 			mVertexBuffer.put(0.0f);
 		}
 
-		ByteBuffer cbb = ByteBuffer.allocateDirect(nVertices * 4 * 4);
+		ByteBuffer cbb = ByteBuffer.allocateDirect(mnVertices * 4 * 4);
 		cbb.order(ByteOrder.nativeOrder());
 		mColorBuffer = cbb.asFloatBuffer();
 		updateColor(Color.BLUE, mDefaultTransparency);
 
-		ByteBuffer ibb = ByteBuffer.allocateDirect((nVertices + 2) * 2);
+		ByteBuffer ibb = ByteBuffer.allocateDirect((mnVertices + 2) * 2);
 		ibb.order(ByteOrder.nativeOrder());
 		mIndexBuffer = ibb.asShortBuffer();
-		for (int i = 0; i < nVertices; i++)
+		for (int i = 0; i < mnVertices; i++)
 		{
 			mIndexBuffer.put((short) i);
 		}
 		mIndexBuffer.put((short) 0);
 		mIndexBuffer.put((short) 1);
 
-		offset[0] = 0f;
-		offset[1] = 0f;
-		offset[2] = 0f;
+		mOffset[0] = 0f;
+		mOffset[1] = 0f;
+		mOffset[2] = 0f;
 
-		scale[0] = 1f;
-		scale[1] = 1f;
-		scale[2] = 1f;
+		mScale[0] = 1f;
+		mScale[1] = 1f;
+		mScale[2] = 1f;
 
 		updateGeometry(0.9f, 1f, 0.1f);
 	}
 
 	public void draw(GL10 gl, Managers managers)
 	{
-		if (bShowOverlay)
+		if (mbShowOverlay)
 		{
-			managers.getMeshManager().getLastPickingPoint(offset);
+			managers.getMeshManager().getLastPickingPoint(mOffset);
 
 			gl.glPushMatrix();
-			gl.glScalef(scale[0], scale[1], scale[2]);
+			gl.glScalef(mScale[0], mScale[1], mScale[2]);
 
-			float length = MatrixUtils.magnitude(offset);
-			gl.glTranslatef(offset[0], offset[1], offset[2]);
-			float rot = (float) Math.toDegrees((float) Math.atan2(offset[0], offset[2]));
-			float elev = (float) Math.toDegrees((float) Math.asin(offset[1] / length));
+			float length = MatrixUtils.magnitude(mOffset);
+			gl.glTranslatef(mOffset[0], mOffset[1], mOffset[2]);
+			float rot = (float) Math.toDegrees((float) Math.atan2(mOffset[0], mOffset[2]));
+			float elev = (float) Math.toDegrees((float) Math.asin(mOffset[1] / length));
 			gl.glRotatef(rot, 0, 1, 0);
 			gl.glRotatef(-elev, 1, 0, 0);
 
@@ -102,9 +102,9 @@ public class ToolOverlay
 
 			// two sided plane
 			gl.glFrontFace(GL10.GL_CCW);
-			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices + 2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, mnVertices + 2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 			gl.glFrontFace(GL10.GL_CW);
-			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, nVertices + 2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+			gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, mnVertices + 2, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 
 			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 		}
@@ -117,7 +117,7 @@ public class ToolOverlay
 		VCol[3] = transparency;
 
 		mColorBuffer.position(0);
-		for (int i = 0; i < nVertices; i++)
+		for (int i = 0; i < mnVertices; i++)
 		{
 			mColorBuffer.put(VCol, 0, 4);
 		}
@@ -139,30 +139,14 @@ public class ToolOverlay
 		VCol[2] = Math.abs(signedNormalizedStrength) * VCol[2];
 		color = Color.HSVToColor(VCol);
 
-		switch (mManagers.getToolsManager().getSculptSubMode())
-		{
-		case DRAW:
-		case GRAB:
-		case SMOOTH:
-		case INFLATE:
-		{
-			bShowOverlay = true;
-			break;
-		}
-		case COLOR:
-		case TEXTURE:
-		case PICK_COLOR:
-		{
-			bShowOverlay = false;
-			break;
-		}
-		}
+		mbShowOverlay = mManagers.getToolsManager().getCurrentTool().RequiresToolOverlay();
+
 		if (mManagers.getToolsManager().getToolMode() == EToolMode.POV)
 		{
 			// bShowOverlay=false;
 		}
 
-		if (bShowOverlay)
+		if (mbShowOverlay)
 		{
 			synchronized (this)
 			{
@@ -176,10 +160,10 @@ public class ToolOverlay
 	private void updateGeometry(float fSmallRadius, float fBigRadius, float fHeight)
 	{
 		float angle = 0;
-		float incr = 360f / nVertices;
+		float incr = 360f / mnVertices;
 		boolean bIsTop = false;
 		mVertexBuffer.position(0);
-		for (int i = 0; i < nVertices; i++)
+		for (int i = 0; i < mnVertices; i++)
 		{
 			float x = (float) Math.cos(Math.toRadians(angle));
 			float y = (float) Math.sin(Math.toRadians(angle));

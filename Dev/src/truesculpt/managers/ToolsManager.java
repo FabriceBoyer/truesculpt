@@ -8,7 +8,11 @@ import truesculpt.tools.other.GrabTool;
 import truesculpt.tools.other.HighlightTool;
 import truesculpt.tools.other.PickColorTool;
 import truesculpt.tools.painting.ColorizeTool;
+import truesculpt.tools.painting.TexturePaintTool;
+import truesculpt.tools.sculpting.ClayTool;
+import truesculpt.tools.sculpting.FlattenTool;
 import truesculpt.tools.sculpting.InflateTool;
+import truesculpt.tools.sculpting.PinchTool;
 import truesculpt.tools.sculpting.RiseTool;
 import truesculpt.tools.sculpting.SmoothTool;
 import truesculpt.utils.Utils;
@@ -20,11 +24,6 @@ public class ToolsManager extends BaseManager
 	public enum EPovToolSubMode
 	{
 		ROTATE, ZOOM_AND_PAN
-	};
-
-	public enum ESculptToolSubMode
-	{
-		DRAW, GRAB, SMOOTH, INFLATE, COLOR, TEXTURE, PICK_COLOR
 	};
 
 	public enum EToolMode
@@ -40,7 +39,7 @@ public class ToolsManager extends BaseManager
 	public class GlobalToolState
 	{
 		EToolMode m_toolmode;
-		ESculptToolSubMode m_subSculptTool;
+		BaseTool mCurrentTool = null;
 		EPovToolSubMode m_subPOVTool;
 		ESymmetryMode m_symmetrymode;
 		int m_Color;
@@ -50,8 +49,13 @@ public class ToolsManager extends BaseManager
 		@Override
 		public String toString()
 		{
+			String strToolName = "NoTool";
+			if (mCurrentTool != null)
+			{
+				strToolName = mCurrentTool.GetName();
+			}
 			String msg = "";
-			msg = m_toolmode + "/" + m_subSculptTool + "/" + m_subPOVTool + "/" + m_symmetrymode + "/" + Utils.ColorIntToString(m_Color) + "/" + Float.toString(m_Radius) + "/" + Float.toString(m_Strength);
+			msg = m_toolmode + "/" + strToolName + "/" + m_subPOVTool + "/" + m_symmetrymode + "/" + Utils.ColorIntToString(m_Color) + "/" + Float.toString(m_Radius) + "/" + Float.toString(m_Strength);
 			return msg;
 		}
 	};
@@ -59,7 +63,7 @@ public class ToolsManager extends BaseManager
 	private int mColor = Color.rgb(255, 0, 0);
 	private EToolMode mMode = EToolMode.POV;
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
-	private ESculptToolSubMode mSculptSubMode = ESculptToolSubMode.INFLATE;
+
 	private ESymmetryMode mSymmetryMode = ESymmetryMode.NONE;
 	private float mRadius = 20.0f;// pct
 	private float mStrength = 30.0f;// pct
@@ -71,44 +75,31 @@ public class ToolsManager extends BaseManager
 		super(baseContext);
 
 		// TODO load from plugins or xml library
+		mToolsLibrary.add(new InflateTool(getManagers()));
 		mToolsLibrary.add(new RiseTool(getManagers()));
 		mToolsLibrary.add(new GrabTool(getManagers()));
 		mToolsLibrary.add(new SmoothTool(getManagers()));
-		mToolsLibrary.add(new InflateTool(getManagers()));
+		mToolsLibrary.add(new FlattenTool(getManagers()));
+		mToolsLibrary.add(new PinchTool(getManagers()));
+		mToolsLibrary.add(new ClayTool(getManagers()));
 		mToolsLibrary.add(new ColorizeTool(getManagers()));
-		mToolsLibrary.add(new HighlightTool(getManagers()));// temp for test, replace texture
+		mToolsLibrary.add(new TexturePaintTool(getManagers()));
 		mToolsLibrary.add(new PickColorTool(getManagers()));
+		mToolsLibrary.add(new HighlightTool(getManagers()));// temp for test
 
-		UpdateCurrentTool();
+		mCurrentTool = mToolsLibrary.get(0);// inflate is default
 	}
 
-	private void UpdateCurrentTool()
+	private void setColorizeToolAsCurrentTool()
 	{
-		switch (mSculptSubMode)
+		for (BaseTool tool : mToolsLibrary)
 		{
-		case DRAW:
-			mCurrentTool = mToolsLibrary.get(0);
-			break;
-		case GRAB:
-			mCurrentTool = mToolsLibrary.get(1);
-			break;
-		case SMOOTH:
-			mCurrentTool = mToolsLibrary.get(2);
-			break;
-		case INFLATE:
-			mCurrentTool = mToolsLibrary.get(3);
-			break;
-		case COLOR:
-			mCurrentTool = mToolsLibrary.get(4);
-			break;
-		case TEXTURE:
-			mCurrentTool = mToolsLibrary.get(5);
-			break;
-		case PICK_COLOR:
-			mCurrentTool = mToolsLibrary.get(6);
-			break;
+			if (tool.GetName() == "Colorize")
+			{
+				mCurrentTool = tool;
+				break;
+			}
 		}
-
 	}
 
 	public int getColor()
@@ -124,11 +115,6 @@ public class ToolsManager extends BaseManager
 	public float getRadius()
 	{
 		return mRadius;
-	}
-
-	public ESculptToolSubMode getSculptSubMode()
-	{
-		return mSculptSubMode;
 	}
 
 	public ESymmetryMode getSymmetryMode()
@@ -174,7 +160,7 @@ public class ToolsManager extends BaseManager
 			if (bChangeMode)
 			{
 				// Force mode if you change color
-				setSculptSubMode(ESculptToolSubMode.COLOR);
+				setColorizeToolAsCurrentTool();
 			}
 
 			NotifyListeners();
@@ -223,17 +209,29 @@ public class ToolsManager extends BaseManager
 		NotifyListeners();
 	}
 
-	public void setSculptSubMode(ESculptToolSubMode sculptSubMode)
+	public BaseTool GetToolAtIndex(int nIndex)
 	{
-		if (this.mSculptSubMode != sculptSubMode)
+		BaseTool res = null;
+		if (nIndex < mToolsLibrary.size())
 		{
-			// SetUndoInitialState();
-			this.mSculptSubMode = sculptSubMode;
-			// AddUndoToolAction();
+			res = mToolsLibrary.get(nIndex);
+		}
+		return res;
+	}
 
-			UpdateCurrentTool();
+	public void setCurrentTool(int nIndex)
+	{
+		if (nIndex < mToolsLibrary.size())
+		{
+			BaseTool tool = mToolsLibrary.get(nIndex);
+			if (tool != mCurrentTool)
+			{
+				// SetUndoInitialState();
+				this.mCurrentTool = tool;
+				// AddUndoToolAction();
 
-			NotifyListeners();
+				NotifyListeners();
+			}
 		}
 	}
 
@@ -288,7 +286,7 @@ public class ToolsManager extends BaseManager
 		GlobalToolState state = new GlobalToolState();
 		state.m_toolmode = mMode;
 		state.m_subPOVTool = mPovSubMode;
-		state.m_subSculptTool = mSculptSubMode;
+		state.mCurrentTool = mCurrentTool;
 		state.m_symmetrymode = mSymmetryMode;
 		state.m_Color = mColor;
 		state.m_Radius = mRadius;
@@ -301,7 +299,7 @@ public class ToolsManager extends BaseManager
 	{
 		mMode = state.m_toolmode;
 		mPovSubMode = state.m_subPOVTool;
-		mSculptSubMode = state.m_subSculptTool;
+		mCurrentTool = state.mCurrentTool;
 		mSymmetryMode = state.m_symmetrymode;
 		mColor = state.m_Color;
 		mRadius = state.m_Radius;
@@ -349,5 +347,28 @@ public class ToolsManager extends BaseManager
 	public boolean isStrengthPositive()
 	{
 		return mStrength > 0;
+	}
+
+	public int getCurrentToolIndex()
+	{
+		int nRes = -1;
+		if (mCurrentTool != null)
+		{
+			nRes = mToolsLibrary.indexOf(mCurrentTool);
+		}
+		return nRes;
+	}
+
+	public void setCurrentToolFromIndex(int nIndex)
+	{
+		if (nIndex < mToolsLibrary.size())
+		{
+			mCurrentTool = mToolsLibrary.get(nIndex);
+		}
+	}
+
+	public int GetToolsLibrarySize()
+	{
+		return mToolsLibrary.size();
 	}
 }
