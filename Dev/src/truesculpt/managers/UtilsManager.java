@@ -11,6 +11,7 @@ import java.util.UUID;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
+import truesculpt.ui.dialogs.ToolPickerDialog;
 import truesculpt.utils.Utils;
 import android.app.WallpaperManager;
 import android.content.Context;
@@ -191,6 +192,12 @@ public class UtilsManager extends BaseManager
 			}
 		});
 
+		dialog.show();
+	}
+
+	public static void ShowToolPickerDialog(Context context)
+	{
+		ToolPickerDialog dialog = new ToolPickerDialog(context);
 		dialog.show();
 	}
 
