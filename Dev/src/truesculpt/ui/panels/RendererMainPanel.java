@@ -248,13 +248,15 @@ public class RendererMainPanel extends Activity implements Observer
 			public void colorChangeStart(int color)
 			{
 				SetBigTextOverlayToDragMe();
+				mBigTextOverlay.setTextColor(color);
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void colorChanged(int color)
 			{
-				mBigTextOverlay.setVisibility(View.INVISIBLE);
+				mBigTextOverlay.setText("Color");
+				mBigTextOverlay.setTextColor(color);
 				getManagers().getToolsManager().setColor(color, false, true);
 			}
 
