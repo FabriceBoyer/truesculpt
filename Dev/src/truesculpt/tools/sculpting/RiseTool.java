@@ -22,21 +22,33 @@ public class RiseTool extends SculptingTool
 		{
 			for (Vertex vertex : mVerticesRes)
 			{
-				// Rise
 				MatrixUtils.copy(vertex.Normal, VOffset);
 
+				float newOffsetFactor = 1;
+
 				// Gaussian
-				MatrixUtils.scalarMultiply(VOffset, (Gaussian(mSigma, vertex.mLastTempSqDistance) / mMaxGaussian * mMaxDeformation));
+				// newOffsetFactor = Gaussian(mSigma, vertex.mLastTempSqDistance) / mMaxGaussian;
 
 				// Linear
-				// MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / sqMaxDist)) * fMaxDeformation);
+				newOffsetFactor = 1 - (vertex.mLastTempSqDistance / mSquareMaxDistance);
+
+				// Saturate
+				if (newOffsetFactor > 1)
+				{
+					newOffsetFactor = 1;
+				}
+				if (newOffsetFactor < 0)
+				{
+					newOffsetFactor = 0;
+				}
+				MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mMaxDeformation);
 
 				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
 				MatrixUtils.copy(vertex.Normal, VNormal);
-				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
+				MatrixUtils.scalarMultiply(VNormal, 1 - newOffsetFactor);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
