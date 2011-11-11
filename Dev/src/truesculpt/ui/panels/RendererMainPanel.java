@@ -123,19 +123,20 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void ToolChangeStart(int value)
 			{
-
+				SetBigTextOverlayToDragMe();
 			}
 
 			@Override
 			public void ToolValueChanged(int value)
 			{
 				getManagers().getToolsManager().setCurrentTool(value);
+				mBigTextOverlay.setText(getManagers().getToolsManager().GetToolAtIndex(value).GetName());
 			}
 
 			@Override
 			public void ToolChangeStop(int value)
 			{
-
+				mBigTextOverlay.setVisibility(View.INVISIBLE);
 			}
 		});
 		mToolPicker.setDoubleClickListener(new ToolPickerView.OnDoubleClickListener()
@@ -244,20 +245,23 @@ public class RendererMainPanel extends Activity implements Observer
 		mColorShow.SetColorChangeListener(new OnColorChangedListener()
 		{
 			@Override
-			public void colorChanged(int color)
+			public void colorChangeStart(int color)
 			{
-				getManagers().getToolsManager().setColor(color, false, true);
+				SetBigTextOverlayToDragMe();
+				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
-			public void colorChangeStart(int color)
+			public void colorChanged(int color)
 			{
-				// getManagers().getToolsManager().SetUndoInitialState();
+				mBigTextOverlay.setVisibility(View.INVISIBLE);
+				getManagers().getToolsManager().setColor(color, false, true);
 			}
 
 			@Override
 			public void colorChangeStop(int color)
 			{
+				mBigTextOverlay.setVisibility(View.INVISIBLE);
 				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
@@ -271,9 +275,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStart(float value)
 			{
-				mBigTextOverlay.setTextColor(Color.WHITE);
-				mBigTextOverlay.setVisibility(View.VISIBLE);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()));
+				SetBigTextOverlayToDragMe();
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
@@ -281,7 +283,7 @@ public class RendererMainPanel extends Activity implements Observer
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setRadius(value, false);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()));
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()) + " %");
 			}
 
 			@Override
@@ -315,9 +317,8 @@ public class RendererMainPanel extends Activity implements Observer
 				{
 					textColor = Color.BLUE;
 				}
+				SetBigTextOverlayToDragMe();
 				mBigTextOverlay.setTextColor(textColor);
-				mBigTextOverlay.setVisibility(View.VISIBLE);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()));
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
@@ -325,7 +326,7 @@ public class RendererMainPanel extends Activity implements Observer
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()));
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %");
 			}
 
 			@Override
@@ -587,4 +588,13 @@ public class RendererMainPanel extends Activity implements Observer
 	{
 		mGLSurfaceView.requestRender();
 	}
+
+	private void SetBigTextOverlayToDragMe()
+	{
+		mBigTextOverlay.setTextColor(Color.WHITE);
+		mBigTextOverlay.setTextSize(50);
+		mBigTextOverlay.setVisibility(View.VISIBLE);
+		mBigTextOverlay.setText("Drag me");
+	}
+
 }
