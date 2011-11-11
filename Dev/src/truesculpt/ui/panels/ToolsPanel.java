@@ -95,7 +95,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().setCurrentToolFromIndex((int) arg3);
+				((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().setCurrentTool((int) arg3);
 			}
 
 			@Override
