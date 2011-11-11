@@ -27,11 +27,25 @@ public class InflateTool extends SculptingTool
 				MatrixUtils.normalize(VNormal);
 				MatrixUtils.copy(VNormal, VOffset);
 
+				float newOffsetFactor = 1;
+
 				// Gaussian
-				// MatrixUtils.scalarMultiply(VOffset, (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation));
+				// newOffsetFactor= (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation);
 
 				// Linear
-				MatrixUtils.scalarMultiply(VOffset, (1 - (vertex.mLastTempSqDistance / mSquareMaxDistance)) * mMaxDeformation);
+				newOffsetFactor = (1 - (vertex.mLastTempSqDistance / mSquareMaxDistance));
+
+				// Saturate
+				if (newOffsetFactor > 1)
+				{
+					newOffsetFactor = 1;
+				}
+				if (newOffsetFactor < 0)
+				{
+					newOffsetFactor = 0;
+				}
+
+				MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mMaxDeformation);
 
 				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
 

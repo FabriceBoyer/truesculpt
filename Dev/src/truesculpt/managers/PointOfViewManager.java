@@ -98,7 +98,7 @@ public class PointOfViewManager extends BaseManager
 	{
 		mPhi = angle % 360;
 
-		boolean bLimitPitchAngle = false;
+		boolean bLimitPitchAngle = true;
 		if (bLimitPitchAngle)
 		{
 			if (angle > 90.0f)
@@ -134,7 +134,15 @@ public class PointOfViewManager extends BaseManager
 
 	private void setRotationAngleInternal(float angle)
 	{
-		mTheta = angle % 360;
+		mTheta = angle % 180;
+		if (angle > 180.0f)
+		{
+			mTheta -= 180.0f;
+		}
+		if (angle < -180.0f)
+		{
+			mTheta += 180.0f;
+		}
 	}
 
 	public void setZoomDistance(float dist)
