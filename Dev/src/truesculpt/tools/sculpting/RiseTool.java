@@ -35,6 +35,7 @@ public class RiseTool extends SculptingTool
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				MatrixUtils.copy(vertex.Normal, VNormal);
 				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
