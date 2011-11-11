@@ -40,12 +40,12 @@ public class CoverFlow extends Gallery
 	/**
 	 * The maximum angle the Child ImageView will be rotated by
 	 */
-	private int mMaxRotationAngle = 10;
+	private int mMaxRotationAngle = 80;
 
 	/**
 	 * The maximum zoom on the centre Child
 	 */
-	private int mMaxZoom = -200;
+	private int mMaxZoom = -150;
 
 	/**
 	 * The Centre of the Coverflow

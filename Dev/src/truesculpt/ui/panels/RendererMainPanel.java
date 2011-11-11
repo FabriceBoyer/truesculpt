@@ -331,6 +331,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onLongClick(View v)
 			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.DebugPanel.class, false);
 				return false;
 			}
 		});

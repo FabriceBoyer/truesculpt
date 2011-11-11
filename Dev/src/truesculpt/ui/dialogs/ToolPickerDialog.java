@@ -68,9 +68,9 @@ public class ToolPickerDialog extends Dialog
 
 		coverFlow.setAdapter(coverImageAdapter);
 
-		coverFlow.setSpacing(0);
+		coverFlow.setSpacing(-15);
 		coverFlow.setSelection(4, true);
-		coverFlow.setAnimationDuration(400);
+		coverFlow.setAnimationDuration(1000);
 
 		setContentView(coverFlow);
 
