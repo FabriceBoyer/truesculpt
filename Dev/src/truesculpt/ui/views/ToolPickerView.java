@@ -104,7 +104,7 @@ public class ToolPickerView extends ImageView
 	{
 		if (state == State.START)
 		{
-			mStartValue = mCurrentValue;
+			mStartValue = 0;// mCurrentValue;
 		}
 		int newValue = mStartValue;
 
