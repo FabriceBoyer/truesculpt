@@ -38,6 +38,7 @@ public class SmoothTool extends SculptingTool
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);// come back to absolute
+				MatrixUtils.copy(vertex.Normal, VNormal);
 				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
