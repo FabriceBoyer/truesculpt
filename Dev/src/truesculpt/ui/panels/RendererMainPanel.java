@@ -13,6 +13,8 @@ import truesculpt.ui.views.ColorShowView;
 import truesculpt.ui.views.SliderPickView;
 import truesculpt.ui.views.SliderPickView.OnDoubleClickListener;
 import truesculpt.ui.views.SliderPickView.OnSliderPickChangedListener;
+import truesculpt.ui.views.ToolPickerView;
+import truesculpt.ui.views.ToolPickerView.OnToolPickChangedListener;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,7 +32,6 @@ import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -41,7 +42,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private ImageButton mRedoButton;
 	private ImageButton mUndoButton;
 	private ColorShowView mColorShow;
-	private Spinner mToolSpinner;
+	private ToolPickerView mToolPicker;
 	private SliderPickView mRadius;
 	private SliderPickView mStrength;
 	private ImageButton mResetPOVbutton;
@@ -115,8 +116,36 @@ public class RendererMainPanel extends Activity implements Observer
 		mBigTextOverlay.setText("0%");
 		mBigTextOverlay.setVisibility(View.INVISIBLE);
 
-		mToolSpinner = (Spinner) findViewById(R.id.SculptToolSpinner);
-		ToolsPanel.InitToolSpinner(mToolSpinner, this);
+		mToolPicker = (ToolPickerView) findViewById(R.id.SculptToolPicker);
+		mToolPicker.setElemCount(getManagers().getToolsManager().GetToolsLibrarySize());
+		mToolPicker.setToolChangeListener(new OnToolPickChangedListener()
+		{
+			@Override
+			public void ToolChangeStart(int value)
+			{
+
+			}
+
+			@Override
+			public void ToolValueChanged(int value)
+			{
+				getManagers().getToolsManager().setCurrentTool(value);
+			}
+
+			@Override
+			public void ToolChangeStop(int value)
+			{
+
+			}
+		});
+		mToolPicker.setDoubleClickListener(new ToolPickerView.OnDoubleClickListener()
+		{
+			@Override
+			public void onDoubleClick(float value)
+			{
+
+			}
+		});
 
 		mRedoButton = (ImageButton) findViewById(R.id.RedoBtn);
 		mRedoButton.setOnClickListener(new View.OnClickListener()
@@ -542,7 +571,7 @@ public class RendererMainPanel extends Activity implements Observer
 
 		mColorShow.setColor(getManagers().getToolsManager().getColor());
 
-		ToolsPanel.UpdateToolSpinner(mToolSpinner, this);
+		mToolPicker.setCurrentValue(getManagers().getToolsManager().getCurrentToolIndex(), getManagers().getToolsManager().getCurrentTool().GetIcon());
 
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
 

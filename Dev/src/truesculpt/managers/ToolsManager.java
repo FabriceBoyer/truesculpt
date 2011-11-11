@@ -359,14 +359,6 @@ public class ToolsManager extends BaseManager
 		return nRes;
 	}
 
-	public void setCurrentToolFromIndex(int nIndex)
-	{
-		if (nIndex < mToolsLibrary.size())
-		{
-			mCurrentTool = mToolsLibrary.get(nIndex);
-		}
-	}
-
 	public int GetToolsLibrarySize()
 	{
 		return mToolsLibrary.size();

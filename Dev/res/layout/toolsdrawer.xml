@@ -20,7 +20,7 @@
 	        android:orientation="vertical"      
 	        android:stretchColumns="*">	   			
 		
-			 	<Spinner android:layout_height="50dip" android:id="@+id/SculptToolSpinner" android:layout_width="50dip" style="@style/SpinnerAsEditText"></Spinner>
+			 	<truesculpt.ui.views.ToolPickerView android:layout_height="50dip"  android:layout_width="50dip" android:id="@+id/SculptToolPicker"></truesculpt.ui.views.ToolPickerView>
 			 	<truesculpt.ui.views.ColorShowView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ColorShowView"></truesculpt.ui.views.ColorShowView>
 		
 			 	<truesculpt.ui.views.SliderPickView android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RadiusPicker"></truesculpt.ui.views.SliderPickView>
