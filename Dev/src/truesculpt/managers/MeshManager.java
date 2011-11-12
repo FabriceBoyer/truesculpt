@@ -289,6 +289,12 @@ public class MeshManager extends BaseManager
 		return nIndex;
 	}
 
+	public void getPickRayVector(float[] res)
+	{
+		MatrixUtils.minus(rayPt1, rayPt2, res);
+		MatrixUtils.normalize(res);
+	}
+
 	// TODO test for GL11 instance of to handle not GL11 devices
 	// TODO use GL11ES calls independent of redraw with gl param
 	public void setCurrentModelView(GL10 gl)

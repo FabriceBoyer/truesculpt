@@ -10,8 +10,6 @@ import truesculpt.utils.MatrixUtils;
 
 public class FlattenTool extends SculptingTool
 {
-	private final float[] temp = new float[3];
-	private final float[] VInit = new float[3];
 	private float mfInitDist = -1;
 	private boolean mbOrigSet = false;
 
@@ -35,8 +33,7 @@ public class FlattenTool extends SculptingTool
 		{
 			if (!mbOrigSet)// only after first start
 			{
-				MatrixUtils.copy(mOrigVertex.Coord, VInit);
-				mfInitDist = MatrixUtils.magnitude(VInit);
+				mfInitDist = MatrixUtils.magnitude(mOrigVertex.Coord);
 				mbOrigSet = true;
 			}
 
