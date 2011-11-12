@@ -268,16 +268,19 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 
+		final int mRadiusColor = Color.rgb(0, 140, 0);// dk green
 		mRadius = (SliderPickView) findViewById(R.id.RadiusPicker);
 		mRadius.setText("Radius");
 		mRadius.setMaxValue(100);
 		mRadius.setMinValue(0);
+		mRadius.SetCircleBackColor(mRadiusColor);
 		mRadius.setSliderChangeListener(new OnSliderPickChangedListener()
 		{
 			@Override
 			public void sliderChangeStart(float value)
 			{
 				SetBigTextOverlayToDragMe();
+				mBigTextOverlay.setTextColor(mRadiusColor);
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
