@@ -103,22 +103,30 @@ public class MeshMathsUtils
 	// dist_Point_to_Segment(): get the distance of a point to a segment.
 	// Input: a Point P and a Segment S (in any dimension)
 	// Return: the shortest distance from P to S
-	public static float squaredist_Point_to_Segment(float[] P, float[] S0, float[] S1)
+	public static float squaredist_Point_to_Segment(float[] P, float[] S0, float[] S1, float[] PRes)
 	{
 		MatrixUtils.minus(S1, S0, v);
 		MatrixUtils.minus(P, S0, w);
 
 		float c1 = MatrixUtils.dot(w, v);
-		if (c1 <= 0) return MatrixUtils.squaredistance(P, S0);
+		if (c1 <= 0)
+		{
+			MatrixUtils.copy(S0, PRes);
+			return MatrixUtils.squaredistance(P, S0);
+		}
 
 		float c2 = MatrixUtils.dot(v, v);
-		if (c2 <= c1) return MatrixUtils.squaredistance(P, S1);
+		if (c2 <= c1)
+		{
+			MatrixUtils.copy(S1, PRes);
+			return MatrixUtils.squaredistance(P, S1);
+		}
 
 		float b = c1 / c2;
 		MatrixUtils.scalarMultiply(v, b, temp);
-		MatrixUtils.plus(S0, temp, temp2);
+		MatrixUtils.plus(S0, temp, PRes);
 
-		return MatrixUtils.squaredistance(P, temp2);
+		return MatrixUtils.squaredistance(P, PRes);
 	}
 
 	// x1,y1,z1 P1 coordinates (point of line)
