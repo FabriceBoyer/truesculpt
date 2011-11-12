@@ -40,6 +40,11 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private boolean mbTakeScreenshot = false;
 	private String mStrSnapshotName = "";
 
+	float mScreenAspectRatio = -1;
+	float mFovY_deg = 50f;
+	float mZnear = 0.1f;
+	float mZfar = 10f;
+
 	public MainRenderer(Managers managers)
 	{
 		super();
@@ -166,15 +171,24 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	{
 		gl.glViewport(0, 0, width, height);
 
-		/*
-		 * Set our projection matrix. This doesn't have to be done each time we draw, but usually a new projection needs to be set when the viewport is resized.
-		 */
+		// Set our projection matrix. This doesn't have to be done each time we draw, but usually a new projection needs to be set when the viewport is resized.
 
-		float ratio = (float) width / height;
+		mScreenAspectRatio = (float) width / height;
+		setPerspective(gl, mFovY_deg, mScreenAspectRatio, mZnear, mZfar);
+	}
+
+	// replacement for gluPerspective
+	public void setPerspective(GL10 gl, float fovy_deg, float aspect, float zNear, float zFar)
+	{
+		float pi180 = (float) 0.017453292519943295769236907684886;
+		float top, bottom, left, right;
+		top = (float) (zNear * Math.tan(pi180 * fovy_deg / 2));
+		bottom = -top;
+		right = aspect * top;
+		left = -right;
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
-		gl.glFrustumf(-ratio, ratio, -1, 1, 1.0f, 10);
-
+		gl.glFrustumf(left, right, bottom, top, zNear, zFar);
 		getManagers().getMeshManager().setCurrentProjection(gl);
 		getManagers().getMeshManager().setViewport(gl);
 	}
