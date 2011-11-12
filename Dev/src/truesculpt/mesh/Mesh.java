@@ -526,6 +526,8 @@ public class Mesh
 	public void GetVerticesAtDistanceFromSegment(Vertex vNew, Vertex vLast, float sqMaxDistance, HashSet<Vertex> res)
 	{
 		res.add(vNew);// add at least this point
+		vNew.mLastTempSqDistance = 0;
+		MatrixUtils.copy(vNew.Coord, vNew.mLastIntersectPt);
 
 		verticesToTest.clear();
 		verticesAlreadyTested.clear();
@@ -560,6 +562,7 @@ public class Mesh
 					currVertex.mLastTempSqDistance = currSqDistance;
 					MatrixUtils.copy(Ires, currVertex.mLastIntersectPt);
 					res.add(currVertex);
+
 					for (HalfEdge edge : currVertex.OutLinkedEdges)
 					{
 						Vertex vertexToAdd = mVertexList.get(edge.V1);

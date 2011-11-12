@@ -184,6 +184,7 @@ public class TouchManager extends BaseManager
 			mLastYPan = (event.getY(0) + event.getY(1)) / 2;
 			// Log.d("PAN", "Pan init XInit=" + mXPanInit + ", YInit=" + mXPanInit + ", XLast=" + mLastXPan + ", YLast=" + mLastYPan);
 
+			getManagers().getToolsManager().setToolMode(EToolMode.POV);// two fingers is always POV
 			getManagers().getToolsManager().setPovSubMode(EPovToolSubMode.ZOOM_AND_PAN);
 			break;
 		}

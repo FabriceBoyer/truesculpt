@@ -12,18 +12,6 @@ public class GrabTool extends BaseTool
 	}
 
 	@Override
-	public int GetIcon()
-	{
-		return R.drawable.grab;
-	}
-
-	@Override
-	public String GetName()
-	{
-		return "Grab";
-	}
-
-	@Override
 	public void Start(float xScreen, float yScreen)
 	{
 		super.Start(xScreen, yScreen);
@@ -39,6 +27,18 @@ public class GrabTool extends BaseTool
 	public void Stop(float xScreen, float yScreen)
 	{
 		super.Stop(xScreen, yScreen);
+	}
+
+	@Override
+	public int GetIcon()
+	{
+		return R.drawable.grab;
+	}
+
+	@Override
+	public String GetName()
+	{
+		return "Grab";
 	}
 
 }
