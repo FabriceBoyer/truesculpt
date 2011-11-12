@@ -14,17 +14,19 @@ public class PickColorTool extends BaseTool
 		super(managers);
 	}
 
-	private void Work(float xScreen, float yScreen)
+	@Override
+	protected void PickInternal(float xScreen, float yScreen, ESymmetryMode mode)
 	{
-		int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, ESymmetryMode.NONE);
-		if (nTriangleIndex > 0 && mMesh != null)
+		if (mode == ESymmetryMode.NONE)
 		{
-			Face face = mMesh.mFaceList.get(nTriangleIndex);
-			Vertex vertex = mMesh.mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
-			int color = vertex.Color;
-			getManagers().getToolsManager().setColor(color, true, false);
-
-			getManagers().getMeshManager().NotifyListeners();
+			int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, ESymmetryMode.NONE);
+			if (nTriangleIndex > 0 && mMesh != null)
+			{
+				Face face = mMesh.mFaceList.get(nTriangleIndex);
+				Vertex vertex = mMesh.mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
+				int color = vertex.Color;
+				getManagers().getToolsManager().setColor(color, true, false);
+			}
 		}
 	}
 
@@ -37,27 +39,6 @@ public class PickColorTool extends BaseTool
 	@Override
 	public String GetName()
 	{
-		return "Pick Color";
-	}
-
-	@Override
-	public void Start(float xScreen, float yScreen)
-	{
-		super.Start(xScreen, yScreen);
-		Work(xScreen, yScreen);
-	}
-
-	@Override
-	public void Pick(float xScreen, float yScreen)
-	{
-		super.Pick(xScreen, yScreen);
-		Work(xScreen, yScreen);
-	}
-
-	@Override
-	public void Stop(float xScreen, float yScreen)
-	{
-		super.Stop(xScreen, yScreen);
-		Work(xScreen, yScreen);
+		return "Pick color";
 	}
 }

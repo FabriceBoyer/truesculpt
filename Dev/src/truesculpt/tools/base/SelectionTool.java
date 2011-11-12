@@ -2,20 +2,15 @@ package truesculpt.tools.base;
 
 import java.util.HashSet;
 
-import truesculpt.actions.BaseAction;
 import truesculpt.main.Managers;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Face;
 import truesculpt.mesh.Vertex;
-import android.os.SystemClock;
 
 public abstract class SelectionTool extends BaseTool
 {
 	protected final float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full width at half maximum
 	protected final static float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
-
-	protected final float MIN_RADIUS = 0.01f;// meters
-	protected final float MAX_RADIUS = 1f;// meters
 
 	protected final HashSet<Vertex> mVerticesRes = new HashSet<Vertex>();
 	protected final HashSet<Vertex> mCumulatedVerticesRes = new HashSet<Vertex>();
@@ -23,9 +18,7 @@ public abstract class SelectionTool extends BaseTool
 	protected Vertex mLastVertexSymmetry = null;
 	protected final Path mPath = new Path();
 	protected int mTriangleIndex = -1;
-	protected float mSquareMaxDistance = -1;
-	protected float mMaxDistance = -1;
-	protected BaseAction mAction = null;
+
 	protected float mSigma = -1;
 	protected float mMaxGaussian = -1;
 	protected Vertex mOrigVertex = null;
@@ -45,7 +38,6 @@ public abstract class SelectionTool extends BaseTool
 		mLastVertex = null;
 		mLastVertexSymmetry = null;
 		mPath.Clear();
-		mAction = null;
 	}
 
 	@Override
@@ -55,9 +47,6 @@ public abstract class SelectionTool extends BaseTool
 
 		ResetData();
 
-		mSquareMaxDistance = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-		mMaxDistance = (float) Math.sqrt(mSquareMaxDistance);
-
 		mSigma = (float) ((Math.sqrt(mSquareMaxDistance) / 1.5f) / FWHM);
 		mMaxGaussian = Gaussian(mSigma, 0);
 	}
@@ -66,38 +55,10 @@ public abstract class SelectionTool extends BaseTool
 	public void Pick(float xScreen, float yScreen)
 	{
 		super.Pick(xScreen, yScreen);
-
-		tSculptStart = SystemClock.uptimeMillis();
-
-		// symmetry handling
-		switch (getManagers().getToolsManager().getSymmetryMode())
-		{
-		case NONE:
-			// nop
-			break;
-		case X:
-			PickInternal(xScreen, yScreen, ESymmetryMode.X);
-			break;
-		case Y:
-			PickInternal(xScreen, yScreen, ESymmetryMode.Y);
-			break;
-		case Z:
-			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
-			break;
-		case XY:
-		case YZ:
-		case XZ:
-			// not handled at present time
-			break;
-		}
-
-		// Regular pick always done
-		PickInternal(xScreen, yScreen, ESymmetryMode.NONE);
-
-		mLastSculptDurationMs = SystemClock.uptimeMillis() - tSculptStart;
 	}
 
-	private void PickInternal(float xScreen, float yScreen, ESymmetryMode mode)
+	@Override
+	protected void PickInternal(float xScreen, float yScreen, ESymmetryMode mode)
 	{
 		mTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, mode);
 
@@ -138,12 +99,6 @@ public abstract class SelectionTool extends BaseTool
 	public void Stop(float xScreen, float yScreen)
 	{
 		super.Stop(xScreen, yScreen);
-
-		if (mAction != null)
-		{
-			getManagers().getActionsManager().AddUndoAction(mAction);
-			mAction.DoAction();
-		}
 
 		// last distance reset
 		for (Vertex vertex : mCumulatedVerticesRes)

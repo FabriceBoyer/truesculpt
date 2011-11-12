@@ -127,9 +127,7 @@ public class Mesh
 	public static void ComputeVertexNormal(Vertex vertex)
 	{
 		// reset normal
-		vertex.Normal[0] = 0f;
-		vertex.Normal[1] = 0f;
-		vertex.Normal[2] = 0f;
+		MatrixUtils.zero(vertex.Normal);
 
 		// not ordered
 		for (HalfEdge edge : vertex.OutLinkedEdges)
@@ -184,6 +182,7 @@ public class Mesh
 		}
 	}
 
+	// TODO option to activate
 	public void drawNormals(GL10 gl)
 	{
 		for (RenderFaceGroup renderGroup : mRenderGroupList)

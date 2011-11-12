@@ -1,7 +1,8 @@
 package truesculpt.actions;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import truesculpt.main.R;
 import truesculpt.mesh.HalfEdge;
@@ -28,7 +29,7 @@ public class SculptAction extends BaseAction
 		Vertex vertex = null;
 	}
 
-	private ArrayList<VertexCoordChange> mVertexChanges = new ArrayList<VertexCoordChange>();
+	private final HashMap<Integer, VertexCoordChange> mVertexChanges = new HashMap<Integer, VertexCoordChange>();
 
 	public SculptAction()
 	{
@@ -36,26 +37,26 @@ public class SculptAction extends BaseAction
 		setDescription("Sculpting");
 	}
 
-	private HashSet<Integer> faces = new HashSet<Integer>();
-	private HashSet<Integer> vertices = new HashSet<Integer>();
+	private final HashSet<Integer> faces = new HashSet<Integer>();
+	private final HashSet<Integer> vertices = new HashSet<Integer>();
 
 	@Override
 	public boolean DoAction()
 	{
 
 		Mesh mesh = getManagers().getMeshManager().getMesh();
-		for (VertexCoordChange change : mVertexChanges)
+		for (Map.Entry<Integer, VertexCoordChange> change : mVertexChanges.entrySet())
 		{
-			MatrixUtils.copy(change.Vnew, change.vertex.Coord);
+			MatrixUtils.copy(change.getValue().Vnew, change.getValue().vertex.Coord);
 		}
 
 		// update normals and publish value after all updates
 		faces.clear();
 		vertices.clear();
-		for (VertexCoordChange change : mVertexChanges)
+		for (Map.Entry<Integer, VertexCoordChange> change : mVertexChanges.entrySet())
 		{
-			vertices.add(change.vertex.Index);
-			for (HalfEdge edge : change.vertex.OutLinkedEdges)
+			vertices.add(change.getValue().vertex.Index);
+			for (HalfEdge edge : change.getValue().vertex.OutLinkedEdges)
 			{
 				faces.add(edge.Face);
 				vertices.add(edge.V1);
@@ -92,17 +93,17 @@ public class SculptAction extends BaseAction
 	{
 		// update normals and publish value after all updates
 		Mesh mesh = getManagers().getMeshManager().getMesh();
-		for (VertexCoordChange change : mVertexChanges)
+		for (Map.Entry<Integer, VertexCoordChange> change : mVertexChanges.entrySet())
 		{
-			MatrixUtils.copy(change.Vorig, change.vertex.Coord);
+			MatrixUtils.copy(change.getValue().Vorig, change.getValue().vertex.Coord);
 		}
 		// update normals and publish value after all updates
 		faces.clear();
 		vertices.clear();
-		for (VertexCoordChange change : mVertexChanges)
+		for (Map.Entry<Integer, VertexCoordChange> change : mVertexChanges.entrySet())
 		{
-			vertices.add(change.vertex.Index);
-			for (HalfEdge edge : change.vertex.OutLinkedEdges)
+			vertices.add(change.getValue().vertex.Index);
+			for (HalfEdge edge : change.getValue().vertex.OutLinkedEdges)
 			{
 				faces.add(edge.Face);
 				vertices.add(edge.V1);
@@ -122,6 +123,6 @@ public class SculptAction extends BaseAction
 
 	public void AddVertexOffset(Integer i, float[] vOffset, Vertex vertex)
 	{
-		mVertexChanges.add(new VertexCoordChange(i, vOffset, vertex));
+		mVertexChanges.put(i, new VertexCoordChange(i, vOffset, vertex));
 	}
 }
