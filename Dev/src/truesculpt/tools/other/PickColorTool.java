@@ -17,7 +17,7 @@ public class PickColorTool extends BaseTool
 	private void Work(float xScreen, float yScreen)
 	{
 		int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, ESymmetryMode.NONE);
-		if (nTriangleIndex > 0)
+		if (nTriangleIndex > 0 && mMesh != null)
 		{
 			Face face = mMesh.mFaceList.get(nTriangleIndex);
 			Vertex vertex = mMesh.mVertexList.get(face.E0.V0);// arbitrarily chosen point in triangle
