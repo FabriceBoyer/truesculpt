@@ -2,7 +2,6 @@ package truesculpt.ui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
@@ -116,7 +115,7 @@ public class ToolPickerView extends ImageView
 		{
 			newValue = (int) (mStartValue + Math.floor((pixelDist - mnPixelDeadZone) / PixelAmplitude));
 			newValue = newValue % mnElemCount;
-			Log.i("TOOLPICKER", "New value=" + newValue + ", CurrentValue=" + mCurrentValue + ", pixelDist=" + pixelDist);
+			// Log.i("TOOLPICKER", "New value=" + newValue + ", CurrentValue=" + mCurrentValue + ", pixelDist=" + pixelDist);
 		}
 
 		// if (newValue != mCurrentValue)

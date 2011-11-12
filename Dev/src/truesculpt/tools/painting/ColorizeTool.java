@@ -40,13 +40,23 @@ public class ColorizeTool extends PaintingTool
 				Color.colorToHSV(vertex.Color, VNewCol);
 
 				// barycenter of colors
-				float alpha = (mMaxDistance - dist) / mMaxDistance;// [0;1]
-				VNewCol[0] = VTargetCol[0];
-				VNewCol[1] = VTargetCol[1];
-				VNewCol[2] = (1 - alpha) * VNewCol[2] + alpha * VTargetCol[2];
+				float alpha = 0;
+				float offset = mMaxDistance / 2;
+				if (dist > offset)
+				{
+					alpha = ((dist - offset)) / (mMaxDistance - offset);// [0;1]
+				}
 
-				// int newColor=Color.HSVToColor(VNewCol);
-				int newColor = mTargetColor;
+				// float temp = circularInterp(VNewCol[2], VTargetCol[2], alpha, 1);
+				// Log.i("COLORIZETOOL", VNewCol[2] + " to " + VTargetCol[2] + ", with alpha " + alpha + " = " + temp);
+
+				VNewCol[0] = VTargetCol[0];// circularInterp(VTargetCol[0], VNewCol[0], alpha, 1);
+				VNewCol[1] = linearInterp(VTargetCol[1], VNewCol[1], alpha);
+				VNewCol[2] = linearInterp(VTargetCol[2], VNewCol[2], alpha);
+				// Log.i("COLORIZETOOL", "HSV VTarget=(" + VTargetCol[0] + "," + VTargetCol[1] + "," + VTargetCol[2] + ")" + ", HSV VNewCol=(" + VNewCol[0] + "," + VNewCol[1] + "," + VNewCol[2] + ")" + ", alpha=" + alpha);
+
+				int newColor = Color.HSVToColor(VNewCol);
+				// int newColor = mTargetColor;
 
 				((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
 
@@ -57,6 +67,56 @@ public class ColorizeTool extends PaintingTool
 				}
 			}
 		}
+	}
+
+	private static float linearInterp(float start, float stop, float alpha)
+	{
+		float res = (1 - alpha) * start + alpha * stop;
+		return res;
+	}
+
+	// [0;base] based, start/stop may be unordered, alpha is [0;1]
+	private float circularInterp(float start, float stop, float alpha, float base)
+	{
+		float res;
+		if (start == stop)
+		{
+			return start;
+		}
+		if (alpha == 0)
+		{
+			return start;
+		}
+		if (alpha == 1)
+		{
+			return stop;
+		}
+		if (Math.abs(stop - start) < base / 2)
+		{
+			// straight central way
+			res = (1 - alpha) * start + alpha * stop;
+		}
+		else
+		{
+			// circular way, overflow interp
+			if (start < stop)
+			{
+				start += base;
+			}
+			else
+			{
+				stop += base;
+			}
+
+			res = (1 - alpha) * start + alpha * stop;
+
+			if (res > base)
+			{
+				res -= base;
+			}
+		}
+
+		return res;
 	}
 
 	@Override
