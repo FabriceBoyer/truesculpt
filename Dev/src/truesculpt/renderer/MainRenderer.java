@@ -40,10 +40,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private boolean mbTakeScreenshot = false;
 	private String mStrSnapshotName = "";
 
-	float mScreenAspectRatio = -1;
-	float mFovY_deg = 50f;
-	float mZnear = 0.1f;
-	float mZfar = 10f;
+	private float mScreenAspectRatio = -1;
+	private final float mFovY_deg = 50f;
+	private final float mZnear = 0.1f;
+	private final float mZfar = 10f;
 
 	public MainRenderer(Managers managers)
 	{
@@ -178,7 +178,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	}
 
 	// replacement for gluPerspective
-	public void setPerspective(GL10 gl, float fovy_deg, float aspect, float zNear, float zFar)
+	private void setPerspective(GL10 gl, float fovy_deg, float aspect, float zNear, float zFar)
 	{
 		float pi180 = (float) 0.017453292519943295769236907684886;
 		float top, bottom, left, right;
