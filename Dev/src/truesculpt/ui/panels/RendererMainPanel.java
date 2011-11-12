@@ -288,7 +288,7 @@ public class RendererMainPanel extends Activity implements Observer
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setRadius(value, false);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()) + " %");
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()) + " %\nRadius");
 			}
 
 			@Override
@@ -331,7 +331,7 @@ public class RendererMainPanel extends Activity implements Observer
 			public void sliderValueChanged(float value)
 			{
 				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %");
+				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength");
 			}
 
 			@Override
