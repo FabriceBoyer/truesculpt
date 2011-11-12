@@ -1,11 +1,19 @@
 package truesculpt.tools.sculpting;
 
+import truesculpt.actions.SculptAction;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
+import truesculpt.mesh.RenderFaceGroup;
+import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
+import truesculpt.utils.MatrixUtils;
 
 public class FlattenTool extends SculptingTool
 {
+	private final float[] temp = new float[3];
+	private final float[] VInit = new float[3];
+	private float mfInitDist = -1;
+	private boolean mbOrigSet = false;
 
 	public FlattenTool(Managers managers)
 	{
@@ -13,8 +21,51 @@ public class FlattenTool extends SculptingTool
 	}
 
 	@Override
+	public void Start(float xScreen, float yScreen)
+	{
+		super.Start(xScreen, yScreen);
+
+		mbOrigSet = false;
+	}
+
+	@Override
 	protected void Work()
 	{
+		if (mAction != null)
+		{
+			if (!mbOrigSet)// only after first start
+			{
+				MatrixUtils.copy(mOrigVertex.Coord, VInit);
+				mfInitDist = MatrixUtils.magnitude(VInit);
+				mbOrigSet = true;
+			}
+
+			for (Vertex vertex : mVerticesRes)
+			{
+				// inflate
+				MatrixUtils.copy(vertex.Coord, VNormal);
+				MatrixUtils.normalize(VNormal);
+				MatrixUtils.copy(VNormal, VOffset);
+
+				MatrixUtils.scalarMultiply(VOffset, mfInitDist);
+				MatrixUtils.minus(VOffset, vertex.Coord, VOffset);
+
+				// MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, temp);
+				// float newOffsetFactor = MatrixUtils.dot(temp, VOffset);
+				// MatrixUtils.scalarMultiply(VOffset, newOffsetFactor);
+
+				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
+
+				// preview
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				MatrixUtils.scalarMultiply(VNormal, 1 - vertex.mLastTempSqDistance / mSquareMaxDistance);
+				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
+				{
+					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
+				}
+			}
+
+		}
 	}
 
 	@Override

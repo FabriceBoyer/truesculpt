@@ -558,7 +558,7 @@ public class Mesh
 				if (lastSqDist < 0 || (lastSqDist >= 0 && currSqDistance < lastSqDist))
 				{
 					currVertex.mLastTempSqDistance = currSqDistance;
-					MatrixUtils.copy(Ires, currVertex.mLastInterestPt);
+					MatrixUtils.copy(Ires, currVertex.mLastIntersectPt);
 					res.add(currVertex);
 					for (HalfEdge edge : currVertex.OutLinkedEdges)
 					{

@@ -16,7 +16,7 @@ public class Vertex
 	public int Color = 0;
 	public OctreeNode Box = null;
 	public float mLastTempSqDistance = -1.f;// temp data
-	public final float[] mLastInterestPt = new float[3];
+	public final float[] mLastIntersectPt = new float[3];
 	private static final float[] temp = new float[3];
 
 	public Vertex(float x, float y, float z, int index)
