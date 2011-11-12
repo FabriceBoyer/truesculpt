@@ -78,11 +78,12 @@ public class GrabTool extends BaseTool
 				MatrixUtils.normalize(VOffset);
 				MatrixUtils.scalarMultiply(VOffset, vectProd * (1 - vertex.mLastTempSqDistance / mSquareMaxDistance) * dist / 500);
 
+				// Do only at the end
 				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-				MatrixUtils.copy(vertex.Coord, VNormal);
+				MatrixUtils.copy(vertex.Normal, VNormal);
 				MatrixUtils.scalarMultiply(VNormal, 1 - vertex.mLastTempSqDistance / mSquareMaxDistance);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
