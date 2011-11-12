@@ -27,8 +27,8 @@ public class ToolPickerView extends ImageView
 	private int mCurrentValue = 0;
 	private int mStartValue = 0;
 	private int mOldValue = 0;
-	private final int PixelToolSpacing = 65;
-	private final long mTapTapTimeThresold = 300;// ms
+	private final int PixelToolSpacing = 55;
+	private final long mTapTapTimeThresold = 400;// ms
 	private final int mnPixelDeadZone = 100;
 	private long mLastTapTapTime = 0;
 
@@ -103,7 +103,7 @@ public class ToolPickerView extends ImageView
 	{
 		if (state == State.START)
 		{
-			mStartValue = 0;// mCurrentValue;
+			mStartValue = mCurrentValue;
 		}
 		int newValue = mStartValue;
 
@@ -118,22 +118,19 @@ public class ToolPickerView extends ImageView
 			// Log.i("TOOLPICKER", "New value=" + newValue + ", CurrentValue=" + mCurrentValue + ", pixelDist=" + pixelDist);
 		}
 
-		// if (newValue != mCurrentValue)
+		if (mListener != null)
 		{
-			if (mListener != null)
+			switch (state)
 			{
-				switch (state)
-				{
-				case START:
-					mListener.ToolChangeStart(newValue);
-					break;
-				case CHANGE:
-					mListener.ToolValueChanged(newValue);
-					break;
-				case STOP:
-					mListener.ToolChangeStop(newValue);
-					break;
-				}
+			case START:
+				mListener.ToolChangeStart(newValue);
+				break;
+			case CHANGE:
+				mListener.ToolValueChanged(newValue);
+				break;
+			case STOP:
+				mListener.ToolChangeStop(newValue);
+				break;
 			}
 		}
 	}

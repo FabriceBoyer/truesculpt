@@ -28,6 +28,8 @@ public abstract class SelectionTool extends BaseTool
 	protected BaseAction mAction = null;
 	protected float mSigma = -1;
 	protected float mMaxGaussian = -1;
+	protected Vertex mOrigVertex = null;
+	protected int nOrigVertex = -1;
 
 	public SelectionTool(Managers managers)
 	{
@@ -102,8 +104,8 @@ public abstract class SelectionTool extends BaseTool
 		if (mTriangleIndex >= 0 && mMesh != null)
 		{
 			Face face = mMesh.mFaceList.get(mTriangleIndex);
-			int nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
-			Vertex origVertex = mMesh.mVertexList.get(nOrigVertex);
+			nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
+			mOrigVertex = mMesh.mVertexList.get(nOrigVertex);
 
 			mVerticesRes.clear();
 			Vertex currLastVertex = mLastVertex;
@@ -112,7 +114,7 @@ public abstract class SelectionTool extends BaseTool
 				currLastVertex = mLastVertexSymmetry;
 			}
 
-			mMesh.GetVerticesAtDistanceFromSegment(origVertex, currLastVertex, mSquareMaxDistance, mVerticesRes);
+			mMesh.GetVerticesAtDistanceFromSegment(mOrigVertex, currLastVertex, mSquareMaxDistance, mVerticesRes);
 
 			mCumulatedVerticesRes.addAll(mVerticesRes);// shared for symmetry and regular pick
 
@@ -121,11 +123,11 @@ public abstract class SelectionTool extends BaseTool
 
 			if (mode != ESymmetryMode.NONE)
 			{
-				mLastVertexSymmetry = origVertex;
+				mLastVertexSymmetry = mOrigVertex;
 			}
 			else
 			{
-				mLastVertex = origVertex;
+				mLastVertex = mOrigVertex;
 			}
 
 			getManagers().getMeshManager().NotifyListeners();

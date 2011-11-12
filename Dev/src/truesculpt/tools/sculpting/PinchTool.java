@@ -24,7 +24,7 @@ public class PinchTool extends SculptingTool
 		{
 			for (Vertex vertex : mVerticesRes)
 			{
-				MatrixUtils.minus(vertex.mLastInterestPt, vertex.Coord, VOffset);
+				MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, VOffset);
 				MatrixUtils.normalize(VOffset);
 
 				float mLastDist = (float) Math.sqrt(vertex.mLastTempSqDistance);
