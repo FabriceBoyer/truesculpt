@@ -58,7 +58,7 @@ public class ToolsManager extends BaseManager
 		}
 	};
 
-	private int mColor = Color.rgb(255, 0, 0);
+	private int mColor = Color.HSVToColor(new float[] { 0f, 0.75f, 0.75f });
 	private EToolMode mMode = EToolMode.POV;
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
 
