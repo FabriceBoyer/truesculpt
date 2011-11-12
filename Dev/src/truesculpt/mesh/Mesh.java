@@ -104,7 +104,7 @@ public class Mesh
 				mBoundingSphereRadius = norm;
 			}
 		}
-		getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);
+		getManagers().getPointOfViewManager().setRmin(mBoundingSphereRadius);
 	}
 
 	void ComputeAllVertexNormals()
@@ -675,8 +675,7 @@ public class Mesh
 		if (norm > mBoundingSphereRadius)
 		{
 			mBoundingSphereRadius = norm;
-			getManagers().getPointOfViewManager().setRmin(1 + mBoundingSphereRadius);// takes near clip into account,
-			// TODO read from conf
+			getManagers().getPointOfViewManager().setRmin(mBoundingSphereRadius);
 		}
 	}
 

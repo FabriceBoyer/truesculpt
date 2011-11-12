@@ -5,14 +5,13 @@ import android.content.Context;
 
 public class PointOfViewManager extends BaseManager
 {
-
 	// looked from point
 	private float mR = 0.0f;
 
 	// to be recomputed to adapt to max size of object
 	private float mRmax = 9.0f;
-	private float mRmin = 2.0f;
-	private final float mRDefault = 2.5f;// sphere is 1, zNear is 1 + margin for tool overlay
+	private float mRmin = 0.1f;
+	private final float mRDefault = 3.5f;// sphere is 1, zNear is 1 + margin for tool overlay
 	private float mPhi = 0.0f;
 	private float mTheta = 0.0f;
 	private float mXPanOffset = 0.0f;
@@ -121,7 +120,7 @@ public class PointOfViewManager extends BaseManager
 
 	public void setRmin(float mRmin)
 	{
-		this.mRmin = mRmin + SculptingTool.MAX_DEFORMATION;
+		this.mRmin = mRmin + SculptingTool.MAX_DEFORMATION + 0.1f;// near is 0.1f meters
 		setZoomDistance(mR);// refresh distance with saturations and notify
 	}
 
