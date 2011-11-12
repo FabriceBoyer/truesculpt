@@ -27,7 +27,7 @@ public class ToolPickerView extends ImageView
 	private int mCurrentValue = 0;
 	private int mStartValue = 0;
 	private int mOldValue = 0;
-	private final int PixelAmplitude = 50;
+	private final int PixelToolSpacing = 65;
 	private final long mTapTapTimeThresold = 300;// ms
 	private final int mnPixelDeadZone = 100;
 	private long mLastTapTapTime = 0;
@@ -113,7 +113,7 @@ public class ToolPickerView extends ImageView
 
 		if (pixelDist >= mnPixelDeadZone)
 		{
-			newValue = (int) (mStartValue + Math.floor((pixelDist - mnPixelDeadZone) / PixelAmplitude));
+			newValue = (int) (mStartValue + Math.floor((pixelDist - mnPixelDeadZone) / PixelToolSpacing));
 			newValue = newValue % mnElemCount;
 			// Log.i("TOOLPICKER", "New value=" + newValue + ", CurrentValue=" + mCurrentValue + ", pixelDist=" + pixelDist);
 		}

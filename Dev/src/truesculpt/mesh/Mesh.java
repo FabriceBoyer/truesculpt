@@ -522,6 +522,7 @@ public class Mesh
 		return nRes;
 	}
 
+	// vLast may be null (distance to point is computed), not VNew
 	public void GetVerticesAtDistanceFromSegment(Vertex vNew, Vertex vLast, float sqMaxDistance, HashSet<Vertex> res)
 	{
 		res.add(vNew);// add at least this point
@@ -544,7 +545,7 @@ public class Mesh
 			float currSqDistance = -1;
 			if (vLast != null)
 			{
-				currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord);
+				currSqDistance = MeshMathsUtils.squaredist_Point_to_Segment(currVertex.Coord, vNew.Coord, vLast.Coord, Ires);
 			}
 			else
 			{
@@ -557,6 +558,7 @@ public class Mesh
 				if (lastSqDist < 0 || (lastSqDist >= 0 && currSqDistance < lastSqDist))
 				{
 					currVertex.mLastTempSqDistance = currSqDistance;
+					MatrixUtils.copy(Ires, currVertex.mLastInterestPt);
 					res.add(currVertex);
 					for (HalfEdge edge : currVertex.OutLinkedEdges)
 					{
