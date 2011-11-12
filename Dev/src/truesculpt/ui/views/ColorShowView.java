@@ -16,15 +16,15 @@ public class ColorShowView extends View
 		void onDoubleClick(int color);
 	}
 
-	private Paint mCenterPaint;
+	private final Paint mCenterPaint;
 	float orig_x = 0;
 	float orig_y = 0;
-	private int PixelAmplitude = 300;
+	private final int PixelAmplitude = 300;
 	private OnColorChangedListener mColorListener = null;
 	private OnDoubleClickListener mDoubleClickListener = null;
 	int mColor = 0;
 	private long mLastTapTapTime = 0;
-	private long mTapTapTimeThresold = 500;// ms
+	private final long mTapTapTimeThresold = 500;// ms
 	int mOldColor = 0;
 
 	public ColorShowView(Context c, AttributeSet attrs)
@@ -43,7 +43,7 @@ public class ColorShowView extends View
 	{
 		float x = getWidth() / 2.0f;
 		float y = getHeight() / 2.0f;
-		float R = Math.min(getWidth(), getHeight()) / 2.0f;
+		float R = Math.min(getWidth(), getHeight()) / 2.5f;
 		canvas.drawCircle(x, y, R, mCenterPaint);
 	}
 
