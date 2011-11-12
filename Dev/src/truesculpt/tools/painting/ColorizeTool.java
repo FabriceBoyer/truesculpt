@@ -51,12 +51,12 @@ public class ColorizeTool extends PaintingTool
 				// Log.i("COLORIZETOOL", VNewCol[2] + " to " + VTargetCol[2] + ", with alpha " + alpha + " = " + temp);
 
 				VNewCol[0] = VTargetCol[0];// circularInterp(VTargetCol[0], VNewCol[0], alpha, 1);
-				VNewCol[1] = VTargetCol[1];// linearInterp(VTargetCol[1], VNewCol[1], alpha);
+				VNewCol[1] = linearInterp(VTargetCol[1], VNewCol[1], alpha);
 				VNewCol[2] = linearInterp(VTargetCol[2], VNewCol[2], alpha);
 				// Log.i("COLORIZETOOL", "HSV VTarget=(" + VTargetCol[0] + "," + VTargetCol[1] + "," + VTargetCol[2] + ")" + ", HSV VNewCol=(" + VNewCol[0] + "," + VNewCol[1] + "," + VNewCol[2] + ")" + ", alpha=" + alpha);
 
-				// int newColor = Color.HSVToColor(VNewCol);
-				int newColor = mTargetColor;
+				int newColor = Color.HSVToColor(VNewCol);
+				// int newColor = mTargetColor;
 
 				((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
 
