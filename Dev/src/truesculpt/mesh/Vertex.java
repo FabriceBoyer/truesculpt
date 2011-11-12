@@ -15,8 +15,12 @@ public class Vertex
 	public final ArrayList<HalfEdge> OutLinkedEdges = new ArrayList<HalfEdge>();
 	public int Color = 0;
 	public OctreeNode Box = null;
+
+	// Temp data used during sculpting
 	public float mLastTempSqDistance = -1.f;// temp data
 	public final float[] mLastIntersectPt = new float[3];
+	public boolean mLastIsBorder = false;
+
 	private static final float[] temp = new float[3];
 
 	public Vertex(float x, float y, float z, int index)
