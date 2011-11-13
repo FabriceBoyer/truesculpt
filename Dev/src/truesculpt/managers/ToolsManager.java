@@ -73,7 +73,13 @@ public class ToolsManager extends BaseManager
 	{
 		super(baseContext);
 
+		InitToolsLibrary();
+	}
+
+	private void InitToolsLibrary()
+	{
 		// TODO load from plugins or xml library
+		mToolsLibrary.clear();
 		mToolsLibrary.add(new InflateTool(getManagers()));
 		mToolsLibrary.add(new RiseTool(getManagers()));
 		mToolsLibrary.add(new GrabTool(getManagers()));
@@ -363,5 +369,10 @@ public class ToolsManager extends BaseManager
 	public int GetToolsLibrarySize()
 	{
 		return mToolsLibrary.size();
+	}
+
+	public void ClearAll()
+	{
+		InitToolsLibrary();
 	}
 }
