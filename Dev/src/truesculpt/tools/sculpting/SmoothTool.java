@@ -32,12 +32,10 @@ public class SmoothTool extends SculptingTool
 				}
 				MatrixUtils.scalarMultiply(VOffset, 1.0f / nSurroundingVertices);
 
-				MatrixUtils.minus(VOffset, vertex.Coord, VOffset);// go to relative offset
-
-				((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
 				// preview
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);// come back to absolute
 				MatrixUtils.copy(vertex.Normal, VNormal);
 				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)

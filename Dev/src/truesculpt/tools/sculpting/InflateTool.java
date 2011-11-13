@@ -47,10 +47,10 @@ public class InflateTool extends SculptingTool
 
 				MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mMaxDeformation);
 
-				((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
 				// preview
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
 				MatrixUtils.scalarMultiply(VNormal, 1 - newOffsetFactor);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{

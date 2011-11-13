@@ -151,8 +151,8 @@ public class SculptAction extends BaseAction
 		return true;
 	}
 
-	public void AddVertexOffset(float[] vOffset, Vertex vertex)
+	public void AddNewVertexValue(float[] vNew, Vertex vertex)
 	{
-		mVertexChanges.put(vertex.Index, new VertexCoordChange(vOffset, vertex));
+		mVertexChanges.put(vertex.Index, new VertexCoordChange(vNew, vertex));
 	}
 }
