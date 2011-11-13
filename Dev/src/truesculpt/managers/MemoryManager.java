@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
-import android.util.Log;
 
 public class MemoryManager extends BaseManager
 {
@@ -18,10 +17,9 @@ public class MemoryManager extends BaseManager
 	public MemoryManager(Context baseContext)
 	{
 		super(baseContext);
-		// TODO Auto-generated constructor stub
 	}
 
-	private void getMemoryInfo()
+	public String getGeneralMemoryInfo()
 	{
 		String msg = "";
 
@@ -29,29 +27,31 @@ public class MemoryManager extends BaseManager
 		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
 		activityManager.getMemoryInfo(memoryInfo);
 
-		msg = " memoryInfo.availMem " + memoryInfo.availMem + "\n";
+		msg = " memoryInfo.availMem " + memoryInfo.availMem / 1e6 + " Mo\n";
 		msg += " memoryInfo.lowMemory " + memoryInfo.lowMemory + "\n";
-		msg += " memoryInfo.threshold " + memoryInfo.threshold + "\n";
+		msg += " memoryInfo.threshold " + memoryInfo.threshold / 1e6 + " Mo\n";
 
-		getManagers().getUtilsManager().ShowToastMessage(msg);
+		return msg;
+		// getManagers().getUtilsManager().ShowToastMessage(msg);
 	}
 
-	private void getMemoryInfoForAllProcesses()
+	public String getMemoryInfoForCurrentProcesse()
 	{
-		ActivityManager activityManager = (ActivityManager) getbaseContext().getSystemService(Context.ACTIVITY_SERVICE);
-		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-		activityManager.getMemoryInfo(memoryInfo);
+		String msg = "";
 
-		Log.i(TAG, " memoryInfo.availMem " + memoryInfo.availMem + "\n");
-		Log.i(TAG, " memoryInfo.lowMemory " + memoryInfo.lowMemory + "\n");
-		Log.i(TAG, " memoryInfo.threshold " + memoryInfo.threshold + "\n");
+		ActivityManager activityManager = (ActivityManager) getbaseContext().getSystemService(Context.ACTIVITY_SERVICE);
+
+		msg += getGeneralMemoryInfo();
 
 		List<RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
 
 		Map<Integer, String> pidMap = new TreeMap<Integer, String>();
 		for (RunningAppProcessInfo runningAppProcessInfo : runningAppProcesses)
 		{
-			pidMap.put(runningAppProcessInfo.pid, runningAppProcessInfo.processName);
+			if (runningAppProcessInfo.processName.contains("truesculpt"))
+			{
+				pidMap.put(runningAppProcessInfo.pid, runningAppProcessInfo.processName);
+			}
 		}
 
 		Collection<Integer> keys = pidMap.keySet();
@@ -63,12 +63,14 @@ public class MemoryManager extends BaseManager
 			android.os.Debug.MemoryInfo[] memoryInfoArray = activityManager.getProcessMemoryInfo(pids);
 			for (android.os.Debug.MemoryInfo pidMemoryInfo : memoryInfoArray)
 			{
-				Log.i(TAG, String.format("** MEMINFO in pid %d [%s] **\n", pids[0], pidMap.get(pids[0])));
-				Log.i(TAG, " pidMemoryInfo.getTotalPrivateDirty(): " + pidMemoryInfo.getTotalPrivateDirty() + "\n");
-				Log.i(TAG, " pidMemoryInfo.getTotalPss(): " + pidMemoryInfo.getTotalPss() + "\n");
-				Log.i(TAG, " pidMemoryInfo.getTotalSharedDirty(): " + pidMemoryInfo.getTotalSharedDirty() + "\n");
+				msg += String.format("** MEMINFO in pid %d [%s] **\n", pids[0], pidMap.get(pids[0]));
+				msg += " pidMemoryInfo.getTotalPrivateDirty(): " + pidMemoryInfo.getTotalPrivateDirty() + " ko\n";
+				msg += " pidMemoryInfo.getTotalPss(): " + pidMemoryInfo.getTotalPss() + " ko\n";
+				msg += " pidMemoryInfo.getTotalSharedDirty(): " + pidMemoryInfo.getTotalSharedDirty() + " ko\n";
 			}
 		}
+
+		return msg;
 	}
 
 	@Override

@@ -56,6 +56,9 @@ public class DebugPanel extends Activity
 		msg += "Number of faces = " + Integer.toString(nFaces) + "\n";
 		meshStatText.setText(msg);
 
+		TextView memoryUsageText = (TextView) findViewById(R.id.MemoryUsageText);
+		memoryUsageText.setText(getManagers().getMemoryManager().getMemoryInfoForCurrentProcesse());
+
 		SeekBar mDebugSeekBar = (SeekBar) findViewById(R.id.debugBar);
 		mDebugSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
 		{
