@@ -20,40 +20,37 @@ public class PinchTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		if (mAction != null)
+		for (Vertex vertex : mVerticesRes)
 		{
-			for (Vertex vertex : mVerticesRes)
+			MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, VOffset);
+			MatrixUtils.normalize(VOffset);
+
+			float mLastDist = (float) Math.sqrt(vertex.mLastTempSqDistance);
+			if (mLastDist > mMaxDistance / 4)
 			{
-				MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, VOffset);
-				MatrixUtils.normalize(VOffset);
+				float newOffsetFactor = 1 - (mLastDist / mMaxDistance) / 2;
 
-				float mLastDist = (float) Math.sqrt(vertex.mLastTempSqDistance);
-				if (mLastDist > mMaxDistance / 4)
+				// Saturate
+				if (newOffsetFactor > 1)
 				{
-					float newOffsetFactor = 1 - (mLastDist / mMaxDistance) / 2;
+					newOffsetFactor = 1;
+				}
+				if (newOffsetFactor < 0)
+				{
+					newOffsetFactor = 0;
+				}
+				// MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mLastDist);
+				MatrixUtils.scalarMultiply(VOffset, mLastDist / 2);
 
-					// Saturate
-					if (newOffsetFactor > 1)
-					{
-						newOffsetFactor = 1;
-					}
-					if (newOffsetFactor < 0)
-					{
-						newOffsetFactor = 0;
-					}
-					// MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mLastDist);
-					MatrixUtils.scalarMultiply(VOffset, mLastDist / 2);
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
-					MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-					((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
-
-					// preview
-					MatrixUtils.copy(vertex.Normal, VNormal);
-					MatrixUtils.scalarMultiply(VNormal, 1 - newOffsetFactor);
-					for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
-					{
-						renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
-					}
+				// preview
+				MatrixUtils.copy(vertex.Normal, VNormal);
+				MatrixUtils.scalarMultiply(VNormal, 1 - newOffsetFactor);
+				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
+				{
+					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 				}
 			}
 		}

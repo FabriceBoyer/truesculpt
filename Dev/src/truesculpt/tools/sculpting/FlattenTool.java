@@ -30,38 +30,34 @@ public class FlattenTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		if (mAction != null)
+		if (!mbOrigSet)// only after first start
 		{
-			if (!mbOrigSet)// only after first start
+			mfInitDist = MatrixUtils.magnitude(mOrigVertex.Coord);
+			mbOrigSet = true;
+		}
+
+		for (Vertex vertex : mVerticesRes)
+		{
+			MatrixUtils.copy(vertex.Coord, VNormal);
+			MatrixUtils.normalize(VNormal);
+			MatrixUtils.copy(VNormal, VOffset);
+
+			// MatrixUtils.scalarMultiply(VOffset, mfInitDist);
+			// MatrixUtils.minus(VOffset, vertex.Coord, VOffset);
+
+			MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, temp);
+			float newOffsetFactor = MatrixUtils.dot(temp, VOffset);
+			MatrixUtils.scalarMultiply(VOffset, newOffsetFactor);
+
+			MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+			((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
+
+			// preview
+			MatrixUtils.scalarMultiply(VNormal, 1 - vertex.mLastTempSqDistance / mSquareMaxDistance);
+			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 			{
-				mfInitDist = MatrixUtils.magnitude(mOrigVertex.Coord);
-				mbOrigSet = true;
+				renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 			}
-
-			for (Vertex vertex : mVerticesRes)
-			{
-				MatrixUtils.copy(vertex.Coord, VNormal);
-				MatrixUtils.normalize(VNormal);
-				MatrixUtils.copy(VNormal, VOffset);
-
-				// MatrixUtils.scalarMultiply(VOffset, mfInitDist);
-				// MatrixUtils.minus(VOffset, vertex.Coord, VOffset);
-
-				MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, temp);
-				float newOffsetFactor = MatrixUtils.dot(temp, VOffset);
-				MatrixUtils.scalarMultiply(VOffset, newOffsetFactor);
-
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
-
-				// preview
-				MatrixUtils.scalarMultiply(VNormal, 1 - vertex.mLastTempSqDistance / mSquareMaxDistance);
-				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
-				{
-					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
-				}
-			}
-
 		}
 	}
 

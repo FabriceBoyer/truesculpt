@@ -31,40 +31,37 @@ public class ColorizeTool extends PaintingTool
 	@Override
 	protected void Work()
 	{
-		if (mAction != null)
+		for (Vertex vertex : mVerticesRes)
 		{
-			for (Vertex vertex : mVerticesRes)
+			float currSqDist = vertex.mLastTempSqDistance;
+
+			Color.colorToHSV(vertex.Color, VNewCol);
+
+			// barycenter of colors
+			float alpha = 0;
+			float sqOffset = mSquareMaxDistance / 2;
+			if (currSqDist > sqOffset)
 			{
-				float currSqDist = vertex.mLastTempSqDistance;
+				alpha = ((currSqDist - sqOffset)) / (mSquareMaxDistance - sqOffset);// [0;1]
+			}
 
-				Color.colorToHSV(vertex.Color, VNewCol);
+			// float temp = circularInterp(VNewCol[2], VTargetCol[2], alpha, 1);
+			// Log.i("COLORIZETOOL", VNewCol[2] + " to " + VTargetCol[2] + ", with alpha " + alpha + " = " + temp);
 
-				// barycenter of colors
-				float alpha = 0;
-				float sqOffset = mSquareMaxDistance / 2;
-				if (currSqDist > sqOffset)
-				{
-					alpha = ((currSqDist - sqOffset)) / (mSquareMaxDistance - sqOffset);// [0;1]
-				}
+			VNewCol[0] = VTargetCol[0];// circularInterp(VTargetCol[0], VNewCol[0], alpha, 1);
+			VNewCol[1] = linearInterp(VTargetCol[1], VNewCol[1], alpha);
+			VNewCol[2] = linearInterp(VTargetCol[2], VNewCol[2], alpha);
+			// Log.i("COLORIZETOOL", "HSV VTarget=(" + VTargetCol[0] + "," + VTargetCol[1] + "," + VTargetCol[2] + ")" + ", HSV VNewCol=(" + VNewCol[0] + "," + VNewCol[1] + "," + VNewCol[2] + ")" + ", alpha=" + alpha);
 
-				// float temp = circularInterp(VNewCol[2], VTargetCol[2], alpha, 1);
-				// Log.i("COLORIZETOOL", VNewCol[2] + " to " + VTargetCol[2] + ", with alpha " + alpha + " = " + temp);
+			int newColor = Color.HSVToColor(VNewCol);
+			// int newColor = mTargetColor;
 
-				VNewCol[0] = VTargetCol[0];// circularInterp(VTargetCol[0], VNewCol[0], alpha, 1);
-				VNewCol[1] = linearInterp(VTargetCol[1], VNewCol[1], alpha);
-				VNewCol[2] = linearInterp(VTargetCol[2], VNewCol[2], alpha);
-				// Log.i("COLORIZETOOL", "HSV VTarget=(" + VTargetCol[0] + "," + VTargetCol[1] + "," + VTargetCol[2] + ")" + ", HSV VNewCol=(" + VNewCol[0] + "," + VNewCol[1] + "," + VNewCol[2] + ")" + ", alpha=" + alpha);
+			((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
 
-				int newColor = Color.HSVToColor(VNewCol);
-				// int newColor = mTargetColor;
-
-				((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
-
-				// preview
-				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
-				{
-					renderGroup.UpdateVertexColor(vertex.Index, newColor);
-				}
+			// preview
+			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
+			{
+				renderGroup.UpdateVertexColor(vertex.Index, newColor);
 			}
 		}
 	}

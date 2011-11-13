@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import truesculpt.actions.ChangeToolAction;
 import truesculpt.tools.base.BaseTool;
+import truesculpt.tools.other.BorderTool;
 import truesculpt.tools.other.GrabTool;
+import truesculpt.tools.other.HighlightTool;
 import truesculpt.tools.other.PickColorTool;
 import truesculpt.tools.painting.ColorizeTool;
+import truesculpt.tools.painting.TexturePaintTool;
 import truesculpt.tools.sculpting.ClayTool;
 import truesculpt.tools.sculpting.EmbossTool;
 import truesculpt.tools.sculpting.FlattenTool;
@@ -92,9 +95,9 @@ public class ToolsManager extends BaseManager
 		mToolsLibrary.add(new NoiseTool(getManagers()));
 		mToolsLibrary.add(new ColorizeTool(getManagers()));
 		mToolsLibrary.add(new PickColorTool(getManagers()));
-		// mToolsLibrary.add(new BorderTool(getManagers()));
-		// mToolsLibrary.add(new TexturePaintTool(getManagers()));
-		// mToolsLibrary.add(new HighlightTool(getManagers()));
+		mToolsLibrary.add(new BorderTool(getManagers()));
+		mToolsLibrary.add(new TexturePaintTool(getManagers()));
+		mToolsLibrary.add(new HighlightTool(getManagers()));
 
 		mCurrentTool = mToolsLibrary.get(0);// inflate is default
 	}

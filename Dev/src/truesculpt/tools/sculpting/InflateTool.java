@@ -18,44 +18,41 @@ public class InflateTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		if (mAction != null)
+		for (Vertex vertex : mVerticesRes)
 		{
-			for (Vertex vertex : mVerticesRes)
+			// Inflate
+			MatrixUtils.copy(vertex.Coord, VNormal);
+			MatrixUtils.normalize(VNormal);
+			MatrixUtils.copy(VNormal, VOffset);
+
+			float newOffsetFactor = 1;
+
+			// Gaussian
+			// newOffsetFactor= (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation);
+
+			// Linear
+			newOffsetFactor = (1 - (vertex.mLastTempSqDistance / mSquareMaxDistance));
+
+			// Saturate
+			if (newOffsetFactor > 1)
 			{
-				// Inflate
-				MatrixUtils.copy(vertex.Coord, VNormal);
-				MatrixUtils.normalize(VNormal);
-				MatrixUtils.copy(VNormal, VOffset);
+				newOffsetFactor = 1;
+			}
+			if (newOffsetFactor < 0)
+			{
+				newOffsetFactor = 0;
+			}
 
-				float newOffsetFactor = 1;
+			MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mMaxDeformation);
 
-				// Gaussian
-				// newOffsetFactor= (Gaussian(sigma, vertex.mLastTempSqDistance) / maxGaussian * fMaxDeformation);
+			MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+			((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
-				// Linear
-				newOffsetFactor = (1 - (vertex.mLastTempSqDistance / mSquareMaxDistance));
-
-				// Saturate
-				if (newOffsetFactor > 1)
-				{
-					newOffsetFactor = 1;
-				}
-				if (newOffsetFactor < 0)
-				{
-					newOffsetFactor = 0;
-				}
-
-				MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mMaxDeformation);
-
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
-				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
-
-				// preview
-				MatrixUtils.scalarMultiply(VNormal, 1 - newOffsetFactor);
-				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
-				{
-					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
-				}
+			// preview
+			MatrixUtils.scalarMultiply(VNormal, 1 - newOffsetFactor);
+			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
+			{
+				renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 			}
 		}
 	}

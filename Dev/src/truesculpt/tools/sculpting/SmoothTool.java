@@ -19,28 +19,25 @@ public class SmoothTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
-		if (mAction != null)
+		for (Vertex vertex : mVerticesRes)
 		{
-			for (Vertex vertex : mVerticesRes)
+			// Place at average position of all surrounding points
+			int nSurroundingVertices = vertex.OutLinkedEdges.size();
+			MatrixUtils.zero(VOffset);
+			for (HalfEdge edge : vertex.OutLinkedEdges)
 			{
-				// Place at average position of all surrounding points
-				int nSurroundingVertices = vertex.OutLinkedEdges.size();
-				MatrixUtils.zero(VOffset);
-				for (HalfEdge edge : vertex.OutLinkedEdges)
-				{
-					MatrixUtils.plus(mMesh.mVertexList.get(edge.V1).Coord, VOffset, VOffset);
-				}
-				MatrixUtils.scalarMultiply(VOffset, 1.0f / nSurroundingVertices);
+				MatrixUtils.plus(mMesh.mVertexList.get(edge.V1).Coord, VOffset, VOffset);
+			}
+			MatrixUtils.scalarMultiply(VOffset, 1.0f / nSurroundingVertices);
 
-				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
+			((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
-				// preview
-				MatrixUtils.copy(vertex.Normal, VNormal);
-				MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
-				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
-				{
-					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
-				}
+			// preview
+			MatrixUtils.copy(vertex.Normal, VNormal);
+			MatrixUtils.scalarMultiply(VNormal, vertex.mLastTempSqDistance / mSquareMaxDistance);
+			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
+			{
+				renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
 			}
 		}
 	}
