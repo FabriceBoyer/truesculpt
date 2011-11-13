@@ -79,7 +79,7 @@ public class GrabTool extends BaseTool
 				MatrixUtils.scalarMultiply(VOffset, vectProd * (1 - vertex.mLastTempSqDistance / mSquareMaxDistance) * dist / 500);
 
 				// Do only at the end
-				((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
+				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);

@@ -51,10 +51,10 @@ public class FlattenTool extends SculptingTool
 				float newOffsetFactor = MatrixUtils.dot(temp, VOffset);
 				MatrixUtils.scalarMultiply(VOffset, newOffsetFactor);
 
-				((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
+				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
 				// preview
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
 				MatrixUtils.scalarMultiply(VNormal, 1 - vertex.mLastTempSqDistance / mSquareMaxDistance);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{

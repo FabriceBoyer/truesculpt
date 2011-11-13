@@ -11,6 +11,7 @@ import truesculpt.tools.sculpting.ClayTool;
 import truesculpt.tools.sculpting.EmbossTool;
 import truesculpt.tools.sculpting.FlattenTool;
 import truesculpt.tools.sculpting.InflateTool;
+import truesculpt.tools.sculpting.NoiseTool;
 import truesculpt.tools.sculpting.PinchTool;
 import truesculpt.tools.sculpting.RiseTool;
 import truesculpt.tools.sculpting.SmoothTool;
@@ -88,6 +89,7 @@ public class ToolsManager extends BaseManager
 		mToolsLibrary.add(new PinchTool(getManagers()));
 		mToolsLibrary.add(new ClayTool(getManagers()));
 		mToolsLibrary.add(new EmbossTool(getManagers()));
+		mToolsLibrary.add(new NoiseTool(getManagers()));
 		mToolsLibrary.add(new ColorizeTool(getManagers()));
 		mToolsLibrary.add(new PickColorTool(getManagers()));
 		// mToolsLibrary.add(new BorderTool(getManagers()));
