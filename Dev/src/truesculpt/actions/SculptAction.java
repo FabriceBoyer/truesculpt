@@ -43,7 +43,6 @@ public class SculptAction extends BaseAction
 	@Override
 	public boolean DoAction()
 	{
-
 		Mesh mesh = getManagers().getMeshManager().getMesh();
 		for (Map.Entry<Integer, VertexCoordChange> change : mVertexChanges.entrySet())
 		{
