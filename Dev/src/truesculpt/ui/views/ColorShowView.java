@@ -20,12 +20,14 @@ public class ColorShowView extends View
 	float orig_x = 0;
 	float orig_y = 0;
 	private final int PixelAmplitude = 300;
+	private final int mnPixelDeadZone = 100;
 	private OnColorChangedListener mColorListener = null;
 	private OnDoubleClickListener mDoubleClickListener = null;
-	int mColor = 0;
 	private long mLastTapTapTime = 0;
 	private final long mTapTapTimeThresold = 500;// ms
-	int mOldColor = 0;
+	private int mColor = 0;
+	private int mOldColor = 0;
+	private int mStartColor = 0;
 
 	public ColorShowView(Context c, AttributeSet attrs)
 	{
@@ -118,13 +120,21 @@ public class ColorShowView extends View
 
 	private void UpdateColorValue(float pixelDist, State state)
 	{
-		int newColor = mColor;
+		if (state == State.START)
+		{
+			mStartColor = mColor;
+		}
+		int newColor = mStartColor;
 
-		float newHue = (360 * pixelDist / PixelAmplitude) % 360;
-		float[] VCol = new float[3];
-		Color.colorToHSV(mColor, VCol);
-		VCol[0] = newHue;
-		newColor = Color.HSVToColor(VCol);
+		if (pixelDist >= mnPixelDeadZone)
+		{
+			float[] VCol = new float[3];
+			Color.colorToHSV(newColor, VCol);
+			float oldHue = VCol[0];
+			float newHue = (oldHue + 360 * (pixelDist - mnPixelDeadZone) / PixelAmplitude) % 360;
+			VCol[0] = newHue;
+			newColor = Color.HSVToColor(VCol);
+		}
 
 		if (mColorListener != null)
 		{

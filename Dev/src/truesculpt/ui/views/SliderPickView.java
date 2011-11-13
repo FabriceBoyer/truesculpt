@@ -152,10 +152,6 @@ public class SliderPickView extends View
 		{
 			newValue = MinValue + (pixelDist - PixelDeadZone) * (valueAmplitude / PixelAmplitude);
 		}
-		else
-		{
-			newValue = MinValue;
-		}
 
 		if (mListener != null)
 		{

@@ -129,8 +129,11 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void ToolValueChanged(int value)
 			{
-				getManagers().getToolsManager().setCurrentTool(value);
-				mBigTextOverlay.setText(getManagers().getToolsManager().GetToolAtIndex(value).GetName());
+				if (value != getManagers().getToolsManager().getCurrentToolIndex())
+				{
+					getManagers().getToolsManager().setCurrentTool(value);
+					mBigTextOverlay.setText(getManagers().getToolsManager().GetToolAtIndex(value).GetName());
+				}
 			}
 
 			@Override
@@ -336,9 +339,12 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChanged(int color)
 			{
-				mBigTextOverlay.setText("Color");
-				mBigTextOverlay.setTextColor(color);
-				getManagers().getToolsManager().setColor(color, false, true);
+				if (getManagers().getToolsManager().getColor() != color)
+				{
+					mBigTextOverlay.setText("Color");
+					mBigTextOverlay.setTextColor(color);
+					getManagers().getToolsManager().setColor(color, false, true);
+				}
 			}
 
 			@Override
@@ -368,8 +374,11 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				getManagers().getToolsManager().setRadius(value, false);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()) + " %\nRadius");
+				if (value != getManagers().getToolsManager().getRadius())
+				{
+					getManagers().getToolsManager().setRadius(value, false);
+					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()) + " %\nRadius");
+				}
 			}
 
 			@Override
@@ -411,8 +420,11 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
-				mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength");
+				if (value != getManagers().getToolsManager().getStrengthAbsoluteValue())
+				{
+					getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
+					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength");
+				}
 			}
 
 			@Override
@@ -680,7 +692,6 @@ public class RendererMainPanel extends Activity implements Observer
 		mBigTextOverlay.setTextColor(Color.WHITE);
 		mBigTextOverlay.setTextSize(50);
 		mBigTextOverlay.setVisibility(View.VISIBLE);
-		mBigTextOverlay.setText("Drag me\nOr double tap");
+		mBigTextOverlay.setText("Drag me\nOr  \nDouble tap");
 	}
-
 }
