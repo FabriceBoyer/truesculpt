@@ -12,6 +12,7 @@ public class FlattenTool extends SculptingTool
 {
 	private float mfInitDist = -1;
 	private boolean mbOrigSet = false;
+	private final float[] temp = new float[3];
 
 	public FlattenTool(Managers managers)
 	{
@@ -39,19 +40,18 @@ public class FlattenTool extends SculptingTool
 
 			for (Vertex vertex : mVerticesRes)
 			{
-				// inflate
 				MatrixUtils.copy(vertex.Coord, VNormal);
 				MatrixUtils.normalize(VNormal);
 				MatrixUtils.copy(VNormal, VOffset);
 
-				MatrixUtils.scalarMultiply(VOffset, mfInitDist);
-				MatrixUtils.minus(VOffset, vertex.Coord, VOffset);
+				// MatrixUtils.scalarMultiply(VOffset, mfInitDist);
+				// MatrixUtils.minus(VOffset, vertex.Coord, VOffset);
 
-				// MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, temp);
-				// float newOffsetFactor = MatrixUtils.dot(temp, VOffset);
-				// MatrixUtils.scalarMultiply(VOffset, newOffsetFactor);
+				MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, temp);
+				float newOffsetFactor = MatrixUtils.dot(temp, VOffset);
+				MatrixUtils.scalarMultiply(VOffset, newOffsetFactor);
 
-				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
+				((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);

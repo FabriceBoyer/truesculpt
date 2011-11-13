@@ -6,6 +6,7 @@ public abstract class BaseAction
 {
 	String mStrDescription;
 	Managers mManagers = null;
+	protected static int mnActionCounter = 0;
 
 	public BaseAction()
 	{

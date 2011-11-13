@@ -166,6 +166,25 @@ public class RendererMainPanel extends Activity implements Observer
 				return false;
 			}
 		});
+		mRedoButton.setOnTouchListener(new View.OnTouchListener()
+		{
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1)
+			{
+				if (arg1.getAction() == 0)
+				{
+					mBigTextOverlay.setVisibility(View.VISIBLE);
+					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextColor(Color.WHITE);
+					mBigTextOverlay.setText("Redo");
+				}
+				else
+				{
+					mBigTextOverlay.setVisibility(View.INVISIBLE);
+				}
+				return false;
+			}
+		});
 
 		mUndoButton = (ImageButton) findViewById(R.id.UndoBtn);
 		mUndoButton.setOnClickListener(new View.OnClickListener()
@@ -185,6 +204,25 @@ public class RendererMainPanel extends Activity implements Observer
 				return false;
 			}
 		});
+		mUndoButton.setOnTouchListener(new View.OnTouchListener()
+		{
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1)
+			{
+				if (arg1.getAction() == 0)
+				{
+					mBigTextOverlay.setVisibility(View.VISIBLE);
+					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextColor(Color.WHITE);
+					mBigTextOverlay.setText("Undo");
+				}
+				else
+				{
+					mBigTextOverlay.setVisibility(View.INVISIBLE);
+				}
+				return false;
+			}
+		});
 
 		mResetPOVbutton = (ImageButton) findViewById(R.id.ResetPOVBtn);
 		mResetPOVbutton.setOnClickListener(new View.OnClickListener()
@@ -201,6 +239,25 @@ public class RendererMainPanel extends Activity implements Observer
 			public boolean onLongClick(View v)
 			{
 				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.PointOfViewPanel.class, false);
+				return false;
+			}
+		});
+		mResetPOVbutton.setOnTouchListener(new View.OnTouchListener()
+		{
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1)
+			{
+				if (arg1.getAction() == 0)
+				{
+					mBigTextOverlay.setVisibility(View.VISIBLE);
+					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextColor(Color.WHITE);
+					mBigTextOverlay.setText("Reset POV");
+				}
+				else
+				{
+					mBigTextOverlay.setVisibility(View.INVISIBLE);
+				}
 				return false;
 			}
 		});
@@ -227,6 +284,30 @@ public class RendererMainPanel extends Activity implements Observer
 			public boolean onLongClick(View v)
 			{
 				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);
+				return false;
+			}
+		});
+		mSymmetrySwitcher.setOnTouchListener(new View.OnTouchListener()
+		{
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1)
+			{
+				if (arg1.getAction() == 0)
+				{
+					mBigTextOverlay.setVisibility(View.VISIBLE);
+					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextColor(Color.WHITE);
+					String text = "Enabled\nSymmetry";
+					if (getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE)// new mode not set yet
+					{
+						text = "Disabled\nSymmetry";
+					}
+					mBigTextOverlay.setText(text);
+				}
+				else
+				{
+					mBigTextOverlay.setVisibility(View.INVISIBLE);
+				}
 				return false;
 			}
 		});
@@ -599,7 +680,7 @@ public class RendererMainPanel extends Activity implements Observer
 		mBigTextOverlay.setTextColor(Color.WHITE);
 		mBigTextOverlay.setTextSize(50);
 		mBigTextOverlay.setVisibility(View.VISIBLE);
-		mBigTextOverlay.setText("Drag me");
+		mBigTextOverlay.setText("Drag me\nOr double tap");
 	}
 
 }

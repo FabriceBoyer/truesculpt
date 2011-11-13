@@ -44,7 +44,7 @@ public class PinchTool extends SculptingTool
 					// MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mLastDist);
 					MatrixUtils.scalarMultiply(VOffset, mLastDist / 2);
 
-					((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
+					((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
 
 					// preview
 					MatrixUtils.plus(VOffset, vertex.Coord, VOffset);

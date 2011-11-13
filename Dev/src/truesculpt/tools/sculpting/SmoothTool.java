@@ -34,7 +34,7 @@ public class SmoothTool extends SculptingTool
 
 				MatrixUtils.minus(VOffset, vertex.Coord, VOffset);// go to relative offset
 
-				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
+				((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);// come back to absolute

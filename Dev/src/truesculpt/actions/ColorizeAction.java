@@ -25,12 +25,12 @@ public class ColorizeAction extends BaseAction
 		Vertex vertex = null;
 	}
 
-	private ArrayList<VertexColorChange> mVertexChanges = new ArrayList<VertexColorChange>();
+	private final ArrayList<VertexColorChange> mVertexChanges = new ArrayList<VertexColorChange>();
 
 	public ColorizeAction()
 	{
 		super();
-		setDescription("Painting");
+		setDescription("Painting " + mnActionCounter++);
 	}
 
 	@Override

@@ -42,9 +42,6 @@ abstract public class BaseTool implements ITools
 	{
 		tSculptStart = SystemClock.uptimeMillis();
 
-		// Regular pick always done
-		PickInternal(xScreen, yScreen, ESymmetryMode.NONE);
-
 		// symmetry handling
 		switch (getManagers().getToolsManager().getSymmetryMode())
 		{
@@ -66,6 +63,9 @@ abstract public class BaseTool implements ITools
 			// not handled at present time
 			break;
 		}
+
+		// Regular pick always done
+		PickInternal(xScreen, yScreen, ESymmetryMode.NONE);
 
 		mLastSculptDurationMs = SystemClock.uptimeMillis() - tSculptStart;
 	}
