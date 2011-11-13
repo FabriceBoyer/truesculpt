@@ -2,6 +2,7 @@ package truesculpt.tools.base;
 
 import java.util.HashSet;
 
+import truesculpt.actions.SelectAction;
 import truesculpt.main.Managers;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Face;
@@ -49,6 +50,11 @@ public abstract class SelectionTool extends BaseTool
 
 		mSigma = (float) ((Math.sqrt(mSquareMaxDistance) / 1.5f) / FWHM);
 		mMaxGaussian = Gaussian(mSigma, 0);
+
+		if (mAction == null)
+		{
+			mAction = new SelectAction();// Default action
+		}
 	}
 
 	@Override
@@ -62,7 +68,7 @@ public abstract class SelectionTool extends BaseTool
 	{
 		mTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, mode);
 
-		if (mTriangleIndex >= 0 && mMesh != null)
+		if (mTriangleIndex >= 0 && mMesh != null && mAction != null)
 		{
 			Face face = mMesh.mFaceList.get(mTriangleIndex);
 			nOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
