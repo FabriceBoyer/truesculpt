@@ -79,6 +79,8 @@ abstract public class BaseTool implements ITools
 			mAction.DoAction();
 			mAction = null;
 		}
+
+		mMesh = null;
 	}
 
 	protected Managers getManagers()
