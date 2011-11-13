@@ -64,7 +64,7 @@ public class GrabTool extends BaseTool
 		}
 
 		// shaping
-		if (mbOrigSet)
+		if (mbOrigSet && mAction != null)
 		{
 			float dist = (float) Math.sqrt((xScreen - mxOrig) * (xScreen - mxOrig) + (yScreen - myOrig) * (yScreen - myOrig));
 
@@ -79,7 +79,7 @@ public class GrabTool extends BaseTool
 				MatrixUtils.scalarMultiply(VOffset, vectProd * (1 - vertex.mLastTempSqDistance / mSquareMaxDistance) * dist / 500);
 
 				// Do only at the end
-				((SculptAction) mAction).AddVertexOffset(vertex.Index, VOffset, vertex);
+				((SculptAction) mAction).AddVertexOffset(VOffset, vertex);
 
 				// preview
 				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);

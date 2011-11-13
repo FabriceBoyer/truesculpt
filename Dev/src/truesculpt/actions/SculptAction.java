@@ -14,16 +14,14 @@ public class SculptAction extends BaseAction
 {
 	private class VertexCoordChange
 	{
-		public VertexCoordChange(int nIndex, float[] offset, Vertex vertex)
+		public VertexCoordChange(float[] offset, Vertex vertex)
 		{
 			super();
-			this.nIndex = nIndex;
 			MatrixUtils.copy(vertex.Coord, Vorig);
 			MatrixUtils.plus(vertex.Coord, offset, Vnew);
 			this.vertex = vertex;
 		}
 
-		public int nIndex = -1;
 		float[] Vorig = new float[3];
 		float[] Vnew = new float[3];
 		Vertex vertex = null;
@@ -34,7 +32,7 @@ public class SculptAction extends BaseAction
 	public SculptAction()
 	{
 		super();
-		setDescription("Sculpting");
+		setDescription("Sculpting " + mnActionCounter++);
 	}
 
 	private final HashSet<Integer> faces = new HashSet<Integer>();
@@ -120,8 +118,8 @@ public class SculptAction extends BaseAction
 		return true;
 	}
 
-	public void AddVertexOffset(Integer i, float[] vOffset, Vertex vertex)
+	public void AddVertexOffset(float[] vOffset, Vertex vertex)
 	{
-		mVertexChanges.put(i, new VertexCoordChange(i, vOffset, vertex));
+		mVertexChanges.put(vertex.Index, new VertexCoordChange(vOffset, vertex));
 	}
 }
