@@ -14,11 +14,11 @@ public class SculptAction extends BaseAction
 {
 	private class VertexCoordChange
 	{
-		public VertexCoordChange(float[] offset, Vertex vertex)
+		public VertexCoordChange(float[] vNew, Vertex vertex)
 		{
 			super();
 			MatrixUtils.copy(vertex.Coord, Vorig);
-			MatrixUtils.plus(vertex.Coord, offset, Vnew);
+			MatrixUtils.copy(vNew, this.Vnew);
 			this.vertex = vertex;
 		}
 
