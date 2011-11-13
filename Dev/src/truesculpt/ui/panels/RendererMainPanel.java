@@ -147,7 +147,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDoubleClick(float value)
 			{
-
+				getManagers().getUtilsManager().ShowToolPickerDialog(RendererMainPanel.this);
 			}
 		});
 
@@ -322,7 +322,6 @@ public class RendererMainPanel extends Activity implements Observer
 			public void onDoubleClick(int color)
 			{
 				getManagers().getToolsManager().setColor(color, false, true);
-				getManagers().getUtilsManager();
 				UtilsManager.ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
 		});
