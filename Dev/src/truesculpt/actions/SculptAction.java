@@ -73,6 +73,39 @@ public class SculptAction extends BaseAction
 		return true;
 	}
 
+	private static float[] temp = new float[3];
+
+	public void DoSmoothAll(Mesh mesh)
+	{
+		if (mesh != null)
+		{
+			for (Map.Entry<Integer, VertexCoordChange> change : mVertexChanges.entrySet())
+			{
+				Vertex vertex = change.getValue().vertex;
+				int nSurroundingVertices = vertex.OutLinkedEdges.size();
+				MatrixUtils.zero(temp);
+				for (HalfEdge edge : vertex.OutLinkedEdges)
+				{
+					VertexCoordChange other = mVertexChanges.get(edge.V1);
+					if (other == null)
+					{
+						MatrixUtils.plus(mesh.mVertexList.get(edge.V1).Coord, temp, temp);
+					}
+					else
+					{
+						MatrixUtils.plus(other.Vnew, temp, temp);
+					}
+				}
+				MatrixUtils.scalarMultiply(temp, 1.0f / nSurroundingVertices);
+			}
+		}
+	}
+
+	public void DoSmoothBorder()
+	{
+
+	}
+
 	@Override
 	public String GetActionName()
 	{
