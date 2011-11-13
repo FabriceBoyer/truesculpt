@@ -585,6 +585,7 @@ public class Mesh
 		mRenderGroupList.clear();
 		mRootBoxNode = null;
 		getManagers().getActionsManager().ClearAll();
+		getManagers().getToolsManager().ClearAll();
 		System.gc();
 	}
 
