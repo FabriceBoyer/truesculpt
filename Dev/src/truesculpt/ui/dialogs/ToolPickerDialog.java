@@ -20,7 +20,9 @@
  */
 package truesculpt.ui.dialogs;
 
-import truesculpt.main.R;
+import java.util.ArrayList;
+
+import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.views.CoverFlow;
 import android.app.Dialog;
 import android.content.Context;
@@ -85,14 +87,19 @@ public class ToolPickerDialog extends Dialog
 		int mGalleryItemBackground;
 		private final Context mContext;
 
-		private final Integer[] mImageIds = { R.drawable.draw, R.drawable.grab, R.drawable.smooth, R.drawable.inflate, R.drawable.paint_palette, R.drawable.brush, R.drawable.colorpicker };
+		private final ArrayList<Integer> mImageIds = new ArrayList<Integer>();
 
 		private final ImageView[] mImages;
 
 		public ImageAdapter(Context c)
 		{
 			mContext = c;
-			mImages = new ImageView[mImageIds.length];
+			int nImgs = ((TrueSculptApp) c.getApplicationContext()).getManagers().getToolsManager().GetToolsLibrarySize();
+			for (int i = 0; i < nImgs; i++)
+			{
+				mImageIds.add(((TrueSculptApp) c.getApplicationContext()).getManagers().getToolsManager().GetToolAtIndex(i).GetIcon());
+			}
+			mImages = new ImageView[nImgs];
 		}
 
 		public boolean createReflectedImages()
@@ -152,7 +159,7 @@ public class ToolPickerDialog extends Dialog
 		@Override
 		public int getCount()
 		{
-			return mImageIds.length;
+			return mImageIds.size();
 		}
 
 		@Override
@@ -173,7 +180,7 @@ public class ToolPickerDialog extends Dialog
 
 			// Use this code if you want to load from resources
 			ImageView i = new ImageView(mContext);
-			i.setImageResource(mImageIds[position]);
+			i.setImageResource(mImageIds.get(position));
 			i.setLayoutParams(new CoverFlow.LayoutParams(130, 130));
 			i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
