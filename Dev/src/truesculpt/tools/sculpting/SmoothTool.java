@@ -32,7 +32,6 @@ public class SmoothTool extends SculptingTool
 				}
 				MatrixUtils.scalarMultiply(VOffset, 1.0f / nSurroundingVertices);
 
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
 				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
 				// preview
