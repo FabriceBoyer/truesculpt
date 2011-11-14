@@ -255,7 +255,7 @@ public class RendererMainPanel extends Activity implements Observer
 					mBigTextOverlay.setVisibility(View.VISIBLE);
 					mBigTextOverlay.setTextSize(50);
 					mBigTextOverlay.setTextColor(Color.WHITE);
-					mBigTextOverlay.setText("Reset POV");
+					mBigTextOverlay.setText("Reset view");
 				}
 				else
 				{
