@@ -652,19 +652,23 @@ public class RendererMainPanel extends Activity implements Observer
 		if (getManagers().getActionsManager().GetUndoActionCount() <= 0)
 		{
 			mUndoButton.setEnabled(false);
+			mUndoButton.setVisibility(View.INVISIBLE);
 		}
 		else
 		{
 			mUndoButton.setEnabled(true);
+			mUndoButton.setVisibility(View.VISIBLE);
 		}
 
 		if (getManagers().getActionsManager().GetRedoActionCount() <= 0)
 		{
 			mRedoButton.setEnabled(false);
+			mRedoButton.setVisibility(View.INVISIBLE);
 		}
 		else
 		{
 			mRedoButton.setEnabled(true);
+			mRedoButton.setVisibility(View.VISIBLE);
 		}
 
 		mColorShow.setColor(getManagers().getToolsManager().getColor());
