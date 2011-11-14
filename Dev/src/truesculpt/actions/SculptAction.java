@@ -32,7 +32,7 @@ public class SculptAction extends BaseAction
 	public SculptAction()
 	{
 		super();
-		setDescription("Sculpting " + mnActionCounter++);
+		setDescription("Sculpting");
 	}
 
 	private final HashSet<Integer> faces = new HashSet<Integer>();
@@ -154,5 +154,11 @@ public class SculptAction extends BaseAction
 	public void AddNewVertexValue(float[] vNew, Vertex vertex)
 	{
 		mVertexChanges.put(vertex.Index, new VertexCoordChange(vNew, vertex));
+	}
+
+	@Override
+	public int GetChangeCount()
+	{
+		return mVertexChanges.size();
 	}
 }

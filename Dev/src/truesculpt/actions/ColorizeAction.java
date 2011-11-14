@@ -10,16 +10,14 @@ public class ColorizeAction extends BaseAction
 {
 	private class VertexColorChange
 	{
-		public VertexColorChange(int nIndex, int newColor, Vertex vertex)
+		public VertexColorChange(int newColor, Vertex vertex)
 		{
 			super();
-			this.nIndex = nIndex;
 			this.newColor = newColor;
 			this.oldColor = vertex.Color;
 			this.vertex = vertex;
 		}
 
-		public int nIndex = -1;
 		int newColor = -1;
 		int oldColor = -1;
 		Vertex vertex = null;
@@ -30,7 +28,7 @@ public class ColorizeAction extends BaseAction
 	public ColorizeAction()
 	{
 		super();
-		setDescription("Painting " + mnActionCounter++);
+		setDescription("Painting");
 	}
 
 	@Override
@@ -69,9 +67,15 @@ public class ColorizeAction extends BaseAction
 		return true;
 	}
 
-	public void AddVertexColorChange(Integer i, int newColor, Vertex vertex)
+	public void AddVertexColorChange(int newColor, Vertex vertex)
 	{
-		mVertexChanges.add(new VertexColorChange(i, newColor, vertex));
+		mVertexChanges.add(new VertexColorChange(newColor, vertex));
+	}
+
+	@Override
+	public int GetChangeCount()
+	{
+		return mVertexChanges.size();
 	}
 
 }

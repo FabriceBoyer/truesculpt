@@ -52,4 +52,10 @@ public class ChangePOVAction extends BaseAction
 		return true;
 	}
 
+	@Override
+	public int GetChangeCount()
+	{
+		return 0;
+	}
+
 }

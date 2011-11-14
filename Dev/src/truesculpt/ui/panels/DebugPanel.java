@@ -54,6 +54,7 @@ public class DebugPanel extends Activity
 		int nFaces = getManagers().getMeshManager().getFacesCount();
 		msg = "Number of vertices = " + Integer.toString(nVertex) + "\n";
 		msg += "Number of faces = " + Integer.toString(nFaces) + "\n";
+		msg += "Undo stack change count = " + Integer.toString((int) (getManagers().getActionsManager().GetCurrentChangeCount() / 1e3)) + "k / " + Integer.toString((int) (getManagers().getActionsManager().GetMaxChangeCount() / 1e3)) + "k";
 		meshStatText.setText(msg);
 
 		TextView memoryUsageText = (TextView) findViewById(R.id.MemoryUsageText);
