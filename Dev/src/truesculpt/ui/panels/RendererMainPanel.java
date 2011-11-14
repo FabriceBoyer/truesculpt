@@ -203,7 +203,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onLongClick(View v)
 			{
-				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.HistoryPanel.class, false);
+				// Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.HistoryPanel.class, false);
 				return false;
 			}
 		});
@@ -241,7 +241,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onLongClick(View v)
 			{
-				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.PointOfViewPanel.class, false);
+				// Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.PointOfViewPanel.class, false);
 				return false;
 			}
 		});
@@ -286,7 +286,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onLongClick(View v)
 			{
-				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);
+				// Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);
 				return false;
 			}
 		});

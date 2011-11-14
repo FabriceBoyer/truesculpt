@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.dialogs.HSLColorPickerDialog;
 import truesculpt.ui.dialogs.HSLColorPickerDialog.OnAmbilWarnaListener;
@@ -197,7 +198,7 @@ public class UtilsManager extends BaseManager
 
 	public static void ShowToolPickerDialog(Context context)
 	{
-		ToolPickerDialog dialog = new ToolPickerDialog(context);
+		ToolPickerDialog dialog = new ToolPickerDialog(context, R.style.Theme_TrueSculpt);
 		dialog.show();
 	}
 
