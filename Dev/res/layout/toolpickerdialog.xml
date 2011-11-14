@@ -10,7 +10,8 @@
     <truesculpt.ui.views.CoverFlow 
         android:id="@+id/coverflow"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip" />
 
     <TextView
         android:id="@+id/name"
@@ -25,6 +26,7 @@
         android:id="@+id/description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Description" />
+        android:text="Description" 
+        android:layout_marginTop="20dip"/>
 
 </LinearLayout>

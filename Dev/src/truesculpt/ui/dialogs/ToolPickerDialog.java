@@ -29,6 +29,7 @@ import truesculpt.ui.views.CoverFlow;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -57,7 +58,10 @@ public class ToolPickerDialog extends Dialog
 		setContentView(R.layout.toolpickerdialog);
 
 		mNameView = (TextView) findViewById(R.id.name);
+
 		mDescriptionView = (TextView) findViewById(R.id.description);
+		mDescriptionView.setMovementMethod(new ScrollingMovementMethod());
+
 		mCoverFlow = (CoverFlow) findViewById(R.id.coverflow);
 
 		CoverFlowImageAdapter coverImageAdapter = new CoverFlowImageAdapter(getContext());
