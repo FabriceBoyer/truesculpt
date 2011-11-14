@@ -174,7 +174,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onTouch(View arg0, MotionEvent arg1)
 			{
-				if (arg1.getAction() == 0)
+				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
 					mBigTextOverlay.setVisibility(View.VISIBLE);
 					mBigTextOverlay.setTextSize(50);
@@ -212,7 +212,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onTouch(View arg0, MotionEvent arg1)
 			{
-				if (arg1.getAction() == 0)
+				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
 					mBigTextOverlay.setVisibility(View.VISIBLE);
 					mBigTextOverlay.setTextSize(50);
@@ -250,12 +250,12 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onTouch(View arg0, MotionEvent arg1)
 			{
-				if (arg1.getAction() == 0)
+				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
 					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextSize(25);
 					mBigTextOverlay.setTextColor(Color.WHITE);
-					mBigTextOverlay.setText("Reset view");
+					mBigTextOverlay.setText("Reset view\n\nUse two fingers\nTo zoom and pan");
 				}
 				else
 				{
@@ -295,15 +295,15 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public boolean onTouch(View arg0, MotionEvent arg1)
 			{
-				if (arg1.getAction() == 0)
+				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
 					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextSize(25);
 					mBigTextOverlay.setTextColor(Color.WHITE);
-					String text = "Enabled\nSymmetry";
+					String text = "Enable symmetry";
 					if (getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE)// new mode not set yet
 					{
-						text = "Disabled\nSymmetry";
+						text = "Disable symmetry";
 					}
 					mBigTextOverlay.setText(text);
 				}
@@ -673,7 +673,7 @@ public class RendererMainPanel extends Activity implements Observer
 
 		mColorShow.setColor(getManagers().getToolsManager().getColor());
 
-		mToolPicker.setCurrentValue(getManagers().getToolsManager().getCurrentToolIndex(), getManagers().getToolsManager().getCurrentTool().GetIcon());
+		mToolPicker.setCurrentValue(getManagers().getToolsManager().getCurrentToolIndex(), getManagers().getToolsManager().getCurrentTool().GetIcon(), getManagers().getToolsManager().getCurrentTool().GetName());
 
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
 
@@ -693,8 +693,8 @@ public class RendererMainPanel extends Activity implements Observer
 	private void SetBigTextOverlayToDragMe()
 	{
 		mBigTextOverlay.setTextColor(Color.WHITE);
-		mBigTextOverlay.setTextSize(50);
+		mBigTextOverlay.setTextSize(35);
 		mBigTextOverlay.setVisibility(View.VISIBLE);
-		mBigTextOverlay.setText("Drag me\nOr  \nDouble tap");
+		mBigTextOverlay.setText("Drag to adjust\nOr\nDouble click");
 	}
 }

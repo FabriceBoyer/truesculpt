@@ -1,11 +1,14 @@
 package truesculpt.ui.views;
 
+import truesculpt.main.R;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class ToolPickerView extends ImageView
+public class ToolPickerView extends LinearLayout
 {
 	public interface OnToolPickChangedListener
 	{
@@ -34,10 +37,16 @@ public class ToolPickerView extends ImageView
 
 	private OnToolPickChangedListener mListener = null;
 	private OnDoubleClickListener mDoubleClickListener = null;
+	private final TextView mText;
 
 	public ToolPickerView(Context c, AttributeSet attrs)
 	{
 		super(c, attrs);
+
+		LayoutInflater.from(c).inflate(R.layout.toolpickerview, this);
+
+		mText = (TextView) findViewById(R.id.name);
+
 		invalidate();
 	}
 
@@ -135,9 +144,11 @@ public class ToolPickerView extends ImageView
 		}
 	}
 
-	public void setCurrentValue(int currentValue, int imageID)
+	public void setCurrentValue(int currentValue, int imageID, String name)
 	{
 		mCurrentValue = currentValue;
+
+		mText.setText(name);
 
 		setBackgroundResource(imageID);
 
