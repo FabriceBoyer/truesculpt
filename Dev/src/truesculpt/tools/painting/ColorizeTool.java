@@ -56,7 +56,7 @@ public class ColorizeTool extends PaintingTool
 			int newColor = Color.HSVToColor(VNewCol);
 			// int newColor = mTargetColor;
 
-			((ColorizeAction) mAction).AddVertexColorChange(vertex.Index, newColor, vertex);
+			((ColorizeAction) mAction).AddVertexColorChange(newColor, vertex);
 
 			// preview
 			for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)

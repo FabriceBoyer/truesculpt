@@ -8,7 +8,7 @@ public class SelectAction extends BaseAction
 	public SelectAction()
 	{
 		super();
-		setDescription("Selecting " + mnActionCounter++);
+		setDescription("Selecting");
 	}
 
 	@Override
@@ -33,6 +33,12 @@ public class SelectAction extends BaseAction
 	public int GetImageResourceID()
 	{
 		return R.drawable.flash;
+	}
+
+	@Override
+	public int GetChangeCount()
+	{
+		return 0;
 	}
 
 }

@@ -20,6 +20,8 @@ public abstract class BaseAction
 
 	abstract public int GetImageResourceID();
 
+	abstract public int GetChangeCount();
+
 	public String getDescription()
 	{
 		return mStrDescription;
@@ -27,7 +29,8 @@ public abstract class BaseAction
 
 	public void setDescription(String strDescription)
 	{
-		this.mStrDescription = strDescription;
+		mnActionCounter++;
+		this.mStrDescription = strDescription + " " + mnActionCounter;
 	}
 
 	public void setManagers(Managers managers)

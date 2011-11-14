@@ -9,9 +9,10 @@ import android.content.Context;
 //For undo redo and analytical description of sculpture
 public class ActionsManager extends BaseManager
 {
-	private final int MAX_UNDO_SIZE = 2;
-	private final List<BaseAction> mUndoActionsList = new ArrayList<BaseAction>(MAX_UNDO_SIZE);
-	private final List<BaseAction> mRedoActionsList = new ArrayList<BaseAction>(MAX_UNDO_SIZE);
+	private final int MAX_CHANGE_COUNT = (int) 2e4;
+	private int mCurrChangeCount = 0;
+	private final List<BaseAction> mUndoActionsList = new ArrayList<BaseAction>();
+	private final List<BaseAction> mRedoActionsList = new ArrayList<BaseAction>();
 
 	public ActionsManager(Context baseContext)
 	{
@@ -26,6 +27,8 @@ public class ActionsManager extends BaseManager
 
 	public void Remove(int position)
 	{
+		BaseAction removedAction = mUndoActionsList.get(position);
+		mCurrChangeCount -= removedAction.GetChangeCount();
 		mUndoActionsList.remove(position);
 		NotifyListeners();
 	}
@@ -36,6 +39,8 @@ public class ActionsManager extends BaseManager
 		{
 			for (int i = 0; i <= position; i++)
 			{
+				BaseAction removedAction = mUndoActionsList.get(0);
+				mCurrChangeCount -= removedAction.GetChangeCount();
 				mUndoActionsList.remove(0);
 			}
 		}
@@ -76,13 +81,21 @@ public class ActionsManager extends BaseManager
 
 		// TODO optimize by avoiding offsetting (reverse list)
 		mUndoActionsList.add(0, action);// add at the top
+		mCurrChangeCount += action.GetChangeCount();
 
 		// history stripping
-		if (GetUndoActionCount() > MAX_UNDO_SIZE)
+		if (mCurrChangeCount > MAX_CHANGE_COUNT)
 		{
-			mUndoActionsList.remove(GetUndoActionCount() - 1);
+			int nIndex = GetUndoActionCount() - 1;
+			BaseAction removedAction = mUndoActionsList.get(nIndex);
+			mCurrChangeCount -= removedAction.GetChangeCount();
+			mUndoActionsList.remove(nIndex);
 		}
 
+		for (BaseAction removedAction : mRedoActionsList)
+		{
+			mCurrChangeCount -= removedAction.GetChangeCount();
+		}
 		mRedoActionsList.clear();// new branch no more needed
 		NotifyListeners();
 	}
@@ -115,6 +128,18 @@ public class ActionsManager extends BaseManager
 	{
 		mUndoActionsList.clear();
 		mRedoActionsList.clear();
+		mCurrChangeCount = 0;
 		NotifyListeners();
 	}
+
+	public int GetCurrentChangeCount()
+	{
+		return mCurrChangeCount;
+	}
+
+	public int GetMaxChangeCount()
+	{
+		return MAX_CHANGE_COUNT;
+	}
+
 }

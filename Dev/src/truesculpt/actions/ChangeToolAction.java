@@ -44,4 +44,10 @@ public class ChangeToolAction extends BaseAction
 		return true;
 	}
 
+	@Override
+	public int GetChangeCount()
+	{
+		return 0;
+	}
+
 }

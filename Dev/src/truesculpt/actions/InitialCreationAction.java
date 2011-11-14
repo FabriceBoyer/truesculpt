@@ -37,4 +37,10 @@ public class InitialCreationAction extends BaseAction
 		return false;
 	}
 
+	@Override
+	public int GetChangeCount()
+	{
+		return 0;
+	}
+
 }
