@@ -177,7 +177,7 @@ public class RendererMainPanel extends Activity implements Observer
 				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
 					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextSize(30);
 					mBigTextOverlay.setTextColor(Color.WHITE);
 					mBigTextOverlay.setText("Redo");
 				}
@@ -215,7 +215,7 @@ public class RendererMainPanel extends Activity implements Observer
 				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
 					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(50);
+					mBigTextOverlay.setTextSize(30);
 					mBigTextOverlay.setTextColor(Color.WHITE);
 					mBigTextOverlay.setText("Undo");
 				}
@@ -422,7 +422,8 @@ public class RendererMainPanel extends Activity implements Observer
 				if (value != getManagers().getToolsManager().getStrengthAbsoluteValue())
 				{
 					getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
-					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength");
+					String strDirection = getManagers().getToolsManager().isStrengthPositive() ? "Add" : "Substract";
+					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength\n" + strDirection);
 				}
 			}
 
@@ -693,7 +694,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private void SetBigTextOverlayToDragMe()
 	{
 		mBigTextOverlay.setTextColor(Color.WHITE);
-		mBigTextOverlay.setTextSize(35);
+		mBigTextOverlay.setTextSize(30);
 		mBigTextOverlay.setVisibility(View.VISIBLE);
 		mBigTextOverlay.setText("Drag to adjust\nOr\nDouble click");
 	}
