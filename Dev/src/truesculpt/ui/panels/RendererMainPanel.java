@@ -37,7 +37,7 @@ import android.widget.ToggleButton;
 
 public class RendererMainPanel extends Activity implements Observer
 {
-	private GLSurfaceView mGLSurfaceView = null;
+	private GLSurfaceView mGLSurfaceView;
 	private SlidingDrawer mToolsSlidingDrawer;
 	private ImageButton mRedoButton;
 	private ImageButton mUndoButton;
@@ -423,7 +423,7 @@ public class RendererMainPanel extends Activity implements Observer
 				{
 					getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
 					String strDirection = getManagers().getToolsManager().isStrengthPositive() ? "Additive" : "Subtractive";
-					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength\n\n" + strDirection);
+					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\n" + strDirection + "\nStrength");
 				}
 			}
 
