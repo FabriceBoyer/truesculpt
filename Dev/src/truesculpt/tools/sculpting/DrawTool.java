@@ -8,9 +8,9 @@ import truesculpt.mesh.Vertex;
 import truesculpt.tools.base.SculptingTool;
 import truesculpt.utils.MatrixUtils;
 
-public class RiseTool extends SculptingTool
+public class DrawTool extends SculptingTool
 {
-	public RiseTool(Managers managers)
+	public DrawTool(Managers managers)
 	{
 		super(managers);
 	}
@@ -63,6 +63,6 @@ public class RiseTool extends SculptingTool
 	@Override
 	public String GetName()
 	{
-		return "Rise";
+		return "Draw";
 	}
 }

@@ -14,7 +14,7 @@ import truesculpt.tools.sculpting.FlattenTool;
 import truesculpt.tools.sculpting.InflateTool;
 import truesculpt.tools.sculpting.NoiseTool;
 import truesculpt.tools.sculpting.PinchTool;
-import truesculpt.tools.sculpting.RiseTool;
+import truesculpt.tools.sculpting.DrawTool;
 import truesculpt.tools.sculpting.SmoothTool;
 import truesculpt.utils.Utils;
 import android.content.Context;
@@ -83,7 +83,7 @@ public class ToolsManager extends BaseManager
 		// TODO load from plugins or xml library
 		mToolsLibrary.clear();
 		mToolsLibrary.add(new InflateTool(getManagers()));
-		mToolsLibrary.add(new RiseTool(getManagers()));
+		mToolsLibrary.add(new DrawTool(getManagers()));
 		mToolsLibrary.add(new GrabTool(getManagers()));
 		mToolsLibrary.add(new SmoothTool(getManagers()));
 		mToolsLibrary.add(new FlattenTool(getManagers()));
