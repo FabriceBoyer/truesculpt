@@ -422,8 +422,8 @@ public class RendererMainPanel extends Activity implements Observer
 				if (value != getManagers().getToolsManager().getStrengthAbsoluteValue())
 				{
 					getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
-					String strDirection = getManagers().getToolsManager().isStrengthPositive() ? "Add" : "Substract";
-					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength\n" + strDirection);
+					String strDirection = getManagers().getToolsManager().isStrengthPositive() ? "Additive" : "Subtractive";
+					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\nStrength\n\n" + strDirection);
 				}
 			}
 
