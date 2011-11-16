@@ -234,6 +234,7 @@ public class MeshManager extends BaseManager
 	public int Pick(float screenX, float screenY, ToolsManager.ESymmetryMode symmetryMode)
 	{
 		int nIndex = -1;
+
 		if (IsInitOver())
 		{
 			// normalized z between -1 and 1
@@ -247,22 +248,18 @@ public class MeshManager extends BaseManager
 			case X:
 				rayPt1[0] *= -1;
 				rayPt2[0] *= -1;
-				nIndex = PickRay();
 				break;
 			case Y:
 				rayPt1[1] *= -1;
 				rayPt2[1] *= -1;
-				nIndex = PickRay();
 				break;
 			case Z:
 				rayPt1[2] *= -1;
 				rayPt2[2] *= -1;
-				nIndex = PickRay();
-				break;
-			case NONE:
-				nIndex = PickRay();
 				break;
 			}
+
+			nIndex = PickRay();
 		}
 
 		return nIndex;

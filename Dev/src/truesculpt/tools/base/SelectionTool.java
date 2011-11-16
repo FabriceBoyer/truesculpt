@@ -10,9 +10,6 @@ import truesculpt.mesh.Vertex;
 
 public abstract class SelectionTool extends BaseTool
 {
-	protected final float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full width at half maximum
-	protected final static float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
-
 	protected final HashSet<Vertex> mVerticesRes = new HashSet<Vertex>();
 	protected final HashSet<Vertex> mCumulatedVerticesRes = new HashSet<Vertex>();
 	protected Vertex mLastVertex = null;
@@ -20,8 +17,6 @@ public abstract class SelectionTool extends BaseTool
 	protected final Path mPath = new Path();
 	protected int mTriangleIndex = -1;
 
-	protected float mSigma = -1;
-	protected float mMaxGaussian = -1;
 	protected Vertex mOrigVertex = null;
 	protected int nOrigVertex = -1;
 
@@ -47,9 +42,6 @@ public abstract class SelectionTool extends BaseTool
 		super.Start(xScreen, yScreen);
 
 		ResetData();
-
-		mSigma = (float) ((Math.sqrt(mSquareMaxDistance) / 1.5f) / FWHM);
-		mMaxGaussian = Gaussian(mSigma, 0);
 
 		if (mAction == null)
 		{
@@ -117,8 +109,4 @@ public abstract class SelectionTool extends BaseTool
 		getManagers().getMeshManager().NotifyListeners();
 	}
 
-	protected static float Gaussian(float sigma, float sqDist)
-	{
-		return (float) (oneoversqrttwopi / sigma * Math.exp(-sqDist / (2 * sigma * sigma)));
-	}
 }

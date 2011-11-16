@@ -20,9 +20,12 @@ public class GrabTool extends BaseTool
 	protected final HashSet<Vertex> mVerticesRes = new HashSet<Vertex>();
 	protected final float[] VOffset = new float[3];
 	protected final float[] VNormal = new float[3];
-	protected final float[] VScreenNormal = new float[3];
+	protected final float[] VScreenXNormal = new float[3];
+	protected final float[] VScreenYNormal = new float[3];
+	protected final float[] temp = new float[3];
 	private float mxOrig = -1;
 	private float myOrig = -1;
+	private final float mPixelRatio = 500;// for 1 meter displacement
 
 	public GrabTool(Managers managers)
 	{
@@ -44,7 +47,7 @@ public class GrabTool extends BaseTool
 	protected void PickInternal(float xScreen, float yScreen, ESymmetryMode mode)
 	{
 		// init
-		if (!mbOrigSet)
+		if (!mbOrigSet && mode == ESymmetryMode.NONE)
 		{
 			if (mMesh != null)
 			{
@@ -66,25 +69,50 @@ public class GrabTool extends BaseTool
 		// shaping
 		if (mbOrigSet && mAction != null)
 		{
-			float dist = (float) Math.sqrt((xScreen - mxOrig) * (xScreen - mxOrig) + (yScreen - myOrig) * (yScreen - myOrig));
+			float distX = xScreen - mxOrig;
+			float distY = -(yScreen - myOrig);// y is inverted compared to opengl
 
-			getManagers().getMeshManager().getPickRayVector(VScreenNormal);
-			float vectProd = 1 - MatrixUtils.dot(VScreenNormal, mVOrigVertex.Normal);
+			// get screen plane in coord world
+			getManagers().getMeshManager().GetWorldCoords(VScreenXNormal, xScreen, yScreen, 0);
+			getManagers().getMeshManager().GetWorldCoords(temp, xScreen + 10, yScreen, 0);
+			MatrixUtils.minus(temp, VScreenXNormal, VScreenXNormal);
+			MatrixUtils.normalize(VScreenXNormal);
+
+			getManagers().getMeshManager().GetWorldCoords(VScreenYNormal, xScreen, yScreen, 0);
+			getManagers().getMeshManager().GetWorldCoords(temp, xScreen, yScreen - 10, 0);// y is inverted compared to opengl
+			MatrixUtils.minus(temp, VScreenYNormal, VScreenYNormal);
+			MatrixUtils.normalize(VScreenYNormal);
 
 			for (Vertex vertex : mVerticesRes)
 			{
 				// only along normal at present time
-				MatrixUtils.copy(mVOrigVertex.Normal, VOffset);
-				MatrixUtils.normalize(VOffset);
-				MatrixUtils.scalarMultiply(VOffset, vectProd * (1 - vertex.mLastTempSqDistance / mSquareMaxDistance) * dist / 500);
+				MatrixUtils.copy(vertex.Coord, VOffset);
 
-				// Do only at the end
+				// Gaussian
+				float newOffsetFactor = Gaussian(mSigma, vertex.mLastTempSqDistance) / mMaxGaussian;
+
+				// Quadratic
+				// newOffsetFactor = 1 - (vertex.mLastTempSqDistance / mSquareMaxDistance);
+
+				// Linear
+				// newOffsetFactor = (float) (1 - Math.sqrt(vertex.mLastTempSqDistance / mSquareMaxDistance));
+
+				newOffsetFactor = MatrixUtils.saturateBetween0And1(newOffsetFactor);
+
+				MatrixUtils.copy(VScreenXNormal, temp);
+				MatrixUtils.scalarMultiply(temp, newOffsetFactor * distX / mPixelRatio);
+				MatrixUtils.plus(VOffset, temp, VOffset);
+
+				MatrixUtils.copy(VScreenYNormal, temp);
+				MatrixUtils.scalarMultiply(temp, newOffsetFactor * distY / mPixelRatio);
+				MatrixUtils.plus(VOffset, temp, VOffset);
+
+				// Do only at the end to optimize memory usage, not needed for intermediary results
 				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
-				// preview
-				MatrixUtils.plus(VOffset, vertex.Coord, VOffset);
+				// preview, todo preview normals
 				MatrixUtils.copy(vertex.Normal, VNormal);
-				MatrixUtils.scalarMultiply(VNormal, 1 - vertex.mLastTempSqDistance / mSquareMaxDistance);
+				MatrixUtils.scalarMultiply(VNormal, newOffsetFactor);
 				for (RenderFaceGroup renderGroup : mMesh.mRenderGroupList)
 				{
 					renderGroup.UpdateVertexValue(vertex.Index, VOffset, VNormal);
