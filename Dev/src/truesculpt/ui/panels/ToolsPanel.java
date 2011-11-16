@@ -82,7 +82,7 @@ public class ToolsPanel extends Activity implements Observer
 			BaseTool tool = ((TrueSculptApp) (context.getApplicationContext())).getManagers().getToolsManager().GetToolAtIndex(i);
 			map = new HashMap<String, String>();
 			map.put("title", tool.GetName());
-			map.put("description", tool.GetDescription());
+			map.put("description", tool.GetName());// GetDescription too long now
 			map.put("image", String.valueOf(tool.GetIcon()));
 			listItem.add(map);
 		}

@@ -53,6 +53,7 @@ public class ToolPickerDialog extends Dialog
 	{
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUsageStatisticsManager().TrackPageView("/ToolPickerDialog");
 		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 
 		setContentView(R.layout.toolpickerdialog);
