@@ -40,7 +40,7 @@ abstract public class BaseTool implements ITools
 		mSquareMaxDistance = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 		mMaxDistance = (float) Math.sqrt(mSquareMaxDistance);
 
-		mSigma = (mMaxDistance) / FWHM;
+		mSigma = (mMaxDistance / 1.5f) / FWHM;
 		mMaxGaussian = Gaussian(mSigma, 0);
 	}
 
