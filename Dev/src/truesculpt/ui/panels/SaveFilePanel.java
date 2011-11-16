@@ -41,6 +41,7 @@ public class SaveFilePanel extends Activity implements Runnable
 	{
 		super.onCreate(savedInstanceState);
 
+		getManagers().getUsageStatisticsManager().TrackPageView("/SaveFilePanel");
 		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 
 		setContentView(R.layout.savefile);

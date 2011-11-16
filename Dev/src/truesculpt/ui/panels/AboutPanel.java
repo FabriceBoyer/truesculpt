@@ -7,10 +7,6 @@ import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.util.Linkify;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,26 +36,26 @@ public class AboutPanel extends Activity
 		aboutText.setText(aboutMsg);
 		Linkify.addLinks(aboutText, Linkify.ALL);
 
-		final Button buttonDonate = (Button) findViewById(R.id.donateBtn);
-		buttonDonate.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				Utils.ShowURLInBrowser(AboutPanel.this, strWebSiteURL);
-			}
-		});
+		// final Button buttonDonate = (Button) findViewById(R.id.donateBtn);
+		// buttonDonate.setOnClickListener(new View.OnClickListener()
+		// {
+		// @Override
+		// public void onClick(View v)
+		// {
+		// Utils.ShowURLInBrowser(AboutPanel.this, strWebSiteURL);
+		// }
+		// });
 
-		final Button buttonTutorial = (Button) findViewById(R.id.tutorials);
-		buttonTutorial.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				finish();
-				Utils.StartMyActivity(AboutPanel.this, truesculpt.ui.panels.TutorialOverlayPanel.class, false);
-			}
-		});
+		// final Button buttonTutorial = (Button) findViewById(R.id.tutorials);
+		// buttonTutorial.setOnClickListener(new View.OnClickListener()
+		// {
+		// @Override
+		// public void onClick(View v)
+		// {
+		// finish();
+		// Utils.StartMyActivity(AboutPanel.this, truesculpt.ui.panels.TutorialOverlayPanel.class, false);
+		// }
+		// });
 
 		final Button buttonHelp = (Button) findViewById(R.id.help);
 		buttonHelp.setOnClickListener(new View.OnClickListener()
@@ -81,40 +77,40 @@ public class AboutPanel extends Activity
 		Linkify.addLinks(licenseText, Linkify.ALL);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.about, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		case R.id.show_debug_panel:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.DebugPanel.class, false);
-			return true;
-		}
-		case R.id.show_check_version_panel:
-		{
-			Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
-			return true;
-		}
-
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event)
-	{
-		// finish();
-		return super.onTouchEvent(event);
-	}
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu)
+	// {
+	// MenuInflater inflater = getMenuInflater();
+	// inflater.inflate(R.menu.about, menu);
+	// return true;
+	// }
+	//
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item)
+	// {
+	// switch (item.getItemId())
+	// {
+	// case R.id.show_debug_panel:
+	// {
+	// Utils.StartMyActivity(this, truesculpt.ui.panels.DebugPanel.class, false);
+	// return true;
+	// }
+	// case R.id.show_check_version_panel:
+	// {
+	// Utils.StartMyActivity(this, truesculpt.ui.panels.UpdatePanel.class, false);
+	// return true;
+	// }
+	//
+	// default:
+	// return super.onOptionsItemSelected(item);
+	// }
+	// }
+	//
+	// @Override
+	// public boolean onTouchEvent(MotionEvent event)
+	// {
+	// // finish();
+	// return super.onTouchEvent(event);
+	// }
 
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="InflateTool">
+        Use this tool for global initial aspect of the sculpture. Blends smoothly with other deformation\n
+        \n\n
+        Technical details:\n
+        Moves each vertex position in a direction normal to the surface of a sphere\n
+        The intensity of the deformation decreases with the distance to the center of the selection area\n
+        \n\n
+        Parameters:\n
+        - Strength positive to grow, negative to carve\n
+        - Radius for selection area sizes\n
+    </string>
+    <string name="DrawTool">
+        Use this tool for sculpting already displaced areas. The selected area is moved along it\'s current orientation. Don\'t hesitate to grow then carve a given area\n
+        \n\n
+        Technical details:\n
+        Moves each vertex position in a direction normal to the current vertex normal\n
+        The intensity of the deformation decreases with the distance to the center of the selection area\n
+        \n\n
+        Parameters:\n
+        - Strength positive to grow, negative to carve\n
+        - Radius for selection area size\n
+    </string>
+    <string name="GrabTool">
+        Use this tool to adjust the position of a precise zone. No selection is performed\n   
+        The deformation depends on the current point of view. Look from the side to grow. Look from above to repositionate\n
+        \n\n
+        Technical details:\n
+        Moves each vertex position inside the current view plane\n
+        The intensity of the deformation decreases with the distance to the center of the selection area\n
+        \n\n
+        Parameters:\n        
+        - Radius for selection area size\n
+        - Strength not used\n
+    </string>        
+    <string name="SmoothTool">
+        Use this tool to remove unwanted spikes and jerky points\n
+        \n\n
+        Technical details:\n
+        Moves each vertex to the barycentric center of all its immediate neighbours\n
+        \n\n
+        Parameters:\n        
+        - Radius for selection area size\n
+        - Strength not used\n
+    </string>    
+    <string name="FlattenTool"/>
+    <string name="PinchTool"/>
+    <string name="ClayTool"/>
+    <string name="EmbossTool"/>
+    <string name="NoiseTool">
+        Adds random noise to the selected area\n
+        Technical details:\n
+        Moves each vertex of a random value along its current normal
+          Parameters:\n
+        - Strength positive to grow, negative to carve\n
+        - Radius for selection area size
+    </string>
+    <string name="ColorizeTool"/>
+    <string name="TexturePaintTool"/>
+    <string name="PickColorTool"/>
+    <string name="BorderTool"/>
+    <string name="HighlightTool"/>    
+</resources>

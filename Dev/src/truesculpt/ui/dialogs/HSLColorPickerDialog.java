@@ -1,6 +1,8 @@
 package truesculpt.ui.dialogs;
 
+import truesculpt.main.Managers;
 import truesculpt.main.R;
+import truesculpt.main.TrueSculptApp;
 import truesculpt.ui.views.HSLColorPickerView;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -45,9 +47,17 @@ public class HSLColorPickerDialog
 
 	float[] tmp01 = new float[3];
 
+	public Managers getManagers()
+	{
+		return ((TrueSculptApp) getContext().getApplicationContext()).getManagers();
+	}
+
 	public HSLColorPickerDialog(Context context, int color, OnAmbilWarnaListener listener)
 	{
 		this.mContext = context;
+
+		getManagers().getUsageStatisticsManager().TrackPageView("/HSLColorPickerDialog");
+
 		this.listener = listener;
 		this.warnaLama = color;
 		this.warnaBaru = color;

@@ -76,9 +76,9 @@ public class RendererMainPanel extends Activity implements Observer
 		getManagers().getUsageStatisticsManager().TrackPageView("/RendererMainPanel");
 		getManagers().getUtilsManager().InitHandler();
 
-		ShowSplashScreen();
-		getManagers().getUpdateManager().CheckUpdate(getBaseContext());
-		ShowTutorial();
+		// ShowSplashScreen();
+		// getManagers().getUpdateManager().CheckUpdate(getBaseContext());
+		// ShowTutorial();
 
 		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 
