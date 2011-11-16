@@ -24,7 +24,7 @@
     </string>
     <string name="GrabTool">
         Use this tool to adjust the position of a precise zone. No selection is performed\n   
-        The deformation depends on the current point of view. Look from the side to grow. Look from above to repositionate\n
+        The deformation depends on the current point of view : Look from the side to grow. Look from above to repositionate\n
         \n\n
         Technical details:\n
         Moves each vertex position inside the current view plane\n
