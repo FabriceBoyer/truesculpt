@@ -468,4 +468,18 @@ public class MatrixUtils
 			}
 		}
 	}
+
+	public static float saturateBetween0And1(float value)
+	{
+		float res = value;
+		if (res > 1)
+		{
+			res = 1;
+		}
+		if (res < 0)
+		{
+			res = 0;
+		}
+		return res;
+	}
 }

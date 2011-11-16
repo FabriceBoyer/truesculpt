@@ -33,15 +33,7 @@ public class InflateTool extends SculptingTool
 			// Linear
 			newOffsetFactor = (1 - (vertex.mLastTempSqDistance / mSquareMaxDistance));
 
-			// Saturate
-			if (newOffsetFactor > 1)
-			{
-				newOffsetFactor = 1;
-			}
-			if (newOffsetFactor < 0)
-			{
-				newOffsetFactor = 0;
-			}
+			newOffsetFactor = MatrixUtils.saturateBetween0And1(newOffsetFactor);
 
 			MatrixUtils.scalarMultiply(VOffset, newOffsetFactor * mMaxDeformation);
 

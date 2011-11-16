@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import truesculpt.actions.ChangeToolAction;
 import truesculpt.tools.base.BaseTool;
 import truesculpt.tools.other.GrabTool;
-import truesculpt.tools.other.HighlightTool;
 import truesculpt.tools.other.PickColorTool;
 import truesculpt.tools.painting.ColorizeTool;
-import truesculpt.tools.sculpting.ClayTool;
-import truesculpt.tools.sculpting.EmbossTool;
+import truesculpt.tools.sculpting.DrawTool;
 import truesculpt.tools.sculpting.FlattenTool;
 import truesculpt.tools.sculpting.InflateTool;
 import truesculpt.tools.sculpting.NoiseTool;
 import truesculpt.tools.sculpting.PinchTool;
-import truesculpt.tools.sculpting.DrawTool;
 import truesculpt.tools.sculpting.SmoothTool;
 import truesculpt.utils.Utils;
 import android.content.Context;
@@ -34,7 +31,7 @@ public class ToolsManager extends BaseManager
 
 	public enum ESymmetryMode
 	{
-		NONE, X, Y, Z, XY, XZ, YZ
+		NONE, X, Y, Z, XY, XZ, YZ, XYZ
 	};
 
 	public class GlobalToolState
@@ -66,8 +63,11 @@ public class ToolsManager extends BaseManager
 	private EPovToolSubMode mPovSubMode = EPovToolSubMode.ROTATE;
 
 	private ESymmetryMode mSymmetryMode = ESymmetryMode.NONE;
+
+	// specific parameters should per tool and not common, hidden if not needed
 	private float mRadius = 20.0f;// pct
 	private float mStrength = 30.0f;// pct
+
 	private BaseTool mCurrentTool = null;
 	private final ArrayList<BaseTool> mToolsLibrary = new ArrayList<BaseTool>();
 
@@ -78,9 +78,9 @@ public class ToolsManager extends BaseManager
 		InitToolsLibrary();
 	}
 
+	// TODO load from plugins or xml library
 	private void InitToolsLibrary()
 	{
-		// TODO load from plugins or xml library
 		mToolsLibrary.clear();
 		mToolsLibrary.add(new InflateTool(getManagers()));
 		mToolsLibrary.add(new DrawTool(getManagers()));
@@ -88,14 +88,14 @@ public class ToolsManager extends BaseManager
 		mToolsLibrary.add(new SmoothTool(getManagers()));
 		mToolsLibrary.add(new FlattenTool(getManagers()));
 		mToolsLibrary.add(new PinchTool(getManagers()));
-		mToolsLibrary.add(new ClayTool(getManagers()));
-		mToolsLibrary.add(new EmbossTool(getManagers()));
+		// mToolsLibrary.add(new ClayTool(getManagers()));
+		// mToolsLibrary.add(new EmbossTool(getManagers()));
 		mToolsLibrary.add(new NoiseTool(getManagers()));
 		mToolsLibrary.add(new ColorizeTool(getManagers()));
 		// mToolsLibrary.add(new TexturePaintTool(getManagers()));
 		mToolsLibrary.add(new PickColorTool(getManagers()));
 		// mToolsLibrary.add(new BorderTool(getManagers()));
-		mToolsLibrary.add(new HighlightTool(getManagers()));
+		// mToolsLibrary.add(new HighlightTool(getManagers()));
 
 		mCurrentTool = mToolsLibrary.get(0);// inflate is default
 	}

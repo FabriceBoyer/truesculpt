@@ -14,10 +14,16 @@ abstract public class BaseTool implements ITools
 	private Managers mManagers = null;
 	protected Mesh mMesh = null;
 	protected BaseAction mAction = null;
+
 	protected final float MIN_RADIUS = 0.01f;// meters
 	protected final float MAX_RADIUS = 1f;// meters
 	protected float mSquareMaxDistance = -1;
 	protected float mMaxDistance = -1;
+
+	protected float mSigma = -1;
+	protected float mMaxGaussian = -1;
+	protected final float FWHM = (float) (2f * Math.sqrt(2 * Math.log(2f)));// full width at half maximum
+	protected final static float oneoversqrttwopi = (float) (1f / Math.sqrt(2f * Math.PI));
 
 	public BaseTool(Managers managers)
 	{
@@ -33,6 +39,9 @@ abstract public class BaseTool implements ITools
 
 		mSquareMaxDistance = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
 		mMaxDistance = (float) Math.sqrt(mSquareMaxDistance);
+
+		mSigma = (mMaxDistance) / FWHM;
+		mMaxGaussian = Gaussian(mSigma, 0);
 	}
 
 	abstract protected void PickInternal(float xScreen, float yScreen, ESymmetryMode mode);
@@ -81,6 +90,11 @@ abstract public class BaseTool implements ITools
 		}
 
 		mMesh = null;
+	}
+
+	protected static float Gaussian(float sigma, float sqDist)
+	{
+		return (float) (oneoversqrttwopi / sigma * Math.exp(-sqDist / (2 * sigma * sigma)));
 	}
 
 	protected Managers getManagers()
