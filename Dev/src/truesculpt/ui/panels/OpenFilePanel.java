@@ -48,25 +48,29 @@ public class OpenFilePanel extends Activity implements Runnable
 		mFileList.clear();
 		getManagers().getUtilsManager();
 		String strRootDir = UtilsManager.GetRootDirectory();
+
 		File rootDir = new File(strRootDir);
-		File[] listFiles = rootDir.listFiles();
-		for (File file : listFiles)
+		if (rootDir.exists())
 		{
-			boolean bIsDir = file.isDirectory();
-			if (bIsDir)
+			File[] listFiles = rootDir.listFiles();
+			for (File file : listFiles)
 			{
-				String strName = file.getName();
-				String strObjName = file.getAbsolutePath() + "/" + "Mesh.obj";
-				String strImageName = file.getAbsolutePath() + "/" + "Image.png";
-				File ObjName = new File(strObjName);
-				File ImageName = new File(strImageName);
-				if (ObjName.exists() && ImageName.exists())
+				boolean bIsDir = file.isDirectory();
+				if (bIsDir)
 				{
-					FileElem elem = new FileElem();
-					elem.objfilename = strObjName;
-					elem.name = strName;
-					elem.imagefilename = strImageName;
-					mFileList.add(elem);
+					String strName = file.getName();
+					String strObjName = file.getAbsolutePath() + "/" + "Mesh.obj";
+					String strImageName = file.getAbsolutePath() + "/" + "Image.png";
+					File ObjName = new File(strObjName);
+					File ImageName = new File(strImageName);
+					if (ObjName.exists() && ImageName.exists())
+					{
+						FileElem elem = new FileElem();
+						elem.objfilename = strObjName;
+						elem.name = strName;
+						elem.imagefilename = strImageName;
+						mFileList.add(elem);
+					}
 				}
 			}
 		}
