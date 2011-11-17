@@ -20,7 +20,7 @@
 	<activity android:name="truesculpt.ui.panels.DebugPanel" android:label="@string/debug_panel"></activity>
 	<activity android:name="truesculpt.ui.panels.UpdatePanel" android:label="@string/update_version_panel"></activity>
 	<activity android:name="truesculpt.ui.panels.TutorialWizardPanel" android:label="@string/tutorial_wizard"></activity>
-	<activity android:name="truesculpt.ui.panels.DebugSensorsPanel" android:screenOrientation="portrait" android:label="@string/show_sensors"></activity>
+	<activity android:name="truesculpt.ui.panels.DebugSensorsPanel" android:label="@string/show_sensors"></activity>
 	<activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash"></activity>
 	<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel"></activity>
 	<activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel"></activity>
