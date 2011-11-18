@@ -8,6 +8,7 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.managers.UtilsManager;
+import truesculpt.tools.base.BaseTool;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorShowView;
 import truesculpt.ui.views.SliderPickView;
@@ -653,7 +654,7 @@ public class RendererMainPanel extends Activity implements Observer
 		if (getManagers().getActionsManager().GetUndoActionCount() <= 0)
 		{
 			mUndoButton.setEnabled(false);
-			mUndoButton.setVisibility(View.INVISIBLE);
+			mUndoButton.setVisibility(View.GONE);
 		}
 		else
 		{
@@ -664,7 +665,7 @@ public class RendererMainPanel extends Activity implements Observer
 		if (getManagers().getActionsManager().GetRedoActionCount() <= 0)
 		{
 			mRedoButton.setEnabled(false);
-			mRedoButton.setVisibility(View.INVISIBLE);
+			mRedoButton.setVisibility(View.GONE);
 		}
 		else
 		{
@@ -672,18 +673,26 @@ public class RendererMainPanel extends Activity implements Observer
 			mRedoButton.setVisibility(View.VISIBLE);
 		}
 
+		BaseTool currTool = getManagers().getToolsManager().getCurrentTool();
+
 		mColorShow.setColor(getManagers().getToolsManager().getColor());
+		mColorShow.setVisibility(currTool.RequiresColor() ? View.VISIBLE : View.GONE);
 
 		mToolPicker.setCurrentValue(getManagers().getToolsManager().getCurrentToolIndex(), getManagers().getToolsManager().getCurrentTool().GetIcon(), getManagers().getToolsManager().getCurrentTool().GetName());
 
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
+		mRadius.setVisibility(currTool.RequiresRadius() ? View.VISIBLE : View.GONE);
 
 		mStrength.setCurrentValue(getManagers().getToolsManager().getStrengthAbsoluteValue());
 		int strengthColor = Color.RED;
 		if (getManagers().getToolsManager().isStrengthPositive()) strengthColor = Color.BLUE;
 		mStrength.SetCircleBackColor(strengthColor);
+		mStrength.setVisibility(currTool.RequiresStrength() ? View.VISIBLE : View.GONE);
 
 		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE);
+		mSymmetrySwitcher.setVisibility(currTool.RequiresSymmetry() ? View.VISIBLE : View.GONE);
+
+		mToolsSlidingDrawer.requestLayout();
 	}
 
 	private void UpdateGLView()

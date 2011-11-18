@@ -1,6 +1,5 @@
 package truesculpt.tools.base;
 
-
 public interface ITools
 {
 	abstract public void Start(float xScreen, float yScreen);
@@ -16,4 +15,12 @@ public interface ITools
 	abstract public int GetIcon();
 
 	abstract public boolean RequiresToolOverlay();
+
+	abstract public boolean RequiresStrength();
+
+	abstract public boolean RequiresRadius();
+
+	abstract public boolean RequiresColor();
+
+	abstract public boolean RequiresSymmetry();
 }

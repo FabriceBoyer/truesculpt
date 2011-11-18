@@ -41,4 +41,28 @@ public class PickColorTool extends BaseTool
 	{
 		return "Pick color";
 	}
+
+	@Override
+	public boolean RequiresStrength()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean RequiresRadius()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean RequiresColor()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean RequiresSymmetry()
+	{
+		return false;
+	}
 }

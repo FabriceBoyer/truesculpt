@@ -18,4 +18,28 @@ public abstract class PaintingTool extends SelectionTool
 		mAction = new ColorizeAction();
 	}
 
+	@Override
+	public boolean RequiresStrength()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean RequiresRadius()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean RequiresColor()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean RequiresSymmetry()
+	{
+		return true;
+	}
+
 }

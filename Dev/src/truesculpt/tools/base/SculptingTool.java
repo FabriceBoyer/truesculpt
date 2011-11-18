@@ -31,4 +31,28 @@ public abstract class SculptingTool extends SelectionTool
 	{
 		return true;
 	}
+
+	@Override
+	public boolean RequiresStrength()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean RequiresRadius()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean RequiresColor()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean RequiresSymmetry()
+	{
+		return true;
+	}
 }

@@ -144,4 +144,28 @@ public class GrabTool extends BaseTool
 		return "Grab";
 	}
 
+	@Override
+	public boolean RequiresStrength()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean RequiresRadius()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean RequiresColor()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean RequiresSymmetry()
+	{
+		return true;
+	}
+
 }
