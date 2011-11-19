@@ -84,7 +84,7 @@ public class ActionsManager extends BaseManager
 		mCurrChangeCount += action.GetChangeCount();
 
 		// history stripping
-		if (mCurrChangeCount > MAX_CHANGE_COUNT)
+		while (mCurrChangeCount > MAX_CHANGE_COUNT)
 		{
 			int nIndex = GetUndoActionCount() - 1;
 			BaseAction removedAction = mUndoActionsList.get(nIndex);
