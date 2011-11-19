@@ -49,7 +49,7 @@ public class UsageStatisticsManager extends BaseManager
 		if (getManagers().getOptionsManager().getGatherUsageData() == true)
 		{
 			tracker = GoogleAnalyticsTracker.getInstance();
-			tracker.start("UA-18915484-3", 300, getbaseContext());
+			tracker.startNewSession("UA-18915484-3", 20, getbaseContext());
 		}
 	}
 
@@ -58,7 +58,7 @@ public class UsageStatisticsManager extends BaseManager
 		if (tracker != null)
 		{
 			tracker.dispatch();
-			tracker.stop();
+			tracker.stopSession();
 			tracker = null;
 		}
 	}
