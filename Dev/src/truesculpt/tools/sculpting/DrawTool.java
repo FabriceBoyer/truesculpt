@@ -25,10 +25,10 @@ public class DrawTool extends SculptingTool
 			float newOffsetFactor = 1;
 
 			// Gaussian
-			newOffsetFactor = Gaussian(mSigma, vertex.mLastTempSqDistance) / mMaxGaussian;
+			// newOffsetFactor = Gaussian(mSigma, vertex.mLastTempSqDistance) / mMaxGaussian;
 
 			// Quadratic
-			// newOffsetFactor = 1 - (vertex.mLastTempSqDistance / mSquareMaxDistance);
+			newOffsetFactor = 1 - (vertex.mLastTempSqDistance / mSquareMaxDistance);
 
 			// Linear
 			// newOffsetFactor = (float) (1 - Math.sqrt(vertex.mLastTempSqDistance / mSquareMaxDistance));
