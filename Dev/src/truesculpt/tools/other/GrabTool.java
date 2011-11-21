@@ -129,6 +129,12 @@ public class GrabTool extends BaseTool
 	{
 		super.Stop(xScreen, yScreen);
 
+		// last distance reset
+		for (Vertex vertex : mVerticesRes)
+		{
+			vertex.mLastTempSqDistance = -1.f;
+		}
+
 		mVerticesRes.clear();
 	}
 
