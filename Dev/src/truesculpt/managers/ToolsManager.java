@@ -31,7 +31,7 @@ public class ToolsManager extends BaseManager
 
 	public enum ESymmetryMode
 	{
-		NONE, X, Y, Z, XY, XZ, YZ, XYZ
+		NONE, X, Y, Z
 	};
 
 	public class GlobalToolState
