@@ -14,14 +14,14 @@ import truesculpt.utils.MatrixUtils;
 
 public class GrabTool extends BaseTool
 {
-	private Vertex mVOrigVertex = null;
-	private int mnOrigVertex = -1;
-	private boolean mbOrigSet = false;
 	protected final HashSet<Vertex> mVerticesRes = new HashSet<Vertex>();
+	protected final HashSet<Vertex> mVerticesResSymmetry = new HashSet<Vertex>();
 	protected final float[] VOffset = new float[3];
 	protected final float[] VNormal = new float[3];
 	protected final float[] VScreenXNormal = new float[3];
 	protected final float[] VScreenYNormal = new float[3];
+	protected final float[] tempX = new float[3];
+	protected final float[] tempY = new float[3];
 	protected final float[] temp = new float[3];
 	private float mxOrig = -1;
 	private float myOrig = -1;
@@ -40,34 +40,38 @@ public class GrabTool extends BaseTool
 		mAction = new SculptAction();
 
 		mVerticesRes.clear();
-		mbOrigSet = false;
+		mVerticesResSymmetry.clear();
 	}
 
 	@Override
 	protected void PickInternal(float xScreen, float yScreen, ESymmetryMode mode)
 	{
+		HashSet<Vertex> currVerticesRes = mVerticesRes;
+		if (mode != ESymmetryMode.NONE)
+		{
+			currVerticesRes = mVerticesResSymmetry;
+		}
+
 		// init
-		if (!mbOrigSet && mode == ESymmetryMode.NONE)
+		if (currVerticesRes.size() == 0)
 		{
 			if (mMesh != null)
 			{
-				int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, ESymmetryMode.NONE);
+				int nTriangleIndex = getManagers().getMeshManager().Pick(xScreen, yScreen, mode);
 				if (nTriangleIndex >= 0)
 				{
 					Face face = mMesh.mFaceList.get(nTriangleIndex);
-					mnOrigVertex = face.E0.V0;// TODO choose closest point in triangle from pick point
-					mVOrigVertex = mMesh.mVertexList.get(mnOrigVertex);
 
-					mMesh.GetVerticesAtDistanceFromSegment(mVOrigVertex, null, mSquareMaxDistance, mVerticesRes);
+					mMesh.GetVerticesAtDistanceFromSegment(mMesh.mVertexList.get(face.E0.V0), null, mSquareMaxDistance, currVerticesRes);
+
 					mxOrig = xScreen;
 					myOrig = yScreen;
-					mbOrigSet = true;
 				}
 			}
 		}
 
 		// shaping
-		if (mbOrigSet && mAction != null)
+		if (mAction != null)
 		{
 			float distX = xScreen - mxOrig;
 			float distY = -(yScreen - myOrig);// y is inverted compared to opengl
@@ -83,11 +87,8 @@ public class GrabTool extends BaseTool
 			MatrixUtils.minus(temp, VScreenYNormal, VScreenYNormal);
 			MatrixUtils.normalize(VScreenYNormal);
 
-			for (Vertex vertex : mVerticesRes)
+			for (Vertex vertex : currVerticesRes)
 			{
-				// only along normal at present time
-				MatrixUtils.copy(vertex.Coord, VOffset);
-
 				// Gaussian
 				float newOffsetFactor = Gaussian(mSigma, vertex.mLastTempSqDistance) / mMaxGaussian;
 
@@ -99,13 +100,28 @@ public class GrabTool extends BaseTool
 
 				newOffsetFactor = MatrixUtils.saturateBetween0And1(newOffsetFactor);
 
-				MatrixUtils.copy(VScreenXNormal, temp);
-				MatrixUtils.scalarMultiply(temp, newOffsetFactor * distX / mPixelRatio);
-				MatrixUtils.plus(VOffset, temp, VOffset);
+				MatrixUtils.copy(VScreenXNormal, tempX);
+				MatrixUtils.scalarMultiply(tempX, newOffsetFactor * distX / mPixelRatio);
 
-				MatrixUtils.copy(VScreenYNormal, temp);
-				MatrixUtils.scalarMultiply(temp, newOffsetFactor * distY / mPixelRatio);
-				MatrixUtils.plus(VOffset, temp, VOffset);
+				MatrixUtils.copy(VScreenYNormal, tempY);
+				MatrixUtils.scalarMultiply(tempY, newOffsetFactor * distY / mPixelRatio);
+
+				MatrixUtils.plus(tempX, tempY, temp);
+
+				switch (mode)
+				{
+				case X:
+					temp[0] *= -1;
+					break;
+				case Y:
+					temp[1] *= -1;
+					break;
+				case Z:
+					temp[2] *= -1;
+					break;
+				}
+
+				MatrixUtils.plus(vertex.Coord, temp, VOffset);
 
 				// Do only at the end to optimize memory usage, not needed for intermediary results
 				((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
@@ -134,8 +150,14 @@ public class GrabTool extends BaseTool
 		{
 			vertex.mLastTempSqDistance = -1.f;
 		}
-
 		mVerticesRes.clear();
+
+		for (Vertex vertex : mVerticesResSymmetry)
+		{
+			vertex.mLastTempSqDistance = -1.f;
+		}
+		mVerticesResSymmetry.clear();
+
 	}
 
 	@Override

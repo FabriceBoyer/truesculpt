@@ -66,11 +66,6 @@ abstract public class BaseTool implements ITools
 		case Z:
 			PickInternal(xScreen, yScreen, ESymmetryMode.Z);
 			break;
-		case XY:
-		case YZ:
-		case XZ:
-			// not handled at present time
-			break;
 		}
 
 		// Regular pick always done
