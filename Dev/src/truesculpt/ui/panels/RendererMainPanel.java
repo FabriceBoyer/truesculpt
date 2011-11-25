@@ -126,8 +126,8 @@ public class RendererMainPanel extends Activity implements Observer
 		});
 
 		mBigTextOverlay = (TextView) findViewById(R.id.bigTextValueOverlay);
-		mBigTextOverlay.setText("0%");
-		mBigTextOverlay.setVisibility(View.INVISIBLE);
+		mBigTextOverlay.setTextSize(25);
+		HideBigTextOverlay();
 
 		mToolPicker = (ToolPickerView) findViewById(R.id.SculptToolPicker);
 		mToolPicker.setElemCount(getManagers().getToolsManager().GetToolsLibrarySize());
@@ -153,7 +153,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void ToolChangeStop(int value)
 			{
-				mBigTextOverlay.setVisibility(View.INVISIBLE);
+				HideBigTextOverlay();
 			}
 		});
 		mToolPicker.setDoubleClickListener(new ToolPickerView.OnDoubleClickListener()
@@ -180,7 +180,7 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				getManagers().getToolsManager().setCurrentTool((int) arg3);
 				mCoverFlow.setVisibility(View.GONE);
-				mBigTextOverlay.setVisibility(View.INVISIBLE);
+				HideBigTextOverlay();
 			}
 		});
 		mCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener()
@@ -188,7 +188,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				mBigTextOverlay.setVisibility(View.VISIBLE);
+
 				UpdateToolBigTextOverlay((int) arg3);
 				getManagers().getToolsManager().setCurrentTool((int) arg3);
 			}
@@ -225,14 +225,12 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
-					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(30);
 					mBigTextOverlay.setTextColor(Color.WHITE);
 					mBigTextOverlay.setText("Redo");
 				}
 				else
 				{
-					mBigTextOverlay.setVisibility(View.INVISIBLE);
+					HideBigTextOverlay();
 				}
 				return false;
 			}
@@ -263,14 +261,13 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
-					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(30);
+
 					mBigTextOverlay.setTextColor(Color.WHITE);
 					mBigTextOverlay.setText("Undo");
 				}
 				else
 				{
-					mBigTextOverlay.setVisibility(View.INVISIBLE);
+					HideBigTextOverlay();
 				}
 				return false;
 			}
@@ -301,14 +298,13 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
-					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(25);
+
 					mBigTextOverlay.setTextColor(Color.WHITE);
 					mBigTextOverlay.setText("Reset view\n\nUse two fingers\nTo zoom and pan\nDrag in black to rotate");
 				}
 				else
 				{
-					mBigTextOverlay.setVisibility(View.INVISIBLE);
+					HideBigTextOverlay();
 				}
 				return false;
 			}
@@ -346,8 +342,7 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
-					mBigTextOverlay.setVisibility(View.VISIBLE);
-					mBigTextOverlay.setTextSize(25);
+
 					mBigTextOverlay.setTextColor(Color.WHITE);
 					String text = "Enable symmetry";
 					if (getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE)// new mode not set yet
@@ -358,7 +353,7 @@ public class RendererMainPanel extends Activity implements Observer
 				}
 				else
 				{
-					mBigTextOverlay.setVisibility(View.INVISIBLE);
+					HideBigTextOverlay();
 				}
 				return false;
 			}
@@ -399,7 +394,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChangeStop(int color)
 			{
-				mBigTextOverlay.setVisibility(View.INVISIBLE);
+				HideBigTextOverlay();
 				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
@@ -429,7 +424,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStop(float value)
 			{
-				mBigTextOverlay.setVisibility(View.INVISIBLE);
+				HideBigTextOverlay();
 				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
@@ -458,7 +453,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
-				mBigTextOverlay.setVisibility(View.VISIBLE);
+
 			}
 
 			@Override
@@ -466,7 +461,7 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				getManagers().getToolsManager().setRadius(seekBar.getProgress(), false);
 				mRadiusSeekBar.setVisibility(View.GONE);
-				mBigTextOverlay.setVisibility(View.GONE);
+				HideBigTextOverlay();
 			}
 		});
 
@@ -495,7 +490,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStop(float value)
 			{
-				mBigTextOverlay.setVisibility(View.INVISIBLE);
+				HideBigTextOverlay();
 				// getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
@@ -525,7 +520,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
-				mBigTextOverlay.setVisibility(View.VISIBLE);
+
 			}
 
 			@Override
@@ -533,7 +528,7 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				getManagers().getToolsManager().setStrength(seekBar.getProgress() - 100, false);
 				mStrengthSeekBar.setVisibility(View.GONE);
-				mBigTextOverlay.setVisibility(View.GONE);
+				HideBigTextOverlay();
 			}
 		});
 
@@ -801,6 +796,12 @@ public class RendererMainPanel extends Activity implements Observer
 	{
 		mStrengthSeekBar.setVisibility(View.GONE);
 		mRadiusSeekBar.setVisibility(View.GONE);
+		HideBigTextOverlay();
+	}
+
+	private void HideBigTextOverlay()
+	{
+		mBigTextOverlay.setText("");
 	}
 
 	private void UpdateGLView()
@@ -811,8 +812,7 @@ public class RendererMainPanel extends Activity implements Observer
 	private void SetBigTextOverlayToDragMe()
 	{
 		mBigTextOverlay.setTextColor(Color.WHITE);
-		mBigTextOverlay.setTextSize(30);
-		mBigTextOverlay.setVisibility(View.VISIBLE);
+
 		mBigTextOverlay.setText("Drag to adjust\nOr\nDouble click");
 	}
 
