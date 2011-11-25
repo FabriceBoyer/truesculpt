@@ -188,7 +188,6 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-
 				UpdateToolBigTextOverlay((int) arg3);
 				getManagers().getToolsManager().setCurrentTool((int) arg3);
 			}
