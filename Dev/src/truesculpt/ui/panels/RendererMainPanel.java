@@ -298,9 +298,8 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				if ((arg1.getAction() & MotionEvent.ACTION_MASK) != MotionEvent.ACTION_UP)
 				{
-
 					mBigTextOverlay.setTextColor(Color.WHITE);
-					mBigTextOverlay.setText("Reset view\n\nUse two fingers\nTo zoom and pan\nDrag in black to rotate");
+					mBigTextOverlay.setText("Reset view\n\nUse two fingers\nTo zoom and pan\n\nDrag in black to rotate");
 				}
 				else
 				{
