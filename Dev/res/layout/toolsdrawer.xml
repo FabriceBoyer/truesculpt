@@ -12,20 +12,63 @@
 		
 		<Button android:layout_width="0px" android:layout_height="0px" android:id="@+id/toolsSlideHandleButton"></Button>
 		
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<LinearLayout
 			android:id="@+id/contentLayout"
 			android:gravity="left"	        
-	        android:layout_width="50dip"
+	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"	  
 	        android:orientation="vertical"	        
-	        >	   			
-		
-			 	<truesculpt.ui.views.ToolPickerView android:layout_gravity="top" android:layout_marginTop="10dip" android:layout_marginBottom="8dip" android:layout_height="50dip"  android:layout_width="50dip" android:id="@+id/SculptToolPicker"></truesculpt.ui.views.ToolPickerView>
-			 	<truesculpt.ui.views.ColorShowView android:layout_gravity="top" android:layout_marginBottom="8dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ColorShowView"></truesculpt.ui.views.ColorShowView>
-		
-			 	<truesculpt.ui.views.SliderPickView android:layout_gravity="top" android:layout_marginBottom="8dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RadiusPicker"></truesculpt.ui.views.SliderPickView>
-			 	<truesculpt.ui.views.SliderPickView android:layout_gravity="top" android:layout_marginBottom="8dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/StrengthPicker"></truesculpt.ui.views.SliderPickView>
-			 	    
+	        >
+
+			<TableLayout
+			    android:id="@+id/tableLayout1"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content" 
+			    android:stretchColumns="1">
+
+			    <TableRow
+			        android:id="@+id/tableRow1"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content" >
+			        
+			        <truesculpt.ui.views.ToolPickerView android:layout_gravity="top" android:layout_marginTop="10dip" android:layout_marginBottom="8dip" android:layout_height="50dip"  android:layout_width="50dip" android:id="@+id/SculptToolPicker"></truesculpt.ui.views.ToolPickerView>
+			        
+			        <truesculpt.ui.views.CoverFlow android:id="@+id/coverflow" android:layout_gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			        
+			    </TableRow>
+
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content" >
+			        
+			        <truesculpt.ui.views.ColorShowView android:layout_gravity="top" android:layout_marginBottom="8dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ColorShowView"></truesculpt.ui.views.ColorShowView>
+			        
+			    </TableRow>
+
+			    <TableRow
+			        android:id="@+id/tableRow3"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content" >
+			        
+			        <truesculpt.ui.views.SliderPickView android:layout_gravity="top" android:layout_marginBottom="8dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RadiusPicker"></truesculpt.ui.views.SliderPickView>
+			         
+ 					<SeekBar android:id="@+id/RadiusBar" android:layout_gravity="center_vertical" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
+			            
+			    </TableRow>
+
+			    <TableRow
+			        android:id="@+id/tableRow4"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content" >
+			        
+			        <truesculpt.ui.views.SliderPickView android:layout_gravity="top" android:layout_marginBottom="8dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/StrengthPicker"></truesculpt.ui.views.SliderPickView>
+			        
+			        <SeekBar android:id="@+id/StrengthBar" android:layout_gravity="center_vertical" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:layout_width="fill_parent" android:layout_height="wrap_content"></SeekBar>
+			        
+			    </TableRow>
+			</TableLayout>
+		 
 			 	<ToggleButton android:layout_gravity="top" android:layout_marginBottom="8dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/SymmetrySwitcher" android:textOn="" android:textOff="" android:background="@drawable/symmetry_switcher_selector"></ToggleButton>
 				
 				<ImageButton android:layout_gravity="top" android:scaleType="fitCenter" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/ResetPOVBtn" android:src="@drawable/eye" android:background="@android:color/transparent" ></ImageButton>
