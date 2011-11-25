@@ -204,19 +204,22 @@ public class ToolsManager extends BaseManager
 
 	public void setRadius(float radius, boolean bAddUndoAction)
 	{
-		// if (bAddUndoAction) SetUndoInitialState();
-		this.mRadius = radius;
-		// if (bAddUndoAction) AddUndoToolAction();
+		if (radius != mRadius)
+		{
+			// if (bAddUndoAction) SetUndoInitialState();
+			this.mRadius = radius;
+			// if (bAddUndoAction) AddUndoToolAction();
 
-		if (mRadius > 100)
-		{
-			mRadius = 100;
+			if (mRadius > 100)
+			{
+				mRadius = 100;
+			}
+			if (mRadius < 1)
+			{
+				mRadius = 1;
+			}
+			NotifyListeners();
 		}
-		if (mRadius < 1)
-		{
-			mRadius = 1;
-		}
-		NotifyListeners();
 	}
 
 	public BaseTool GetToolAtIndex(int nIndex)
@@ -259,20 +262,23 @@ public class ToolsManager extends BaseManager
 
 	public void setStrength(float strength, boolean bAddUndoAction)
 	{
-		// if (bAddUndoAction) SetUndoInitialState();
-		this.mStrength = strength;
-		// if (bAddUndoAction) AddUndoToolAction();
-
-		if (mStrength > 100)
+		if (strength != mStrength)
 		{
-			mStrength = 100;
-		}
-		if (mStrength < -100)
-		{
-			mStrength = -100;
-		}
+			// if (bAddUndoAction) SetUndoInitialState();
+			this.mStrength = strength;
+			// if (bAddUndoAction) AddUndoToolAction();
 
-		NotifyListeners();
+			if (mStrength > 100)
+			{
+				mStrength = 100;
+			}
+			if (mStrength < -100)
+			{
+				mStrength = -100;
+			}
+
+			NotifyListeners();
+		}
 	}
 
 	public void setToolMode(EToolMode mode)

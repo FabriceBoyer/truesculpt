@@ -9,8 +9,10 @@ import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.managers.UtilsManager;
 import truesculpt.tools.base.BaseTool;
+import truesculpt.ui.adapters.CoverFlowImageAdapter;
 import truesculpt.ui.dialogs.ColorPickerDialog.OnColorChangedListener;
 import truesculpt.ui.views.ColorShowView;
+import truesculpt.ui.views.CoverFlow;
 import truesculpt.ui.views.SliderPickView;
 import truesculpt.ui.views.SliderPickView.OnDoubleClickListener;
 import truesculpt.ui.views.SliderPickView.OnSliderPickChangedListener;
@@ -29,7 +31,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
@@ -50,6 +57,11 @@ public class RendererMainPanel extends Activity implements Observer
 	private ToggleButton mSymmetrySwitcher;
 	private ImageButton mFilesBtn;
 	private TextView mBigTextOverlay;
+	private CoverFlow mCoverFlow;
+	private SeekBar mRadiusSeekBar;
+	private SeekBar mStrengthSeekBar;
+
+	private final int mRadiusBkColor = Color.rgb(0, 140, 0);// dk green
 
 	public Managers getManagers()
 	{
@@ -125,6 +137,7 @@ public class RendererMainPanel extends Activity implements Observer
 			public void ToolChangeStart(int value)
 			{
 				SetBigTextOverlayToDragMe();
+				mCoverFlow.setVisibility(mCoverFlow.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 			}
 
 			@Override
@@ -133,7 +146,7 @@ public class RendererMainPanel extends Activity implements Observer
 				if (value != getManagers().getToolsManager().getCurrentToolIndex())
 				{
 					getManagers().getToolsManager().setCurrentTool(value);
-					mBigTextOverlay.setText(getManagers().getToolsManager().GetToolAtIndex(value).GetName());
+					UpdateToolBigTextOverlay(value);
 				}
 			}
 
@@ -148,7 +161,42 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDoubleClick(float value)
 			{
+				mCoverFlow.setVisibility(View.GONE);
+				HideAllOptionnalTools();
 				getManagers().getUtilsManager().ShowToolPickerDialog(RendererMainPanel.this);
+			}
+		});
+
+		mCoverFlow = (CoverFlow) findViewById(R.id.coverflow);
+		CoverFlowImageAdapter coverImageAdapter = new CoverFlowImageAdapter(this);
+		coverImageAdapter.createReflectedImages();
+		mCoverFlow.setAdapter(coverImageAdapter);
+		mCoverFlow.setSpacing(-15);
+		mCoverFlow.setAnimationDuration(1000);
+		mCoverFlow.setOnItemClickListener(new OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				getManagers().getToolsManager().setCurrentTool((int) arg3);
+				mCoverFlow.setVisibility(View.GONE);
+				mBigTextOverlay.setVisibility(View.INVISIBLE);
+			}
+		});
+		mCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				mBigTextOverlay.setVisibility(View.VISIBLE);
+				UpdateToolBigTextOverlay((int) arg3);
+				getManagers().getToolsManager().setCurrentTool((int) arg3);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+
 			}
 		});
 
@@ -256,7 +304,7 @@ public class RendererMainPanel extends Activity implements Observer
 					mBigTextOverlay.setVisibility(View.VISIBLE);
 					mBigTextOverlay.setTextSize(25);
 					mBigTextOverlay.setTextColor(Color.WHITE);
-					mBigTextOverlay.setText("Reset view\n\nUse two fingers\nTo zoom and pan");
+					mBigTextOverlay.setText("Reset view\n\nUse two fingers\nTo zoom and pan\nDrag in black to rotate");
 				}
 				else
 				{
@@ -322,6 +370,7 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDoubleClick(int color)
 			{
+				HideAllOptionnalTools();
 				getManagers().getToolsManager().setColor(color, false, true);
 				UtilsManager.ShowHSLColorPickerDialog(RendererMainPanel.this);
 			}
@@ -355,30 +404,26 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 
-		final int mRadiusColor = Color.rgb(0, 140, 0);// dk green
 		mRadius = (SliderPickView) findViewById(R.id.RadiusPicker);
 		mRadius.setText("Radius");
 		mRadius.setMaxValue(100);
 		mRadius.setMinValue(0);
-		mRadius.SetCircleBackColor(mRadiusColor);
+		mRadius.SetCircleBackColor(mRadiusBkColor);
 		mRadius.setSliderChangeListener(new OnSliderPickChangedListener()
 		{
 			@Override
 			public void sliderChangeStart(float value)
 			{
 				SetBigTextOverlayToDragMe();
-				mBigTextOverlay.setTextColor(mRadiusColor);
+				mRadiusSeekBar.setVisibility(mRadiusSeekBar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				if (value != getManagers().getToolsManager().getRadius())
-				{
-					getManagers().getToolsManager().setRadius(value, false);
-					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()) + " %\nRadius");
-				}
+				UpdateRadiusBigTextOverlay(value);
+				getManagers().getToolsManager().setRadius(value, false);
 			}
 
 			@Override
@@ -393,8 +438,35 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDoubleClick(float value)
 			{
+				HideAllOptionnalTools();
 				getManagers().getToolsManager().setRadius(value, false);
 				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.ToolsPanel.class, false);
+			}
+		});
+
+		mRadiusSeekBar = (SeekBar) findViewById(R.id.RadiusBar);
+		mRadiusSeekBar.setMax(100);// 0 to 100 pct
+		mRadiusSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
+				UpdateRadiusBigTextOverlay(progress);
+				getManagers().getToolsManager().setRadius(progress, false);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar)
+			{
+				mBigTextOverlay.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar)
+			{
+				getManagers().getToolsManager().setRadius(seekBar.getProgress(), false);
+				mRadiusSeekBar.setVisibility(View.GONE);
+				mBigTextOverlay.setVisibility(View.GONE);
 			}
 		});
 
@@ -407,25 +479,17 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void sliderChangeStart(float value)
 			{
-				int textColor = Color.RED;
-				if (getManagers().getToolsManager().isStrengthPositive())
-				{
-					textColor = Color.BLUE;
-				}
+
 				SetBigTextOverlayToDragMe();
-				mBigTextOverlay.setTextColor(textColor);
+				mStrengthSeekBar.setVisibility(mStrengthSeekBar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void sliderValueChanged(float value)
 			{
-				if (value != getManagers().getToolsManager().getStrengthAbsoluteValue())
-				{
-					getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
-					String strDirection = getManagers().getToolsManager().isStrengthPositive() ? "Additive" : "Subtractive";
-					mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\n" + strDirection + "\nStrength");
-				}
+				UpdateStrengthBigTextOverlay(value);
+				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
 			}
 
 			@Override
@@ -440,9 +504,36 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onDoubleClick(float value)
 			{
+				HideAllOptionnalTools();
 				getManagers().getToolsManager().setStrengthAbsoluteValue(value, false);
 				boolean bIsPositive = getManagers().getToolsManager().isStrengthPositive();
 				getManagers().getToolsManager().setStrengthSignum(!bIsPositive, false);
+			}
+		});
+
+		mStrengthSeekBar = (SeekBar) findViewById(R.id.StrengthBar);
+		mStrengthSeekBar.setMax(200);// -100 to 100 pct
+		mStrengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
+				UpdateStrengthBigTextOverlay(progress - 100);
+				getManagers().getToolsManager().setStrength(progress - 100, false);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar)
+			{
+				mBigTextOverlay.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar)
+			{
+				getManagers().getToolsManager().setStrength(seekBar.getProgress() - 100, false);
+				mStrengthSeekBar.setVisibility(View.GONE);
+				mBigTextOverlay.setVisibility(View.GONE);
 			}
 		});
 
@@ -466,6 +557,9 @@ public class RendererMainPanel extends Activity implements Observer
 		});
 
 		mToolsSlidingDrawer.open();
+
+		mCoverFlow.setVisibility(View.GONE);
+		HideAllOptionnalTools();
 
 		UpdateGLView();
 		UpdateButtonsView();
@@ -605,6 +699,7 @@ public class RendererMainPanel extends Activity implements Observer
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+		HideAllOptionnalTools();
 		int nRes = getManagers().getTouchManager().onTouchEvent(event);
 		switch (nRes)
 		{
@@ -679,9 +774,13 @@ public class RendererMainPanel extends Activity implements Observer
 		mColorShow.setVisibility(currTool.RequiresColor() ? View.VISIBLE : View.GONE);
 
 		mToolPicker.setCurrentValue(getManagers().getToolsManager().getCurrentToolIndex(), getManagers().getToolsManager().getCurrentTool().GetIcon(), getManagers().getToolsManager().getCurrentTool().GetName());
+		mCoverFlow.setSelection(getManagers().getToolsManager().getCurrentToolIndex(), true);
 
 		mRadius.setCurrentValue(getManagers().getToolsManager().getRadius());
 		mRadius.setVisibility(currTool.RequiresRadius() ? View.VISIBLE : View.GONE);
+
+		mRadiusSeekBar.setProgress((int) getManagers().getToolsManager().getRadius());
+		if (!currTool.RequiresRadius()) mRadiusSeekBar.setVisibility(View.GONE);
 
 		mStrength.setCurrentValue(getManagers().getToolsManager().getStrengthAbsoluteValue());
 		int strengthColor = Color.RED;
@@ -689,10 +788,19 @@ public class RendererMainPanel extends Activity implements Observer
 		mStrength.SetCircleBackColor(strengthColor);
 		mStrength.setVisibility(currTool.RequiresStrength() ? View.VISIBLE : View.GONE);
 
+		mStrengthSeekBar.setProgress((int) getManagers().getToolsManager().getStrength() + 100);
+		if (!currTool.RequiresStrength()) mStrengthSeekBar.setVisibility(View.GONE);
+
 		mSymmetrySwitcher.setChecked(getManagers().getToolsManager().getSymmetryMode() != ESymmetryMode.NONE);
 		mSymmetrySwitcher.setVisibility(currTool.RequiresSymmetry() ? View.VISIBLE : View.GONE);
 
 		mToolsSlidingDrawer.requestLayout();
+	}
+
+	public void HideAllOptionnalTools()
+	{
+		mStrengthSeekBar.setVisibility(View.GONE);
+		mRadiusSeekBar.setVisibility(View.GONE);
 	}
 
 	private void UpdateGLView()
@@ -706,5 +814,36 @@ public class RendererMainPanel extends Activity implements Observer
 		mBigTextOverlay.setTextSize(30);
 		mBigTextOverlay.setVisibility(View.VISIBLE);
 		mBigTextOverlay.setText("Drag to adjust\nOr\nDouble click");
+	}
+
+	private void UpdateRadiusBigTextOverlay(float value)
+	{
+		if (value != getManagers().getToolsManager().getRadius())
+		{
+			mBigTextOverlay.setTextColor(mRadiusBkColor);
+			mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getRadius()) + " %\nRadius");
+		}
+	}
+
+	private void UpdateStrengthBigTextOverlay(float value)
+	{
+		if (value != getManagers().getToolsManager().getStrength())
+		{
+			int textColor = Color.RED;
+			if (getManagers().getToolsManager().isStrengthPositive())
+			{
+				textColor = Color.BLUE;
+			}
+			mBigTextOverlay.setTextColor(textColor);
+
+			String strDirection = getManagers().getToolsManager().isStrengthPositive() ? "Additive" : "Subtractive";
+			mBigTextOverlay.setText(Integer.toString((int) getManagers().getToolsManager().getStrengthAbsoluteValue()) + " %\n" + strDirection + "\nStrength");
+		}
+	}
+
+	private void UpdateToolBigTextOverlay(int value)
+	{
+		mBigTextOverlay.setTextColor(Color.WHITE);
+		mBigTextOverlay.setText(getManagers().getToolsManager().GetToolAtIndex(value).GetName());
 	}
 }
