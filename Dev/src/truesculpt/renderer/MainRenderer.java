@@ -32,10 +32,13 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private float mDistance;
 	private float mXPanOffset;
 	private float mYPanOffset;
-	private float mElevation;
+
 	private long mLastFrameDurationMs = 0;
 	private Managers mManagers = null;
-	private float mRot;
+
+	private float mHead;
+	private float mPitch;
+	private float mRoll;
 
 	private boolean mbTakeScreenshot = false;
 	private String mStrSnapshotName = "";
@@ -71,8 +74,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		gl.glTranslatef(mXPanOffset, mYPanOffset, -mDistance);
-		gl.glRotatef(mElevation, 1, 0, 0);
-		gl.glRotatef(mRot, 0, 1, 0);
+		gl.glRotatef(mPitch, 1, 0, 0);
+		gl.glRotatef(mHead, 0, 1, 0);
+		gl.glRotatef(mRoll, 0, 0, 1);
 
 		// common part (normals optionnal)
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -159,9 +163,9 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 	public void onPointOfViewChange()
 	{
-		mRot = getManagers().getPointOfViewManager().getRotationAngle();
+		mHead = getManagers().getPointOfViewManager().getRotationAngle();
 		mDistance = getManagers().getPointOfViewManager().getZoomDistance();
-		mElevation = getManagers().getPointOfViewManager().getElevationAngle();
+		mPitch = getManagers().getPointOfViewManager().getElevationAngle();
 		mXPanOffset = getManagers().getPointOfViewManager().getXPanOffset();
 		mYPanOffset = getManagers().getPointOfViewManager().getYPanOffset();
 	}
