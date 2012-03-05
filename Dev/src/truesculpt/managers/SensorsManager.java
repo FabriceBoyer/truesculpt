@@ -83,7 +83,7 @@ public class SensorsManager extends BaseManager implements SensorEventListener
 
 				MatrixUtils.copy(event.values, lastAngles);
 
-				getManagers().getPointOfViewManager().SetAllAngles(rotation, elevation, getManagers().getPointOfViewManager().getZoomDistance());// notification done here
+				getManagers().getPointOfViewManager().SetAllAngles(rotation, elevation, 0);// notification done here
 			}
 		}
 	}

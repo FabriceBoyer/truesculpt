@@ -29,7 +29,8 @@ public class ChangePOVAction extends BaseAction
 	@Override
 	public boolean DoAction()
 	{
-		getManagers().getPointOfViewManager().SetAllAngles(m_curr_rotation, m_curr_elevation, m_curr_zoomDistance);
+		getManagers().getPointOfViewManager().SetAllAngles(m_curr_rotation, m_curr_elevation, 0);
+		getManagers().getPointOfViewManager().setZoomDistance(m_curr_zoomDistance);
 		return true;
 	}
 
@@ -48,7 +49,8 @@ public class ChangePOVAction extends BaseAction
 	@Override
 	public boolean UndoAction()
 	{
-		getManagers().getPointOfViewManager().SetAllAngles(m_init_rotation, m_init_elevation, m_init_zoomDistance);
+		getManagers().getPointOfViewManager().SetAllAngles(m_init_rotation, m_init_elevation, 0);
+		getManagers().getPointOfViewManager().setZoomDistance(m_init_zoomDistance);
 		return true;
 	}
 

@@ -107,6 +107,17 @@ public class MatrixUtils
 		}
 	}
 
+	public static void zero(float[][] matrix)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				matrix[i][j] = 0.0f;
+			}
+		}
+	}
+
 	/**
 	 * Create the identity matrix I
 	 * 
@@ -310,6 +321,7 @@ public class MatrixUtils
 				msg += "\n";
 			}
 		}
+		msg += "\n";
 		Log.i(logID, msg);
 	}
 
@@ -319,16 +331,19 @@ public class MatrixUtils
 	 * @param matrix
 	 *            The matrix
 	 **/
-	public static void printMatrix(float[][] matrix)
+	public static void printMatrix(String logID, String headMsg, float[][] matrix)
 	{
+		String msg = headMsg + "=\n";
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				System.out.print(matrix[i][j] + "\t");
+				msg += Float.toString(matrix[i][j]) + "\t  ";
 			}
-			System.out.println();
+			msg += "\n";
 		}
+		Log.i(logID, msg);
+		Log.i(logID, "   ");
 	}
 
 	/**
@@ -345,28 +360,114 @@ public class MatrixUtils
 		}
 	}
 
-	public static void rotateY(float[] v, float angle, float[] out)
+	public static void rotateMatrixX(float[][] R, float angle)
 	{
-		float[][] R = new float[4][4];
-		R[0][0] = (float) Math.cos(angle);
-		R[0][2] = (float) -Math.sin(angle);
-		R[1][0] = (float) Math.sin(angle);
-		R[1][2] = (float) Math.cos(angle);
-		R[1][1] = R[3][3] = 1;
-
-		multiply(R, v, out);
+		zero(R);
+		R[0][0] = 1;
+		R[1][1] = (float) Math.cos(angle);
+		R[1][2] = (float) -Math.sin(angle);
+		R[2][1] = (float) Math.sin(angle);
+		R[2][2] = (float) Math.cos(angle);
+		R[3][3] = 1;
 	}
 
-	public static void rotateZ(float[] v, float angle, float[] out)
+	public static void rotateMatrixY(float[][] R, float angle)
 	{
-		float[][] R = new float[4][4];
+		zero(R);
+		R[0][0] = (float) Math.cos(angle);
+		R[0][2] = (float) Math.sin(angle);
+		R[1][1] = 1;
+		R[2][0] = (float) -Math.sin(angle);
+		R[2][2] = (float) Math.cos(angle);
+		R[3][3] = 1;
+	}
+
+	public static void rotateMatrixZ(float[][] R, float angle)
+	{
+		zero(R);
 		R[0][0] = (float) Math.cos(angle);
 		R[0][1] = (float) -Math.sin(angle);
 		R[1][0] = (float) Math.sin(angle);
 		R[1][1] = (float) Math.cos(angle);
-		R[2][2] = R[3][3] = 1;
+		R[2][2] = 1;
+		R[3][3] = 1;
+	}
 
-		multiply(R, v, out);
+	static float[] hpr1 = new float[3];
+	static float[] hpr2 = new float[3];
+
+	// hpr is relative to xyz rotation, see doc/rotation_matrix_to_euler.pdf
+	public static void rotationMatrixToHPR(float[][] R, float[] hpr, float[] lastHPR)
+	{
+		float psi = 0;
+		float theta = 0;
+		float phi = 0;
+
+		float psi1 = 0;
+		float theta1 = 0;
+		float phi1 = 0;
+
+		float psi2 = 0;
+		float theta2 = 0;
+		float phi2 = 0;
+
+		if (Math.abs(R[2][0]) != 1)
+		{
+			// two solution exists, one is chosen
+			theta1 = (float) -Math.asin(R[2][0]);
+			float cosTheta1 = (float) Math.cos(theta1);
+			psi1 = (float) Math.atan2(R[2][1] / cosTheta1, R[2][2] / cosTheta1);
+			phi1 = (float) Math.atan2(R[1][0] / cosTheta1, R[0][0] / cosTheta1);
+			hpr1[0] = psi1;
+			hpr1[1] = theta1;
+			hpr1[2] = phi1;
+
+			theta2 = (float) Math.PI - theta1;
+			float cosTheta2 = (float) Math.cos(theta2);
+			psi2 = (float) Math.atan2(R[2][1] / cosTheta2, R[2][2] / cosTheta2);
+			phi2 = (float) Math.atan2(R[1][0] / cosTheta2, R[0][0] / cosTheta2);
+			hpr2[0] = psi2;
+			hpr2[1] = theta2;
+			hpr2[2] = phi2;
+
+			if (hprDistance(hpr1, lastHPR) < hprDistance(hpr2, lastHPR))
+			{
+				psi = psi1;
+				theta = theta1;
+				phi = phi1;
+			}
+			else
+			{
+				psi = psi2;
+				theta = theta2;
+				phi = phi2;
+			}
+		}
+		else
+		{
+			// infinity of solutions exists, one is chosen
+
+			phi = 0;// can be anything
+			if (R[2][0] == -1)
+			{
+				theta = (float) (Math.PI / 2);
+				psi = (float) (phi + Math.atan2(R[0][1], R[0][2]));
+			}
+			else
+			{
+				theta = -(float) (Math.PI / 2);
+				psi = (float) (-phi + Math.atan2(-R[0][1], -R[0][2]));
+			}
+		}
+
+		hpr[0] = psi;
+		hpr[1] = theta;
+		hpr[2] = phi;
+	}
+
+	public static float hprDistance(float[] hpr1, float[] hpr2)
+	{
+		return distance(hpr1, hpr2);
 	}
 
 	/**

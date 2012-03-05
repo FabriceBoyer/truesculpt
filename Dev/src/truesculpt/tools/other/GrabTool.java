@@ -77,13 +77,13 @@ public class GrabTool extends BaseTool
 			float distY = -(yScreen - myOrig);// y is inverted compared to opengl
 
 			// get screen plane in coord world
-			getManagers().getMeshManager().GetWorldCoords(VScreenXNormal, xScreen, yScreen, 0);
-			getManagers().getMeshManager().GetWorldCoords(temp, xScreen + 10, yScreen, 0);
+			getManagers().getRendererManager().getMainRenderer().GetWorldCoords(VScreenXNormal, xScreen, yScreen, 0);
+			getManagers().getRendererManager().getMainRenderer().GetWorldCoords(temp, xScreen + 10, yScreen, 0);
 			MatrixUtils.minus(temp, VScreenXNormal, VScreenXNormal);
 			MatrixUtils.normalize(VScreenXNormal);
 
-			getManagers().getMeshManager().GetWorldCoords(VScreenYNormal, xScreen, yScreen, 0);
-			getManagers().getMeshManager().GetWorldCoords(temp, xScreen, yScreen - 10, 0);// y is inverted compared to opengl
+			getManagers().getRendererManager().getMainRenderer().GetWorldCoords(VScreenYNormal, xScreen, yScreen, 0);
+			getManagers().getRendererManager().getMainRenderer().GetWorldCoords(temp, xScreen, yScreen - 10, 0);// y is inverted compared to opengl
 			MatrixUtils.minus(temp, VScreenYNormal, VScreenYNormal);
 			MatrixUtils.normalize(VScreenYNormal);
 

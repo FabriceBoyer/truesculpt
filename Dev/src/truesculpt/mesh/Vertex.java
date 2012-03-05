@@ -20,6 +20,7 @@ public class Vertex
 	public float mLastTempSqDistance = -1.f;// temp data
 	public final float[] mLastIntersectPt = new float[3];
 	public boolean mLastIsBorder = false;
+	// public boolean mLastIsProcessed = false;
 
 	private static final float[] temp = new float[3];
 

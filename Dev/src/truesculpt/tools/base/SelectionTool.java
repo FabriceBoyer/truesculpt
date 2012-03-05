@@ -29,6 +29,14 @@ public abstract class SelectionTool extends BaseTool
 
 	private void ResetData()
 	{
+		// last distance reset
+		for (Vertex vertex : mCumulatedVerticesRes)
+		{
+			vertex.mLastTempSqDistance = -1.f;
+			// vertex.mLastIsBorder=false;
+			// vertex.mLastIsProcessed = false;
+		}
+
 		mVerticesRes.clear();
 		mCumulatedVerticesRes.clear();
 		mLastVertex = null;
@@ -97,12 +105,6 @@ public abstract class SelectionTool extends BaseTool
 	public void Stop(float xScreen, float yScreen)
 	{
 		super.Stop(xScreen, yScreen);
-
-		// last distance reset
-		for (Vertex vertex : mCumulatedVerticesRes)
-		{
-			vertex.mLastTempSqDistance = -1.f;
-		}
 
 		ResetData();
 

@@ -48,7 +48,7 @@ public class PointOfViewPanel extends Activity implements Observer
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
-				getManagers().getPointOfViewManager().setElevationAngle(progress - 90);
+				getManagers().getPointOfViewManager().setPitchAngle(progress - 90);
 			}
 
 			@Override
@@ -70,7 +70,7 @@ public class PointOfViewPanel extends Activity implements Observer
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
-				getManagers().getPointOfViewManager().setRotationAngle(progress - 180);
+				getManagers().getPointOfViewManager().setHeadAngle(progress - 180);
 			}
 
 			@Override
@@ -162,12 +162,12 @@ public class PointOfViewPanel extends Activity implements Observer
 
 	private void UpdateUI()
 	{
-		float elevation = getManagers().getPointOfViewManager().getElevationAngle();
+		float elevation = getManagers().getPointOfViewManager().getPitchAngle();
 		mElevationSeekBar.setProgress((int) elevation + 90);// 90° offset to
 		// center
 		mElevationText.setText("Elevation=" + Integer.toString((int) elevation) + " °");
 
-		float rotation = getManagers().getPointOfViewManager().getRotationAngle();
+		float rotation = getManagers().getPointOfViewManager().getHeadAngle();
 		mRotationSeekBar.setProgress((int) rotation + 180);// 180° offset to
 		// center
 		mRotationText.setText("Rotation=" + Integer.toString((int) rotation) + " °");

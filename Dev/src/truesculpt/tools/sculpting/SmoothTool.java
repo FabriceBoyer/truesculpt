@@ -16,19 +16,19 @@ public class SmoothTool extends SculptingTool
 		super(managers);
 	}
 
+	// TODO take radius into account and average further
 	@Override
 	protected void Work()
 	{
 		for (Vertex vertex : mVerticesRes)
 		{
 			// Place at average position of all surrounding points
-			int nSurroundingVertices = vertex.OutLinkedEdges.size();
 			MatrixUtils.zero(VOffset);
 			for (HalfEdge edge : vertex.OutLinkedEdges)
 			{
 				MatrixUtils.plus(mMesh.mVertexList.get(edge.V1).Coord, VOffset, VOffset);
 			}
-			MatrixUtils.scalarMultiply(VOffset, 1.0f / nSurroundingVertices);
+			MatrixUtils.scalarMultiply(VOffset, 1.0f / vertex.OutLinkedEdges.size());
 
 			((SculptAction) mAction).AddNewVertexValue(VOffset, vertex);
 
@@ -52,5 +52,11 @@ public class SmoothTool extends SculptingTool
 	public String GetName()
 	{
 		return "Smooth";
+	}
+
+	@Override
+	public boolean RequiresStrength()
+	{
+		return false;
 	}
 }
