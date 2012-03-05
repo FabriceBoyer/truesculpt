@@ -11,6 +11,8 @@ import truesculpt.utils.MatrixUtils;
 public class FlattenTool extends SculptingTool
 {
 	private final float[] temp = new float[3];
+	private final float[] averageTarget = new float[3];
+	private final float[] averageNormal = new float[3];
 
 	public FlattenTool(Managers managers)
 	{
@@ -20,11 +22,24 @@ public class FlattenTool extends SculptingTool
 	@Override
 	protected void Work()
 	{
+		// compute average target
+		MatrixUtils.zero(averageTarget);
+		MatrixUtils.zero(averageNormal);
 		for (Vertex vertex : mVerticesRes)
 		{
-			MatrixUtils.copy(mOrigVertex.Normal, VOffset);
+			MatrixUtils.plus(vertex.Coord, averageTarget, averageTarget);
+			MatrixUtils.plus(vertex.Coord, averageNormal, averageNormal);
+		}
+		MatrixUtils.scalarMultiply(averageTarget, 1.0f / mVerticesRes.size());
+		MatrixUtils.scalarMultiply(averageNormal, 1.0f / mVerticesRes.size());
+		MatrixUtils.normalize(averageNormal);
 
-			MatrixUtils.minus(vertex.mLastIntersectPt, vertex.Coord, temp);
+		// flatten toward this target
+		for (Vertex vertex : mVerticesRes)
+		{
+			MatrixUtils.copy(averageNormal, VOffset);
+
+			MatrixUtils.minus(averageTarget, vertex.Coord, temp);
 			float newOffsetFactor = MatrixUtils.dot(VOffset, temp) * (1 - vertex.mLastTempSqDistance / mSquareMaxDistance);
 			MatrixUtils.scalarMultiply(VOffset, newOffsetFactor);
 

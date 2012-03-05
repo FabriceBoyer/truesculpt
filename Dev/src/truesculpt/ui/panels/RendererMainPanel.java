@@ -7,6 +7,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
+import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.managers.UtilsManager;
 import truesculpt.tools.base.BaseTool;
 import truesculpt.ui.adapters.CoverFlowImageAdapter;
@@ -373,27 +374,31 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void colorChangeStart(int color)
 			{
-				SetBigTextOverlayToDragMe();
-				mBigTextOverlay.setTextColor(color);
+				HideAllOptionnalTools();
+				getManagers().getToolsManager().setColor(color, false, true);
+				UtilsManager.ShowHSLColorPickerDialog(RendererMainPanel.this);
+
+				// SetBigTextOverlayToDragMe();
+				// mBigTextOverlay.setTextColor(color);
 				// getManagers().getToolsManager().SetUndoInitialState();
 			}
 
 			@Override
 			public void colorChanged(int color)
 			{
-				if (getManagers().getToolsManager().getColor() != color)
-				{
-					mBigTextOverlay.setText("Color");
-					mBigTextOverlay.setTextColor(color);
-					getManagers().getToolsManager().setColor(color, false, true);
-				}
+				// if (getManagers().getToolsManager().getColor() != color)
+				// {
+				// mBigTextOverlay.setText("Color");
+				// mBigTextOverlay.setTextColor(color);
+				// getManagers().getToolsManager().setColor(color, false, true);
+				// }
 			}
 
 			@Override
 			public void colorChangeStop(int color)
 			{
-				HideBigTextOverlay();
-				// getManagers().getToolsManager().AddUndoToolAction();
+				// HideBigTextOverlay();
+				// // getManagers().getToolsManager().AddUndoToolAction();
 			}
 		});
 
@@ -735,6 +740,12 @@ public class RendererMainPanel extends Activity implements Observer
 	{
 		UpdateGLView();
 		UpdateButtonsView();
+
+		// temp for debug
+		if (getManagers().getToolsManager().getToolMode() == EToolMode.POV)
+		{
+			mBigTextOverlay.setText(getManagers().getPointOfViewManager().toString());
+		}
 	}
 
 	private void UpdateButtonsView()

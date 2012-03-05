@@ -12,20 +12,31 @@ public class PointOfViewManager extends BaseManager
 	private float mRmax = 9.0f;
 	private float mRmin = 0.1f;
 	private final float mRDefault = 3.5f;// sphere is 1, zNear is 1 + margin for tool overlay
-	private float mPhi = 0.0f;
-	private float mTheta = 0.0f;
+	private float mHead = 0.0f;
+	private float mPitch = 0.0f;
+	private float mRoll = 0.0f;
+
 	private float mXPanOffset = 0.0f;
 	private float mYPanOffset = 0.0f;
 
 	public PointOfViewManager(Context baseContext)
 	{
 		super(baseContext);
-
 	}
 
-	public float getElevationAngle()
+	public float getHeadAngle()
 	{
-		return mPhi;
+		return mHead;
+	}
+
+	public float getRollAngle()
+	{
+		return mRoll;
+	}
+
+	public float getPitchAngle()
+	{
+		return mPitch;
 	}
 
 	public float getRmax()
@@ -36,11 +47,6 @@ public class PointOfViewManager extends BaseManager
 	public float getRmin()
 	{
 		return mRmin;
-	}
-
-	public float getRotationAngle()
-	{
-		return mTheta;
 	}
 
 	public float getZoomDistance()
@@ -69,47 +75,39 @@ public class PointOfViewManager extends BaseManager
 
 	public void resetPOV()
 	{
-		SetAllAngles(-5, 0, mRDefault);
+		SetAllAngles(5, 0, 0);
+		setZoomDistance(mRDefault);
 		setPanOffset(0, 0);
 	}
 
-	public void SetAllAngles(float rotation, float elevation, float zoomDistance)
+	public void SetAllAngles(float head, float pitch, float roll)
 	{
-		setElevationAngleInternal(elevation);
-		setRotationAngleInternal(rotation);
-		setZoomDistanceInternal(zoomDistance);
+		setHeadAngleInternal(head);
+		setPitchAngleInternal(pitch);
+		setRollAngleInternal(roll);
 		NotifyListeners();
 	}
 
-	public void SetAllAngles(float[] angles)
+	public void setPitchAngle(float angle)
 	{
-		SetAllAngles(angles[0], angles[1], angles[2]);
-	}
-
-	// +90 to -90
-	public void setElevationAngle(float angle)
-	{
-		setElevationAngleInternal(angle);
+		setPitchAngleInternal(angle);
 		NotifyListeners();
 	}
 
-	private void setElevationAngleInternal(float angle)
+	private void setPitchAngleInternal(float angle)
 	{
-		mPhi = angle % 360;
+		mPitch = angle % 360;
+	}
 
-		boolean bLimitPitchAngle = true;
-		if (bLimitPitchAngle)
-		{
-			if (angle > 90.0f)
-			{
-				mPhi = 90.0f;
-			}
+	public void setRollAngle(float angle)
+	{
+		setRollAngleInternal(angle);
+		NotifyListeners();
+	}
 
-			if (angle < -90.0f)
-			{
-				mPhi = -90.0f;
-			}
-		}
+	private void setRollAngleInternal(float angle)
+	{
+		mRoll = angle % 360;
 	}
 
 	public void setRmax(float mRmax)
@@ -124,24 +122,15 @@ public class PointOfViewManager extends BaseManager
 		setZoomDistance(mR);// refresh distance with saturations and notify
 	}
 
-	// 180 to 180
-	public void setRotationAngle(float angle)
+	public void setHeadAngle(float angle)
 	{
-		setRotationAngleInternal(angle);
+		setHeadAngleInternal(angle);
 		NotifyListeners();
 	}
 
-	private void setRotationAngleInternal(float angle)
+	private void setHeadAngleInternal(float angle)
 	{
-		mTheta = angle % 180;
-		if (angle > 180.0f)
-		{
-			mTheta -= 180.0f;
-		}
-		if (angle < -180.0f)
-		{
-			mTheta += 180.0f;
-		}
+		mHead = angle % 360;
 	}
 
 	public void setZoomDistance(float dist)
@@ -180,6 +169,12 @@ public class PointOfViewManager extends BaseManager
 	public float getXPanOffset()
 	{
 		return mXPanOffset;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("%.2f", mHead) + " / " + String.format("%.2f", mPitch) + " / " + String.format("%.2f", mRoll);
 	}
 
 }

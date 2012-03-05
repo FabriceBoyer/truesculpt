@@ -3,16 +3,13 @@ package truesculpt.managers;
 import java.io.IOException;
 
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
 
 import truesculpt.mesh.Mesh;
 import truesculpt.renderer.PickHighlight;
 import truesculpt.renderer.RayPickDebug;
 import truesculpt.utils.MatrixUtils;
 import android.content.Context;
-import android.opengl.Matrix;
 import android.os.SystemClock;
-import android.util.Log;
 
 //for mesh storage, computation and transformation application
 public class MeshManager extends BaseManager
@@ -21,7 +18,7 @@ public class MeshManager extends BaseManager
 	private boolean bInitOver = true;
 	float[] intersectPt = new float[3];
 
-	class MeshInitTash implements Runnable
+	class MeshInitTask implements Runnable
 	{
 		public int nSubdivionLevel = 0;
 		public String strLastUsedFile = "";
@@ -76,15 +73,13 @@ public class MeshManager extends BaseManager
 		NotifyListeners();
 	}
 
-	MeshInitTash mInitTask = new MeshInitTash();// TODO move in a panel to get a waiting spinner
+	MeshInitTask mInitTask = new MeshInitTask();// TODO move in a panel to get a waiting spinner
 
 	long mLastPickDurationMs = -1;
 
-	private final float[] mModelView = new float[16];
 	private final PickHighlight mPickHighlight = new PickHighlight();
-	private final float[] mProjection = new float[16];
 	private final RayPickDebug mRay = new RayPickDebug();
-	private final int[] mViewPort = new int[4];
+
 	float[] rayPt1 = new float[3];
 	float[] rayPt2 = new float[3];
 
@@ -143,64 +138,6 @@ public class MeshManager extends BaseManager
 		return nCount;
 	}
 
-	/**
-	 * Calculates the transform from screen coordinate system to world coordinate system coordinates for a specific point, given a camera position.
-	 * 
-	 * @return position in WCS.
-	 */
-	public void GetWorldCoords(float[] worldPos, float touchX, float touchY, float z)
-	{
-		// SCREEN height & width (ej: 320 x 480)
-		float screenW = mViewPort[2];
-		float screenH = mViewPort[3];
-
-		// Auxiliary matrix and vectors
-		// to deal with ogl.
-		float[] invertedMatrix, transformMatrix, normalizedInPoint, outPoint;
-		invertedMatrix = new float[16];
-		transformMatrix = new float[16];
-		normalizedInPoint = new float[4];
-		outPoint = new float[4];
-
-		// Invert y coordinate, as android uses
-		// top-left, and ogl bottom-left.
-		int oglTouchY = (int) (screenH - touchY);
-
-		/*
-		 * Transform the screen point to clip space in ogl (-1,1)
-		 */
-		normalizedInPoint[0] = (float) (touchX * 2.0f / screenW - 1.0);
-		normalizedInPoint[1] = (float) (oglTouchY * 2.0f / screenH - 1.0);
-		normalizedInPoint[2] = z;
-		normalizedInPoint[3] = 1.0f;
-
-		/*
-		 * Obtain the transform matrix and then the inverse.
-		 */
-		// MatrixUtils.PrintMat("Proj", mProjection);
-		// MatrixUtils.PrintMat("Model", mModelView);
-		Matrix.multiplyMM(transformMatrix, 0, mProjection, 0, mModelView, 0);
-		Matrix.invertM(invertedMatrix, 0, transformMatrix, 0);
-
-		/*
-		 * Apply the inverse to the point in clip space
-		 */
-		Matrix.multiplyMV(outPoint, 0, invertedMatrix, 0, normalizedInPoint, 0);
-
-		if (outPoint[3] == 0.0)
-		{
-			// Avoid /0 error.
-			Log.e("World coords", "ERROR!");
-			return;
-		}
-
-		// Divide by the 3rd component to find
-		// out the real position.
-		worldPos[0] = outPoint[0] / outPoint[3];
-		worldPos[1] = outPoint[1] / outPoint[3];
-		worldPos[2] = outPoint[2] / outPoint[3];
-	}
-
 	@Override
 	public void onCreate()
 	{
@@ -238,8 +175,8 @@ public class MeshManager extends BaseManager
 		if (IsInitOver())
 		{
 			// normalized z between -1 and 1
-			GetWorldCoords(rayPt2, screenX, screenY, 1.0f);
-			GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
+			getManagers().getRendererManager().getMainRenderer().GetWorldCoords(rayPt2, screenX, screenY, 1.0f);
+			getManagers().getRendererManager().getMainRenderer().GetWorldCoords(rayPt1, screenX, screenY, -1.0f);
 
 			mRay.setRayPos(rayPt1, rayPt2);
 
@@ -292,26 +229,6 @@ public class MeshManager extends BaseManager
 		MatrixUtils.normalize(res);
 	}
 
-	// TODO test for GL11 instance of to handle not GL11 devices
-	// TODO use GL11ES calls independent of redraw with gl param
-	public void setCurrentModelView(GL10 gl)
-	{
-		GL11 gl2 = (GL11) gl;
-		gl2.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelView, 0);
-	}
-
-	public void setCurrentProjection(GL10 gl)
-	{
-		GL11 gl2 = (GL11) gl;
-		gl2.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjection, 0);
-	}
-
-	public void setViewport(GL10 gl)
-	{
-		GL11 gl2 = (GL11) gl;
-		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
-	}
-
 	public void getLastPickingPoint(float[] point)
 	{
 		MatrixUtils.copy(intersectPt, point);
@@ -352,4 +269,5 @@ public class MeshManager extends BaseManager
 	{
 		return mMesh;
 	}
+
 }

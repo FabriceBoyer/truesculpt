@@ -11,7 +11,6 @@ import truesculpt.tools.sculpting.DrawTool;
 import truesculpt.tools.sculpting.FlattenTool;
 import truesculpt.tools.sculpting.InflateTool;
 import truesculpt.tools.sculpting.NoiseTool;
-import truesculpt.tools.sculpting.PinchTool;
 import truesculpt.tools.sculpting.SmoothTool;
 import truesculpt.utils.Utils;
 import android.content.Context;
@@ -21,7 +20,7 @@ public class ToolsManager extends BaseManager
 {
 	public enum EPovToolSubMode
 	{
-		ROTATE, ZOOM_AND_PAN
+		ROTATE, ZOOM_PAN_ROLL
 	};
 
 	public enum EToolMode
@@ -87,13 +86,13 @@ public class ToolsManager extends BaseManager
 		mToolsLibrary.add(new GrabTool(getManagers()));
 		mToolsLibrary.add(new SmoothTool(getManagers()));
 		mToolsLibrary.add(new FlattenTool(getManagers()));
-		mToolsLibrary.add(new PinchTool(getManagers()));
+		// mToolsLibrary.add(new PinchTool(getManagers()));
 		// mToolsLibrary.add(new ClayTool(getManagers()));
 		// mToolsLibrary.add(new EmbossTool(getManagers()));
 		mToolsLibrary.add(new NoiseTool(getManagers()));
+		mToolsLibrary.add(new PickColorTool(getManagers()));
 		mToolsLibrary.add(new ColorizeTool(getManagers()));
 		// mToolsLibrary.add(new TexturePaintTool(getManagers()));
-		mToolsLibrary.add(new PickColorTool(getManagers()));
 		// mToolsLibrary.add(new BorderTool(getManagers()));
 		// mToolsLibrary.add(new HighlightTool(getManagers()));
 

@@ -12,7 +12,10 @@ import javax.microedition.khronos.opengles.GL11;
 import truesculpt.main.Managers;
 import android.graphics.Bitmap;
 import android.opengl.GLSurfaceView;
+import android.opengl.GLU;
+import android.opengl.Matrix;
 import android.os.SystemClock;
+import android.util.Log;
 
 public class MainRenderer implements GLSurfaceView.Renderer
 {
@@ -29,12 +32,12 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private final SymmetryPlane mSymmetryPlane = new SymmetryPlane();
 	private final ToolOverlay mToolOverlay = new ToolOverlay();
 
+	private long mLastFrameDurationMs = 0;
+	private Managers mManagers = null;
+
 	private float mDistance;
 	private float mXPanOffset;
 	private float mYPanOffset;
-
-	private long mLastFrameDurationMs = 0;
-	private Managers mManagers = null;
 
 	private float mHead;
 	private float mPitch;
@@ -47,6 +50,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private final float mFovY_deg = 50f;
 	private final float mZnear = 0.1f;
 	private final float mZfar = 10f;
+
+	private final float[] mModelView = new float[16];
+	private final int[] mViewPort = new int[4];
+	private final float[] mProjection = new float[16];
 
 	public MainRenderer(Managers managers)
 	{
@@ -73,6 +80,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
+
+		// eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ
+		// GLU.gluLookAt(gl, mDistance * (float) Math.cos(-mPitch) * (float) Math.cos(mHead), mDistance * (float) Math.sin(-mPitch), mDistance * (float) Math.cos(-mPitch) * (float) Math.sin(mHead), 0, 0, 0, 0, 0, 1);
+
 		gl.glTranslatef(mXPanOffset, mYPanOffset, -mDistance);
 		gl.glRotatef(mPitch, 1, 0, 0);
 		gl.glRotatef(mHead, 0, 1, 0);
@@ -82,9 +93,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
 		// only if point of view changed
-		getManagers().getMeshManager().setCurrentModelView(gl);
+		setCurrentModelView(gl);
 
-		if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use cache
+		// if (getManagers().getOptionsManager().getDisplayDebugInfos())// TODO use cache
+		if (true)
 		{
 			mAxis.draw(gl);
 		}
@@ -163,9 +175,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 	public void onPointOfViewChange()
 	{
-		mHead = getManagers().getPointOfViewManager().getRotationAngle();
+		mHead = getManagers().getPointOfViewManager().getHeadAngle();
+		mPitch = getManagers().getPointOfViewManager().getPitchAngle();
+		mRoll = getManagers().getPointOfViewManager().getRollAngle();
 		mDistance = getManagers().getPointOfViewManager().getZoomDistance();
-		mPitch = getManagers().getPointOfViewManager().getElevationAngle();
 		mXPanOffset = getManagers().getPointOfViewManager().getXPanOffset();
 		mYPanOffset = getManagers().getPointOfViewManager().getYPanOffset();
 	}
@@ -178,13 +191,21 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		// Set our projection matrix. This doesn't have to be done each time we draw, but usually a new projection needs to be set when the viewport is resized.
 
 		mScreenAspectRatio = (float) width / height;
-		setPerspective(gl, mFovY_deg, mScreenAspectRatio, mZnear, mZfar);
+
+		gl.glMatrixMode(GL10.GL_PROJECTION);
+		gl.glLoadIdentity();
+		GLU.gluPerspective(gl, mFovY_deg, mScreenAspectRatio, mZnear, mZfar);
+
+		// setPerspective(gl, mFovY_deg, mScreenAspectRatio, mZnear, mZfar);
+
+		setCurrentProjection(gl);
+		setViewport(gl);
 	}
 
 	// replacement for gluPerspective
 	private void setPerspective(GL10 gl, float fovy_deg, float aspect, float zNear, float zFar)
 	{
-		float pi180 = (float) 0.017453292519943295769236907684886;
+		float pi180 = (float) (Math.PI / 180);
 		float top, bottom, left, right;
 		top = (float) (zNear * Math.tan(pi180 * fovy_deg / 2));
 		bottom = -top;
@@ -193,8 +214,6 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glFrustumf(left, right, bottom, top, zNear, zFar);
-		getManagers().getMeshManager().setCurrentProjection(gl);
-		getManagers().getMeshManager().setViewport(gl);
 	}
 
 	@Override
@@ -242,6 +261,98 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	public void onToolChange()
 	{
 		mToolOverlay.updateTool(mManagers);
+	}
+
+	// TODO test for GL11 instance of to handle not GL11 devices
+	// TODO use GL11ES calls independent of redraw with gl param
+	public void setCurrentModelView(GL10 gl)
+	{
+		GL11 gl2 = (GL11) gl;
+		gl2.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelView, 0);
+	}
+
+	public void setCurrentProjection(GL10 gl)
+	{
+		GL11 gl2 = (GL11) gl;
+		gl2.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjection, 0);
+	}
+
+	public void setViewport(GL10 gl)
+	{
+		GL11 gl2 = (GL11) gl;
+		gl2.glGetIntegerv(GL11.GL_VIEWPORT, mViewPort, 0);
+	}
+
+	/**
+	 * Calculates the transform from screen coordinate system to world coordinate system coordinates for a specific point, given a camera position.
+	 * 
+	 * @return position in WCS.
+	 */
+	public void GetWorldCoords_replacement(float[] worldPos, float touchX, float touchY, float z)
+	{
+		GLU.gluUnProject(touchX, touchY, z, mModelView, 0, mProjection, 0, mViewPort, 0, worldPos, 0);
+	}
+
+	// Auxiliary matrix and vectors
+	// to deal with ogl.
+	private static final float[] invertedMatrix = new float[16];
+	private static final float[] transformMatrix = new float[16];
+	private static final float[] normalizedInPoint = new float[4];
+	private static final float[] outPoint = new float[4];
+
+	public void GetWorldCoords(float[] worldPos, float touchX, float touchY, float z)
+	{
+		// SCREEN height & width (ej: 320 x 480)
+		float screenW = mViewPort[2];
+		float screenH = mViewPort[3];
+
+		// Invert y coordinate, as android uses
+		// top-left, and ogl bottom-left.
+		int oglTouchY = (int) (screenH - touchY);
+
+		/*
+		 * Transform the screen point to clip space in ogl (-1,1)
+		 */
+		normalizedInPoint[0] = (float) (touchX * 2.0f / screenW - 1.0);
+		normalizedInPoint[1] = (float) (oglTouchY * 2.0f / screenH - 1.0);
+		normalizedInPoint[2] = z;
+		normalizedInPoint[3] = 1.0f;
+
+		/*
+		 * Obtain the transform matrix and then the inverse.
+		 */
+		// MatrixUtils.PrintMat("Proj", mProjection);
+		// MatrixUtils.PrintMat("Model", mModelView);
+		Matrix.multiplyMM(transformMatrix, 0, mProjection, 0, mModelView, 0);
+		Matrix.invertM(invertedMatrix, 0, transformMatrix, 0);
+
+		/*
+		 * Apply the inverse to the point in clip space
+		 */
+		Matrix.multiplyMV(outPoint, 0, invertedMatrix, 0, normalizedInPoint, 0);
+
+		if (outPoint[3] == 0.0)
+		{
+			// Avoid /0 error.
+			Log.e("World coords", "ERROR!");
+			return;
+		}
+
+		// Divide by the 3rd component to find
+		// out the real position.
+		worldPos[0] = outPoint[0] / outPoint[3];
+		worldPos[1] = outPoint[1] / outPoint[3];
+		worldPos[2] = outPoint[2] / outPoint[3];
+	}
+
+	public float[] GetModelViewMatrix()
+	{
+		return mModelView;
+	}
+
+	public float[] GetProjectionMatrix()
+	{
+		return mProjection;
 	}
 
 }

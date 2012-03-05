@@ -64,10 +64,10 @@ public class InflateTool extends SculptingTool
 	@Override
 	public void Stop(float xScreen, float yScreen)
 	{
-		if (mAction != null)
-		{
-			((SculptAction) mAction).DoSmoothAll(mMesh);// just a test
-		}
+		// if (mAction != null)
+		// {
+		// ((SculptAction) mAction).DoSmoothAll(mMesh);// just a test
+		// }
 
 		super.Stop(xScreen, yScreen);
 	}
