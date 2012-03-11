@@ -97,6 +97,8 @@
 <string name="tutorial">Tutorial</string>  
 <string name="help">Help</string>
 <string name="donate_btn">Donate</string>  
-<string name="open_save_folder">Open save folder</string>
+<string name="open_save_folder">Open save folder</string>  
+<string name="Delete">Delete</string>  
+<string name="Rename">Rename</string>
     
 </resources>

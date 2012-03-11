@@ -13,6 +13,10 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,6 +29,7 @@ public class OpenFilePanel extends Activity implements Runnable
 	private FileManager.FileElem mSelectedElem = null;
 	private ArrayList<FileManager.FileElem> mFileList = new ArrayList<FileManager.FileElem>();
 	private final int DIALOG_WAIT = 1;
+	OpenFileAdapter mAdapter = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -39,7 +44,7 @@ public class OpenFilePanel extends Activity implements Runnable
 		mFileList = getManagers().getFileManager().getFileList();
 
 		gridview = (GridView) findViewById(R.id.openfilegridview);
-		gridview.setAdapter(new OpenFileAdapter(this, mFileList));
+		mAdapter = new OpenFileAdapter(this, mFileList);
 		gridview.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
@@ -49,6 +54,40 @@ public class OpenFilePanel extends Activity implements Runnable
 				OpenInternal();
 			}
 		});
+		gridview.setAdapter(mAdapter);
+
+		registerForContextMenu(gridview);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.open_item_context_menu, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		mSelectedElem = mFileList.get((int) info.id);
+		switch (item.getItemId())
+		{
+		case R.id.open:
+			OpenInternal();
+			return true;
+		case R.id.delete:
+			getManagers().getFileManager().deleteFile(mSelectedElem);
+			mFileList.remove((int) info.id);
+			mAdapter.notifyDataSetChanged();
+			return true;
+		case R.id.rename:
+			getManagers().getUtilsManager().ShowToastMessage("Not implemented yet");
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 
 	@Override
