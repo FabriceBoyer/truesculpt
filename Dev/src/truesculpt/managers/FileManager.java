@@ -118,7 +118,6 @@ public class FileManager extends BaseManager
 	public FileManager(Context baseContext)
 	{
 		super(baseContext);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -131,5 +130,19 @@ public class FileManager extends BaseManager
 	public void onDestroy()
 	{
 
+	}
+
+	public void deleteFile(FileElem selectedElem)
+	{
+		if (CheckSculptureExist(selectedElem.name))
+		{
+			String dir = GetRootDirectory() + selectedElem.name + "/";
+			File fileDir = new File(dir);
+			File fileMesh = new File(dir + "Mesh.obj");
+			File fileImage = new File(dir + "Image.png");
+			fileMesh.delete();
+			fileImage.delete();
+			fileDir.delete();// dir must be emptied
+		}
 	}
 }
