@@ -96,23 +96,33 @@ public class FileManager extends BaseManager
 				boolean bIsDir = file.isDirectory();
 				if (bIsDir)
 				{
-					String strName = file.getName();
-					String strObjName = file.getAbsolutePath() + "/" + "Mesh.obj";
-					String strImageName = file.getAbsolutePath() + "/" + "Image.png";
-					File ObjName = new File(strObjName);
-					File ImageName = new File(strImageName);
-					if (ObjName.exists() && ImageName.exists())
+					FileElem elem = GetFileElemFromFile(file);
+					if (elem != null)
 					{
-						FileElem elem = new FileElem();
-						elem.objfilename = strObjName;
-						elem.name = strName;
-						elem.imagefilename = strImageName;
 						fileList.add(elem);
 					}
 				}
 			}
 		}
 		return fileList;
+	}
+
+	public FileElem GetFileElemFromFile(File file)
+	{
+		FileElem elem = null;
+		String strName = file.getName();
+		String strObjName = file.getAbsolutePath() + "/" + "Mesh.obj";
+		String strImageName = file.getAbsolutePath() + "/" + "Image.png";
+		File ObjName = new File(strObjName);
+		File ImageName = new File(strImageName);
+		if (ObjName.exists() && ImageName.exists())
+		{
+			elem = new FileElem();
+			elem.objfilename = strObjName;
+			elem.name = strName;
+			elem.imagefilename = strImageName;
+		}
+		return elem;
 	}
 
 	public FileManager(Context baseContext)
@@ -144,5 +154,18 @@ public class FileManager extends BaseManager
 			fileImage.delete();
 			fileDir.delete();// dir must be emptied
 		}
+	}
+
+	public FileElem renameFile(FileElem selectedElem, String newName)
+	{
+		FileElem elem = null;
+		if (CheckSculptureExist(selectedElem.name) && !CheckSculptureExist(newName))
+		{
+			File oldDir = new File(GetRootDirectory() + selectedElem.name);
+			File newDir = new File(GetRootDirectory() + newName);
+			oldDir.renameTo(newDir);
+			elem = GetFileElemFromFile(newDir);
+		}
+		return elem;
 	}
 }

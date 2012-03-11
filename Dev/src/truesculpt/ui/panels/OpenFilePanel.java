@@ -6,10 +6,13 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.FileManager;
+import truesculpt.managers.FileManager.FileElem;
 import truesculpt.ui.adapters.OpenFileAdapter;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.GridView;
 
 public class OpenFilePanel extends Activity implements Runnable
@@ -29,7 +33,10 @@ public class OpenFilePanel extends Activity implements Runnable
 	private FileManager.FileElem mSelectedElem = null;
 	private ArrayList<FileManager.FileElem> mFileList = new ArrayList<FileManager.FileElem>();
 	private final int DIALOG_WAIT = 1;
-	OpenFileAdapter mAdapter = null;
+	private final int DIALOG_RENAME = 2;
+	private OpenFileAdapter mAdapter = null;
+	private EditText mInput = null;;
+	private int mRenameID = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -83,7 +90,8 @@ public class OpenFilePanel extends Activity implements Runnable
 			mAdapter.notifyDataSetChanged();
 			return true;
 		case R.id.rename:
-			getManagers().getUtilsManager().ShowToastMessage("Not implemented yet");
+			mRenameID = (int) info.id;
+			showDialog(DIALOG_RENAME);// no bundle params in V7
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -103,6 +111,43 @@ public class OpenFilePanel extends Activity implements Runnable
 			waitDialog.setMessage("Opening...");
 			waitDialog.setCancelable(false);
 			dialog = waitDialog;
+			break;
+		}
+		case DIALOG_RENAME:
+		{
+			mInput = new EditText(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Enter new name").setCancelable(false).setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int id)
+				{
+					String renameNewName = mInput.getText().toString();
+					if (renameNewName != "")
+					{
+						FileElem elem = getManagers().getFileManager().renameFile(mSelectedElem, renameNewName);
+						if (elem != null)
+						{
+							mFileList.remove(mRenameID);
+							mFileList.add(elem);
+							mAdapter.notifyDataSetChanged();
+							getManagers().getUtilsManager().ShowToastMessage("Renaming to " + renameNewName);
+						}
+						else
+						{
+							getManagers().getUtilsManager().ShowToastMessage("A sculpture named " + renameNewName + " already exists\nPlease choose another name");
+						}
+					}
+				}
+			}).setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int id)
+				{
+
+				}
+			}).setView(mInput);
+			dialog = builder.create();
 			break;
 		}
 		default:
