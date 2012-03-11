@@ -1,17 +1,15 @@
 package truesculpt.ui.panels;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.UtilsManager;
+import truesculpt.managers.FileManager;
 import truesculpt.ui.adapters.OpenFileAdapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,17 +22,9 @@ public class OpenFilePanel extends Activity implements Runnable
 {
 	private ProgressDialog waitDialog = null;
 	private GridView gridview = null;
-	private FileElem mSelectedElem = null;
-	private final ArrayList<FileElem> mFileList = new ArrayList<FileElem>();
+	private FileManager.FileElem mSelectedElem = null;
+	private ArrayList<FileManager.FileElem> mFileList = new ArrayList<FileManager.FileElem>();
 	private final int DIALOG_WAIT = 1;
-
-	public class FileElem
-	{
-		public String name;
-		public String objfilename;
-		public String imagefilename;
-		public Bitmap bmp = null;
-	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -46,34 +36,8 @@ public class OpenFilePanel extends Activity implements Runnable
 		setContentView(R.layout.openfile);
 
 		mFileList.clear();
-		getManagers().getUtilsManager();
-		String strRootDir = UtilsManager.GetRootDirectory();
+		mFileList = getManagers().getFileManager().getFileList();
 
-		File rootDir = new File(strRootDir);
-		if (rootDir.exists())
-		{
-			File[] listFiles = rootDir.listFiles();
-			for (File file : listFiles)
-			{
-				boolean bIsDir = file.isDirectory();
-				if (bIsDir)
-				{
-					String strName = file.getName();
-					String strObjName = file.getAbsolutePath() + "/" + "Mesh.obj";
-					String strImageName = file.getAbsolutePath() + "/" + "Image.png";
-					File ObjName = new File(strObjName);
-					File ImageName = new File(strImageName);
-					if (ObjName.exists() && ImageName.exists())
-					{
-						FileElem elem = new FileElem();
-						elem.objfilename = strObjName;
-						elem.name = strName;
-						elem.imagefilename = strImageName;
-						mFileList.add(elem);
-					}
-				}
-			}
-		}
 		gridview = (GridView) findViewById(R.id.openfilegridview);
 		gridview.setAdapter(new OpenFileAdapter(this, mFileList));
 		gridview.setOnItemClickListener(new OnItemClickListener()

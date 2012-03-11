@@ -3,8 +3,9 @@ package truesculpt.ui.adapters;
 import java.util.ArrayList;
 
 import truesculpt.main.R;
+import truesculpt.managers.FileManager;
+import truesculpt.managers.FileManager.FileElem;
 import truesculpt.ui.adapters.ImageLoader.ImageLoadListener;
-import truesculpt.ui.panels.OpenFilePanel.FileElem;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -18,7 +19,7 @@ import android.widget.TextView;
 
 public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
 {
-	private ArrayList<FileElem> mFileList = null;
+	private ArrayList<FileManager.FileElem> mFileList = null;
 	private Handler mHandler = null;
 	private ImageLoader mImageLoader = null;
 	private LayoutInflater inflater = null;
@@ -27,10 +28,10 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
 	{
 		public TextView title = null;
 		public ImageView image = null;
-		public FileElem currElem = null;
+		public FileManager.FileElem currElem = null;
 	}
 
-	public OpenFileAdapter(Context context, ArrayList<FileElem> fileList)
+	public OpenFileAdapter(Context context, ArrayList<FileManager.FileElem> fileList)
 	{
 		mImageLoader = new ImageLoader(this);
 		// mImageLoader.setPriority(Thread.MIN_PRIORITY);

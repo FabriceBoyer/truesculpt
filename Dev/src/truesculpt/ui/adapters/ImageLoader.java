@@ -1,7 +1,8 @@
 package truesculpt.ui.adapters;
 
+import truesculpt.managers.FileManager;
+import truesculpt.managers.FileManager.FileElem;
 import truesculpt.ui.adapters.OpenFileAdapter.ViewHolder;
-import truesculpt.ui.panels.OpenFilePanel.FileElem;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -12,7 +13,7 @@ public class ImageLoader extends Thread
 {
 	public interface ImageLoadListener
 	{
-		void handleImageLoaded(final ViewHolder holder, final FileElem elem, Bitmap aBitmap);
+		void handleImageLoaded(final ViewHolder holder, final FileManager.FileElem elem, Bitmap aBitmap);
 	}
 
 	private static final String TAG = ImageLoader.class.getSimpleName();
