@@ -438,9 +438,9 @@ public class MatrixUtils
 			}
 			else
 			{
-				psi = psi2;
-				theta = theta2;
-				phi = phi2;
+				psi = psi1;
+				theta = theta1;
+				phi = phi1;
 			}
 		}
 		else

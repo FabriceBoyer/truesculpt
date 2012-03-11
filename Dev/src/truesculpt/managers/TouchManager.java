@@ -346,12 +346,18 @@ public class TouchManager extends BaseManager
 		float pitch = pitchInit + pitchIncr;
 		float roll = rollInit + rollIncr;
 
-		// MatrixUtils.rotationMatrixToHPR(rotFinal, hpr, lastHPR);
-		// pitch = hpr[0];
-		// head = hpr[1];
-		// roll = hpr[2];
-		//
-		// MatrixUtils.copy(hpr, lastHPR);
+		MatrixUtils.rotateMatrixX(mX, pitch);
+		MatrixUtils.rotateMatrixY(mY, head);
+		MatrixUtils.rotateMatrixZ(mZ, roll);
+		MatrixUtils.multiply(mZ, mY, temp);
+		MatrixUtils.multiply(temp, mX, rotFinal);
+
+		MatrixUtils.rotationMatrixToHPR(rotFinal, hpr, lastHPR);
+		pitch = hpr[0];
+		head = hpr[1];
+		roll = hpr[2];
+
+		MatrixUtils.copy(hpr, lastHPR);
 
 		head *= 180 / (float) Math.PI;
 		pitch *= 180 / (float) Math.PI;
