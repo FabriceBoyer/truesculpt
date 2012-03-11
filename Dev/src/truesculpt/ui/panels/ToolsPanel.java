@@ -207,7 +207,7 @@ public class ToolsPanel extends Activity implements Observer
 			@Override
 			public void onClick(View v)
 			{
-				getManagers().getToolsManager().TakeGLScreenshot(getManagers().getUtilsManager().CreateSnapshotFileName());
+				getManagers().getToolsManager().TakeGLScreenshot(getManagers().getFileManager().CreateSnapshotFileName());
 				finish();
 			}
 		});

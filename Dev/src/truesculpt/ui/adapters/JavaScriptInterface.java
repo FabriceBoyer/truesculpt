@@ -16,7 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import truesculpt.main.Managers;
 import truesculpt.main.R;
-import truesculpt.managers.UtilsManager;
+import truesculpt.managers.FileManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,7 +40,7 @@ public class JavaScriptInterface
 
 		final String newName = "web_" + name;
 		getManagers().getUtilsManager();
-		final File newFile = new File(UtilsManager.GetRootDirectory() + newName);
+		final File newFile = new File(FileManager.GetRootDirectory() + newName);
 		int nSize = Integer.parseInt(size) / 1000;
 		if (newFile.exists())
 		{
@@ -101,11 +101,11 @@ public class JavaScriptInterface
 			try
 			{
 				// import image from URL to disk
-				String imageFile = getManagers().getUtilsManager().GetBaseFileName() + "Image.png";
+				String imageFile = getManagers().getFileManager().GetBaseFileName() + "Image.png";
 				URLtoDisk(strImagefileURL, imageFile, false);
 
 				// import obj from URL to disk
-				String objectFile = getManagers().getUtilsManager().GetBaseFileName() + "Mesh.obj";
+				String objectFile = getManagers().getFileManager().GetBaseFileName() + "Mesh.obj";
 				URLtoDisk(mStrBaseWebSite + strObjectfileURL, objectFile, true);
 
 				getManagers().getMeshManager().ImportFromOBJ(objectFile);

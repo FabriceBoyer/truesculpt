@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.UtilsManager;
+import truesculpt.managers.FileManager;
 import truesculpt.utils.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -57,7 +57,7 @@ public class SaveFilePanel extends Activity implements Runnable
 			public void onClick(View v)
 			{
 				getManagers().getMeshManager().setName(mEditNameText.getText().toString());
-				String strObjFileName = getManagers().getUtilsManager().GetObjectFileName();
+				String strObjFileName = getManagers().getFileManager().GetObjectFileName();
 
 				// check dir does not already exist
 				File file = new File(strObjFileName);
@@ -108,7 +108,7 @@ public class SaveFilePanel extends Activity implements Runnable
 			public void onClick(View v)
 			{
 				getManagers().getUtilsManager();
-				String strPath = "file://" + UtilsManager.GetRootDirectory();
+				String strPath = "file://" + FileManager.GetRootDirectory();
 				try
 				{
 					Intent myIntent = new Intent("org.openintents.action.PICK_FILE", Uri.parse(strPath));
@@ -191,7 +191,7 @@ public class SaveFilePanel extends Activity implements Runnable
 
 	private String MakeSnapshot()
 	{
-		String strSnapshotFileName = getManagers().getUtilsManager().CreateSnapshotFileName();
+		String strSnapshotFileName = getManagers().getFileManager().CreateSnapshotFileName();
 
 		getManagers().getToolsManager().TakeGLScreenshot(strSnapshotFileName);
 		WaitForSnapshot(strSnapshotFileName);
@@ -278,15 +278,15 @@ public class SaveFilePanel extends Activity implements Runnable
 	@Override
 	public void run()
 	{
-		String strBaseFileName = getManagers().getUtilsManager().GetBaseFileName();
-		String strObjFileName = getManagers().getUtilsManager().GetObjectFileName();
+		String strBaseFileName = getManagers().getFileManager().GetBaseFileName();
+		String strObjFileName = getManagers().getFileManager().GetObjectFileName();
 
 		if (getManagers().getMeshManager().IsInitOver())
 		{
 			getManagers().getMeshManager().ExportToOBJ(strObjFileName);
 		}
 
-		String strPictureFileName = getManagers().getUtilsManager().GetImageFileName();
+		String strPictureFileName = getManagers().getFileManager().GetImageFileName();
 		getManagers().getToolsManager().TakeGLScreenshot(strPictureFileName);
 		File snapshotFile = new File(strPictureFileName);
 		while (!snapshotFile.exists())

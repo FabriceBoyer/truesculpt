@@ -102,8 +102,8 @@ public class WebFilePanel extends Activity
 			public void onClick(View v)
 			{
 				final String name = getManagers().getMeshManager().getName();
-				final File imagefile = new File(getManagers().getUtilsManager().GetImageFileName());
-				final File objectfile = new File(getManagers().getUtilsManager().GetObjectFileName());
+				final File imagefile = new File(getManagers().getFileManager().GetImageFileName());
+				final File objectfile = new File(getManagers().getFileManager().GetObjectFileName());
 
 				getManagers().getUsageStatisticsManager().TrackEvent("PublishToWeb", name, 1);
 
