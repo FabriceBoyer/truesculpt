@@ -179,7 +179,6 @@ public class RendererMainPanel extends Activity implements Observer
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				getManagers().getToolsManager().setCurrentTool((int) arg3);
 				mCoverFlow.setVisibility(View.GONE);
 				HideBigTextOverlay();
 			}
