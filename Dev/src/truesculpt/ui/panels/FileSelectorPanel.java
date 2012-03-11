@@ -28,20 +28,20 @@ public class FileSelectorPanel extends TabActivity
 
 		// Create an Intent to launch an Activity for the tab (to be reused)
 		intent = new Intent().setClass(this, NewFilePanel.class);
-		spec = tabHost.newTabSpec("New").setIndicator("", res.getDrawable(R.drawable.filenew)).setContent(intent);
+		spec = tabHost.newTabSpec("New").setIndicator("New", res.getDrawable(R.drawable.filenew)).setContent(intent);
 		tabHost.addTab(spec);
 
 		// Do the same for the other tabs
 		intent = new Intent().setClass(this, OpenFilePanel.class);
-		spec = tabHost.newTabSpec("Open").setIndicator("", res.getDrawable(R.drawable.open)).setContent(intent);
+		spec = tabHost.newTabSpec("Open").setIndicator("Open", res.getDrawable(R.drawable.open)).setContent(intent);
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, SaveFilePanel.class);
-		spec = tabHost.newTabSpec("Save").setIndicator("", res.getDrawable(R.drawable.save)).setContent(intent);
+		spec = tabHost.newTabSpec("Save").setIndicator("Save", res.getDrawable(R.drawable.save)).setContent(intent);
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, WebFilePanel.class);
-		spec = tabHost.newTabSpec("Web").setIndicator("", res.getDrawable(R.drawable.earth)).setContent(intent);
+		spec = tabHost.newTabSpec("Web").setIndicator("Web", res.getDrawable(R.drawable.earth)).setContent(intent);
 		tabHost.addTab(spec);
 
 		tabHost.setCurrentTab(2);// save shown by default
