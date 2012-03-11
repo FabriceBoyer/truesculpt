@@ -27,7 +27,7 @@ public class MeshManager extends BaseManager
 		public void run()
 		{
 			getManagers().getUtilsManager();
-			if (getManagers().getOptionsManager().getLoadLastUsedFileAtStartup() && strLastUsedFile != "" && UtilsManager.CheckSculptureExist(strLastUsedFile))
+			if (getManagers().getOptionsManager().getLoadLastUsedFileAtStartup() && strLastUsedFile != "" && FileManager.CheckSculptureExist(strLastUsedFile))
 			{
 				OpenMeshBlocking(strLastUsedFile);
 			}
@@ -42,10 +42,18 @@ public class MeshManager extends BaseManager
 	{
 		bInitOver = false;
 
-		mMesh = new Mesh(getManagers(), nSubdivionLevel);
+		try
+		{
+			mMesh = new Mesh(getManagers(), nSubdivionLevel);
+		}
+		catch (Exception e)
+		{
+			mMesh = null;
+			getManagers().getUtilsManager().ShowToastMessage("Not enough memory for such a subdivision level, please try a lower value");
+		}
 
 		getManagers().getUtilsManager();
-		Name = UtilsManager.GetDefaultFileName();
+		Name = FileManager.GetDefaultFileName();
 
 		bInitOver = true;
 
@@ -61,7 +69,7 @@ public class MeshManager extends BaseManager
 
 		try
 		{
-			mMesh.ImportFromOBJ(getManagers().getUtilsManager().GetObjectFileName());
+			mMesh.ImportFromOBJ(getManagers().getFileManager().GetObjectFileName());
 		}
 		catch (IOException e)
 		{
