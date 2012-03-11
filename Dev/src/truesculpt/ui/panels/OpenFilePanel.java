@@ -91,6 +91,10 @@ public class OpenFilePanel extends Activity implements Runnable
 			return true;
 		case R.id.rename:
 			mRenameID = (int) info.id;
+			if (mInput != null)
+			{
+				mInput.setText("");
+			}
 			showDialog(DIALOG_RENAME);// no bundle params in V7
 			return true;
 		default:
@@ -128,8 +132,7 @@ public class OpenFilePanel extends Activity implements Runnable
 						FileElem elem = getManagers().getFileManager().renameFile(mSelectedElem, renameNewName);
 						if (elem != null)
 						{
-							mFileList.remove(mRenameID);
-							mFileList.add(elem);
+							mFileList.set(mRenameID, elem);// replace old elem
 							mAdapter.notifyDataSetChanged();
 							getManagers().getUtilsManager().ShowToastMessage("Renaming to " + renameNewName);
 						}
