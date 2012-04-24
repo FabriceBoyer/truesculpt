@@ -1,8 +1,11 @@
 package truesculpt.ui.panels;
 
+import java.util.ArrayList;
+
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
+import truesculpt.parser.WebEntry;
 import truesculpt.tools.base.BaseTool;
 import truesculpt.ui.adapters.CoverFlowImageAdapter;
 import truesculpt.ui.adapters.StreamingCoverFlowAdapter;
@@ -39,7 +42,17 @@ public class WebFileFlowPanel extends Activity
 		mDescriptionView.setMovementMethod(new ScrollingMovementMethod());
 		mCoverFlow = (CoverFlow) findViewById(R.id.coverflow);
 
-		StreamingCoverFlowAdapter coverImageAdapter = new StreamingCoverFlowAdapter(this);
+		ArrayList<WebEntry> entries=getManagers().getWebManager().getWebEntries();
+		ArrayList<String> stringEntries= new ArrayList<String>();
+		if (entries!=null)
+		{
+			for(WebEntry entry : entries)
+			{
+				stringEntries.add(entry.getImageThumbnailURL().toString());
+			}
+		}
+		StreamingCoverFlowAdapter coverImageAdapter = new StreamingCoverFlowAdapter(this,stringEntries);
+		
 		mCoverFlow.setAdapter(coverImageAdapter);
 
 		mCoverFlow.setOnItemClickListener(new OnItemClickListener()
