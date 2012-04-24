@@ -1,5 +1,6 @@
 package truesculpt.managers;
 
+import truesculpt.main.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -7,7 +8,6 @@ import android.preference.PreferenceManager;
 //is a local cache really necessary ? direct call to manager better?
 public class OptionsManager extends BaseManager
 {
-
 	SharedPreferences settings = null;
 
 	public OptionsManager(Context baseContext)
@@ -15,6 +15,7 @@ public class OptionsManager extends BaseManager
 		super(baseContext);
 
 		// Restore preferences
+		PreferenceManager.setDefaultValues(getbaseContext(), R.xml.options, true);
 		settings = PreferenceManager.getDefaultSharedPreferences(getbaseContext());
 
 	}

@@ -24,12 +24,9 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 public class CoverFlowImageAdapter extends BaseAdapter
-{
-	int mGalleryItemBackground;
+{	
 	private final Context mContext;
-
 	private final ArrayList<Integer> mImageIds = new ArrayList<Integer>();
-
 	private final ImageView[] mImages;
 
 	public CoverFlowImageAdapter(Context c)

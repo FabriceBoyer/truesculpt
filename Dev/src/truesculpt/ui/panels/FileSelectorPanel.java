@@ -40,7 +40,7 @@ public class FileSelectorPanel extends TabActivity
 		spec = tabHost.newTabSpec("Save").setIndicator("Save", res.getDrawable(R.drawable.save)).setContent(intent);
 		tabHost.addTab(spec);
 
-		intent = new Intent().setClass(this, WebFilePanel.class);
+		intent = new Intent().setClass(this, WebFileFlowPanel.class);
 		spec = tabHost.newTabSpec("Web").setIndicator("Web", res.getDrawable(R.drawable.earth)).setContent(intent);
 		tabHost.addTab(spec);
 

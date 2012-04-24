@@ -2,15 +2,16 @@ package truesculpt.ui.adapters;
 
 import truesculpt.managers.FileManager;
 import truesculpt.managers.FileManager.FileElem;
-import truesculpt.ui.adapters.OpenFileAdapter.ViewHolder;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ImageLoader extends Thread
-{
+{		
 	public interface ImageLoadListener
 	{
 		void handleImageLoaded(final ViewHolder holder, final FileManager.FileElem elem, Bitmap aBitmap);
@@ -93,9 +94,7 @@ public class ImageLoader extends Thread
 				{
 					synchronized (holder)
 					{
-						// make sure this thread is the only one performing
-						// activities on
-						// this imageview
+						// make sure this thread is the only one performing activities on this imageview
 						BitmapFactory.Options lOptions = new BitmapFactory.Options();
 						lOptions.inSampleSize = 4;
 						Bitmap lBitmap = BitmapFactory.decodeFile(elem.imagefilename, lOptions);
