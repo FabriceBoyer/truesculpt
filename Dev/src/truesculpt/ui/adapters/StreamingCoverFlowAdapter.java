@@ -42,14 +42,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 public class StreamingCoverFlowAdapter extends BaseAdapter
 {	
 	private final Context mContext;
-	private ArrayList<WebEntry> mEntries;
+	private ArrayList<String> mEntries;
 	private DisplayImageOptions options;
 	private ImageLoader imageLoader;
 	
-	public StreamingCoverFlowAdapter(Context c)
+	public StreamingCoverFlowAdapter(Context c, ArrayList<String> entries )
 	{
 		mContext = c;
-		mEntries=getManagers().getWebManager().getWebEntries();		
+		mEntries = entries;
 		
 		File cacheDir = new File(Environment.getExternalStorageDirectory(), "Truesculpt/Cache");
 		cacheDir.mkdir();
@@ -110,8 +110,16 @@ public class StreamingCoverFlowAdapter extends BaseAdapter
 			imageView.setLayoutParams(new CoverFlow.LayoutParams(200, 200));
 			imageView.setScaleType(ScaleType.MATRIX);
 		}
-		String imageUrl=mEntries.get(position).getImageThumbnailURL().toString();
+		String imageUrl=mEntries.get(position);
 		imageLoader.displayImage(imageUrl, imageView, options);
 		return imageView;
+	}
+
+	public ArrayList<String> getEntries() {
+		return mEntries;
+	}
+
+	public void setEntries(ArrayList<String> entries) {
+		this.mEntries = entries;
 	}	
 }

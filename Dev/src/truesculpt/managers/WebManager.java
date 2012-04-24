@@ -2,6 +2,7 @@ package truesculpt.managers;
 
 import java.util.ArrayList;
 
+import truesculpt.parser.WebEntry;
 import truesculpt.parser.WebLibraryParser;
 import android.content.Context;
 import android.os.Handler;
@@ -10,11 +11,14 @@ public class WebManager extends BaseManager
 {
 	private Handler mHandler = new Handler();
 	WebLibraryParser mWebParser=new WebLibraryParser();
-	ArrayList mEntries=null;
+	ArrayList<WebEntry> mEntries=null;
 	
-	public ArrayList getWebEntries() 
+	public ArrayList<WebEntry> getWebEntries() 
 	{
-		return mEntries;
+		synchronized (this) 
+		{
+			return mEntries;
+		}
 	}
 
 	public WebManager(Context baseContext) 
@@ -27,7 +31,11 @@ public class WebManager extends BaseManager
 		@Override
 		public void run()
 		{
-			mEntries=WebLibraryParser.getWebLibrary();
+			synchronized (this) 
+			{
+				mEntries=WebLibraryParser.getWebLibrary();
+			}
+			
 		}	
 	};
 

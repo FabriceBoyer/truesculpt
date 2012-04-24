@@ -7,7 +7,10 @@ import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.FileManager;
 import truesculpt.managers.FileManager.FileElem;
+import truesculpt.parser.WebEntry;
 import truesculpt.ui.adapters.OpenFileAdapter;
+import truesculpt.ui.adapters.StreamingCoverFlowAdapter;
+import truesculpt.ui.views.CoverFlow;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,6 +19,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -23,18 +27,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 
-public class OpenFilePanel extends Activity implements Runnable
+public class OpenFileFlowPanel extends Activity implements Runnable
 {
 	private ProgressDialog waitDialog = null;
-	private GridView gridview = null;
+	private TextView mNameView = null;
+	private TextView mDescriptionView = null;
+	private CoverFlow mCoverFlow = null;
+	private StreamingCoverFlowAdapter mAdapter = null;
+	
 	private FileManager.FileElem mSelectedElem = null;
 	private ArrayList<FileManager.FileElem> mFileList = new ArrayList<FileManager.FileElem>();
 	private final int DIALOG_WAIT = 1;
 	private final int DIALOG_RENAME = 2;
-	private OpenFileAdapter mAdapter = null;
+
 	private EditText mInput = null;;
 	private int mRenameID = -1;
 
@@ -43,28 +53,55 @@ public class OpenFilePanel extends Activity implements Runnable
 	{
 		super.onCreate(savedInstanceState);
 
-		getManagers().getUsageStatisticsManager().TrackPageView("/OpenFilePanel");
+		getManagers().getUsageStatisticsManager().TrackPageView("/OpenFileFlowPanel");
 		getManagers().getUtilsManager().updateFullscreenWindowStatus(getWindow());
 
-		setContentView(R.layout.openfile);
+		setContentView(R.layout.openfileflow);
 
 		mFileList.clear();
 		mFileList = getManagers().getFileManager().getFileList();
 
-		gridview = (GridView) findViewById(R.id.openfilegridview);
-		mAdapter = new OpenFileAdapter(this, mFileList);
-		gridview.setOnItemClickListener(new OnItemClickListener()
+		mNameView = (TextView) findViewById(R.id.name);
+		mDescriptionView = (TextView) findViewById(R.id.description);
+		mDescriptionView.setMovementMethod(new ScrollingMovementMethod());
+		mCoverFlow = (CoverFlow) findViewById(R.id.coverflow);
+				
+		ArrayList<String> stringEntries= new ArrayList<String>();
+		for(FileElem entry : mFileList)
+		{
+			stringEntries.add("file://"+entry.imagefilename);
+		}
+		StreamingCoverFlowAdapter mAdapter = new StreamingCoverFlowAdapter(this,stringEntries);
+		
+		mCoverFlow.setAdapter(mAdapter);
+
+		mCoverFlow.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
 			{
 				mSelectedElem = mFileList.get((int) id);
-				OpenInternal();
+				OpenInternal();		
 			}
 		});
-		gridview.setAdapter(mAdapter);
+		mCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{				
+				mNameView.setText("");
+				mDescriptionView.setText("");				
+			}
 
-		registerForContextMenu(gridview);
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				mNameView.setText("");
+				mDescriptionView.setText("");
+			}
+		});
+		
+		registerForContextMenu(mCoverFlow);
 	}
 
 	@Override
@@ -88,6 +125,12 @@ public class OpenFilePanel extends Activity implements Runnable
 		case R.id.delete:
 			getManagers().getFileManager().deleteFile(mSelectedElem);
 			mFileList.remove((int) info.id);
+			ArrayList<String> stringEntries= new ArrayList<String>();
+			for(FileElem entry : mFileList)
+			{
+				stringEntries.add("file://"+entry.imagefilename);
+			}
+			mAdapter.setEntries(stringEntries);
 			mAdapter.notifyDataSetChanged();
 			return true;
 		case R.id.rename:
@@ -187,7 +230,7 @@ public class OpenFilePanel extends Activity implements Runnable
 	{
 		showDialog(DIALOG_WAIT);
 
-		Thread thread = new Thread(OpenFilePanel.this);
+		Thread thread = new Thread(OpenFileFlowPanel.this);
 		thread.start();
 
 		String name = getManagers().getMeshManager().getName();

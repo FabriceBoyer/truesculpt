@@ -32,7 +32,7 @@ public class FileSelectorPanel extends TabActivity
 		tabHost.addTab(spec);
 
 		// Do the same for the other tabs
-		intent = new Intent().setClass(this, OpenFilePanel.class);
+		intent = new Intent().setClass(this, OpenFileFlowPanel.class);//OpenFilePanel.class
 		spec = tabHost.newTabSpec("Open").setIndicator("Open", res.getDrawable(R.drawable.open)).setContent(intent);
 		tabHost.addTab(spec);
 
@@ -40,7 +40,7 @@ public class FileSelectorPanel extends TabActivity
 		spec = tabHost.newTabSpec("Save").setIndicator("Save", res.getDrawable(R.drawable.save)).setContent(intent);
 		tabHost.addTab(spec);
 
-		intent = new Intent().setClass(this, WebFileFlowPanel.class);
+		intent = new Intent().setClass(this, WebFileFlowPanel.class);//WebFilePanel.class
 		spec = tabHost.newTabSpec("Web").setIndicator("Web", res.getDrawable(R.drawable.earth)).setContent(intent);
 		tabHost.addTab(spec);
 
