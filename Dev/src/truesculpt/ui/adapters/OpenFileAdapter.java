@@ -24,13 +24,6 @@ public class OpenFileAdapter extends BaseAdapter implements ImageLoadListener
 	private ImageLoader mImageLoader = null;
 	private LayoutInflater inflater = null;
 
-	class ViewHolder
-	{
-		public TextView title = null;
-		public ImageView image = null;
-		public FileManager.FileElem currElem = null;
-	}
-
 	public OpenFileAdapter(Context context, ArrayList<FileManager.FileElem> fileList)
 	{
 		mImageLoader = new ImageLoader(this);

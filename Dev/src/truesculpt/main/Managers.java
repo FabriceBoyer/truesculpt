@@ -17,6 +17,7 @@ import truesculpt.managers.TouchManager;
 import truesculpt.managers.UpdateManager;
 import truesculpt.managers.UsageStatisticsManager;
 import truesculpt.managers.UtilsManager;
+import truesculpt.managers.WebManager;
 import android.content.Context;
 
 public class Managers
@@ -37,6 +38,7 @@ public class Managers
 	private UsageStatisticsManager mUsageStatisticsManager = null;
 	private SleepPowerManager mPowerManager = null;
 	private UtilsManager mUtilsManager = null;
+	private WebManager mWebManager = null;
 
 	public Managers()
 	{
@@ -60,65 +62,41 @@ public class Managers
 		mManagersList.clear();
 	}
 
-	/**
-	 * @return the mActionsManager
-	 */
 	public ActionsManager getActionsManager()
 	{
 		return mActionsManager;
 	}
 
-	/**
-	 * @return the mFileManager
-	 */
 	public FileManager getFileManager()
 	{
 		return mFileManager;
 	}
 
-	/**
-	 * @return the mMemoryManager
-	 */
 	public MemoryManager getMemoryManager()
 	{
 		return mMemoryManager;
 	}
 
-	/**
-	 * @return the mMeshManager
-	 */
 	public MeshManager getMeshManager()
 	{
 		return mMeshManager;
 	}
 
-	/**
-	 * @return the mOptionsManager
-	 */
 	public OptionsManager getOptionsManager()
 	{
 		return mOptionsManager;
 	}
 
-	/**
-	 * @return the mPointOfViewManager
-	 */
 	public PointOfViewManager getPointOfViewManager()
 	{
 		return mPointOfViewManager;
 	}
 
-	/**
-	 * @return the mRendererManager
-	 */
 	public RendererManager getRendererManager()
 	{
 		return mRendererManager;
 	}
 
-	/**
-	 * @return the mSensorsManager
-	 */
 	public SensorsManager getSensorsManager()
 	{
 		return mSensorsManager;
@@ -129,33 +107,21 @@ public class Managers
 		return mPowerManager;
 	}
 
-	/**
-	 * @return the mToolsManager
-	 */
 	public ToolsManager getToolsManager()
 	{
 		return mToolsManager;
 	}
 
-	/**
-	 * @return the mTouchManager
-	 */
 	public TouchManager getTouchManager()
 	{
 		return mTouchManager;
 	}
 
-	/**
-	 * @return the mUpdateManager
-	 */
 	public UpdateManager getUpdateManager()
 	{
 		return mUpdateManager;
 	}
 
-	/**
-	 * @return the mUsageStatisticsManager
-	 */
 	public UsageStatisticsManager getUsageStatisticsManager()
 	{
 		return mUsageStatisticsManager;
@@ -165,11 +131,14 @@ public class Managers
 	{
 		return mUtilsManager;
 	}
+	
+	public WebManager getWebManager()
+	{
+		return mWebManager;
+	}	
 
 	public void Init(Context baseContext)
 	{
-
-		// init
 		mActionsManager = new ActionsManager(baseContext);
 		mMemoryManager = new MemoryManager(baseContext);
 		mMeshManager = new MeshManager(baseContext);
@@ -184,6 +153,7 @@ public class Managers
 		mFileManager = new FileManager(baseContext);
 		mPowerManager = new SleepPowerManager(baseContext);
 		mUtilsManager = new UtilsManager(baseContext);
+		mWebManager = new WebManager(baseContext);
 
 		mManagersList.add(mActionsManager);
 		mManagersList.add(mFileManager);
@@ -199,6 +169,7 @@ public class Managers
 		mManagersList.add(mUsageStatisticsManager);
 		mManagersList.add(mPowerManager);
 		mManagersList.add(mUtilsManager);
+		mManagersList.add(mWebManager);
 
 	}
 }

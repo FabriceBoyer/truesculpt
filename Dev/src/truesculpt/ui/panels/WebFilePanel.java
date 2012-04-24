@@ -45,7 +45,7 @@ import android.widget.TextView;
 //TODO thread all waiting phases
 public class WebFilePanel extends Activity
 {
-	private final String mStrBaseWebSite = "http://truesculpt.appspot.com";
+	private final String mStrBaseWebSite = "http://truesculpt-hrd.appspot.com";
 
 	private Button mPublishToWebBtn;
 	private WebView mWebView;

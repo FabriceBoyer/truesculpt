@@ -16,7 +16,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="" >
-
     </EditText>
 
     <Button
@@ -26,8 +25,16 @@
         android:text="@string/save"
         android:drawableLeft="@drawable/save"
   		android:gravity="center_vertical|center_horizontal" >
-
     </Button>
+    
+    <Button 
+        android:layout_height="wrap_content"
+        android:id="@+id/publish_to_web"
+        android:layout_width="fill_parent"
+        android:text="@string/Publish_to_web_site"   
+        android:drawableLeft="@drawable/earth"
+  		android:gravity="center_vertical|center_horizontal">        
+    </Button>   
 
     <TableLayout
         android:id="@+id/tableLayout1"

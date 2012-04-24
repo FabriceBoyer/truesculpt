@@ -11,7 +11,8 @@
         android:layout_width="fill_parent"
         android:text="@string/Publish_to_web_site"   
         android:drawableLeft="@drawable/earth"
-  		android:gravity="center_vertical|center_horizontal"></Button>    
+  		android:gravity="center_vertical|center_horizontal">        
+    </Button>    
     		
 	<WebView
  	 android:id="@+id/webview" 

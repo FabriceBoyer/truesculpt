@@ -37,10 +37,10 @@
 		<activity android:name="truesculpt.ui.panels.OpenFilePanel" android:label="@string/openfile"></activity>
 		<activity android:name="truesculpt.ui.panels.SaveFilePanel" android:label="@string/savefile"></activity>
 		<activity android:name="truesculpt.ui.panels.WebFilePanel" android:label="@string/webfile"></activity>
+		<activity android:name="truesculpt.ui.panels.WebFileFlowPanel" android:label="@string/webfile"></activity>
 		<activity android:name="truesculpt.ui.panels.TutorialOverlayPanel" android:label="@string/tutorial"></activity>
 			
 	</application>
-
 
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>  
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>	
