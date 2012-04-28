@@ -12,22 +12,10 @@ public class WebEntry
 	private String installationID;
 	private URL imageURL;
 	private URL imageThumbnailURL;
-	
-	public WebEntry(String title, String description, Integer downloadCount,
-			Date creationTime, String installationID, URL imageURL,
-			URL imageThumbnailURL) {
-		super();
-		this.title = title;
-		this.description = description;
-		this.downloadCount = downloadCount;
-		this.creationTime = creationTime;
-		this.installationID = installationID;
-		this.imageURL = imageURL;
-		this.imageThumbnailURL = imageThumbnailURL;
-	}
+	private Double objectSizeKo;
+	private Boolean isFeatured;
 	
 	public WebEntry() {
-
 	}
 	
 	public String getTitle() {
@@ -71,5 +59,17 @@ public class WebEntry
 	}
 	public void setImageThumbnailURL(URL imageThumbnailURL) {
 		this.imageThumbnailURL = imageThumbnailURL;
+	}
+	public Double getObjectSizeKo() {
+		return objectSizeKo;
+	}
+	public void setObjectSizeKo(Double objectSizeKo) {
+		this.objectSizeKo = objectSizeKo;
+	}
+	public Boolean getIsFeatured() {
+		return isFeatured;
+	}
+	public void setIsFeatured(Boolean isFeatured) {
+		this.isFeatured = isFeatured;
 	}
 }

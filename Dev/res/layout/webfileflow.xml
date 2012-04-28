@@ -17,8 +17,8 @@
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Name" 
-        android:textSize="50dip"
+        android:text="" 
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:gravity="center"/>
     
@@ -26,7 +26,13 @@
         android:id="@+id/description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Description" 
+        android:text="" 
         android:layout_marginTop="20dip"/>
+
+    <Button
+        android:id="@+id/download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Download" />
 
 </LinearLayout>

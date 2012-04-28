@@ -29,6 +29,7 @@
 		<activity android:name="truesculpt.ui.panels.DebugSensorsPanel" android:label="@string/show_sensors"></activity>
 		<activity android:name="truesculpt.ui.panels.SplashPanel" android:label="@string/show_splash"></activity>
 		<activity android:name="truesculpt.ui.panels.OptionsPanel" android:label="@string/show_options_panel"></activity>
+		<activity android:name="truesculpt.ui.panels.GraphicalPreferencesPanel" android:label="@string/show_options_panel"></activity>
 		<activity android:name="truesculpt.ui.panels.AboutPanel" android:label="@string/show_about_panel"></activity>
 		<activity android:name="truesculpt.ui.panels.HistoryPanel" android:label="@string/history"></activity>
 		<activity android:name="truesculpt.ui.panels.StatisticsPanel" android:label="@string/statistics"></activity>

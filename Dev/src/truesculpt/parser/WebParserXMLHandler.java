@@ -20,6 +20,8 @@ public class WebParserXMLHandler extends DefaultHandler
 	private final String INSTALLATION_ID = "installationID";
 	private final String IMAGE_URL = "imageURL";
 	private final String IMAGE_THUMBNAIL_URL = "imageThumbnailURL";
+	private final String OBJECT_SIZE_KO = "objectSizeKo";
+	private final String IS_FEATURED = "isFeatured";
 
 	// Array list de feeds
 	private ArrayList entries;
@@ -99,6 +101,12 @@ public class WebParserXMLHandler extends DefaultHandler
 		if(localName.equalsIgnoreCase(IMAGE_THUMBNAIL_URL)){
 			// Nothing to do
 		}
+		if (localName.equalsIgnoreCase(OBJECT_SIZE_KO)){
+			// Nothing to do
+		}
+		if(localName.equalsIgnoreCase(IS_FEATURED)){
+			// Nothing to do
+		}
 	}
 
 	// * Fonction étant déclenchée lorsque le parser à parsé
@@ -159,6 +167,18 @@ public class WebParserXMLHandler extends DefaultHandler
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
+				buffer = null;
+			}
+		}
+		if(localName.equalsIgnoreCase(OBJECT_SIZE_KO)){
+			if(inItem){
+				this.currentEntry.setObjectSizeKo(Double.parseDouble(buffer.toString()));
+				buffer = null;
+			}
+		}
+		if(localName.equalsIgnoreCase(IS_FEATURED)){
+			if(inItem){
+				this.currentEntry.setIsFeatured(Boolean.parseBoolean(buffer.toString()));
 				buffer = null;
 			}
 		}

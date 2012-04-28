@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+		    <TextView
+		        android:id="@+id/textView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/backgroundgradientcolors"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" >
+		
+		        <truesculpt.ui.views.ColorShowView
+		            android:id="@+id/backgroundGradientColorUpperLeft"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp" />
+		
+		        <truesculpt.ui.views.ColorShowView
+		            android:id="@+id/backgroundGradientColorUpperRight"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp" />
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >
+		
+		        <truesculpt.ui.views.ColorShowView
+		            android:id="@+id/backgroundGradientColorLowerLeft"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp" />
+		
+		        <truesculpt.ui.views.ColorShowView
+		            android:id="@+id/backgroundGradientColorLowerRight"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp" />
+		    </LinearLayout>
+		
+		
+		    <TextView
+		        android:id="@+id/TextView01"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/backgroundGradientAngle"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		
+		    <SeekBar
+		        android:id="@+id/backgroundGradientAngle"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" />
+		
+		    <TextView
+		        android:id="@+id/textView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/lightcolor"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" >
+		
+		
+		        <truesculpt.ui.views.ColorShowView
+		            android:id="@+id/AmbientLightColor"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp" />
+		
+		
+		        <truesculpt.ui.views.ColorShowView
+		            android:id="@+id/DiffuseLightColor"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp" />
+		
+		
+		        <truesculpt.ui.views.ColorShowView
+		            android:id="@+id/SpecularLightColor"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp" />
+		
+		    </LinearLayout>
+		
+		
+		    <CheckBox
+		        android:id="@+id/showSymmetryPane"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/showsymmetryplane" />
+		
+		    <TextView
+		        android:id="@+id/textView3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/symmetryplanecolor"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		
+		    <truesculpt.ui.views.ColorShowView
+		        android:id="@+id/symmetryPlaneColor"
+		        android:layout_width="50dp"
+		        android:layout_height="50dp" />
+		
+		    <TextView
+		        android:id="@+id/textView4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/symmetryplanealpha"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		
+		    <SeekBar
+		        android:id="@+id/symmetryPlaneTransparency"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" />
+		
+		
+		    <CheckBox
+		        android:id="@+id/showWireframe"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/showwireframe" />
+		
+		
+		    <CheckBox
+		        android:id="@+id/showNormals"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/showNormals" />
+		
+		    <CheckBox
+		        android:id="@+id/showReferenceAxis"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/showAxis" />
+		
+		    <TextView
+		        android:id="@+id/textView8"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/helpTextColor"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		    <truesculpt.ui.views.ColorShowView
+		        android:id="@+id/helpTextColor"
+		        android:layout_width="50dp"
+		        android:layout_height="50dp" />
+    
+        </LinearLayout>
+    </ScrollView>

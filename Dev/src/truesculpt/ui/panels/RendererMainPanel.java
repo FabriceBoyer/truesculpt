@@ -54,13 +54,14 @@ public class RendererMainPanel extends Activity implements Observer
 	private ToolPickerView mToolPicker;
 	private SliderPickView mRadius;
 	private SliderPickView mStrength;
-	private ImageButton mResetPOVbutton;
+	private ImageButton mResetPOVButton;
 	private ToggleButton mSymmetrySwitcher;
 	private ImageButton mFilesBtn;
 	private TextView mBigTextOverlay;
 	private CoverFlow mCoverFlow;
 	private SeekBar mRadiusSeekBar;
 	private SeekBar mStrengthSeekBar;
+	private ImageButton mGraphicalPreferencesButton;
 
 	private final int mRadiusBkColor = Color.rgb(0, 140, 0);// dk green
 
@@ -272,8 +273,8 @@ public class RendererMainPanel extends Activity implements Observer
 			}
 		});
 
-		mResetPOVbutton = (ImageButton) findViewById(R.id.ResetPOVBtn);
-		mResetPOVbutton.setOnClickListener(new View.OnClickListener()
+		mResetPOVButton = (ImageButton) findViewById(R.id.ResetPOVBtn);
+		mResetPOVButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -281,7 +282,7 @@ public class RendererMainPanel extends Activity implements Observer
 				getManagers().getPointOfViewManager().resetPOV();
 			}
 		});
-		mResetPOVbutton.setOnLongClickListener(new View.OnLongClickListener()
+		mResetPOVButton.setOnLongClickListener(new View.OnLongClickListener()
 		{
 			@Override
 			public boolean onLongClick(View v)
@@ -290,7 +291,7 @@ public class RendererMainPanel extends Activity implements Observer
 				return false;
 			}
 		});
-		mResetPOVbutton.setOnTouchListener(new View.OnTouchListener()
+		mResetPOVButton.setOnTouchListener(new View.OnTouchListener()
 		{
 			@Override
 			public boolean onTouch(View arg0, MotionEvent arg1)
@@ -550,6 +551,16 @@ public class RendererMainPanel extends Activity implements Observer
 			{
 				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.DebugPanel.class, false);
 				return false;
+			}
+		});
+		
+		mGraphicalPreferencesButton = (ImageButton) findViewById(R.id.optionsBtn);
+		mGraphicalPreferencesButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Utils.StartMyActivity(RendererMainPanel.this, truesculpt.ui.panels.GraphicalPreferencesPanel.class, false);
 			}
 		});
 
