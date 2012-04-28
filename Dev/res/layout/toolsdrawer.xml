@@ -77,6 +77,8 @@
 				
 			    <ImageButton android:layout_gravity="top" android:scaleType="fitCenter" android:padding="5dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/UndoBtn" android:src="@drawable/undo" android:background="@android:color/transparent"></ImageButton>
 			 	<ImageButton android:layout_gravity="top" android:scaleType="fitCenter" android:padding="5dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/RedoBtn" android:src="@drawable/redo" android:background="@android:color/transparent"></ImageButton>			 	
+			 	
+			 	<ImageButton android:layout_gravity="top" android:scaleType="fitCenter" android:padding="5dip" android:layout_height="50dip" android:layout_width="50dip" android:id="@+id/optionsBtn" android:src="@drawable/plus" android:background="@android:color/transparent"></ImageButton>
 		 	
 	   </LinearLayout>   
 	</SlidingDrawer>
