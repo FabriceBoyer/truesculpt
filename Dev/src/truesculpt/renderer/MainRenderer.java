@@ -31,6 +31,7 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	private final ReferenceAxis mAxis = new ReferenceAxis();
 	private final SymmetryPlane mSymmetryPlane = new SymmetryPlane();
 	private final ToolOverlay mToolOverlay = new ToolOverlay();
+	private final BackgroundPlane mBackgroundPlane = new BackgroundPlane();
 
 	private long mLastFrameDurationMs = 0;
 	private Managers mManagers = null;
@@ -80,6 +81,10 @@ public class MainRenderer implements GLSurfaceView.Renderer
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
+		
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		
+		mBackgroundPlane.draw(gl);
 
 		// eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ
 		// GLU.gluLookAt(gl, mDistance * (float) Math.cos(-mPitch) * (float) Math.cos(mHead), mDistance * (float) Math.sin(-mPitch), mDistance * (float) Math.cos(-mPitch) * (float) Math.sin(mHead), 0, 0, 0, 0, 0, 1);
@@ -87,11 +92,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 		gl.glTranslatef(mXPanOffset, mYPanOffset, -mDistance);
 		gl.glRotatef(mPitch, 1, 0, 0);
 		gl.glRotatef(mHead, 0, 1, 0);
-		gl.glRotatef(mRoll, 0, 0, 1);
-
-		// common part (normals optionnal)
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-
+		gl.glRotatef(mRoll, 0, 0, 1);	
+		
 		// only if point of view changed
 		setCurrentModelView(gl);
 
@@ -221,9 +223,8 @@ public class MainRenderer implements GLSurfaceView.Renderer
 	{
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
-		// TODO back screen color configuration in options
 		gl.glClearColor(0, 0, 0, 0);
-
+		
 		gl.glEnable(GL10.GL_LIGHTING);
 		gl.glEnable(GL10.GL_LIGHT0);
 
