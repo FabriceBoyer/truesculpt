@@ -101,4 +101,14 @@
 <string name="Delete">Delete</string>  
 <string name="Rename">Rename</string>
 <string name="Cancel">Cancel</string>
+<string name="backgroundgradientcolors">Background gradient colors</string>
+<string name="lightcolor">Light color</string>
+<string name="symmetryplanecolor">Symmetry plane color</string>
+<string name="symmetryplanealpha">Symmetry plane transparency</string>
+<string name="showsymmetryplane">Show symmetry plane</string>
+<string name="showwireframe">Wireframe mode</string>
+<string name="showNormals">Show normals</string>
+<string name="helpTextColor">Help text color</string>
+<string name="showAxis">Show reference axis</string>
+<string name="backgroundGradientAngle">Background gradient angle</string>
 </resources>
