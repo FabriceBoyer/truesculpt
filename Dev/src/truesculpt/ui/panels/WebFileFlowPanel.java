@@ -26,6 +26,7 @@ public class WebFileFlowPanel extends Activity
 	private TextView mNameView = null;
 	private TextView mDescriptionView = null;
 	private CoverFlow mCoverFlow = null;
+	ArrayList<WebEntry> mEntries=null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -42,11 +43,11 @@ public class WebFileFlowPanel extends Activity
 		mDescriptionView.setMovementMethod(new ScrollingMovementMethod());
 		mCoverFlow = (CoverFlow) findViewById(R.id.coverflow);
 
-		ArrayList<WebEntry> entries=getManagers().getWebManager().getWebEntries();
+		mEntries=getManagers().getWebManager().getWebEntries();
 		ArrayList<String> stringEntries= new ArrayList<String>();
-		if (entries!=null)
+		if (mEntries!=null)
 		{
-			for(WebEntry entry : entries)
+			for(WebEntry entry : mEntries)
 			{
 				stringEntries.add(entry.getImageThumbnailURL().toString());
 			}
@@ -58,7 +59,7 @@ public class WebFileFlowPanel extends Activity
 		mCoverFlow.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			public void onItemClick(AdapterView<?> arg0,  View v, int position, long id)
 			{
 								
 			}
@@ -66,10 +67,13 @@ public class WebFileFlowPanel extends Activity
 		mCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			public void onItemSelected(AdapterView<?> arg0,  View v, int position, long id)
 			{				
-				mNameView.setText("");
-				mDescriptionView.setText("");				
+				WebEntry entry = mEntries.get(position);
+				mNameView.setText(entry.getTitle());
+				mDescriptionView.setText(entry.getDescription() + 
+						"\nDownloaded " + entry.getDownloadCount() +" times\n" +
+						"Created on " + entry.getCreationTime());				
 			}
 
 			@Override
