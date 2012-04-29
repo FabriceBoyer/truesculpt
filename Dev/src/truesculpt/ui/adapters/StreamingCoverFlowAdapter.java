@@ -6,36 +6,19 @@ import java.util.ArrayList;
 import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
-import truesculpt.managers.FileManager.FileElem;
-import truesculpt.parser.WebEntry;
 import truesculpt.ui.views.CoverFlow;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.LinearGradient;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Shader.TileMode;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
-import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Gallery.LayoutParams;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.DecodingType;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
@@ -46,35 +29,37 @@ public class StreamingCoverFlowAdapter extends BaseAdapter
 	private DisplayImageOptions options;
 	private ImageLoader imageLoader;
 	
-	public StreamingCoverFlowAdapter(Context c, ArrayList<String> entries )
+	public StreamingCoverFlowAdapter(Context c )
 	{
 		mContext = c;
-		mEntries = entries;
+		mEntries = null;
 		
 		File cacheDir = new File(Environment.getExternalStorageDirectory(), "Truesculpt/Cache");
 		cacheDir.mkdir();
 		
+		options=new DisplayImageOptions.Builder()
+		.showImageForEmptyUrl(R.drawable.busy)
+		.showStubImage(R.drawable.earth)
+		.decodingType(DecodingType.MEMORY_SAVING)
+		.cacheInMemory()
+		.cacheOnDisc()
+		.build();	
+		
 		imageLoader = ImageLoader.getInstance();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(mContext)
-        .maxImageWidthForMemoryCache(800)
+		.maxImageWidthForMemoryCache(800)
         .maxImageHeightForMemoryCache(800)
         .httpConnectTimeout(5000)
         .httpReadTimeout(30000)
         .threadPoolSize(5)
-        .threadPriority(Thread.MIN_PRIORITY + 2)
+        .threadPriority(Thread.NORM_PRIORITY - 2)
         .denyCacheImageMultipleSizesInMemory()
-        .memoryCache(new UsingFreqLimitedMemoryCache(2000000)) 
+        .memoryCacheSize(1500000) // 1.5 Mb
+		.discCacheSize(50000000) // 50 Mb
         .discCache(new UnlimitedDiscCache(cacheDir)) 
-        .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+        .defaultDisplayImageOptions(options)
         .build();
-		imageLoader.init(config);
-		
-		options=new DisplayImageOptions.Builder()
-		.showImageForEmptyUrl(R.drawable.busy)
-		.showStubImage(R.drawable.busy)
-		.cacheInMemory()
-		.cacheOnDisc()
-		.build();		
+		imageLoader.init(config);	
 	}
 
 	public Managers getManagers()
@@ -85,13 +70,19 @@ public class StreamingCoverFlowAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		return mEntries.size();
+		if (mEntries!=null)		
+			return mEntries.size();
+		else
+			return 0;
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		return mEntries.get(position);
+		if (mEntries!=null)	
+			return mEntries.get(position);
+		else
+			return null;
 	}
 
 	@Override

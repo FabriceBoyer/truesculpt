@@ -19,8 +19,8 @@
     </string-array>
     
     <string-array name="initial_shape">
-        <item>Sphere</item>        
+        <item>Sphere</item>  
+        <item>Web library item</item>      
     </string-array>
-    
     
 </resources>

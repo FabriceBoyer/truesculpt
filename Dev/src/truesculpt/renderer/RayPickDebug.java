@@ -7,9 +7,6 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * A vertex shaded cube.
- */
 public class RayPickDebug
 {
 	private FloatBuffer mColorBuffer;
