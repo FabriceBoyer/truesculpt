@@ -13,9 +13,6 @@ import truesculpt.utils.MatrixUtils;
 import truesculpt.utils.Utils;
 import android.graphics.Color;
 
-/**
- * A vertex shaded cube.
- */
 public class ToolOverlay
 {
 	private final FloatBuffer mColorBuffer;

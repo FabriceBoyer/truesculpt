@@ -25,9 +25,11 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -39,12 +41,17 @@ public class OpenFileFlowPanel extends Activity implements Runnable
 	private TextView mDescriptionView = null;
 	private CoverFlow mCoverFlow = null;
 	private StreamingCoverFlowAdapter mAdapter = null;
+	private Button mOpenBtn = null;
+	private Button mRenameBtn = null;
+	private Button mDeleteBtn = null;
 	
 	private FileManager.FileElem mSelectedElem = null;
+	private int mSelectedElemID = -1;
 	private ArrayList<FileManager.FileElem> mFileList = new ArrayList<FileManager.FileElem>();
 	private final int DIALOG_WAIT = 1;
 	private final int DIALOG_RENAME = 2;
 
+	//TODO place in standalone class, nothing to do here
 	private EditText mInput = null;;
 	private int mRenameID = -1;
 
@@ -65,13 +72,34 @@ public class OpenFileFlowPanel extends Activity implements Runnable
 		mDescriptionView = (TextView) findViewById(R.id.description);
 		mDescriptionView.setMovementMethod(new ScrollingMovementMethod());
 		mCoverFlow = (CoverFlow) findViewById(R.id.coverflow);
-				
-		ArrayList<String> stringEntries= new ArrayList<String>();
-		for(FileElem entry : mFileList)
-		{
-			stringEntries.add("file://"+entry.imagefilename);
-		}
-		StreamingCoverFlowAdapter mAdapter = new StreamingCoverFlowAdapter(this,stringEntries);
+		
+		mOpenBtn = (Button) findViewById(R.id.open);
+		mOpenBtn.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				OpenInternal();			
+			}
+		});
+		
+		mRenameBtn = (Button) findViewById(R.id.rename);
+		mRenameBtn.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				RenameInternal();			
+			}
+		});
+			
+		
+		mDeleteBtn = (Button) findViewById(R.id.delete);
+		mDeleteBtn.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				DeleteInternal();			
+			}
+		});			
+
+		mAdapter = new StreamingCoverFlowAdapter(this);
+		UpdateEntries();
 		
 		mCoverFlow.setAdapter(mAdapter);
 
@@ -79,29 +107,43 @@ public class OpenFileFlowPanel extends Activity implements Runnable
 		{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
-			{
-				mSelectedElem = mFileList.get((int) id);
+			{				
 				OpenInternal();		
 			}
 		});
 		mCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{				
-				mNameView.setText("");
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id)
+			{		
+				mSelectedElemID=(int)id;
+				mSelectedElem = mFileList.get(mSelectedElemID);				
+				mNameView.setText(mSelectedElem.name);
 				mDescriptionView.setText("");				
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0)
 			{
+				mSelectedElem=null;
+				mSelectedElemID=-1;
 				mNameView.setText("");
 				mDescriptionView.setText("");
 			}
 		});
 		
 		registerForContextMenu(mCoverFlow);
+	}
+
+	private void UpdateEntries()
+	{
+		ArrayList<String> stringEntries= new ArrayList<String>();
+		for(FileElem entry : mFileList)
+		{
+			stringEntries.add("file://"+entry.imagefilename);
+		}
+		mAdapter.setEntries(stringEntries);	
+		mAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -116,33 +158,42 @@ public class OpenFileFlowPanel extends Activity implements Runnable
 	public boolean onContextItemSelected(MenuItem item)
 	{
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		mSelectedElem = mFileList.get((int) info.id);
+		mSelectedElemID=(int) info.id;
+		mSelectedElem = mFileList.get(mSelectedElemID);		
 		switch (item.getItemId())
 		{
 		case R.id.open:
 			OpenInternal();
 			return true;
 		case R.id.delete:
-			getManagers().getFileManager().deleteFile(mSelectedElem);
-			mFileList.remove((int) info.id);
-			ArrayList<String> stringEntries= new ArrayList<String>();
-			for(FileElem entry : mFileList)
-			{
-				stringEntries.add("file://"+entry.imagefilename);
-			}
-			mAdapter.setEntries(stringEntries);
-			mAdapter.notifyDataSetChanged();
+			DeleteInternal();
 			return true;
 		case R.id.rename:
-			mRenameID = (int) info.id;
+			RenameInternal();
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
+	private void RenameInternal() {
+		if (mSelectedElemID>=0)
+		{
+			mRenameID = mSelectedElemID;
 			if (mInput != null)
 			{
 				mInput.setText("");
 			}
 			showDialog(DIALOG_RENAME);// no bundle params in V7
-			return true;
-		default:
-			return super.onContextItemSelected(item);
+		}
+	}
+
+	private void DeleteInternal() {
+		if (mSelectedElemID>=0 && mSelectedElem!=null)
+		{
+			getManagers().getFileManager().deleteFile(mSelectedElem);
+			mFileList.remove(mSelectedElemID);
+			UpdateEntries();			
 		}
 	}
 

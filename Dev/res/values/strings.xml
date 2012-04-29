@@ -111,4 +111,6 @@
 <string name="helpTextColor">Help text color</string>
 <string name="showAxis">Show reference axis</string>
 <string name="backgroundGradientAngle">Background gradient angle</string>
+<string name="SortBy">Sort kind</string>
+<string name="SortOrder">Sort order</string>
 </resources>

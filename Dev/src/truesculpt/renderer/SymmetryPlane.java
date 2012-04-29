@@ -11,9 +11,6 @@ import truesculpt.main.Managers;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.utils.Utils;
 
-/**
- * A vertex shaded cube.
- */
 public class SymmetryPlane
 {
 	private FloatBuffer mColorBuffer;
