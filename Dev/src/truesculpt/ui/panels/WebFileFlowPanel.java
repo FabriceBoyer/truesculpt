@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class WebFileFlowPanel extends Activity
 {	
@@ -37,7 +38,7 @@ public class WebFileFlowPanel extends Activity
 	private ArrayList<WebEntry> mEntries=null;
 	private Button mDownloadBtn =null;
 	private Spinner mSortKindSpinner= null;
-	private Spinner mSortOrderSpinner= null;
+	private ToggleButton mSortOrderToggle= null;
 	private StreamingCoverFlowAdapter mCoverImageAdapter =null;
 	enum SortKind {
 		DATE("Date"),
@@ -96,7 +97,8 @@ public class WebFileFlowPanel extends Activity
 		});
 		
 		mSortKindSpinner = (Spinner) findViewById(R.id.sortKind);
-		ArrayAdapter<SortKind> sortKindAdapter = new ArrayAdapter<SortKind>(this, android.R.layout.simple_list_item_1, SortKind.values());
+		ArrayAdapter<SortKind> sortKindAdapter = new ArrayAdapter<SortKind>(this, android.R.layout.simple_spinner_item, SortKind.values());
+		sortKindAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mSortKindSpinner.setAdapter(sortKindAdapter);
 		mSortKindSpinner.setSelection(0);
 		mSortKindSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -112,23 +114,15 @@ public class WebFileFlowPanel extends Activity
 			}
 		});
 		
-		mSortOrderSpinner = (Spinner) findViewById(R.id.sortOrder);
-		ArrayAdapter<SortOrder> sortOrderAdapter = new ArrayAdapter<SortOrder>(this, android.R.layout.simple_list_item_1, SortOrder.values());
-		mSortOrderSpinner.setAdapter(sortOrderAdapter);
-		mSortOrderSpinner.setSelection(0);
-		mSortOrderSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		mSortOrderToggle = (ToggleButton) findViewById(R.id.sortOrder);	
+		mSortOrderToggle.setChecked(mSortOrder==SortOrder.ASCENDING);
+		mSortOrderToggle.setOnClickListener(new OnClickListener() {			
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {	
-				mSortOrder=(SortOrder)mSortOrderSpinner.getSelectedItem();
-				UpdateWebEntries();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-								
+			public void onClick(View v) {
+				mSortOrder=mSortOrderToggle.isChecked()?SortOrder.ASCENDING:SortOrder.DESCENDING;
+				UpdateWebEntries();				
 			}
 		});
-
 
 		mCoverImageAdapter = new StreamingCoverFlowAdapter(this);
 		UpdateWebEntries();
@@ -147,13 +141,8 @@ public class WebFileFlowPanel extends Activity
 		{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0,  View v, int position, long id)
-			{				
-				WebEntry entry = mEntries.get(position);
-				mNameView.setText(entry.getTitle());
-				mDescriptionView.setText(entry.getDescription() + 
-						"\nDownloaded " + entry.getDownloadCount() +" times\n" +
-						"Created on " + entry.getCreationTime() + "\n" +
-						Math.round(entry.getObjectSizeKo()) +" Ko\n");				
+			{					
+				SetNameAndDescription(position);				
 			}
 
 			@Override
@@ -167,6 +156,20 @@ public class WebFileFlowPanel extends Activity
 		//mCoverFlow.setSelection(0, true);
 		//mCoverFlow.setAnimationDuration(1000);
 	}
+	
+	private void SetNameAndDescription(int position)
+	{
+		if (mEntries!=null)
+		{
+			WebEntry entry = mEntries.get(position);
+			mNameView.setText(entry.getTitle());
+			mDescriptionView.setText(entry.getDescription() + 
+					"\nDownloaded " + entry.getDownloadCount() +" times\n" +
+					"Created on " + entry.getCreationTime() + "\n" +
+					Math.round(entry.getObjectSizeKo()) +" Ko\n");
+		}
+	}
+
 	
 	private void UpdateWebEntries()
 	{
@@ -202,15 +205,19 @@ public class WebFileFlowPanel extends Activity
 			}
 		});
 		ArrayList<String> stringEntries= new ArrayList<String>();
-		if (mEntries!=null)
+		if (mEntries!=null && mEntries.size()>0)
 		{
 			for(WebEntry entry : mEntries)
 			{
 				stringEntries.add(entry.getImageThumbnailURL().toString());
 			}
+		
+			mCoverImageAdapter.setEntries(stringEntries);
+			mCoverImageAdapter.notifyDataSetChanged();	
+			
+			mCoverFlow.setSelection(0);
+			SetNameAndDescription(0);
 		}
-		mCoverImageAdapter.setEntries(stringEntries);
-		mCoverImageAdapter.notifyDataSetChanged();
 	}
 	
 

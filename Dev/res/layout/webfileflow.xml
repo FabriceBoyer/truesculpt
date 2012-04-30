@@ -18,13 +18,14 @@
             android:layout_weight="1"
             android:prompt="@string/SortBy" />
 
-        <Spinner
+        <ToggleButton 
             android:id="@+id/sortOrder"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:prompt="@string/SortOrder" >
-        </Spinner>
+            android:layout_height="50dip"
+            android:layout_width="50dip"  
+            android:textOn="" 
+            android:textOff=""
+            android:background="@drawable/sort_switcher_selector">            
+        </ToggleButton>
 
     </LinearLayout>
     
