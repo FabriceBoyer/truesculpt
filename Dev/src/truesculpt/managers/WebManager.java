@@ -50,5 +50,10 @@ public class WebManager extends BaseManager
 	{		
 
 	}
+	
+	public static String GetBaseWebLibraryAdress()
+	{
+		return "http://truesculpt-hrd.appspot.com/";
+	}
 
 }

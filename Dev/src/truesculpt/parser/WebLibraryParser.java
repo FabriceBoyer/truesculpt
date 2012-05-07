@@ -13,6 +13,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import truesculpt.managers.WebManager;
+
 import android.util.Log;
 
 public class WebLibraryParser
@@ -40,7 +42,7 @@ public class WebLibraryParser
 
 		URL url = null;
 		try {
-			url = new URL("http://truesculpt-hrd.appspot.com/xml");
+			url = new URL(WebManager.GetBaseWebLibraryAdress()+"/xml");
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}

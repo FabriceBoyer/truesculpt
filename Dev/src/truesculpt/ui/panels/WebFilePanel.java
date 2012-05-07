@@ -24,6 +24,7 @@ import truesculpt.main.Managers;
 import truesculpt.main.R;
 import truesculpt.main.TrueSculptApp;
 import truesculpt.managers.UtilsManager;
+import truesculpt.managers.WebManager;
 import truesculpt.ui.adapters.JavaScriptInterface;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -45,7 +46,7 @@ import android.widget.TextView;
 //TODO thread all waiting phases
 public class WebFilePanel extends Activity
 {
-	private final String mStrBaseWebSite = "http://truesculpt-beta.appspot.com";
+	private final String mStrBaseWebSite = WebManager.GetBaseWebLibraryAdress();
 
 	private Button mPublishToWebBtn;
 	private WebView mWebView;
