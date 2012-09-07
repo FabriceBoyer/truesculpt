@@ -20,6 +20,7 @@ public class WebParserXMLHandler extends DefaultHandler
 	private final String INSTALLATION_ID = "installationID";
 	private final String IMAGE_URL = "imageURL";
 	private final String IMAGE_THUMBNAIL_URL = "imageThumbnailURL";
+	private final String OBJECT_URL= "objectURL";
 	private final String OBJECT_SIZE_KO = "objectSizeKo";
 	private final String IS_FEATURED = "isFeatured";
 
@@ -66,45 +67,51 @@ public class WebParserXMLHandler extends DefaultHandler
 	 * C'est cette méthode que nous allons utiliser pour instancier un nouveau feed
  	*/
 	@Override
-	public void startElement(String uri, String localName, String name,	Attributes attributes) throws SAXException 
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException 
 	{
+		String name=qName;
+		if (qName.length()==0) name=localName;
+		
 		// Nous réinitialisons le buffer a chaque fois qu'il rencontre un item
 		buffer = new StringBuffer();		
 
 		// Ci dessous, localName contient le nom du tag rencontré
 
 		// Nous avons rencontré un tag ITEM, il faut donc instancier un nouveau feed
-		if (localName.equalsIgnoreCase(ITEM)){
+		if (name.equalsIgnoreCase(ITEM)){
 			this.currentEntry = new WebEntry();
 			inItem = true;
 		}
 		
 		// Vous pouvez définir des actions à effectuer pour chaque item rencontré
-		if (localName.equalsIgnoreCase(TITLE)){
+		if (name.equalsIgnoreCase(TITLE)){
 			// Nothing to do
 		}
-		if (localName.equalsIgnoreCase(DESCRIPTION)){
+		if (name.equalsIgnoreCase(DESCRIPTION)){
 			// Nothing to do
 		}
-		if (localName.equalsIgnoreCase(DOWNLOAD_COUNT)){
+		if (name.equalsIgnoreCase(DOWNLOAD_COUNT)){
 			// Nothing to do
 		}
-		if (localName.equalsIgnoreCase(CREATION_TIME)){
+		if (name.equalsIgnoreCase(CREATION_TIME)){
 			// Nothing to do
 		}
-		if(localName.equalsIgnoreCase(INSTALLATION_ID)){
+		if(name.equalsIgnoreCase(INSTALLATION_ID)){
 			// Nothing to do
 		}
-		if (localName.equalsIgnoreCase(IMAGE_URL)){
+		if (name.equalsIgnoreCase(IMAGE_URL)){
 			// Nothing to do
 		}
-		if(localName.equalsIgnoreCase(IMAGE_THUMBNAIL_URL)){
+		if (name.equalsIgnoreCase(OBJECT_URL)){
+			// Nothing to do
+		}		
+		if(name.equalsIgnoreCase(IMAGE_THUMBNAIL_URL)){
 			// Nothing to do
 		}
-		if (localName.equalsIgnoreCase(OBJECT_SIZE_KO)){
+		if (name.equalsIgnoreCase(OBJECT_SIZE_KO)){
 			// Nothing to do
 		}
-		if(localName.equalsIgnoreCase(IS_FEATURED)){
+		if(name.equalsIgnoreCase(IS_FEATURED)){
 			// Nothing to do
 		}
 	}
@@ -117,40 +124,43 @@ public class WebParserXMLHandler extends DefaultHandler
 	// * notre objet currentFeed
 
 	@Override
-	public void endElement(String uri, String localName, String name) throws SAXException
+	public void endElement(String uri, String localName, String qName) throws SAXException
 	{		
-		if (localName.equalsIgnoreCase(TITLE)){
+		String name=qName;
+		if (qName.length()==0) name=localName;
+		
+		if (name.equalsIgnoreCase(TITLE)){
 			if(inItem){
 				// Les caractères sont dans l'objet buffer
 				this.currentEntry.setTitle(buffer.toString());
 				buffer = null;
 			}
 		}
-		if (localName.equalsIgnoreCase(DESCRIPTION)){
+		if (name.equalsIgnoreCase(DESCRIPTION)){
 			if(inItem){
 				this.currentEntry.setDescription(buffer.toString());
 				buffer = null;
 			}
 		}
-		if (localName.equalsIgnoreCase(DOWNLOAD_COUNT)){
+		if (name.equalsIgnoreCase(DOWNLOAD_COUNT)){
 			if(inItem){
 				this.currentEntry.setDownloadCount(Integer.decode(buffer.toString()));
 				buffer = null;
 			}
 		}
-		if (localName.equalsIgnoreCase(CREATION_TIME)){
+		if (name.equalsIgnoreCase(CREATION_TIME)){
 			if(inItem){				
 				this.currentEntry.setCreationTime(new Date(buffer.toString()));
 				buffer = null;
 			}
 		}
-		if(localName.equalsIgnoreCase(INSTALLATION_ID)){
+		if(name.equalsIgnoreCase(INSTALLATION_ID)){
 			if(inItem){
 				this.currentEntry.setInstallationID(buffer.toString());
 				buffer = null;
 			}
 		}
-		if (localName.equalsIgnoreCase(IMAGE_URL)){
+		if (name.equalsIgnoreCase(IMAGE_URL)){
 			if(inItem){
 				try {
 					this.currentEntry.setImageURL(new URL(buffer.toString()));
@@ -160,7 +170,7 @@ public class WebParserXMLHandler extends DefaultHandler
 				buffer = null;
 			}
 		}
-		if(localName.equalsIgnoreCase(IMAGE_THUMBNAIL_URL)){
+		if(name.equalsIgnoreCase(IMAGE_THUMBNAIL_URL)){
 			if(inItem){
 				try {
 					this.currentEntry.setImageThumbnailURL(new URL(buffer.toString()));
@@ -170,19 +180,25 @@ public class WebParserXMLHandler extends DefaultHandler
 				buffer = null;
 			}
 		}
-		if(localName.equalsIgnoreCase(OBJECT_SIZE_KO)){
+		if (name.equalsIgnoreCase(OBJECT_URL)){
+			if(inItem){				
+				this.currentEntry.setObjectURL(buffer.toString());				
+				buffer = null;
+			}
+		}
+		if(name.equalsIgnoreCase(OBJECT_SIZE_KO)){
 			if(inItem){
 				this.currentEntry.setObjectSizeKo(Double.parseDouble(buffer.toString()));
 				buffer = null;
 			}
 		}
-		if(localName.equalsIgnoreCase(IS_FEATURED)){
+		if(name.equalsIgnoreCase(IS_FEATURED)){
 			if(inItem){
 				this.currentEntry.setIsFeatured(Boolean.parseBoolean(buffer.toString()));
 				buffer = null;
 			}
 		}
-		if (localName.equalsIgnoreCase(ITEM)){
+		if (name.equalsIgnoreCase(ITEM)){
 			entries.add(currentEntry);
 			inItem = false;
 		}

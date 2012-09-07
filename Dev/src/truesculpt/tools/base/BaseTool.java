@@ -6,6 +6,7 @@ import truesculpt.main.R;
 import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.mesh.Mesh;
 import android.os.SystemClock;
+import android.util.FloatMath;
 
 abstract public class BaseTool implements ITools
 {
@@ -38,7 +39,7 @@ abstract public class BaseTool implements ITools
 		mAction = null;
 
 		mSquareMaxDistance = (float) Math.pow((MAX_RADIUS - MIN_RADIUS) * getManagers().getToolsManager().getRadius() / 100f + MIN_RADIUS, 2);
-		mMaxDistance = (float) Math.sqrt(mSquareMaxDistance);
+		mMaxDistance = FloatMath.sqrt(mSquareMaxDistance);
 
 		mSigma = (mMaxDistance / 1.2f) / FWHM;
 		mMaxGaussian = Gaussian(mSigma, 0);
