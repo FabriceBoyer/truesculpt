@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -145,7 +146,7 @@ public class SliderPickView extends View
 
 		float distX = x - orig_x;
 		float distY = orig_y - y;
-		float pixelDist = (float) Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+		float pixelDist = FloatMath.sqrt(distX*distX + distY*distY);
 		// pixelDist=pixelDist%PixelAmplitude;
 		float valueAmplitude = MaxValue - MinValue;
 		if (pixelDist >= PixelDeadZone)

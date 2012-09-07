@@ -3,6 +3,7 @@ package truesculpt.ui.views;
 import truesculpt.main.R;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
@@ -118,7 +119,7 @@ public class ToolPickerView extends LinearLayout
 
 		float distX = x - mOrig_x;
 		float distY = mOrig_y - y;
-		float pixelDist = (float) Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+		float pixelDist = FloatMath.sqrt(distX*distX + distY*distY);
 
 		if (pixelDist >= mnPixelDeadZone)
 		{

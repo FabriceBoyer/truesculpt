@@ -1,0 +1,431 @@
+TODO:
+Pouvoir travailler sur différentes résolutions de mesh à la volée à tout moment en passant de l'un à l'autre pour qu'ils s'impactent mutuellement
+Masquage lors sculpture pour précision
+Tests unitaires	
+Utilisation du multitouch pour les mouvements de camera autre que sculpture	
+Bien différencier données de vue	"La séléction d'un outil est donnée car sans panel c'est important pour actions
+point of view peut être différent entre vues (non panel ou renderer, autres renderers parallèle?)
+vraies données = mesh et actions analytiques"
+save and open file to disk	from web, samples or disk
+autosave feature pour éviter plantage	
+Comment hiberner les activités des managers (données potentiellement utilisées par plusieurs activités qui peuvent être toutes mises en en hibernation)	
+Liste des actions possible pour autres participants	"doc, 
+traductions,
+graphisme, icones,
+samples
+debug
+features, ergonomie"
+fixer la liste des outils à utiliser	"subdiviseur, simplificateur, elevateur, baisseur, diamètre de zone
+toutes actions réversibles ?
+tampons pour motifs"
+Beta temps limité, pas de pub si don ?	upgrade forcé si new version et après date (connection réseau dispo)
+installation possible sur carte SD	seulement en SDK8
+Pouvoir sauver des zones pour  des tampons et pouvoir tamponner (couleur et forme)	
+Utilisation d'un kdtree (balanced) avec autant d'object possibles ? pour picking et rendu et limitation en short des rendus	
+retour haptique et son ?	
+interruptible thread pour mesh si changement avis	
+threader ou queuer tous les appel au renderer GLView car pas dans même thread	
+Profiling lors de l'utilisation des vecteurs, List...	
+Update en background, ne pas afficher l'activité si à jour	
+Faire un thread de logique, de rendu, d'activité	
+tester présence GL11 et terminer si pas présent	
+garder des structures de données dans meshManager pour picking pas dans object opengl	
+gerer les interactions cumulatives entre sensors et touch	
+bouton calibrate pou sensors magnétique (set orig)	
+mutexer les manips de vertexobjects pour éviter rendu en même temps inon position(0) différent pose pb et aspect =déchiré	
+threader picking et sculpture pour rendre UI réactive	
+pinceau pour faire de la transparence en plus de la couleur ?	
+peinture dans texture avec U-V et pas couleur au point	
+mode sculpt 3 étape, position vecteur , orientation vecteur réglable autre que normale, déplacement (intensité) à afficher et régler	
+Sculpture façon glaise avec modèle élastique de matière	
+rendre tous les textes traductibles dans les ressources	
+Version  allégée de la 3D pour la rotation, calcul complet qu'au relachement	
+timer lors du touch down pour monter plus ou moins haut en fonciton du temps	
+Make normal, vertex, color cache and maps in memory, do not use bytearrays (very slow to access excepted for GPU)	
+générer (ou patcherà le buffer array en fonction des données locales, pas l'inverse	
+touch indépendant de la fréquence de picking et des toucheevent move mais plutot du temps passé appuyé et des trajectoire détectées, déporter le calcul plus tard dans les actions (sauf pour picking initial)	
+faire un mode peinture ou les couleurs se mélangent au lieu de s'écraser	
+modèle élastique de ressort entre chaque point pour comportement élastique. Tirer un point pour déformer, ne pas  faire d'action à chaque pick, définir une zone de prise (point par défaut)	paramètre de radisu règle la raideur
+not a modeler, not faster nor better way todo, but fun and realistic	
+rajouter pub adsense et version payante sans pub	
+Ranger et catégorise le menu tools (sections collapsables?)	
+mode sculpt and paint at same time + mode view and scultp/paint at same time	
+dessiner un cercle autour du curseur pour représenter le rayon (voir blender)	
+grossisement avec moyennage	
+brushes à puissance dégressive et paramétrable	
+pouvoir avoir des formes de brush autre que rondes (avec intensité aussi décroissante)	
+rajouter le concept de brosse dans les outils avec sélection facile avec screenshot	
+Rajouter mode de subdivision local (avec interpolation des normales), ou global avec cuts multiples sur un edge (réglable)	
+per pixel lighting permanent ou dans un mode rendu (avant screenshot)	
+zoom and move at same time if fingers space remains constant	
+ergonomie de sketchbook, notion de layer, sauvegarder/exporter, et choix des outils, utilisation des coins	
+offsetted painting pour ne pas cacher avec son doigt	
+cercle overlay en 3D pour connaitre taille rayon et la puissance (epaisseur trai) façon blender	
+Utiliser le tap tap dans coins pour action spécial	
+bouton overlay pour tools avec réglage intuitif (pas de seekbar) façon sketchbook	
+aide html complète en une page, et aide interactive avec dialogbox	
+enregistrement sur le market avec nom commercial	
+créer un logo qui poutre	
+enregistrer un nom de domaine perso	
+Liste des most recently used, reprise automatique du denier en cours au redémarrage	
+Sauvegarde dans base mySQL? historique des actions analytique et mesh de départ + mesh courant sauvegardé	
+version du logiciel payante si on veut faire une donation, avec rappelle dans le soft	
+ajuster dimensios wallpaper et antialiaser (rendu en plus haute def)	
+Utiliser le système de logbook d'android pour meilleur reporting	
+mode accumulate pour conserver action à chaque clique ou devoir reclicker pour refaire action	
+système pour empêcher une face d'en traverser une autre, détection de conflit et d'intersection plus résolution	
+faire un lissage/subdivision avec catmull/clark standard	
+rendu virtuel en haute def pour de zolies zimages	
+Utilisation d'un slider sur la vue 3D pour afficher les outils	
+sensibilité à la pression et courbe de réponse	
+Courbe de descente circulaire pour l'impact des déformations (voir blender), attention si mode auto repeat	
+mode autosmooth sur toutes les opérations	
+changement de theme dynamique avec setView dans onCreate (reste pb vue principale qui est pas rechargée)	
+Classe outils et faire hériter les outils d'une hiérarchie et d'un base outil. L'outil courant est préinstancié et commuté en fonction du mode	
+faire peu de choses dans la classe touchmanager, juste le toucher et picking, les création d'action sont dans actionManager et PovManager	
+carousel pour les fichier à chercher ou sur le web afind emieux présenter qu'une liste	
+aide faite avec démonstration animée sur l'appli avec un cache transparent découpé pour points intérêts. mode automatique de l'appli	
+mode enfant avec coloriage seul sur sculpture préexistante, et pate elastique avec oscillation ressort au relaché, appelé "patachoo"	
+outils de scupture réalistes : rabot avec pointes differentes et copeau quand gexte fait, marteau qui enleve bloc, aiguilles,...	
+mode sculpture sur pierre, sur bois, marbre, ... essayer de restituer la sensation	
+mode génération de sculpture aléatoire pour démarrer ou pour tester, modifications aléatoires	
+mode appliquer une texture au choix pour faire jolie ou changer le matériau et sa manière de prendre la lumière (possiblité de repeindre en plus dessus si UV ok)	
+mettre tous les outils à plat suivant le mode en cours pour éviter les sous menus pénibles suaf si trop nombreux (controle dédié?)	
+fond transparent flou façon fenêtre  windows 7	
+undo action merging  (notamment pour point of view) si dernier type action pas différent	
+affiner les update en fonction de l'émetteur, pour éviter rafraichissement trop nombreux	
+on ne sauvegarde pas l'historique entier sur disque (plus facile pour compatibilité) et on ne sauve que le .obj	
+memoriser état complet ou offset dans les undo/redo? dépend des cas	
+Saisie direct ou compteur sur dialogue RGB / HSL	
+Rotation façon google maps avec deux doigts à iso distance qui tournent relativement	
+changer nombre position, couleur des spots de lumière directive (+ambiante, spéculaire, diffuse)	
+mettre une table de sculpture en bois 3D sous l'objet pour immersion + fond atelier, + outils de sculpture en 3Ds	
+lors de déformations enchainées garder mesh d'origine pour référence des calculs et non cumul	
+gérer l'alpha dans les couleurs pour chouettes effets de transparence	
+Peinture et déformation en continue (traj interpolée sur la surface en picking) lors d'un déplacement continu du doigt (move)	
+afficher une image en fond au lieu du noir	
+mode peinture à l'eau et nettoyage de pinceau pour blender les couleurs	
+double zone drawer fine  horiz/vert courte et scrollante pour outils façon adroidify et jolie bouton pour afficher	
+managers trop générique car pas partagé empeche multi vues, multi doc,...	
+concepts, action tactile immédiate, pas de dialogue, prévisu instantanée, undo	
+mire circulaire  en overlay 3D plus grande avec radius, plus épaisse avec strength (cone diff suivant sens et intensité) et autre couleur suivant outil (texturing)	
+image de fond sur les radius et strength picker	
+symmetry plane et overlay en option	
+overlay ou picker en cone evace diametre et couleur	
+changeur couleur en distance +  changeur option en distance comme radisu/Strength	
+mecanisme empechant de trop subdiviser lorsque les perfos sont mauvaises, on niveau de recurse bridé (profondeur ou compte), ou limite de polygones	
+check version on my site silently at startup and if newer send market intent for autoupate after a dialog box	"Intent intent = new Intent(Intent.ACTION_VIEW ,Uri.parse(myapk_link));
+startActivity(intent);  
+
+Intent intent = new Intent(Intent.ACTION_VIEW ,Uri.parse(""market://search?q="" + APPLICATION_NAME));
+startActivity(intent);"
+gérer l'absence de mouvement appuyée (pas de onmove) mais de up encore	
+pouvoir choisir une forme et un subdivion level lorsque l'on fait un new	
+init avec couleur initiale et niveau de subdivision, outil seau pout tout repeindre ?	
+changer l'orientation de la toolbar d'outil suivant celle de l'écran pour avoir toujours le plus de place	
+liste à plat des outils sur la gauche pour choix plus rapide (en un clic au lieu de deux)	
+export sérialisé d'historique pour revoir scultpure en accéléré	
+brosse à motif pour faire des irrégularités facilement (pointes, boules, peau, fourrure,...) en 3D, et aussi brosse pour les textures	
+RAF : tutorial/doc, undo mesh, courbe douce pour sculpter, padding/scrolling toolbar, save/open, stats analytics, symmetry, check update market systematique threadés, options simplifiées, sensors better, fond coloré	
+faire des normales autre que computées par rapport aux autres triangles, brosse à normale ?	
+voire les traj de doigt dans leur globalité surtout pour le sculpt pour éviter accumulations ur move	
+mode accumulate/ suivant traj sans time depend en threadé et preview décalée/ touche inversion pour direction,	
+adoucir les bordures de zones en mergant avec la couleur extérieur et avec les valeurs de normales plus on est loin du centre (attention au modulo)	
+fusionner octree et facegroup pour rendu attention à ordre de rendu	
+toujours travailler avec carré des distances pour perfos (sqrt flottant est chere)	
+tool pov pour déplacement seul	
+inflate c'est progression suivant normale passant par centre de la sphere pas de la face	
+utiliser l'authentification pour ne pas signer anonymement les sculptures, + description +moteur de recherche	
+tutorial interactif transparent façon news republic, simple et fonctionnel sur les astuces pas évidenters de la toolbar	
+toolbar d'outils à plat sur la gauche, taille/force relatif pas absolu pour variation (faire haut/bas)	
+threader les actions web avec progress d'attente synchrojnisé avec psot	
+les transitoires de couleur se font au modulo près (attention à faire le tour dans le bon sens)	
+RAF livraison : pathnode threadé, inflate, grabing, smoothing, doc et tutorial, capteur , threading web, authentification web, color blend	
+"rendre 	MAX_DEFORMATION, MIN_RADIUS et MAX_RADIUS configurables dans l'intervalle"	
+normales pas toutes recalculées correctement (il n'y as pas que celles déplacées dont la noramles change, la bordure extérieure aussi)	
+utilisation d'un sous-mesh avec points de controles pour déformation du surmesh, reste affiché et déformation progressive sur une zone	
+ListView pour open et pas grid, listview et pas webview pour webview (avec liste des adresses et infos fournies en xml)	
+in app billing avec pinceaux différents dans des dll rajoutées, mode enfant, étendre progressivement les fonctionnalités ou mode pro seulement ?	
+régler le problèmes des traces InnerClasses dans les appache commons importés en nouvelle version	
+plus webview mais listview directement dans l'interface avec adresses rapatriées en XML sur requete et chargement dyn déféré et caché, utiliser bouton more pour afficher plus, rajout des filtres comme dans web mais entraine nouvelle requete	
+permettre d'effacer ses données du siteweb si l'on a la bonne ID d'installation ou de login	
+mode simple avec autoid pour submission internet ou avec login pour meilleur identification  et suivi transverse à l'application	
+utiliser le double scroll h/v slidé qui est popé sur un bouton transparent style thinking space freemind pour android, voir aussi l'éditeur 3D des boules steamball bien adapté au tactile	mettre des sliders contextuels dans vue vertical lorsque le mode radius ou strength est sélectionné, intégrer le point de vue
+plugin ou  nouvelle version payante pour plus de fonctions de draw, la base est gratuite ?	
+mise à jour des sculptures si même ID et même nom evite trop grand nombre de version, versionnement auto en background, avertissement, attention réinstallation, utiliser google ?	
+pouvoir envoyer par mail la 3D zippée, pas seulement l'image	
+permettre de voir ses données publiées associées à son ID ou son compte google	
+message avertissement pour dire que les données sont anonymes	
+etude consommatation mémoire et plantage out of memory après load avec MAT pour eclipse	
+version allégée de la 3D pour la sculpture temps réel, calcul complet à la fin seulement ou progressif ?	
+undo de simplification est difficile	
+attention au mutexage et threading de la structure entre pick, deformation threadée, et rendu	
+POV Pan double doigt, pas que rotate	
+zoom dynamique pour être sur le plan le plus proche de la sculpture sans pour autant traverser (plan parallèle au plan de vue première intersection avec sculpture)	
+Ne pas casser le bouton précédent avec le infinite scroller de la wen library	
+rajouter un lien dans la toolbar vers la gestion des fichiers, les gens ne trouvent pas dans menu contextuel	
+géolocalisation des sculptures importées dans la bibliothèque	oblige à avoir des droits suspects mais bon...
+mode dessin grease pencil blender pour sketch rapide et suivi, surplan ou posé sur 3D,gérer layer pour enlever facilement, pouvoir dessiner facilement comme chirurgien	http://cgcookie.com/blender/2011/08/31/sculpting-a-human-head/
+###############################################################################################################################################################################################################################################################	voir blender
+mode re rendu non smooth pour bien voir les faces	
+clay brush, pinch brush	
+subdivision totale catmul clarck qui annule le undo pour passer au niveau de res suivant et faire sculpture de forme grossière vers détaillé (possible de manipuler les vertex basse res ?)	pas de subdivision locale car difficile à défaire
+###############################################################################################################################################################################################################################################################	pouvoir exporter importer ses brosses persos déjà réglées
+panning à deux doigts nécessaire tout en empêcant intersection avec frustrum ?	
+utiliser ndk c++ pour autant de mémoire que nécessaire et meilleurs perfos	
+sélection pour ne travailler que sur un sous ensemble et avoir des bonnes perfos même avec bcp de points	
+grab absolu en pixel sur zone d'action, donc dépendant du zoom, pas distance sur sculpture, uniquement ce qui rentre dans cercle 2D	
+###############################################################################################################################################################################################################################################################	
+remplacer les managers par des documents sur lesquels pointent des vues (c'est ce qu'ils sont)	
+Faire présentation power point intégrée avec google docs (technique et présentation)	mettre google analytics dessus
+Page swipping sur les côtés pour passer d'une vue à l'autre (outils avancés ?)	
+système de double scroll bar H/V défilante type androidifier	
+homogénéiser les comportements de btn de double click/simple click/tirer...	
+commencer par calcul zone d'action avant application, sans prévue live	
+Créer un trou dans la géométrie (comme en vrai) si deux faces aux normales opposées sont trop proches (anses de vase)	
+Faire des screenshots et des vidéos pour les cours	
+accélérer les opérations se sauvegarde/lecture et s'assurer UI toujours réactive lors click sur bouton pour éviter double tap	
+exporter au format collada pour parser xml plus performant	
+distance de sculpture dépendant du zoom	
+avoir des paramètres différents suivant l'outil sélectionné (pas que générique partagé)	
+créer un outil creuser et un outil élever différent pour éviter le taptap sur la force pour inverser	
+symmetry gérée comme des zones de sculpture parallèles hors des outils, overlapping à prendre en compte	
+conserver les mesh de résolution inférieur lors subdivion pour garder undo et redo et améliorer les perfos affichages/sculptures si nécessaire (voir de picking)	permet de travailler sur modèle simplifié si nécessaire. Autres mesh simplement caché (à gérer avec le niveau de subdivision)
+valider la bonne libération mémoire complète lors suppression mesh (faire un new sculpture avec vide dedans)	
+zoom and pan simultané (zoom = écart des doigts, pan= distance parcourue par centre des doigts)	
+rajouter la notion de moment pour rotation sur pan zoom	
+effacer les demandes de rendu redondantes	
+n'appliquer l'action qu'en fin de mouvement, la prévisu intermédiaire est faite sur le rendergroup directement, pas sur le mesh, on pick toujours sur l'ancien, pas de recalcul de normals en prévisu	
+pb du fullscreen activé ou non suivant le dialogue affiché, paramètre à répéter fans chaque dialogue pour sa prise en compte	
+dialogue de save plus sexy avec icones, à activer par défaut sur le bouton de l'interface (parmis tous les onglets)	
+share généralisé, pas seulement par mail	
+pb de l'overlay d'outil qui traverse le near clip en zoom maxi	
+utiliser la continuité du mouvement pour interpoler correctement et trouver tout ce qui se trouve entre deux points, faire intersection autour d'une droite (les picks sont discontinus)	
+bien prendre en compte les actions de pression initiale du doigt et de relevage, éviter les décalages	
+le segment parcouru pour la selection doit etre sur la sculpture, pas uniquement fictif (trait reliant deux points), la distance se calcul sur la sphere pas en dessous	
+threader le calcul de selection et de déformation pour pouvoir faire des picks plus rapidement et reseter reactif sur l'interface	
+do a mesh walker for continuous selection	
+subdivision uniquement après action (doigt relevé) et jamais supprimée, simplement cachée	
+La simplification enlève l'historique, pas la surdivision	
+lors ouverture fichier, confirmer suppression des données si sculpture modifiée	
+pas de classe vecteur mais des float pour éviter trop mémoire et accès plus rapide	
+pouvoir configufer droite ou gauche, top ou bottom pour le layout des outils	+ auto conf en portrait
+l'inflate se mélange mieux que le rise, utiliser un peu des deux lors du rise?	
+rajouter des segments supplémentaires et smoother les trajectoires dessinées au doigt pour meilleur rendu	
+faire un dialogué dédié pour les options de symmetry et détruire l'ancien tools panel, pour virer le combo plus maintenu,  trouver un équivalent aux slider de position	
+le point de vue peut changer pendant la sculpture via les sensors, pas d'hypothèses foireuses (attention au grab qui utiliser le plan de vue)	
+permettre un rendu partiel de la sculpture sur une zone sélectionnée pour plus rapide, plus détail et meilleur zoom, surtout meilleurs performances	
+enlever le bridage en rotation sur option pour le pitch	
+mode droitier/ gaucher pour la position des outils, voir haut/bas pour les tablettes	
+gérer le zoom avec les sensors	
+mieux gérer les offset voulus, les gains, le filtrage de mvt, le reset manuel, le zoom, l'activation plus simple...	
+le diamètre de l'overlay de l'outil de sculpture doit être projeté directement sur la sculpture (rayon max)	
+rajouter une passe de smooth aux trajectoire de doigts et au résultat de sculpture	
+pouvoir régler l'intensité du smoothing : nb de points alentours pris en compte ?	
+symmetry dialog lors appui long sur bouton symmetry	
+options de point de vue lors appui long sur bouton pov (activation/désactivation, pas valeurs)	
+option pour nb de undos	
+add tool direction to tool dialog	
+option smooth all	
+mettre les options courbes gaussienes ou linéaires	
+Utiliser la strength pour smoothing, pinching et grabing	
+pouvoir enregistrer ses propres brosses avec réglages compris pour ne pas tout rerégler chaque fois	
+pinch = aller dans la direction du chemin de dessin central, sans doubler les copains les plus proches (qui vont eux même bouger)	
+pinch = tout décaler d'un cran en remplaçant un point par son suivant le plus proche dans la bonne direction (la ligne centrale), permet conserver l'aspect de la sculpture en évitant les zones d'aplat	
+faire des courbes lisses interpolées et pas des suites de segments pour le flatten	
+Pouvoir réordonner les outils ou choisir des favoris avec touche accès rapide	
+faire des traitements d'adoucisement sur les bordures de la sélection. Marquer les points qui sont en frontière lors du calcul pour les retrouver plus vite	
+lors du drag des couleurs, faire varier hue et saturation simultanément ?	
+option pour le border smoothing	
+todo option pour FOV y réglable	
+gérer le mode de sculpture horizontal avec layout des outils horizontal	
+Grab : faire une moyenne des normales pour avoir la direction de déformation	
+faire des gaussiennes avec pentes fortes au lieu de quadratiques ou linéaires, sinon jonction sol mauvaise	
+faire des outils basés sur vertex liés et pas distance pour pouvoir chopper les grands pics facilement	
+faire un picking dans un cercle 2d fonction du point de vue et attrapant tout : parcourir le mesh et vérifier si les triangles sont dans le cercle (picking inversé)	
+supprimer les inlinked edges qui servent à rien et prennent de la mémoire et du calcul, seuls les out sont intéressant pour la sculpture	
+factoriser le code de drag view avec classe de base (zone morte, enums, listeners,...)	
+language de script simplifié pour créer ses propres outils avec éditeur	
+outils travaillant sur les normales (non autocalculées) pas que sur les positions	
+Options pour cacher le big text overlay	
+afficher une liste des outils utilisés récemment dans une barre horizontale en haut (pour accès rapide)	
+flatten = rapprocher de la hauteure médiane du pick en proportionnel à la distance	
+pinch= avancer vers la position du plus proche voisin se rapprocher de l'axe de pick si l'on est le plus proche	
+retour Ulrich Houles : suppression des limitations d'angle, inertie lors rotation, faire un slider plein ecran ou coverflow synchronisé sans dialogue lors appui sur bouton, symetrie grab, meilleur sculpture à la jonction de la symmetrie	
+choix de la couleur de fond en option	
+outil pour reespacer correctement les vertex qui se chevauchent sans pour autant rajouter de points	
+la sculpture doit tourner sur son centre indépendamment de la translation de la caméra	
+modes wireframe et normales sur option	
+truesculpt art pack projet à créer pour avoir une lib d'importation	
+Intégrer les paramètres de sculpture dans les outils et pas dans une classe globale, chaque outil à ses paramètres mais factoriser les communs	
+traiter proprement la vue du bigtextoverlay pas directement dans les autres vues mais via des notifications, attention aux mouvements de doigt subtiles sur les drag	
+optimiser les temps de sauvegarde et de chargement des obj avec profiler, augmenter les buffers?	
+utiliser le package google analytics fourni par le sdk et pas besoin de retelecharger	
+dialogue d'ouverture des fichiers en coverflow threadé, idem librairie web, options d'effacement plus explicite en dessous  avec bouton, pas uniquement longpress	
+web library sans browser et publication depuis Save et open	
+file new : from library et renvoie vers web	
+bonnes sculptures de la librairie taggées par moi avec filtrage dans affichage	
+pouvoir mixer harmonieusement capteur, mvt doigt et facetracking dans gestionnaire position	
+utiliser la google analytics lib du SDK et pas celle telechargée localement	
+delais lors apparition dialogues avec manipulation lentes reseau... : utiliser preloaddialog	
+option pour masquer le panneau de symétrie et les outils et l'axe de référence	
+utiliser les options fragment pour éviter les doublons de défaut	
+faire deux niveaux de radius et une forme de courbe pour le grab	
+dans la librairie web: show more from this user puis show all	
+web library : export xml pour lecture depuis interface non browser android (recyclage des pages pourpas trop conso mémoire)	
+web library : option pour n'afficher que ceux que j'ai sélectionné	
+voir ce qui se fait sur www.123dapp.com de autodesk	
+background en gradient configurable (angle et deux couleurs) + couleur de la lumière de l'éclairage (et position?)	
+rajouter des featured sculptures (par admin) pour mettre en premier les bonnes sculptures	
+faire des versions réduite en cache disque (avec cohérence temporelle) des grosses images des fichiers sauvés	
+faire un cache rapide des options et mettre à jour dans un thread asynchrone les sharedpreference (commit long et get aussi)	
+background sous forme d'image	
+script de sauvegarde/restauration pour appengine	
+Scoring par moi dans la librairie utilisateur ou bien par les gens	
+La sauvegarde/restauration de la weblibrary doit se faire coté client via un aspirateur basé sur le xml complet fourni, les timeouts côtés serveur empêchent de faire un gros zip aavec tous les blobs et les données	
+
+
+DONE :
+Startup tutorial	
+Picking 3D	
+no title bar theme	more room
+child activities	
+raw ressources	
+layout tutorial	
+gestion des options (attention default options in same package)	
+raccourcis sur la vue principale pour les outils et la vue	
+Usage statistics via analytics	"ping at install , at startup
+other stats about usage duration and number of clicks, tume spent on each activity?"
+Deriver application pour maintenir les manager et ne pas dépendre d'une activité qui est peut être déchargée	
+Tesselation correcte d'une sphere par delaunay ou sous découpage recursif de formes géométriques	
+Listeners pour maj depuis managers	
+quit confirmation trap	
+rendering step by step only when needed	
+empecher la mise en veille sur options	powermanager, utiliser un powerManager
+boutons modes et outils et raccourcis (mode point vue, couleur pour peinture, outils de scultpure) situés autour de la vue 3D, attention au touch	
+gluunproject, glreadpixel depth buffer pour z, BSP pour trouver seul le triangle après sinon ray picking	voir code de opengl ou ok
+update threadé et caché	
+Fond activités transparetnes putot opaque et avec bouton close	
+generation de sphere par defaut par decomposition d'un isodocahedron	
+flag pour utilisation des sensors pour économie batterie, car rendu à la demande sur changement de point de vue ou de géométrie uniquement	
+Utiliser fonction openGl de calcul distnac,e vecteur,... au lieu de mes macros	
+affichage des fps / render duration in ms si pas continu	
+afficher repère opengl	
+Rajouter themes et styles	
+background clear color blacj	
+reglage couleur fond du rendu	
+Delayer la construction du mesh initial (paramétrable) après la construction des fenêtres	
+thread long object creation at startup	
+afficher panel d'outils si appui long hors zone de sculpture, zoom sur double tap ou panel ?	
+réaliser des captures et des vidéos via glreadpixels	Bitmap.CompressFormat
+lighting avec spot sur camera, texturing	
+faire des barres de debug dans le paneau debug faciles à accéder pour tester des paramètres quelconques (entre 0 et 1)	
+precompute all triangles normale to avoid recomputing every time, exclude back faced triangles from picking	###############################################################################################################################################################################################################################################################
+toolsmanager lsitenr pour updater les views	
+désactivere/réactiver sensors à la volée	
+ne pas normalizer les normales car coute cher	
+gérer les clicks longs partout et les double tap pour afficher des menus ou des raccourcis	
+Autochagne Tool mode en option ou mode forcé uniquement	
+rajouter éclarirage/textures et mode peinture	
+Bounding sphere à recalculer incrementalement pour pas sortir du near plane	
+matériau uniforme violacé avec specular et lumière	
+option pour afficher les dessins de debug 3D dans le visuel	
+afficher les normales (au point ou triangle) pour débugger	
+les gets dans les vectors buffers coutent cher (voir profiling)	
+faire un pick color pour setter la couleur à partir de la 3D	
+refaire la structure de données du mesh (en cache) pour optimiser les requetes (map) et faciliter l'update du bute array qui ne doit êtr qu'un produit et pas une donnée	###############################################################################################################################################################################################################################################################
+pouvoir mettre les captures d'écran en fond d'écran	
+meilleur picker de couleur avec prise en compte des saturation et mode de saisie avancé	"http://code.google.com/p/android-color-picker/
+avec saturation en linéaire et bouton pour avancé avec affichage du dialogue"
+bouton reset POV dans tools et suppression menu contextuel inutile	
+gerer la rotation correcte de l'écran (dialogue, rendu)	
+Simplifier menu contextuel déporter tutorial, debug et check version dans About ou Sous menu de Tools	
+gestion correcte des sous modes de vue et de sculpture, peinture (pick)	
+Boite d'accueil avec création de nouveau modèle (file new) avec choix finesse modèle ou calculé suivant test performances	
+export au format .obj	http://en.wikipedia.org/wiki/Obj
+rajouter les modes de symmétries automatiques (X/Y/Z)	
+pondérer le calcul de la normale par le sinus de l'angle de la face, sommer les normales, puis normaliser	
+intégrer google analytics	
+option pour fullscreen ou non	
+versionner le sdk android et eclipse pour être completement autonome	
+Dialog de save et open avec integration choose/publish au site web (webmanager)	
+Comment hiberner les activités des managers (données potentiellement utilisées par plusieurs activités qui peuvent être toutes mises en en hibernation)	
+faire un canal pour afficher les toast via main activity  depuis manager pour info utilisateur	
+Utilisation d'un tab layout	
+confirmer licence CC avant publication d'une sculpture ,pour libérer les droits	
+concours de sculpture pour splash	
+fermer drawer apres action sur bouton du drawer	
+pouvoir décharger et recharger le mainrenderer dynamiquement pour theme et rotation et autres	
+plans de symmetry transparent et ajustés à la taille de l'objet	
+bouton de taille d'outil avec click plus drag hors zone  et affichage centré dans le dialogye façon bouton musique	
+fonction de share des images générées (mail, images,...), mais aussi de la 3D	
+file new/ publish/	
+share by mail or other way (image and obj)	
+use dpi for pixel in sliders sensitivity	
+pb de refresh desynchronizé des modifs : glimps à l'affichage, mettre un sempahore entre render et modif	
+pb d'ordre de dessin avec les objets transparents (interaction overlay et symmetry plane)	
+utilisation de gallery pour open parmis les screenshots	
+open avec gallery	
+export des couleurs et textures dans mtl ou format custom	
+bouton Share sur interface pour accès immédiat	
+wait dialog pendant save/open/load avec rosace	
+normalizer les gaussiennes pour pas de variation de hauteur	
+open grid view avec snapshot et nom	
+demande de sauvegarde avant quitter	
+stocker les normales des faces pour optim le calcul des normales de vertex	
+reste smoothing, trajectoire avec undo, site web	
+faire un xmlescape sur toutes les strings et garantir que l'on upload bien une image	
+zipper les obj pour économiser de la place	
+reporter le calcul des pages hors du jsp dans la servlet et mettre le select correct	
+faire une zone de publication isolée avant validation (interdit moins 18)	
+mode unmoderated pour sculptures caché par défaut sauf après upload, nécessite confirmation pour accès	
+identifier les portables à l'origine d'une sculpture pour maj et gestion (utilisation l'identification par GUID de google)	
+mettre radius minimum plus bas	
+génération automatique d'un code lié au portable pour se loger sur le site web	
+Meilleur page d'attente/redirection du site pour faire patienter pendant chargement (avec images statiques par exemples)	
+lire les besoins d'update et renvoyer vers le market pour maj pas ma page	
+publication avec login ou google ou login anonymous mais unique auto lié à l'installation de l'application (pas au device lui-même)	
+envoyer en en-tête http le numéro de version truesculpt au site web pour rediriger vers site maj si javascript plus compatible (envoie taille donnée, paramètre supplémentaire)	
+last saved file à faire marcher	
+delete, rename dans listview open sur appui long	
+découper en composants boite noir plus réutilisables et découplés/indépendants	
+Mettre tous les outils dans des classes autonomes pour en faire des plugins	http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html
+undo générique comité seulement à la fin du déplacement du doigt (up)	
+réorganiser la classe mesh, séparer les fonctions de math, et les imports export	
+faire un dialog custom pour les outils avec détail de l'action et scrolleur. Plus pouvoir tirer sur la selection d'outil par cran pour changer(pas de combo) comme pour les autres	
+normales preview, undo/redo, symetry, dialog outil	
+zone morte sur les boutons tirés pour pouvoir toujours lire la valeur sans cacher avec le doigts, à l'appui toujours reset	
+factoriser le code dupliqué des outils dans les classes parent	
+reste grab et smooth tools à coder	
+smoothing= regarder tous les angles et adoucir ceux qui sont trop cassant en bougant les points vers un endroit moins tendus, puissance est pourcentage de déplacement max. Plusieurs passes peuvent être nécessaire. Différent de simplification	
+Afficher des chiffres pct en gros en overlay de la sculpture lors ajustement paramètres. Idem pour outil à overlayer en gros lors modification et cacher tout de suite lors du choix	
+roue des outils ou sorte de carousel dans dialogue ou dans l'overlay zoomé	
+pb des symmetries avec les traits qui font des zigzag à la jonction + pb overlay baladeur. Avoir deux path différents bien gérés en parallèle	
+supprimer l'énum des sous outils et se baser uniquement sur les tableau de ITools disponibles et leurs descriptions	
+grab : on prend la normal du triangle pické (ou une moyenne des copains),  les déplacement en xy font des offset sur les position des vertex dans un plan perpendiculaire à la normale, les déplacement est proportionnel à l'écart entre	on fait un un rise normal sur ce point en gausienne ?
+grab : prendre en compte l'angle relatif entre normal pickée et plan de vue pour savoir quelle action : vue de profil = rise, vue de dessus= déplacement seul	
+faire sauter la limitation de zoom pour être précis, tant pis pour le near plane crossing (sur option)	
+permettre de zoomer plus fort sur certaines zones	
+pb traversée near plane par deformation lors preview, ok lors action	
+smoothing = moyenne des pts alentours	
+attention aux valeurs de rayon trop petites qui font planter (diviser par 0) ou font diverger la sculpture	
+mettre description dans dialogue d'outils, pas dans aide en ligne, juste appel au dialogue	
+disable uneeded  params view when certain tool is selected	
+RAF possiblité zoom précis, couleur et polices site web, description commerciale	
+supprimer les dialogues inutiles	
+Grab : tenter les approximations de normal en live sinon peu visible	
+outil pour générer du bruit sur la texture pour faire effet bosselé	
+rajouter zone morte aux couleurs et départ depuis couleur courante	
+limiter l'historique en terme de taille mémoire et pas en nb de coup, prend énormément de place	
+s'assurer que tous les outils ont bien libéré leur mémoire temporaire sinon le new mesh se passe mal	
+changer l'apparence des boutons undo/redo suivant la dispo ou non d'une action d'undo	
+pinch= faire migrer d'un cran tous les points pour éviter déformation	
+Mettre le nom de l'outil en textuel sur le drag outil principal ToolPickerView	
+renommer le rise en draw qui est plus clair et créer un outil rise qui augmente en nivellant	
+grab= calculer le plan x,y de l'écran en coordonées monde et travailler selon ces axes pour la déformation gaussienne	
+bug open file plante si aucune sculpture	
+cacher  paramètres inutiles à certains outils (via un requireRadius...), utiliser la laout gravity pour réécraser la pile du tool drawer	
+laisser un layout margin plus important au tool drawer pour mode non fullscreen ou c trop tassé	
+pouvoir suppri;er une sculpture via un appui long sur un fichier dansle file open panel	
+bug du coverflow lorsque l'on ne clique pas directement sur l'outil choisi	
+Tabs de la gestion de fichiers avec texte dessous	

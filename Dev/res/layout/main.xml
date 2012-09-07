@@ -16,7 +16,7 @@
  	    android:background="@android:color/transparent"
  	    android:gravity="bottom|right"
  	    android:orientation="vertical"
- 	    android:text="Large Text"
+ 	    android:text=""
  	    android:textColor="@android:color/white"
  	    android:textSize="50dip"
  	    android:textStyle="bold" />

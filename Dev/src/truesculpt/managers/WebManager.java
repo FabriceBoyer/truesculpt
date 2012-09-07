@@ -10,7 +10,6 @@ import android.os.Handler;
 public class WebManager extends BaseManager 
 {
 	private Handler mHandler = new Handler();
-	WebLibraryParser mWebParser=new WebLibraryParser();
 	ArrayList<WebEntry> mEntries=null;
 	
 	public ArrayList<WebEntry> getWebEntries() 

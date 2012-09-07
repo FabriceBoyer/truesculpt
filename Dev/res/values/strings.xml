@@ -29,7 +29,7 @@
 <string name="show_point_of_view_panel">Point of view</string>
 <string name="show_tools_panel">Tools</string>
 <string name="latest_version_is_">Latest version is </string>
-<string name="current_version_is_">Current version is </string>
+<string name="current_version_is_">This version is </string>
 <string name="this_version_is_not_a_beta_">This version is not a beta</string>
 <string name="this_version_is_a_beta_">This version is a beta</string>
 <string name="no_update_is_needed_">No update is needed</string>
@@ -46,7 +46,7 @@
 <string name="prevBtn">Previous</string>
 <string name="nextBtn">Next</string>
 <string name="about_text">Written by Fabrice Boyer\nfabrice.boyer@gmail.com</string>
-<string name="ok_btn">Ok</string>
+<string name="ok_btn">OK</string>
 <string name="really_quit">Are you sure you want to quit ?\n\nAny unsaved change will be lost !</string>
 <string name="Reset">Reset</string>
 <string name="unable_to_get_update_status">Unable to get update status</string>

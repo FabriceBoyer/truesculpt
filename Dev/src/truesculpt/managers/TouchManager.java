@@ -5,6 +5,7 @@ import truesculpt.managers.ToolsManager.ESymmetryMode;
 import truesculpt.managers.ToolsManager.EToolMode;
 import truesculpt.utils.MatrixUtils;
 import android.content.Context;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -101,7 +102,7 @@ public class TouchManager extends BaseManager
 	{
 		float x = event.getX(0) - event.getX(1);
 		float y = event.getY(0) - event.getY(1);
-		return (float) Math.sqrt(x * x + y * y);
+		return FloatMath.sqrt(x * x + y * y);
 	}
 
 	private void initPOVValues(MotionEvent event, boolean bZoomGestureEnd)

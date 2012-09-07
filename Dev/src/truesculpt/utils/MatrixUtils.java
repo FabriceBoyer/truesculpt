@@ -1,5 +1,6 @@
 package truesculpt.utils;
 
+import android.util.FloatMath;
 import android.util.Log;
 
 public class MatrixUtils
@@ -156,7 +157,7 @@ public class MatrixUtils
 	 **/
 	public static float magnitude(float[] vector)
 	{
-		return (float) Math.sqrt(squaremagnitude(vector));
+		return FloatMath.sqrt(squaremagnitude(vector));
 	}
 
 	/**

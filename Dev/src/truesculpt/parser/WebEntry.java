@@ -12,6 +12,7 @@ public class WebEntry
 	private String installationID;
 	private URL imageURL;
 	private URL imageThumbnailURL;
+	private String objectURL;
 	private Double objectSizeKo;
 	private Boolean isFeatured;
 	
@@ -60,6 +61,12 @@ public class WebEntry
 	public void setImageThumbnailURL(URL imageThumbnailURL) {
 		this.imageThumbnailURL = imageThumbnailURL;
 	}
+	public String getObjectURL() {
+		return objectURL;
+	}
+	public void setObjectURL(String objectURL) {
+		this.objectURL = objectURL;
+	}	
 	public Double getObjectSizeKo() {
 		return objectSizeKo;
 	}
