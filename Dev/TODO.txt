@@ -9,12 +9,7 @@ vraies données = mesh et actions analytiques"
 save and open file to disk	from web, samples or disk
 autosave feature pour éviter plantage	
 Comment hiberner les activités des managers (données potentiellement utilisées par plusieurs activités qui peuvent être toutes mises en en hibernation)	
-Liste des actions possible pour autres participants	"doc, 
-traductions,
-graphisme, icones,
-samples
-debug
-features, ergonomie"
+Liste des actions possible pour autres participants	"doc, traductions,graphisme, icones,samples,debug,features, ergonomie"
 fixer la liste des outils à utiliser	"subdiviseur, simplificateur, elevateur, baisseur, diamètre de zone
 toutes actions réversibles ?
 tampons pour motifs"
